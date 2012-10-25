@@ -476,6 +476,44 @@ Source: http://www.nxp.com/acrobat_download/datasheets/PH7030L_4.pdf</descriptio
 <vertex x="-1.1" y="0"/>
 </polygon>
 </package>
+<package name="PANASONIC_G">
+<description>&lt;b&gt;Panasonic Aluminium Electrolytic Capacitor VS-Serie Package G&lt;/b&gt;</description>
+<wire x1="-5.1" y1="5.1" x2="2.8" y2="5.1" width="0.1016" layer="51"/>
+<wire x1="2.8" y1="5.1" x2="5.1" y2="2.8" width="0.1016" layer="51"/>
+<wire x1="5.1" y1="2.8" x2="5.1" y2="-2.8" width="0.1016" layer="51"/>
+<wire x1="5.1" y1="-2.8" x2="2.8" y2="-5.1" width="0.1016" layer="51"/>
+<wire x1="2.8" y1="-5.1" x2="-5.1" y2="-5.1" width="0.1016" layer="51"/>
+<wire x1="-5.1" y1="-5.1" x2="-5.1" y2="5.1" width="0.1016" layer="51"/>
+<wire x1="-5.1" y1="1" x2="-5.1" y2="5.1" width="0.2032" layer="21"/>
+<wire x1="-5.1" y1="5.1" x2="2.8" y2="5.1" width="0.2032" layer="21"/>
+<wire x1="2.8" y1="5.1" x2="5.1" y2="2.8" width="0.2032" layer="21"/>
+<wire x1="5.1" y1="2.8" x2="5.1" y2="1" width="0.2032" layer="21"/>
+<wire x1="5.1" y1="-1" x2="5.1" y2="-2.8" width="0.2032" layer="21"/>
+<wire x1="5.1" y1="-2.8" x2="2.8" y2="-5.1" width="0.2032" layer="21"/>
+<wire x1="2.8" y1="-5.1" x2="-5.1" y2="-5.1" width="0.2032" layer="21"/>
+<wire x1="-5.1" y1="-5.1" x2="-5.1" y2="-1" width="0.2032" layer="21"/>
+<wire x1="-4.85" y1="-1" x2="4.85" y2="-1" width="0.2032" layer="21" curve="156.699401" cap="flat"/>
+<wire x1="-4.85" y1="1" x2="4.85" y2="1" width="0.2032" layer="21" curve="-156.699401" cap="flat"/>
+<wire x1="-3.25" y1="3.7" x2="-3.25" y2="-3.65" width="0.1016" layer="51"/>
+<circle x="0" y="0" radius="4.95" width="0.1016" layer="51"/>
+<smd name="-" x="-4.35" y="0" dx="4.1" dy="1.6" layer="1"/>
+<smd name="+" x="4.35" y="0" dx="4.1" dy="1.6" layer="1"/>
+<text x="-1.27" y="1.27" size="0.4064" layer="25">&gt;NAME</text>
+<text x="-1.27" y="-2.54" size="0.4064" layer="27">&gt;VALUE</text>
+<rectangle x1="-5.85" y1="-0.45" x2="-4.9" y2="0.45" layer="51"/>
+<rectangle x1="4.9" y1="-0.45" x2="5.85" y2="0.45" layer="51"/>
+<polygon width="0.1016" layer="51">
+<vertex x="-3.3" y="3.6"/>
+<vertex x="-4.05" y="2.75"/>
+<vertex x="-4.65" y="1.55"/>
+<vertex x="-4.85" y="0.45"/>
+<vertex x="-4.85" y="-0.45"/>
+<vertex x="-4.65" y="-1.55"/>
+<vertex x="-4.05" y="-2.75"/>
+<vertex x="-3.3" y="-3.6"/>
+<vertex x="-3.3" y="3.55"/>
+</polygon>
+</package>
 </packages>
 </library>
 <library name="resistor">
@@ -2657,44 +2695,6 @@ We've spent an enormous amount of time creating and checking these footprints an
 <rectangle x1="0.3302" y1="-0.4699" x2="0.8303" y2="0.4801" layer="51"/>
 <rectangle x1="-0.1999" y1="-0.3" x2="0.1999" y2="0.3" layer="35"/>
 </package>
-<package name="PANASONIC_G">
-<description>&lt;b&gt;Panasonic Aluminium Electrolytic Capacitor VS-Serie Package G&lt;/b&gt;</description>
-<wire x1="-5.1" y1="5.1" x2="2.8" y2="5.1" width="0.1016" layer="51"/>
-<wire x1="2.8" y1="5.1" x2="5.1" y2="2.8" width="0.1016" layer="51"/>
-<wire x1="5.1" y1="2.8" x2="5.1" y2="-2.8" width="0.1016" layer="51"/>
-<wire x1="5.1" y1="-2.8" x2="2.8" y2="-5.1" width="0.1016" layer="51"/>
-<wire x1="2.8" y1="-5.1" x2="-5.1" y2="-5.1" width="0.1016" layer="51"/>
-<wire x1="-5.1" y1="-5.1" x2="-5.1" y2="5.1" width="0.1016" layer="51"/>
-<wire x1="-5.1" y1="1" x2="-5.1" y2="5.1" width="0.2032" layer="21"/>
-<wire x1="-5.1" y1="5.1" x2="2.8" y2="5.1" width="0.2032" layer="21"/>
-<wire x1="2.8" y1="5.1" x2="5.1" y2="2.8" width="0.2032" layer="21"/>
-<wire x1="5.1" y1="2.8" x2="5.1" y2="1" width="0.2032" layer="21"/>
-<wire x1="5.1" y1="-1" x2="5.1" y2="-2.8" width="0.2032" layer="21"/>
-<wire x1="5.1" y1="-2.8" x2="2.8" y2="-5.1" width="0.2032" layer="21"/>
-<wire x1="2.8" y1="-5.1" x2="-5.1" y2="-5.1" width="0.2032" layer="21"/>
-<wire x1="-5.1" y1="-5.1" x2="-5.1" y2="-1" width="0.2032" layer="21"/>
-<wire x1="-4.85" y1="-1" x2="4.85" y2="-1" width="0.2032" layer="21" curve="156.699401" cap="flat"/>
-<wire x1="-4.85" y1="1" x2="4.85" y2="1" width="0.2032" layer="21" curve="-156.699401" cap="flat"/>
-<wire x1="-3.25" y1="3.7" x2="-3.25" y2="-3.65" width="0.1016" layer="51"/>
-<circle x="0" y="0" radius="4.95" width="0.1016" layer="51"/>
-<smd name="-" x="-4.25" y="0" dx="3.9" dy="1.6" layer="1"/>
-<smd name="+" x="4.25" y="0" dx="3.9" dy="1.6" layer="1"/>
-<text x="-1.27" y="1.27" size="0.4064" layer="25">&gt;NAME</text>
-<text x="-1.27" y="-2.54" size="0.4064" layer="27">&gt;VALUE</text>
-<rectangle x1="-5.85" y1="-0.45" x2="-4.9" y2="0.45" layer="51"/>
-<rectangle x1="4.9" y1="-0.45" x2="5.85" y2="0.45" layer="51"/>
-<polygon width="0.1016" layer="51">
-<vertex x="-3.3" y="3.6"/>
-<vertex x="-4.05" y="2.75"/>
-<vertex x="-4.65" y="1.55"/>
-<vertex x="-4.85" y="0.45"/>
-<vertex x="-4.85" y="-0.45"/>
-<vertex x="-4.65" y="-1.55"/>
-<vertex x="-4.05" y="-2.75"/>
-<vertex x="-3.3" y="-3.6"/>
-<vertex x="-3.3" y="3.55"/>
-</polygon>
-</package>
 </packages>
 </library>
 <library name="SparkFun-FreqCtrl">
@@ -3314,10 +3314,6 @@ design rules under a new name.</description>
 <attribute name="NAME" x="30.9255" y="25.5985" size="0.8128" layer="25" font="vector" ratio="15" rot="R90"/>
 <attribute name="VALUE" x="32.4945" y="28.316" size="0.6096" layer="27" font="vector" ratio="15" rot="R270"/>
 </element>
-<element name="C100" library="SparkFun-Passives" package="PANASONIC_G" value="470uF" x="23.725" y="27.825" smashed="yes" rot="R180">
-<attribute name="NAME" x="23.695" y="26.88" size="1.27" layer="25" font="vector" ratio="15" rot="R180" align="bottom-center"/>
-<attribute name="VALUE" x="23.695" y="31.015" size="1.016" layer="27" font="vector" ratio="15" rot="R180" align="bottom-center"/>
-</element>
 <element name="Q5" library="transistor-fet" package="TO252" value="FDD4141TO252" x="11.35" y="19.575" smashed="yes" rot="R180">
 <attribute name="NAME" x="10.385" y="23.285" size="1.143" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="7.705" y="15.26" size="0.8128" layer="27" font="vector" ratio="15" rot="R90"/>
@@ -3364,6 +3360,10 @@ design rules under a new name.</description>
 <attribute name="NAME" x="69.546003125" y="36.9425" size="0.762" layer="25" font="vector" ratio="15" rot="R270"/>
 <attribute name="VALUE" x="66.740003125" y="38.316" size="1.27" layer="27" ratio="10" rot="R180"/>
 </element>
+<element name="C100" library="pie" package="PANASONIC_G" value="470uF" x="23.725" y="27.825" smashed="yes" rot="R180">
+<attribute name="NAME" x="23.695" y="26.555" size="1.27" layer="25" font="vector" ratio="15" align="top-center"/>
+<attribute name="VALUE" x="24.995" y="30.365" size="0.4064" layer="27" rot="R180"/>
+</element>
 </elements>
 <signals>
 <signal name="N$2">
@@ -3407,7 +3407,6 @@ design rules under a new name.</description>
 <contactref element="U1" pad="12"/>
 <contactref element="Q1" pad="MB"/>
 <contactref element="C4" pad="2"/>
-<contactref element="C100" pad="+"/>
 <contactref element="Q5" pad="2"/>
 <contactref element="Q2" pad="MB"/>
 <polygon width="0.254" layer="1" isolate="0.508" thermals="no">
@@ -3490,6 +3489,7 @@ design rules under a new name.</description>
 <wire x1="4.875" y1="29.575" x2="5.525" y2="28.925" width="0.254" layer="1"/>
 <wire x1="27.102" y1="18.155" x2="28.594" y2="18.155" width="0.254" layer="1"/>
 <wire x1="28.594" y1="18.155" x2="28.6" y2="18.161" width="0.254" layer="1"/>
+<contactref element="C100" pad="+"/>
 </signal>
 <signal name="N$8">
 <contactref element="U1" pad="11"/>
@@ -4608,7 +4608,6 @@ design rules under a new name.</description>
 <contactref element="Q3" pad="1"/>
 <contactref element="Q3" pad="2"/>
 <contactref element="C4" pad="1"/>
-<contactref element="C100" pad="-"/>
 <contactref element="Q4" pad="2"/>
 <contactref element="Q4" pad="1"/>
 <contactref element="Q4" pad="3"/>
@@ -4627,16 +4626,9 @@ design rules under a new name.</description>
 <vertex x="25.675" y="6.825"/>
 <vertex x="14.3" y="6.825"/>
 </polygon>
-<wire x1="24.375" y1="29.9" x2="26.975" y2="27.3" width="0.254" layer="1"/>
-<wire x1="26.975" y1="27.3" x2="27.45" y2="27.3" width="0.254" layer="1"/>
-<wire x1="27.45" y1="27.3" x2="27.975" y2="27.825" width="0.254" layer="1"/>
 <via x="14.909" y="27.625" extent="1-16" drill="0.6"/>
 <via x="0.975" y="29.575" extent="1-16" drill="0.6"/>
 <wire x1="0.975" y1="29.575" x2="0.975" y2="10.725" width="0.254" layer="1"/>
-<wire x1="31.85" y1="27.825" x2="28.725" y2="27.825" width="0.254" layer="1"/>
-<wire x1="28.725" y1="27.825" x2="28.6" y2="27.95" width="0.254" layer="1"/>
-<wire x1="28.6" y1="27.95" x2="28.1" y2="27.95" width="0.254" layer="1"/>
-<wire x1="28.1" y1="27.95" x2="27.975" y2="27.825" width="0.254" layer="1"/>
 <wire x1="22.75" y1="35.95" x2="23.85" y2="35.95" width="0.254" layer="1"/>
 <wire x1="23.85" y1="35.95" x2="24.375" y2="35.425" width="0.254" layer="1"/>
 <wire x1="24.375" y1="35.425" x2="24.375" y2="29.9" width="0.254" layer="1"/>
@@ -4644,6 +4636,10 @@ design rules under a new name.</description>
 <wire x1="2.925" y1="27.625" x2="0.975" y2="29.575" width="0.254" layer="16"/>
 <wire x1="2.925" y1="27.625" x2="14.909" y2="27.625" width="0.254" layer="16"/>
 <wire x1="17.184" y1="29.9" x2="14.909" y2="27.625" width="0.254" layer="1"/>
+<contactref element="C100" pad="-"/>
+<wire x1="28.075" y1="27.825" x2="26.45" y2="27.825" width="0.254" layer="1"/>
+<wire x1="26.45" y1="27.825" x2="24.375" y2="29.9" width="0.254" layer="1"/>
+<wire x1="28.075" y1="27.825" x2="31.85" y2="27.825" width="0.254" layer="1"/>
 </signal>
 <signal name="N$5">
 <contactref element="R15" pad="2"/>
@@ -5278,56 +5274,56 @@ design rules under a new name.</description>
 <errors>
 <approved hash="19,1,6225d53cffce4454"/>
 <approved hash="19,1,f751b30e76951ab7"/>
-<approved hash="19,1,ef19e5f7e78eed60"/>
 <approved hash="19,1,e863e28de15cebb2"/>
-<approved hash="19,1,e50c1b635948e821"/>
-<approved hash="19,1,f2bc6052789dea73"/>
-<approved hash="19,1,ee207cce7a33e8dd"/>
-<approved hash="19,1,f70ed1601555fa3c"/>
-<approved hash="19,1,fc22feccf82efac0"/>
-<approved hash="19,1,e0bee250fa80f86e"/>
-<approved hash="19,1,190f9f608956143f"/>
-<approved hash="19,1,0ebfac51b483166d"/>
-<approved hash="19,1,1223b0cdb62d14c3"/>
-<approved hash="19,1,8f0c29632d6c8205"/>
-<approved hash="19,1,842046ce401782f9"/>
-<approved hash="19,1,98bc5a5242b98057"/>
+<approved hash="19,1,ef19e5f7e78eed60"/>
 <approved hash="19,1,d46d46837ab5e85b"/>
 <approved hash="19,1,e9ff17905bc4eaad"/>
 <approved hash="19,1,e1d773397c67ee89"/>
 <approved hash="19,1,f3d5f13bfe7afc94"/>
 <approved hash="19,1,fbfddd9317d9f8b0"/>
 <approved hash="19,1,c66fc481f8a8fa46"/>
+<approved hash="19,1,286e8a80b6ab1445"/>
 <approved hash="19,1,1dd4bf3ab0791297"/>
 <approved hash="19,1,15fc93938bda16b3"/>
-<approved hash="19,1,286e8a80b6ab1445"/>
 <approved hash="19,1,8bd74939464384ad"/>
-<approved hash="19,1,83ff25902fe08089"/>
 <approved hash="19,1,be6d7c834091827f"/>
-<approved hash="19,1,d8c902a70de5d78b"/>
-<approved hash="19,1,d0e0d50eec46d3af"/>
-<approved hash="19,1,ed73371d0b37d159"/>
-<approved hash="19,1,c4fe93119e51c7b8"/>
-<approved hash="19,1,f96c8302bf20c54e"/>
-<approved hash="19,1,ccd6b6b8b9f2c39c"/>
-<approved hash="19,1,b96e43007fd485ba"/>
-<approved hash="19,1,84fc1d1310a5874c"/>
-<approved hash="19,1,8cd476ba79068368"/>
-<approved hash="19,1,10fe2f11d65a13b3"/>
-<approved hash="19,1,2d6c37020b2b1145"/>
-<approved hash="19,1,18d602b80df91797"/>
+<approved hash="19,1,83ff25902fe08089"/>
+<approved hash="19,1,ee207cce7a33e8dd"/>
+<approved hash="19,1,f2bc6052789dea73"/>
+<approved hash="19,1,e50c1b635948e821"/>
+<approved hash="19,1,f70ed1601555fa3c"/>
+<approved hash="19,1,fc22feccf82efac0"/>
+<approved hash="19,1,e0bee250fa80f86e"/>
+<approved hash="19,1,0ebfac51b483166d"/>
+<approved hash="19,1,1223b0cdb62d14c3"/>
+<approved hash="19,1,190f9f608956143f"/>
+<approved hash="19,1,98bc5a5242b98057"/>
+<approved hash="19,1,8f0c29632d6c8205"/>
+<approved hash="19,1,842046ce401782f9"/>
 <approved hash="19,1,cba211cc091fd371"/>
-<approved hash="19,1,dc13d9fdeecad123"/>
 <approved hash="19,1,d73e0d500bb1d1df"/>
-<approved hash="19,1,dfbda5d3bd08c766"/>
-<approved hash="19,1,c80d9fe29cddc534"/>
+<approved hash="19,1,dc13d9fdeecad123"/>
 <approved hash="19,1,c321b94fbfa6c5c8"/>
-<approved hash="19,1,880f11e0122985c0"/>
+<approved hash="19,1,c80d9fe29cddc534"/>
+<approved hash="19,1,dfbda5d3bd08c766"/>
 <approved hash="19,1,9fbf65d17dfc8792"/>
 <approved hash="19,1,8323794d7f52853c"/>
-<approved hash="19,1,1c0d23e2d4d6113f"/>
-<approved hash="19,1,17210d4f0bad11c3"/>
+<approved hash="19,1,880f11e0122985c0"/>
 <approved hash="19,1,0bbd11d30903136d"/>
+<approved hash="19,1,17210d4f0bad11c3"/>
+<approved hash="19,1,1c0d23e2d4d6113f"/>
+<approved hash="19,1,d0e0d50eec46d3af"/>
+<approved hash="19,1,d8c902a70de5d78b"/>
+<approved hash="19,1,ed73371d0b37d159"/>
+<approved hash="19,1,c4fe93119e51c7b8"/>
+<approved hash="19,1,ccd6b6b8b9f2c39c"/>
+<approved hash="19,1,f96c8302bf20c54e"/>
+<approved hash="19,1,84fc1d1310a5874c"/>
+<approved hash="19,1,b96e43007fd485ba"/>
+<approved hash="19,1,8cd476ba79068368"/>
+<approved hash="19,1,18d602b80df91797"/>
+<approved hash="19,1,2d6c37020b2b1145"/>
+<approved hash="19,1,10fe2f11d65a13b3"/>
 </errors>
 </board>
 </drawing>
