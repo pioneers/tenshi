@@ -113,7 +113,7 @@
 <text x="52.325003125" y="31.525" size="1.27" layer="21" font="vector" ratio="15" align="top-center">G</text>
 <text x="49.725003125" y="31.525" size="1.27" layer="21" font="vector" ratio="15" align="top-center">C</text>
 <text x="47.125" y="31.525" size="1.27" layer="21" font="vector" ratio="15" align="top-center">D</text>
-<text x="54.275003125" y="31.3625" size="0.762" layer="21" font="vector" ratio="15" align="top-left">ICSP</text>
+<text x="56.815003125" y="31.3625" size="0.762" layer="21" font="vector" ratio="15" align="top-left">ICSP</text>
 <text x="40.4625" y="33.475" size="1.27" layer="21" font="vector" ratio="15" align="top-center">encoder</text>
 <text x="56.875003125" y="37.375" size="0.8128" layer="21" font="vector" ratio="15" align="top-center">i2c</text>
 <text x="1.1375" y="13.1625" size="0.8128" layer="21" font="vector" ratio="15" rot="SR270" align="top-center">GND</text>
@@ -140,6 +140,7 @@
 <wire x1="33.8" y1="36.8875" x2="34.9375" y2="36.8875" width="0.1524" layer="21"/>
 <wire x1="34.9375" y1="36.8875" x2="34.6125" y2="37.2125" width="0.1524" layer="21"/>
 <wire x1="34.9375" y1="36.8875" x2="34.6125" y2="36.5625" width="0.1524" layer="21"/>
+<text x="54.737" y="31.369" size="0.762" layer="21" font="vector" ratio="15" align="top-left">1</text>
 </plain>
 <libraries>
 <library name="pie">
