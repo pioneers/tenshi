@@ -1306,7 +1306,7 @@ Source: http://www.nxp.com/acrobat_download/datasheets/PH7030L_4.pdf</descriptio
 <smd name="2" x="-0.635" y="-2.65" dx="0.7" dy="1.4" layer="1"/>
 <smd name="3" x="0.635" y="-2.65" dx="0.7" dy="1.4" layer="1"/>
 <smd name="4" x="1.905" y="-2.65" dx="0.7" dy="1.4" layer="1"/>
-<smd name="MB" x="0" y="1.15" dx="5" dy="4.6" layer="1" cream="no"/>
+<smd name="MB" x="0" y="1.35" dx="5" dy="5" layer="1" cream="no"/>
 <text x="-3.175" y="-1.905" size="1.27" layer="25" rot="R90">&gt;NAME</text>
 <text x="4.445" y="-1.905" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
 <rectangle x1="-2.155" y1="-3.1" x2="-1.655" y2="-2.05" layer="51"/>
