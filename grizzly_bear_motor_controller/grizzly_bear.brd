@@ -3265,7 +3265,7 @@ design rules under a new name.</description>
 </element>
 <element name="U3" library="pie" package="8-PIN_SOIC" value="ACS714" x="32.485" y="9.1" smashed="yes">
 <attribute name="NAME" x="29.635" y="12.275" size="1.016" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="29.635" y="6.1175" size="0.6096" layer="27" font="vector" ratio="15" align="top-left"/>
+<attribute name="VALUE" x="29.635" y="5.9905" size="0.762" layer="27" font="vector" ratio="20" align="top-left"/>
 </element>
 <element name="C10" library="SparkFun-Passives" package="0603-CAP" value="1nF" x="36.573" y="5.248" smashed="yes">
 <attribute name="NAME" x="37.592" y="4.445" size="0.762" layer="25" font="vector" ratio="20" rot="R180"/>
