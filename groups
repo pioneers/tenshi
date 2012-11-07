@@ -1,0 +1,5 @@
+# UUID                                  	Group Name
+#
+c335605bbabc612a7c1aa3675f23496438ee3d07	PiE Electrical Owners
+ldap:cn=pie-staff,ou=Group,dc=tbp,dc=berkeley,dc=edu	ldap/pie-staff
+ldap:cn=tbp-officers,ou=Group,dc=tbp,dc=berkeley,dc=edu	ldap/tbp-officers
