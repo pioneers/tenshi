@@ -1451,7 +1451,10 @@ Source: http://www.nxp.com/acrobat_download/datasheets/PH7030L_4.pdf</descriptio
 <connect gate="G$1" pin="XTAL2" pad="16"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-DIGIKEY-PN-ALT1" value="ATMEGA32U4-MURCT-ND"/>
+<attribute name="PIE-DIGIKEY-PN-PRI" value="ATMEGA32U4RC-MURCT-ND"/>
+</technology>
 </technologies>
 </device>
 </devices>
