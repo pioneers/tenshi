@@ -6,6 +6,7 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#define __DELAY_BACKWARD_COMPATIBLE__
 #include <util/delay.h>
 #include "Wire.h"
 
