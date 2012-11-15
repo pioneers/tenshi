@@ -91,6 +91,24 @@ static inline unsigned int raw_mode_logic(FIXED1616 target_speed,
   return pwm_val;
 }
 
+// plain speed mode logic. fwd is always written and is an output parameter.
+// returns pwm_val
+static inline unsigned int no_pid_mode_logic(FIXED1616 target_speed,
+    unsigned char *fwd) {
+  unsigned int pwm_val;
+
+  if (target_speed >= 0) {
+    *fwd = 1;
+    pwm_val = fixed_to_int(fixed_mult(target_speed, SPEED_TO_PWM_VAL_CONST));
+  }
+  else {
+    *fwd = 0;
+    pwm_val = fixed_to_int(fixed_mult(-target_speed, SPEED_TO_PWM_VAL_CONST));
+  }
+
+  return pwm_val;
+}
+
 void run_control_loop(void) {
 
   FIXED1616 target_speed_copy;
@@ -118,7 +136,7 @@ void run_control_loop(void) {
         break;
 
       case MODE_SPEED_NO_PID:
-        // TODO(rqou)
+        pwm_val = no_pid_mode_logic(target_speed_copy, &fwd);
         break;
 
       case MODE_SPEED_PID:

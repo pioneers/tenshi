@@ -23,7 +23,12 @@
 #define MODE_SM_GO_COAST                0x00
 #define MODE_SM_GO_BRAKE                0x10
 
-#define MODE_SPECIAL_STRESS       0x80
+#define MODE_SPECIAL_STRESS             0x80
+
+// This is a pre-shifted version of 2047 / 100 rounded down
+// This is computed using 2017 / 100 * 65536 where 65536 is the 16.16 scale
+// factor.
+#define SPEED_TO_PWM_VAL_CONST    1341521
 
 // Current mode setting
 // NOTE: one byte; does not need ATOMIC_BLOCK
