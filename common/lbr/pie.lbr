@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -5612,7 +5612,7 @@ TS-003</description>
 <text x="7.62" y="25.4" size="1.778" layer="95">&gt;name</text>
 <text x="-20.32" y="25.4" size="1.778" layer="97">A4940</text>
 </symbol>
-<symbol name="PH7030">
+<symbol name="N-MOSFET">
 <wire x1="-1.1176" y1="2.413" x2="-1.1176" y2="-2.54" width="0.254" layer="94"/>
 <wire x1="-1.1176" y1="-2.54" x2="-2.54" y2="-2.54" width="0.1524" layer="94"/>
 <wire x1="2.54" y1="2.54" x2="2.54" y2="1.905" width="0.1524" layer="94"/>
@@ -6093,7 +6093,9 @@ Source: &lt;a href="http://www.irf.com/product-info/datasheets/data/irf8734pbf.p
 <connect gate="G$1" pin="OUT" pad="OUTPUT"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-DIGIKEY-PN-PRI" value="296-11118-1-ND"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -6113,7 +6115,9 @@ Source: &lt;a href="http://www.irf.com/product-info/datasheets/data/irf8734pbf.p
 <connect gate="G$1" pin="VIOUT" pad="7"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-DIGIKEY-PN-PRI" value="620-1260-1-ND"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -6149,16 +6153,18 @@ Source: &lt;a href="http://www.irf.com/product-info/datasheets/data/irf8734pbf.p
 <connect gate="G$1" pin="VREG" pad="7"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-DIGIKEY-PN-PRI" value="620-1319-1-ND"/>
+</technology>
 </technologies>
 </device>
 </devices>
 </deviceset>
-<deviceset name="PH7030L" prefix="Q">
+<deviceset name="N-CHANNEL-MOSFET" prefix="Q">
 <description>&lt;b&gt;N-channel TrenchMOS (TM) logic level FET&lt;/b&gt;&lt;p&gt;
 Source: http://www.nxp.com/acrobat_download/datasheets/PH7030L_4.pdf</description>
 <gates>
-<gate name="G$1" symbol="PH7030" x="0" y="0"/>
+<gate name="G$1" symbol="N-MOSFET" x="0" y="0"/>
 </gates>
 <devices>
 <device name="" package="SOT669">
@@ -6168,7 +6174,9 @@ Source: http://www.nxp.com/acrobat_download/datasheets/PH7030L_4.pdf</descriptio
 <connect gate="G$1" pin="S@2" pad="1 2 3"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-DIGIKEY-PN-PRI" value="568-6738-1-ND"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -8336,7 +8344,7 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 </device>
 </devices>
 </deviceset>
-<deviceset name="FDD4141" prefix="Q">
+<deviceset name="P-CHANNEL-MOSFET" prefix="Q">
 <description>&lt;b&gt;P-Channel PowerTrench® MOSFET&lt;/b&gt;&lt;p&gt;
 Source:  FDD4141.pdf</description>
 <gates>
@@ -8350,7 +8358,9 @@ Source:  FDD4141.pdf</description>
 <connect gate="G$1" pin="S" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-DIGIKEY-PN-PRI" value="IPD90P03P4L-04INCT-ND"/>
+</technology>
 </technologies>
 </device>
 </devices>
