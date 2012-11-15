@@ -96,8 +96,11 @@ void run_control_loop(void) {
   FIXED1616 target_speed_copy;
   unsigned char pwm_mode_copy;
 
-  target_speed_copy = get_target_speed();
-  pwm_mode_copy = pwm_mode;
+  // We need to manually copy these as one block since they go together
+  ATOMIC_BLOCK(ATOMIC_FORCEON) {
+    target_speed_copy = get_target_speed_dangerous();
+    pwm_mode_copy = pwm_mode;
+  }
 
   if (!(pwm_mode_copy & MODE_ENABLE_MASK)) {
     // disabled

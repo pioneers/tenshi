@@ -26,6 +26,8 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val);
 #define REG_TARGET_SPEED_NEW_LEN        4
 // special
 #define REG_APPLY_NEW_SPEED           0x08
+#define REG_CURRENT_PWM_MODE          0x09
+#define REG_CURRENT_PWM_MODE_LEN        1
 #define REG_CURRENT_TARGET_SPEED      0x0C
 #define REG_CURRENT_TARGET_SPEED_LEN    4
 #define REG_ISENSE_ADC                0x10

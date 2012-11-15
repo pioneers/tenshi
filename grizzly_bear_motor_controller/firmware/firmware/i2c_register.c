@@ -6,6 +6,7 @@
 
 // This is a temp so that it can be changed all at once (not byte at a time).
 static FIXED1616 target_speed_new;
+static unsigned char pwm_mode_new;
 
 // Autogenerate if statement needed for provide_i2c_reg.
 // offset is the REG_xxx define (i2c register address).
@@ -27,9 +28,10 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
   // special
   if (reg == REG_TYPE)
     return REG_TYPE_GRIZZLY_ID;
-  AUTO_PROVIDE_REG(REG_PWM_MODE, REG_PWM_MODE_LEN, &pwm_mode);
+  AUTO_PROVIDE_REG(REG_PWM_MODE, REG_PWM_MODE_LEN, &pwm_mode_new);
   AUTO_PROVIDE_REG(REG_TARGET_SPEED_NEW, REG_TARGET_SPEED_NEW_LEN,
       &target_speed_new);
+  AUTO_PROVIDE_REG(REG_CURRENT_PWM_MODE, REG_CURRENT_PWM_MODE_LEN, &pwm_mode);
   AUTO_PROVIDE_REG(REG_CURRENT_TARGET_SPEED, REG_CURRENT_TARGET_SPEED_LEN,
       get_target_speed_addr());
   AUTO_PROVIDE_REG(REG_ISENSE_ADC, REG_ISENSE_ADC_LEN, get_isense_adc_addr());
@@ -42,9 +44,11 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
 
 extern void set_i2c_reg(unsigned char reg, unsigned char val) {
   // Special
-  if (reg == REG_APPLY_NEW_SPEED)
+  if (reg == REG_APPLY_NEW_SPEED) {
+    pwm_mode = pwm_mode_new;
     set_target_speed_dangerous(target_speed_new);
-  AUTO_SET_REG(REG_PWM_MODE, REG_PWM_MODE_LEN, &pwm_mode);
+  }
+  AUTO_SET_REG(REG_PWM_MODE, REG_PWM_MODE_LEN, &pwm_mode_new);
   AUTO_SET_REG(REG_TARGET_SPEED_NEW, REG_TARGET_SPEED_NEW_LEN,
       &target_speed_new);
 }
