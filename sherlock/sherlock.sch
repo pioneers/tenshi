@@ -12151,6 +12151,7 @@ type 0309, grid 2.5 mm</description>
 <part name="V2" library="supply2" deviceset="VCC" device=""/>
 <part name="C2" library="rcl" deviceset="C-US" device="C0603" value="10uF"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
+<attribute name="AUTHOR" value="Sumita G., Sahar M., Michael C."/>
 <attribute name="REVISION" value="A"/>
 </part>
 </parts>
@@ -12255,6 +12256,7 @@ type 0309, grid 2.5 mm</description>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0">
 <attribute name="REVISION" x="147.32" y="0" size="1.778" layer="96" display="off"/>
+<attribute name="AUTHOR" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 </instance>
 </instances>
 <busses>
