@@ -3831,18 +3831,19 @@ Standard 8.5x11 US Letter frame</description>
 <part name="I2C2" library="MTA-connectors" deviceset="M04" device=""/>
 <part name="I2C1" library="MTA-connectors" deviceset="M04" device=""/>
 <part name="I2C0" library="MTA-connectors" deviceset="M04" device=""/>
-<part name="RFID" library="MTA-connectors" deviceset="M06" device=""/>
+<part name="SPI" library="MTA-connectors" deviceset="M06" device=""/>
 <part name="R1" library="resistor" deviceset="R-US_" device="R0603" value="200"/>
 <part name="R2" library="resistor" deviceset="R-US_" device="R0603" value="200"/>
 <part name="R3" library="resistor" deviceset="R-US_" device="R0603" value="200k"/>
 <part name="X1" library="pie" deviceset="2540-FLAT" device="">
 <attribute name="OC_FARNELL" value="unknown"/>
 </part>
-<part name="SIMPLE" library="MTA-connectors" deviceset="M05" device="" value="Servos"/>
+<part name="RFID" library="MTA-connectors" deviceset="M05" device="" value="Servos"/>
 <part name="PNU" library="MTA-connectors" deviceset="M04" device=""/>
 <part name="R5" library="resistor" deviceset="R-US_" device="R0603" value="200"/>
 <part name="R4" library="resistor" deviceset="R-US_" device="R0603" value="200"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
+<attribute name="AUTHOR" value="Michael C., Sumita G., Sahar M."/>
 <attribute name="REVISION" value="A"/>
 </part>
 </parts>
@@ -3855,8 +3856,8 @@ Standard 8.5x11 US Letter frame</description>
 <text x="190.5" y="101.6" size="3.81" layer="91">Team Ind Out</text>
 <text x="53.34" y="78.74" size="3.81" layer="91">Servo COM</text>
 <text x="66.04" y="175.26" size="3.81" layer="91">I2C Sensor</text>
-<text x="109.22" y="38.1" size="3.81" layer="91">RFID</text>
-<text x="193.04" y="71.12" size="3.81" layer="91">Simple</text>
+<text x="109.22" y="38.1" size="3.81" layer="91">SPI</text>
+<text x="193.04" y="71.12" size="3.81" layer="91">RFID</text>
 <text x="50.8" y="33.02" size="3.81" layer="91">Solenoid</text>
 </plain>
 <instances>
@@ -3888,7 +3889,7 @@ Standard 8.5x11 US Letter frame</description>
 <instance part="I2C2" gate="G$1" x="83.82" y="165.1"/>
 <instance part="I2C1" gate="G$1" x="71.12" y="165.1"/>
 <instance part="I2C0" gate="G$1" x="58.42" y="165.1"/>
-<instance part="RFID" gate="G$1" x="114.3" y="25.4"/>
+<instance part="SPI" gate="G$1" x="114.3" y="25.4"/>
 <instance part="R1" gate="G$1" x="114.3" y="66.04"/>
 <instance part="R2" gate="G$1" x="101.6" y="63.5"/>
 <instance part="R3" gate="G$1" x="101.6" y="55.88"/>
@@ -3932,13 +3933,14 @@ Standard 8.5x11 US Letter frame</description>
 <instance part="X1" gate="-38" x="15.24" y="134.62" rot="MR180"/>
 <instance part="X1" gate="-39" x="15.24" y="137.16" rot="MR180"/>
 <instance part="X1" gate="-40" x="15.24" y="139.7" rot="MR180"/>
-<instance part="SIMPLE" gate="G$1" x="200.66" y="60.96"/>
+<instance part="RFID" gate="G$1" x="200.66" y="60.96"/>
 <instance part="PNU" gate="G$1" x="58.42" y="22.86"/>
 <instance part="R5" gate="G$1" x="231.14" y="60.96"/>
 <instance part="R4" gate="G$1" x="220.98" y="63.5"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0">
 <attribute name="REVISION" x="147.32" y="0" size="1.778" layer="96" display="off"/>
+<attribute name="AUTHOR" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 </instance>
 </instances>
 <busses>
@@ -4000,7 +4002,7 @@ Standard 8.5x11 US Letter frame</description>
 <label x="213.36" y="88.9" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
-<pinref part="RFID" gate="G$1" pin="1"/>
+<pinref part="SPI" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="17.78" x2="127" y2="17.78" width="0.1524" layer="91"/>
 <label x="127" y="17.78" size="1.778" layer="95"/>
 </segment>
@@ -4066,7 +4068,7 @@ Standard 8.5x11 US Letter frame</description>
 <label x="76.2" y="50.8" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SIMPLE" gate="G$1" pin="1"/>
+<pinref part="RFID" gate="G$1" pin="1"/>
 <wire x1="205.74" y1="53.34" x2="215.9" y2="53.34" width="0.1524" layer="91"/>
 <junction x="205.74" y="53.34"/>
 <label x="215.9" y="53.34" size="1.778" layer="95"/>
@@ -4122,7 +4124,7 @@ Standard 8.5x11 US Letter frame</description>
 <label x="167.64" y="50.8" size="1.778" layer="95" rot="R90"/>
 </segment>
 <segment>
-<pinref part="RFID" gate="G$1" pin="2"/>
+<pinref part="SPI" gate="G$1" pin="2"/>
 <wire x1="119.38" y1="20.32" x2="127" y2="20.32" width="0.1524" layer="91"/>
 <label x="127" y="20.32" size="1.778" layer="95"/>
 </segment>
@@ -4268,7 +4270,7 @@ Standard 8.5x11 US Letter frame</description>
 </net>
 <net name="MOSI" class="0">
 <segment>
-<pinref part="RFID" gate="G$1" pin="5"/>
+<pinref part="SPI" gate="G$1" pin="5"/>
 <wire x1="119.38" y1="27.94" x2="127" y2="27.94" width="0.1524" layer="91"/>
 <label x="127" y="27.94" size="1.778" layer="95"/>
 </segment>
@@ -4281,7 +4283,7 @@ Standard 8.5x11 US Letter frame</description>
 </net>
 <net name="MISO" class="0">
 <segment>
-<pinref part="RFID" gate="G$1" pin="4"/>
+<pinref part="SPI" gate="G$1" pin="4"/>
 <wire x1="119.38" y1="25.4" x2="127" y2="25.4" width="0.1524" layer="91"/>
 <label x="127" y="25.4" size="1.778" layer="95"/>
 </segment>
@@ -4294,7 +4296,7 @@ Standard 8.5x11 US Letter frame</description>
 </net>
 <net name="SCK" class="0">
 <segment>
-<pinref part="RFID" gate="G$1" pin="3"/>
+<pinref part="SPI" gate="G$1" pin="3"/>
 <wire x1="119.38" y1="22.86" x2="127" y2="22.86" width="0.1524" layer="91"/>
 <label x="127" y="22.86" size="1.778" layer="95"/>
 </segment>
@@ -4326,7 +4328,7 @@ Standard 8.5x11 US Letter frame</description>
 <junction x="20.32" y="45.72"/>
 </segment>
 <segment>
-<pinref part="SIMPLE" gate="G$1" pin="3"/>
+<pinref part="RFID" gate="G$1" pin="3"/>
 <wire x1="205.74" y1="58.42" x2="223.52" y2="58.42" width="0.1524" layer="91"/>
 <junction x="205.74" y="58.42"/>
 <label x="210.82" y="58.42" size="1.778" layer="95"/>
@@ -4380,7 +4382,7 @@ Standard 8.5x11 US Letter frame</description>
 <label x="71.12" y="63.5" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SIMPLE" gate="G$1" pin="2"/>
+<pinref part="RFID" gate="G$1" pin="2"/>
 <wire x1="205.74" y1="55.88" x2="215.9" y2="55.88" width="0.1524" layer="91"/>
 <junction x="205.74" y="55.88"/>
 <label x="215.9" y="55.88" size="1.778" layer="95"/>
@@ -4492,7 +4494,7 @@ Standard 8.5x11 US Letter frame</description>
 </net>
 <net name="IO/SELECT" class="0">
 <segment>
-<pinref part="RFID" gate="G$1" pin="6"/>
+<pinref part="SPI" gate="G$1" pin="6"/>
 <wire x1="119.38" y1="30.48" x2="127" y2="30.48" width="0.1524" layer="91"/>
 <label x="127" y="30.48" size="1.778" layer="95"/>
 </segment>
@@ -4702,7 +4704,7 @@ Standard 8.5x11 US Letter frame</description>
 </net>
 <net name="N$5" class="0">
 <segment>
-<pinref part="SIMPLE" gate="G$1" pin="5"/>
+<pinref part="RFID" gate="G$1" pin="5"/>
 <wire x1="205.74" y1="63.5" x2="215.9" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="R4" gate="G$1" pin="1"/>
 <junction x="205.74" y="63.5"/>
@@ -4711,7 +4713,7 @@ Standard 8.5x11 US Letter frame</description>
 </net>
 <net name="N$6" class="0">
 <segment>
-<pinref part="SIMPLE" gate="G$1" pin="4"/>
+<pinref part="RFID" gate="G$1" pin="4"/>
 <pinref part="R5" gate="G$1" pin="1"/>
 <wire x1="205.74" y1="60.96" x2="226.06" y2="60.96" width="0.1524" layer="91"/>
 <junction x="226.06" y="60.96"/>
