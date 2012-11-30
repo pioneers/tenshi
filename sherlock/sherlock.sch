@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
 <eagle version="6.2">
 <drawing>
@@ -12151,7 +12151,7 @@ type 0309, grid 2.5 mm</description>
 <part name="V2" library="supply2" deviceset="VCC" device=""/>
 <part name="C2" library="rcl" deviceset="C-US" device="C0603" value="10uF"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
-<attribute name="AUTHOR" value="Sumita G., Sahar M., Michael C."/>
+<attribute name="AUTHOR" value="Sahar M., Michael C., Sumita G."/>
 <attribute name="REVISION" value="A"/>
 </part>
 </parts>
