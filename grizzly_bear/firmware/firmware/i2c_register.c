@@ -38,6 +38,8 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
   AUTO_PROVIDE_REG(REG_ENCODER_COUNT, REG_ENCODER_COUNT_LEN,
       get_encoder_count_addr());
   AUTO_PROVIDE_REG(REG_REVISION, REG_REVISION_LEN, REVISION);
+  AUTO_PROVIDE_REG(REG_ACCEL_LIMIT, REG_ACCEL_LIMIT_LEN,
+      get_max_acceleration_addr());
 
   return UNUSED_REG_VAL;
 }
@@ -51,4 +53,6 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val) {
   AUTO_SET_REG(REG_PWM_MODE, REG_PWM_MODE_LEN, &pwm_mode_new);
   AUTO_SET_REG(REG_TARGET_SPEED_NEW, REG_TARGET_SPEED_NEW_LEN,
       &target_speed_new);
+  AUTO_SET_REG(REG_ACCEL_LIMIT, REG_ACCEL_LIMIT_LEN,
+      get_max_acceleration_addr());
 }

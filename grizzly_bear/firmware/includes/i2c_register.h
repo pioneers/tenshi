@@ -36,6 +36,8 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val);
 #define REG_ENCODER_COUNT_LEN           4
 #define REG_REVISION                  0x60
 #define REG_REVISION_LEN                21
+#define REG_ACCEL_LIMIT               0x88
+#define REG_ACCEL_LIMIT_LEN             2
 
 // This value is returned when reading a register that is not defined.
 #define UNUSED_REG_VAL  0xFF

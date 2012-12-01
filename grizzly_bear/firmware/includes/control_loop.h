@@ -35,6 +35,8 @@
 extern unsigned char pwm_mode;
 // Current speed setting. May be interpreted differently depending on mode.
 DECLARE_I2C_REGISTER(FIXED1616, target_speed);
+// Maximum acceleration, applies to the pwm value (after PID, etc.)
+DECLARE_I2C_REGISTER(int, max_acceleration);
 
 // Called to configure control loop internal state on startup.
 extern void init_control_loop(void);

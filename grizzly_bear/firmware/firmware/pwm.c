@@ -3,6 +3,7 @@
 #include <avr/io.h>
 
 #include "pindef.h"
+
 // WARNING: THIS FILE IS WIP!
 
 void init_pwm(void) {
@@ -67,41 +68,107 @@ void set_pwm_val(unsigned int val) {
 }
 
 void set_sign_magnitude_go_brake_fwd(void) {
+#ifdef REV_A
   // Fix side b to have top off and bottom on.
   PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
   // Connect side a to pwm.
   TCCR4A = _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
+#endif
+#if defined(REV_B) || defined(REV_C)
+  // Fix side b to have top off and bottom on.
+  PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
+  // Clear the other output.
+  PORTB &= ~(_BV(PB5) | _BV(PB6));
+  // Make side b output
+  DDRC |= (_BV(PC6) | _BV(PC7));
+  // Make both pins on side a output
+  DDRB |= (_BV(PB6) | _BV(PB5));
+  // Invert output
+  TCCR4B |= _BV(PWM4X);
+  // Connect side a to pwm.
+  TCCR4A = _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
+#endif
 }
 
 void set_sign_magnitude_go_brake_bck(void) {
+#ifdef REV_A
   // Fix side a to have top off and bottom on.
   PORTB = (PORTB & ~(_BV(PB6))) | _BV(PB5);
   // Connect side b to pwm.
   TCCR4A = _BV(COM4A0) | _BV(PWM4A) | _BV(PWM4B);
+#endif
+#if defined(REV_B) || defined(REV_C)
+  // Fix side a to have top off and bottom on.
+  PORTB = (PORTB & ~(_BV(PB5))) | _BV(PB6);
+  // Clear the other output.
+  PORTC &= ~(_BV(PC6) | _BV(PC7));
+  // Make all outputs
+  DDRB |= (_BV(PB5) | _BV(PB6));
+  DDRC |= (_BV(PC6) | _BV(PC7));
+  // Do not invert output
+  TCCR4B &= ~(_BV(PWM4X));
+  // Connect side b to pwm.
+  TCCR4A = _BV(COM4A0) | _BV(PWM4A) | _BV(PWM4B);
+#endif
 }
 
 void set_sign_magnitude_go_coast_fwd(void) {
+#ifdef REV_A
   // Fix side b to have top off and bottom on.
   PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
   // Clear the other output.
   PORTB &= ~(_BV(PB5) | _BV(PB6));
   // Connect side a HIGH ONLY to pwm.
   TCCR4A = _BV(COM4B1) | _BV(PWM4A) | _BV(PWM4B);
+#endif
+#if defined(REV_B) || defined(REV_C)
+  // Fix side b to have top off and bottom on.
+  PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
+  // Clear the other output.
+  PORTB &= ~(_BV(PB5) | _BV(PB6));
+  // Make side b output
+  DDRC |= (_BV(PC6) | _BV(PC7));
+  // Make only inverted pin on side a output
+  DDRB = ((DDRB & ~(_BV(PB6))) | _BV(PB5));
+  // Invert output
+  TCCR4B |= _BV(PWM4X);
+  // Connect side a to pwm.
+  TCCR4A = _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
+#endif
 }
 
 void set_sign_magnitude_go_coast_bck(void) {
+#ifdef REV_A
   // Fix side a to have top off and bottom on.
   PORTB = (PORTB & ~(_BV(PB6))) | _BV(PB5);
   // Clear the other output.
   PORTC &= ~(_BV(PC6) | _BV(PC7));
   // Connect side b HIGH ONLY to pwm.
   TCCR4A = _BV(COM4A1) | _BV(PWM4A) | _BV(PWM4B);
+#endif
+#if defined(REV_B) || defined(REV_C)
+  // Fix side a to have top off and bottom on.
+  PORTB = (PORTB & ~(_BV(PB5))) | _BV(PB6);
+  // Clear the other output.
+  PORTC &= ~(_BV(PC6) | _BV(PC7));
+  // Make all outputs
+  DDRB |= (_BV(PB5) | _BV(PB6));
+  DDRC |= (_BV(PC6) | _BV(PC7));
+  // Do not invert output
+  TCCR4B &= ~(_BV(PWM4X));
+  // Connect side b HIGH ONLY to pwm.
+  TCCR4A = _BV(COM4A1) | _BV(PWM4A) | _BV(PWM4B);
+#endif
 }
 
-void set_locked_antiphase_fwd(void) {
-  // TODO(rqou)
-}
-
-void set_locked_antiphase_bck(void) {
-  // TODO(rqou)
+void set_locked_antiphase(void) {
+#if defined(REV_B) || defined(REV_C)
+  // Make all outputs
+  DDRB |= (_BV(PB5) | _BV(PB6));
+  DDRC |= (_BV(PC6) | _BV(PC7));
+  // Invert output
+  TCCR4B |= _BV(PWM4X);
+  // Connect side a and side b to pwm.
+  TCCR4A = _BV(COM4A0) | _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
+#endif
 }

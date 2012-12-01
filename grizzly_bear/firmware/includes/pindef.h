@@ -1,9 +1,9 @@
 #ifndef PINDEF_H
 #define PINDEF_H
 
-#define REV_A
+#define REV_C
 
-#ifdef REV_A
+#if defined(REV_A) || defined(REV_B) || defined(REV_C)
 
 // dip switch address select
 #define PINDEF_DIP1             PF1
@@ -20,6 +20,15 @@
 // high side driver endable
 #define PINDEF_HIGHSIDEENABLE   PE2
 
+#endif
+
+// TODO(rqou): Backport REV_A
+#if defined(REV_B) || defined(REV_C)
+#define PINDEF_LEDGRN           PD6
+#define PINDEF_LEDRED           PD4
+
+#define LED_PORT              PORTD
+#define LED_PORT_MODE          DDRD
 #endif
 
 #endif
