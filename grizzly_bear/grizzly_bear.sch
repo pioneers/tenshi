@@ -4260,8 +4260,8 @@ Source: http://www.nxp.com/acrobat_download/datasheets/PH7030L_4.pdf</descriptio
 <wire x1="15.748" y1="8.128" x2="15.748" y2="0" width="0.127" layer="51"/>
 <wire x1="15.748" y1="0" x2="0" y2="0" width="0.127" layer="51"/>
 <wire x1="0" y1="0" x2="0" y2="8.128" width="0.127" layer="51"/>
-<pad name="12V" x="4.572" y="4.064" drill="4.2672"/>
-<pad name="GND" x="11.684" y="4.064" drill="4.2672" rot="R180"/>
+<pad name="12V" x="4.572" y="4.064" drill="4.572"/>
+<pad name="GND" x="11.684" y="4.064" drill="4.572" rot="R180"/>
 </package>
 <package name="STAND-OFF">
 <description>&lt;b&gt;Stand Off&lt;/b&gt;&lt;p&gt;

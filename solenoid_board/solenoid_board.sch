@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.2">
+<eagle version="6.3">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -3589,8 +3589,8 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <wire x1="15.748" y1="8.128" x2="15.748" y2="0" width="0.127" layer="51"/>
 <wire x1="15.748" y1="0" x2="0" y2="0" width="0.127" layer="51"/>
 <wire x1="0" y1="0" x2="0" y2="8.128" width="0.127" layer="51"/>
-<pad name="12V" x="4.572" y="4.064" drill="4.2672"/>
-<pad name="GND" x="11.684" y="4.064" drill="4.2672" rot="R180"/>
+<pad name="12V" x="4.572" y="4.064" drill="4.572"/>
+<pad name="GND" x="11.684" y="4.064" drill="4.572" rot="R180"/>
 </package>
 <package name="1X04">
 <pad name="1" x="-3.81" y="0" drill="1.016" diameter="1.8796" rot="R90"/>

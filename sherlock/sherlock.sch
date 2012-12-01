@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.2">
+<eagle version="6.3">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -8611,39 +8611,36 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <wire x1="15.748" y1="8.128" x2="15.748" y2="0" width="0.127" layer="51"/>
 <wire x1="15.748" y1="0" x2="0" y2="0" width="0.127" layer="51"/>
 <wire x1="0" y1="0" x2="0" y2="8.128" width="0.127" layer="51"/>
-<pad name="12V" x="4.572" y="4.064" drill="4.2672"/>
-<pad name="GND" x="11.684" y="4.064" drill="4.2672" rot="R180"/>
+<pad name="12V" x="4.572" y="4.064" drill="4.572"/>
+<pad name="GND" x="11.684" y="4.064" drill="4.572" rot="R180"/>
 </package>
-<package name="1X05">
-<pad name="1" x="-5.08" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="2" x="-2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="3" x="0" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<text x="-6.9088" y="-5.7912" size="1.27" layer="25" ratio="10" rot="R90">&gt;NAME</text>
-<text x="8.255" y="-5.715" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
-<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
-<rectangle x1="-2.794" y1="-0.254" x2="-2.286" y2="0.254" layer="51"/>
-<rectangle x1="-5.334" y1="-0.254" x2="-4.826" y2="0.254" layer="51"/>
-<wire x1="6.35" y1="-2.54" x2="-6.35" y2="-2.54" width="0.2032" layer="21"/>
-<wire x1="-6.35" y1="-2.54" x2="-6.35" y2="2.54" width="0.2032" layer="21"/>
-<wire x1="-6.35" y1="2.54" x2="-6.35" y2="3.175" width="0.2032" layer="21"/>
-<wire x1="-6.35" y1="3.175" x2="6.35" y2="3.175" width="0.2032" layer="21"/>
-<wire x1="6.35" y1="3.175" x2="6.35" y2="2.54" width="0.2032" layer="21"/>
-<wire x1="6.35" y1="2.54" x2="6.35" y2="-2.54" width="0.2032" layer="21"/>
-<wire x1="-6.35" y1="3.175" x2="-6.35" y2="-8.255" width="0.127" layer="51"/>
-<wire x1="-6.35" y1="3.175" x2="6.35" y2="3.175" width="0.127" layer="51"/>
-<wire x1="6.35" y1="3.175" x2="6.35" y2="-8.255" width="0.127" layer="51"/>
-<wire x1="6.35" y1="-8.255" x2="-6.35" y2="-8.255" width="0.127" layer="51"/>
-<wire x1="6.35" y1="2.54" x2="-6.35" y2="2.54" width="0.127" layer="21"/>
-<wire x1="0" y1="0" x2="0" y2="-6.985" width="0.254" layer="51"/>
-<wire x1="-2.54" y1="0" x2="-2.54" y2="-6.985" width="0.254" layer="51"/>
-<wire x1="-5.08" y1="0" x2="-5.08" y2="-6.985" width="0.254" layer="51"/>
-<pad name="4" x="2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
-<wire x1="2.54" y1="0" x2="2.54" y2="-6.985" width="0.254" layer="51"/>
-<pad name="5" x="5.08" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<rectangle x1="4.826" y1="-0.254" x2="5.334" y2="0.254" layer="51"/>
-<wire x1="5.08" y1="0" x2="5.08" y2="-6.985" width="0.254" layer="51"/>
-<rectangle x1="-6.35" y1="1.905" x2="6.35" y2="2.54" layer="21"/>
+<package name="1X04">
+<pad name="1" x="-3.81" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="2" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="3" x="1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<text x="-5.6388" y="-5.7912" size="1.27" layer="25" ratio="10" rot="R90">&gt;NAME</text>
+<text x="6.985" y="-5.715" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
+<rectangle x1="1.016" y1="-0.254" x2="1.524" y2="0.254" layer="51"/>
+<rectangle x1="-1.524" y1="-0.254" x2="-1.016" y2="0.254" layer="51"/>
+<rectangle x1="-4.064" y1="-0.254" x2="-3.556" y2="0.254" layer="51"/>
+<wire x1="5.08" y1="-2.54" x2="-5.08" y2="-2.54" width="0.2032" layer="21"/>
+<wire x1="-5.08" y1="-2.54" x2="-5.08" y2="2.54" width="0.2032" layer="21"/>
+<wire x1="-5.08" y1="2.54" x2="-5.08" y2="3.175" width="0.2032" layer="21"/>
+<wire x1="-5.08" y1="3.175" x2="5.08" y2="3.175" width="0.2032" layer="21"/>
+<wire x1="5.08" y1="3.175" x2="5.08" y2="2.54" width="0.2032" layer="21"/>
+<wire x1="5.08" y1="2.54" x2="5.08" y2="-2.54" width="0.2032" layer="21"/>
+<wire x1="-5.08" y1="3.175" x2="-5.08" y2="-8.255" width="0.127" layer="51"/>
+<wire x1="-5.08" y1="3.175" x2="5.08" y2="3.175" width="0.127" layer="51"/>
+<wire x1="5.08" y1="3.175" x2="5.08" y2="-8.255" width="0.127" layer="51"/>
+<wire x1="5.08" y1="-8.255" x2="-5.08" y2="-8.255" width="0.127" layer="51"/>
+<wire x1="5.08" y1="2.54" x2="-5.08" y2="2.54" width="0.127" layer="21"/>
+<wire x1="1.27" y1="0" x2="1.27" y2="-6.985" width="0.254" layer="51"/>
+<wire x1="-1.27" y1="0" x2="-1.27" y2="-6.985" width="0.254" layer="51"/>
+<wire x1="-3.81" y1="0" x2="-3.81" y2="-6.985" width="0.254" layer="51"/>
+<pad name="4" x="3.81" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<rectangle x1="3.556" y1="-0.254" x2="4.064" y2="0.254" layer="51"/>
+<wire x1="3.81" y1="0" x2="3.81" y2="-6.985" width="0.254" layer="51"/>
+<rectangle x1="-5.08" y1="1.905" x2="5.08" y2="2.54" layer="21"/>
 </package>
 <package name="78XXL">
 <description>&lt;b&gt;VOLTAGE REGULATOR&lt;/b&gt;</description>
@@ -8833,23 +8830,21 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <pin name="12V" x="5.08" y="10.16" length="middle" rot="R270"/>
 <pin name="GND" x="10.16" y="10.16" length="middle" rot="R270"/>
 </symbol>
-<symbol name="M05">
-<wire x1="1.27" y1="-10.16" x2="-5.08" y2="-10.16" width="0.4064" layer="94"/>
+<symbol name="M04">
+<wire x1="1.27" y1="-7.62" x2="-5.08" y2="-7.62" width="0.4064" layer="94"/>
 <wire x1="-1.27" y1="2.54" x2="0" y2="2.54" width="0.6096" layer="94"/>
 <wire x1="-1.27" y1="0" x2="0" y2="0" width="0.6096" layer="94"/>
 <wire x1="-1.27" y1="-2.54" x2="0" y2="-2.54" width="0.6096" layer="94"/>
-<wire x1="-5.08" y1="5.08" x2="-5.08" y2="-10.16" width="0.4064" layer="94"/>
-<wire x1="1.27" y1="-10.16" x2="1.27" y2="5.08" width="0.4064" layer="94"/>
+<wire x1="-5.08" y1="5.08" x2="-5.08" y2="-7.62" width="0.4064" layer="94"/>
+<wire x1="1.27" y1="-7.62" x2="1.27" y2="5.08" width="0.4064" layer="94"/>
 <wire x1="-5.08" y1="5.08" x2="1.27" y2="5.08" width="0.4064" layer="94"/>
-<text x="-5.08" y="-12.7" size="1.778" layer="96">&gt;VALUE</text>
+<text x="-5.08" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
 <text x="-5.08" y="5.842" size="1.778" layer="95">&gt;NAME</text>
-<pin name="3" x="5.08" y="-2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="4" x="5.08" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="5" x="5.08" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="2" x="5.08" y="-2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="3" x="5.08" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="4" x="5.08" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 <wire x1="-1.27" y1="-5.08" x2="0" y2="-5.08" width="0.6096" layer="94"/>
-<pin name="2" x="5.08" y="-5.08" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<wire x1="-1.27" y1="-7.62" x2="0" y2="-7.62" width="0.6096" layer="94"/>
-<pin name="1" x="5.08" y="-7.62" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="1" x="5.08" y="-5.08" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 </symbol>
 <symbol name="78XX-1">
 <wire x1="-5.08" y1="-5.08" x2="5.08" y2="-5.08" width="0.4064" layer="94"/>
@@ -8947,18 +8942,17 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </device>
 </devices>
 </deviceset>
-<deviceset name="M05">
+<deviceset name="M04">
 <gates>
-<gate name="G$1" symbol="M05" x="0" y="0"/>
+<gate name="G$1" symbol="M04" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="1X05">
+<device name="" package="1X04">
 <connects>
 <connect gate="G$1" pin="1" pad="1"/>
 <connect gate="G$1" pin="2" pad="2"/>
 <connect gate="G$1" pin="3" pad="3"/>
 <connect gate="G$1" pin="4" pad="4"/>
-<connect gate="G$1" pin="5" pad="5"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -12145,7 +12139,7 @@ type 0309, grid 2.5 mm</description>
 <attribute name="OC_FARNELL" value="unknown"/>
 </part>
 <part name="U$1" library="pie" deviceset="XT60CONNECTOR" device=""/>
-<part name="BATTCONN" library="pie" deviceset="M05" device=""/>
+<part name="BATTCONN" library="pie" deviceset="M04" device=""/>
 <part name="BATTBUZZ" library="SparkFun" deviceset="M05" device="PTH"/>
 <part name="R5" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="V2" library="supply2" deviceset="VCC" device=""/>
@@ -12248,7 +12242,7 @@ type 0309, grid 2.5 mm</description>
 <instance part="X1" gate="-39" x="15.24" y="170.18" rot="R270"/>
 <instance part="X1" gate="-40" x="12.7" y="170.18" rot="R270"/>
 <instance part="U$1" gate="G$1" x="55.88" y="60.96" rot="R270"/>
-<instance part="BATTCONN" gate="G$1" x="35.56" y="22.86"/>
+<instance part="BATTCONN" gate="G$1" x="35.56" y="20.32"/>
 <instance part="BATTBUZZ" gate="G$1" x="12.7" y="20.32"/>
 <instance part="R5" gate="G$1" x="71.12" y="17.78"/>
 <instance part="V2" gate="G$1" x="60.96" y="20.32"/>
@@ -13197,16 +13191,6 @@ type 0309, grid 2.5 mm</description>
 <junction x="193.04" y="170.18"/>
 <label x="193.04" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P2" gate="A" pin="1"/>
-</segment>
-</net>
-<net name="N$4" class="0">
-<segment>
-<pinref part="BATTBUZZ" gate="G$1" pin="5"/>
-<pinref part="BATTCONN" gate="G$1" pin="5"/>
-<wire x1="20.32" y1="25.4" x2="40.64" y2="25.4" width="0.1524" layer="91"/>
-<wire x1="20.32" y1="25.4" x2="17.78" y2="25.4" width="0.1524" layer="91"/>
-<junction x="20.32" y="25.4"/>
-<junction x="40.64" y="25.4"/>
 </segment>
 </net>
 <net name="N$5" class="0">
