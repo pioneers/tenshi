@@ -38,6 +38,18 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
   AUTO_PROVIDE_REG(REG_ENCODER_COUNT, REG_ENCODER_COUNT_LEN,
       get_encoder_count_addr());
   AUTO_PROVIDE_REG(REG_REVISION, REG_REVISION_LEN, REVISION);
+  AUTO_PROVIDE_REG(REG_ILIMIT_ADC_THRESH, REG_ILIMIT_ADC_THRESH_LEN,
+      get_current_limit_adc_threshold_addr());
+  AUTO_PROVIDE_REG(REG_ILIMIT_CLAMP_PWM, REG_ILIMIT_CLAMP_PWM_LEN,
+      get_current_limit_clamp_pwm_addr());
+  AUTO_PROVIDE_REG(REG_ILIMIT_RETRY_TIME, REG_ILIMIT_RETRY_TIME_LEN,
+      get_current_limit_retry_time_addr());
+  AUTO_PROVIDE_REG(REG_ILIMIT_RATIO_NUM, REG_ILIMIT_RATIO_NUM_LEN,
+      get_current_limit_ratio_numerator_addr());
+  AUTO_PROVIDE_REG(REG_ILIMIT_RATIO_DENOM, REG_ILIMIT_RATIO_DENOM_LEN,
+      get_current_limit_ratio_denominator_addr());
+  AUTO_PROVIDE_REG(REG_ILIMIT_RATIO_MAX_USE, REG_ILIMIT_RATIO_MAX_USE_LEN,
+      get_current_limit_ratio_max_use_addr());
   AUTO_PROVIDE_REG(REG_ACCEL_LIMIT, REG_ACCEL_LIMIT_LEN,
       get_max_acceleration_addr());
 
@@ -53,6 +65,18 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val) {
   AUTO_SET_REG(REG_PWM_MODE, REG_PWM_MODE_LEN, &pwm_mode_new);
   AUTO_SET_REG(REG_TARGET_SPEED_NEW, REG_TARGET_SPEED_NEW_LEN,
       &target_speed_new);
+  AUTO_SET_REG(REG_ILIMIT_ADC_THRESH, REG_ILIMIT_ADC_THRESH_LEN,
+      get_current_limit_adc_threshold_addr());
+  AUTO_SET_REG(REG_ILIMIT_CLAMP_PWM, REG_ILIMIT_CLAMP_PWM_LEN,
+      get_current_limit_clamp_pwm_addr());
+  AUTO_SET_REG(REG_ILIMIT_RETRY_TIME, REG_ILIMIT_RETRY_TIME_LEN,
+      get_current_limit_retry_time_addr());
+  AUTO_SET_REG(REG_ILIMIT_RATIO_NUM, REG_ILIMIT_RATIO_NUM_LEN,
+      get_current_limit_ratio_numerator_addr());
+  AUTO_SET_REG(REG_ILIMIT_RATIO_DENOM, REG_ILIMIT_RATIO_DENOM_LEN,
+      get_current_limit_ratio_denominator_addr());
+  AUTO_SET_REG(REG_ILIMIT_RATIO_MAX_USE, REG_ILIMIT_RATIO_MAX_USE_LEN,
+      get_current_limit_ratio_max_use_addr());
   AUTO_SET_REG(REG_ACCEL_LIMIT, REG_ACCEL_LIMIT_LEN,
       get_max_acceleration_addr());
 }

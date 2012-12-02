@@ -13,9 +13,24 @@
 #include "pwm.h"
 #include "twi_state_machine.h"
 
+// Registers
 unsigned char pwm_mode;
 DECLARE_I2C_REGISTER_C(FIXED1616, target_speed);
+
 DECLARE_I2C_REGISTER_C(int, max_acceleration);
+
+DECLARE_I2C_REGISTER_C(unsigned int, current_limit_adc_threshold);
+DECLARE_I2C_REGISTER_C(int, current_limit_clamp_pwm);
+DECLARE_I2C_REGISTER_C(unsigned int, current_limit_retry_time);
+DECLARE_I2C_REGISTER_C(unsigned char, current_limit_ratio_numerator);
+DECLARE_I2C_REGISTER_C(unsigned char, current_limit_ratio_denominator);
+DECLARE_I2C_REGISTER_C(unsigned int, current_limit_ratio_max_use);
+
+// State variables
+static uint16_t current_limit_spike_use = 0;
+static unsigned char current_limit_is_clamping;
+
+static unsigned char force_error_led;
 
 // Clamp the input i to be within the interval [a,b]
 static inline int clamp_within(int i, int a, int b) {
@@ -26,10 +41,88 @@ static inline int clamp_within(int i, int a, int b) {
   return i;
 }
 
-static uint16_t accel_limit_last_speed = 0;
+static inline unsigned int u16min(unsigned int a, unsigned int b) {
+  if (a < b) {
+    return a;
+  }
+  else {
+    return b;
+  }
+}
+
+static inline unsigned char current_limit_adc_is_overspike(void) {
+  unsigned int adc_val = get_isense_adc();
+  unsigned int threshold = get_current_limit_adc_threshold();
+  // 0x200 is the midpoint of the ADC (2.5v) with represents 0 A
+  return adc_val > 0x200 + threshold || adc_val < 0x200 - threshold;
+}
+
+static inline void current_limit_check_for_overspike(void) {
+  if (current_limit_adc_is_overspike()) {
+    // Record an overspike.
+    // 0xFF00 is the largest number guaranteed not to overflow when
+    // 0xFF is added to it.
+    // This prevents an overflow in the NEXT time through.
+    unsigned char current_limit_ratio_denominator =
+      get_current_limit_ratio_denominator();
+    current_limit_spike_use = u16min(0xFF00,
+        current_limit_ratio_denominator + current_limit_spike_use);
+  }
+  else {
+    // Record a lack of overspike.
+    // This is basically saturating subtraction.
+    // It subtracts, but stops at zero.
+    unsigned char current_limit_ratio_numerator =
+      get_current_limit_ratio_numerator();
+    if (current_limit_spike_use <= current_limit_ratio_numerator) {
+      current_limit_spike_use = 0;
+    }
+    else {
+      current_limit_spike_use = (current_limit_spike_use -
+          current_limit_ratio_numerator);
+    }
+  }
+}
+
+// Current limiting function
+// The input is the unsigned value that will be sent to the pwm.
+// The direction is controlled by set_pwm_mode and friends, so we
+// don't need to deal with it here at all.
+static inline int current_limit_clip_speed(int input) {
+  static uint16_t powered_down_counter = 0;
+  if (powered_down_counter) {
+    if (powered_down_counter == get_current_limit_retry_time()) {
+      // Try to power up (max value).
+      current_limit_is_clamping = 0;
+      powered_down_counter = 0;
+      force_error_led = 0;
+    }
+    else {
+      // We're powered down, and will stay that way (for now).
+      ++powered_down_counter;
+    }
+  }
+
+  if (current_limit_spike_use > get_current_limit_ratio_max_use()) {
+    // Begin ramping down.
+    force_error_led = 1;
+    current_limit_is_clamping = 1;
+    if (!powered_down_counter)
+      powered_down_counter = 1;
+  }
+
+  if (current_limit_is_clamping) {
+    int clamp_pwm = get_current_limit_clamp_pwm();
+    input = clamp_within(input, -clamp_pwm, clamp_pwm);
+  }
+
+  return input;
+}
 
 // Acceleration limiting function
 static inline int accel_limit_speed(int speed) {
+  static uint16_t accel_limit_last_speed = 0;
+
   int diff = 0;
   int clamped_diff;
   int target_speed;
@@ -48,19 +141,32 @@ void init_control_loop(void) {
   // default values
   // Interrupts aren't enabled here
   set_max_acceleration_dangerous(8);
+  set_current_limit_adc_threshold_dangerous(24);
+  set_current_limit_clamp_pwm_dangerous(0x80);
+  set_current_limit_retry_time_dangerous(1000);
+  set_current_limit_ratio_denominator_dangerous(1);
+  set_current_limit_ratio_numerator_dangerous(1);
+  set_current_limit_ratio_max_use_dangerous(1000);
 }
 
 // configure the PWM into the correct mode (sign-magnitude/locked-antiphase,
 // direction, etc)
 static inline void set_pwm_mode(unsigned char pwm_mode, unsigned char fwd) {
-  if (fwd) {
-    set_red_led(LED_OFF);
-    set_green_led(LED_ON);
+  // LEDs
+  if (force_error_led) {
+    set_all_leds(LED_ON);
   }
   else {
-    set_green_led(LED_OFF);
-    set_red_led(LED_ON);
+    if (fwd) {
+      set_red_led(LED_OFF);
+      set_green_led(LED_ON);
+    }
+    else {
+      set_green_led(LED_OFF);
+      set_red_led(LED_ON);
+    }
   }
+
   if ((pwm_mode & MODE_SIGN_MAG_LOCKED_ANTIPHASE) ==
       MODE_LOCKED_ANTIPHASE) {
     set_locked_antiphase();
@@ -137,6 +243,11 @@ void run_control_loop(void) {
     pwm_mode_copy = pwm_mode;
   }
 
+  // We always run this code, even when we are disabled. The logic is that
+  // if we were overcurrent and we shut off, this code will still run and
+  // start decrementing the accumulated overcurrent.
+  current_limit_check_for_overspike();
+
   if (!(pwm_mode_copy & MODE_ENABLE_MASK)) {
     // disabled
     driver_enable(0);
@@ -171,6 +282,8 @@ void run_control_loop(void) {
     // override the value in stress mode
     pwm_val = stress_mode_logic(pwm_val, pwm_mode_copy, target_speed_copy);
 
+    // limit current
+    pwm_val = current_limit_clip_speed(pwm_val);
     // limit acceleration
     pwm_val = accel_limit_speed(pwm_val);
 

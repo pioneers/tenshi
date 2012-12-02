@@ -37,6 +37,13 @@ extern unsigned char pwm_mode;
 DECLARE_I2C_REGISTER(FIXED1616, target_speed);
 // Maximum acceleration, applies to the pwm value (after PID, etc.)
 DECLARE_I2C_REGISTER(int, max_acceleration);
+// Current limitring registers
+DECLARE_I2C_REGISTER(unsigned int, current_limit_adc_threshold);
+DECLARE_I2C_REGISTER(int, current_limit_clamp_pwm);
+DECLARE_I2C_REGISTER(unsigned int, current_limit_retry_time);
+DECLARE_I2C_REGISTER(unsigned char, current_limit_ratio_numerator);
+DECLARE_I2C_REGISTER(unsigned char, current_limit_ratio_denominator);
+DECLARE_I2C_REGISTER(unsigned int, current_limit_ratio_max_use);
 
 // Called to configure control loop internal state on startup.
 extern void init_control_loop(void);
