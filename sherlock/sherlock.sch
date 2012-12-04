@@ -8818,6 +8818,21 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <vertex x="1.7119" y="-0.0101" curve="-90.012967"/>
 </polygon>
 </package>
+<package name="LED-0805">
+<smd name="A" x="-1.0414" y="0" dx="1.1938" dy="1.2446" layer="1"/>
+<smd name="C" x="1.0414" y="0" dx="1.1938" dy="1.2446" layer="1"/>
+<wire x1="-0.254" y1="0.508" x2="0.254" y2="0" width="0.127" layer="21"/>
+<wire x1="0.254" y1="0" x2="-0.254" y2="-0.508" width="0.127" layer="21"/>
+<wire x1="-0.381" y1="0.889" x2="-1.905" y2="0.889" width="0.127" layer="21"/>
+<wire x1="-1.905" y1="0.889" x2="-1.905" y2="-0.889" width="0.127" layer="21"/>
+<wire x1="-1.905" y1="-0.889" x2="-0.381" y2="-0.889" width="0.127" layer="21"/>
+<wire x1="0.381" y1="-0.889" x2="1.905" y2="-0.889" width="0.127" layer="21"/>
+<wire x1="1.905" y1="-0.889" x2="1.905" y2="0.889" width="0.127" layer="21"/>
+<wire x1="1.905" y1="0.889" x2="0.381" y2="0.889" width="0.127" layer="21"/>
+<rectangle x1="-1.0033" y1="-0.6223" x2="1.0033" y2="0.6223" layer="51"/>
+<wire x1="-0.254" y1="0.508" x2="-0.254" y2="-0.508" width="0.127" layer="21"/>
+<wire x1="0.254" y1="0.508" x2="0.254" y2="-0.508" width="0.127" layer="21"/>
+</package>
 </packages>
 <symbols>
 <symbol name="XT60CONNECTOR">
@@ -9052,6 +9067,15 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connects>
 <connect gate="G$1" pin="A" pad="A"/>
 <connect gate="G$1" pin="C" pad="K"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="0805" package="LED-0805">
+<connects>
+<connect gate="G$1" pin="A" pad="A"/>
+<connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -12131,10 +12155,6 @@ type 0309, grid 2.5 mm</description>
 <part name="C3" library="rcl" deviceset="C-US" device="C0603K" value=".1uF"/>
 <part name="C1" library="rcl" deviceset="C-US" device="C0603" value=".1uF"/>
 <part name="IC1" library="pie" deviceset="78XXL" device=""/>
-<part name="LED4" library="pie" deviceset="LED" device="0603"/>
-<part name="LED1" library="pie" deviceset="LED" device="0603"/>
-<part name="LED2" library="pie" deviceset="LED" device="0603"/>
-<part name="LED3" library="pie" deviceset="LED" device="0603"/>
 <part name="X1" library="con-3m" deviceset="2540-" device="">
 <attribute name="OC_FARNELL" value="unknown"/>
 </part>
@@ -12146,8 +12166,12 @@ type 0309, grid 2.5 mm</description>
 <part name="C2" library="rcl" deviceset="C-US" device="C0603" value="10uF"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Sahar M., Michael C., Sumita G."/>
-<attribute name="REVISION" value="A"/>
+<attribute name="REVISION" value="C"/>
 </part>
+<part name="LED4" library="pie" deviceset="LED" device="0805"/>
+<part name="LED1" library="pie" deviceset="LED" device="0805"/>
+<part name="LED2" library="pie" deviceset="LED" device="0805"/>
+<part name="LED3" library="pie" deviceset="LED" device="0805"/>
 </parts>
 <sheets>
 <sheet>
@@ -12197,10 +12221,6 @@ type 0309, grid 2.5 mm</description>
 <instance part="C3" gate="G$1" x="60.96" y="101.6"/>
 <instance part="C1" gate="G$1" x="149.86" y="55.88"/>
 <instance part="IC1" gate="A" x="127" y="58.42"/>
-<instance part="LED4" gate="G$1" x="22.86" y="93.98"/>
-<instance part="LED1" gate="G$1" x="33.02" y="93.98"/>
-<instance part="LED2" gate="G$1" x="43.18" y="93.98"/>
-<instance part="LED3" gate="G$1" x="53.34" y="93.98"/>
 <instance part="X1" gate="-1" x="111.76" y="170.18" rot="R270"/>
 <instance part="X1" gate="-2" x="109.22" y="170.18" rot="R270"/>
 <instance part="X1" gate="-3" x="106.68" y="170.18" rot="R270"/>
@@ -12252,6 +12272,10 @@ type 0309, grid 2.5 mm</description>
 <attribute name="REVISION" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 <attribute name="AUTHOR" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 </instance>
+<instance part="LED4" gate="G$1" x="22.86" y="93.98"/>
+<instance part="LED1" gate="G$1" x="33.02" y="93.98"/>
+<instance part="LED2" gate="G$1" x="43.18" y="93.98"/>
+<instance part="LED3" gate="G$1" x="53.34" y="93.98"/>
 </instances>
 <busses>
 </busses>
@@ -12388,9 +12412,9 @@ type 0309, grid 2.5 mm</description>
 <junction x="33.02" y="104.14"/>
 <pinref part="V1" gate="G$1" pin="VCC"/>
 <pinref part="C3" gate="G$1" pin="1"/>
+<junction x="60.96" y="104.14"/>
 <pinref part="LED1" gate="G$1" pin="A"/>
 <junction x="33.02" y="96.52"/>
-<junction x="60.96" y="104.14"/>
 </segment>
 <segment>
 <wire x1="215.9" y1="172.72" x2="205.74" y2="172.72" width="0.1524" layer="91"/>
@@ -13005,6 +13029,12 @@ type 0309, grid 2.5 mm</description>
 <label x="228.6" y="139.7" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="28"/>
 </segment>
+<segment>
+<pinref part="X1" gate="-13" pin="KL"/>
+<wire x1="81.28" y1="165.1" x2="81.28" y2="149.86" width="0.1524" layer="91"/>
+<junction x="81.28" y="165.1"/>
+<label x="81.28" y="149.86" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="IO1/CTS1" class="0">
 <segment>
@@ -13126,34 +13156,6 @@ type 0309, grid 2.5 mm</description>
 <junction x="99.06" y="58.42"/>
 </segment>
 </net>
-<net name="N$1" class="0">
-<segment>
-<pinref part="R1" gate="G$1" pin="2"/>
-<pinref part="LED4" gate="G$1" pin="C"/>
-<junction x="22.86" y="88.9"/>
-</segment>
-</net>
-<net name="N$2" class="0">
-<segment>
-<pinref part="R2" gate="G$1" pin="2"/>
-<pinref part="LED1" gate="G$1" pin="C"/>
-<junction x="33.02" y="88.9"/>
-</segment>
-</net>
-<net name="N$3" class="0">
-<segment>
-<pinref part="R3" gate="G$1" pin="2"/>
-<pinref part="LED2" gate="G$1" pin="C"/>
-<junction x="43.18" y="88.9"/>
-</segment>
-</net>
-<net name="N$8" class="0">
-<segment>
-<pinref part="R4" gate="G$1" pin="2"/>
-<pinref part="LED3" gate="G$1" pin="C"/>
-<junction x="53.34" y="88.9"/>
-</segment>
-</net>
 <net name="SDA0/IO33*" class="0">
 <segment>
 <pinref part="P2" gate="A" pin="3"/>
@@ -13221,6 +13223,34 @@ type 0309, grid 2.5 mm</description>
 <pinref part="BATTBUZZ" gate="G$1" pin="2"/>
 <junction x="20.32" y="17.78"/>
 <junction x="40.64" y="17.78"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="R1" gate="G$1" pin="2"/>
+<pinref part="LED4" gate="G$1" pin="C"/>
+<junction x="22.86" y="88.9"/>
+</segment>
+</net>
+<net name="N$2" class="0">
+<segment>
+<pinref part="R2" gate="G$1" pin="2"/>
+<pinref part="LED1" gate="G$1" pin="C"/>
+<junction x="33.02" y="88.9"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="R3" gate="G$1" pin="2"/>
+<pinref part="LED2" gate="G$1" pin="C"/>
+<junction x="43.18" y="88.9"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="R4" gate="G$1" pin="2"/>
+<pinref part="LED3" gate="G$1" pin="C"/>
+<junction x="53.34" y="88.9"/>
 </segment>
 </net>
 </nets>
