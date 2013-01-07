@@ -157,25 +157,28 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <packages>
 <package name="XT60CONNECTOR">
 <description>12V XT60 power connector</description>
-<wire x1="0" y1="0" x2="13.208" y2="0" width="0.127" layer="21"/>
-<wire x1="13.208" y1="0" x2="15.748" y2="2.54" width="0.127" layer="21"/>
-<wire x1="15.748" y1="2.54" x2="15.748" y2="5.588" width="0.127" layer="21"/>
-<wire x1="15.748" y1="5.588" x2="13.208" y2="8.128" width="0.127" layer="21"/>
-<wire x1="13.208" y1="8.128" x2="0" y2="8.128" width="0.127" layer="21"/>
-<wire x1="0" y1="8.128" x2="0" y2="0" width="0.127" layer="21"/>
-<wire x1="0" y1="8.128" x2="15.748" y2="8.128" width="0.127" layer="51"/>
-<wire x1="15.748" y1="8.128" x2="15.748" y2="0" width="0.127" layer="51"/>
-<wire x1="15.748" y1="0" x2="0" y2="0" width="0.127" layer="51"/>
-<wire x1="0" y1="0" x2="0" y2="8.128" width="0.127" layer="51"/>
-<pad name="12V" x="4.572" y="4.064" drill="4.572" diameter="6.096"/>
-<pad name="GND" x="11.684" y="4.064" drill="4.572" diameter="6.096" rot="R180"/>
+<wire x1="-8.128" y1="-4.064" x2="5.08" y2="-4.064" width="0.127" layer="21"/>
+<wire x1="5.08" y1="-4.064" x2="7.62" y2="-1.524" width="0.127" layer="21"/>
+<wire x1="7.62" y1="-1.524" x2="7.62" y2="1.524" width="0.127" layer="21"/>
+<wire x1="7.62" y1="1.524" x2="5.08" y2="4.064" width="0.127" layer="21"/>
+<wire x1="5.08" y1="4.064" x2="-8.128" y2="4.064" width="0.127" layer="21"/>
+<wire x1="-8.128" y1="4.064" x2="-8.128" y2="-4.064" width="0.127" layer="21"/>
+<wire x1="-8.128" y1="4.064" x2="7.62" y2="4.064" width="0.127" layer="51"/>
+<wire x1="7.62" y1="4.064" x2="7.62" y2="-4.064" width="0.127" layer="51"/>
+<wire x1="7.62" y1="-4.064" x2="-8.128" y2="-4.064" width="0.127" layer="51"/>
+<wire x1="-8.128" y1="-4.064" x2="-8.128" y2="4.064" width="0.127" layer="51"/>
+<pad name="12V" x="-3.556" y="0" drill="4.572" diameter="6.096"/>
+<pad name="GND" x="3.556" y="0" drill="4.572" diameter="6.096" rot="R180"/>
+<rectangle x1="-8.128" y1="-4.064" x2="7.62" y2="4.064" layer="39"/>
+<rectangle x1="-8.128" y1="-4.064" x2="7.62" y2="4.064" layer="40"/>
 </package>
 <package name="1X06-MTA">
+<description>6-pin MTA connector</description>
 <pad name="1" x="-6.35" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="-3.81" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="3" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<text x="-8.1788" y="-5.7912" size="1.27" layer="25" ratio="10" rot="R90">&gt;NAME</text>
-<text x="9.525" y="-5.715" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
+<text x="-7.0612" y="4.3688" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-6.985" y="-4.445" size="1.27" layer="27" font="vector">&gt;VALUE</text>
 <rectangle x1="-1.524" y1="-0.254" x2="-1.016" y2="0.254" layer="51"/>
 <rectangle x1="-4.064" y1="-0.254" x2="-3.556" y2="0.254" layer="51"/>
 <rectangle x1="-6.604" y1="-0.254" x2="-6.096" y2="0.254" layer="51"/>
@@ -203,31 +206,37 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <pad name="6" x="6.35" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <rectangle x1="6.096" y1="-0.254" x2="6.604" y2="0.254" layer="51"/>
 <wire x1="6.35" y1="0" x2="6.35" y2="-6.985" width="0.254" layer="51"/>
+<rectangle x1="-7.62" y1="-1.27" x2="7.62" y2="1.27" layer="40"/>
+<rectangle x1="-7.62" y1="-2.54" x2="7.62" y2="3.302" layer="39"/>
 </package>
 <package name="1X02-MTA">
-<wire x1="-1.27" y1="0.635" x2="-1.27" y2="-0.635" width="0.2032" layer="21"/>
-<pad name="1" x="0" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="2" x="2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<text x="-0.7112" y="3.7338" size="1.27" layer="25" ratio="10">&gt;NAME</text>
-<text x="-1.27" y="-4.445" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
-<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
-<wire x1="3.81" y1="-2.54" x2="-1.27" y2="-2.54" width="0.2032" layer="21"/>
-<wire x1="-1.27" y1="-2.54" x2="-1.27" y2="2.54" width="0.2032" layer="21"/>
-<wire x1="-1.27" y1="2.54" x2="-1.27" y2="3.175" width="0.2032" layer="21"/>
-<wire x1="-1.27" y1="3.175" x2="3.81" y2="3.175" width="0.2032" layer="21"/>
-<wire x1="3.81" y1="3.175" x2="3.81" y2="2.54" width="0.2032" layer="21"/>
-<wire x1="3.81" y1="2.54" x2="3.81" y2="-2.54" width="0.2032" layer="21"/>
-<wire x1="-1.27" y1="3.175" x2="-1.27" y2="-8.255" width="0.127" layer="51"/>
-<wire x1="-1.27" y1="3.175" x2="3.81" y2="3.175" width="0.127" layer="51"/>
-<wire x1="3.81" y1="3.175" x2="3.81" y2="-8.255" width="0.127" layer="51"/>
-<wire x1="3.81" y1="-8.255" x2="-1.27" y2="-8.255" width="0.127" layer="51"/>
-<wire x1="3.81" y1="2.54" x2="-1.27" y2="2.54" width="0.127" layer="21"/>
-<wire x1="2.54" y1="0" x2="2.54" y2="-6.985" width="0.254" layer="51"/>
-<wire x1="0" y1="0" x2="0" y2="-6.985" width="0.254" layer="51"/>
-<rectangle x1="-1.27" y1="1.905" x2="3.81" y2="2.54" layer="21"/>
+<description>2-pin MTA connector</description>
+<wire x1="-2.54" y1="0.635" x2="-2.54" y2="-0.635" width="0.2032" layer="21"/>
+<pad name="1" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="2" x="1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<text x="-1.9812" y="3.7338" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-2.54" y="-4.445" size="1.27" layer="27" font="vector">&gt;VALUE</text>
+<rectangle x1="1.016" y1="-0.254" x2="1.524" y2="0.254" layer="51"/>
+<rectangle x1="-1.524" y1="-0.254" x2="-1.016" y2="0.254" layer="51"/>
+<wire x1="2.54" y1="-2.54" x2="-2.54" y2="-2.54" width="0.2032" layer="21"/>
+<wire x1="-2.54" y1="-2.54" x2="-2.54" y2="2.54" width="0.2032" layer="21"/>
+<wire x1="-2.54" y1="2.54" x2="-2.54" y2="3.175" width="0.2032" layer="21"/>
+<wire x1="-2.54" y1="3.175" x2="2.54" y2="3.175" width="0.2032" layer="21"/>
+<wire x1="2.54" y1="3.175" x2="2.54" y2="2.54" width="0.2032" layer="21"/>
+<wire x1="2.54" y1="2.54" x2="2.54" y2="-2.54" width="0.2032" layer="21"/>
+<wire x1="-2.54" y1="3.175" x2="-2.54" y2="-8.255" width="0.127" layer="51"/>
+<wire x1="-2.54" y1="3.175" x2="2.54" y2="3.175" width="0.127" layer="51"/>
+<wire x1="2.54" y1="3.175" x2="2.54" y2="-8.255" width="0.127" layer="51"/>
+<wire x1="2.54" y1="-8.255" x2="-2.54" y2="-8.255" width="0.127" layer="51"/>
+<wire x1="2.54" y1="2.54" x2="-2.54" y2="2.54" width="0.127" layer="21"/>
+<wire x1="1.27" y1="0" x2="1.27" y2="-6.985" width="0.254" layer="51"/>
+<wire x1="-1.27" y1="0" x2="-1.27" y2="-6.985" width="0.254" layer="51"/>
+<rectangle x1="-2.54" y1="1.905" x2="2.54" y2="2.54" layer="21"/>
+<rectangle x1="-2.54" y1="-2.54" x2="2.54" y2="3.302" layer="39"/>
+<rectangle x1="-2.54" y1="-1.27" x2="2.54" y2="1.27" layer="40"/>
 </package>
 <package name="QUADNOR">
+<description>Quad-NOR IC SSOP14 Package</description>
 <wire x1="2.1325" y1="1.95" x2="-2.1325" y2="1.95" width="0.127" layer="21"/>
 <wire x1="2.1325" y1="-1.95" x2="-2.1325" y2="-1.95" width="0.127" layer="21"/>
 <wire x1="-2.1325" y1="1.95" x2="-2.1325" y2="-1.95" width="0.127" layer="21"/>
@@ -249,6 +258,26 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <smd name="VCC" x="-1.905" y="3.2" dx="0.35" dy="2.2" layer="1" rot="R180"/>
 <text x="-1.4825" y="0.9" size="0.3048" layer="25" font="vector">&gt;Name</text>
 <text x="-1.4825" y="0.1" size="0.3048" layer="27" font="vector">&gt;Value</text>
+<rectangle x1="-2.54" y1="-5.08" x2="2.54" y2="5.08" layer="39"/>
+<wire x1="2.1325" y1="1.95" x2="-2.1325" y2="1.95" width="0.127" layer="51"/>
+<wire x1="2.1325" y1="-1.95" x2="-2.1325" y2="-1.95" width="0.127" layer="51"/>
+<wire x1="-2.1325" y1="1.95" x2="-2.1325" y2="-1.95" width="0.127" layer="51"/>
+<wire x1="2.1325" y1="1.95" x2="2.1325" y2="-1.95" width="0.127" layer="51"/>
+<circle x="-1.5025" y="-1.23" radius="0.3538" width="0.127" layer="51"/>
+<rectangle x1="-0.1" y1="2" x2="0.1" y2="3.2" layer="51"/>
+<rectangle x1="-0.1" y1="-3.2" x2="0.1" y2="-2" layer="51"/>
+<rectangle x1="0.535" y1="2" x2="0.735" y2="3.2" layer="51"/>
+<rectangle x1="1.17" y1="2" x2="1.37" y2="3.2" layer="51"/>
+<rectangle x1="1.805" y1="2" x2="2.005" y2="3.2" layer="51"/>
+<rectangle x1="-0.735" y1="2" x2="-0.535" y2="3.2" layer="51"/>
+<rectangle x1="-1.37" y1="2" x2="-1.17" y2="3.2" layer="51"/>
+<rectangle x1="-2.005" y1="2" x2="-1.805" y2="3.2" layer="51"/>
+<rectangle x1="0.535" y1="-3.2" x2="0.735" y2="-2" layer="51"/>
+<rectangle x1="1.17" y1="-3.2" x2="1.37" y2="-2" layer="51"/>
+<rectangle x1="1.805" y1="-3.2" x2="2.005" y2="-2" layer="51"/>
+<rectangle x1="-0.735" y1="-3.2" x2="-0.535" y2="-2" layer="51"/>
+<rectangle x1="-1.37" y1="-3.2" x2="-1.17" y2="-2" layer="51"/>
+<rectangle x1="-2.005" y1="-3.2" x2="-1.805" y2="-2" layer="51"/>
 </package>
 <package name="CAP-PTH-SMALL">
 <wire x1="1.27" y1="0.635" x2="1.27" y2="-0.635" width="0.2032" layer="21"/>
@@ -2017,28 +2046,6 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="-1.4" y1="-1.6" x2="-1.1" y2="1.6" layer="51"/>
 <rectangle x1="1.1" y1="-1.6" x2="1.4" y2="1.6" layer="51" rot="R180"/>
 </package>
-<package name="1X02">
-<wire x1="-0.635" y1="1.27" x2="0.635" y2="1.27" width="0.2032" layer="21"/>
-<wire x1="0.635" y1="1.27" x2="1.27" y2="0.635" width="0.2032" layer="21"/>
-<wire x1="1.27" y1="-0.635" x2="0.635" y2="-1.27" width="0.2032" layer="21"/>
-<wire x1="1.27" y1="0.635" x2="1.905" y2="1.27" width="0.2032" layer="21"/>
-<wire x1="1.905" y1="1.27" x2="3.175" y2="1.27" width="0.2032" layer="21"/>
-<wire x1="3.175" y1="1.27" x2="3.81" y2="0.635" width="0.2032" layer="21"/>
-<wire x1="3.81" y1="-0.635" x2="3.175" y2="-1.27" width="0.2032" layer="21"/>
-<wire x1="3.175" y1="-1.27" x2="1.905" y2="-1.27" width="0.2032" layer="21"/>
-<wire x1="1.905" y1="-1.27" x2="1.27" y2="-0.635" width="0.2032" layer="21"/>
-<wire x1="-1.27" y1="0.635" x2="-1.27" y2="-0.635" width="0.2032" layer="21"/>
-<wire x1="-0.635" y1="1.27" x2="-1.27" y2="0.635" width="0.2032" layer="21"/>
-<wire x1="-1.27" y1="-0.635" x2="-0.635" y2="-1.27" width="0.2032" layer="21"/>
-<wire x1="0.635" y1="-1.27" x2="-0.635" y2="-1.27" width="0.2032" layer="21"/>
-<wire x1="3.81" y1="0.635" x2="3.81" y2="-0.635" width="0.2032" layer="21"/>
-<pad name="1" x="0" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="2" x="2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<text x="-1.3462" y="1.8288" size="1.27" layer="25" ratio="10">&gt;NAME</text>
-<text x="-1.27" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
-<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
-</package>
 <package name="SMA-DIODE_ALT">
 <wire x1="-2.3" y1="1.3" x2="-2.3" y2="1.45" width="0.2032" layer="21"/>
 <wire x1="-2.3" y1="1.45" x2="2.3" y2="1.45" width="0.2032" layer="21"/>
@@ -2053,6 +2060,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <text x="0.254" y="1.651" size="0.4064" layer="27">&gt;VALUE</text>
 </package>
 <package name="SOT23-3">
+<description>SOT23-3 Package</description>
 <wire x1="1.4224" y1="0.6604" x2="1.4224" y2="-0.6604" width="0.1524" layer="51"/>
 <wire x1="1.4224" y1="-0.6604" x2="-1.4224" y2="-0.6604" width="0.1524" layer="51"/>
 <wire x1="-1.4224" y1="-0.6604" x2="-1.4224" y2="0.6604" width="0.1524" layer="51"/>
@@ -2064,52 +2072,80 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <smd name="3" x="0" y="1.1" dx="0.8" dy="0.9" layer="1"/>
 <smd name="2" x="0.95" y="-1" dx="0.8" dy="0.9" layer="1"/>
 <smd name="1" x="-0.95" y="-1" dx="0.8" dy="0.9" layer="1"/>
-<text x="-0.8255" y="1.778" size="0.4064" layer="25">&gt;NAME</text>
-<text x="-1.016" y="-0.1905" size="0.4064" layer="27">&gt;VALUE</text>
+<text x="-0.8255" y="1.778" size="0.4064" layer="25" font="vector">&gt;NAME</text>
+<text x="-1.016" y="-0.1905" size="0.4064" layer="27" font="vector">&gt;VALUE</text>
+<rectangle x1="-1.524" y1="-1.778" x2="1.524" y2="1.778" layer="39"/>
+</package>
+<package name="1X02">
+<description>2-pin 0.1-inch header</description>
+<wire x1="-1.905" y1="1.27" x2="-0.635" y2="1.27" width="0.2032" layer="21"/>
+<wire x1="-0.635" y1="1.27" x2="0" y2="0.635" width="0.2032" layer="21"/>
+<wire x1="0" y1="-0.635" x2="-0.635" y2="-1.27" width="0.2032" layer="21"/>
+<wire x1="0" y1="0.635" x2="0.635" y2="1.27" width="0.2032" layer="21"/>
+<wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.2032" layer="21"/>
+<wire x1="1.905" y1="1.27" x2="2.54" y2="0.635" width="0.2032" layer="21"/>
+<wire x1="2.54" y1="-0.635" x2="1.905" y2="-1.27" width="0.2032" layer="21"/>
+<wire x1="1.905" y1="-1.27" x2="0.635" y2="-1.27" width="0.2032" layer="21"/>
+<wire x1="0.635" y1="-1.27" x2="0" y2="-0.635" width="0.2032" layer="21"/>
+<wire x1="-2.54" y1="0.635" x2="-2.54" y2="-0.635" width="0.2032" layer="21"/>
+<wire x1="-1.905" y1="1.27" x2="-2.54" y2="0.635" width="0.2032" layer="21"/>
+<wire x1="-2.54" y1="-0.635" x2="-1.905" y2="-1.27" width="0.2032" layer="21"/>
+<wire x1="-0.635" y1="-1.27" x2="-1.905" y2="-1.27" width="0.2032" layer="21"/>
+<wire x1="2.54" y1="0.635" x2="2.54" y2="-0.635" width="0.2032" layer="21"/>
+<pad name="1" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="2" x="1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<text x="-2.6162" y="1.8288" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-2.54" y="-3.175" size="1.27" layer="27" font="vector">&gt;VALUE</text>
+<rectangle x1="1.016" y1="-0.254" x2="1.524" y2="0.254" layer="51"/>
+<rectangle x1="-1.524" y1="-0.254" x2="-1.016" y2="0.254" layer="51"/>
+<rectangle x1="-2.54" y1="-1.27" x2="2.54" y2="1.27" layer="39"/>
+<rectangle x1="-2.54" y1="-1.27" x2="2.54" y2="1.27" layer="40"/>
 </package>
 </packages>
 <symbols>
 <symbol name="XT60CONNECTOR">
-<wire x1="15.24" y1="2.54" x2="15.24" y2="5.08" width="0.254" layer="94"/>
-<wire x1="15.24" y1="5.08" x2="12.7" y2="7.62" width="0.254" layer="94"/>
-<wire x1="12.7" y1="7.62" x2="0" y2="7.62" width="0.254" layer="94"/>
-<wire x1="0" y1="7.62" x2="0" y2="0" width="0.254" layer="94"/>
-<wire x1="0" y1="0" x2="12.7" y2="0" width="0.254" layer="94"/>
-<wire x1="12.7" y1="0" x2="15.24" y2="2.54" width="0.254" layer="94"/>
-<pin name="12V" x="5.08" y="10.16" length="middle" rot="R270"/>
-<pin name="GND" x="10.16" y="10.16" length="middle" rot="R270"/>
+<wire x1="7.62" y1="-1.27" x2="7.62" y2="1.27" width="0.254" layer="94"/>
+<wire x1="7.62" y1="1.27" x2="5.08" y2="3.81" width="0.254" layer="94"/>
+<wire x1="5.08" y1="3.81" x2="-7.62" y2="3.81" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="3.81" x2="-7.62" y2="-3.81" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-3.81" x2="5.08" y2="-3.81" width="0.254" layer="94"/>
+<wire x1="5.08" y1="-3.81" x2="7.62" y2="-1.27" width="0.254" layer="94"/>
+<pin name="12V" x="-2.54" y="6.35" length="middle" rot="R270"/>
+<pin name="GND" x="2.54" y="6.35" length="middle" rot="R270"/>
+<wire x1="-2.54" y1="0" x2="-2.54" y2="1.27" width="0.6096" layer="94"/>
+<wire x1="2.54" y1="0" x2="2.54" y2="1.27" width="0.6096" layer="94"/>
 </symbol>
 <symbol name="M06">
-<wire x1="1.27" y1="-10.16" x2="-5.08" y2="-10.16" width="0.4064" layer="94"/>
-<wire x1="-1.27" y1="5.08" x2="0" y2="5.08" width="0.6096" layer="94"/>
-<wire x1="-1.27" y1="2.54" x2="0" y2="2.54" width="0.6096" layer="94"/>
-<wire x1="-1.27" y1="0" x2="0" y2="0" width="0.6096" layer="94"/>
-<wire x1="-5.08" y1="7.62" x2="-5.08" y2="-10.16" width="0.4064" layer="94"/>
-<wire x1="1.27" y1="-10.16" x2="1.27" y2="7.62" width="0.4064" layer="94"/>
-<wire x1="-5.08" y1="7.62" x2="1.27" y2="7.62" width="0.4064" layer="94"/>
-<text x="-5.08" y="-12.7" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-5.08" y="8.382" size="1.778" layer="95">&gt;NAME</text>
-<pin name="4" x="5.08" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="5" x="5.08" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="6" x="5.08" y="5.08" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<wire x1="-1.27" y1="-2.54" x2="0" y2="-2.54" width="0.6096" layer="94"/>
-<pin name="3" x="5.08" y="-2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<wire x1="-1.27" y1="-5.08" x2="0" y2="-5.08" width="0.6096" layer="94"/>
-<pin name="2" x="5.08" y="-5.08" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<wire x1="-1.27" y1="-7.62" x2="0" y2="-7.62" width="0.6096" layer="94"/>
-<pin name="1" x="5.08" y="-7.62" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<wire x1="3.175" y1="-8.89" x2="-3.175" y2="-8.89" width="0.4064" layer="94"/>
+<wire x1="0.635" y1="6.35" x2="1.905" y2="6.35" width="0.6096" layer="94"/>
+<wire x1="0.635" y1="3.81" x2="1.905" y2="3.81" width="0.6096" layer="94"/>
+<wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.6096" layer="94"/>
+<wire x1="-3.175" y1="8.89" x2="-3.175" y2="-8.89" width="0.4064" layer="94"/>
+<wire x1="3.175" y1="-8.89" x2="3.175" y2="8.89" width="0.4064" layer="94"/>
+<wire x1="-3.175" y1="8.89" x2="3.175" y2="8.89" width="0.4064" layer="94"/>
+<text x="-3.175" y="-11.43" size="1.778" layer="96">&gt;VALUE</text>
+<text x="-3.175" y="9.652" size="1.778" layer="95">&gt;NAME</text>
+<pin name="4" x="6.985" y="1.27" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="5" x="6.985" y="3.81" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="6" x="6.985" y="6.35" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<wire x1="0.635" y1="-1.27" x2="1.905" y2="-1.27" width="0.6096" layer="94"/>
+<pin name="3" x="6.985" y="-1.27" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<wire x1="0.635" y1="-3.81" x2="1.905" y2="-3.81" width="0.6096" layer="94"/>
+<pin name="2" x="6.985" y="-3.81" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<wire x1="0.635" y1="-6.35" x2="1.905" y2="-6.35" width="0.6096" layer="94"/>
+<pin name="1" x="6.985" y="-6.35" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 </symbol>
 <symbol name="M02">
-<wire x1="3.81" y1="-2.54" x2="-2.54" y2="-2.54" width="0.4064" layer="94"/>
-<wire x1="1.27" y1="2.54" x2="2.54" y2="2.54" width="0.6096" layer="94"/>
-<wire x1="1.27" y1="0" x2="2.54" y2="0" width="0.6096" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="-2.54" y2="-2.54" width="0.4064" layer="94"/>
-<wire x1="3.81" y1="-2.54" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
-<text x="-2.54" y="-5.08" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-2.54" y="5.842" size="1.778" layer="95">&gt;NAME</text>
-<pin name="1" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="2" x="7.62" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<wire x1="3.175" y1="-3.81" x2="-3.175" y2="-3.81" width="0.4064" layer="94"/>
+<wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.6096" layer="94"/>
+<wire x1="0.635" y1="-1.27" x2="1.905" y2="-1.27" width="0.6096" layer="94"/>
+<wire x1="-3.175" y1="3.81" x2="-3.175" y2="-3.81" width="0.4064" layer="94"/>
+<wire x1="3.175" y1="-3.81" x2="3.175" y2="3.81" width="0.4064" layer="94"/>
+<wire x1="-3.175" y1="3.81" x2="3.175" y2="3.81" width="0.4064" layer="94"/>
+<text x="-3.175" y="-6.35" size="1.778" layer="96">&gt;VALUE</text>
+<text x="-3.175" y="4.572" size="1.778" layer="95">&gt;NAME</text>
+<pin name="1" x="6.985" y="-1.27" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="2" x="6.985" y="1.27" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 </symbol>
 <symbol name="LETTER_L">
 <wire x1="0" y1="185.42" x2="248.92" y2="185.42" width="0.4064" layer="94"/>
@@ -2253,7 +2289,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <deviceset name="XT60CONNECTOR">
 <description>12V XT60 power connector</description>
 <gates>
-<gate name="G$1" symbol="XT60CONNECTOR" x="10.16" y="0"/>
+<gate name="G$1" symbol="XT60CONNECTOR" x="-7.62" y="-3.81"/>
 </gates>
 <devices>
 <device name="" package="XT60CONNECTOR">
@@ -2270,8 +2306,9 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 </devices>
 </deviceset>
 <deviceset name="M06">
+<description>6-pin 0.1-inch MTA connector</description>
 <gates>
-<gate name="G$1" symbol="M06" x="0" y="0"/>
+<gate name="G$1" symbol="M06" x="2.54" y="1.27"/>
 </gates>
 <devices>
 <device name="" package="1X06-MTA">
@@ -2292,10 +2329,9 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 </devices>
 </deviceset>
 <deviceset name="M02" prefix="JP" uservalue="yes">
-<description>&lt;b&gt;Header 2&lt;/b&gt;
-Standard 2-pin 0.1" header. Use with straight break away headers (SKU : PRT-00116), right angle break away headers (PRT-00553), swiss pins (PRT-00743), machine pins (PRT-00117), and female headers (PRT-00115). Molex polarized connector foot print use with SKU : PRT-08233 with associated crimp pins and housings.</description>
+<description>2-pin 0.1-inch header and MTA connector</description>
 <gates>
-<gate name="G$1" symbol="M02" x="-2.54" y="0"/>
+<gate name="G$1" symbol="M02" x="0" y="-1.27"/>
 </gates>
 <devices>
 <device name="PTH" package="1X02">
@@ -2336,6 +2372,7 @@ Standard 8.5x11 US Letter frame</description>
 </devices>
 </deviceset>
 <deviceset name="SN74HC02DBR">
+<description>Quad-NOR IC, SSOP14 Package, Part Number SN74HC02DBR</description>
 <gates>
 <gate name="G$1" symbol="QUADNOR" x="0" y="0"/>
 </gates>
@@ -3292,6 +3329,7 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </devices>
 </deviceset>
 <deviceset name="MOSFET-NCHANNEL" prefix="Q">
+<description>N-Type MOSFET, SOT23-3 Package</description>
 <gates>
 <gate name="G$1" symbol="MOSFET-NCHANNEL" x="0" y="0"/>
 </gates>
@@ -3336,14 +3374,14 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <part name="D3" library="pie" deviceset="DIODE" device="SMA-ALT"/>
 <part name="D4" library="pie" deviceset="DIODE" device="SMA-ALT"/>
 <part name="U$2" library="pie" deviceset="XT60CONNECTOR" device=""/>
-<part name="SOL" library="pie" deviceset="M06" device="" value=""/>
+<part name="WATSON" library="pie" deviceset="M06" device="" value=""/>
 <part name="S1" library="pie" deviceset="M02" device="1X02-MTA"/>
 <part name="S2" library="pie" deviceset="M02" device="1X02-MTA"/>
 <part name="S3" library="pie" deviceset="M02" device="1X02-MTA"/>
 <part name="S4" library="pie" deviceset="M02" device="1X02-MTA"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Sumita Ghosh, Sahar Mesri"/>
-<attribute name="REVISION" value="D"/>
+<attribute name="REVISION" value="E"/>
 </part>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
@@ -3365,6 +3403,10 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <sheets>
 <sheet>
 <plain>
+<text x="8.89" y="106.299" size="5.08" layer="91">Power</text>
+<text x="138.303" y="123.571" size="5.08" layer="91">Quad-NOR</text>
+<text x="204.089" y="122.936" size="5.08" layer="91">Watson</text>
+<text x="66.675" y="154.686" size="5.08" layer="91">MOSFETs</text>
 </plain>
 <instances>
 <instance part="R1" gate="G$1" x="91.44" y="139.7"/>
@@ -3387,12 +3429,12 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <instance part="D2" gate="G$1" x="66.04" y="124.46" rot="R180"/>
 <instance part="D3" gate="G$1" x="66.04" y="104.14" rot="R180"/>
 <instance part="D4" gate="G$1" x="66.04" y="83.82" rot="R180"/>
-<instance part="U$2" gate="G$1" x="12.7" y="101.6" rot="R270"/>
-<instance part="SOL" gate="G$1" x="215.9" y="109.22"/>
-<instance part="S1" gate="G$1" x="68.58" y="137.16" rot="R90"/>
-<instance part="S2" gate="G$1" x="68.58" y="114.3" rot="R90"/>
-<instance part="S3" gate="G$1" x="68.58" y="93.98" rot="R90"/>
-<instance part="S4" gate="G$1" x="68.58" y="73.66" rot="R90"/>
+<instance part="U$2" gate="G$1" x="12.7" y="93.98" rot="R270"/>
+<instance part="WATSON" gate="G$1" x="206.375" y="108.839"/>
+<instance part="S1" gate="G$1" x="67.31" y="137.795" rot="R90"/>
+<instance part="S2" gate="G$1" x="67.31" y="114.935" rot="R90"/>
+<instance part="S3" gate="G$1" x="67.31" y="94.615" rot="R90"/>
+<instance part="S4" gate="G$1" x="67.31" y="74.295" rot="R90"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0">
 <attribute name="REVISION" x="147.32" y="0" size="1.778" layer="96" display="off"/>
@@ -3406,10 +3448,10 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <instance part="R6" gate="G$1" x="99.06" y="111.76" rot="R180"/>
 <instance part="R7" gate="G$1" x="99.06" y="91.44" rot="R180"/>
 <instance part="R8" gate="G$1" x="99.06" y="71.12" rot="R180"/>
-<instance part="QUADNOR" gate="G$1" x="175.26" y="106.68"/>
+<instance part="QUADNOR" gate="G$1" x="156.21" y="108.458"/>
 <instance part="C1" gate="G$1" x="35.56" y="91.44"/>
-<instance part="C2" gate="G$1" x="236.22" y="109.22"/>
-<instance part="GND5" gate="1" x="236.22" y="104.14"/>
+<instance part="C2" gate="G$1" x="226.695" y="110.109"/>
+<instance part="GND5" gate="1" x="226.695" y="105.029"/>
 <instance part="GND6" gate="1" x="88.9" y="147.32" rot="R90"/>
 <instance part="GND7" gate="1" x="88.9" y="124.46" rot="R90"/>
 <instance part="GND8" gate="1" x="88.9" y="104.14" rot="R90"/>
@@ -3429,7 +3471,7 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </segment>
 <segment>
 <pinref part="C1" gate="G$1" pin="1"/>
-<wire x1="35.56" y1="96.52" x2="22.86" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="35.56" y1="96.52" x2="19.05" y2="96.52" width="0.1524" layer="91"/>
 <pinref part="U$2" gate="G$1" pin="12V"/>
 <label x="25.4" y="96.52" size="1.778" layer="95"/>
 </segment>
@@ -3510,8 +3552,8 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="1Y"/>
-<wire x1="162.56" y1="114.3" x2="157.48" y2="114.3" width="0.1524" layer="91"/>
-<label x="157.48" y="114.3" size="1.778" layer="95" rot="R180"/>
+<wire x1="143.51" y1="116.078" x2="138.43" y2="116.078" width="0.1524" layer="91"/>
+<label x="138.43" y="116.078" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="GATE3" class="0">
@@ -3522,8 +3564,8 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="3Y"/>
-<wire x1="187.96" y1="104.14" x2="193.04" y2="104.14" width="0.1524" layer="91"/>
-<label x="200.66" y="104.14" size="1.778" layer="95" rot="R180"/>
+<wire x1="168.91" y1="105.918" x2="173.99" y2="105.918" width="0.1524" layer="91"/>
+<label x="181.61" y="105.918" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="GATE4" class="0">
@@ -3534,8 +3576,8 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="4Y"/>
-<wire x1="187.96" y1="111.76" x2="193.04" y2="111.76" width="0.1524" layer="91"/>
-<label x="200.66" y="111.76" size="1.778" layer="95" rot="R180"/>
+<wire x1="168.91" y1="113.538" x2="173.99" y2="113.538" width="0.1524" layer="91"/>
+<label x="181.61" y="113.538" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="N$3" class="1">
@@ -3588,8 +3630,8 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="GND"/>
-<wire x1="162.56" y1="99.06" x2="157.48" y2="99.06" width="0.1524" layer="91"/>
-<label x="157.48" y="99.06" size="1.778" layer="95" rot="R180"/>
+<wire x1="143.51" y1="100.838" x2="138.43" y2="100.838" width="0.1524" layer="91"/>
+<label x="138.43" y="100.838" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="C2" gate="G$1" pin="2"/>
@@ -3597,7 +3639,7 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </segment>
 <segment>
 <pinref part="U$2" gate="G$1" pin="GND"/>
-<wire x1="22.86" y1="91.44" x2="30.48" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="19.05" y1="91.44" x2="30.48" y2="91.44" width="0.1524" layer="91"/>
 <label x="25.4" y="91.44" size="1.778" layer="95"/>
 <wire x1="30.48" y1="91.44" x2="30.48" y2="88.9" width="0.1524" layer="91"/>
 <pinref part="C1" gate="G$1" pin="2"/>
@@ -3635,42 +3677,42 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </net>
 <net name="IO61" class="0">
 <segment>
-<pinref part="SOL" gate="G$1" pin="5"/>
-<wire x1="220.98" y1="111.76" x2="228.6" y2="111.76" width="0.1524" layer="91"/>
-<label x="228.6" y="111.76" size="1.778" layer="95" rot="R180"/>
+<pinref part="WATSON" gate="G$1" pin="5"/>
+<wire x1="213.36" y1="112.649" x2="219.075" y2="112.649" width="0.1524" layer="91"/>
+<label x="219.075" y="112.649" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="1B"/>
-<wire x1="162.56" y1="109.22" x2="157.48" y2="109.22" width="0.1524" layer="91"/>
-<label x="157.48" y="109.22" size="1.778" layer="95" rot="R180"/>
+<wire x1="143.51" y1="110.998" x2="138.43" y2="110.998" width="0.1524" layer="91"/>
+<label x="138.43" y="110.998" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="2B"/>
-<wire x1="162.56" y1="101.6" x2="157.48" y2="101.6" width="0.1524" layer="91"/>
-<label x="157.48" y="101.6" size="1.778" layer="95" rot="R180"/>
+<wire x1="143.51" y1="103.378" x2="138.43" y2="103.378" width="0.1524" layer="91"/>
+<label x="138.43" y="103.378" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="3A"/>
-<wire x1="187.96" y1="99.06" x2="193.04" y2="99.06" width="0.1524" layer="91"/>
-<label x="198.12" y="99.06" size="1.778" layer="95" rot="R180"/>
+<wire x1="168.91" y1="100.838" x2="173.99" y2="100.838" width="0.1524" layer="91"/>
+<label x="179.07" y="100.838" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="4A"/>
-<wire x1="187.96" y1="106.68" x2="193.04" y2="106.68" width="0.1524" layer="91"/>
-<label x="198.12" y="106.68" size="1.778" layer="95" rot="R180"/>
+<wire x1="168.91" y1="108.458" x2="173.99" y2="108.458" width="0.1524" layer="91"/>
+<label x="179.07" y="108.458" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="VCC" class="0">
 <segment>
-<pinref part="SOL" gate="G$1" pin="6"/>
-<wire x1="220.98" y1="114.3" x2="236.22" y2="114.3" width="0.1524" layer="91"/>
-<label x="228.6" y="114.3" size="1.778" layer="95" rot="R180"/>
+<pinref part="WATSON" gate="G$1" pin="6"/>
+<wire x1="213.36" y1="115.189" x2="226.695" y2="115.189" width="0.1524" layer="91"/>
+<label x="219.075" y="115.189" size="1.778" layer="95" rot="R180"/>
 <pinref part="C2" gate="G$1" pin="1"/>
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="VCC"/>
-<wire x1="187.96" y1="114.3" x2="193.04" y2="114.3" width="0.1524" layer="91"/>
-<label x="198.12" y="114.3" size="1.778" layer="95" rot="R180"/>
+<wire x1="168.91" y1="116.078" x2="173.99" y2="116.078" width="0.1524" layer="91"/>
+<label x="179.07" y="116.078" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="GATE2" class="0">
@@ -3681,56 +3723,56 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="2Y"/>
-<wire x1="162.56" y1="106.68" x2="157.48" y2="106.68" width="0.1524" layer="91"/>
-<label x="157.48" y="106.68" size="1.778" layer="95" rot="R180"/>
+<wire x1="143.51" y1="108.458" x2="138.43" y2="108.458" width="0.1524" layer="91"/>
+<label x="138.43" y="108.458" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="IO65" class="0">
 <segment>
-<pinref part="SOL" gate="G$1" pin="4"/>
-<wire x1="220.98" y1="109.22" x2="228.6" y2="109.22" width="0.1524" layer="91"/>
-<label x="228.6" y="109.22" size="1.778" layer="95" rot="R180"/>
+<pinref part="WATSON" gate="G$1" pin="4"/>
+<wire x1="213.36" y1="110.109" x2="219.075" y2="110.109" width="0.1524" layer="91"/>
+<label x="219.075" y="110.109" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="4B"/>
-<wire x1="187.96" y1="109.22" x2="193.04" y2="109.22" width="0.1524" layer="91"/>
-<label x="198.12" y="109.22" size="1.778" layer="95" rot="R180"/>
+<wire x1="168.91" y1="110.998" x2="173.99" y2="110.998" width="0.1524" layer="91"/>
+<label x="179.07" y="110.998" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="IO21" class="0">
 <segment>
-<pinref part="SOL" gate="G$1" pin="3"/>
-<wire x1="220.98" y1="106.68" x2="228.6" y2="106.68" width="0.1524" layer="91"/>
-<label x="228.6" y="106.68" size="1.778" layer="95" rot="R180"/>
+<pinref part="WATSON" gate="G$1" pin="3"/>
+<wire x1="213.36" y1="107.569" x2="219.075" y2="107.569" width="0.1524" layer="91"/>
+<label x="219.075" y="107.569" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="3B"/>
-<wire x1="187.96" y1="101.6" x2="193.04" y2="101.6" width="0.1524" layer="91"/>
-<label x="198.12" y="101.6" size="1.778" layer="95" rot="R180"/>
+<wire x1="168.91" y1="103.378" x2="173.99" y2="103.378" width="0.1524" layer="91"/>
+<label x="179.07" y="103.378" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="IO63" class="0">
 <segment>
-<pinref part="SOL" gate="G$1" pin="2"/>
-<wire x1="220.98" y1="104.14" x2="228.6" y2="104.14" width="0.1524" layer="91"/>
-<label x="228.6" y="104.14" size="1.778" layer="95" rot="R180"/>
+<pinref part="WATSON" gate="G$1" pin="2"/>
+<wire x1="213.36" y1="105.029" x2="219.075" y2="105.029" width="0.1524" layer="91"/>
+<label x="219.075" y="105.029" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="2A"/>
-<wire x1="162.56" y1="104.14" x2="157.48" y2="104.14" width="0.1524" layer="91"/>
-<label x="157.48" y="104.14" size="1.778" layer="95" rot="R180"/>
+<wire x1="143.51" y1="105.918" x2="138.43" y2="105.918" width="0.1524" layer="91"/>
+<label x="138.43" y="105.918" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="IO64" class="0">
 <segment>
-<pinref part="SOL" gate="G$1" pin="1"/>
-<wire x1="220.98" y1="101.6" x2="228.6" y2="101.6" width="0.1524" layer="91"/>
-<label x="228.6" y="101.6" size="1.778" layer="95" rot="R180"/>
+<pinref part="WATSON" gate="G$1" pin="1"/>
+<wire x1="213.36" y1="102.489" x2="219.075" y2="102.489" width="0.1524" layer="91"/>
+<label x="219.075" y="102.489" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
 <pinref part="QUADNOR" gate="G$1" pin="1A"/>
-<wire x1="162.56" y1="111.76" x2="157.48" y2="111.76" width="0.1524" layer="91"/>
-<label x="157.48" y="111.76" size="1.778" layer="95" rot="R180"/>
+<wire x1="143.51" y1="113.538" x2="138.43" y2="113.538" width="0.1524" layer="91"/>
+<label x="138.43" y="113.538" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 </nets>
