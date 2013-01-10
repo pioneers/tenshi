@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -4804,7 +4804,7 @@ Source: 3M</description>
 <text x="67.31" y="163.83" size="6.4516" layer="100">Led and Vout</text>
 <text x="134.62" y="55.88" size="6.4516" layer="100">Power</text>
 <text x="185.42" y="68.58" size="6.4516" layer="100">Regulator</text>
-<text x="15.24" y="161.29" size="6.4516" layer="100">Watson</text>
+<text x="10.16" y="161.29" size="6.4516" layer="100">To Watson</text>
 <text x="13.97" y="34.29" size="6.4516" layer="100">Battery Buzzer</text>
 <text x="189.23" y="77.47" size="6.4516" layer="100">Voltage</text>
 <text x="99.06" y="26.67" size="6.4516" layer="100">Reset</text>

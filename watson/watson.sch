@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.005" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -3492,7 +3492,7 @@ Source: 3M</description>
 <text x="109.22" y="40.64" size="3.81" layer="91">RFID</text>
 <text x="193.04" y="71.12" size="3.81" layer="91">SIMPLE Extension</text>
 <text x="50.8" y="35.56" size="3.81" layer="91">Solenoid</text>
-<text x="14.859" y="141.986" size="3.81" layer="91">Sherlock</text>
+<text x="12.319" y="141.986" size="3.81" layer="91">To Sherlock</text>
 </plain>
 <instances>
 <instance part="A5" gate="G$1" x="57.404" y="98.171"/>
@@ -3524,9 +3524,18 @@ Source: 3M</description>
 <instance part="I2C1" gate="G$1" x="73.66" y="162.56"/>
 <instance part="I2C0" gate="G$1" x="60.96" y="162.56"/>
 <instance part="RFID" gate="G$1" x="114.3" y="25.4"/>
-<instance part="R1" gate="G$1" x="114.3" y="66.04"/>
-<instance part="R2" gate="G$1" x="101.6" y="63.5"/>
-<instance part="R3" gate="G$1" x="101.6" y="55.88"/>
+<instance part="R1" gate="G$1" x="106.68" y="66.04" smashed="yes">
+<attribute name="NAME" x="100.33" y="66.2686" size="1.778" layer="95"/>
+<attribute name="VALUE" x="114.3" y="68.072" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="R2" gate="G$1" x="96.52" y="63.5" smashed="yes">
+<attribute name="NAME" x="95.25" y="62.0014" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="96.52" y="60.198" size="1.778" layer="96"/>
+</instance>
+<instance part="R3" gate="G$1" x="86.36" y="68.58" smashed="yes">
+<attribute name="NAME" x="82.55" y="70.0786" size="1.778" layer="95"/>
+<attribute name="VALUE" x="91.44" y="71.882" size="1.778" layer="96" rot="R180"/>
+</instance>
 <instance part="SIMPLE" gate="G$1" x="190.5" y="58.42"/>
 <instance part="SOLENOID" gate="G$1" x="58.547" y="21.59"/>
 <instance part="R5" gate="G$1" x="220.98" y="60.96"/>
@@ -3658,10 +3667,9 @@ Source: 3M</description>
 </segment>
 <segment>
 <pinref part="SERVO" gate="G$1" pin="1"/>
-<wire x1="65.405" y1="60.96" x2="76.2" y2="60.96" width="0.1524" layer="91"/>
-<wire x1="76.2" y1="60.96" x2="76.2" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="65.405" y1="60.96" x2="71.12" y2="60.96" width="0.1524" layer="91"/>
 <junction x="65.405" y="60.96"/>
-<label x="76.2" y="50.8" size="1.778" layer="95"/>
+<label x="71.12" y="60.96" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="SIMPLE" gate="G$1" pin="1"/>
@@ -3739,9 +3747,9 @@ Source: 3M</description>
 </segment>
 <segment>
 <pinref part="R3" gate="G$1" pin="2"/>
-<junction x="106.68" y="55.88"/>
-<wire x1="106.68" y1="55.88" x2="124.46" y2="55.88" width="0.1524" layer="91"/>
-<label x="124.46" y="55.88" size="1.778" layer="95"/>
+<junction x="91.44" y="68.58"/>
+<wire x1="91.44" y1="68.58" x2="116.84" y2="68.58" width="0.1524" layer="91"/>
+<label x="116.84" y="68.58" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="I2C0" gate="G$1" pin="2"/>
@@ -3939,7 +3947,7 @@ Source: 3M</description>
 <segment>
 <pinref part="SERVO" gate="G$1" pin="5"/>
 <junction x="65.405" y="71.12"/>
-<wire x1="65.405" y1="71.12" x2="83.82" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="65.405" y1="71.12" x2="71.12" y2="71.12" width="0.1524" layer="91"/>
 <label x="71.12" y="71.12" size="1.778" layer="95"/>
 </segment>
 </net>
@@ -3952,9 +3960,9 @@ Source: 3M</description>
 </segment>
 <segment>
 <pinref part="R2" gate="G$1" pin="2"/>
-<junction x="106.68" y="63.5"/>
-<wire x1="106.68" y1="63.5" x2="124.46" y2="63.5" width="0.1524" layer="91"/>
-<label x="124.46" y="63.5" size="1.778" layer="95"/>
+<junction x="101.6" y="63.5"/>
+<wire x1="101.6" y1="63.5" x2="116.84" y2="63.5" width="0.1524" layer="91"/>
+<label x="116.84" y="63.5" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="+5V" class="0">
@@ -3966,7 +3974,7 @@ Source: 3M</description>
 </segment>
 <segment>
 <pinref part="SERVO" gate="G$1" pin="2"/>
-<wire x1="65.405" y1="63.5" x2="83.82" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="65.405" y1="63.5" x2="71.12" y2="63.5" width="0.1524" layer="91"/>
 <junction x="65.405" y="63.5"/>
 <label x="71.12" y="63.5" size="1.778" layer="95"/>
 </segment>
@@ -4274,15 +4282,13 @@ Source: 3M</description>
 <net name="N$1" class="0">
 <segment>
 <pinref part="R2" gate="G$1" pin="1"/>
-<wire x1="91.44" y1="63.5" x2="96.52" y2="63.5" width="0.1524" layer="91"/>
-<wire x1="91.44" y1="63.5" x2="91.44" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="63.5" x2="91.44" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="R3" gate="G$1" pin="1"/>
-<wire x1="91.44" y1="55.88" x2="96.52" y2="55.88" width="0.1524" layer="91"/>
-<junction x="96.52" y="55.88"/>
-<junction x="96.52" y="63.5"/>
+<junction x="81.28" y="68.58"/>
+<junction x="91.44" y="63.5"/>
 <pinref part="SERVO" gate="G$1" pin="4"/>
-<wire x1="65.405" y1="68.58" x2="91.44" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="91.44" y1="68.58" x2="91.44" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="65.405" y1="68.58" x2="81.28" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="68.58" x2="81.28" y2="63.5" width="0.1524" layer="91"/>
 <junction x="65.405" y="68.58"/>
 </segment>
 </net>
@@ -4290,8 +4296,8 @@ Source: 3M</description>
 <segment>
 <pinref part="SERVO" gate="G$1" pin="3"/>
 <pinref part="R1" gate="G$1" pin="1"/>
-<wire x1="65.405" y1="66.04" x2="109.22" y2="66.04" width="0.1524" layer="91"/>
-<junction x="109.22" y="66.04"/>
+<wire x1="65.405" y1="66.04" x2="101.6" y2="66.04" width="0.1524" layer="91"/>
+<junction x="101.6" y="66.04"/>
 <junction x="65.405" y="66.04"/>
 </segment>
 </net>
@@ -4348,9 +4354,9 @@ Source: 3M</description>
 </segment>
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
-<junction x="119.38" y="66.04"/>
-<wire x1="119.38" y1="66.04" x2="124.46" y2="66.04" width="0.1524" layer="91"/>
-<label x="124.46" y="66.04" size="1.778" layer="95"/>
+<junction x="111.76" y="66.04"/>
+<wire x1="111.76" y1="66.04" x2="116.84" y2="66.04" width="0.1524" layer="91"/>
+<label x="116.84" y="66.04" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>

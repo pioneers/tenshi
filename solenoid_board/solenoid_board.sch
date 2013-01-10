@@ -3405,7 +3405,7 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <plain>
 <text x="8.89" y="106.299" size="5.08" layer="91">Power</text>
 <text x="138.303" y="123.571" size="5.08" layer="91">Quad-NOR</text>
-<text x="204.089" y="122.936" size="5.08" layer="91">Watson</text>
+<text x="199.009" y="122.936" size="5.08" layer="91">To Watson</text>
 <text x="66.675" y="154.686" size="5.08" layer="91">MOSFETs</text>
 </plain>
 <instances>
