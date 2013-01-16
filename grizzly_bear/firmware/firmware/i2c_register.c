@@ -19,6 +19,7 @@
 #include "adc.h"
 #include "control_loop.h"
 #include "encoder.h"
+#include "pid.h"
 #include "gitrevision.h"
 
 // This is a temp so that it can be changed all at once (not byte at a time).
@@ -61,6 +62,9 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
   AUTO_PROVIDE_REG(REG_ERROR_COUNT, REG_ERROR_COUNT_TYPE, error_count);
   AUTO_PROVIDE_REG(REG_ENCODER_COUNT, REG_ENCODER_COUNT_TYPE,
       get_encoder_count_dangerous());
+  AUTO_PROVIDE_REG(REG_PID_KP, REG_PID_KP_TYPE, get_kp_dangerous());
+  AUTO_PROVIDE_REG(REG_PID_KI, REG_PID_KI_TYPE, get_ki_dangerous());
+  AUTO_PROVIDE_REG(REG_PID_KD, REG_PID_KD_TYPE, get_kd_dangerous());
   // special
   if (reg >= REG_REVISION && reg < (REG_REVISION + REG_REVISION_LEN))
     return ((unsigned char *)REVISION)[reg - REG_REVISION];
@@ -97,6 +101,9 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val) {
   AUTO_SET_REG(REG_PWM_MODE, REG_PWM_MODE_TYPE, &pwm_mode_new);
   AUTO_SET_REG(REG_TARGET_SPEED_NEW, REG_TARGET_SPEED_NEW_TYPE,
       &target_speed_new);
+  AUTO_SET_REG(REG_PID_KP, REG_PID_KP_TYPE, get_kp_addr());
+  AUTO_SET_REG(REG_PID_KI, REG_PID_KI_TYPE, get_ki_addr());
+  AUTO_SET_REG(REG_PID_KD, REG_PID_KD_TYPE, get_kd_addr());
   AUTO_SET_REG(REG_ILIMIT_ADC_THRESH, REG_ILIMIT_ADC_THRESH_TYPE,
       get_current_limit_adc_threshold_addr());
   AUTO_SET_REG(REG_ILIMIT_CLAMP_PWM, REG_ILIMIT_CLAMP_PWM_TYPE,

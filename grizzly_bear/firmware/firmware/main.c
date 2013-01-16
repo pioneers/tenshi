@@ -29,6 +29,7 @@
 #include "encoder.h"
 #include "led.h"
 #include "pindef.h"
+#include "pid.h"
 #include "pwm.h"
 #include "twi_state_machine.h"
 
@@ -283,12 +284,16 @@ static inline int raw_mode_logic(FIXED1616 target_speed) {
 
 // plain speed mode logic. fwd is always written and is an output parameter.
 // returns pwm_val
-static inline int no_pid_mode_logic(FIXED1616 target_speed) {
+static inline int speed_to_pwm(FIXED1616 target_speed) {
   int pwm_val;
 
   pwm_val = fixed_to_int(fixed_mult(target_speed, SPEED_TO_PWM_VAL_CONST));
 
   return pwm_val;
+}
+
+static inline int no_pid_mode_logic(FIXED1616 target_speed) {
+  return speed_to_pwm(target_speed);
 }
 
 static inline void check_timeout() {
@@ -374,7 +379,7 @@ void run_control_loop(void) {
         break;
 
       case MODE_SPEED_PID:
-        // TODO(rqou)
+        pwm_val = do_pid_loop(target_speed_copy);
         break;
 
       default:
