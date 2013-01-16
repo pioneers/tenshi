@@ -5,6 +5,7 @@ INCLUDESDIR = includes
 BINDIR = programs
 
 DEVICE=atmega32u4
+CPUFREQ=16000000
 
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 #when make in run in toplevel directory
@@ -16,9 +17,12 @@ export EXTRA_LIBS = -lm
 
 export TOPDIR = $(CURDIR)
 
-export CFLAGS += -gdwarf-2 -Wall -Os -mmcu=$(DEVICE) -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -std=gnu99
+#hack for LUFA headers
+export INCLUDES = $(TOPDIR)/$(LIBSDIR)
+
+export CFLAGS += -gdwarf-2 -Wall -Os -mmcu=$(DEVICE) -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -std=gnu99 -ffunction-sections -fdata-sections -DF_CPU=$(CPUFREQ) -DUSE_LUFA_CONFIG_HEADER
 export ASFLAGS += -gdwarf-2 -Wall -mmcu=$(DEVICE)
-export LDFLAGS += -gdwarf-2 -Wall -mmcu=$(DEVICE)
+export LDFLAGS += -gdwarf-2 -Wall -mmcu=$(DEVICE) -Wl,--gc-sections
 
 .PHONY:	all clean $(BUILD)
 
@@ -41,12 +45,12 @@ $(LIBSDIR):	$(LIBSDIR)/$1.a
 $(LIBSDIR)/$1.a:	$(LIBSDIR)/$1/$1.a
 	$$(SILENT)[ -d $$(WHERE) ] || mkdir -p $$(WHERE)
 	$$(SILENT)cp $$< $$@
-$(LIBSDIR)/$1/$1.a:	$$(subst .asm,.o,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$$(LIBSDIR)/$1/*.asm))) $$(subst .c,.o,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$$(LIBSDIR)/$1/*.c))) $$(subst .S,.o,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$$(LIBSDIR)/$1/*.S))) $$(subst .s,.o,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$$(LIBSDIR)/$1/*.s)))
+$(LIBSDIR)/$1/$1.a:	$$(subst .asm,.o,$$(subst .c,.o,$$(subst .S,.o,$$(subst .s,.o,$$(subst $$(TOPDIR)/,,$$(shell find $$(TOPDIR)/$$(LIBSDIR)/$1 -type f -name '*.asm' -o -name '*.c' -o -name '*.S' -o -name '*.s'))))))
 	@echo $$(notdir $$@)
 	$$(SILENT)[ -d $$(WHERE) ] || mkdir -p $$(WHERE)
 	$$(SILENT)rm -f $$@
 	$$(SILENT)$$(AR) cr $$@ $$^
--include $$(subst .asm,.P,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$$(LIBSDIR)/$1/*.asm))) $$(subst .c,.P,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$$(LIBSDIR)/$1/*.c))) $$(subst .S,.P,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$$(LIBSDIR)/$1/*.S)))
+-include $$(subst .asm,.P,$$(subst .c,.P,$$(subst .S,.P,$$(subst $$(TOPDIR)/,,$$(shell find $$(TOPDIR)/$$(LIBSDIR)/$1 -type f -name '*.asm' -o -name '*.c' -o -name '*.S' -o -name '*.s')))))
 endef
 
 # $(eval $(call build-program,name,deps))
@@ -60,10 +64,10 @@ $(BINDIR)/$1.hex:	$1/$1.hex
 $(BINDIR)/$1.lst:	$1/$1.lst
 	$$(SILENT)[ -d $$(WHERE) ] || mkdir -p $$(WHERE)
 	$$(SILENT)cp $$< $$@
-$1/$1.elf:	$$(subst .asm,.o,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$1/*.asm))) $$(subst .c,.o,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$1/*.c))) $$(subst .S,.o,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$1/*.S))) $$(subst .s,.o,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$1/*.s)))
+$1/$1.elf:	$$(subst .asm,.o,$$(subst .c,.o,$$(subst .S,.o,$$(subst .s,.o,$$(subst $$(TOPDIR)/,,$$(shell find $$(TOPDIR)/$1 -type f -name '*.asm' -o -name '*.c' -o -name '*.S' -o -name '*.s'))))))
 $1/$1.lst:	$1/$1.elf
 $1/$1.elf:	$2
--include $$(subst .asm,.P,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$1/*.asm))) $$(subst .c,.P,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$1/*.c))) $$(subst .S,.P,$$(subst $$(TOPDIR)/,,$$(wildcard $$(TOPDIR)/$1/*.S)))
+-include $$(subst .asm,.P,$$(subst .c,.P,$$(subst .S,.P,$$(subst $$(TOPDIR)/,,$$(shell find $$(TOPDIR)/$1 -type f -name '*.asm' -o -name '*.c' -o -name '*.S' -o -name '*.s')))))
 endef
 
 # $(eval $(call copy-file,path)
@@ -110,8 +114,9 @@ $(BINDIR):
 
 $(BINDIR):	$(LIBSDIR) $(INCLUDESDIR)
 
-$(eval $(call build-program,firmware,libs/avrfixedmath.a))
+$(eval $(call build-program,firmware,libs/avrfixedmath.a libs/LUFA.a))
 $(eval $(call build-library,avrfixedmath))
+$(eval $(call build-library,LUFA))
 
 #special logic for gitrevision.c
 firmware/firmware.elf: firmware/gitrevision.o

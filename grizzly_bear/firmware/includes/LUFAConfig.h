@@ -1,0 +1,19 @@
+#ifndef LUFACONFIG_H_
+#define LUFACONFIG_H_
+
+#define F_USB F_CPU
+#define ARCH ARCH_AVR8
+
+#define USB_DEVICE_ONLY
+
+// Use interrupts for USB
+#define INTERRUPT_CONTROL_ENDPOINT
+
+// Default USB_Init settings
+#define USE_STATIC_OPTIONS \
+  (USB_DEVICE_OPT_FULLSPEED | USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL)
+
+#define FIXED_CONTROL_ENDPOINT_SIZE   16
+#define FIXED_NUM_CONFIGURATIONS      1
+
+#endif

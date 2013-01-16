@@ -45,7 +45,7 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
       get_encoder_count_dangerous());
   // special
   if (reg >= REG_REVISION && reg < (REG_REVISION + REG_REVISION_LEN))
-    return ((unsigned char *)REVISION)[reg-REG_REVISION];
+    return ((unsigned char *)REVISION)[reg - REG_REVISION];
   AUTO_PROVIDE_REG(REG_ILIMIT_ADC_THRESH, REG_ILIMIT_ADC_THRESH_TYPE,
       get_current_limit_adc_threshold_dangerous());
   AUTO_PROVIDE_REG(REG_ILIMIT_CLAMP_PWM, REG_ILIMIT_CLAMP_PWM_TYPE,

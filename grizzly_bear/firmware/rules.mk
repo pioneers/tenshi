@@ -29,7 +29,7 @@ WHERE = $(dir $@)
 %.lst:	%.elf
 	@echo $(notdir $@)
 	$(SILENT)[ -d $(WHERE) ] || mkdir -p $(WHERE)
-	$(SILENT)avr-objdump -h -S $< > $@
+	$(SILENT)$(OBJDUMP) -h -S $< > $@
 
 %.elf:
 	@echo $(notdir $@)

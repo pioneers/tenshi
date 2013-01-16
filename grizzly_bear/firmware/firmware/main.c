@@ -5,6 +5,7 @@
 #include <util/atomic.h>
 
 #include "avr-fixed.h"
+#include "LUFA/Drivers/USB/USB.h"
 
 #include "adc.h"
 #include "addr_jumper.h"
@@ -312,6 +313,8 @@ void init_hardware(void) {
   init_pwm();
   init_control_loop();
   init_led();
+
+  USB_Init();
 }
 
 int main(void) {
