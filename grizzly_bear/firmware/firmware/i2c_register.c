@@ -60,6 +60,8 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
       get_current_limit_ratio_max_use_dangerous());
   AUTO_PROVIDE_REG(REG_ACCEL_LIMIT, REG_ACCEL_LIMIT_TYPE,
       get_max_acceleration_dangerous());
+  AUTO_PROVIDE_REG(REG_UPTIME, REG_UPTIME_TYPE,
+      get_uptime_dangerous());
 
   return UNUSED_REG_VAL;
 }

@@ -45,6 +45,8 @@ DECLARE_I2C_REGISTER(unsigned char, current_limit_ratio_numerator);
 DECLARE_I2C_REGISTER(unsigned char, current_limit_ratio_denominator);
 DECLARE_I2C_REGISTER(unsigned int, current_limit_ratio_max_use);
 
+DECLARE_I2C_REGISTER(unsigned long, uptime);
+
 // Called to configure control loop internal state on startup.
 extern void init_control_loop(void);
 // Called to update control loop.

@@ -52,6 +52,8 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val);
 #define REG_ILIMIT_RATIO_MAX_USE_TYPE uint16_t
 #define REG_ACCEL_LIMIT               0x90
 #define REG_ACCEL_LIMIT_TYPE          int16_t
+#define REG_UPTIME                    0x94
+#define REG_UPTIME_TYPE               uint32_t
 
 // This value is returned when reading a register that is not defined.
 #define UNUSED_REG_VAL  0xFF

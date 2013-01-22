@@ -8,7 +8,7 @@
 DECLARE_I2C_REGISTER_C(int32_t, encoder_count);
 
 void init_encoder() {
-  DDRB &= ~(_BV(PINDEF_ENCA) | _BV(PINDEF_ENCB));
+  DDR(PINDEF_ENCA) &= ~(_BV(IO(PINDEF_ENCA)) | _BV(IO(PINDEF_ENCB)));
   // Init is called before interrupts are enabled.
   set_encoder_count_dangerous(0);
   // Set up interrupt.
@@ -54,11 +54,13 @@ const signed char encoder_transition_table[] = {
 // This gets called every time one of pin A or pin B changes
 // (but you don't know which).
 ISR(PCINT0_vect) {
-  unsigned char PINB_copy = PINB;
+  unsigned char ioport_copy = PIN(PINDEF_ENCA);
   static unsigned char old_state = 0;
-  unsigned char new_state =
-    ((!!(PINB_copy & _BV(PINDEF_ENCA))) << 1)
-    | (!!(PINB_copy & _BV(PINDEF_ENCB)));
+  unsigned char new_state = 0;
+  if (ioport_copy & _BV(IO(PINDEF_ENCA)))
+    new_state |= 0b10;
+  if (ioport_copy & _BV(IO(PINDEF_ENCB)))
+    new_state |= 0b01;
   set_encoder_count_dangerous(get_encoder_count_dangerous() +
       encoder_transition_table[old_state << 2 | new_state]);
   old_state = new_state;

@@ -9,7 +9,7 @@
 void init_pwm(void) {
   // Keep high side driver in reset.
   driver_enable(0);
-  DDRE |= _BV(PINDEF_HIGHSIDEENABLE);
+  DDR(PINDEF_HIGHSIDEENABLE) |= _BV(IO(PINDEF_HIGHSIDEENABLE));
 
   // dead time
   DT4 = 0;
@@ -43,10 +43,10 @@ void init_pwm(void) {
 
 void driver_enable(unsigned char enable) {
   if (enable)
-    PORTE |= _BV(PINDEF_HIGHSIDEENABLE);
+    PORT(PINDEF_HIGHSIDEENABLE) |= _BV(IO(PINDEF_HIGHSIDEENABLE));
   else {
     // Reset high side driver.
-    PORTE &= ~(_BV(PINDEF_HIGHSIDEENABLE));
+    PORT(PINDEF_HIGHSIDEENABLE) &= ~(_BV(IO(PINDEF_HIGHSIDEENABLE)));
 
     // Configure pins as outputs, 0 by default.
     PORTB &= ~(_BV(PB5) | _BV(PB6));
@@ -68,13 +68,6 @@ void set_pwm_val(unsigned int val) {
 }
 
 void set_sign_magnitude_go_brake_fwd(void) {
-#ifdef REV_A
-  // Fix side b to have top off and bottom on.
-  PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
-  // Connect side a to pwm.
-  TCCR4A = _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
-#endif
-#if defined(REV_B) || defined(REV_C)
   // Fix side b to have top off and bottom on.
   PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
   // Clear the other output.
@@ -87,17 +80,9 @@ void set_sign_magnitude_go_brake_fwd(void) {
   TCCR4B |= _BV(PWM4X);
   // Connect side a to pwm.
   TCCR4A = _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
-#endif
 }
 
 void set_sign_magnitude_go_brake_bck(void) {
-#ifdef REV_A
-  // Fix side a to have top off and bottom on.
-  PORTB = (PORTB & ~(_BV(PB6))) | _BV(PB5);
-  // Connect side b to pwm.
-  TCCR4A = _BV(COM4A0) | _BV(PWM4A) | _BV(PWM4B);
-#endif
-#if defined(REV_B) || defined(REV_C)
   // Fix side a to have top off and bottom on.
   PORTB = (PORTB & ~(_BV(PB5))) | _BV(PB6);
   // Clear the other output.
@@ -109,19 +94,9 @@ void set_sign_magnitude_go_brake_bck(void) {
   TCCR4B &= ~(_BV(PWM4X));
   // Connect side b to pwm.
   TCCR4A = _BV(COM4A0) | _BV(PWM4A) | _BV(PWM4B);
-#endif
 }
 
 void set_sign_magnitude_go_coast_fwd(void) {
-#ifdef REV_A
-  // Fix side b to have top off and bottom on.
-  PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
-  // Clear the other output.
-  PORTB &= ~(_BV(PB5) | _BV(PB6));
-  // Connect side a HIGH ONLY to pwm.
-  TCCR4A = _BV(COM4B1) | _BV(PWM4A) | _BV(PWM4B);
-#endif
-#if defined(REV_B) || defined(REV_C)
   // Fix side b to have top off and bottom on.
   PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
   // Clear the other output.
@@ -134,19 +109,9 @@ void set_sign_magnitude_go_coast_fwd(void) {
   TCCR4B |= _BV(PWM4X);
   // Connect side a to pwm.
   TCCR4A = _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
-#endif
 }
 
 void set_sign_magnitude_go_coast_bck(void) {
-#ifdef REV_A
-  // Fix side a to have top off and bottom on.
-  PORTB = (PORTB & ~(_BV(PB6))) | _BV(PB5);
-  // Clear the other output.
-  PORTC &= ~(_BV(PC6) | _BV(PC7));
-  // Connect side b HIGH ONLY to pwm.
-  TCCR4A = _BV(COM4A1) | _BV(PWM4A) | _BV(PWM4B);
-#endif
-#if defined(REV_B) || defined(REV_C)
   // Fix side a to have top off and bottom on.
   PORTB = (PORTB & ~(_BV(PB5))) | _BV(PB6);
   // Clear the other output.
@@ -158,11 +123,9 @@ void set_sign_magnitude_go_coast_bck(void) {
   TCCR4B &= ~(_BV(PWM4X));
   // Connect side b HIGH ONLY to pwm.
   TCCR4A = _BV(COM4A1) | _BV(PWM4A) | _BV(PWM4B);
-#endif
 }
 
 void set_locked_antiphase(void) {
-#if defined(REV_B) || defined(REV_C)
   // Make all outputs
   DDRB |= (_BV(PB5) | _BV(PB6));
   DDRC |= (_BV(PC6) | _BV(PC7));
@@ -170,5 +133,4 @@ void set_locked_antiphase(void) {
   TCCR4B |= _BV(PWM4X);
   // Connect side a and side b to pwm.
   TCCR4A = _BV(COM4A0) | _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
-#endif
 }

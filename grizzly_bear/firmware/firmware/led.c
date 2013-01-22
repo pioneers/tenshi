@@ -6,24 +6,25 @@
 
 void init_led() {
   // Set the the green and red led pins to output.
-  LED_PORT_MODE |= _BV(PINDEF_LEDGRN) | _BV(PINDEF_LEDRED);
+  DDR(PINDEF_LEDGRN) |= _BV(IO(PINDEF_LEDGRN));
+  DDR(PINDEF_LEDRED) |= _BV(IO(PINDEF_LEDRED));
 }
 
 void set_green_led(unsigned char on) {
   if (on) {
-    LED_PORT |= _BV(PINDEF_LEDGRN);
+    PORT(PINDEF_LEDGRN) |= _BV(IO(PINDEF_LEDGRN));
   }
   else {
-    LED_PORT &= ~(_BV(PINDEF_LEDGRN));
+    PORT(PINDEF_LEDRED) &= ~(_BV(IO(PINDEF_LEDGRN)));
   }
 }
 
 void set_red_led(unsigned char on) {
   if (on) {
-    LED_PORT |= _BV(PINDEF_LEDRED);
+    PORT(PINDEF_LEDGRN) |= _BV(IO(PINDEF_LEDRED));
   }
   else {
-    LED_PORT &= ~(_BV(PINDEF_LEDRED));
+    PORT(PINDEF_LEDRED) &= ~(_BV(IO(PINDEF_LEDRED)));
   }
 }
 

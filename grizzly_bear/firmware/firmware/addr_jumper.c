@@ -6,12 +6,19 @@
 
 static void all_off(void) {
   // Enable all the pull ups, all set as inputs.
-  DDRD &= ~(_BV(PINDEF_DIP4));
-  DDRF &= ~(_BV(PINDEF_DIP1) | _BV(PINDEF_DIP2) | _BV(PINDEF_DIP3)
-      | _BV(PINDEF_DIP5) | _BV(PINDEF_DIP6));
-  PORTD |= (_BV(PINDEF_DIP4));
-  PORTF |= (_BV(PINDEF_DIP1) | _BV(PINDEF_DIP2) | _BV(PINDEF_DIP3)
-      | _BV(PINDEF_DIP5) | _BV(PINDEF_DIP6));
+  DDR(PINDEF_DIP1) &= ~(_BV(IO(PINDEF_DIP1)));
+  DDR(PINDEF_DIP2) &= ~(_BV(IO(PINDEF_DIP2)));
+  DDR(PINDEF_DIP3) &= ~(_BV(IO(PINDEF_DIP3)));
+  DDR(PINDEF_DIP4) &= ~(_BV(IO(PINDEF_DIP4)));
+  DDR(PINDEF_DIP5) &= ~(_BV(IO(PINDEF_DIP5)));
+  DDR(PINDEF_DIP6) &= ~(_BV(IO(PINDEF_DIP6)));
+
+  PORT(PINDEF_DIP1) |= (_BV(IO(PINDEF_DIP1)));
+  PORT(PINDEF_DIP2) |= (_BV(IO(PINDEF_DIP2)));
+  PORT(PINDEF_DIP3) |= (_BV(IO(PINDEF_DIP3)));
+  PORT(PINDEF_DIP4) |= (_BV(IO(PINDEF_DIP4)));
+  PORT(PINDEF_DIP5) |= (_BV(IO(PINDEF_DIP5)));
+  PORT(PINDEF_DIP6) |= (_BV(IO(PINDEF_DIP6)));
 }
 
 // This is needed because one clock cycle is not always enough for the pin
@@ -29,46 +36,46 @@ static inline void short_delay(void) {
 unsigned char determine_addr(void) {
   // Configure pin 5 (top left) as output, set it to 0.
   all_off();
-  DDRF |= _BV(PINDEF_DIP5);
-  PORTF &= ~(_BV(PINDEF_DIP5));
+  DDR(PINDEF_DIP5) |= _BV(IO(PINDEF_DIP5));
+  PORT(PINDEF_DIP5) &= ~(_BV(IO(PINDEF_DIP5)));
 
   short_delay();
 
-  if (!(PINF & _BV(PINDEF_DIP6))) {
+  if (!(PIN(PINDEF_DIP6) & _BV(IO(PINDEF_DIP6)))) {
     all_off();
     return ADDR_COMBO_1;
   }
-  if (!(PINF & _BV(PINDEF_DIP3))) {
+  if (!(PIN(PINDEF_DIP3) & _BV(IO(PINDEF_DIP3)))) {
     all_off();
     return ADDR_COMBO_4;
   }
   // Configure pin 4 (bottom middle) as output, set it to 0
   all_off();
-  DDRD |= _BV(PINDEF_DIP4);
-  PORTD &= ~(_BV(PINDEF_DIP4));
+  DDR(PINDEF_DIP4) |= _BV(IO(PINDEF_DIP4));
+  PORT(PINDEF_DIP4) &= ~(_BV(IO(PINDEF_DIP4)));
 
   short_delay();
 
-  if (!(PINF & _BV(PINDEF_DIP3))) {
+  if (!(PIN(PINDEF_DIP3) & _BV(IO(PINDEF_DIP3)))) {
     all_off();
     return ADDR_COMBO_2;
   }
-  if (!(PINF & _BV(PINDEF_DIP6))) {
+  if (!(PIN(PINDEF_DIP6) & _BV(IO(PINDEF_DIP6)))) {
     all_off();
     return ADDR_COMBO_5;
   }
   // Configure pin 1 (top right) as output, set it to 0.
   all_off();
-  DDRF |= _BV(PINDEF_DIP1);
-  PORTF &= ~(_BV(PINDEF_DIP1));
+  DDR(PINDEF_DIP1) |= _BV(IO(PINDEF_DIP1));
+  PORT(PINDEF_DIP1) &= ~(_BV(IO(PINDEF_DIP1)));
 
   short_delay();
 
-  if (!(PINF & _BV(PINDEF_DIP2))) {
+  if (!(PIN(PINDEF_DIP2) & _BV(IO(PINDEF_DIP2)))) {
     all_off();
     return ADDR_COMBO_3;
   }
-  if (!(PINF & _BV(PINDEF_DIP3))) {
+  if (!(PIN(PINDEF_DIP3) & _BV(IO(PINDEF_DIP3)))) {
     all_off();
     return ADDR_COMBO_6;
   }

@@ -27,6 +27,8 @@ DECLARE_I2C_REGISTER_C(unsigned char, current_limit_ratio_numerator);
 DECLARE_I2C_REGISTER_C(unsigned char, current_limit_ratio_denominator);
 DECLARE_I2C_REGISTER_C(unsigned int, current_limit_ratio_max_use);
 
+DECLARE_I2C_REGISTER_C(unsigned long, uptime);
+
 // State variables
 static uint16_t current_limit_spike_use = 0;
 static unsigned char current_limit_is_clamping;
@@ -237,6 +239,9 @@ void run_control_loop(void) {
 
   FIXED1616 target_speed_copy;
   unsigned char pwm_mode_copy;
+
+  // For testing
+  set_uptime(get_uptime() + 1);
 
   // We need to manually copy these as one block since they go together
   ATOMIC_BLOCK(ATOMIC_FORCEON) {
