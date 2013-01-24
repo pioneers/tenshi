@@ -113,9 +113,9 @@
 <wire x1="67.244" y1="2.39" x2="67.244" y2="42.34" width="0" layer="20"/>
 <wire x1="67.244" y1="42.34" x2="7.9" y2="42.34" width="0" layer="22"/>
 <wire x1="7.9" y1="42.34" x2="7.9" y2="2.39" width="0" layer="20"/>
-<text x="47.85" y="19.06" size="0.8128" layer="22" font="vector" ratio="20" rot="R90">PiE Robotics</text>
-<text x="49.39" y="18.94" size="0.8128" layer="22" font="vector" ratio="20" rot="R90">Buck Switching Regulator</text>
-<text x="51.03" y="19.03" size="0.8128" layer="22" font="vector" ratio="20" rot="R90">Vin12, Vout6, Imax10</text>
+<text x="52.85" y="19.06" size="0.8128" layer="22" font="vector" ratio="20" rot="MR90">PiE Robotics</text>
+<text x="51.39" y="18.94" size="0.8128" layer="22" font="vector" ratio="20" rot="MR90">Buck Switching Regulator</text>
+<text x="50.03" y="19.03" size="0.8128" layer="22" font="vector" ratio="20" rot="MR90">Vin12, Vout6, Imax10</text>
 <wire x1="67.244" y1="2.39" x2="7.9" y2="2.39" width="0" layer="20"/>
 <wire x1="39.13" y1="42.35" x2="67.13" y2="42.35" width="0.254" layer="26"/>
 <wire x1="39.13" y1="12.505" x2="39.13" y2="42.305" width="0.254" layer="25"/>
@@ -130,7 +130,7 @@
 <text x="32.7" y="11.6" size="0.889" layer="21" font="vector" ratio="20" rot="R90">RX</text>
 <text x="9.5" y="7.9" size="1.016" layer="21" font="vector" ratio="20" rot="R90">GND</text>
 <text x="9.6" y="14.8" size="1.016" layer="21" font="vector" ratio="20" rot="R90">12V</text>
-<text x="52.7" y="19" size="0.8128" layer="22" font="vector" ratio="20" rot="R90">Version 1 : Revision E</text>
+<text x="48.7" y="19" size="0.8128" layer="22" font="vector" ratio="20" rot="MR90">Version 1 : Revision E</text>
 <text x="58.7" y="17" size="1.016" layer="21" font="vector" ratio="20" rot="R180">GND</text>
 <text x="58.5" y="14.3" size="1.016" layer="21" font="vector" ratio="20" rot="R180">6V</text>
 <text x="64.46" y="3.595" size="1.016" layer="21" font="vector" ratio="20" rot="R90">GND</text>
