@@ -3381,7 +3381,7 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <part name="S4" library="pie" deviceset="M02" device="1X02-MTA"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Sumita Ghosh, Sahar Mesri"/>
-<attribute name="REVISION" value="E"/>
+<attribute name="REVISION" value="F"/>
 </part>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>

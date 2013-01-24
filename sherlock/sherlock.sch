@@ -4776,21 +4776,19 @@ Source: 3M</description>
 <part name="R1" library="pie" deviceset="R-US_" device="R0603" value="330"/>
 <part name="R2" library="pie" deviceset="R-US_" device="R0603" value="330"/>
 <part name="R3" library="pie" deviceset="R-US_" device="R0603" value="330"/>
-<part name="R4" library="pie" deviceset="R-US_" device="R0603" value="330"/>
 <part name="C3" library="pie" deviceset="CAP" device="0603-CAP" value=".1uF"/>
 <part name="C1" library="pie" deviceset="CAP" device="0603-CAP" value=".1uF"/>
 <part name="IC1" library="pie" deviceset="V_REG_78XX" device="SIDE"/>
 <part name="U$1" library="pie" deviceset="XT60CONNECTOR" device=""/>
 <part name="BATTERY" library="pie" deviceset="M04" device="1X04-MTA"/>
 <part name="BUZZER" library="pie" deviceset="M05" device="PTH"/>
-<part name="R5" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="R4" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="V2" library="supply2" deviceset="VCC" device=""/>
 <part name="C2" library="pie" deviceset="CAP" device="0603-CAP" value="10uF"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Sahar M., Michael C., Sumita G."/>
-<attribute name="REVISION" value="E"/>
+<attribute name="REVISION" value="F"/>
 </part>
-<part name="LED4" library="pie" deviceset="LED" device="0805"/>
 <part name="LED1" library="pie" deviceset="LED" device="0805"/>
 <part name="LED2" library="pie" deviceset="LED" device="0805"/>
 <part name="LED3" library="pie" deviceset="LED" device="0805"/>
@@ -4822,10 +4820,9 @@ Source: 3M</description>
 <instance part="V1" gate="G$1" x="73.66" y="153.67"/>
 <instance part="P3" gate="A" x="212.09" y="143.51"/>
 <instance part="GND3" gate="1" x="111.76" y="118.11"/>
-<instance part="R1" gate="G$1" x="97.79" y="106.68" rot="R180"/>
-<instance part="R2" gate="G$1" x="97.79" y="138.43" rot="R180"/>
-<instance part="R3" gate="G$1" x="97.79" y="128.27" rot="R180"/>
-<instance part="R4" gate="G$1" x="97.79" y="118.11" rot="R180"/>
+<instance part="R1" gate="G$1" x="97.79" y="138.43" rot="R180"/>
+<instance part="R2" gate="G$1" x="97.79" y="128.27" rot="R180"/>
+<instance part="R3" gate="G$1" x="97.79" y="118.11" rot="R180"/>
 <instance part="C3" gate="G$1" x="99.06" y="148.59" smashed="yes" rot="R90">
 <attribute name="NAME" x="98.806" y="153.289" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="100.076" y="145.669" size="1.778" layer="96" rot="R180"/>
@@ -4835,7 +4832,7 @@ Source: 3M</description>
 <instance part="U$1" gate="G$1" x="166.37" y="58.42" rot="R270"/>
 <instance part="BATTERY" gate="G$1" x="40.64" y="19.05"/>
 <instance part="BUZZER" gate="G$1" x="17.78" y="20.32"/>
-<instance part="R5" gate="G$1" x="66.04" y="17.78"/>
+<instance part="R4" gate="G$1" x="66.04" y="17.78"/>
 <instance part="V2" gate="G$1" x="55.88" y="20.32"/>
 <instance part="C2" gate="G$1" x="187.96" y="58.42"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
@@ -4843,7 +4840,6 @@ Source: 3M</description>
 <attribute name="REVISION" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 <attribute name="AUTHOR" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 </instance>
-<instance part="LED4" gate="G$1" x="87.63" y="106.68" rot="R90"/>
 <instance part="LED1" gate="G$1" x="87.63" y="138.43" rot="R90"/>
 <instance part="LED2" gate="G$1" x="87.63" y="128.27" rot="R90"/>
 <instance part="LED3" gate="G$1" x="87.63" y="118.11" rot="R90"/>
@@ -4906,7 +4902,6 @@ Source: 3M</description>
 <wire x1="111.76" y1="148.59" x2="111.76" y2="128.27" width="0.1524" layer="91"/>
 <wire x1="102.87" y1="128.27" x2="102.87" y2="118.11" width="0.1524" layer="91"/>
 <wire x1="102.87" y1="128.27" x2="111.76" y2="128.27" width="0.1524" layer="91"/>
-<wire x1="102.87" y1="106.68" x2="102.87" y2="138.43" width="0.1524" layer="91"/>
 <wire x1="102.87" y1="138.43" x2="102.87" y2="128.27" width="0.1524" layer="91"/>
 <wire x1="111.76" y1="120.65" x2="111.76" y2="128.27" width="0.1524" layer="91"/>
 <junction x="111.76" y="120.65"/>
@@ -4915,10 +4910,7 @@ Source: 3M</description>
 <pinref part="GND3" gate="1" pin="GND"/>
 <pinref part="R1" gate="G$1" pin="1"/>
 <pinref part="R2" gate="G$1" pin="1"/>
-<junction x="102.87" y="138.43"/>
 <pinref part="R3" gate="G$1" pin="1"/>
-<pinref part="R4" gate="G$1" pin="1"/>
-<junction x="102.87" y="106.68"/>
 <junction x="102.87" y="118.11"/>
 <pinref part="C3" gate="G$1" pin="2"/>
 <junction x="101.6" y="148.59"/>
@@ -5019,7 +5011,7 @@ Source: 3M</description>
 <junction x="39.37" y="57.15"/>
 </segment>
 <segment>
-<pinref part="R5" gate="G$1" pin="1"/>
+<pinref part="R4" gate="G$1" pin="1"/>
 <wire x1="60.96" y1="17.78" x2="55.88" y2="17.78" width="0.1524" layer="91"/>
 <pinref part="V2" gate="G$1" pin="VCC"/>
 <junction x="55.88" y="17.78"/>
@@ -5233,7 +5225,7 @@ Source: 3M</description>
 <junction x="24.765" y="15.24"/>
 <wire x1="24.765" y1="15.24" x2="22.86" y2="15.24" width="0.1524" layer="91"/>
 <junction x="47.625" y="15.24"/>
-<pinref part="R5" gate="G$1" pin="2"/>
+<pinref part="R4" gate="G$1" pin="2"/>
 <wire x1="71.12" y1="17.78" x2="73.66" y2="17.78" width="0.1524" layer="91"/>
 <wire x1="81.28" y1="17.78" x2="73.66" y2="17.78" width="0.1524" layer="91"/>
 <wire x1="47.625" y1="15.24" x2="73.66" y2="15.24" width="0.1524" layer="91"/>
@@ -5537,11 +5529,6 @@ Source: 3M</description>
 <label x="196.85" y="124.46" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="35"/>
 </segment>
-<segment>
-<label x="77.47" y="106.68" size="1.778" layer="95"/>
-<pinref part="LED4" gate="G$1" pin="A"/>
-<wire x1="83.82" y1="106.68" x2="77.47" y2="106.68" width="0.1524" layer="91"/>
-</segment>
 </net>
 <net name="IO68" class="0">
 <segment>
@@ -5785,17 +5772,9 @@ Source: 3M</description>
 <junction x="47.625" y="17.78"/>
 </segment>
 </net>
-<net name="N$1" class="0">
-<segment>
-<pinref part="R1" gate="G$1" pin="2"/>
-<pinref part="LED4" gate="G$1" pin="C"/>
-<junction x="91.44" y="106.68"/>
-<wire x1="92.71" y1="106.68" x2="91.44" y2="106.68" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$2" class="0">
 <segment>
-<pinref part="R2" gate="G$1" pin="2"/>
+<pinref part="R1" gate="G$1" pin="2"/>
 <pinref part="LED1" gate="G$1" pin="C"/>
 <junction x="91.44" y="138.43"/>
 <wire x1="92.71" y1="138.43" x2="91.44" y2="138.43" width="0.1524" layer="91"/>
@@ -5803,7 +5782,7 @@ Source: 3M</description>
 </net>
 <net name="N$3" class="0">
 <segment>
-<pinref part="R3" gate="G$1" pin="2"/>
+<pinref part="R2" gate="G$1" pin="2"/>
 <pinref part="LED2" gate="G$1" pin="C"/>
 <junction x="91.44" y="128.27"/>
 <wire x1="92.71" y1="128.27" x2="91.44" y2="128.27" width="0.1524" layer="91"/>
@@ -5811,7 +5790,7 @@ Source: 3M</description>
 </net>
 <net name="N$4" class="0">
 <segment>
-<pinref part="R4" gate="G$1" pin="2"/>
+<pinref part="R3" gate="G$1" pin="2"/>
 <pinref part="LED3" gate="G$1" pin="C"/>
 <junction x="91.44" y="118.11"/>
 <wire x1="92.71" y1="118.11" x2="91.44" y2="118.11" width="0.1524" layer="91"/>

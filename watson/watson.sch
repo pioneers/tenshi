@@ -3459,7 +3459,6 @@ Source: 3M</description>
 <part name="M4" library="pie" deviceset="M03" device="1X03-MTA"/>
 <part name="M5" library="pie" deviceset="M03" device="1X03-MTA"/>
 <part name="FLAG" library="pie" deviceset="M03" device="1X03-MTA"/>
-<part name="SERVO" library="pie" deviceset="M05" device="MTA" value="Servos"/>
 <part name="I2C5" library="pie" deviceset="M04" device="1X04-MTA"/>
 <part name="I2C4" library="pie" deviceset="M04" device="1X04-MTA"/>
 <part name="I2C3" library="pie" deviceset="M04" device="1X04-MTA"/>
@@ -3476,9 +3475,10 @@ Source: 3M</description>
 <part name="R4" library="pie" deviceset="R-US_" device="R0603" value="200"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Michael C., Sumita G., Sahar M."/>
-<attribute name="REVISION" value="E"/>
+<attribute name="REVISION" value="F"/>
 </part>
 <part name="SHERLOCK" library="pie" deviceset="2540-" device=""/>
+<part name="SERVO" library="pie" deviceset="M04" device="1X04-MTA" value="Servos"/>
 </parts>
 <sheets>
 <sheet>
@@ -3516,7 +3516,6 @@ Source: 3M</description>
 <instance part="M4" gate="G$1" x="104.14" y="129.54"/>
 <instance part="M5" gate="G$1" x="116.84" y="129.54"/>
 <instance part="FLAG" gate="G$1" x="198.12" y="91.44"/>
-<instance part="SERVO" gate="G$1" x="58.42" y="66.04"/>
 <instance part="I2C5" gate="G$1" x="124.46" y="162.56"/>
 <instance part="I2C4" gate="G$1" x="111.76" y="162.56"/>
 <instance part="I2C3" gate="G$1" x="99.06" y="162.56"/>
@@ -3546,6 +3545,7 @@ Source: 3M</description>
 <attribute name="AUTHOR" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 </instance>
 <instance part="SHERLOCK" gate="G$1" x="17.78" y="86.36" rot="R180"/>
+<instance part="SERVO" gate="G$1" x="58.42" y="67.31"/>
 </instances>
 <busses>
 </busses>
@@ -3666,10 +3666,9 @@ Source: 3M</description>
 <junction x="67.945" y="158.75"/>
 </segment>
 <segment>
+<wire x1="65.405" y1="63.5" x2="71.12" y2="63.5" width="0.1524" layer="91"/>
+<label x="71.12" y="63.5" size="1.778" layer="95"/>
 <pinref part="SERVO" gate="G$1" pin="1"/>
-<wire x1="65.405" y1="60.96" x2="71.12" y2="60.96" width="0.1524" layer="91"/>
-<junction x="65.405" y="60.96"/>
-<label x="71.12" y="60.96" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="SIMPLE" gate="G$1" pin="1"/>
@@ -3945,10 +3944,9 @@ Source: 3M</description>
 <label x="200.66" y="58.42" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SERVO" gate="G$1" pin="5"/>
-<junction x="65.405" y="71.12"/>
 <wire x1="65.405" y1="71.12" x2="71.12" y2="71.12" width="0.1524" layer="91"/>
 <label x="71.12" y="71.12" size="1.778" layer="95"/>
+<pinref part="SERVO" gate="G$1" pin="4"/>
 </segment>
 </net>
 <net name="IO3/RXD1" class="0">
@@ -3971,12 +3969,6 @@ Source: 3M</description>
 <label x="30.48" y="44.45" size="1.778" layer="95"/>
 <pinref part="SHERLOCK" gate="G$1" pin="4"/>
 <junction x="22.86" y="44.45"/>
-</segment>
-<segment>
-<pinref part="SERVO" gate="G$1" pin="2"/>
-<wire x1="65.405" y1="63.5" x2="71.12" y2="63.5" width="0.1524" layer="91"/>
-<junction x="65.405" y="63.5"/>
-<label x="71.12" y="63.5" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="SIMPLE" gate="G$1" pin="2"/>
@@ -4286,19 +4278,17 @@ Source: 3M</description>
 <pinref part="R3" gate="G$1" pin="1"/>
 <junction x="81.28" y="68.58"/>
 <junction x="91.44" y="63.5"/>
-<pinref part="SERVO" gate="G$1" pin="4"/>
 <wire x1="65.405" y1="68.58" x2="81.28" y2="68.58" width="0.1524" layer="91"/>
 <wire x1="81.28" y1="68.58" x2="81.28" y2="63.5" width="0.1524" layer="91"/>
-<junction x="65.405" y="68.58"/>
+<pinref part="SERVO" gate="G$1" pin="3"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
-<pinref part="SERVO" gate="G$1" pin="3"/>
 <pinref part="R1" gate="G$1" pin="1"/>
 <wire x1="65.405" y1="66.04" x2="101.6" y2="66.04" width="0.1524" layer="91"/>
 <junction x="101.6" y="66.04"/>
-<junction x="65.405" y="66.04"/>
+<pinref part="SERVO" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="N$5" class="0">
