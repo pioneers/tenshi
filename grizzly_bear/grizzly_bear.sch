@@ -6,36 +6,36 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
-<layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
-<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
-<layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
-<layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
-<layer number="6" name="Route6" color="1" fill="8" visible="no" active="no"/>
-<layer number="7" name="Route7" color="4" fill="8" visible="no" active="no"/>
-<layer number="8" name="Route8" color="1" fill="2" visible="no" active="no"/>
-<layer number="9" name="Route9" color="4" fill="2" visible="no" active="no"/>
-<layer number="10" name="Route10" color="1" fill="7" visible="no" active="no"/>
-<layer number="11" name="Route11" color="4" fill="7" visible="no" active="no"/>
-<layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
-<layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
-<layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
-<layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
-<layer number="21" name="tPlace" color="16" fill="1" visible="no" active="no"/>
-<layer number="22" name="bPlace" color="14" fill="1" visible="no" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
-<layer number="26" name="bNames" color="12" fill="1" visible="no" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
-<layer number="28" name="bValues" color="12" fill="1" visible="no" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
+<layer number="2" name="Route2" color="1" fill="3" visible="yes" active="no"/>
+<layer number="3" name="Route3" color="4" fill="3" visible="yes" active="no"/>
+<layer number="4" name="Route4" color="1" fill="4" visible="yes" active="no"/>
+<layer number="5" name="Route5" color="4" fill="4" visible="yes" active="no"/>
+<layer number="6" name="Route6" color="1" fill="8" visible="yes" active="no"/>
+<layer number="7" name="Route7" color="4" fill="8" visible="yes" active="no"/>
+<layer number="8" name="Route8" color="1" fill="2" visible="yes" active="no"/>
+<layer number="9" name="Route9" color="4" fill="2" visible="yes" active="no"/>
+<layer number="10" name="Route10" color="1" fill="7" visible="yes" active="no"/>
+<layer number="11" name="Route11" color="4" fill="7" visible="yes" active="no"/>
+<layer number="12" name="Route12" color="1" fill="5" visible="yes" active="no"/>
+<layer number="13" name="Route13" color="4" fill="5" visible="yes" active="no"/>
+<layer number="14" name="Route14" color="1" fill="6" visible="yes" active="no"/>
+<layer number="15" name="Route15" color="4" fill="6" visible="yes" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
+<layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="no"/>
+<layer number="22" name="bPlace" color="14" fill="1" visible="yes" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
+<layer number="26" name="bNames" color="12" fill="1" visible="yes" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="28" name="bValues" color="12" fill="1" visible="yes" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -44,8 +44,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -53,16 +53,16 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="6" fill="1" visible="no" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
-<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
-<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
+<layer number="51" name="tDocu" color="6" fill="1" visible="yes" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="yes" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="yes" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="yes" active="no"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="93" name="Pins" color="2" fill="1" visible="no" active="yes"/>
@@ -150,7 +150,7 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </package>
 <package name="24-PIN_TSSOP">
 <smd name="19" x="3.05" y="0.325" dx="1.65" dy="0.45" layer="1"/>
-<smd name="PAD" x="0" y="0" dx="4.32" dy="3" layer="1" rot="R90"/>
+<smd name="PAD" x="0" y="0" dx="4.32" dy="3" layer="1" rot="R90" cream="no"/>
 <smd name="20" x="3.05" y="0.975" dx="1.65" dy="0.45" layer="1"/>
 <smd name="21" x="3.05" y="1.625" dx="1.65" dy="0.45" layer="1"/>
 <smd name="22" x="3.05" y="2.275" dx="1.65" dy="0.45" layer="1"/>
@@ -183,13 +183,14 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <text x="-3.8" y="-4.9875" size="1.016" layer="27" font="vector" ratio="15">&gt;value</text>
 <wire x1="-1.905" y1="3.81" x2="1.905" y2="3.81" width="0.2032" layer="21"/>
 <wire x1="-1.905" y1="-3.81" x2="1.905" y2="-3.81" width="0.2032" layer="21"/>
+<rectangle x1="-1.27" y1="-1.9304" x2="1.27" y2="1.9304" layer="31"/>
 </package>
 <package name="USB-M26FTR">
-<smd name="D+" x="0" y="0" dx="0.5" dy="2.3" layer="1"/>
-<smd name="NC" x="0.8" y="0" dx="0.5" dy="2.3" layer="1"/>
-<smd name="G" x="1.6" y="0" dx="0.5" dy="2.3" layer="1"/>
-<smd name="D-" x="-0.8" y="0" dx="0.5" dy="2.3" layer="1"/>
-<smd name="5V" x="-1.6" y="0" dx="0.5" dy="2.3" layer="1"/>
+<smd name="D+" x="0" y="0" dx="0.5" dy="2.3" layer="1" cream="no"/>
+<smd name="NC" x="0.8" y="0" dx="0.5" dy="2.3" layer="1" cream="no"/>
+<smd name="G" x="1.6" y="0" dx="0.5" dy="2.3" layer="1" cream="no"/>
+<smd name="D-" x="-0.8" y="0" dx="0.5" dy="2.3" layer="1" cream="no"/>
+<smd name="5V" x="-1.6" y="0" dx="0.5" dy="2.3" layer="1" cream="no"/>
 <smd name="S1" x="4.45" y="-0.1" dx="2" dy="2.5" layer="1"/>
 <smd name="S3" x="-4.45" y="-0.1" dx="2" dy="2.5" layer="1"/>
 <smd name="S4" x="-4.45" y="-5.6" dx="2" dy="2.5" layer="1"/>
@@ -199,6 +200,11 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <text x="0" y="-5.2" size="1.6" layer="21" font="vector" ratio="12" align="center">USB</text>
 <wire x1="4" y1="-2" x2="4" y2="-4" width="0.127" layer="21"/>
 <wire x1="-4" y1="-2" x2="-4" y2="-4" width="0.127" layer="21"/>
+<rectangle x1="-1.9304" y1="-1.143" x2="-1.2954" y2="1.143" layer="31"/>
+<rectangle x1="-1.1176" y1="-1.143" x2="-0.4826" y2="1.143" layer="31"/>
+<rectangle x1="-0.3302" y1="-1.143" x2="0.3048" y2="1.143" layer="31"/>
+<rectangle x1="0.4826" y1="-1.143" x2="1.1176" y2="1.143" layer="31"/>
+<rectangle x1="1.27" y1="-1.143" x2="1.905" y2="1.143" layer="31"/>
 </package>
 <package name="TQFP44">
 <description>&lt;B&gt;Thin Plasic Quad Flat Package&lt;/B&gt;</description>
@@ -340,6 +346,16 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <wire x1="-2.54" y1="0" x2="-2.54" y2="-3.81" width="0.2032" layer="21"/>
 <wire x1="1.524" y1="0" x2="2.54" y2="0" width="0.2032" layer="21"/>
 <wire x1="2.54" y1="0" x2="2.54" y2="-3.81" width="0.2032" layer="21"/>
+<polygon width="0.127" layer="31">
+<vertex x="-0.3556" y="-2.8194"/>
+<vertex x="-1.016" y="-2.159"/>
+<vertex x="-1.016" y="0.0254"/>
+<vertex x="-0.2286" y="0.8128"/>
+<vertex x="0.2032" y="0.8128"/>
+<vertex x="1.016" y="0"/>
+<vertex x="1.016" y="-2.1336"/>
+<vertex x="0.3302" y="-2.8194"/>
+</polygon>
 </package>
 <package name="EIA3216">
 <wire x1="-1" y1="-1.2" x2="-2.5" y2="-1.2" width="0.2032" layer="21"/>
@@ -3129,8 +3145,8 @@ Source: http://www.nxp.com/acrobat_download/datasheets/PH7030L_4.pdf</descriptio
 <rectangle x1="0.335" y1="-2.8" x2="0.935" y2="-2.175" layer="51"/>
 <rectangle x1="1.655" y1="-3.1" x2="2.155" y2="-2.05" layer="51"/>
 <rectangle x1="1.605" y1="-2.8" x2="2.205" y2="-2.175" layer="51"/>
-<rectangle x1="-2.4" y1="2.05" x2="2.425" y2="3.1" layer="31"/>
-<rectangle x1="-1.575" y1="-1.025" x2="1.575" y2="2.075" layer="31"/>
+<rectangle x1="-2.413" y1="2.05" x2="2.425" y2="3.302" layer="31"/>
+<rectangle x1="-1.905" y1="-1.025" x2="1.905" y2="2.075" layer="31"/>
 <polygon width="0.2032" layer="51">
 <vertex x="-2.1" y="2.15"/>
 <vertex x="-2.1" y="2.8" curve="-90"/>
@@ -5823,8 +5839,8 @@ Don't populate</text>
 <instance part="SUPPLY6" gate="GND" x="2.54" y="119.38"/>
 <instance part="U$6" gate="G$1" x="22.86" y="154.94"/>
 <instance part="U$7" gate="G$1" x="88.9" y="165.1"/>
-<instance part="JP4" gate="G$1" x="88.9" y="12.7" rot="MR180"/>
-<instance part="JP3" gate="G$1" x="111.76" y="12.7"/>
+<instance part="JP4" gate="G$1" x="88.9" y="12.7"/>
+<instance part="JP3" gate="G$1" x="111.76" y="12.7" rot="MR180"/>
 <instance part="SUPPLY7" gate="GND" x="129.54" y="5.08"/>
 <instance part="U$8" gate="G$1" x="132.08" y="11.43"/>
 <instance part="JP6" gate="G$1" x="58.42" y="15.24" smashed="yes">
@@ -6180,16 +6196,16 @@ Don't populate</text>
 <wire x1="15.24" y1="8.89" x2="15.24" y2="6.35" width="0.2032" layer="91"/>
 </segment>
 <segment>
-<pinref part="JP4" gate="G$1" pin="3"/>
 <wire x1="95.885" y1="10.16" x2="99.06" y2="10.16" width="0.1524" layer="91"/>
 <pinref part="SUPPLY3" gate="GND" pin="GND"/>
 <wire x1="99.06" y1="7.62" x2="99.06" y2="10.16" width="0.1524" layer="91"/>
+<pinref part="JP4" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<pinref part="JP3" gate="G$1" pin="2"/>
 <pinref part="SUPPLY7" gate="GND" pin="GND"/>
-<wire x1="118.745" y1="11.43" x2="129.54" y2="11.43" width="0.2032" layer="91"/>
-<wire x1="129.54" y1="11.43" x2="129.54" y2="7.62" width="0.2032" layer="91"/>
+<wire x1="129.54" y1="11.43" x2="129.54" y2="7.62" width="0.1524" layer="91"/>
+<pinref part="JP3" gate="G$1" pin="3"/>
+<wire x1="118.745" y1="11.43" x2="129.54" y2="11.43" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
@@ -6369,10 +6385,10 @@ Don't populate</text>
 <junction x="152.4" y="81.28"/>
 </segment>
 <segment>
-<pinref part="JP3" gate="G$1" pin="1"/>
 <pinref part="U$8" gate="G$1" pin="5V"/>
-<wire x1="118.745" y1="8.89" x2="132.08" y2="8.89" width="0.2032" layer="91"/>
-<wire x1="132.08" y1="8.89" x2="132.08" y2="11.43" width="0.2032" layer="91"/>
+<wire x1="118.745" y1="8.89" x2="132.08" y2="8.89" width="0.1524" layer="91"/>
+<wire x1="132.08" y1="8.89" x2="132.08" y2="11.43" width="0.1524" layer="91"/>
+<pinref part="JP3" gate="G$1" pin="4"/>
 </segment>
 </net>
 <net name="CP2" class="0">
@@ -6396,9 +6412,9 @@ Don't populate</text>
 <pinref part="U2" gate="G$1" pin="(SDA/INT1)PD1"/>
 </segment>
 <segment>
-<pinref part="JP4" gate="G$1" pin="2"/>
 <wire x1="95.885" y1="12.7" x2="99.06" y2="12.7" width="0.1524" layer="91"/>
 <label x="99.06" y="14.732" size="1.778" layer="95" rot="MR180"/>
+<pinref part="JP4" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="SCL" class="0">
@@ -6408,9 +6424,9 @@ Don't populate</text>
 <pinref part="U2" gate="G$1" pin="(OSC0B/SCL/INT0)PD0"/>
 </segment>
 <segment>
-<pinref part="JP4" gate="G$1" pin="1"/>
 <wire x1="95.885" y1="15.24" x2="99.06" y2="15.24" width="0.1524" layer="91"/>
 <label x="99.06" y="17.526" size="1.778" layer="95" rot="MR180"/>
+<pinref part="JP4" gate="G$1" pin="3"/>
 </segment>
 </net>
 <net name="ENC1" class="0">
@@ -6420,9 +6436,9 @@ Don't populate</text>
 <pinref part="U2" gate="G$1" pin="(SS/PCINT0)PB0"/>
 </segment>
 <segment>
-<pinref part="JP3" gate="G$1" pin="3"/>
-<wire x1="118.745" y1="13.97" x2="121.92" y2="13.97" width="0.2032" layer="91"/>
+<wire x1="118.745" y1="13.97" x2="121.92" y2="13.97" width="0.1524" layer="91"/>
 <label x="121.92" y="14.478" size="1.778" layer="95"/>
+<pinref part="JP3" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="ENC2" class="0">
@@ -6432,9 +6448,9 @@ Don't populate</text>
 <pinref part="U2" gate="G$1" pin="(PCINT4/ADC11)PB4"/>
 </segment>
 <segment>
-<pinref part="JP3" gate="G$1" pin="4"/>
 <wire x1="118.745" y1="16.51" x2="121.92" y2="16.51" width="0.1524" layer="91"/>
 <label x="121.92" y="17.018" size="1.778" layer="95"/>
+<pinref part="JP3" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="MOSI" class="0">
