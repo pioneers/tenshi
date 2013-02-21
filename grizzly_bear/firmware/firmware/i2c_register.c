@@ -62,6 +62,10 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
       get_max_acceleration_dangerous());
   AUTO_PROVIDE_REG(REG_UPTIME, REG_UPTIME_TYPE,
       get_uptime_dangerous());
+  AUTO_PROVIDE_REG(REG_TIMEOUT_PERIOD, REG_TIMEOUT_PERIOD_TYPE,
+      get_timeout_period_dangerous());
+  AUTO_PROVIDE_REG(REG_MIN_SWITCH_DELTA, REG_MIN_SWITCH_DELTA_TYPE,
+      get_min_switch_delta_dangerous());
 
   return UNUSED_REG_VAL;
 }
@@ -89,4 +93,8 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val) {
       get_current_limit_ratio_max_use_addr());
   AUTO_SET_REG(REG_ACCEL_LIMIT, REG_ACCEL_LIMIT_TYPE,
       get_max_acceleration_addr());
+  AUTO_SET_REG(REG_TIMEOUT_PERIOD, REG_TIMEOUT_PERIOD_TYPE,
+      get_timeout_period_addr());
+  AUTO_SET_REG(REG_MIN_SWITCH_DELTA, REG_MIN_SWITCH_DELTA_TYPE,
+      get_min_switch_delta_addr());
 }

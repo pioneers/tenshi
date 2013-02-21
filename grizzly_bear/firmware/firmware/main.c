@@ -29,11 +29,17 @@ DECLARE_I2C_REGISTER_C(unsigned int, current_limit_ratio_max_use);
 
 DECLARE_I2C_REGISTER_C(unsigned long, uptime);
 
+DECLARE_I2C_REGISTER_C(uint16_t, timeout_period);
+DECLARE_I2C_REGISTER_C(uint16_t, min_switch_delta);
+
 // State variables
 static uint16_t current_limit_spike_use = 0;
 static unsigned char current_limit_is_clamping;
 
 static unsigned char force_error_led;
+
+static unsigned long last_switch_time = 0;
+static unsigned char last_pwm_mode = 0;
 
 // Clamp the input i to be within the interval [a,b]
 static inline int clamp_within(int i, int a, int b) {
@@ -123,8 +129,9 @@ static inline int current_limit_clip_speed(int input) {
 }
 
 // Acceleration limiting function
+static uint16_t accel_limit_last_speed = 0;
+
 static inline int accel_limit_speed(int speed) {
-  static uint16_t accel_limit_last_speed = 0;
 
   int diff = 0;
   int clamped_diff;
@@ -143,21 +150,39 @@ static inline int accel_limit_speed(int speed) {
 void init_control_loop(void) {
   // default values
   // Interrupts aren't enabled here
-  set_max_acceleration_dangerous(8);
-  set_current_limit_adc_threshold_dangerous(24);
-  set_current_limit_clamp_pwm_dangerous(0x80);
-  set_current_limit_retry_time_dangerous(1000);
+  set_max_acceleration_dangerous(4);
+  set_current_limit_adc_threshold_dangerous(68);
+  // 5 Amps
+  // Calculated using 5 / ((5 / 1024) * 1000 / 66)
+  set_current_limit_clamp_pwm_dangerous(0x200);
+  set_current_limit_retry_time_dangerous(1024);
   set_current_limit_ratio_denominator_dangerous(1);
   set_current_limit_ratio_numerator_dangerous(1);
-  set_current_limit_ratio_max_use_dangerous(1000);
+  set_current_limit_ratio_max_use_dangerous(1024);
+  set_timeout_period(1024);
+  set_min_switch_delta(512);
 }
 
-// configure the PWM into the correct mode (sign-magnitude/locked-antiphase,
-// direction, etc)
-static inline void set_pwm_mode(unsigned char pwm_mode, unsigned char fwd) {
-  // LEDs
+static inline int abs(int in) {
+  if (in > 0) {
+    return in;
+  } else {
+    return -in;
+  }
+}
+
+static inline void update_leds(unsigned char pwm_mode, 
+    unsigned char fwd, int pwm_val) {
   if (force_error_led) {
     set_all_leds(LED_ON);
+  }
+  else if (!(pwm_mode & MODE_ENABLE_MASK)) {
+    // Disabled mode
+    set_all_leds(LED_OFF);
+  }
+  else if (abs(pwm_val) < 2) {
+    // Turn the LEDs off if the motors are being moved so slowly they are "off"
+    set_all_leds(LED_OFF);
   }
   else {
     if (fwd) {
@@ -169,7 +194,11 @@ static inline void set_pwm_mode(unsigned char pwm_mode, unsigned char fwd) {
       set_red_led(LED_ON);
     }
   }
+}
 
+// configure the PWM into the correct mode (sign-magnitude/locked-antiphase,
+// direction, etc)
+static inline void set_pwm_mode(unsigned char pwm_mode, unsigned char fwd) {
   if ((pwm_mode & MODE_SIGN_MAG_LOCKED_ANTIPHASE) ==
       MODE_LOCKED_ANTIPHASE) {
     set_locked_antiphase();
@@ -235,6 +264,12 @@ static inline int no_pid_mode_logic(FIXED1616 target_speed) {
   return pwm_val;
 }
 
+static inline void check_timeout() {
+  if (get_uptime() > last_i2c_update + get_timeout_period()) {
+    pwm_mode = pwm_mode & ~MODE_ENABLE_MASK;
+  }
+}
+
 void run_control_loop(void) {
 
   FIXED1616 target_speed_copy;
@@ -242,11 +277,27 @@ void run_control_loop(void) {
 
   // For testing
   set_uptime(get_uptime() + 1);
+  check_timeout();
 
   // We need to manually copy these as one block since they go together
   ATOMIC_BLOCK(ATOMIC_FORCEON) {
     target_speed_copy = get_target_speed_dangerous();
     pwm_mode_copy = pwm_mode;
+  }
+
+  // Prevent too rapid mode switching.
+  if (pwm_mode_copy != last_pwm_mode) {
+    if ((pwm_mode_copy & MODE_ENABLE_MASK) &&
+        get_uptime() < last_switch_time + get_min_switch_delta()) {
+      // We haven't reached the switch time delta, so don't switch modes.
+      // Unless the mode switch is to disable.
+      pwm_mode_copy = last_pwm_mode;
+    }
+    if (last_pwm_mode != pwm_mode_copy) {
+      // If we actually updated the speed, reset the time
+      last_switch_time = get_uptime();
+      last_pwm_mode = pwm_mode_copy;
+    }
   }
 
   // We always run this code, even when we are disabled. The logic is that
@@ -258,7 +309,8 @@ void run_control_loop(void) {
     // disabled
     driver_enable(0);
     set_pwm_val(0);
-    set_all_leds(LED_OFF);
+    accel_limit_last_speed = 0;
+    update_leds(pwm_mode_copy, 0, 0);
   }
   else {
     // Signed, 12 bits [-0x7ff, 0x7ff]
@@ -296,8 +348,9 @@ void run_control_loop(void) {
     // Compute the mode.
     driver_enable(1);
     set_pwm_mode(pwm_mode_copy, pwm_val >= 0);
+    update_leds(pwm_mode_copy, pwm_val >= 0, pwm_val);
 
-    if ((pwm_mode & MODE_SIGN_MAG_LOCKED_ANTIPHASE) ==
+    if ((pwm_mode_copy & MODE_SIGN_MAG_LOCKED_ANTIPHASE) ==
         MODE_LOCKED_ANTIPHASE) {
       // Adjustment for locked-antiphase mode
       pwm_val = (pwm_val + 0x800) / 2;

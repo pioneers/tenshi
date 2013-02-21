@@ -38,6 +38,8 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val);
 #define REG_ENCODER_COUNT_TYPE        int32_t
 #define REG_REVISION                  0x60
 #define REG_REVISION_LEN                21
+#define REG_TIMEOUT_PERIOD            0x80
+#define REG_TIMEOUT_PERIOD_TYPE       uint16_t
 #define REG_ILIMIT_ADC_THRESH         0x82
 #define REG_ILIMIT_ADC_THRESH_TYPE    uint16_t
 #define REG_ILIMIT_CLAMP_PWM          0x84
@@ -54,6 +56,8 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val);
 #define REG_ACCEL_LIMIT_TYPE          int16_t
 #define REG_UPTIME                    0x94
 #define REG_UPTIME_TYPE               uint32_t
+#define REG_MIN_SWITCH_DELTA          0x98
+#define REG_MIN_SWITCH_DELTA_TYPE     uint16_t
 
 // This value is returned when reading a register that is not defined.
 #define UNUSED_REG_VAL  0xFF

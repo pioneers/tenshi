@@ -5,12 +5,16 @@
 #include <util/twi.h>
 
 #include "i2c_register.h"
+#include "control_loop.h"
+
+unsigned long last_i2c_update = 0;
 
 ISR(TWI_vect) {
   // Prevent gcc from generating inefficient 16-bit compare.
   unsigned char status = TW_STATUS;
   static unsigned char selected_register = 0;
   static unsigned char got_register = 0;
+  last_i2c_update = get_uptime_dangerous();
 
   switch (status) {
     case TW_BUS_ERROR:
