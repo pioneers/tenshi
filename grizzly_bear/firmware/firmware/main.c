@@ -210,11 +210,15 @@ static inline void set_pwm_mode(unsigned char pwm_mode, unsigned char fwd) {
       else
         set_sign_magnitude_go_brake_bck();
     }
-    else {
+    else if ((pwm_mode & MODE_SM_SWITCH_MODE) == MODE_SM_GO_COAST) {
       if (fwd)
         set_sign_magnitude_go_coast_fwd();
       else
         set_sign_magnitude_go_coast_bck();
+    }
+    else {
+      // Direction doesn't make much sense for controlled brake
+      set_controlled_brake();
     }
   }
 }
@@ -275,7 +279,6 @@ void run_control_loop(void) {
   FIXED1616 target_speed_copy;
   unsigned char pwm_mode_copy;
 
-  // For testing
   set_uptime(get_uptime() + 1);
   check_timeout();
 

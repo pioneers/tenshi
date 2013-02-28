@@ -17,5 +17,6 @@ extern void set_sign_magnitude_go_brake_bck(void);
 extern void set_sign_magnitude_go_coast_fwd(void);
 extern void set_sign_magnitude_go_coast_bck(void);
 extern void set_locked_antiphase(void);
+extern void set_controlled_brake(void);
 
 #endif  // PWM_H_

@@ -10,18 +10,22 @@
 // Motor controller modes
 #define MODE_ENABLE_MASK                0x01
 
+// Speed value interpretation
 #define MODE_SPEED_MASK                 0x06
 #define MODE_SPEED_RAW                  0x00
 #define MODE_SPEED_NO_PID               0x02
 #define MODE_SPEED_PID                  0x04
 
+// Sign-magnitude vs. locked-antiphase
 #define MODE_SIGN_MAG_LOCKED_ANTIPHASE  0x08
 #define MODE_SIGN_MAGNITUDE             0x00
 #define MODE_LOCKED_ANTIPHASE           0x08
 
-#define MODE_SM_SWITCH_MODE             0x10
+// Sign-magnitude options
+#define MODE_SM_SWITCH_MODE             0x30
 #define MODE_SM_GO_COAST                0x00
 #define MODE_SM_GO_BRAKE                0x10
+#define MODE_SM_CONTROLLED_BRAKE		0x20
 
 #define MODE_SPECIAL_STRESS             0x80
 

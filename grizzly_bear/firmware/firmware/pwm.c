@@ -30,13 +30,6 @@ void init_pwm(void) {
   // Disable compare d.
   TCCR4C = 0;
 
-  // Test set compare a.
-  //TC4H = 0;
-  //OCR4A = 0xAA;
-
-  // Prescale by 16*1024.
-  //TCCR4B = _BV(CS43) | _BV(CS42) | _BV(CS41) | _BV(CS40);
-
   // Prescale by 8.
   TCCR4B = _BV(CS42);
 }
@@ -133,4 +126,17 @@ void set_locked_antiphase(void) {
   TCCR4B |= _BV(PWM4X);
   // Connect side a and side b to pwm.
   TCCR4A = _BV(COM4A0) | _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
+}
+
+void set_controlled_brake(void) {
+  // Fix side b to have top off and bottom on.
+  PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
+  // Clear the other output.
+  PORTB &= ~(_BV(PB5) | _BV(PB6));
+  // Make side b output
+  DDRC |= (_BV(PC6) | _BV(PC7));
+  // Make LOW pins on side a output
+  DDRB = ((DDRB & ~(_BV(PB5))) | _BV(PB6));
+  // Connect side a to pwm.
+  TCCR4A = _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
 }
