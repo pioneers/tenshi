@@ -1,3 +1,20 @@
+// Licensed to Pioneers in Engineering under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  Pioneers in Engineering licenses
+// this file to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+//  with the License.  You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License
+
 #ifndef I2C_REGISTER_H_
 #define I2C_REGISTER_H_
 // This file contains code for the I2C registers.
@@ -34,6 +51,8 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val);
 #define REG_CURRENT_TARGET_SPEED_TYPE uint32_t
 #define REG_ISENSE_ADC                0x10
 #define REG_ISENSE_ADC_TYPE           uint16_t
+#define REG_ERROR_COUNT               0x18
+#define REG_ERROR_COUNT_TYPE          uint8_t
 #define REG_ENCODER_COUNT             0x20
 #define REG_ENCODER_COUNT_TYPE        int32_t
 #define REG_REVISION                  0x60

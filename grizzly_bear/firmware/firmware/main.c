@@ -1,3 +1,20 @@
+// Licensed to Pioneers in Engineering under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  Pioneers in Engineering licenses
+// this file to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+//  with the License.  You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License
+
 #include "control_loop.h"
 
 #include <avr/io.h>
@@ -11,6 +28,7 @@
 #include "addr_jumper.h"
 #include "encoder.h"
 #include "led.h"
+#include "pindef.h"
 #include "pwm.h"
 #include "twi_state_machine.h"
 
@@ -31,6 +49,8 @@ DECLARE_I2C_REGISTER_C(unsigned long, uptime);
 
 DECLARE_I2C_REGISTER_C(uint16_t, timeout_period);
 DECLARE_I2C_REGISTER_C(uint16_t, min_switch_delta);
+
+unsigned char error_count = 0;
 
 // State variables
 static uint16_t current_limit_spike_use = 0;
@@ -161,6 +181,9 @@ void init_control_loop(void) {
   set_current_limit_ratio_max_use_dangerous(1024);
   set_timeout_period(1024);
   set_min_switch_delta(512);
+
+  // Configure FAULT as input
+  DDR(PINDEF_HIGHSIDEFAULT) &= ~(_BV(IO(PINDEF_HIGHSIDEFAULT)));
 }
 
 static inline int abs(int in) {
@@ -274,6 +297,27 @@ static inline void check_timeout() {
   }
 }
 
+static inline void check_fault() {
+  // We error on two faults on consecutive cycles. Otherwise, we instantly
+  // detect a fault when we switch from disabled to enabled.
+  static unsigned char faults = 0;
+
+  //if (!(PIN(PINDEF_HIGHSIDEFAULT) & _BV(IO(PINDEF_HIGHSIDEFAULT)))) {
+  if ((PIND & _BV(PD7)) == 0) {
+    // The fault pin has been raised
+    faults++;
+    if (faults >= 2) {
+      pwm_mode = pwm_mode & ~MODE_ENABLE_MASK;
+      force_error_led = 1;
+      // There is no problem with this increment because this is the only writer
+      error_count++;
+    }
+  }
+  else {
+    faults = 0;
+  }
+}
+
 void run_control_loop(void) {
 
   FIXED1616 target_speed_copy;
@@ -363,6 +407,11 @@ void run_control_loop(void) {
       pwm_val = pwm_val < 0 ? -pwm_val : pwm_val;
     }
     set_pwm_val(pwm_val);
+
+    // Check for faults. We check here at the end because this is after
+    // the driver is enabled. The driver pulls down the fault line when it
+    // is held in reset.
+    check_fault();
   }
 }
 
@@ -389,7 +438,6 @@ int main(void) {
 
       // This code is run every time a timer overflow occurs. This currently
       // happens at an frequency of just under 1 kHz (every 1.024 ms).
-
       read_adc();
       run_control_loop();
     }

@@ -1,3 +1,20 @@
+// Licensed to Pioneers in Engineering under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  Pioneers in Engineering licenses
+// this file to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+//  with the License.  You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License
+
 #include "i2c_register.h"
 #include "adc.h"
 #include "control_loop.h"
@@ -41,6 +58,7 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
       get_target_speed_dangerous());
   AUTO_PROVIDE_REG(REG_ISENSE_ADC, REG_ISENSE_ADC_TYPE,
       get_isense_adc_dangerous());
+  AUTO_PROVIDE_REG(REG_ERROR_COUNT, REG_ERROR_COUNT_TYPE, error_count);
   AUTO_PROVIDE_REG(REG_ENCODER_COUNT, REG_ENCODER_COUNT_TYPE,
       get_encoder_count_dangerous());
   // special
