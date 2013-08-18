@@ -3,7 +3,9 @@
 cd tools
 
 # Extract the cross-gcc
-rm -rf arm-toolchain
-tar xjf project-tenshi-toolchain.tar.bz2
+if [ ! -e arm-toolchain ]
+then
+	tar xjf project-tenshi-toolchain.tar.bz2
+fi
 
 cd ..
