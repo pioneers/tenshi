@@ -13,7 +13,4 @@ then
 	chmod +x waf
 fi
 
-arm-none-eabi-gcc --version
-./waf --help
-
-echo "Hello World!"
+./waf configure build
