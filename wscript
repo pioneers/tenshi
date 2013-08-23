@@ -49,7 +49,9 @@ def common_configure(conf):
             '-mcpu=cortex-m4',          # Compile for Cortex-M4
             '-mfpu=fpv4-sp-d16',        # Enable FPU opcodes
             '-mfloat-abi=hard',         # Pass arguments via FPU registers
-            '-Wl,--gc-sections'         # Discard unused sections
+            '-Wl,--gc-sections',        # Discard unused sections
+            '-L ' + conf.path.abspath(),    # For finding .ld file
+            '-specs=' + conf.path.abspath() + '/linkspec.specs',    # Linker rules + crt0
         ])
     conf.load('compiler_c')
     conf.load('compiler_cxx')
