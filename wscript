@@ -50,6 +50,7 @@ def common_configure(conf):
             '-mfpu=fpv4-sp-d16',        # Enable FPU opcodes
             '-mfloat-abi=hard',         # Pass arguments via FPU registers
             '-Wl,--gc-sections'         # Discard unused sections
+            '-specs=linkspec.specs'     # Put stuff into the right addresses
         ])
     conf.load('compiler_c')
     conf.load('compiler_cxx')
