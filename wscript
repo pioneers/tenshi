@@ -1,11 +1,16 @@
 ARM_CROSS_COMPILER_C = 'arm-none-eabi-gcc'
 ARM_CROSS_COMPILER_CXX = 'arm-none-eabi-g++'
 
+from waf_extensions import declare_variants
+declare_variants('deb', 'rel', 'debopt', 'relopt')
+
 def options(opt):
     opt.load('compiler_c')
     opt.load('compiler_cxx')
 
-def configure(conf):
+# Configure fragments used for variants
+
+def common_configure(conf):
     conf.env['CC'] = ARM_CROSS_COMPILER_C
     conf.env['CC_NAME'] = ARM_CROSS_COMPILER_C
     conf.env['COMPILER_CC'] = ARM_CROSS_COMPILER_C
@@ -49,8 +54,66 @@ def configure(conf):
     conf.load('compiler_c')
     conf.load('compiler_cxx')
 
+def debug_configure(conf):
+    conf.env.append_value('CFLAGS', ['-DDEBUG'])
+    conf.env.append_value('CXXFLAGS', ['-DDEBUG'])
+
+def release_configure(conf):
+    conf.env.append_value('CFLAGS', ['-DRELEASE'])
+    conf.env.append_value('CXXFLAGS', ['-DRELEASE'])
+
+def noopt_configure(conf):
+    conf.env.append_value('CFLAGS', ['-O0'])
+    conf.env.append_value('CXXFLAGS', ['-O0'])
+
+def opt_configure(conf):
+    conf.env.append_value('CFLAGS', ['-O2'])
+    conf.env.append_value('CXXFLAGS', ['-O2'])
+
+# Actual configure rules for variants
+
+def configure_deb(conf):
+    conf.setenv('deb')
+    common_configure(conf)
+    debug_configure(conf)
+    noopt_configure(conf)
+
+def configure_rel(conf):
+    conf.setenv('rel')
+    common_configure(conf)
+    release_configure(conf)
+    noopt_configure(conf)
+
+def configure_debopt(conf):
+    conf.setenv('debopt')
+    common_configure(conf)
+    debug_configure(conf)
+    opt_configure(conf)
+
+def configure_relopt(conf):
+    conf.setenv('relopt')
+    common_configure(conf)
+    release_configure(conf)
+    opt_configure(conf)
+
+def configure(conf):
+    configure_deb(conf)
+    configure_rel(conf)
+    configure_debopt(conf)
+    configure_relopt(conf)
+
+# Build step
+
 def build(bld):
-    bld.program (
-        source = "src/main.c",
-        target = "main",
-    )
+    if not bld.variant:
+        print('Building all variants.')
+        from waflib.Scripting import run_command
+        run_command('build_deb')
+        run_command('build_rel')
+        run_command('build_debopt')
+        run_command('build_relopt')
+    else:
+        bld.program (
+            source = "src/main.c",
+            target = "main",
+        )
