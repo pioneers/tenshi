@@ -1,0 +1,6 @@
+build
+.lock*
+.waf*
+waf
+tools/*.tar.bz2
+tools/arm-toolchain
