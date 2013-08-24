@@ -115,17 +115,17 @@ _start:
     vector FPU_IRQHandler                    /* FPU                          */
 
 @ Unhandled Exception
-.weak    __unhandled_isr
-.global    __unhandled_isr
-.func    __unhandled_isr
+.weak           __unhandled_isr
+.global         __unhandled_isr
+.thumb_func     __unhandled_isr
 __unhandled_isr:
     b __unhandled_isr
 .endfunc
 
 @ Low level init
-.weak    __ll_init
-.global    __ll_init
-.func    __ll_init
+.weak           __ll_init
+.global         __ll_init
+.thumb_func     __ll_init
 __ll_init:
     bx lr
 .endfunc
