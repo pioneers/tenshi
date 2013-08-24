@@ -3,5 +3,5 @@
 *link:
 %(old_link) ldscript.ld%T
 
-#*startfile:
-#stellaris-crt0%O%s crti%O%s crtbegin%O%s
+*startfile:
+stm32f4-crt0%O%s crti%O%s crtbegin%O%s
