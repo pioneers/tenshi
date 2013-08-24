@@ -115,7 +115,13 @@ def build(bld):
         run_command('build_debopt')
         run_command('build_relopt')
     else:
+        bld.objects(
+            source = "crt0.S",
+            target = "crt0",
+        )
+
         bld.program (
             source = "src/main.c",
             target = "main",
+            use = "crt0",
         )
