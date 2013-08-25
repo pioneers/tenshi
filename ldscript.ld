@@ -220,5 +220,13 @@ SECTIONS
 	.debug_typenames 0 : { *(.debug_typenames) }
 	.debug_varnames  0 : { *(.debug_varnames) }
 	.stack 0x80000 : { _stack = .; *(.stack) }
+	/* DWARF 3 */
+	.debug_pubtypes 0 : { *(.debug_pubtypes) }
+	.debug_ranges   0 : { *(.debug_ranges) }
+	/* DWARF Extension.  */
+	.debug_macro    0 : { *(.debug_macro) }
+	.ARM.attributes 0 : { KEEP (*(.ARM.attributes)) KEEP (*(.gnu.attributes)) }
+	.note.gnu.arm.ident 0 : { KEEP (*(.note.gnu.arm.ident)) }
+	/DISCARD/ : { *(.note.GNU-stack) *(.gnu_debuglink) *(.gnu.lto_*) }
 	/* These must appear regardless of  .  */
 }
