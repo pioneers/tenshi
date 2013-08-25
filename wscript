@@ -140,3 +140,6 @@ def build(bld):
             target = "main",
             use = "crt0",
         )
+
+        bld.add_manual_dependency("main", "ldscript.ld")
+        bld.add_manual_dependency("main", "linkspec.spec")

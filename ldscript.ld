@@ -146,7 +146,7 @@ SECTIONS
 
 
 
-	__data_lma = . ;
+	__data_lma = __ccmram_lma + SIZEOF(.ccmram) ;
 	.data : AT(__data_lma)
 	{
 		__data_start = ABSOLUTE(.);
