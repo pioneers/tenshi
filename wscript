@@ -52,6 +52,7 @@ def common_configure(conf):
             '-mfpu=fpv4-sp-d16',        # Enable FPU opcodes
             '-mfloat-abi=hard',         # Pass arguments via FPU registers
             '-x', 'assembler-with-cpp', # Compile assembly
+            '-c',                       # Don't link
         ])
     conf.env.append_value('LINKFLAGS', [
             '-g',                       # Debug symbols
