@@ -152,9 +152,15 @@ def build(bld):
 
         bld.program (
             source = "",
-            target = "main",
+            target = "tenshi.elf",
             features = "cxx cxxprogram",
             use = "crt0 c_objects cpp_objects",
+        )
+
+        bld(
+            rule='arm-none-eabi-objcopy -O binary ${SRC} ${TGT}',
+            source = "tenshi.elf",
+            target = "tenshi.bin",
         )
 
         def add_dependency(tgt, src):
@@ -163,5 +169,5 @@ def build(bld):
                 bld.fatal("Could not find manual dependency '{}'".format(src))
             bld.add_manual_dependency(tgt, src_node)
 
-        add_dependency("main", "ldscript.ld")
-        add_dependency("main", "linkspec.specs")
+        add_dependency("tenshi.elf", "ldscript.ld")
+        add_dependency("tenshi.elf", "linkspec.specs")
