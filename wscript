@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 ARM_CROSS_COMPILER_C = 'arm-none-eabi-gcc'
 ARM_CROSS_COMPILER_CXX = 'arm-none-eabi-g++'
 
@@ -142,5 +144,11 @@ def build(bld):
             use = "crt0",
         )
 
-        bld.add_manual_dependency("main", "ldscript.ld")
-        bld.add_manual_dependency("main", "linkspec.spec")
+        def add_dependency(tgt, src):
+            src_node = bld.path.find_resource(src)
+            if src_node is None:
+                bld.fatal("Could not find manual dependency '{}'".format(src))
+            bld.add_manual_dependency(tgt, src_node)
+
+        add_dependency("main", "ldscript.ld")
+        add_dependency("main", "linkspec.specs")
