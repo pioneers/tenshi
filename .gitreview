@@ -1,0 +1,5 @@
+[gerrit]
+host=robertou.com
+project=project-tensh
+defaultbranch=master
+defaultremote=origin
