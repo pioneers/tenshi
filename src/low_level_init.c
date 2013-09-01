@@ -1,7 +1,7 @@
 // Configure the processor into a "normal" state. This mostly consists of
 // initializing the clocks. Mostly derived from system_stm32f4xx.c.
 
-#include "stm32f4xx.h"
+#include "stm32f4xx.h"  // NOLINT(build/include)
 
 /************************* PLL Parameters *************************************/
 // The following values are set such that an 8 MHz crystal gives an output of
@@ -65,7 +65,7 @@ void __ll_init(void) {
     // Enable the main PLL
     RCC->CR |= RCC_CR_PLLON;
     // Wait till the main PLL is ready
-    while((RCC->CR & RCC_CR_PLLRDY) == 0) {}
+    while ((RCC->CR & RCC_CR_PLLRDY) == 0) {}
 
     // Configure Flash prefetch, Instruction cache, Data cache and wait state
     FLASH->ACR =
@@ -79,7 +79,7 @@ void __ll_init(void) {
     RCC->CFGR |= RCC_CFGR_SW_PLL;
 
     // Wait till the main PLL is used as system clock source
-    while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL) {}
+    while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL) {}
   } else {
     // If HSE fails to start-up, the application will have wrong clock
     // configuration. User can add here some code to deal with this error

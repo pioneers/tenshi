@@ -1,0 +1,3 @@
+# These files are imported from STMicro and don't meet style
+inc/core_*
+inc/stm32f4xx.h

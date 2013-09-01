@@ -6,4 +6,8 @@
 # TODO(rqou): Less hacky
 export PATH=$PATH:`pwd`/tools/arm-toolchain/bin
 
+# Main compile process
 ./waf configure build
+
+# Run cpplint
+./tools/run-cpplint.py
