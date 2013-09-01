@@ -140,7 +140,7 @@ _reset:
     movs r6, r4
     movs r7, r4
     ldr r0, =0x20000000
-    ldr r1, =0x00008000
+    ldr r1, =0x00020000
     bl ClearData
 #endif
 
