@@ -6,11 +6,4 @@
 # TODO(rqou): Less hacky
 export PATH=$PATH:`pwd`/tools/arm-toolchain/bin
 
-# Set up waf
-if [ ! -e waf ]
-then
-	wget -O waf http://waf.googlecode.com/files/waf-1.7.11
-	chmod +x waf
-fi
-
 ./waf configure build
