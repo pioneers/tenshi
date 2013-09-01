@@ -1,5 +1,4 @@
 build
-waf
 tools/*.tar.bz2
 tools/arm-toolchain
 
