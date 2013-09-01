@@ -136,10 +136,23 @@ def build(bld):
             target = "crt0",
         )
 
+        bld.objects(
+            source = bld.path.ant_glob("src/**/*.c"),
+            target = "c_objects",
+            includes = "inc",
+        )
+
+        bld.objects(
+            source = bld.path.ant_glob("src/**/*.cpp"),
+            target = "cpp_objects",
+            includes = "inc",
+        )
+
         bld.program (
-            source = "src/main.c",
+            source = "",
             target = "main",
-            use = "crt0",
+            features = "cxx cxxprogram",
+            use = "crt0 c_objects cpp_objects",
         )
 
         bld.add_manual_dependency("main", "ldscript.ld")
