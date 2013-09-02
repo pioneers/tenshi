@@ -1,6 +1,6 @@
-build
-tools/*.tar.bz2
-tools/arm-toolchain
+controller/build
+controller/tools/*.tar.bz2
+controller/tools/arm-toolchain
 
 ### /home/kyle/.gitignore-boilerplates/Global/vim.gitignore
 
