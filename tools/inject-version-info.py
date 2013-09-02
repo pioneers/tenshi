@@ -7,10 +7,12 @@ import sys
 
 def get_git_hash():
     head_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip()
-    bytes = ""
+    if isinstance(head_hash, bytes):
+        head_hash = head_hash.decode()
+    rev = ""
     for i in range(0, 20):
-        bytes = bytes + "0x" + head_hash[i*2:i*2+2] + ", "
-    return bytes
+        rev += "0x" + head_hash[i*2:i*2+2] + ", "
+    return rev
 
 def get_version_info():
     with open(os.path.dirname(sys.argv[0]) + "/../version.txt", "r") as f:
@@ -41,7 +43,7 @@ def get_version_info():
 
 def get_working_dir_clean():
     git_status = subprocess.check_output(['git', 'status', '--porcelain', '-uno']).strip()
-    return git_status == ''
+    return len(git_status) == 0
 
 def get_building_from_jenkins():
     if not 'JOB_NAME' in os.environ:
