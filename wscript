@@ -63,6 +63,7 @@ def common_configure(conf):
             '-mfpu=fpv4-sp-d16',        # Enable FPU opcodes
             '-mfloat-abi=hard',         # Pass arguments via FPU registers
             '-Wl,--gc-sections',        # Discard unused sections
+            '-Wl,-uVERSION_INFORMATION',# Force VERSION_INFORMATION to be retained
             '-B' + conf.path.abspath(), # For finding .ld file
             '-specs=' + conf.path.abspath() + '/linkspec.specs',    # Linker rules + crt0
         ])
@@ -133,9 +134,30 @@ def build(bld):
         run_command('build_debopt')
         run_command('build_relopt')
     else:
+        def add_dependency(tgt, src):
+            src_node = bld.path.find_resource(src)
+            if src_node is None:
+                bld.fatal("Could not find manual dependency '{}'".format(src))
+            bld.add_manual_dependency(tgt, src_node)
+
         bld.objects(
             source = "stm32f4-crt0.S",
             target = "crt0",
+        )
+
+        bld(
+            rule = bld.path.abspath() + '/tools/inject-version-info.py ${SRC} ${TGT}',
+            source = 'src/version.c.template',
+            target = 'version.c',
+            always = True,
+            update_outputs=True,
+        )
+        add_dependency('version.c', 'version.txt')
+
+        bld.objects(
+            source = 'version.c',
+            target = 'version_obj',
+            includes = "inc",
         )
 
         bld.objects(
@@ -154,7 +176,7 @@ def build(bld):
             source = "",
             target = "tenshi.elf",
             features = "cxx cxxprogram",
-            use = "crt0 c_objects cpp_objects",
+            use = "crt0 c_objects cpp_objects version_obj",
         )
 
         bld(
@@ -162,12 +184,6 @@ def build(bld):
             source = "tenshi.elf",
             target = "tenshi.bin",
         )
-
-        def add_dependency(tgt, src):
-            src_node = bld.path.find_resource(src)
-            if src_node is None:
-                bld.fatal("Could not find manual dependency '{}'".format(src))
-            bld.add_manual_dependency(tgt, src_node)
 
         add_dependency("tenshi.elf", "ldscript.ld")
         add_dependency("tenshi.elf", "linkspec.specs")
