@@ -45,6 +45,7 @@ def main():
     exit_code = subprocess.call([
         './tools/cpplint.py',
         '--filter=-legal/copyright',
+        '--root=controller',
         ] + source_files)
     sys.exit(exit_code)
 
