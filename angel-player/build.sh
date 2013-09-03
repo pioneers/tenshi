@@ -15,6 +15,7 @@ cd angel-player-linux-x86_64
 tar xjf ../xulrunner-22.0.en-US.linux-x86_64.tar.bz2
 cp xulrunner/xulrunner-stub angel-player
 cp -r ../../src/* .
+../../inject-build-id.sh
 cd ..
 tar cjf angel-player-linux-x86_64.tar.bz2 angel-player-linux-x86_64
 
