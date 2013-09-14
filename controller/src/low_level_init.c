@@ -1,7 +1,7 @@
 // Configure the processor into a "normal" state. This mostly consists of
 // initializing the clocks. Mostly derived from system_stm32f4xx.c.
 
-#include "stm32f4xx.h"  // NOLINT(build/include)
+#include "inc/stm32f4xx.h"
 
 /************************* PLL Parameters *************************************/
 // The following values are set such that an 8 MHz crystal gives an output of
