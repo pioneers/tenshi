@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include "FreeRTOS.h"   // NOLINT(build/include)
-#include "stm32f4xx.h"  // NOLINT(build/include)
-#include "task.h"       // NOLINT(build/include)
+#include "inc/FreeRTOS.h"
+#include "inc/stm32f4xx.h"
+#include "inc/task.h"
 
 static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {\
   while (1) {

@@ -157,19 +157,19 @@ def build(bld):
         bld.objects(
             source = 'version.c',
             target = 'version_obj',
-            includes = "inc",
+            includes = ". inc",
         )
 
         bld.objects(
             source = bld.path.ant_glob("src/**/*.c"),
             target = "c_objects",
-            includes = "inc",
+            includes = ". inc",
         )
 
         bld.objects(
             source = bld.path.ant_glob("src/**/*.cpp"),
             target = "cpp_objects",
-            includes = "inc",
+            includes = ". inc",
         )
 
         bld.program (
