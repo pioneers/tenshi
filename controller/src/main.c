@@ -2,13 +2,15 @@
 
 #include "inc/FreeRTOS.h"
 #include "inc/debug_uart.h"
+#include "inc/pindef.h"
 #include "inc/stm32f4xx.h"
 #include "inc/task.h"
 
 static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
   while (1) {
     // Blink green LED
-    GPIOD->ODR ^= (1 << 12);
+    GPIO_BANK(PINDEF_DISCOVERY_GREEN_LED)->ODR ^=
+      (1 << GPIO_PIN(PINDEF_DISCOVERY_GREEN_LED));
 
     debug_uart_tx("Hello World!\r\n", 14);
 
@@ -24,9 +26,11 @@ int main(int argc, char **argv) {
   // TODO(rqou): Need some kind of io_init function
 
   // Set red and green LED GPIO output
-  GPIOD->MODER |= (1 << (12 * 2)) | (1 << (14 * 2));
+  CONFIGURE_IO(DISCOVERY_RED_LED);
+  CONFIGURE_IO(DISCOVERY_GREEN_LED);
   // Turn on red LED
-  GPIOD->ODR = (1 << 14);
+  GPIO_BANK(PINDEF_DISCOVERY_RED_LED)->ODR =
+    (1 << GPIO_PIN(PINDEF_DISCOVERY_RED_LED));
 
   debug_uart_setup();
 

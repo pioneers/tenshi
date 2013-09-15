@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <string.h>
 #include "inc/FreeRTOS.h"
+#include "inc/pindef.h"
 #include "inc/queue.h"
 #include "inc/stm32f4xx.h"
 #include "inc/task.h"
@@ -30,11 +31,8 @@ static portTASK_FUNCTION_PROTO(debugUartTxTask, pvParameters) {
 }
 
 void debug_uart_setup() {
-  // Enable alternate functions on PB6, PB7
-  // TODO(rqou): Pin defs in separate header
-  GPIOB->MODER |= (1 << (6 * 2 + 1)) | (1 << (7 * 2 + 1));
-  // Set AF7 (USART1) on these pins
-  GPIOB->AFR[0] |= (7 << (6*4)) | (7 << (7*4));
+  CONFIGURE_IO(DEBUG_UART_TX);
+  CONFIGURE_IO(DEBUG_UART_RX);
 
   // Turn on clock to USART1
   RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
