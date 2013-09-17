@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# We need this file because XULRunner seems to be broken on Mac
+# https://bugzilla.mozilla.org/show_bug.cgi?id=738790
+
+APPDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+"$APPDIR/../Frameworks/XUL.framework/Versions/Current/xulrunner" "$APPDIR/../Resources/application.ini"
