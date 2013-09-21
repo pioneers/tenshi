@@ -10,4 +10,4 @@ export PATH=$PATH:`pwd`/tools/arm-toolchain/bin
 ./waf configure build
 
 # Run cpplint
-./tools/run-cpplint.py
+./tools/run-cpplint.py | tee build/cpplint.txt
