@@ -1,0 +1,10 @@
+.CodeMirror {border-top: 1px solid black; 
+	     border-bottom: 1px solid black;
+             font-size: 18px;
+	     font-family: monospace;
+             width: 40%;
+             height: 90%;
+	     float: right;
+             margin-right: 1em;
+             margin-bottom: 4em;
+             }

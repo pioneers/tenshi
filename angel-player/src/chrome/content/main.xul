@@ -2,10 +2,9 @@
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
-<window id="main" title="Control System Next IDE" width="800" height="600"
+<window id="main" title="Control System Next IDE" width="1600" height="1000"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <caption label="Hello World"/>
   <browser type="chrome" src="chrome://angel-player/content/main.html"
       flex="1"/>
 

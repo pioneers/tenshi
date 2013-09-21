@@ -1,9 +1,23 @@
-<!doctype html>
-
 <html>
-    <body>
-        <p onclick="alert('Hello world again!')">
-            foo bar
-        </p>
-    </body>
+  <head>
+    <title></title>
+    <script type="text/javascript" src="jquery-console/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="jquery-console/jquery.console.js"></script>
+    <script type="text/javascript" src="console.js"></script>
+    <link rel="stylesheet" href="console.css" type="text/css" media="screen"></link>
+  </head>
+
+<link rel=stylesheet href="codemirror/doc/docs.css">
+
+<link rel="stylesheet" href="codemirror/lib/codemirror.css">
+<script src="codemirror/lib/codemirror.js"></script>
+<script src="codemirror/mode/python/python.js"></script>
+<script src="codemirror/addon/selection/active-line.js"></script>
+<link rel="stylesheet" href="editor.css">
+
+<form><textarea id="code" name="code">
+print("Hello World")
+</textarea></form>
+<script type="text/javascript" src="editor.js"></script>
+
 </html>
