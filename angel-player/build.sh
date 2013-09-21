@@ -4,24 +4,24 @@ mkdir -p build
 cd build
 
 # Download XULRunner if it isn't already
-if [ ! -e xulrunner-22.0.en-US.linux-x86_64.tar.bz2 ]
+if [ ! -e xulrunner-24.0.en-US.linux-x86_64.tar.bz2 ]
 then
-    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/22.0/runtimes/xulrunner-22.0.en-US.linux-x86_64.tar.bz2
+    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/24.0/runtimes/xulrunner-24.0.en-US.linux-x86_64.tar.bz2
 fi
-if [ ! -e xulrunner-22.0.en-US.win32.zip ]
+if [ ! -e xulrunner-24.0.en-US.win32.zip ]
 then
-    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/22.0/runtimes/xulrunner-22.0.en-US.win32.zip
+    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/24.0/runtimes/xulrunner-24.0.en-US.win32.zip
 fi
-if [ ! -e xulrunner-22.0.en-US.mac.tar.bz2 ]
+if [ ! -e xulrunner-24.0.en-US.mac.tar.bz2 ]
 then
-    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/22.0/runtimes/xulrunner-22.0.en-US.mac.tar.bz2
+    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/24.0/runtimes/xulrunner-24.0.en-US.mac.tar.bz2
 fi
 
 # Prepare linux version
 rm -rf angel-player-linux-x86_64
 mkdir angel-player-linux-x86_64
 cd angel-player-linux-x86_64
-tar xjf ../xulrunner-22.0.en-US.linux-x86_64.tar.bz2
+tar xjf ../xulrunner-24.0.en-US.linux-x86_64.tar.bz2
 cp xulrunner/xulrunner-stub angel-player
 cp -r ../../src/* .
 cd ..
@@ -30,7 +30,7 @@ cd ..
 rm -rf angel-player-win32
 mkdir angel-player-win32
 cd angel-player-win32
-unzip ../xulrunner-22.0.en-US.win32.zip
+unzip ../xulrunner-24.0.en-US.win32.zip
 cp xulrunner/xulrunner-stub.exe angel-player.exe
 cp -r ../../src/* .
 cd ..
@@ -44,7 +44,7 @@ mkdir -p Contents/Frameworks
 mkdir -p Contents/Resources
 mkdir -p Contents/MacOS
 pushd Contents/Frameworks
-tar xjf ../../../xulrunner-22.0.en-US.mac.tar.bz2
+tar xjf ../../../xulrunner-24.0.en-US.mac.tar.bz2
 popd
 cp -r ../../src/* Contents/Resources
 cp -r ../../meta-mac/* Contents
