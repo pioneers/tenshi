@@ -1,13 +1,10 @@
 #!/bin/bash -xe
 
-# Set up tools (assumes jenkins copied them or manually copied into tools directory)
-./tools/extract-tools.sh
+CONTROLLER_MAIN_DIR=$PROJECT_ROOT_DIR/controller
 
-# TODO(rqou): Less hacky
-export PATH=$PATH:`pwd`/tools/arm-toolchain/bin
+pushd $CONTROLLER_MAIN_DIR
 
 # Main compile process
 ./waf configure build
 
-# Run cpplint
-./tools/run-cpplint.py
+popd

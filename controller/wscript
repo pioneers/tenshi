@@ -3,6 +3,8 @@
 ARM_CROSS_COMPILER_C = 'arm-none-eabi-gcc'
 ARM_CROSS_COMPILER_CXX = 'arm-none-eabi-g++'
 
+out = '../build/controller'
+
 from waf_extensions import declare_variants
 declare_variants('deb', 'rel', 'debopt', 'relopt')
 
@@ -146,7 +148,7 @@ def build(bld):
         )
 
         bld(
-            rule = bld.path.abspath() + '/tools/inject-version-info.py ${SRC} ${TGT}',
+            rule = bld.path.abspath() + '/../tools/inject-version-controller.py ${SRC} ${TGT}',
             source = 'src/version.c.template',
             target = 'version.c',
             always = True,

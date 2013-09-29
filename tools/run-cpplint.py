@@ -22,7 +22,7 @@ def find_files_in_directory(dirname, exclusion_patterns):
 
 def read_exclusion_patterns():
     try:
-        f = open("./tools/cpplint-exclusions.txt", "r")
+        f = open(os.path.dirname(sys.argv[0]) + "/cpplint-exclusions.txt", "r")
     except IOError:
         # No such file, so assume no rules
         return []
@@ -35,11 +35,23 @@ def read_exclusion_patterns():
         l = f.readline().strip()
     return patterns
 
+def read_source_dirs():
+    f = open(os.path.dirname(sys.argv[0]) + "/cpplint-files.txt", "r")
+
+    lines = []
+    l = f.readline().strip()
+    while l != '':
+        if not l.startswith("#"):
+            lines.append(l)
+        l = f.readline().strip()
+    return lines
+
 def main():
     exclusion_patterns = read_exclusion_patterns()
+    source_dirs = read_source_dirs()
 
     source_files = []
-    for dirname in ['src', 'inc']:
+    for dirname in source_dirs:
         source_files = source_files + find_files_in_directory(dirname, exclusion_patterns)
 
     exit_code = subprocess.call([
