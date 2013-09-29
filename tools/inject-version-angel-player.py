@@ -7,12 +7,7 @@ import os
 import subprocess
 import sys
 import time
-
-def get_git_hash():
-    head_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip()
-    if isinstance(head_hash, bytes):
-        head_hash = head_hash.decode()
-    return head_hash
+from version_info_helpers import *
 
 def get_version_info(orig_file):
     with open(orig_file, "r") as f:
@@ -33,20 +28,6 @@ def get_version_info(orig_file):
             ver[2] = os.environ['BUILD_NUMBER']
 
     return '.'.join(ver)
-
-def get_working_dir_clean():
-    git_status = subprocess.check_output(['git', 'status', '--porcelain', '-uno']).strip()
-    return len(git_status) == 0
-
-def get_building_from_jenkins():
-    if not 'JOB_NAME' in os.environ:
-        return False
-    if not os.environ['JOB_NAME'].endswith("-committed"):
-        return False
-    return True
-
-def get_build_time():
-    return time.strftime('%Y%m%d%H%M%S')
 
 def do_file_substitutions(version, build_id, infilename, outfilenames):
     replaced_contents = ""
@@ -70,7 +51,7 @@ def main():
         print("Usage: %s infile outfile(s)", sys.argv[0])
         sys.exit(1)
 
-    githash = get_git_hash()
+    githash = get_git_hash(False)
     version = get_version_info(sys.argv[1])
     working_dir_clean = get_working_dir_clean()
     building_from_jenkins = get_building_from_jenkins()

@@ -4,18 +4,10 @@ from __future__ import print_function
 import os
 import subprocess
 import sys
-
-def get_git_hash():
-    head_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip()
-    if isinstance(head_hash, bytes):
-        head_hash = head_hash.decode()
-    rev = ""
-    for i in range(0, 20):
-        rev += "0x" + head_hash[i*2:i*2+2] + ", "
-    return rev
+from version_info_helpers import *
 
 def get_version_info():
-    with open(os.path.dirname(sys.argv[0]) + "/../version.txt", "r") as f:
+    with open(os.path.dirname(sys.argv[0]) + "/../controller/version.txt", "r") as f:
         ver = f.read().strip().split('.')
     if len(ver) != 4:
         raise Exception("Malformed version.txt")
@@ -41,17 +33,6 @@ def get_version_info():
         bytes = bytes + hex(ver_ints[i] & 0xFF) + ", " + hex(ver_ints[i] >> 8) + ", "
     return bytes
 
-def get_working_dir_clean():
-    git_status = subprocess.check_output(['git', 'status', '--porcelain', '-uno']).strip()
-    return len(git_status) == 0
-
-def get_building_from_jenkins():
-    if not 'JOB_NAME' in os.environ:
-        return False
-    if not os.environ['JOB_NAME'].endswith("-committed"):
-        return False
-    return True
-
 def do_file_substitutions(final_bytes, infilename, outfilename):
     with open(infilename, "r") as inf:
         with open(outfilename, "w") as outf:
@@ -67,7 +48,7 @@ def main():
         print("Usage: %s infile outfile", sys.argv[0])
         sys.exit(1)
 
-    githash = get_git_hash()
+    githash = get_git_hash(True)
     version = get_version_info()
     working_dir_clean = get_working_dir_clean()
     building_from_jenkins = get_building_from_jenkins()
