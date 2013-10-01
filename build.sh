@@ -20,3 +20,5 @@ done
 ./tools/run-style-tool.py cpplint 2>&1 | tee build/cpplint.txt ; ( exit ${PIPESTATUS[0]} )
 # Run pep8
 ./tools/run-style-tool.py pep8 2>&1 | tee build/pep8.txt ; ( exit ${PIPESTATUS[0]} )
+# Run jshint
+./tools/run-style-tool.py jshint 2>&1 | tee build/jshint.txt ; ( exit ${PIPESTATUS[0]} )
