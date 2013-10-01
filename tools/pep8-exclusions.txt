@@ -1,0 +1,4 @@
+# We don't care about any of this GCC stuff
+tools/arm-toolchain/*
+# This is Google's own problem
+tools/cpplint.py
