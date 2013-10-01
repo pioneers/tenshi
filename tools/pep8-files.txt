@@ -1,0 +1,4 @@
+tools/*.py
+# Waf stuff is python too
+controller/waf_extensions.py
+controller/wscript

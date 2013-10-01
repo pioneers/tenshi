@@ -6,8 +6,10 @@ import subprocess
 import sys
 from version_info_helpers import *
 
+
 def get_version_info():
-    with open(os.path.dirname(sys.argv[0]) + "/../controller/version.txt", "r") as f:
+    with open(os.path.dirname(sys.argv[0]) +
+              "/../controller/version.txt", "r") as f:
         ver = f.read().strip().split('.')
     if len(ver) != 4:
         raise Exception("Malformed version.txt")
@@ -30,8 +32,10 @@ def get_version_info():
     for i in range(0, 4):
         if ver_ints[i] >= 0x10000:
             raise Exception("Version number too big")
-        bytes = bytes + hex(ver_ints[i] & 0xFF) + ", " + hex(ver_ints[i] >> 8) + ", "
+        bytes = (bytes + hex(ver_ints[i] & 0xFF) + ", " +
+                 hex(ver_ints[i] >> 8) + ", ")
     return bytes
+
 
 def do_file_substitutions(final_bytes, infilename, outfilename):
     with open(infilename, "r") as inf:
@@ -42,6 +46,7 @@ def do_file_substitutions(final_bytes, infilename, outfilename):
                 newl = newl.replace("###VERSIONINFO###", final_bytes)
                 outf.write(newl)
                 l = inf.readline()
+
 
 def main():
     if len(sys.argv) < 3:
@@ -63,5 +68,5 @@ def main():
 
     do_file_substitutions(final_bytes, sys.argv[1], sys.argv[2])
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

@@ -9,6 +9,7 @@ import sys
 import time
 from version_info_helpers import *
 
+
 def get_version_info(orig_file):
     with open(orig_file, "r") as f:
         l = f.readline()
@@ -29,6 +30,7 @@ def get_version_info(orig_file):
 
     return '.'.join(ver)
 
+
 def do_file_substitutions(version, build_id, infilename, outfilenames):
     replaced_contents = ""
     with open(infilename, "r") as inf:
@@ -45,6 +47,7 @@ def do_file_substitutions(version, build_id, infilename, outfilenames):
     for outfilename in outfilenames:
         with open(outfilename, "w") as outf:
             outf.write(replaced_contents)
+
 
 def main():
     if len(sys.argv) < 3:
@@ -65,5 +68,5 @@ def main():
 
     do_file_substitutions(version, build_time, sys.argv[1], sys.argv[2:])
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()
