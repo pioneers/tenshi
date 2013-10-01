@@ -66,7 +66,7 @@ def read_source_dirs(toolname):
 
 def main():
     if len(sys.argv) < 2:
-        print "Usage: %s cpplint|pep8" % sys.argv[0]
+        print "Usage: %s cpplint|pep8|jshint" % sys.argv[0]
         sys.exit(1)
 
     styletool = sys.argv[1]
@@ -85,6 +85,14 @@ def main():
     elif styletool == "pep8":
         exit_code = subprocess.call([
             'pep8',
+            ] + source_files)
+        sys.exit(exit_code)
+    elif styletool == "jshint":
+        # Hack for Jenkins violations being stupid
+        source_files = map(lambda x: os.getcwd() + "/" + x, source_files)
+        exit_code = subprocess.call([
+            'jshint',
+            '--reporter=jslint',
             ] + source_files)
         sys.exit(exit_code)
     else:
