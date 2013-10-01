@@ -5,7 +5,6 @@
 <window id="main" title="Control System Next IDE" width="800" height="600"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <caption label="Hello World"/>
   <browser type="chrome" src="chrome://angel-player/content/main.html"
       flex="1"/>
 

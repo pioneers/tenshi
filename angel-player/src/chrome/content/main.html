@@ -2,12 +2,16 @@
 
 <html>
     <head>
+        <script src="version.js"></script>
         <script src="main.js"></script>
         <link rel="stylesheet" type="text/css" href="main.css">
     </head>
-    <body>
+    <body onload="onLoad()">
         <p onclick="jsAlert()">
             foo bar
         </p>
+        <div id="version-div" onclick="showVersion()">
+        	BUILDID
+        </div>
     </body>
 </html>

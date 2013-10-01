@@ -1,3 +1,9 @@
 body {
-    background-color: green;
+    background-color: white;
+}
+
+#version-div {
+    position: absolute;
+    bottom: 3px;
+    font-size: 0.5em;
 }
