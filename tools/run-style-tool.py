@@ -95,6 +95,12 @@ def main():
             '--reporter=jslint',
             ] + source_files)
         sys.exit(exit_code)
+    elif styletool == "csslint":
+        exit_code = subprocess.call([
+            'csslint',
+            '--format=csslint-xml',
+            ] + source_files)
+        sys.exit(exit_code)
     else:
         print "Unknown style tool %s" % styletool
         sys.exit(1)
