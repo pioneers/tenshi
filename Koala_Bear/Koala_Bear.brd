@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -131,8 +131,8 @@
 <text x="9.5" y="7.9" size="1.016" layer="21" font="vector" ratio="20" rot="R90">GND</text>
 <text x="9.6" y="14.8" size="1.016" layer="21" font="vector" ratio="20" rot="R90">12V</text>
 <text x="61" y="19.3" size="1.016" layer="22" font="vector" ratio="15" rot="MR90">Version 1 : Revision E</text>
-<text x="58.7" y="17" size="1.016" layer="21" font="vector" ratio="20" rot="R180">GND</text>
-<text x="58.5" y="14.3" size="1.016" layer="21" font="vector" ratio="20" rot="R180">6V</text>
+<text x="58.7" y="14" size="1.016" layer="21" font="vector" ratio="20" rot="R180">GND</text>
+<text x="58.5" y="17.3" size="1.016" layer="21" font="vector" ratio="20" rot="R180">6V</text>
 <text x="64.46" y="3.595" size="1.016" layer="21" font="vector" ratio="20" rot="R90">GND</text>
 <text x="60.95" y="6.1" size="1.016" layer="21" font="vector" ratio="20" rot="R270">6V</text>
 <text x="30.1" y="11.6" size="0.889" layer="21" font="vector" ratio="20" rot="R90">GND</text>
@@ -1075,8 +1075,8 @@ design rules under a new name.</description>
 <element name="U$6" library="stand_off_servoc" package="STAND_OFF_SERVOC" value="" x="58.5" y="25.09"/>
 <element name="U$7" library="stand_off_servoc" package="STAND_OFF_SERVOC" value="" x="41.8" y="39.82"/>
 <element name="MSTRO_PWR" library="pie" package="1X05-MTA" value="M05" x="41.3" y="26.4" smashed="yes" rot="R90"/>
-<element name="SERVO_PWR_6" library="pie" package="1X02" value="" x="60" y="14.005" smashed="yes" rot="R90">
-<attribute name="VALUE" x="64.445" y="12.735" size="1.27" layer="27" rot="R90"/>
+<element name="SERVO_PWR_6" library="pie" package="1X02" value="" x="60" y="16.545" smashed="yes" rot="R270">
+<attribute name="VALUE" x="55.555" y="17.815" size="1.27" layer="27" rot="R270"/>
 </element>
 <element name="SERVO_PWR_12" library="pie" package="1X02" value="" x="63.8" y="7.85" smashed="yes" rot="R180">
 <attribute name="VALUE" x="65.07" y="11.025" size="1.27" layer="27" rot="R180"/>
