@@ -8,8 +8,17 @@ function setDebugFooterVisibility() {
     }
 }
 
+function setVersionInfoTag() {
+    var infoTag = document.getElementById('version-data');
+    infoTag.innerHTML = "Build ID " + appVersion.getBuildID() +
+        ", Version " + appVersion.getVersion() +
+        " (running on " + appVersion.getOS() + ")";
+}
+
 function onLoad() {
     debugModule.init();
+
+    setVersionInfoTag();
 
     // Hide debug stuff if debugging is off.
     setDebugFooterVisibility();
