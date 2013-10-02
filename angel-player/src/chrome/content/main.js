@@ -32,3 +32,7 @@ function toggleDebug() {
 function jsAlert() {
     alert('Hello world again!');
 }
+
+function openInspector() {
+    window.open("chrome://inspector/content/inspector.xul", "", "chrome");
+}
