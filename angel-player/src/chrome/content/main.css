@@ -1,3 +1,23 @@
 body {
-    background-color: green;
+    background-color: white;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+#footer-debug-container {
+    float: right;
+    font-size: 0.5em;
+    margin-right: 1em;
+}
+
+#toggle-debug {
+    width: 0.5em;
+    height: 0.5em;
+    background-color: gray;
+    float: right;
 }

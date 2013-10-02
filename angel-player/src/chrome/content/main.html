@@ -2,12 +2,17 @@
 
 <html>
     <head>
+        <script src="debug.js"></script>
         <script src="main.js"></script>
         <link rel="stylesheet" type="text/css" href="main.css">
     </head>
-    <body>
-        <p onclick="jsAlert()">
-            foo bar
-        </p>
+    <body onload="onLoad()">
+        <!-- Footer only contains debug things -->
+        <div id="footer">
+            <div id="toggle-debug" onclick="toggleDebug()"></div>
+            <div id="footer-debug-container">
+                <a href="chrome://global/content/config.xul">about:config</a>
+            </div>
+        </div>
     </body>
 </html>
