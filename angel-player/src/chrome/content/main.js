@@ -1,3 +1,6 @@
+Components.utils.import("chrome://angel-player/content/version.js");
+Components.utils.import("chrome://angel-player/content/debug.js");
+
 function setDebugFooterVisibility() {
     var debugFooter = document.getElementById('footer-debug-container');
     if (!debugModule.isDebugEnabled()) {
@@ -16,8 +19,6 @@ function setVersionInfoTag() {
 }
 
 function onLoad() {
-    debugModule.init();
-
     setVersionInfoTag();
 
     // Hide debug stuff if debugging is off.

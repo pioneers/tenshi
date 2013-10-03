@@ -5,6 +5,8 @@
 <window id="main" title="Control System Next IDE" width="1366" height="768"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
+  <script type="text/javascript" src="globalinit.js"/>
+
   <browser type="chrome" src="chrome://angel-player/content/main.html"
       flex="1"/>
 
