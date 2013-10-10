@@ -1,0 +1,18 @@
+/*csslint known-properties: false*/
+/* csslint gets confused by SVG-specific CSS properties */
+
+body {
+    background-color: white;
+}
+
+#width-computing-group {
+    visibility: hidden;
+}
+
+.blockTextBkg {
+    fill: blue;
+}
+
+.blockEndCap {
+    fill: blue;
+}
