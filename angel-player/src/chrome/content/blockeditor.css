@@ -1,0 +1,15 @@
+body {
+    background-color: white;
+}
+
+#width-computing-group {
+    visibility: hidden;
+}
+
+.blockTextBkg {
+    fill: blue;
+}
+
+.blockEndCap {
+    fill: blue;
+}
