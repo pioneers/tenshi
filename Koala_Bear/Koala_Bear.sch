@@ -9369,7 +9369,10 @@ Source: www.kingbright.com</description>
 <part name="MSTRO_PWR" library="pie" deviceset="M05" device=""/>
 <part name="SERVO_PWR_6" library="pie" deviceset="M02" device="PTH"/>
 <part name="SERVO_PWR_12" library="pie" deviceset="M02" device="PTH"/>
-<part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device=""/>
+<part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
+<attribute name="AUTHOR" value="Kate Rakelly, Andrew Hild"/>
+<attribute name="REVISION" value="A"/>
+</part>
 <part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="330"/>
 <part name="R2" library="rcl" deviceset="R-US_" device="R0603" value="330"/>
 <part name="LED1" library="led" deviceset="LED" device="CHIP-LED0805" value="GRN"/>
@@ -9467,6 +9470,8 @@ Source: www.kingbright.com</description>
 <attribute name="LAST_DATE_TIME" x="71.12" y="-82.55" size="2.54" layer="94" font="vector"/>
 <attribute name="SHEET" x="144.78" y="-82.55" size="2.54" layer="94" font="vector"/>
 <attribute name="DRAWING_NAME" x="73.914" y="-66.04" size="2.7432" layer="94" font="vector"/>
+<attribute name="AUTHOR" x="59.69" y="-76.835" size="2.7432" layer="94" font="vector"/>
+<attribute name="REVISION" x="147.32" y="-76.835" size="2.7432" layer="94" font="vector"/>
 </instance>
 <instance part="R1" gate="G$1" x="99.06" y="15.24" smashed="yes" rot="R90">
 <attribute name="NAME" x="97.5614" y="11.43" size="1.778" layer="95" rot="R90"/>
