@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -445,6 +445,7 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </polygon>
 </package>
 <package name="LED-0805">
+<description>LED 0805 Package</description>
 <smd name="A" x="-1.0414" y="0" dx="1.1938" dy="1.2446" layer="1"/>
 <smd name="C" x="1.0414" y="0" dx="1.1938" dy="1.2446" layer="1"/>
 <wire x1="-0.254" y1="0.508" x2="0.254" y2="0" width="0.127" layer="21"/>
@@ -4793,6 +4794,7 @@ Source: 3M</description>
 <part name="LED2" library="pie" deviceset="LED" device="0805"/>
 <part name="LED3" library="pie" deviceset="LED" device="0805"/>
 <part name="X1" library="pie" deviceset="2540-" device=""/>
+<part name="GND1" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4844,6 +4846,7 @@ Source: 3M</description>
 <instance part="LED2" gate="G$1" x="87.63" y="128.27" rot="R90"/>
 <instance part="LED3" gate="G$1" x="87.63" y="118.11" rot="R90"/>
 <instance part="X1" gate="G$1" x="44.45" y="104.14" rot="MR180"/>
+<instance part="GND1" gate="1" x="30.48" y="29.21"/>
 </instances>
 <busses>
 </busses>
@@ -4933,6 +4936,7 @@ Source: 3M</description>
 <pinref part="U$1" gate="G$1" pin="GND"/>
 <wire x1="172.72" y1="55.88" x2="171.45" y2="55.88" width="0.1524" layer="91"/>
 <junction x="172.72" y="55.88"/>
+<label x="179.07" y="53.34" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="143.51" y1="166.37" x2="143.51" y2="147.32" width="0.1524" layer="91"/>
@@ -4969,6 +4973,15 @@ Source: 3M</description>
 <wire x1="118.11" y1="13.97" x2="124.46" y2="13.97" width="0.1524" layer="91"/>
 <label x="119.38" y="13.97" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="24.13" y1="25.4" x2="24.765" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="24.765" y1="25.4" x2="26.67" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="26.67" y1="25.4" x2="26.67" y2="31.75" width="0.1524" layer="91"/>
+<pinref part="GND1" gate="1" pin="GND"/>
+<wire x1="26.67" y1="31.75" x2="30.48" y2="31.75" width="0.1524" layer="91"/>
+<pinref part="BUZZER" gate="G$1" pin="5"/>
+<junction x="24.765" y="25.4"/>
+</segment>
 </net>
 <net name="VCC" class="1">
 <segment>
@@ -4979,6 +4992,7 @@ Source: 3M</description>
 <wire x1="73.66" y1="151.13" x2="73.66" y2="148.59" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="138.43" x2="73.66" y2="148.59" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="148.59" x2="93.98" y2="148.59" width="0.1524" layer="91"/>
+<junction x="73.66" y="148.59"/>
 </segment>
 <segment>
 <wire x1="208.28" y1="167.64" x2="196.85" y2="167.64" width="0.1524" layer="91"/>
@@ -5799,10 +5813,6 @@ Source: 3M</description>
 </nets>
 </sheet>
 </sheets>
-<errors>
-<approved hash="202,1,198.12,226.06,U3,RESET,,,,"/>
-<approved hash="202,1,238.76,226.06,U3,RTS,,,,"/>
-</errors>
 </schematic>
 </drawing>
 </eagle>
