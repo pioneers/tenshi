@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.3">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -124,67 +124,23 @@
 </layers>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
 <libraries>
-<library name="supply1">
-<packages>
-</packages>
-<symbols>
-<symbol name="GND">
-<wire x1="-1.905" y1="0" x2="1.905" y2="0" width="0.254" layer="94"/>
-<text x="-2.54" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="GND" prefix="GND">
-<description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
-<gates>
-<gate name="1" symbol="GND" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="supply2">
 <packages>
 </packages>
 <symbols>
-<symbol name="VCC">
-<circle x="0" y="1.27" radius="1.27" width="0.254" layer="94"/>
-<text x="-1.905" y="3.175" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="VCC" x="0" y="-2.54" visible="off" length="short" direction="sup" rot="R90"/>
-</symbol>
-<symbol name="+05V">
-<wire x1="-0.635" y1="1.27" x2="0.635" y2="1.27" width="0.1524" layer="94"/>
-<wire x1="0" y1="0.635" x2="0" y2="1.905" width="0.1524" layer="94"/>
-<circle x="0" y="1.27" radius="1.27" width="0.254" layer="94"/>
-<text x="-1.905" y="3.175" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="+5V" x="0" y="-2.54" visible="off" length="short" direction="sup" rot="R90"/>
+<symbol name="GND">
+<wire x1="-1.27" y1="0" x2="1.27" y2="0" width="0.254" layer="94"/>
+<wire x1="1.27" y1="0" x2="0" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="0" y1="-1.27" x2="-1.27" y2="0" width="0.254" layer="94"/>
+<text x="-1.905" y="-3.175" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="VCC" prefix="SUPPLY">
+<deviceset name="GND" prefix="SUPPLY">
 <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
 <gates>
-<gate name="G$1" symbol="VCC" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="+5V" prefix="SUPPLY">
-<description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
-<gates>
-<gate name="+5V" symbol="+05V" x="0" y="0"/>
+<gate name="GND" symbol="GND" x="0" y="0"/>
 </gates>
 <devices>
 <device name="">
@@ -445,6 +401,7 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </polygon>
 </package>
 <package name="LED-0805">
+<description>LED 0805 Package</description>
 <smd name="A" x="-1.0414" y="0" dx="1.1938" dy="1.2446" layer="1"/>
 <smd name="C" x="1.0414" y="0" dx="1.1938" dy="1.2446" layer="1"/>
 <wire x1="-0.254" y1="0.508" x2="0.254" y2="0" width="0.127" layer="21"/>
@@ -4748,6 +4705,40 @@ Source: 3M</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="supply1">
+<description>&lt;b&gt;Supply Symbols&lt;/b&gt;&lt;p&gt;
+ GND, VCC, 0V, +5V, -5V, etc.&lt;p&gt;
+ Please keep in mind, that these devices are necessary for the
+ automatic wiring of the supply signals.&lt;p&gt;
+ The pin name defined in the symbol is identical to the net which is to be wired automatically.&lt;p&gt;
+ In this library the device names are the same as the pin names of the symbols, therefore the correct signal names appear next to the supply symbols in the schematic.&lt;p&gt;
+ &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+</packages>
+<symbols>
+<symbol name="VCC">
+<wire x1="1.27" y1="-1.905" x2="0" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="-1.27" y2="-1.905" width="0.254" layer="94"/>
+<text x="-2.54" y="-2.54" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
+<pin name="VCC" x="0" y="-2.54" visible="off" length="short" direction="sup" rot="R90"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="VCC" prefix="P+">
+<description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
+<gates>
+<gate name="VCC" symbol="VCC" x="0" y="0"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -4765,14 +4756,14 @@ Source: 3M</description>
 <part name="P2" library="pie" deviceset="PINHD-1X8" device=""/>
 <part name="P4" library="pie" deviceset="PINHD-1X6" device=""/>
 <part name="P5" library="pie" deviceset="PINHD-1X6" device=""/>
-<part name="GND2" library="supply1" deviceset="GND" device=""/>
-<part name="V17" library="supply2" deviceset="+5V" device=""/>
-<part name="V18" library="supply2" deviceset="VCC" device=""/>
+<part name="GND2" library="supply2" deviceset="GND" device=""/>
+<part name="V17" library="supply1" deviceset="VCC" device=""/>
+<part name="V18" library="supply1" deviceset="VCC" device=""/>
 <part name="U3" library="pie" deviceset="XBEE-1" device="B2"/>
 <part name="S2" library="pie" deviceset="TAC_SWITCH" device="PTH"/>
-<part name="V1" library="supply2" deviceset="VCC" device=""/>
+<part name="V1" library="supply1" deviceset="VCC" device=""/>
 <part name="P3" library="pie" deviceset="PINHD-2X20" device=""/>
-<part name="GND3" library="supply1" deviceset="GND" device=""/>
+<part name="GND3" library="supply2" deviceset="GND" device=""/>
 <part name="R1" library="pie" deviceset="R-US_" device="R0603" value="330"/>
 <part name="R2" library="pie" deviceset="R-US_" device="R0603" value="330"/>
 <part name="R3" library="pie" deviceset="R-US_" device="R0603" value="330"/>
@@ -4783,16 +4774,18 @@ Source: 3M</description>
 <part name="BATTERY" library="pie" deviceset="M04" device="1X04-MTA"/>
 <part name="BUZZER" library="pie" deviceset="M05" device="PTH"/>
 <part name="R4" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
-<part name="V2" library="supply2" deviceset="VCC" device=""/>
+<part name="V2" library="supply1" deviceset="VCC" device=""/>
 <part name="C2" library="pie" deviceset="CAP" device="0603-CAP" value="10uF"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
-<attribute name="AUTHOR" value="Sahar M., Michael C., Sumita G."/>
+<attribute name="AUTHOR" value="Sahar M, Michael C, Sumita G, Aravind K"/>
 <attribute name="REVISION" value="F"/>
 </part>
 <part name="LED1" library="pie" deviceset="LED" device="0805"/>
 <part name="LED2" library="pie" deviceset="LED" device="0805"/>
 <part name="LED3" library="pie" deviceset="LED" device="0805"/>
 <part name="X1" library="pie" deviceset="2540-" device=""/>
+<part name="GND1" library="supply2" deviceset="GND" device=""/>
+<part name="VIN" library="supply1" deviceset="VCC" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4812,14 +4805,14 @@ Source: 3M</description>
 <instance part="P2" gate="A" x="175.26" y="166.37" rot="MR90"/>
 <instance part="P4" gate="A" x="173.99" y="105.41" rot="MR270"/>
 <instance part="P5" gate="A" x="149.86" y="105.41" rot="MR270"/>
-<instance part="GND2" gate="1" x="153.67" y="129.54" rot="R180"/>
-<instance part="V17" gate="+5V" x="148.59" y="120.65"/>
-<instance part="V18" gate="G$1" x="146.05" y="127"/>
+<instance part="GND2" gate="GND" x="153.67" y="129.54" rot="R180"/>
+<instance part="V17" gate="VCC" x="148.59" y="120.65"/>
+<instance part="V18" gate="VCC" x="146.05" y="127"/>
 <instance part="U3" gate="G$1" x="90.17" y="64.77"/>
 <instance part="S2" gate="S" x="113.03" y="16.51"/>
-<instance part="V1" gate="G$1" x="73.66" y="153.67"/>
+<instance part="V1" gate="VCC" x="73.66" y="153.67"/>
 <instance part="P3" gate="A" x="212.09" y="143.51"/>
-<instance part="GND3" gate="1" x="111.76" y="118.11"/>
+<instance part="GND3" gate="GND" x="111.76" y="118.11"/>
 <instance part="R1" gate="G$1" x="97.79" y="138.43" rot="R180"/>
 <instance part="R2" gate="G$1" x="97.79" y="128.27" rot="R180"/>
 <instance part="R3" gate="G$1" x="97.79" y="118.11" rot="R180"/>
@@ -4833,7 +4826,7 @@ Source: 3M</description>
 <instance part="BATTERY" gate="G$1" x="40.64" y="19.05"/>
 <instance part="BUZZER" gate="G$1" x="17.78" y="20.32"/>
 <instance part="R4" gate="G$1" x="66.04" y="17.78"/>
-<instance part="V2" gate="G$1" x="55.88" y="20.32"/>
+<instance part="V2" gate="VCC" x="55.88" y="20.32"/>
 <instance part="C2" gate="G$1" x="187.96" y="58.42"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0">
@@ -4844,6 +4837,8 @@ Source: 3M</description>
 <instance part="LED2" gate="G$1" x="87.63" y="128.27" rot="R90"/>
 <instance part="LED3" gate="G$1" x="87.63" y="118.11" rot="R90"/>
 <instance part="X1" gate="G$1" x="44.45" y="104.14" rot="MR180"/>
+<instance part="GND1" gate="GND" x="30.48" y="29.21"/>
+<instance part="VIN" gate="VCC" x="227.33" y="71.12"/>
 </instances>
 <busses>
 </busses>
@@ -4854,7 +4849,7 @@ Source: 3M</description>
 <junction x="148.59" y="105.41"/>
 <junction x="148.59" y="118.11"/>
 <pinref part="P5" gate="A" pin="3"/>
-<pinref part="V17" gate="+5V" pin="+5V"/>
+<pinref part="V17" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
 <wire x1="208.28" y1="119.38" x2="196.85" y2="119.38" width="0.1524" layer="91"/>
@@ -4889,7 +4884,7 @@ Source: 3M</description>
 <junction x="153.67" y="105.41"/>
 <pinref part="P5" gate="A" pin="4"/>
 <pinref part="P5" gate="A" pin="5"/>
-<pinref part="GND2" gate="1" pin="GND"/>
+<pinref part="GND2" gate="GND" pin="GND"/>
 </segment>
 <segment>
 <wire x1="215.9" y1="121.92" x2="229.87" y2="121.92" width="0.1524" layer="91"/>
@@ -4907,7 +4902,7 @@ Source: 3M</description>
 <junction x="111.76" y="120.65"/>
 <junction x="111.76" y="128.27"/>
 <junction x="102.87" y="128.27"/>
-<pinref part="GND3" gate="1" pin="GND"/>
+<pinref part="GND3" gate="GND" pin="GND"/>
 <pinref part="R1" gate="G$1" pin="1"/>
 <pinref part="R2" gate="G$1" pin="1"/>
 <pinref part="R3" gate="G$1" pin="1"/>
@@ -4933,6 +4928,7 @@ Source: 3M</description>
 <pinref part="U$1" gate="G$1" pin="GND"/>
 <wire x1="172.72" y1="55.88" x2="171.45" y2="55.88" width="0.1524" layer="91"/>
 <junction x="172.72" y="55.88"/>
+<label x="179.07" y="53.34" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="143.51" y1="166.37" x2="143.51" y2="147.32" width="0.1524" layer="91"/>
@@ -4969,16 +4965,26 @@ Source: 3M</description>
 <wire x1="118.11" y1="13.97" x2="124.46" y2="13.97" width="0.1524" layer="91"/>
 <label x="119.38" y="13.97" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="24.13" y1="25.4" x2="24.765" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="24.765" y1="25.4" x2="26.67" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="26.67" y1="25.4" x2="26.67" y2="31.75" width="0.1524" layer="91"/>
+<pinref part="GND1" gate="GND" pin="GND"/>
+<wire x1="26.67" y1="31.75" x2="30.48" y2="31.75" width="0.1524" layer="91"/>
+<pinref part="BUZZER" gate="G$1" pin="5"/>
+<junction x="24.765" y="25.4"/>
+</segment>
 </net>
 <net name="VCC" class="1">
 <segment>
 <wire x1="83.82" y1="138.43" x2="73.66" y2="138.43" width="0.1524" layer="91"/>
-<pinref part="V1" gate="G$1" pin="VCC"/>
+<pinref part="V1" gate="VCC" pin="VCC"/>
 <pinref part="C3" gate="G$1" pin="1"/>
 <pinref part="LED1" gate="G$1" pin="A"/>
 <wire x1="73.66" y1="151.13" x2="73.66" y2="148.59" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="138.43" x2="73.66" y2="148.59" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="148.59" x2="93.98" y2="148.59" width="0.1524" layer="91"/>
+<junction x="73.66" y="148.59"/>
 </segment>
 <segment>
 <wire x1="208.28" y1="167.64" x2="196.85" y2="167.64" width="0.1524" layer="91"/>
@@ -4990,7 +4996,7 @@ Source: 3M</description>
 <wire x1="146.05" y1="105.41" x2="146.05" y2="124.46" width="0.1524" layer="91"/>
 <junction x="146.05" y="105.41"/>
 <pinref part="P5" gate="A" pin="2"/>
-<pinref part="V18" gate="G$1" pin="VCC"/>
+<pinref part="V18" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
 <wire x1="215.9" y1="119.38" x2="227.33" y2="119.38" width="0.1524" layer="91"/>
@@ -5013,7 +5019,7 @@ Source: 3M</description>
 <segment>
 <pinref part="R4" gate="G$1" pin="1"/>
 <wire x1="60.96" y1="17.78" x2="55.88" y2="17.78" width="0.1524" layer="91"/>
-<pinref part="V2" gate="G$1" pin="VCC"/>
+<pinref part="V2" gate="VCC" pin="VCC"/>
 <junction x="55.88" y="17.78"/>
 <junction x="60.96" y="17.78"/>
 </segment>
@@ -5184,8 +5190,8 @@ Source: 3M</description>
 <pinref part="IC1" gate="G$1" pin="OUT"/>
 <junction x="212.09" y="63.5"/>
 <junction x="227.33" y="63.5"/>
-<wire x1="227.33" y1="68.58" x2="231.14" y2="68.58" width="0.1524" layer="91"/>
 <label x="227.33" y="68.58" size="1.778" layer="95"/>
+<pinref part="VIN" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
 <junction x="156.21" y="105.41"/>
@@ -5799,10 +5805,6 @@ Source: 3M</description>
 </nets>
 </sheet>
 </sheets>
-<errors>
-<approved hash="202,1,198.12,226.06,U3,RESET,,,,"/>
-<approved hash="202,1,238.76,226.06,U3,RTS,,,,"/>
-</errors>
 </schematic>
 </drawing>
 </eagle>
