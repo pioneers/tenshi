@@ -9373,8 +9373,8 @@ Source: www.kingbright.com</description>
 <attribute name="AUTHOR" value="Kate Rakelly, Andrew Hild"/>
 <attribute name="REVISION" value="A"/>
 </part>
-<part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="330"/>
-<part name="R2" library="rcl" deviceset="R-US_" device="R0603" value="330"/>
+<part name="REN4" library="rcl" deviceset="R-US_" device="R0603" value="330"/>
+<part name="REN5" library="rcl" deviceset="R-US_" device="R0603" value="330"/>
 <part name="LED1" library="led" deviceset="LED" device="CHIP-LED0805" value="GRN"/>
 <part name="LED2" library="led" deviceset="LED" device="CHIP-LED0805" value="YEL"/>
 <part name="SUPPLY4" library="supply2" deviceset="GND" device=""/>
@@ -9473,11 +9473,11 @@ Source: www.kingbright.com</description>
 <attribute name="AUTHOR" x="59.69" y="-76.835" size="2.7432" layer="94" font="vector"/>
 <attribute name="REVISION" x="147.32" y="-76.835" size="2.7432" layer="94" font="vector"/>
 </instance>
-<instance part="R1" gate="G$1" x="99.06" y="15.24" smashed="yes" rot="R90">
+<instance part="REN4" gate="G$1" x="99.06" y="15.24" smashed="yes" rot="R90">
 <attribute name="NAME" x="97.5614" y="11.43" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="102.362" y="11.43" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="R2" gate="G$1" x="111.76" y="15.24" smashed="yes" rot="R90">
+<instance part="REN5" gate="G$1" x="111.76" y="15.24" smashed="yes" rot="R90">
 <attribute name="NAME" x="110.2614" y="11.43" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="115.062" y="11.43" size="1.778" layer="96" rot="R90"/>
 </instance>
@@ -9646,7 +9646,7 @@ Source: www.kingbright.com</description>
 <label x="55.88" y="12.7" size="1.27" layer="95" font="vector"/>
 </segment>
 <segment>
-<pinref part="R2" gate="G$1" pin="2"/>
+<pinref part="REN5" gate="G$1" pin="2"/>
 <wire x1="111.76" y1="20.32" x2="111.76" y2="25.4" width="0.1524" layer="91"/>
 <label x="111.76" y="25.4" size="1.27" layer="95" rot="R180"/>
 </segment>
@@ -9681,7 +9681,7 @@ Source: www.kingbright.com</description>
 <label x="55.88" y="45.72" size="1.27" layer="95"/>
 </segment>
 <segment>
-<pinref part="R1" gate="G$1" pin="2"/>
+<pinref part="REN4" gate="G$1" pin="2"/>
 <wire x1="99.06" y1="20.32" x2="99.06" y2="25.4" width="0.1524" layer="91"/>
 <label x="99.06" y="25.4" size="1.27" layer="95" rot="R180"/>
 </segment>
@@ -9706,14 +9706,14 @@ Source: www.kingbright.com</description>
 </net>
 <net name="N$1" class="0">
 <segment>
-<pinref part="R1" gate="G$1" pin="1"/>
+<pinref part="REN4" gate="G$1" pin="1"/>
 <wire x1="99.06" y1="10.16" x2="99.06" y2="5.08" width="0.1524" layer="91"/>
 <pinref part="LED1" gate="G$1" pin="A"/>
 </segment>
 </net>
 <net name="N$5" class="0">
 <segment>
-<pinref part="R2" gate="G$1" pin="1"/>
+<pinref part="REN5" gate="G$1" pin="1"/>
 <wire x1="111.76" y1="10.16" x2="111.76" y2="5.08" width="0.1524" layer="91"/>
 <pinref part="LED2" gate="G$1" pin="A"/>
 </segment>
