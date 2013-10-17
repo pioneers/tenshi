@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -3378,7 +3378,6 @@ Source: 3M</description>
 <part name="M3" library="pie" deviceset="M03" device="1X03-MTA"/>
 <part name="M4" library="pie" deviceset="M03" device="1X03-MTA"/>
 <part name="M5" library="pie" deviceset="M03" device="1X03-MTA"/>
-<part name="FLAG" library="pie" deviceset="M03" device="1X03-MTA"/>
 <part name="I2C5" library="pie" deviceset="M04" device="1X04-MTA"/>
 <part name="I2C4" library="pie" deviceset="M04" device="1X04-MTA"/>
 <part name="I2C3" library="pie" deviceset="M04" device="1X04-MTA"/>
@@ -3399,6 +3398,7 @@ Source: 3M</description>
 </part>
 <part name="SHERLOCK" library="pie" deviceset="2540-" device=""/>
 <part name="KOALA" library="pie" deviceset="M04" device="1X04-MTA" value="Servos"/>
+<part name="I2C6" library="pie" deviceset="M04" device="1X04-MTA"/>
 </parts>
 <sheets>
 <sheet>
@@ -3435,7 +3435,6 @@ Source: 3M</description>
 <instance part="M3" gate="G$1" x="91.44" y="129.54"/>
 <instance part="M4" gate="G$1" x="104.14" y="129.54"/>
 <instance part="M5" gate="G$1" x="116.84" y="129.54"/>
-<instance part="FLAG" gate="G$1" x="198.12" y="91.44"/>
 <instance part="I2C5" gate="G$1" x="124.46" y="162.56"/>
 <instance part="I2C4" gate="G$1" x="111.76" y="162.56"/>
 <instance part="I2C3" gate="G$1" x="99.06" y="162.56"/>
@@ -3466,6 +3465,7 @@ Source: 3M</description>
 </instance>
 <instance part="SHERLOCK" gate="G$1" x="17.78" y="86.36" rot="R180"/>
 <instance part="KOALA" gate="G$1" x="58.42" y="67.31"/>
+<instance part="I2C6" gate="G$1" x="198.12" y="90.17"/>
 </instances>
 <busses>
 </busses>
@@ -3493,10 +3493,9 @@ Source: 3M</description>
 <wire x1="134.239" y1="95.631" x2="137.033" y2="95.631" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="FLAG" gate="G$1" pin="1"/>
-<wire x1="205.105" y1="88.9" x2="213.36" y2="88.9" width="0.1524" layer="91"/>
-<junction x="205.105" y="88.9"/>
-<label x="208.28" y="88.9" size="1.778" layer="95"/>
+<wire x1="205.105" y1="86.36" x2="213.36" y2="86.36" width="0.1524" layer="91"/>
+<label x="208.28" y="86.36" size="1.778" layer="95"/>
+<pinref part="I2C6" gate="G$1" pin="1"/>
 </segment>
 <segment>
 <pinref part="RFID" gate="G$1" pin="1"/>
@@ -3905,6 +3904,11 @@ Source: 3M</description>
 <junction x="197.485" y="55.88"/>
 <label x="205.74" y="55.88" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="213.36" y1="88.9" x2="205.105" y2="88.9" width="0.1524" layer="91"/>
+<pinref part="I2C6" gate="G$1" pin="2"/>
+<label x="208.28" y="88.9" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="IO51" class="0">
 <segment>
@@ -4176,10 +4180,9 @@ Source: 3M</description>
 <junction x="22.86" y="85.09"/>
 </segment>
 <segment>
-<pinref part="FLAG" gate="G$1" pin="3"/>
 <wire x1="205.105" y1="93.98" x2="213.36" y2="93.98" width="0.1524" layer="91"/>
-<junction x="205.105" y="93.98"/>
 <label x="208.28" y="93.98" size="1.778" layer="95"/>
+<pinref part="I2C6" gate="G$1" pin="4"/>
 </segment>
 </net>
 <net name="IO67" class="0">
@@ -4190,10 +4193,9 @@ Source: 3M</description>
 <junction x="22.86" y="82.55"/>
 </segment>
 <segment>
-<pinref part="FLAG" gate="G$1" pin="2"/>
 <wire x1="205.105" y1="91.44" x2="213.36" y2="91.44" width="0.1524" layer="91"/>
-<junction x="205.105" y="91.44"/>
 <label x="208.28" y="91.44" size="1.778" layer="95"/>
+<pinref part="I2C6" gate="G$1" pin="3"/>
 </segment>
 </net>
 <net name="IO21" class="0">
