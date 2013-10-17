@@ -1,15 +1,22 @@
 Components.utils.import("chrome://angel-player/content/svgUtil.js");
 Components.utils.import("chrome://angel-player/content/blockscommon.js");
 Components.utils.import("chrome://angel-player/content/blockDragDrop.js");
+Components.utils.import("chrome://angel-player/content/blockProgram.js");
+
+var myProg;
 
 function onLoad() {
     svgUtil.init(document);
     blockDnD.init(document);
 
-    // test123
-    var herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_FLAT, blocksCommon.BLOCK_END_FLAT);
-    document.getElementById('blocks-main').appendChild(herp);
+    myProg = blockProgram.createNewProgram(document);
 
+    // test123
+    var herp = blockProgram.createNewBlock(document,
+        blocksCommon.BLOCK_TYPE_COMMENT, 'test123', 0, 0);
+    myProg.addRootBlock(herp);
+
+    /*
     // <test123
     herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_OUTER_ARROW_PERSISTENT, blocksCommon.BLOCK_END_FLAT);
     herp.setAttributeNS(null, 'transform', 'translate(0,5)');
@@ -49,4 +56,5 @@ function onLoad() {
     herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_INNER_ARROW, blocksCommon.BLOCK_END_OUTER_ARROW_PERSISTENT);
     herp.setAttributeNS(null, 'transform', 'translate(0,40)');
     document.getElementById('blocks-main').appendChild(herp);
+    */
 }
