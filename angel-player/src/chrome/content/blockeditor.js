@@ -1,8 +1,10 @@
 Components.utils.import("chrome://angel-player/content/svgUtil.js");
 Components.utils.import("chrome://angel-player/content/blockscommon.js");
+Components.utils.import("chrome://angel-player/content/blockDragDrop.js");
 
 function onLoad() {
     svgUtil.init(document);
+    blockDnD.init(document);
 
     // test123
     var herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_FLAT, blocksCommon.BLOCK_END_FLAT);
