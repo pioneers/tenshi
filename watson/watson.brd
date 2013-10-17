@@ -1664,8 +1664,8 @@ design rules under a new name.</description>
 <attribute name="NAME" x="94.2213" y="45.6692" size="2.54" layer="25" font="vector" ratio="10" rot="R270"/>
 <attribute name="PARTNUMBER" value="A19471-ND" x="100.33" y="38.608" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="SOLENOID" library="pie" package="1X07-MTA" value="M07" x="100.33" y="9.398" smashed="yes" rot="R90">
-<attribute name="NAME" x="94.2213" y="19.1262" size="2.54" layer="25" font="vector" ratio="10" rot="R270"/>
+<element name="SUNBEAR" library="pie" package="1X07-MTA" value="M07" x="100.33" y="9.398" smashed="yes" rot="R90">
+<attribute name="NAME" x="94.2213" y="17.8562" size="2.54" layer="25" font="vector" ratio="10" rot="R270"/>
 <attribute name="PARTNUMBER" value="A19472-ND" x="100.33" y="9.398" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
 <element name="R5" library="pie" package="R0603" value="200" x="96.52" y="39.751" smashed="yes" rot="MR270">
@@ -1693,8 +1693,10 @@ design rules under a new name.</description>
 <element name="U$6" library="pie" package="OSHW-LOGO-S" value="" x="23.114" y="13.97" rot="MR0"/>
 <element name="U$7" library="pie" package="STAND-OFF" value="Mounting" x="64.262" y="38.354"/>
 <element name="U$3" library="pie" package="PIE-LOGO-SMALL" value="" x="23.622" y="42.926"/>
-<element name="I2C6" library="pie" package="1X04-MTA" value="" x="100.33" y="25.146" rot="R90">
+<element name="FLAG" library="pie" package="1X04-MTA" value="" x="100.33" y="25.146" smashed="yes" rot="R90">
 <attribute name="PARTNUMBER" value="A1922-ND" x="100.33" y="25.146" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="NAME" x="96.7232" y="21.1328" size="2.54" layer="25" font="vector" ratio="10" rot="R90"/>
+<attribute name="VALUE" x="104.775" y="20.701" size="1.27" layer="27" font="vector" rot="R90"/>
 </element>
 </elements>
 <signals>
@@ -1736,11 +1738,11 @@ design rules under a new name.</description>
 <contactref element="D4" pad="1"/>
 <contactref element="D5" pad="1"/>
 <contactref element="D6" pad="1"/>
-<contactref element="SOLENOID" pad="1"/>
+<contactref element="SUNBEAR" pad="1"/>
 <wire x1="66.04" y1="21.082" x2="67.564" y2="22.606" width="0.6096" layer="1"/>
 <wire x1="67.564" y1="22.606" x2="74.676" y2="22.606" width="0.6096" layer="1"/>
 <wire x1="74.676" y1="22.606" x2="76.2" y2="21.082" width="0.6096" layer="1"/>
-<contactref element="I2C6" pad="1"/>
+<contactref element="FLAG" pad="1"/>
 </signal>
 <signal name="VCC">
 <contactref element="A5" pad="2"/>
@@ -1773,7 +1775,7 @@ design rules under a new name.</description>
 <contactref element="I2C5" pad="2"/>
 <contactref element="SHERLOCK" pad="2"/>
 <contactref element="SHERLOCK" pad="40"/>
-<contactref element="SOLENOID" pad="2"/>
+<contactref element="SUNBEAR" pad="2"/>
 <wire x1="87.884" y1="54.61" x2="89.408" y2="56.134" width="0.4064" layer="16"/>
 <wire x1="89.408" y1="56.134" x2="96.012" y2="56.134" width="0.4064" layer="16"/>
 <wire x1="96.012" y1="56.134" x2="96.305" y2="55.841" width="0.4064" layer="16"/>
@@ -1952,7 +1954,7 @@ design rules under a new name.</description>
 <wire x1="100.33" y1="36.068" x2="100.457" y2="36.068" width="0.6096" layer="1"/>
 <wire x1="100.457" y1="36.068" x2="102.235" y2="34.29" width="0.6096" layer="1"/>
 <wire x1="3.175" y1="5.969" x2="4.826" y2="7.62" width="0.6096" layer="1"/>
-<contactref element="I2C6" pad="2"/>
+<contactref element="FLAG" pad="2"/>
 <wire x1="100.33" y1="23.876" x2="102.235" y2="23.876" width="0.6096" layer="1"/>
 <wire x1="102.235" y1="23.876" x2="102.235" y2="23.622" width="0.6096" layer="1"/>
 </signal>
@@ -2075,7 +2077,7 @@ design rules under a new name.</description>
 <wire x1="6.096" y1="26.67" x2="96.266" y2="26.67" width="0.4064" layer="1"/>
 <via x="96.266" y="26.67" extent="1-16" drill="0.6"/>
 <contactref element="SHERLOCK" pad="18"/>
-<contactref element="SOLENOID" pad="6"/>
+<contactref element="SUNBEAR" pad="6"/>
 <wire x1="4.826" y1="25.4" x2="6.096" y2="26.67" width="0.4064" layer="1"/>
 <wire x1="100.33" y1="14.478" x2="96.52" y2="18.288" width="0.4064" layer="16"/>
 <wire x1="96.266" y1="26.67" x2="96.52" y2="26.416" width="0.4064" layer="16"/>
@@ -2085,7 +2087,7 @@ design rules under a new name.</description>
 <wire x1="6.096" y1="24.13" x2="93.472" y2="24.13" width="0.4064" layer="1"/>
 <via x="93.472" y="24.13" extent="1-16" drill="0.6"/>
 <contactref element="SHERLOCK" pad="16"/>
-<contactref element="SOLENOID" pad="4"/>
+<contactref element="SUNBEAR" pad="4"/>
 <wire x1="4.826" y1="22.86" x2="6.096" y2="24.13" width="0.4064" layer="1"/>
 <wire x1="100.33" y1="9.398" x2="94.361" y2="15.367" width="0.4064" layer="16"/>
 <wire x1="94.361" y1="15.367" x2="94.361" y2="23.241" width="0.4064" layer="16"/>
@@ -2094,7 +2096,7 @@ design rules under a new name.</description>
 <signal name="IO64">
 <via x="93.472" y="22.86" extent="1-16" drill="0.6"/>
 <contactref element="SHERLOCK" pad="15"/>
-<contactref element="SOLENOID" pad="3"/>
+<contactref element="SUNBEAR" pad="3"/>
 <wire x1="100.33" y1="6.858" x2="93.472" y2="13.716" width="0.4064" layer="16"/>
 <wire x1="93.472" y1="22.86" x2="92.964" y2="23.368" width="0.4064" layer="1"/>
 <wire x1="93.472" y1="13.716" x2="93.472" y2="22.86" width="0.4064" layer="16"/>
@@ -2153,7 +2155,7 @@ design rules under a new name.</description>
 <via x="86.995" y="29.21" extent="1-16" drill="0.6"/>
 <contactref element="SHERLOCK" pad="20"/>
 <wire x1="4.826" y1="27.94" x2="6.096" y2="29.21" width="0.4064" layer="1"/>
-<contactref element="I2C6" pad="4"/>
+<contactref element="FLAG" pad="4"/>
 <wire x1="86.995" y1="29.21" x2="100.076" y2="29.21" width="0.4064" layer="16"/>
 <wire x1="100.076" y1="29.21" x2="100.33" y2="28.956" width="0.4064" layer="16"/>
 </signal>
@@ -2161,7 +2163,7 @@ design rules under a new name.</description>
 <via x="87.63" y="27.94" extent="1-16" drill="0.6"/>
 <contactref element="SHERLOCK" pad="19"/>
 <wire x1="7.366" y1="27.94" x2="87.63" y2="27.94" width="0.4064" layer="1"/>
-<contactref element="I2C6" pad="3"/>
+<contactref element="FLAG" pad="3"/>
 <wire x1="87.63" y1="27.94" x2="98.806" y2="27.94" width="0.4064" layer="16"/>
 <wire x1="98.806" y1="27.94" x2="100.33" y2="26.416" width="0.4064" layer="16"/>
 </signal>
@@ -2169,7 +2171,7 @@ design rules under a new name.</description>
 <via x="94.234" y="25.4" extent="1-16" drill="0.6"/>
 <contactref element="SHERLOCK" pad="17"/>
 <wire x1="94.234" y1="25.4" x2="7.366" y2="25.4" width="0.4064" layer="1"/>
-<contactref element="SOLENOID" pad="5"/>
+<contactref element="SUNBEAR" pad="5"/>
 <wire x1="100.33" y1="11.938" x2="95.631" y2="16.637" width="0.4064" layer="16"/>
 <wire x1="95.631" y1="16.637" x2="95.631" y2="24.003" width="0.4064" layer="16"/>
 <wire x1="94.234" y1="25.4" x2="95.631" y2="24.003" width="0.4064" layer="16"/>
@@ -2217,7 +2219,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO61">
 <contactref element="SHERLOCK" pad="11"/>
-<contactref element="SOLENOID" pad="7"/>
+<contactref element="SUNBEAR" pad="7"/>
 <wire x1="100.33" y1="17.018" x2="96.012" y2="17.018" width="0.4064" layer="1"/>
 <wire x1="96.012" y1="17.018" x2="89.154" y2="10.16" width="0.4064" layer="1"/>
 <via x="89.154" y="10.16" extent="1-16" drill="0.6"/>

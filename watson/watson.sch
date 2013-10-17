@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -3389,7 +3389,7 @@ Source: 3M</description>
 <part name="R2" library="pie" deviceset="R-US_" device="R0603" value="200"/>
 <part name="R3" library="pie" deviceset="R-US_" device="R0603" value="200k"/>
 <part name="SIMPLE" library="pie" deviceset="M05" device="MTA" value="Servos"/>
-<part name="SOLENOID" library="pie" deviceset="M07" device=""/>
+<part name="SUNBEAR" library="pie" deviceset="M07" device=""/>
 <part name="R5" library="pie" deviceset="R-US_" device="R0603" value="200"/>
 <part name="R4" library="pie" deviceset="R-US_" device="R0603" value="200"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
@@ -3398,7 +3398,7 @@ Source: 3M</description>
 </part>
 <part name="SHERLOCK" library="pie" deviceset="2540-" device=""/>
 <part name="KOALA" library="pie" deviceset="M04" device="1X04-MTA" value="Servos"/>
-<part name="I2C6" library="pie" deviceset="M04" device="1X04-MTA"/>
+<part name="FLAG" library="pie" deviceset="M04" device="1X04-MTA"/>
 </parts>
 <sheets>
 <sheet>
@@ -3455,7 +3455,7 @@ Source: 3M</description>
 <attribute name="VALUE" x="91.44" y="71.882" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="SIMPLE" gate="G$1" x="190.5" y="58.42"/>
-<instance part="SOLENOID" gate="G$1" x="58.547" y="21.59"/>
+<instance part="SUNBEAR" gate="G$1" x="58.547" y="21.59"/>
 <instance part="R5" gate="G$1" x="220.98" y="60.96"/>
 <instance part="R4" gate="G$1" x="210.82" y="63.5"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
@@ -3465,7 +3465,7 @@ Source: 3M</description>
 </instance>
 <instance part="SHERLOCK" gate="G$1" x="17.78" y="86.36" rot="R180"/>
 <instance part="KOALA" gate="G$1" x="58.42" y="67.31"/>
-<instance part="I2C6" gate="G$1" x="198.12" y="90.17"/>
+<instance part="FLAG" gate="G$1" x="198.12" y="90.17"/>
 </instances>
 <busses>
 </busses>
@@ -3495,7 +3495,7 @@ Source: 3M</description>
 <segment>
 <wire x1="205.105" y1="86.36" x2="213.36" y2="86.36" width="0.1524" layer="91"/>
 <label x="208.28" y="86.36" size="1.778" layer="95"/>
-<pinref part="I2C6" gate="G$1" pin="1"/>
+<pinref part="FLAG" gate="G$1" pin="1"/>
 </segment>
 <segment>
 <pinref part="RFID" gate="G$1" pin="1"/>
@@ -3598,7 +3598,7 @@ Source: 3M</description>
 <segment>
 <wire x1="66.04" y1="13.97" x2="66.167" y2="13.97" width="0.1524" layer="91"/>
 <label x="66.675" y="13.97" size="1.778" layer="95"/>
-<pinref part="SOLENOID" gate="G$1" pin="1"/>
+<pinref part="SUNBEAR" gate="G$1" pin="1"/>
 <wire x1="66.167" y1="13.97" x2="71.755" y2="13.97" width="0.1524" layer="91"/>
 <junction x="66.167" y="13.97"/>
 </segment>
@@ -3700,7 +3700,7 @@ Source: 3M</description>
 <segment>
 <wire x1="66.04" y1="16.51" x2="66.167" y2="16.51" width="0.1524" layer="91"/>
 <label x="66.04" y="16.51" size="1.778" layer="95"/>
-<pinref part="SOLENOID" gate="G$1" pin="2"/>
+<pinref part="SUNBEAR" gate="G$1" pin="2"/>
 <wire x1="66.167" y1="16.51" x2="71.755" y2="16.51" width="0.1524" layer="91"/>
 <junction x="66.167" y="16.51"/>
 </segment>
@@ -3906,7 +3906,7 @@ Source: 3M</description>
 </segment>
 <segment>
 <wire x1="213.36" y1="88.9" x2="205.105" y2="88.9" width="0.1524" layer="91"/>
-<pinref part="I2C6" gate="G$1" pin="2"/>
+<pinref part="FLAG" gate="G$1" pin="2"/>
 <label x="208.28" y="88.9" size="1.778" layer="95"/>
 </segment>
 </net>
@@ -4068,7 +4068,7 @@ Source: 3M</description>
 <segment>
 <wire x1="66.04" y1="26.67" x2="66.167" y2="26.67" width="0.1524" layer="91"/>
 <label x="67.31" y="26.67" size="1.778" layer="95"/>
-<pinref part="SOLENOID" gate="G$1" pin="6"/>
+<pinref part="SUNBEAR" gate="G$1" pin="6"/>
 <wire x1="66.167" y1="26.67" x2="71.755" y2="26.67" width="0.1524" layer="91"/>
 <junction x="66.167" y="26.67"/>
 </segment>
@@ -4083,7 +4083,7 @@ Source: 3M</description>
 <segment>
 <wire x1="66.04" y1="21.59" x2="66.167" y2="21.59" width="0.1524" layer="91"/>
 <label x="67.31" y="21.59" size="1.778" layer="95"/>
-<pinref part="SOLENOID" gate="G$1" pin="4"/>
+<pinref part="SUNBEAR" gate="G$1" pin="4"/>
 <wire x1="66.167" y1="21.59" x2="71.755" y2="21.59" width="0.1524" layer="91"/>
 <junction x="66.167" y="21.59"/>
 </segment>
@@ -4098,7 +4098,7 @@ Source: 3M</description>
 <segment>
 <wire x1="66.04" y1="19.05" x2="66.167" y2="19.05" width="0.1524" layer="91"/>
 <label x="67.31" y="19.05" size="1.778" layer="95"/>
-<pinref part="SOLENOID" gate="G$1" pin="3"/>
+<pinref part="SUNBEAR" gate="G$1" pin="3"/>
 <wire x1="66.167" y1="19.05" x2="71.755" y2="19.05" width="0.1524" layer="91"/>
 <junction x="66.167" y="19.05"/>
 </segment>
@@ -4182,7 +4182,7 @@ Source: 3M</description>
 <segment>
 <wire x1="205.105" y1="93.98" x2="213.36" y2="93.98" width="0.1524" layer="91"/>
 <label x="208.28" y="93.98" size="1.778" layer="95"/>
-<pinref part="I2C6" gate="G$1" pin="4"/>
+<pinref part="FLAG" gate="G$1" pin="4"/>
 </segment>
 </net>
 <net name="IO67" class="0">
@@ -4195,7 +4195,7 @@ Source: 3M</description>
 <segment>
 <wire x1="205.105" y1="91.44" x2="213.36" y2="91.44" width="0.1524" layer="91"/>
 <label x="208.28" y="91.44" size="1.778" layer="95"/>
-<pinref part="I2C6" gate="G$1" pin="3"/>
+<pinref part="FLAG" gate="G$1" pin="3"/>
 </segment>
 </net>
 <net name="IO21" class="0">
@@ -4208,7 +4208,7 @@ Source: 3M</description>
 <segment>
 <wire x1="66.04" y1="24.13" x2="66.167" y2="24.13" width="0.1524" layer="91"/>
 <label x="67.31" y="24.13" size="1.778" layer="95"/>
-<pinref part="SOLENOID" gate="G$1" pin="5"/>
+<pinref part="SUNBEAR" gate="G$1" pin="5"/>
 <wire x1="66.167" y1="24.13" x2="71.755" y2="24.13" width="0.1524" layer="91"/>
 <junction x="66.167" y="24.13"/>
 </segment>
@@ -4274,7 +4274,7 @@ Source: 3M</description>
 <segment>
 <wire x1="66.04" y1="29.21" x2="66.167" y2="29.21" width="0.1524" layer="91"/>
 <label x="67.31" y="29.21" size="1.778" layer="95"/>
-<pinref part="SOLENOID" gate="G$1" pin="7"/>
+<pinref part="SUNBEAR" gate="G$1" pin="7"/>
 <wire x1="66.167" y1="29.21" x2="71.755" y2="29.21" width="0.1524" layer="91"/>
 <junction x="66.167" y="29.21"/>
 </segment>
