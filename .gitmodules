@@ -1,0 +1,3 @@
+[submodule "angel-player/src/chrome/content/angelic/xregexp"]
+	path = angel-player/src/chrome/content/angelic/xregexp
+	url = https://github.com/slevithan/xregexp.git

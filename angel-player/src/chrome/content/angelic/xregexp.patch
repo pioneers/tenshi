@@ -1,0 +1,22 @@
+diff --git a/xregexp-all.js b/xregexp-all.js
+index 60e271c..73c561f 100644
+--- a/xregexp-all.js
++++ b/xregexp-all.js
+@@ -4,6 +4,9 @@
+  * Steven Levithan © 2012 MIT License
+  */
+ 
++var EXPORTED_SYMBOLS = [ 'XRegExp', 'exec' ];
++var XRegExp, exec;
++
+ // Module systems magic dance
+ ;(function(definition) {
+     // Don't turn on strict mode for this function, so it can assign to global
+@@ -736,6 +739,7 @@ var XRegExp = (function(undefined) {
+ 
+         return match;
+     };
++    exec = self.exec;
+ 
+ /**
+  * Executes a provided function once per regex match.
