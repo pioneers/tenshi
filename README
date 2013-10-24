@@ -1,0 +1,17 @@
+Pioneers in Engineering Control System Next
+
+STUFF
+
+
+--------------------------------------------------------------------------------
+- Hints for compiling and running                                              -
+--------------------------------------------------------------------------------
+
+Running Angel Player: It is recommended to have a separate copy of xulrunner
+located somewhere such as your home directory. The command you would need to use
+would be something like:
+~/xulrunner/xulrunner angel-player/src/application.ini -jsconsole -purgecaches
+
+-purgecaches is required in order to debug JS in-tree (without building and
+updating build ID).
+
