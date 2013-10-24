@@ -2,6 +2,11 @@
 
 ANGEL_PLAYER_MAIN_DIR=$PROJECT_ROOT_DIR/angel-player
 
+pushd `pwd`
+cd $ANGEL_PLAYER_MAIN_DIR/src/chrome/content/angelic
+. build.sh
+popd
+
 mkdir -p $PROJECT_ROOT_DIR/build/angel-player
 pushd $PROJECT_ROOT_DIR/build/angel-player
 
