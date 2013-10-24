@@ -1,2 +1,5 @@
 # DOM Inspector
 angel-player/src/components/inspector-cmdline.js
+
+# XRegExp
+angel-player/src/chrome/content/angelic/xregexp/*
