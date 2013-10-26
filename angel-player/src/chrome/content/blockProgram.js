@@ -62,6 +62,11 @@ blockProgram.createNewBlock = function(document, blockType, text, x, y) {
             newBlock.svgElem = svgUtil.createBlock(text,
                 blocksCommon.BLOCK_END_FLAT, blocksCommon.BLOCK_END_FLAT);
             break;
+        case blocksCommon.BLOCK_TYPE_LVALUE:
+            newBlock.svgElem = svgUtil.createBlock(text,
+                blocksCommon.BLOCK_END_FLAT,
+                blocksCommon.BLOCK_END_INNER_ARROW);
+            break;
         default:
             throw "Unknown block type!";
     }

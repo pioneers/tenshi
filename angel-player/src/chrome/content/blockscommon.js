@@ -16,3 +16,5 @@ blocksCommon.BLOCK_END_OUTER_ARROW_PROXIMITY = 3;
 
 // A text comment
 blocksCommon.BLOCK_TYPE_COMMENT = 0;
+// Assignment lvalue, something like "foo = <>"
+blocksCommon.BLOCK_TYPE_LVALUE = 1;
