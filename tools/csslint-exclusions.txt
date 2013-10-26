@@ -1,0 +1,2 @@
+# XRegExp
+angel-player/src/chrome/content/angelic/xregexp/*
