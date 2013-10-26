@@ -4,5 +4,8 @@ angel-player/src/components/inspector-cmdline.js
 # Ace
 angel-player/src/chrome/content/tenshi-frontend/js/ace/*
 
+# Foundation
+angel-player/src/chrome/content/tenshi-frontend/js/foundation/*
+
 # XRegExp
 angel-player/src/chrome/content/angelic/xregexp/*
