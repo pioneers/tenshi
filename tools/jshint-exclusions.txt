@@ -1,6 +1,9 @@
 # DOM Inspector
 angel-player/src/components/inspector-cmdline.js
 
+# Vendor
+angel-placer/src/chrome/content/tenshi-frontend/js/vendor/*
+
 # Ace
 angel-player/src/chrome/content/tenshi-frontend/js/ace/*
 
