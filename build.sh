@@ -16,14 +16,12 @@ do
 	./$dir/build.sh
 done
 
-STATUS=`true`
-# Run cpplint
-./tools/run-style-tool.py cpplint 2>&1 | tee build/cpplint.txt || STATUS=`false`
-# Run pep8
-./tools/run-style-tool.py pep8 2>&1 | tee build/pep8.txt || STATUS=`false`
-# Run jshint
-./tools/run-style-tool.py jshint 2>&1 | tee build/jshint.txt || STATUS=`false`
-# Run csslint
-./tools/run-style-tool.py csslint 2>&1 | tee build/csslint.txt || STATUS=`false`
+# Run linters
+linter_status=0
+for tool in cpplint pep8 jshint csslint
+do
+  ./tools/run-style-tool.py $tool 2>&1 | tee build/${tool}.txt
+  linter_status=$[${linter_status} || ${PIPESTATUS[0]}]
+done
 
-exit $STATUS
+exit $linter_status
