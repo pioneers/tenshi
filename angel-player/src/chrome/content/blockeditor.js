@@ -10,6 +10,7 @@ function onLoad() {
     blockDnD.init(document);
 
     myProg = blockProgram.createNewProgram(document);
+    blockDnD.setProgram(myProg);
 
     // test123
     var herp = blockProgram.createNewBlock(document,

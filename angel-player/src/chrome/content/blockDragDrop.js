@@ -7,6 +7,7 @@ var MOUSE_MODE_PANNING = 1;
 
 var document = null;
 var mainSvg = null;
+var mainProgram = null;
 var currentMouseMode = 0;
 
 // Current SVG panning offset.
@@ -84,4 +85,8 @@ blockDnD.init = function(document_) {
     mainSvg.addEventListener('mousedown', dragMouseDown);
     mainSvg.addEventListener('mouseup', dragMouseUp);
     mainSvg.addEventListener('mousemove', dragMouseMove);
+};
+
+blockDnD.setProgram = function(program) {
+    mainProgram = program;
 };
