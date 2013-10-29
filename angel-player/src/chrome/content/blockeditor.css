@@ -2,7 +2,12 @@
 /* csslint gets confused by SVG-specific CSS properties */
 
 body {
+    margin: 0 0 0 0;
     background-color: white;
+}
+
+#blocks-main {
+    margin: 0 0 0 0;
 }
 
 #width-computing-group {

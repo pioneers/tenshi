@@ -49,6 +49,7 @@ svgUtil.createTextBlockPart = function(text) {
     rectNode.setAttributeNS(null, 'class', 'blockTextBkg');
 
     var containerGroupNode = document.createElementNS(SVG_NS, 'svg');
+    containerGroupNode.setAttributeNS(null, "class", "blockTextGroup");
     containerGroupNode.appendChild(rectNode);
     containerGroupNode.appendChild(textNode);
     return containerGroupNode;
@@ -137,6 +138,7 @@ svgUtil.createBlock = function(text, leftCap, rightCap) {
 
     // Now we put all the pieces together
     var resultingGroup = document.createElementNS(SVG_NS, 'svg');
+    resultingGroup.setAttributeNS(null, "class", "codeBlock");
     resultingGroup.appendChild(mainTextPart);
     if (leftEndCap) {
         resultingGroup.appendChild(leftEndCap);
