@@ -1,14 +1,25 @@
 /*csslint known-properties: false*/
 /* csslint gets confused by SVG-specific CSS properties */
 
+/* Margins get set to 0 because otherwise they mess up coordinates for mouse
+   events. */
 body {
+    margin: 0 0 0 0;
     background-color: white;
 }
 
+#blocks-main {
+    margin: 0 0 0 0;
+}
+
+/* This is a special group used to allow determining the length of e.g. text
+   strings. For whatever reason, it isn't possible to get the bounding box of
+   anything that isn't added to the document. */
 #width-computing-group {
     visibility: hidden;
 }
 
+/* Theming of blocks (temporary) */
 .blockTextBkg {
     fill: blue;
 }

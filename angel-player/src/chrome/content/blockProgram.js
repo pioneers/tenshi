@@ -77,5 +77,7 @@ blockProgram.createNewBlock = function(document, blockType, text, x, y) {
     transform.setTranslate(x, y);
     newBlock.svgElem.transform.baseVal.initialize(transform);
 
+    newBlock.svgElem.blockData = newBlock;
+
     return newBlock;
 };
