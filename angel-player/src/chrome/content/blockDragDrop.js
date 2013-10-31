@@ -22,6 +22,14 @@ var curDragX = 0;
 var curDragY = 0;
 var curDragElement = null;
 
+// These are used to calculate relative dragging direction.
+var oldDragX = 0;
+var oldDragY = 0;
+
+// This is used to update the sorted block array
+// TODO(rqou): This is super jank because it breaks abstraction barriers
+var oldBlockIdx = -1;
+
 function dragMouseDown(evt) {
     // dump(evt);
     if (!currentMouseMode) {
@@ -51,6 +59,24 @@ function dragMouseDown(evt) {
                     // Where we clicked in the block
                     curDragX = clickX - targetElem.blockData.x;
                     curDragY = clickY - targetElem.blockData.y;
+
+                    // Where the block currently is
+                    oldDragX = targetElem.blockData.x;
+                    oldDragY = targetElem.blockData.y;
+
+                    // TODO(rqou): Can I haz abstraction?
+                    // Find our block
+                    // TODO(rqou): Make this a binary search, not a linear search
+                    var i;
+                    for (i = 0; i < mainProgram.heightSortedBlocks.length;
+                        i++) {
+                        if (mainProgram.heightSortedBlocks[i] ===
+                            targetElem.blockData) {
+                            break;
+                        }
+                    }
+                    oldBlockIdx = i;
+                    dump("block is index " + i + "\n");
 
                     curDragElement = targetElem;
                     // TODO(rqou): Do we need to copypasta this?
@@ -127,7 +153,43 @@ function dragMouseMove(evt) {
             transform.setTranslate(newX, newY);
             curDragElement.transform.baseVal.initialize(transform);
 
-            // TODO(rqou): Update all the relevant state for element position.
+            // Lets us figure out which way we dragged
+            var deltaX = curDragElement.blockData.x - oldDragX;
+            var deltaY = curDragElement.blockData.y - oldDragY;
+            oldDragX = curDragElement.blockData.x;
+            oldDragY = curDragElement.blockData.y;
+
+            // Maintain the sorted block list
+            if (deltaY < 0) {
+                // Moving up
+                if (oldBlockIdx !== 0) {
+                    // Not already at the top
+                    if (curDragElement.blockData.y <
+                        mainProgram.heightSortedBlocks[oldBlockIdx - 1].y) {
+                        // Moved past an element
+                        mainProgram.heightSortedBlocks.splice(oldBlockIdx - 1,
+                            2, curDragElement.blockData,
+                            mainProgram.heightSortedBlocks[oldBlockIdx - 1]);
+                        oldBlockIdx--;
+                        dump("New index is " + oldBlockIdx + "\n");
+                    }
+                }
+            }
+            else {
+                // Moving down
+                if (oldBlockIdx !== mainProgram.heightSortedBlocks.length - 1) {
+                    // Not already at the bottom
+                    if (curDragElement.blockData.y >
+                        mainProgram.heightSortedBlocks[oldBlockIdx + 1].y) {
+                        // Moved past an element
+                        mainProgram.heightSortedBlocks.splice(oldBlockIdx,
+                            2, mainProgram.heightSortedBlocks[oldBlockIdx + 1],
+                            curDragElement.blockData);
+                        oldBlockIdx++;
+                        dump("New index is " + oldBlockIdx + "\n");
+                    }
+                }
+            }
             // TODO(rqou): Do snapping logic.
             break;
         default:
