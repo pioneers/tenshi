@@ -9,3 +9,9 @@ angel-player/src/chrome/content/tenshi-frontend/js/foundation/*
 
 # XRegExp
 angel-player/src/chrome/content/angelic/xregexp/*
+
+# Ammo physics
+angel-player/src/chrome/content/angelic/simulator/ammo.js
+
+# Three WebGL Renderer
+angel-player/src/chrome/content/angelic/simulator/three.min.js
