@@ -4,7 +4,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid altdistance="0.01" altunit="inch" altunitdist="inch" display="yes" distance="0.1" multiple="1" style="lines" unit="inch" unitdist="inch"/>
+<grid altdistance="0.01" altunit="inch" altunitdist="inch" display="no" distance="0.1" multiple="1" style="lines" unit="inch" unitdist="inch"/>
 <layers>
 <layer active="yes" color="4" fill="1" name="Top" number="1" visible="yes"/>
 <layer active="no" color="1" fill="3" name="Route2" number="2" visible="no"/>
@@ -125,6 +125,9 @@
 <description>&lt;b&gt;PiE Part Library&lt;/b&gt;&lt;br/&gt;
 A collection of parts and footprints made for the PiE Robotics Competition.&lt;br/&gt;&lt;br/&gt;
 (c) Pioneers in Engineering and Tau Beta Pi CA-A, UC Berkeley.</description>
+
+
+
 
 
 
@@ -5172,6 +5175,19 @@ wave soldering</description>
 <text layer="25" size="0.4064" x="0.508" y="1.27">&gt;Name</text>
 <text layer="27" size="0.4064" x="0.254" y="-1.524">&gt;Value</text>
 </package>
+<package name="ANDERSON_VERTICAL_1X2">
+<wire layer="51" width="0.127" x1="0" x2="3.81" y1="0" y2="0"/>
+<wire layer="51" width="0.127" x1="3.81" x2="3.81" y1="0" y2="1.016"/>
+<wire layer="51" width="0.127" x1="3.81" x2="0" y1="1.016" y2="1.016"/>
+<wire layer="51" width="0.127" x1="0" x2="0" y1="1.016" y2="0"/>
+<wire layer="51" width="0.127" x1="0" x2="3.81" y1="7.874" y2="7.874"/>
+<wire layer="51" width="0.127" x1="3.81" x2="3.81" y1="7.874" y2="8.89"/>
+<wire layer="51" width="0.127" x1="3.81" x2="0" y1="8.89" y2="8.89"/>
+<wire layer="51" width="0.127" x1="0" x2="0" y1="8.89" y2="7.874"/>
+<pad drill="7.112" name="PIN1" x="1.905" y="0.508"/>
+<pad drill="7.112" name="PIN2" x="1.905" y="8.382"/>
+<rectangle layer="39" x1="-2.286" x2="6.096" y1="-27.686" y2="7.874"/>
+</package>
 <package name="VTA56">
 <description>&lt;b&gt;Bulk Metal® Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR56&lt;br&gt;
@@ -5698,6 +5714,19 @@ Source: http://www.vishay.com/docs/20008/dcrcw.pdf</description>
 <wire layer="51" width="0.127" x1="4.572" x2="-4.572" y1="1.27" y2="1.27"/>
 <wire layer="51" width="0.127" x1="5.08" x2="4.572" y1="1.27" y2="1.27"/>
 <wire layer="21" width="0.127" x1="-4.572" x2="-5.08" y1="1.27" y2="1.27"/>
+</package>
+<package name="ANDERSON_HORIZ_1X2">
+<wire layer="51" width="0.127" x1="0" x2="3.81" y1="0" y2="0"/>
+<wire layer="51" width="0.127" x1="3.81" x2="3.81" y1="0" y2="1.016"/>
+<wire layer="51" width="0.127" x1="3.81" x2="0" y1="1.016" y2="1.016"/>
+<wire layer="51" width="0.127" x1="0" x2="0" y1="1.016" y2="0"/>
+<wire layer="51" width="0.127" x1="7.874" x2="11.684" y1="0" y2="0"/>
+<wire layer="51" width="0.127" x1="11.684" x2="11.684" y1="0" y2="1.016"/>
+<wire layer="51" width="0.127" x1="11.684" x2="7.874" y1="1.016" y2="1.016"/>
+<wire layer="51" width="0.127" x1="7.874" x2="7.874" y1="1.016" y2="0"/>
+<pad drill="7.112" name="PIN1" x="1.905" y="0.508"/>
+<pad drill="7.112" name="PIN2" x="9.779" y="0.508"/>
+<rectangle layer="39" x1="-2.286" x2="13.97" y1="-27.686" y2="0"/>
 </package>
 <package name="R0402">
 <description>&lt;b&gt;RESISTOR&lt;/b&gt;</description>
@@ -6716,11 +6745,12 @@ Currently used for OPAMP_DUAL (see http://ww1.microchip.com/downloads/en/deviced
 <rectangle layer="35" x1="-0.5001" x2="0.5001" y1="-1" y2="1"/>
 </package>
 <package name="ANDERSON_RA_BOTTOM">
-<pad drill="4.318" name="PIN1" x="1.8415" y="0.508"/>
+<pad drill="7.112" name="PIN1" x="1.905" y="0.508"/>
 <wire layer="51" width="0.127" x1="0" x2="3.81" y1="0" y2="0"/>
 <wire layer="51" width="0.127" x1="3.81" x2="3.81" y1="0" y2="1.016"/>
 <wire layer="51" width="0.127" x1="3.81" x2="0" y1="1.016" y2="1.016"/>
 <wire layer="51" width="0.127" x1="0" x2="0" y1="1.016" y2="0"/>
+<rectangle layer="39" x1="-2.286" x2="6.096" y1="-27.686" y2="0"/>
 </package>
 <package name="EN_J2">
 <description>Type J2 package for SMD supercap PRT-10317 (p# EEC-EN0F204J2)</description>
@@ -6759,6 +6789,17 @@ type 0309, grid 2.5 mm</description>
 </package>
 </packages>
 <symbols>
+<symbol name="ANDERSON_HORIZ_1X2">
+<wire layer="94" width="0.254" x1="0" x2="5.08" y1="0" y2="0"/>
+<wire layer="94" width="0.254" x1="5.08" x2="0" y1="10.16" y2="10.16"/>
+<wire layer="94" width="0.254" x1="0" x2="0" y1="10.16" y2="0"/>
+<wire layer="94" width="0.254" x1="5.08" x2="10.16" y1="0" y2="0"/>
+<wire layer="94" width="0.254" x1="10.16" x2="10.16" y1="0" y2="10.16"/>
+<wire layer="94" width="0.254" x1="10.16" x2="5.08" y1="10.16" y2="10.16"/>
+<wire layer="94" width="0.254" x1="5.08" x2="5.08" y1="10.16" y2="0"/>
+<pin length="middle" name="PIN1" rot="R270" x="2.54" y="7.62"/>
+<pin length="middle" name="PIN2" rot="R270" x="7.62" y="7.62"/>
+</symbol>
 <symbol name="CAP_POL">
 <wire layer="94" width="0.254" x1="-2.54" x2="2.54" y1="0" y2="0"/>
 <wire layer="94" width="0.1524" x1="0" x2="0" y1="-1.016" y2="-2.54"/>
@@ -6770,6 +6811,14 @@ type 0309, grid 2.5 mm</description>
 <rectangle layer="94" x1="-1.872" x2="-1.745" y1="0.287" y2="1.176"/>
 <pin direction="pas" length="short" name="+" rot="R270" swaplevel="1" visible="off" x="0" y="2.54"/>
 <pin direction="pas" length="short" name="-" rot="R90" swaplevel="1" visible="off" x="0" y="-5.08"/>
+</symbol>
+<symbol name="ANDERSON_VERTICAL_1X2">
+<wire layer="94" width="0.254" x1="0" x2="5.08" y1="0" y2="0"/>
+<wire layer="94" width="0.254" x1="5.08" x2="5.08" y1="0" y2="17.78"/>
+<wire layer="94" width="0.254" x1="5.08" x2="0" y1="17.78" y2="17.78"/>
+<wire layer="94" width="0.254" x1="0" x2="0" y1="17.78" y2="0"/>
+<pin length="middle" name="PIN1" rot="R270" x="2.54" y="7.62"/>
+<pin length="middle" name="PIN2" rot="R270" x="2.54" y="15.24"/>
 </symbol>
 <symbol name="N-MOSFET">
 <wire layer="94" width="0.254" x1="-1.1176" x2="-1.1176" y1="2.413" y2="-2.54"/>
@@ -7092,11 +7141,11 @@ type 0309, grid 2.5 mm</description>
 <text align="center-left" layer="96" size="1.778" x="2.54" y="-20.32">&gt;VALUE</text>
 </symbol>
 <symbol name="ANDERSON_RA_BOTTOM">
-<pin length="middle" name="PIN1" x="0" y="0"/>
-<wire layer="94" width="0.254" x1="-2.54" x2="7.62" y1="2.54" y2="2.54"/>
-<wire layer="94" width="0.254" x1="7.62" x2="7.62" y1="2.54" y2="-2.54"/>
-<wire layer="94" width="0.254" x1="7.62" x2="-2.54" y1="-2.54" y2="-2.54"/>
-<wire layer="94" width="0.254" x1="-2.54" x2="-2.54" y1="-2.54" y2="2.54"/>
+<pin length="middle" name="PIN1" rot="R270" x="0" y="5.08"/>
+<wire layer="94" width="0.254" x1="-2.54" x2="2.54" y1="7.62" y2="7.62"/>
+<wire layer="94" width="0.254" x1="2.54" x2="2.54" y1="7.62" y2="-2.54"/>
+<wire layer="94" width="0.254" x1="2.54" x2="-2.54" y1="-2.54" y2="-2.54"/>
+<wire layer="94" width="0.254" x1="-2.54" x2="-2.54" y1="-2.54" y2="7.62"/>
 </symbol>
 <symbol name="MA03-2">
 <wire layer="94" width="0.4064" x1="3.81" x2="-3.81" y1="-5.08" y2="-5.08"/>
@@ -10218,6 +10267,22 @@ Source: &lt;a href=&quot;http://www.freescale.com/files/analog/doc/data_sheet/MC
 </device>
 </devices>
 </deviceset>
+<deviceset name="ANDERSON_VERTICAL_1X2">
+<gates>
+<gate name="G$1" symbol="ANDERSON_VERTICAL_1X2" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="ANDERSON_VERTICAL_1X2">
+<connects>
+<connect gate="G$1" pad="PIN1" pin="PIN1"/>
+<connect gate="G$1" pad="PIN2" pin="PIN2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 <deviceset name="MA03-2" prefix="SV" uservalue="yes">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
 <gates>
@@ -10272,6 +10337,22 @@ Source: &lt;a href=&quot;http://www.freescale.com/files/analog/doc/data_sheet/MC
 <technology name="">
 <attribute name="PARTNUMBER" value="A1922-ND"/>
 </technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="ANDERSON_HORIZ_1X2">
+<gates>
+<gate name="G$1" symbol="ANDERSON_HORIZ_1X2" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="ANDERSON_HORIZ_1X2">
+<connects>
+<connect gate="G$1" pad="PIN1" pin="PIN1"/>
+<connect gate="G$1" pad="PIN2" pin="PIN2"/>
+</connects>
+<technologies>
+<technology name=""/>
 </technologies>
 </device>
 </devices>
