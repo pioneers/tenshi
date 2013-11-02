@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <title>Angel Player</title>
+    
+    <link rel="stylesheet" href="css/foundation.css">
+    <script src="js/vendor/custom.modernizr.js"></script>
+	<style type="text/css" media="screen">
+		/*
+		hard coding this for now even though it's super kludge.
+		 */
+      #editor { 
+        position: fixed;
+        top: 50;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+	</style>
+  </head>
+  <body>
+
+  <div class="section-container auto top-bar" data-section>
+    <section class="active">
+      <p class="title" data-section-title><a href="#panel1">&#8962;</a></p>
+      <div class="content" data-section-content>
+        <!--Recent Prpjects-->
+        <div class="panel">
+          <h4 class="hide-for-small"><br>Recent Projects<hr/></h4>
+        <h5 class="subheader">
+          <div class="row">
+            <div class="large-6 column">
+              <img src="http://placehold.it/200x200&text=Image">
+              <img src="http://placehold.it/200x200&text=Image">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="large-6 column">
+            <img src="http://placehold.it/200x200&text=Image">
+            <img src="http://placehold.it/200x200&text=Image">
+          </div>
+        </div>
+        <br>
+    </section>
+    <section>
+      <p class="title" data-section-title><a href="#panel2">Code</a></p>
+      <div class="content" data-section-content>
+
+<div id="editor">function foo(items) {
+   var x = "All this is syntax highlighted";
+   return x;
+}</div>
+
+      </div>
+    </section>
+    <section>
+      <p class="title" data-section-title><a href="#panel3">Run</a></p>
+      <div class="content" data-section-content>
+        <!-- GLSL view -->
+        <canvas id="simulator-canvas" style="border: none;" width="500" height="500"></canvas>
+        <!-- Output box -->
+        <textarea id="output" rows="100"></textarea>
+
+      </div>
+    </section>
+    </div>
+
+  <script>
+  document.write('<script src=' +
+  ('__proto__' in {} ? 'js/vendor/zepto' : 'js/vendor/jquery') +
+  '.js><\/script>')
+  </script>
+
+  <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/chaos");
+    editor.getSession().setMode("ace/mode/javascript");
+  </script>
+
+  <script src="js/foundation.min.js"></script>
+  <script>
+    $(document).foundation()
+  </script>
+  </body>
+</html>
