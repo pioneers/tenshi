@@ -125,6 +125,26 @@ function dragMouseUp(evt) {
 }
 
 function dragMouseMove(evt) {
+    // DEBUG DEBUG DEBUG
+
+    if (evt.shiftKey) {
+        var mouseX = (evt.clientX - svgPanX) / 16.0;
+        var mouseY = (evt.clientY - svgPanY) / 16.0;
+
+        dump("Mouse at " + mouseX + " " + mouseY + "\n");
+
+        var things = mainProgram.getBlocksInArea(mouseX - 0.5, mouseY - 0.5, 1, 1);
+        dump("There are " + things.length + " things\n");
+
+        for (var i = 0; i < things.length; i++) {
+            var aa = things[i];
+            // dump(aa);
+            dump("[" + aa.x + " " + aa.y + " " + aa.w + " " + aa.h + "]\n");
+        }
+    }
+
+    // DEBUG DEBUG DEBUG
+
     var transform;
     switch (currentMouseMode) {
         case MOUSE_MODE_PANNING:

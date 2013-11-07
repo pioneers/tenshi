@@ -20,11 +20,13 @@ svgUtil.init = function(document_) {
 
 // Return the width of an element by adding it to the DOM, measuring it,
 // and then removing it.
-svgUtil.measureElementWidth = function(elem) {
+svgUtil.measureElementDimensions = function(elem) {
     widthComputingGroup.appendChild(elem);
-    var len = elem.getBBox().width;
+    var bbox = elem.getBBox();
+    var width = bbox.width;
+    var height = bbox.height;
     widthComputingGroup.removeChild(elem);
-    return len;
+    return {'w': width, 'h': height};
 };
 
 // Create and return an element that contains the passed in text and an
@@ -41,7 +43,7 @@ svgUtil.createTextBlockPart = function(text) {
     textNode.setAttributeNS(null, 'font-size', '1');
     textNode.setAttributeNS(null, 'class', 'blockText');
     textNode.appendChild(document.createTextNode(text));
-    var textLength = svgUtil.measureElementWidth(textNode);
+    var textLength = svgUtil.measureElementDimensions(textNode).w;
 
     var rectNode = document.createElementNS(SVG_NS, 'rect');
     rectNode.setAttributeNS(null, 'width', textLength);
@@ -107,7 +109,7 @@ svgUtil.createBlock = function(text, leftCap, rightCap) {
         // TODO(rqou): Proximity thing
     }
 
-    var rightCapPosition = svgUtil.measureElementWidth(mainTextPart);
+    var rightCapPosition = svgUtil.measureElementDimensions(mainTextPart).w;
     if (leftCap) {
         rightCapPosition += BLOCKS_CAP_WIDTH;
     }
@@ -147,5 +149,10 @@ svgUtil.createBlock = function(text, leftCap, rightCap) {
         resultingGroup.appendChild(rightEndCap);
     }
 
-    return resultingGroup;
+    // Get size of entire thing
+    var finalDimensions = svgUtil.measureElementDimensions(resultingGroup);
+
+    return {'svg': resultingGroup,
+            'w':   finalDimensions.w,
+            'h':   finalDimensions.h};
 };
