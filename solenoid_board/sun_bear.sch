@@ -3672,7 +3672,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="S4" library="pie" deviceset="M02" device="1X02-MTA"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Sumita Ghosh, Sahar Mesri"/>
-<attribute name="REVISION" value="F"/>
+<attribute name="REVISION" value="B"/>
 </part>
 <part name="GND1" library="pie" deviceset="GND" device=""/>
 <part name="GND2" library="pie" deviceset="GND" device=""/>
@@ -3732,8 +3732,8 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <instance part="S4" gate="G$1" x="62.23" y="38.735" rot="R90"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0">
-<attribute name="REVISION" x="147.32" y="0" size="1.778" layer="96" display="off"/>
-<attribute name="AUTHOR" x="147.32" y="0" size="1.778" layer="96" display="off"/>
+<attribute name="REVISION" x="236.22" y="6.985" size="2.7432" layer="94" font="vector"/>
+<attribute name="AUTHOR" x="148.59" y="6.985" size="2.7432" layer="94" font="vector"/>
 </instance>
 <instance part="GND1" gate="GND" x="104.14" y="99.06" rot="R90"/>
 <instance part="GND2" gate="GND" x="104.14" y="76.2" rot="R90"/>

@@ -116,7 +116,7 @@
 <wire x1="0" y1="38.1" x2="0" y2="0" width="0.254" layer="20"/>
 <text x="31.369" y="37.338" size="1.27" layer="25" font="vector" ratio="20" rot="R180">PiE Sun Bear v2.0</text>
 <text x="30.099" y="35.56" size="1.27" layer="21" font="vector" ratio="20" rot="R180">Version 2 Revision B</text>
-<text x="19.431" y="33.782" size="1.27" layer="21" font="vector" ratio="20" rot="R180">2013.11.2</text>
+<text x="19.431" y="33.782" size="1.27" layer="21" font="vector" ratio="20" rot="R180">2013.11.11</text>
 <text x="10.668" y="10.16" size="1.27" layer="21" font="vector" ratio="20">POWER</text>
 <text x="9.144" y="15.494" size="1.27" layer="21" font="vector" ratio="20" rot="SR90">TO WATSON</text>
 <text x="33.655" y="8.89" size="1.27" layer="22" font="vector" ratio="15" rot="MR0">Copyright (c) 2013,
