@@ -1,0 +1,1016 @@
+<html>
+    <head>
+        <title>test</title>
+    </head>
+    <body>
+        <!--<canvas id="canvas" width="1500" height="500" x ="0" y ="0"></canvas>-->
+        <script type="text/javascript" src="ammo.js"></script>
+        <script type="text/javascript" src="three.min.js"></script>
+        <!--<script type="text/javascript" src="stats.min.js"></script>-->
+        <script type="text/javascript">
+            var WIDTH = 1000, HEIGHT = 500;
+            var scene, camera, renderer, cameraController, centralPosition;
+            var t = 0;
+            var physicsObjects = new physicsObjectManager();
+            var saveMan = new saveManager();
+            var targetFrame = 0;
+
+            FUCKME = 0; //useful constant for quick and easy testing
+            FRAME = 0; //keeps track of frame
+            KEY_A = 65;
+            KEY_D = 68;
+            KEY_W = 87;
+            KEY_S = 83;
+            KEY_E = 69;
+            KEY_Q = 81;
+            KEY_SPACE = 32;
+            KEY_ENTER = 13;
+            KEY_J = 74;
+            KEY_O = 79;
+            KEY_P = 80;
+            KEY_K = 75;
+            KEY_SHIFT = 16;
+            KEY_T = 84;
+            KEY_F = 70;
+            KEY_G = 71;
+            KEY_H = 72;
+            KEY_R = 82;
+            KEY_Y = 89;
+
+            document.onkeydown = function(e){
+                var speed = .01;
+
+                var key = e.keyCode || e.which; // some browsers using keyCode,some which
+                switch(key)
+                {
+                    case KEY_A:
+                    {
+                        //camera.position.x -= speed;
+                        cameraController.moveX(-speed);
+                        break;
+                    }
+                    case KEY_D:
+                    {
+                        //camera.position.x += speed;
+                        cameraController.moveX(speed);
+                        break;
+                    }
+                    case KEY_W:
+                    {
+                        //camera.position.y += speed;
+                        cameraController.moveY(speed);
+                        break;
+                    }
+                    case KEY_S:
+                    {
+                        //camera.position.y -= speed;
+                        cameraController.moveY(-speed);
+                        break;
+                    }
+                    case KEY_E:
+                    {
+                        //camera.position.z += speed;
+                        cameraController.moveZ(speed*1000);
+                        break;
+                    }
+                    case KEY_Q:
+                    {
+                        //camera.position.z -= speed;
+                        cameraController.moveZ(-speed*1000);
+                        break;
+                    }
+                    case KEY_SPACE:
+                    {
+                        ROBOT.setPort(6, 1);
+                        break;
+                    }
+                    case KEY_ENTER:
+                    {
+                        box1 = createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
+                        break;
+                    }
+                    case KEY_K:
+                    {
+                        obj = ROBOT.physicsChassi;
+                        //obj.applyForce(new Ammo.btVector3(0, 0, .1));
+                        obj.setActivationState(1);
+                        //obj.setLinearVelocity(new Ammo.btVector3(0, 0, 20));
+                        obj.applyTorque(new Ammo.btVector3(0, 0, 50*27*99));
+                        break;                       
+                    }
+                    case KEY_J:
+                    {
+                        ROBOT.setPort(1, 20);
+                        ROBOT.setPort(0, 20);
+                        break;
+                    }
+                    case KEY_O:
+                    {
+                        break;
+                    }
+                    case KEY_P:
+                    {
+                        break;
+                    }
+                    case KEY_T:
+                    {
+                        centralPosition.y += speed*10;
+                        break;
+                    }
+                    case KEY_G:
+                    {
+                        centralPosition.y -= speed*10;
+                        break;
+                    }
+                    case KEY_R:
+                    {
+                        centralPosition.z += speed*10;
+                        break;
+                    }
+                    case KEY_Y:
+                    {
+                        centralPosition.z -= speed*10;
+                        break;
+                    }
+                    case KEY_F:
+                    {
+                        centralPosition.x += speed*10;
+                        break;
+                    }
+                    case KEY_H:
+                    {
+                        //centralPosition.x -= speed*10;
+                        ROBOT.setActivationState(1);
+                        ROBOT.mass = 1;
+                        ROBOT.applyCentralForce(new Ammo.btVector3(0, 10, 0));
+                        break;
+                    }
+                    case KEY_SHIFT:
+                    {
+                        break;
+                    }
+                }
+                console.log(key);
+            }
+
+            /*/============================
+            Utility Functions (for debugging, testing, etc)
+            ============================/*/
+
+            //Prints all the methods of obj : useful because useless documentation
+            function printMethods(obj)
+            {
+                var prop;
+                for(prop in obj)
+                {
+                    console.log("Foo has property " + prop);
+                }
+            }
+
+            function saveFrame()
+            {
+                targetFrame = FRAME;
+            }
+
+            function loadFrame()
+            {
+                saveMan.runFrame(targetFrame);
+            }
+
+            function strVector(v)
+            {
+                return "<" + v.x() + ", " + v.y() + ", " + v.z() + ">";
+            }
+
+            function strQuat(q)
+            {
+                return "<" + q.x() + ", " + q.y() + ", " + q.z() + ", " + q.z() + ">";
+            }
+
+            //Multiplies quaternions; built in library's multiply is broken
+            function multQuats(a, b)
+            {
+                c = new Ammo.btQuaternion(a.x()*b.x() - a.y()*b.y() - a.z()*b.z() - a.w()*b.w(),
+                                          a.x()*b.y() + a.y()*b.x() - a.z()*b.w() + a.w()*b.z(),
+                                          a.x()*b.z() + a.y()*b.w() + a.z()*b.x() - a.w()*b.y(),
+                                          a.x()*b.w() - a.y()*b.z() + a.z()*b.y() + a.w()*b.x());
+                return c;
+
+            }
+
+            //Rotates a real vector by a quaternion transformation
+            function rotateV3ByQuat(vector, quat)
+            {
+                var tempQuat = new Ammo.btQuaternion(vector.x(), vector.y(), vector.z(), 0);
+                var quatConj = new Ammo.btQuaternion(-quat.x(), -quat.y(), -quat.z(), quat.w());
+
+                return multQuats(multQuats(quat, tempQuat), quatConj);
+            }
+
+            /*Takes a mesh, and adds x,y, and z lines to allow easier understanding
+                mesh is initial mesh
+                len is length of each line
+                iniX...iniZ is initial position of the mesh
+            */
+
+            function makeMappedMesh(mesh, len, iniX, iniY, iniZ)
+            {
+                var group = new THREE.Object3D();
+
+                axisX = createBoxMesh(len, 0.5, 0.5, 0xff0000, 1);
+                axisY = createBoxMesh(0.5, len, 0.5, 0x00ff00, 1);
+                axisZ = createBoxMesh(0.5, 0.5, len, 0x0000ff, 1);
+
+                axisX.position.x = len/2;
+                axisY.position.y = len/2;
+                axisZ.position.z = len/2;
+
+                group.add(mesh);
+                group.add(axisX);
+                group.add(axisY);
+                group.add(axisZ);
+
+                scene.add(group);
+
+                group.original = mesh;
+                group.material = mesh.material;
+                return group;
+            }
+
+            //Removes lines from a mapped mesh
+            function makeUnMappedMesh(mesh)
+            {
+                return mesh.original;
+            }
+
+            //creates a test car
+            function createCar3()
+            {
+                robot = new Robot();
+                robot.initChassi();
+                robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(5, 10, 1)),
+                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1), new Ammo.btVector3(0, 0, 0)),
+                               300,
+                               makeMappedMesh(createBoxMesh(10, 20, 2, 0xaa00aa), 5),
+                               0, 0, 0);
+                robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(5, 5, 1)),
+                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1), new Ammo.btVector3(0, 0, 2)),
+                               100,
+                               makeMappedMesh(createBoxMesh(10, 10, 2, 0xbb00bb), 5),
+                               0, 0, 2);
+                robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(1, 1, 5)),
+                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1), new Ammo.btVector3(4, 4, 2 + 5 + 1)),
+                               10,
+                               makeMappedMesh(createBoxMesh(2, 2, 10, 0xbbbbbb), 5),
+                               4,4,2+5+1);
+                robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(1, 1, 5)),
+                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1), new Ammo.btVector3(4, -4, 2 + 5 + 1)),
+                               10,
+                               makeMappedMesh(createBoxMesh(2, 2, 10, 0xbbbbbb), 5),
+                               4,-4,2+5+1);
+                robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(1, 1, 5)),
+                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1), new Ammo.btVector3(-4, 4, 2 + 5 + 1)),
+                               10,
+                               makeMappedMesh(createBoxMesh(2, 2, 10, 0xbbbbbb), 5),
+                               -4,4,2+5+1);
+                robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(1, 1, 5)),
+                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1), new Ammo.btVector3(-4, -4, 2 + 5 + 1)),
+                               10,
+                               makeMappedMesh(createBoxMesh(2, 2, 10, 0xbbbbbb), 5),
+                               -4,-4,2+5+1);
+                robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(5, 6, 1)),
+                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1), new Ammo.btVector3(0, 0, 2 + 5 + 5 + 1 + 1)),
+                               10,
+                               makeMappedMesh(createBoxMesh(10, 12, 2, 0x0055555), 5),
+                               0,0,2+5+5+1+1);
+                robot.finishChassi(0, 0, 100);
+
+                var motors = [];
+                var x = [1, -1, 1, -1];
+                var y = [1, 1, -1, -1];
+                for(var i = 0; i < 4; i++)
+                {
+                    temp_motor = new Motor(2, 2, 2, 10, 0xff99ff, 3, 2, 10, 0xaabbff, x[i]*5, y[i]*7, 100);
+                    motors.push(temp_motor);
+                    robot.addPortObject(i, temp_motor, temp_motor.motor,
+                                        new Ammo.btVector3(x[i]*5, y[i]*7, 0),
+                                        new Ammo.btVector3(0, 0, -1),
+                                        new Ammo.btVector3(x[i]*1, 0, 0),
+                                        new Ammo.btVector3(0, 0, 1));
+
+                }
+
+                temp_motor = new Motor(2, 2, 2, 10, 0xff99ff, 2, 2, 10, 0xaabbff, 0, 0, 140);
+                motors.push(temp_motor);
+                robot.addPortObject(5, temp_motor, temp_motor.motor,
+                                    new Ammo.btVector3(0, 0, 2+5+5+2+1),
+                                    new Ammo.btVector3(0, 0, -1),
+                                    new Ammo.btVector3(0, 0, 1),
+                                    new Ammo.btVector3(0, 0, 1));
+
+                temp_LED = new LED(0x000000, 0xffffff, 1, 1, 1, 1, 0, 0, 150);
+                robot.addPortObject(6, temp_LED, temp_LED.light,
+                                    new Ammo.btVector3(0, 6, 2+5+5+2+1),
+                                    new Ammo.btVector3(0, 0, -.5),
+                                    new Ammo.btVector3(0, 0, 1),
+                                    new Ammo.btVector3(0, 0, 1));
+
+                temp_infrared = new infrared(1, 1, 1, 1, 0, 100, 0, 150);
+                robot.addPortObject(7, temp_infrared, temp_infrared.infrared,
+                                    new Ammo.btVector3(0, 10, 0),
+                                    new Ammo.btVector3(0, 0, -0.5),
+                                    new Ammo.btVector3(0, 1, 0),
+                                    new Ammo.btVector3(0, 0, 1));
+                return robot;
+            }
+
+            /*/============================
+            Ammo.js wrappers
+            ============================/*/
+
+            //initalizes physics, sets gravity to 0, -30, 0
+            function initPhysics()
+            {
+                var collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
+                var dispatcher = new Ammo.btCollisionDispatcher( collisionConfiguration );
+                var overlappingPairCache = new Ammo.btDbvtBroadphase();
+                var solver = new Ammo.btSequentialImpulseConstraintSolver();
+                scene.world = new Ammo.btDiscreteDynamicsWorld( dispatcher, overlappingPairCache, solver, collisionConfiguration );
+                scene.world.setGravity(new Ammo.btVector3(0, -30, 0));
+            }
+
+            //creates a box physic, returns box
+            function createBoxPhysics(width, height, depth, mass, iniX, iniY, iniZ)
+            {
+                var mass = mass;
+                var startTransform = new Ammo.btTransform();
+                startTransform.setIdentity();
+                startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
+                 
+                var localInertia = new Ammo.btVector3(0, 0, 0);
+                 
+                var boxShape = new Ammo.btBoxShape(new Ammo.btVector3(width/2, height/2, depth/2));
+                boxShape.calculateLocalInertia( mass, localInertia );
+                 
+                var motionState = new Ammo.btDefaultMotionState( startTransform );
+                var rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, boxShape, localInertia );
+                var boxAmmo = new Ammo.btRigidBody( rbInfo );
+                scene.world.addRigidBody( boxAmmo );
+
+                boxAmmo.getCollisionShape().parent = boxAmmo;
+                 
+                return boxAmmo;
+            }
+
+            //creates a cylinder physics, returns it
+            function createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ)
+            {
+                var mass = mass;
+                var startTransform = new Ammo.btTransform();
+                startTransform.setIdentity();
+                startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
+                 
+                var localInertia = new Ammo.btVector3(0, 0, 0);
+                 
+                var cylShape = new Ammo.btCylinderShape(new Ammo.btVector3(radius, height/2, radius));
+                cylShape.calculateLocalInertia( mass, localInertia );
+                 
+                var motionState = new Ammo.btDefaultMotionState( startTransform );
+                var rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, cylShape, localInertia );
+                var cylAmmo = new Ammo.btRigidBody( rbInfo );
+                scene.world.addRigidBody( cylAmmo );
+                 
+                return cylAmmo;
+            }
+
+            //creates a cylinder physic attached to a mesh, specified by size
+            function createCylinder(radius, height, mass, color, iniX, iniY, iniZ)
+            {
+                cyl = createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ);
+                mesh = makeMappedMesh(createCylMesh(radius, height, color, 1), 15, iniX, iniY, iniZ);
+
+                cyl.mesh = mesh;
+                mesh.position.set(iniX, iniY, iniZ);
+
+                physicsObjects.push(cyl);
+
+                return cyl;
+
+            }
+
+            //creates a box physic attached to a mesh, specified by size
+            function createBox(width, height, depth, mass, color, iniX, iniY, iniZ, dontAddPhysics)
+            {
+                box = createBoxPhysics(width, height, depth, mass, iniX, iniY, iniZ);
+                mesh = makeMappedMesh(createBoxMesh(width, height, depth, color), 5, iniX, iniY, iniZ);
+                box.mesh = mesh;
+                mesh.position.set(iniX, iniY, iniZ);
+
+                if(!dontAddPhysics) physicsObjects.push(box);
+
+                return box;
+            }
+
+            /*/============================
+            Higher level control structures
+            ============================/*/
+
+            /*
+            Manages saved states
+                shouldSave returns if the current frame should be saved: ie, it hasn't been stored, and is not being replayed
+                storeState saves the state, takes state given by physicsObjectManager
+                tenCheck is internal and should not be called externally; rearranges saved states, so always by order of 10
+                runFrame runs the frame number, looks inside storage for earliest frame that is under frame number, runs until it hits frame number
+            */
+            function saveManager()
+            {
+                this.saveQueues = [[]];
+                this.savedFrames = 0
+            }
+
+            saveManager.prototype.shouldSave = function(frame)
+            {
+                return (!(frame%10) && frame >= this.savedFrames)
+            }
+
+            saveManager.prototype.storeState = function(state)
+            {
+                this.savedFrames += 10;
+                this.saveQueues[0].push(state);
+                if(this.saveQueues[0].length > 10) this.tenCheck()
+            }
+
+            saveManager.prototype.tenCheck = function()
+            {
+                for(var i = 0; i < this.saveQueues.length; i++)
+                {
+                    if(this.saveQueues[i].length > 10)
+                    {
+                        if(i + 1 >= this.saveQueues.length)
+                        {
+                            this.saveQueues.push([]);
+                        }
+                        this.saveQueues[i + 1].push(this.saveQueues[i][0]);
+                        this.saveQueues[i] = [this.saveQueues[i][10]];
+                    }
+                    else break;
+                }
+            }
+
+            saveManager.prototype.runFrame = function(frame)
+            {
+                var tempQ = this.saveQueues[0];
+
+                for(i = 0; i < this.saveQueues.length && tempQ[i][0].frame > frame; i++)
+                {
+                    tempQ = this.saveQueues[i]
+                }
+
+                for(i = 0; i < tempQ.length && tempQ[i].frame <= frame; i++)
+                {
+                    save = tempQ[i];
+                }
+
+                physicsObjects.loadState(save);
+
+                for(var curFrame = save.frame; curFrame < frame; curFrame++)
+                    scene.world.stepSimulation(1/60, 5);
+
+                render();
+            }
+
+            /*
+            Manages physics objects in the world
+                push adds an object to the list, assigns unique id to each object
+                render adjusts the mesh of each object to match its physic object
+                getState writes the state to a data structure, returns it
+                runState reads from that state data structure, sets all object to such state, sets frame to that state
+
+                todo:
+                    make getState read robot port values, make runState set such things
+            */
+            function physicsObjectManager()
+            {
+                this.array = []; //objects currently in world
+
+                this.objects = {}; //objects that existed at some point; to allow access after removing
+
+                this.ids = 0;
+            }
+
+            physicsObjectManager.prototype.length = function()
+            {
+                return this.array.length;
+            }
+
+            physicsObjectManager.prototype.push = function(obj)
+            {
+                this.array.push(obj);
+
+                obj.physicsId = this.ids;
+                this.ids += 1;
+
+                this.objects[obj.physicsId] = obj;
+            }
+
+            physicsObjectManager.prototype.iterator = function()
+            {
+                return Iterator(this.array);
+            }
+
+            physicsObjectManager.prototype.render = function()
+            {
+                var origin, rotation, transform = new Ammo.btTransform();
+
+                var arr = this.array;
+                var it = Iterator(arr, true);
+                for(key in it)
+                {
+                    arr[key].getMotionState().getWorldTransform( transform ); // Retrieve box position & rotation from Ammo
+                     
+                    // Update position
+                    origin = transform.getOrigin();
+                    arr[key].mesh.position.x = origin.x();
+                    arr[key].mesh.position.y = origin.y();
+                    arr[key].mesh.position.z = origin.z();
+                     
+                    // Update rotation
+                    rotation = transform.getRotation();
+                    arr[key].mesh.quaternion.x = rotation.x();
+                    arr[key].mesh.quaternion.y = rotation.y();
+                    arr[key].mesh.quaternion.z = rotation.z();
+                    arr[key].mesh.quaternion.w = rotation.w();
+                }
+
+                if(!FUCKME)
+                {
+                    scene.world.removeRigidBody(arr[0]);
+                    scene.world.addRigidBody(arr[0]);
+                    FUCKME = !FUCKME;
+                    printMethods(arr[key]);
+                }
+            }
+
+            physicsObjectManager.prototype.getState = function()
+            {
+                var tempState = [],
+                    arr = this.array,
+                    it = Iterator(arr, true),
+                    obj,
+                    linVel,
+                    angVel,
+                    tr,
+                    temp_tr;
+                for(key in it)
+                {
+                    tr = new Ammo.btTransform();
+
+                    obj = arr[key];
+
+                    linVel = new Ammo.btVector3(obj.getLinearVelocity().x(), obj.getLinearVelocity().y(), obj.getLinearVelocity().z());
+                    angVel = new Ammo.btVector3(obj.getAngularVelocity().x(), obj.getAngularVelocity().y(), obj.getAngularVelocity().z());
+                    temp_tr = obj.getCenterOfMassTransform();
+                    tr.setOrigin(new Ammo.btVector3(temp_tr.getOrigin().x(), temp_tr.getOrigin().y(), temp_tr.getOrigin().z()));
+                    tr.setRotation(new Ammo.btQuaternion(temp_tr.getRotation().x(), temp_tr.getRotation().y(), temp_tr.getRotation().z(), temp_tr.getRotation().w()));
+
+                   // console.log(strQuat(tr.getOrigin()));
+
+                    tempState.push([obj.physicsId, tr, linVel, angVel]);
+                }
+
+                //console.log(String(tempState));
+                tempState.frame = FRAME;
+
+                return tempState;
+            }
+
+            physicsObjectManager.prototype.loadState = function(state)
+            {
+                FRAME = state.frame;
+
+                for(var i = 0; i < state.length; i++)
+                {
+                    this.array[i].setActivationState(1);
+                    this.array[i].setWorldTransform(state[i][1]);
+                    this.array[i].setLinearVelocity(state[i][2]);
+                    this.array[i].setAngularVelocity(state[i][3]);
+                }
+
+                this.render();
+            }
+
+            /*
+            manages the camera in a sphere around a central position
+                updatePosition is automatically called
+                moveX moves camera around in a circle on the xz plane (at level y) (left and right)
+                moveY moves camera around up and down the sphere
+                moveZ moves camera radius in and out
+            */
+            function CameraController(camera, radius, theta, phi)
+            {
+                this.camera = camera;
+                this.radius = radius;
+                this.theta = theta;
+                this.phi = phi;
+            }
+
+            CameraController.prototype.updatePosition = function()
+            {
+                this.camera.position.y = this.radius*Math.sin(this.phi);
+
+                var tempRadius = Math.sqrt(this.radius*this.radius - this.camera.position.y*this.camera.position.y);
+
+                camera.position.x = tempRadius*Math.cos(this.theta);
+                camera.position.z = tempRadius*Math.sin(this.theta);
+            }
+
+            CameraController.prototype.moveX = function(speed)
+            {
+                this.theta += speed;
+
+                this.updatePosition();
+            }
+
+            CameraController.prototype.moveY = function(speed)
+            {
+                this.phi += speed;
+                console.log(this.phi);
+
+                this.updatePosition();
+            }
+
+            CameraController.prototype.moveZ = function(speed)
+            {
+                this.radius += speed;
+
+                this.updatePosition();
+            }
+
+            function masterObject()
+            {
+                this.motors = {};
+                this.sensors = {};
+                this.version = 0;
+                this.playback = -1;
+            }
+
+            masterObject.prototype.playFrame = function()
+            {
+                if(this.playback < 0)
+                    return false;
+                else return true;
+            }
+
+            /*/============================
+            Parts to connect to robot
+            ============================/*/
+
+            /*
+            All motors consist of a box and a cylinder shape
+                getBox gets the motor collidable shape
+                getWheel gets the wheel collidable shape
+                run reads the value passed, and sets speed
+            */
+            function Motor(boxX, boxY, boxZ, boxMass, boxColor, wheelRad, wheelHeight, wheelMass, wheelColor, iniX, iniY, iniZ)
+            {
+                this.motor = createBox(boxX, boxY, boxZ, boxMass, boxColor, iniX, iniY + boxY, iniZ - boxZ);
+                this.wheel = createCylinder(wheelRad, wheelHeight, wheelMass, wheelColor, iniX, iniY - wheelHeight, iniZ + wheelRad);
+
+                this.constraint = new Ammo.btHingeConstraint(this.motor, this.wheel,
+                                                            new Ammo.btVector3(0, 0, boxZ/2),
+                                                            new Ammo.btVector3(0, -wheelHeight/2, 0),
+                                                            new Ammo.btVector3(0, 0, 1),
+                                                            new Ammo.btVector3(0, 1, 0));
+                scene.world.addConstraint(this.constraint);
+
+                return this;
+            }
+
+            Motor.prototype.getBox = function()
+            {
+                return this.motor;
+            }
+
+            Motor.prototype.getWheel = function()
+            {
+                return this.wheel;
+            }
+
+            Motor.prototype.run = function(value)
+            {
+                var tr = new Ammo.btTransform();
+                this.wheel.getMotionState().getWorldTransform(tr);
+
+                var pos = tr.getOrigin();
+                var rot = tr.getRotation();
+                var upQ = new Ammo.btVector3(0, 1, 0);
+
+                var newQ = rotateV3ByQuat(upQ, rot);
+                    newQ = new Ammo.btVector3(value*newQ.x(), value*newQ.y(), value*newQ.z());
+
+                //this.wheel.applyTorque(newQ);
+                this.wheel.setAngularVelocity(newQ)
+            }
+
+            /*
+            All LEDs are a single box
+                run takes value, turns it to either offColor or onColor, depending on true/false
+            */
+            function LED(offColor, onColor, width, length, height, mass, iniX, iniY, iniZ)
+            {
+                this.light = createBox(width, length, height, mass, offColor, iniX, iniY, iniZ);
+                this.offColor = offColor;
+                this.onColor = onColor;
+            }
+
+            LED.prototype.run = function(value)
+            {
+                if(value)
+                {
+                    this.light.mesh.original.material.color.setHex(this.onColor);
+                }
+                else
+                {
+                    this.light.mesh.original.material.color.setHex(this.offColor);
+                }
+            }
+
+            /*
+            All rangefinders are a single box : it shoots a ray out at its <0, 0, 1> direction
+                run shoots a ray and sets its value to the distance
+            */
+            function rangefinder(width, length, height, mass, iniX, iniY, iniZ)
+            {
+                this.rangefinder = createBox(width, length, height, mass, 0x000000, iniX, iniY, iniZ);
+            }
+
+            rangefinder.prototype.run = function(value)
+            {
+                var tr = new Ammo.btTransform();
+                this.rangefinder.getMotionState().getWorldTransform(tr);
+
+                var pos = tr.getOrigin();
+                var rot = tr.getRotation();
+                var upQ = new Ammo.btQuaternion(0, 0, 1, 0);
+
+                var nPos = rotateV3ByQuat(upQ, rot);
+
+                var distance = function(a, b)
+                {
+                    return Math.sqrt((a.x() - b.x())*(a.x() - b.x()) +
+                            (a.y() - b.y())*(a.y() - b.y()) +
+                            (a.z() - b.z())*(a.z() - b.z()));
+                }
+
+                nPos = new Ammo.btVector3(pos.x() + 1000*nPos.x(), pos.y() + 1000*nPos.y(), pos.z() + 1000*nPos.z());
+
+                this.raycast = new Ammo.ClosestRayResultCallback(pos, nPos);
+
+                scene.world.rayTest(pos, nPos, this.raycast);
+                if(this.raycast.hasHit)
+                {
+                    var end = this.raycast.get_m_hitPointWorld();
+
+                    this.value = distance(a, b);
+                }
+            }
+
+            /*
+            All infrareds are a single box : it shoots a ray out at its <0, 0, 1> direction
+                run shoots a ray and sets its value to the color of the object it hits
+            */
+            function infrared(width, length, height, mass, iniX, iniY, iniZ)
+            {
+                this.infrared = createBox(width, length, height, mass, 0x000000, iniX, iniY, iniZ);
+            }
+
+            infrared.prototype.run = function(value)
+            {
+                var tr = new Ammo.btTransform();
+                this.infrared.getMotionState().getWorldTransform(tr);
+
+                var pos = tr.getOrigin();
+                var rot = tr.getRotation();
+                var upQ = new Ammo.btQuaternion(0, 0, 1, 0);
+
+                var nPos = rotateV3ByQuat(upQ, rot);
+
+                nPos = new Ammo.btVector3(pos.x() + 1000*nPos.x(), pos.y() + 1000*nPos.y(), pos.z() + 1000*nPos.z());
+
+                this.raycast = new Ammo.ClosestRayResultCallback(pos, nPos);
+
+                scene.world.rayTest(pos, nPos, this.raycast);
+                if(this.raycast.hasHit)
+                {
+                    var obj = this.raycast.get_m_collisionObject().getCollisionShape();
+
+                    try
+                    {
+                        this.value = obj.parent.mesh.material.color.getHex();
+                    }
+                    catch(err)
+                    {
+                        console.log(String(err));
+                    }
+                }
+            }
+
+            /*/============================
+            Actual robot
+            ============================/*/
+
+            /*
+            Robot is the main robot class
+                setPort sets a value to the specified port; port being a key in a dictionary
+                simulate runs all objects connected to it at the values connected to said objects
+                initChassi allows the user to begin building
+                addShape adds a shape to the chassi:
+                    shape is a shape object, from Ammo.js
+                    trasnform is relative location to center of bot, and rotation of object
+                    mesh is the three.js mesh
+                    meshoffsets the relative position of the shape to bot center = should be same as transform's origin
+                finishChassi does physics to finalize chassi
+                addPortObject connects an object to the port value
+                    physicsObject is the physicsObject of the portObject; may be seperate
+                    chassiLoc is where it should be connected to on the chassi
+                    objectLoc is where it should be connected to on the object
+                    chassi axis is in which axis (relative to chassi) the hinge should be connected
+                    object axis is in which axis (relative to robot) the hinge should be connected
+            */
+            function Robot()
+            {
+                this.chassi = null;
+                this.mesh = null
+                this.portObjects = {};
+                this.portValues = {};
+                this.mass = 0;
+
+                return this;
+            }
+
+            Robot.prototype.setPort = function(port, value)
+            {
+                this.portValues[port] = value;
+            }
+
+            Robot.prototype.simulate = function()
+            {
+                for(port in this.portObjects)
+                {
+                    var val = this.portValues[port];
+                    this.portObjects[port].run(val);
+                }
+            }
+
+            Robot.prototype.initChassi = function()
+            {
+                this.mesh = new THREE.Object3D();
+                this.chassi = new Ammo.btCompoundShape()
+            }
+
+            Robot.prototype.addShape = function(shape, transform, mass, mesh, meshOffsetX, meshOffsetY, meshOffsetZ)
+            {
+                this.chassi.addChildShape(transform, shape);
+                mesh.position.set(meshOffsetX, meshOffsetY, meshOffsetZ);
+                this.mesh.add(mesh);
+                this.mass += mass;
+            }
+
+            Robot.prototype.finishChassi = function(iniX, iniY, iniZ)
+            {
+                var startTransform = new Ammo.btTransform();
+                startTransform.setIdentity();
+                startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
+                 
+                var localInertia = new Ammo.btVector3(0, 0, 0);
+                 
+                this.chassi.calculateLocalInertia(this.mass, localInertia );
+                 
+                var motionState = new Ammo.btDefaultMotionState( startTransform );
+                var cpInfo = new Ammo.btRigidBodyConstructionInfo(this.mass, motionState, this.chassi, localInertia );
+                this.physicsChassi = new Ammo.btRigidBody( cpInfo );
+                scene.world.addRigidBody( this.physicsChassi );
+
+                physicsObjects.push(this.physicsChassi);
+
+                this.physicsChassi.mesh = this.mesh; 
+                scene.add(this.mesh);
+            }
+
+            Robot.prototype.addPortObject = function(port, object, physicsObject, chassiLoc, objectLoc, chassiAxis, objectAxis)
+            {
+                this.portObjects[port] = object;
+                this.portValues[port] = 0;
+
+                var constraint = new Ammo.btHingeConstraint(this.physicsChassi, physicsObject,
+                                                            chassiLoc,
+                                                            objectLoc,
+                                                            chassiAxis,
+                                                            objectAxis);
+                constraint.setLimit(0, 0);
+                scene.world.addConstraint(constraint);
+            }
+
+            /*/============================
+            Three.js wrappers
+            ============================/*/
+
+            //initalizes the renderer, camera, etc
+            function initScene()
+            {
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(45, WIDTH/HEIGHT, 1, 1000);
+                    camera.position.set(0, 40, 200);
+                    camera.lookAt(scene.position);
+
+                centralPosition = scene.position;
+
+                cameraController = new CameraController(camera, 300, 0, 0);
+                    cameraController.updatePosition();
+
+                renderer = new THREE.WebGLRenderer();
+                renderer.setSize(WIDTH, HEIGHT);
+                renderer.setClearColor(0xD4AF37, 1);
+
+                document.body.appendChild(renderer.domElement);
+            }
+
+            //creates a cylinder mesh
+            function createCylMesh(radius, height, mColor, dontAddScene)
+            {
+                height = height||1;
+                radius = radius||1;
+                mColor = mColor||0xffffff;
+
+                var geom = new THREE.CylinderGeometry(radius, radius, height, 30);
+                var material = new THREE.MeshBasicMaterial({ color: mColor });
+                var mesh = new THREE.Mesh(geom, material);
+
+                mesh.receiveShadow = true;
+                mesh.castShadow = true;
+
+                if(!dontAddScene) scene.add(mesh);
+                return mesh;
+
+            }
+
+            //creates a box mesh
+            function createBoxMesh(width, height, depth, mColor, dontAddScene)
+            {
+                width = width||1;
+                height = height||1;
+                depth = depth||1;
+                mColor = mColor||0xffffff;
+
+                var geom = new THREE.CubeGeometry(width, height, depth);
+                var material = new THREE.MeshBasicMaterial({ color: mColor });
+                var mesh = new THREE.Mesh(geom, material);
+
+                mesh.receiveShadow = true;
+                mesh.castShadow = true;
+
+                if(!dontAddScene) scene.add(mesh);
+                return mesh;
+            }
+
+            /*/============================
+            Main loop
+            ============================/*/
+
+            var render = function()
+            {
+                if(saveMan.shouldSave(FRAME)) saveMan.storeState(physicsObjects.getState()); //deals with saving
+                FRAME += 1; //update frame
+                ROBOT.simulate(); //update ports, do shit
+                scene.world.stepSimulation( 1 / 60, 5 ); // tells ammo.js to apply physics
+                physicsObjects.render(); //update meshes of moving objects
+                camera.lookAt(centralPosition); //fixes camera position
+                renderer.render(scene, camera); //tells three.js to render scene
+                requestAnimationFrame(render); //do this shit again
+            }
+
+            /*/============================
+            Setting up
+            ============================/*/
+            initScene();
+            initPhysics();
+
+            createBox(10, 800, 600, 0, 0x0f0f0f, -300, 400 - 40, 0, 1);
+            createBox(10, 800, 600, 0, 0x0f0f0f, 300, 400 - 40, 0, 1);
+            createBox(600, 800, 10, 0, 0x0f0f0f, 0, 400 - 40, 300, 1);
+            createBox(600, 800, 10, 0, 0x0f0f0f, 0, 400 - 40, -300, 1);
+            createBox(1200, 10, 1200, 0, 0xffffff, 0, 800 - 40, 0, 1);
+            createBox(1200, 10, 1200, 0, 0x0000ff, 0, -40, 0, 1);
+            
+            createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
+            createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
+            createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
+            createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
+            ROBOT = createCar3();
+            render();
+
+        </script>
+        <button type="button" onclick="saveFrame()">Save</button>
+        <button type="button" onclick="loadFrame()">Load</button>
+    </body>
+</html>
