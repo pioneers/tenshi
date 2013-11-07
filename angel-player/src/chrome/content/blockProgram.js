@@ -7,6 +7,13 @@ var MAIN_SVG_ID = 'blocks-main';
 
 var blockProgram = {};
 
+function testAABBIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
+    return !((x1 + w1) < x2 ||
+             (y1 + h1) < y2 ||
+             x1 > (x2 + w2) ||
+             y1 > (y2 + h2));
+}
+
 function programAddRootBlock(block) {
     this.rootCodeBlocks.push(block);
     this.document.getElementById(MAIN_SVG_ID).appendChild(block.svgElem);
@@ -18,6 +25,20 @@ function programAddRootBlock(block) {
         }
     }
     this.heightSortedBlocks.splice(i, 0, block);
+}
+
+function programGetBlocksInArea(x, y, w, h) {
+    var foundBlocks = [];
+    // TODO(rqou): More efficient
+    var i;
+    for (i = 0; i < this.heightSortedBlocks.length; i++) {
+        var block = this.heightSortedBlocks[i];
+        if (testAABBIntersect(x, y, w, h, block.x, block.y, block.w, block.h)) {
+            foundBlocks.push(block);
+        }
+    }
+
+    return foundBlocks;
 }
 
 blockProgram.createNewProgram = function(document) {
@@ -35,6 +56,7 @@ blockProgram.createNewProgram = function(document) {
 
     // Functions
     newProg.addRootBlock = programAddRootBlock;
+    newProg.getBlocksInArea = programGetBlocksInArea;
 
     return newProg;
 };
@@ -56,16 +78,24 @@ blockProgram.createNewBlock = function(document, blockType, text, x, y) {
     // Blocks enclosed
     newBlock.firstChild = null;
 
+    var blockSVGData;
+
     // Create block SVG
     switch (blockType) {
         case blocksCommon.BLOCK_TYPE_COMMENT:
-            newBlock.svgElem = svgUtil.createBlock(text,
+            blockSVGData = svgUtil.createBlock(text,
                 blocksCommon.BLOCK_END_FLAT, blocksCommon.BLOCK_END_FLAT);
+            newBlock.svgElem = blockSVGData.svg;
+            newBlock.w = blockSVGData.w;
+            newBlock.h = blockSVGData.h;
             break;
         case blocksCommon.BLOCK_TYPE_LVALUE:
-            newBlock.svgElem = svgUtil.createBlock(text,
+            blockSVGData = svgUtil.createBlock(text,
                 blocksCommon.BLOCK_END_FLAT,
                 blocksCommon.BLOCK_END_INNER_ARROW);
+            newBlock.svgElem = blockSVGData.svg;
+            newBlock.w = blockSVGData.w;
+            newBlock.h = blockSVGData.h;
             break;
         default:
             throw "Unknown block type!";
