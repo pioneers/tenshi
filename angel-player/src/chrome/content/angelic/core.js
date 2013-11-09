@@ -22,18 +22,20 @@ else {
   }
 // End Import Machinery
 
+var module = require ( './module.js' );
+var type = require ( './type.js' );
+var fn = require ( './fn.js' );
 
-var make = function make ( name, ast ) {
-  if ( name === undefined ) {
-    name = '#fn';
-    }
-  return {
-    name: name,
-    ast: ast || null,
-    data: [],
-    relocations: [],
-    };
-  };
+function make ( ) {
+  var core = module.make ( );
+  var print = fn.make ( );
+  print.external = true;
+  core.exports.set_type ( 'number', type.make ( 'number' ) );
+  core.exports.set_type ( 'bool', type.make ( 'bool' ) );
+  core.exports.set_text ( 'print', print );
+  core.objects.push ( print );
+  return core;
+  }
 
 // Export Machinery to make node.js and xulrunner act the same.
 var EXPORTED_SYMBOLS = ['make'];
