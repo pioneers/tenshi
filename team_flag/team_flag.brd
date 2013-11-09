@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="1" unitdist="mil" unit="mil" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="1" unitdist="mil" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -115,7 +115,7 @@
 <wire x1="40.64" y1="40.64" x2="0" y2="40.64" width="0.254" layer="20"/>
 <wire x1="0" y1="40.64" x2="0" y2="0" width="0.254" layer="20"/>
 <circle x="20.32" y="20.32" radius="19.685" width="0.4064" layer="21"/>
-<text x="10.287" y="37.2618" size="1.4224" layer="22" font="vector" ratio="15" rot="MR180">Team Flag 11/2/13</text>
+<text x="10.287" y="37.2618" size="1.4224" layer="22" font="vector" ratio="15" rot="MR180">Team Flag 11/13/13</text>
 <hole x="2.54" y="38.1" drill="3.2"/>
 <hole x="2.54" y="2.54" drill="3.2"/>
 <hole x="38.1" y="2.54" drill="3.2"/>
