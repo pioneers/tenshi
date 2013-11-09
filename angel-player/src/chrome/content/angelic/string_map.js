@@ -80,11 +80,11 @@ var make = function make ( obj ) {
 
       if ( val_str === undefined ) {
         val_str = function ( val ) {
-          return val.toString ( );
+          return JSON.stringify ( val, null, '  ' );
           };
         }
       this.each ( function ( key, val ) {
-        out += '' + key + ' : ' + val_str ( val ) + ',';
+        out += '\n' + key + ' : ' + val_str ( val ) + ',';
         } );
 
       out += '}';

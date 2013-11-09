@@ -271,7 +271,6 @@ var root = {
     var statement_text_table = string_map.make ( {
       '=': compile_assignment,
       'while': compile_while,
-      'if': compile_if,
       'return': compile_return,
       } );
     statement_text_table.each ( function ( key, val ) {
@@ -279,6 +278,7 @@ var root = {
       } );
     var statement_type_table = string_map.make ( {
       'block': compile_block,
+      'top_level': compile_block,
       } );
     statement_type_table.each ( function ( key, val ) {
       scopes.get ( 'statement' ).field_type ( key, 'compile', val );
@@ -296,6 +296,7 @@ var root = {
       '-': compile_sub,
       '(': compile_paren,
       'fn': compile_fn,
+      'if': compile_if,
       } );
     expression_text_table.each ( function ( key, val ) {
       scopes.get ( 'expression' ).field_text ( key, 'compile', val );

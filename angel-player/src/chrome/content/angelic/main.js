@@ -28,6 +28,7 @@ var parser = require ( './parser.js' );
 var misc = require ( './misc.js' );
 var compiler = require ( './compiler.js' );
 var executor = require ( './executor.js' );
+var inferencer = require ( './inferencer.js' );
 
 //
 // This is the main Angelic module
@@ -39,15 +40,18 @@ function compile_and_run ( text ) {
   var a_parser = parser.make ( );
   var a_compiler = compiler.make ( );
   var a_executor = executor.make ( );
+  var a_inferencer = inferencer.make ( );
   var parse_tree;
   var lib;
 
   a_parser.setupScopes ( scopes );
   a_compiler.setupScopes ( scopes );
+  a_inferencer.setupScopes ( scopes );
 
   parse_tree = a_parser.parse ( text );
+  a_inferencer.infer ( parse_tree );
 
-  misc.print ( parse_tree );
+  // misc.print ( parse_tree );
 
   lib = a_compiler.compile ( parse_tree );
 
@@ -76,7 +80,7 @@ var to_parse = '' +
 '        n = n - 1\n' +
 '    print (b)\n' +
 'fn test ():\n' +
-'    if 0: test = 1\n' +
+'    if 0 != 0: test = 1\n' +
 '    test = 5\n';
 
 compile_and_run ( to_parse );
