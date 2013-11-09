@@ -24,38 +24,60 @@ else {
 
 var scope = require ( './scope.js' );
 var string_map = require ( './string_map.js' );
-var parser = require ( './parser.js' );
+var module = require ( './module.js' );
 var misc = require ( './misc.js' );
-var compiler = require ( './compiler.js' );
-var executor = require ( './executor.js' );
-var inferencer = require ( './inferencer.js' );
 
-//
-// This is the main Angelic module
-// Currently, it contains some test code.
-//
+var sscope_text_methods = string_map.make ( {
+  'fn' : {
+    analyze : function ( analyzer ) {
+      var func = fn.make ( this.name, this.ast );
+      analyzer.add_object ( func );
+      this.body.analyze ( analyzer );
+      },
+    }
+  } );
 
-function compile_and_run ( text ) {
+var sscope_type_methods = string_map.make ( {
+  'block' : {
+    analyze : function ( analyzer ) {
+      for ( var idx in this.children ) {
+        var child = this.children[idx];
+        }
+      }
+    },
+  } );
+
+function setupScopes ( scopes ) {
+  var escope = scopes.get ( 'expression', scope.make ( ) );
+  var sscope = scopes.get ( 'statement', scope.make ( escope ) );
+  }
+
+function analyze ( ast ) {
+  var root_module = module.make ( '' );
+  root_module.ast = ast;
+  return {
+    '': root_module,
+    };
+  }
+
+function make ( ) {
+  return {
+    analyze: analyze,
+    setupScopes: setupScopes,
+    };
+  }
+
+function test ( text ) {
+  var parser = require ( './parser.js' );
   var scopes = string_map.make ( );
   var a_parser = parser.make ( );
-  var a_compiler = compiler.make ( );
-  var a_executor = executor.make ( );
-  var a_inferencer = inferencer.make ( );
-  var parse_tree;
-  var lib;
-
   a_parser.setupScopes ( scopes );
-  a_compiler.setupScopes ( scopes );
-  a_inferencer.setupScopes ( scopes );
-
   parse_tree = a_parser.parse ( text );
-  a_inferencer.infer ( parse_tree );
+  //misc.print ( parse_tree );
 
-  misc.print ( parse_tree );
-
-  lib = a_compiler.compile ( parse_tree );
-
-  a_executor.execute ( lib );
+  var a_analyzer = make ( );
+  var modules = a_analyzer.analyze ( parse_tree );
+  misc.print ( modules );
   }
 
 var to_parse = '' +
@@ -83,11 +105,12 @@ var to_parse = '' +
 '    test = 0\n' +
 '    if 0 != 0: test = 1\n';
 
-compile_and_run ( to_parse );
+
+test ( to_parse );
 
 // Export Machinery to make node.js and xulrunner act the same.
-var EXPORTED_SYMBOLS = ['compile_and_run'];
-var exported_objects = [ compile_and_run ];
+var EXPORTED_SYMBOLS = ['make'];
+var exported_objects = [ make ];
 export_vals ( EXPORTED_SYMBOLS,
               exported_objects );
 // End Export Machinery

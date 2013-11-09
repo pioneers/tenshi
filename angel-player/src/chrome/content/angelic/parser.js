@@ -293,8 +293,9 @@ var make = function ( ) {
     // Parses a (indented) block of statements.
     // Can either be given an indent, which is expected to start with a
     // newline, or will use the indent which is next in the parser.
-    block: function block ( indent ) {
-      var the_block = this.lookup_token ( { type: 'block' },
+    block: function block ( indent, top_level ) {
+      var type = top_level ? 'top_level' : 'block';
+      var the_block = this.lookup_token ( { type: type },
           this.scopes.get ( 'statement' ) );
       var initial = this.advance ( { type: 'space',
                                      peek: true,
@@ -395,6 +396,8 @@ var make = function ( ) {
         '/' : 70,
         '%' : 70,
         '==': 40,
+        'and': 30,
+        'or': 30,
         '!=': 40,
         } ).map ( function ( key, val ) { return infix ( val ); } );
 
@@ -403,6 +406,7 @@ var make = function ( ) {
         '-' : 80,
         '++' : 90,
         '--' : 90,
+        'not': 90,
         } ).map ( function ( key, val ) { return prefix ( val ); } );
 
       var type_table = string_map.make ( {
@@ -415,6 +419,8 @@ var make = function ( ) {
       escope.load_text ( prefix_table );
       escope.load_type ( type_table );
       escope.load_text ( string_map.make ( {
+        'true' : atom,
+        'false': atom,
         'fn' : {
           // Parse a function declaration / expression.
           // A lot of the code complexity is due to the fact that both the
@@ -433,9 +439,11 @@ var make = function ( ) {
 
             if ( named ) {
               this.name = first.text;
+              this.named = true;
               }
             else {
               this.name = '#fn';
+              this.named = false;
               this.args.push ( first );
               }
 
@@ -459,8 +467,15 @@ var make = function ( ) {
           // Note that this needs to be fixed, so that it intelligently is
           // either a tuple or parentheses around an expression.
          nud: function ( parser ) {
-           this.type = 'tuple';
            this.children = parser.tuple ( );
+           // TODO(kzentner): Fix this, because the above line eats the comma.
+           if ( this.children.length != 1 ||
+               parser.advance ( { text: ',', optional: true } ) ) {
+             this.type = 'tuple';
+             }
+           else {
+             this.type = 'expr';
+             }
            parser.advance ( ')' );
            },
          led: function ( parser, left ) {
@@ -472,6 +487,46 @@ var make = function ( ) {
            }
           },
         ')' : { lbp: 0 },
+        'if': {
+          expr_nud: function ( parser ) {
+            var else_token;
+            this.type = 'expr';
+            this.condition = parser.expr ( );
+            parser.advance ( ':' );
+            this.block = parser.block ( );
+            parser.advance ( 'else' );
+            parser.advance ( ':' );
+            this.alt_block = parser.block ( );
+            },
+          statement_nud: function ( parser ) {
+            this.type = 'statement';
+            this.condition = parser.expr ( );
+            parser.advance ( ':' );
+            this.block = parser.block ( );
+            },
+          nud: function ( parser ) {
+            this.alt_block = null;
+            if ( parser.current_scope === escope ) {
+              this.expr_nud ( parser );
+              }
+            else if ( parser.current_scope === sscope ) {
+              this.statement_nud ( parser );
+              }
+            },
+          },
+        'else': {
+          nud: function ( parser ) {
+            var c = parser.current_block.children;
+            if ( c[c.length - 1].text != 'if' ) {
+              parser.handle_error ( 'Else statements should only follow if statements.' );
+              }
+            if ( parser.current_scope !== sscope ) {
+              parser.handle_error ( 'Else statements should not be in expressions.' );
+              }
+            parser.advance ( ':' );
+            this.block = c[c.length - 1].alt_block = parser.block ( );
+            },
+          },
         } ) );
       sscope.load_text ( string_map.make ( {
         '=' : infix ( 10 ),
@@ -488,26 +543,15 @@ var make = function ( ) {
             this.block = parser.block ( );
             },
           },
-        'if': {
-          nud: function ( parser ) {
-            this.condition = parser.expr ( );
-            parser.advance ( ':' );
-            this.block = parser.block ( );
-            },
-          },
-        'else': {
-          nud: function ( parser ) {
-            var c = parser.current_block.children;
-            if ( c[c.length - 1].text != 'if' ) {
-              parser.handle_error ( 'Else statements should only follow if statements.' );
-              }
-            parser.advance ( ':' );
-            this.block = parser.block ( );
-            },
-          },
         } ) );
       sscope.load_type ( string_map.make ( {
         'block': { text: 'block',
+          make: function make_block ( token ) {
+            var out = misc.obj_or ( Object.create ( this ), token );
+            out.children = [];
+            return out;
+            } },
+        'top_level': { text: 'top_level',
           make: function make_block ( token ) {
             var out = misc.obj_or ( Object.create ( this ), token );
             out.children = [];
@@ -520,7 +564,14 @@ var make = function ( ) {
     parse: function parse ( text ) {
       this.text = text;
       this.current_scope = this.scopes.get ( 'statement' );
-      return this.block ( '\n' );
+      return this.block ( '\n', true );
+      },
+
+    // Parse an expression. Meant for external use, not internal use.
+    parse_expr: function parse_expr ( text ) {
+      this.text = text;
+      this.current_scope = this.scopes.get ( 'statement' );
+      return this.expr ( );
       },
     };
   return function ( text ) {
