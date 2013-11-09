@@ -183,12 +183,17 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <rectangle x1="-8.128" y1="-4.064" x2="7.62" y2="4.064" layer="39"/>
 <rectangle x1="-8.128" y1="-4.064" x2="7.62" y2="4.064" layer="40"/>
 </package>
-<package name="ANDERSON_RA_BOTTOM">
-<pad name="PIN1" x="1.8415" y="0.508" drill="4.318"/>
-<wire x1="0" y1="0" x2="3.81" y2="0" width="0.127" layer="51"/>
-<wire x1="3.81" y1="0" x2="3.81" y2="1.016" width="0.127" layer="51"/>
-<wire x1="3.81" y1="1.016" x2="0" y2="1.016" width="0.127" layer="51"/>
-<wire x1="0" y1="1.016" x2="0" y2="0" width="0.127" layer="51"/>
+<package name="ANDERSON_25A_1X2">
+<pad name="PIN1" x="0" y="0" drill="1.778" diameter="3.175"/>
+<pad name="PIN2" x="7.874" y="0" drill="1.778" diameter="3.175"/>
+<rectangle x1="-4.191" y1="-34.544" x2="12.065" y2="0" layer="39"/>
+<wire x1="-4.191" y1="-34.544" x2="12.065" y2="-34.544" width="0.127" layer="51"/>
+<wire x1="12.065" y1="-34.544" x2="12.065" y2="1.778" width="0.127" layer="51"/>
+<wire x1="12.065" y1="1.778" x2="-4.191" y2="1.778" width="0.127" layer="51"/>
+<wire x1="-4.191" y1="1.778" x2="-4.191" y2="-34.544" width="0.127" layer="51"/>
+<wire x1="-4.191" y1="-9.906" x2="12.065" y2="-9.906" width="0.127" layer="51"/>
+<wire x1="3.937" y1="-9.906" x2="3.937" y2="-34.544" width="0.127" layer="51"/>
+<text x="-3.81" y="2.54" size="1.27" layer="25" font="vector">&gt;NAME</text>
 </package>
 </packages>
 <symbols>
@@ -216,12 +221,16 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <wire x1="-2.54" y1="1.27" x2="-2.54" y2="2.54" width="0.6096" layer="94"/>
 <wire x1="2.54" y1="1.27" x2="2.54" y2="2.54" width="0.6096" layer="94"/>
 </symbol>
-<symbol name="ANDERSON_RA_BOTTOM">
-<pin name="PIN1" x="0" y="0" length="middle"/>
-<wire x1="-2.54" y1="2.54" x2="7.62" y2="2.54" width="0.254" layer="94"/>
-<wire x1="7.62" y1="2.54" x2="7.62" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="7.62" y1="-2.54" x2="-2.54" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="-2.54" x2="-2.54" y2="2.54" width="0.254" layer="94"/>
+<symbol name="ANDERSON_25A_1X2">
+<wire x1="0" y1="0" x2="5.08" y2="0" width="0.254" layer="94"/>
+<wire x1="5.08" y1="10.16" x2="0" y2="10.16" width="0.254" layer="94"/>
+<wire x1="0" y1="10.16" x2="0" y2="0" width="0.254" layer="94"/>
+<wire x1="5.08" y1="0" x2="10.16" y2="0" width="0.254" layer="94"/>
+<wire x1="10.16" y1="0" x2="10.16" y2="10.16" width="0.254" layer="94"/>
+<wire x1="10.16" y1="10.16" x2="5.08" y2="10.16" width="0.254" layer="94"/>
+<wire x1="5.08" y1="10.16" x2="5.08" y2="0" width="0.254" layer="94"/>
+<pin name="PIN1" x="2.54" y="7.62" length="middle" rot="R270"/>
+<pin name="PIN2" x="7.62" y="7.62" length="middle" rot="R270"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -272,14 +281,15 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </device>
 </devices>
 </deviceset>
-<deviceset name="ANDERSON_RA_BOTTOM">
+<deviceset name="ANDERSON_25A_1X2">
 <gates>
-<gate name="G$1" symbol="ANDERSON_RA_BOTTOM" x="0" y="0"/>
+<gate name="G$1" symbol="ANDERSON_25A_1X2" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="ANDERSON_RA_BOTTOM">
+<device name="" package="ANDERSON_25A_1X2">
 <connects>
 <connect gate="G$1" pin="PIN1" pad="PIN1"/>
+<connect gate="G$1" pin="PIN2" pad="PIN2"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -302,8 +312,7 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <part name="JP1" library="pie" deviceset="M02" device="1X02-MTA"/>
 <part name="U$3" library="pie" deviceset="XT60CONNECTOR" device=""/>
 <part name="JP2" library="pie" deviceset="M02" device="1X02-MTA"/>
-<part name="U$1" library="pie" deviceset="ANDERSON_RA_BOTTOM" device=""/>
-<part name="U$2" library="pie" deviceset="ANDERSON_RA_BOTTOM" device=""/>
+<part name="U$1" library="pie" deviceset="ANDERSON_25A_1X2" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -313,8 +322,7 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <instance part="JP1" gate="G$1" x="25.4" y="15.24" rot="R180"/>
 <instance part="U$3" gate="G$1" x="38.1" y="17.78" rot="R270"/>
 <instance part="JP2" gate="G$1" x="60.96" y="17.78" rot="R180"/>
-<instance part="U$1" gate="G$1" x="7.62" y="17.78"/>
-<instance part="U$2" gate="G$1" x="7.62" y="10.16"/>
+<instance part="U$1" gate="G$1" x="5.08" y="20.32" rot="R270"/>
 </instances>
 <busses>
 </busses>
@@ -337,19 +345,16 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <net name="N$1" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="PIN1"/>
-<wire x1="7.62" y1="17.78" x2="7.62" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="JP1" gate="G$1" pin="1"/>
-<wire x1="7.62" y1="22.86" x2="17.78" y2="22.86" width="0.1524" layer="91"/>
-<wire x1="17.78" y1="22.86" x2="17.78" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="12.7" y1="17.78" x2="17.78" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="17.78" y1="17.78" x2="17.78" y2="15.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
-<pinref part="U$2" gate="G$1" pin="PIN1"/>
-<wire x1="7.62" y1="10.16" x2="7.62" y2="5.08" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="PIN2"/>
 <pinref part="JP1" gate="G$1" pin="2"/>
-<wire x1="7.62" y1="5.08" x2="17.78" y2="5.08" width="0.1524" layer="91"/>
-<wire x1="17.78" y1="5.08" x2="17.78" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="12.7" y1="12.7" x2="17.78" y2="12.7" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
