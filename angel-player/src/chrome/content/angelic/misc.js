@@ -52,9 +52,17 @@ var print = function print () {
     }
   };
 
+// This exists because there is no built in assert in JavaScript.
+function assert ( thing, reason ) {
+  if ( ! thing ) {
+    throw 'ERROR: ' + reason;
+    }
+  }
+
+
 // Export Machinery to make node.js and xulrunner act the same.
-var EXPORTED_SYMBOLS = ['obj_or', 'print'];
-var exported_objects = [ obj_or ,  print ];
+var EXPORTED_SYMBOLS = ['obj_or', 'print', 'assert' ];
+var exported_objects = [ obj_or ,  print ,  assert  ];
 export_vals ( EXPORTED_SYMBOLS,
               exported_objects );
 // End Export Machinery

@@ -38,31 +38,35 @@ var string_map = require ( './string_map.js' );
 // aren't found in their parent scopes automatically.
 //
 
+var root = {
+  get_text: function ( key ) {
+    return undefined;
+    },
+  get_type: function ( key ) {
+    return undefined;
+    },
+  set_text: function ( key, val ) {
+    },
+  set_type: function ( key, val ) {
+    },
+  reset_text: function ( key, val ) {
+    },
+  reset_type: function ( key, val ) {
+    },
+  load_text: function ( table ) {
+    return this;
+    },
+  load_type: function ( table ) {
+    return this;
+    },
+  is_above: function ( scope ) {
+    return true;
+    },
+  };
+
 var make = function ( ) {
   // root is the sentinel parent scope.
   // All recursive methods should have stub implementations here.
-  var root = {
-    get_text: function ( key ) {
-      return undefined;
-      },
-    get_type: function ( key ) {
-      return undefined;
-      },
-    set_text: function ( key, val ) {
-      },
-    set_type: function ( key, val ) {
-      },
-    reset_text: function ( key, val ) {
-      },
-    reset_type: function ( key, val ) {
-      },
-    load_text: function ( table ) {
-      return this;
-      },
-    load_type: function ( table ) {
-      return this;
-      },
-    };
   return function make_scope ( prev_scope ) {
     var text_table = string_map.make ( );
     var type_table = string_map.make ( );
@@ -142,7 +146,21 @@ var make = function ( ) {
       toString: function ( ) {
         return '{ \'text\':' + text_table.toString ( ) +
               ',\n\'type\':' + type_table.toString ( ) + ' }';
-        }
+        },
+      above: function ( ) {
+        return prev_scope;
+        },
+      is_above: function ( possible_child ) {
+        while ( possible_child !== this && possible_child !== root ) {
+          possible_child = possible_child.above ( );
+          }
+        if ( possible_child === this ) {
+          return true;
+          }
+        else if ( possible_child === root ) {
+          return false;
+          }
+        },
       };
     };
   } ( );

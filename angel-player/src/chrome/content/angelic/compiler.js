@@ -50,13 +50,6 @@ function make_bunch ( a, b, c, d ) {
   return [a, b, c, d];
   }
 
-// This exists because there is no built in assert in JavaScript.
-function assert ( thing, reason ) {
-  if ( ! thing ) {
-    throw 'ERROR: ' + reason;
-    }
-  }
-
 var make_cgen = function make_cgen ( target ) {
   return {
     code: [],
@@ -108,14 +101,14 @@ var make_cgen = function make_cgen ( target ) {
       return out;
       },
     add_var: function add_var ( name ) {
-      assert ( this.tempc === 1, "There should be precisely one temporary when a variable is added." );
+      misc.assert ( this.tempc === 1, "There should be precisely one temporary when a variable is added." );
       this.vars.push ( name );
       },
     get_pc: function get_pc ( ) {
       return this.code.length - 1;
       },
     'set': function set ( idx, val ) {
-      assert ( this.code[idx] === 'reserved', 'Only reserved code should be overwritten' );
+      misc.assert ( this.code[idx] === 'reserved', 'Only reserved code should be overwritten' );
       this.code[idx] = val;
       },
     reserve_bunch: function ( ) {
@@ -126,23 +119,23 @@ var make_cgen = function make_cgen ( target ) {
     // Basically, to compile a block, get a snapshot, and your code in the
     // block, then restore the snapshot.
     get_scope_snapshot: function ( ) {
-      assert ( this.tempc === 0, "There should be no temporary values at a scope snapshot." );
+      misc.assert ( this.tempc === 0, "There should be no temporary values at a scope snapshot." );
       return this.vars.slice ( 0 );
       },
     apply_scope_snapshot: function ( snapshot ) {
       // This one is not true in the case of if expressions.
-      //assert ( this.tempc === 0, "There should be no temporary values at a scope snapshot." );
-      assert ( snapshot.length <= this.vars.length, "Applied snapshot should have at most same number of vars." );
+      //misc.assert ( this.tempc === 0, "There should be no temporary values at a scope snapshot." );
+      misc.assert ( snapshot.length <= this.vars.length, "Applied snapshot should have at most same number of vars." );
       var extra_now = false;
       for ( var i in this.vars ) {
         if ( ! extra_now && snapshot[i] === undefined ) {
           extra_now = true;
           }
         if ( ! extra_now ) {
-          assert ( snapshot[i] === this.vars[i], "Snapshot should have same prefix as current scope." );
+          misc.assert ( snapshot[i] === this.vars[i], "Snapshot should have same prefix as current scope." );
           }
         else {
-          assert ( snapshot[i] === undefined, "There should be no more vars after the current scope ends." );
+          misc.assert ( snapshot[i] === undefined, "There should be no more vars after the current scope ends." );
           this.emit ( ops.pop );
           }
         }
@@ -158,7 +151,7 @@ function compile_assignment ( cgen ) {
      cgen.add_temp ( -1 );
      }
    else {
-     assert ( cgen.tempc === 0, "There should be no temporaries when a variable is created." );
+     misc.assert ( cgen.tempc === 0, "There should be no temporaries when a variable is created." );
      this.right.compile ( cgen );
      cgen.add_var ( this.left.text );
      cgen.add_temp ( -1 );
@@ -271,7 +264,6 @@ var root = {
     var statement_text_table = string_map.make ( {
       '=': compile_assignment,
       'while': compile_while,
-      'if': compile_if,
       'return': compile_return,
       } );
     statement_text_table.each ( function ( key, val ) {
@@ -279,6 +271,7 @@ var root = {
       } );
     var statement_type_table = string_map.make ( {
       'block': compile_block,
+      'top_level': compile_block,
       } );
     statement_type_table.each ( function ( key, val ) {
       scopes.get ( 'statement' ).field_type ( key, 'compile', val );
@@ -296,6 +289,7 @@ var root = {
       '-': compile_sub,
       '(': compile_paren,
       'fn': compile_fn,
+      'if': compile_if,
       } );
     expression_text_table.each ( function ( key, val ) {
       scopes.get ( 'expression' ).field_text ( key, 'compile', val );
