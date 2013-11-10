@@ -2,6 +2,8 @@ var EXPORTED_SYMBOLS = ['blockDnD'];
 
 var blockDnD = {};
 
+var BLOCK_SNAP_RADIUS = 0.5;
+
 var MOUSE_MODE_NONE = 0;
 var MOUSE_MODE_PANNING = 1;
 var MOUSE_MODE_DRAG_BLOCK = 2;
@@ -210,7 +212,66 @@ function dragMouseMove(evt) {
                     }
                 }
             }
-            // TODO(rqou): Do snapping logic.
+            
+            // Logic to snap blocks in sequence
+            var neighboringBlocks = mainProgram.getBlocksInArea(
+                newX,
+                newY - BLOCK_SNAP_RADIUS,
+                curDragElement.blockData.w,
+                curDragElement.blockData.h + 2 * BLOCK_SNAP_RADIUS);
+
+            // Exclude the currently-dragged block
+            // TODO(rqou): not hacky, more efficient
+            for (var i = 0; i < neighboringBlocks.length; i++) {
+                if (neighboringBlocks[i] === curDragElement.blockData) {
+                    neighboringBlocks.splice(i, 1);
+                    i--;
+                }
+            }
+
+            // Exclude all things that we don't half-overlap with horizontally.
+            // This is the heuristic we use to decide if things should snap.
+            var overlapAmount = 0;
+            for (var i = 0; i < neighboringBlocks.length; i++) {
+                var block = neighboringBlocks[i];
+                if (newX < block.x)
+                    overlapAmount = newX + curDragElement.blockData.w - block.x;
+                else
+                    overlapAmount = block.x + block.w - newX;
+                // dump("overlap " + overlapAmount + "\n");
+
+                // Find the shortest width of the two interacting blocks
+                var shortestWidth =
+                    block.w < curDragElement.blockData.w ?
+                    block.w :
+                    curDragElement.blockData.w;
+
+                if (overlapAmount < 0.5 * shortestWidth) {
+                    neighboringBlocks.splice(i, 1);
+                    i--;
+                }
+            }
+
+            // For now, we will snap to the first block found.
+            // TODO(rqou): How should this work?
+            if (neighboringBlocks.length > 0) {
+                dump("snap\n");
+                // TODO(rqou): This copypasta is retarded
+                newX = neighboringBlocks[0].x;
+                newY = neighboringBlocks[0].y + neighboringBlocks[0].h;
+
+                curDragElement.blockData.x = newX;
+                curDragElement.blockData.y = newY;
+
+                transform = mainSvg.createSVGTransform();
+                transform.setTranslate(newX, newY);
+                curDragElement.transform.baseVal.initialize(transform);
+
+                // TODO(rqou): This is super dumb
+                currentMouseMode = MOUSE_MODE_NONE;
+                curDragElement.setAttributeNS(null, 'pointer-events', 'auto');
+                curDragElement = null;
+            }
             break;
         default:
             break;
