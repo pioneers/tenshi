@@ -2,4 +2,4 @@
 angel-player/src/chrome/content/angelic/xregexp/*
 
 #Foundation css
-angel-player/src/chrome/content/tenshi-frontend/css/foundation.css
+angel-player/src/chrome/content/tenshi-frontend/stylesheets/app.css
