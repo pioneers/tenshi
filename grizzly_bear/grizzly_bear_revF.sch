@@ -5753,7 +5753,6 @@ Standard 8.5x11 US Letter frame</description>
 <part name="U$18" library="pie" deviceset="XT60CONNECTOR" device=""/>
 <part name="U$19" library="pie" deviceset="XT60CONNECTOR" device=""/>
 <part name="STANDOFF4" library="pie" deviceset="STAND-OFF" device=""/>
-<part name="STANDOFF3" library="pie" deviceset="STAND-OFF" device=""/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Keegan Mann, Jay Chenn, Robert Ou"/>
 <attribute name="REVISION" value="E"/>
@@ -5964,7 +5963,6 @@ Don't populate</text>
 <instance part="U$18" gate="G$1" x="182.88" y="48.26" rot="R270"/>
 <instance part="U$19" gate="G$1" x="137.16" y="45.72" rot="R270"/>
 <instance part="STANDOFF4" gate="G$1" x="144.78" y="2.54" rot="R90"/>
-<instance part="STANDOFF3" gate="G$1" x="144.78" y="7.62" rot="R90"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0">
 <attribute name="AUTHOR" x="147.32" y="0" size="1.778" layer="96" display="off"/>
