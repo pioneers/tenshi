@@ -2,6 +2,8 @@ var EXPORTED_SYMBOLS = ['blockDnD'];
 
 var blockDnD = {};
 
+var BLOCK_SNAP_RADIUS = 0.5;
+
 var MOUSE_MODE_NONE = 0;
 var MOUSE_MODE_PANNING = 1;
 var MOUSE_MODE_DRAG_BLOCK = 2;
@@ -31,7 +33,6 @@ var oldDragY = 0;
 var oldBlockIdx = -1;
 
 function dragMouseDown(evt) {
-    // dump(evt);
     if (!currentMouseMode) {
         // Don't handle a new action if we're already doing one.
 
@@ -76,7 +77,6 @@ function dragMouseDown(evt) {
                         }
                     }
                     oldBlockIdx = i;
-                    dump("block is index " + i + "\n");
 
                     curDragElement = targetElem;
                     // TODO(rqou): Do we need to copypasta this?
@@ -101,9 +101,74 @@ function dragMouseDown(evt) {
 }
 
 function dragMouseUp(evt) {
+    var i;
+
     switch (evt.button) {
         case 0:
             if (currentMouseMode == MOUSE_MODE_DRAG_BLOCK) {
+                // Logic to snap blocks in sequence
+                var neighboringBlocks = mainProgram.getBlocksInArea(
+                    curDragElement.blockData.x,
+                    curDragElement.blockData.y - BLOCK_SNAP_RADIUS,
+                    curDragElement.blockData.w,
+                    curDragElement.blockData.h + 2 * BLOCK_SNAP_RADIUS);
+
+                // Exclude the currently-dragged block
+                // TODO(rqou): not hacky, more efficient
+                for (i = 0; i < neighboringBlocks.length; i++) {
+                    if (neighboringBlocks[i] === curDragElement.blockData) {
+                        neighboringBlocks.splice(i, 1);
+                        i--;
+                    }
+                }
+
+                // Exclude all things that we don't half-overlap with
+                // horizontally. This is the heuristic we use to decide if
+                // things should snap.
+                var overlapAmount = 0;
+                for (i = 0; i < neighboringBlocks.length; i++) {
+                    var block = neighboringBlocks[i];
+                    if (curDragElement.blockData.x < block.x)
+                        overlapAmount = curDragElement.blockData.x +
+                            curDragElement.blockData.w - block.x;
+                    else
+                        overlapAmount = block.x + block.w -
+                            curDragElement.blockData.x;
+
+                    // Find the shortest width of the two interacting blocks
+                    var shortestWidth =
+                        block.w < curDragElement.blockData.w ?
+                        block.w :
+                        curDragElement.blockData.w;
+
+                    if (overlapAmount < 0.5 * shortestWidth) {
+                        neighboringBlocks.splice(i, 1);
+                        i--;
+                    }
+                }
+
+                // For now, we will snap to the first block found.
+                // TODO(rqou): How should this work?
+                if (neighboringBlocks.length > 0) {
+                    // TODO(rqou): This copypasta is retarded
+                    curDragElement.blockData.x = neighboringBlocks[0].x;
+                    if (curDragElement.blockData.y < neighboringBlocks[0].y)
+                        curDragElement.blockData.y =
+                            neighboringBlocks[0].y - curDragElement.blockData.h;
+                    else
+                        curDragElement.blockData.y =
+                            neighboringBlocks[0].y + neighboringBlocks[0].h;
+
+                    curDragElement.blockData.x = curDragElement.blockData.x;
+                    curDragElement.blockData.y = curDragElement.blockData.y;
+
+                    var transform = mainSvg.createSVGTransform();
+                    transform.setTranslate(
+                        curDragElement.blockData.x,
+                        curDragElement.blockData.y);
+                    curDragElement.transform.baseVal.initialize(transform);
+                }
+
                 // Release left button, stop dragging
                 currentMouseMode = MOUSE_MODE_NONE;
                 curDragElement.setAttributeNS(null, 'pointer-events', 'auto');
@@ -125,26 +190,6 @@ function dragMouseUp(evt) {
 }
 
 function dragMouseMove(evt) {
-    // DEBUG DEBUG DEBUG
-
-    if (evt.shiftKey) {
-        var mouseX = (evt.clientX - svgPanX) / 16.0;
-        var mouseY = (evt.clientY - svgPanY) / 16.0;
-
-        dump("Mouse at " + mouseX + " " + mouseY + "\n");
-
-        var things = mainProgram.getBlocksInArea(mouseX - 0.5, mouseY - 0.5, 1, 1);
-        dump("There are " + things.length + " things\n");
-
-        for (var i = 0; i < things.length; i++) {
-            var aa = things[i];
-            // dump(aa);
-            dump("[" + aa.x + " " + aa.y + " " + aa.w + " " + aa.h + "]\n");
-        }
-    }
-
-    // DEBUG DEBUG DEBUG
-
     var transform;
     switch (currentMouseMode) {
         case MOUSE_MODE_PANNING:
@@ -191,7 +236,6 @@ function dragMouseMove(evt) {
                             2, curDragElement.blockData,
                             mainProgram.heightSortedBlocks[oldBlockIdx - 1]);
                         oldBlockIdx--;
-                        dump("New index is " + oldBlockIdx + "\n");
                     }
                 }
             }
@@ -206,11 +250,9 @@ function dragMouseMove(evt) {
                             2, mainProgram.heightSortedBlocks[oldBlockIdx + 1],
                             curDragElement.blockData);
                         oldBlockIdx++;
-                        dump("New index is " + oldBlockIdx + "\n");
                     }
                 }
             }
-            // TODO(rqou): Do snapping logic.
             break;
         default:
             break;
