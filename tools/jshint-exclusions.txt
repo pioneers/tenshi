@@ -2,14 +2,13 @@
 angel-player/src/components/inspector-cmdline.js
 
 # Vendor
-angel-player/src/chrome/content/tenshi-frontend/js/vendor/*
+angel-player/src/chrome/content/tenshi-frontend/javascripts/vendor/*
 
 # Ace
-angel-player/src/chrome/content/tenshi-frontend/js/ace/*
+angel-player/src/chrome/content/tenshi-frontend/javascripts/ace/*
 
 # Foundation
-angel-player/src/chrome/content/tenshi-frontend/js/foundation/*
-angel-player/src/chrome/content/tenshi-frontend/js/foundation.min.js
+angel-player/src/chrome/content/tenshi-frontend/javascripts/foundation.min.js
 
 # XRegExp
 angel-player/src/chrome/content/angelic/xregexp/*
