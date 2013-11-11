@@ -5205,6 +5205,8 @@ Standard 8.5x11 US Letter frame</description>
 <attribute name="AUTHOR" value="Aravind K., Jared P."/>
 <attribute name="REVISION" value="B"/>
 </part>
+<part name="R3" library="rcl" deviceset="R-US_" device="R0603" value="1000"/>
+<part name="R4" library="rcl" deviceset="R-US_" device="R0603" value="1000"/>
 </parts>
 <sheets>
 <sheet>
@@ -5247,6 +5249,14 @@ Standard 8.5x11 US Letter frame</description>
 <attribute name="AUTHOR" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 <attribute name="REVISION" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 </instance>
+<instance part="R3" gate="G$1" x="53.34" y="38.1" smashed="yes" rot="R90">
+<attribute name="NAME" x="59.4614" y="41.91" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="59.182" y="36.83" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="R4" gate="G$1" x="111.76" y="38.1" smashed="yes" rot="R90">
+<attribute name="NAME" x="117.8814" y="41.91" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="117.602" y="36.83" size="1.778" layer="96" rot="R180"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -5259,8 +5269,12 @@ Standard 8.5x11 US Letter frame</description>
 </segment>
 <segment>
 <pinref part="Q2" gate="G$1" pin="G"/>
-<wire x1="106.68" y1="76.2" x2="119.38" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="106.68" y1="76.2" x2="111.76" y2="76.2" width="0.1524" layer="91"/>
 <label x="119.38" y="78.74" size="1.778" layer="95" rot="R180"/>
+<junction x="111.76" y="76.2"/>
+<wire x1="111.76" y1="76.2" x2="119.38" y2="76.2" width="0.1524" layer="91"/>
+<pinref part="R4" gate="G$1" pin="2"/>
+<wire x1="111.76" y1="76.2" x2="111.76" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="5V" class="0">
@@ -5315,11 +5329,19 @@ Standard 8.5x11 US Letter frame</description>
 <pinref part="R1" gate="G$1" pin="1"/>
 <pinref part="R2" gate="G$1" pin="1"/>
 <wire x1="40.64" y1="33.02" x2="40.64" y2="22.86" width="0.1524" layer="91"/>
-<wire x1="40.64" y1="22.86" x2="99.06" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="22.86" x2="53.34" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="22.86" x2="99.06" y2="22.86" width="0.1524" layer="91"/>
 <wire x1="99.06" y1="22.86" x2="99.06" y2="33.02" width="0.1524" layer="91"/>
-<wire x1="99.06" y1="22.86" x2="119.38" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="22.86" x2="111.76" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
 <junction x="99.06" y="22.86"/>
+<junction x="53.34" y="22.86"/>
+<junction x="111.76" y="22.86"/>
+<wire x1="111.76" y1="22.86" x2="119.38" y2="22.86" width="0.1524" layer="91"/>
+<pinref part="R3" gate="G$1" pin="1"/>
+<wire x1="53.34" y1="22.86" x2="53.34" y2="33.02" width="0.1524" layer="91"/>
+<pinref part="R4" gate="G$1" pin="1"/>
+<wire x1="111.76" y1="33.02" x2="111.76" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="JP1" gate="G$1" pin="1"/>
@@ -5330,8 +5352,12 @@ Standard 8.5x11 US Letter frame</description>
 <net name="BLUE" class="0">
 <segment>
 <pinref part="Q1" gate="G$1" pin="G"/>
-<wire x1="48.26" y1="76.2" x2="60.96" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="76.2" x2="53.34" y2="76.2" width="0.1524" layer="91"/>
 <label x="60.96" y="78.74" size="1.778" layer="95" rot="R180"/>
+<wire x1="53.34" y1="76.2" x2="60.96" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="76.2" x2="53.34" y2="43.18" width="0.1524" layer="91"/>
+<junction x="53.34" y="76.2"/>
+<pinref part="R3" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="JP1" gate="G$1" pin="3"/>
