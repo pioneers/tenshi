@@ -128,6 +128,9 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 
 
 
+
+
+
 <packages>
 <package name="WSC0001">
 <description>&lt;b&gt;Wirewound Resistors, Precision Power&lt;/b&gt;&lt;p&gt;
@@ -7057,14 +7060,14 @@ type 0309, grid 2.5 mm</description>
 <wire curve="180" layer="94" width="0.254" x1="-2.54" x2="2.54" y1="3.81" y2="3.81"/>
 <text layer="95" size="1.778" x="-4.445" y="4.445">&gt;NAME</text>
 <text layer="96" size="1.778" x="-4.445" y="-8.89">&gt;VALUE</text>
-<pin direction="pas" length="short" name="1" visible="pad" x="-7.62" y="2.54"/>
-<pin direction="pas" length="short" name="2" visible="pad" x="-7.62" y="0"/>
-<pin direction="pas" length="short" name="3" visible="pad" x="-7.62" y="-2.54"/>
-<pin direction="pas" length="short" name="4" visible="pad" x="-7.62" y="-5.08"/>
-<pin direction="pas" length="short" name="5" rot="R180" visible="pad" x="7.62" y="-5.08"/>
-<pin direction="pas" length="short" name="6" rot="R180" visible="pad" x="7.62" y="-2.54"/>
-<pin direction="pas" length="short" name="7" rot="R180" visible="pad" x="7.62" y="0"/>
-<pin direction="pas" length="short" name="8" rot="R180" visible="pad" x="7.62" y="2.54"/>
+<pin direction="pas" length="short" name="GND" visible="pad" x="-7.62" y="2.54"/>
+<pin direction="pas" length="short" name="VREF1" visible="pad" x="-7.62" y="0"/>
+<pin direction="pas" length="short" name="SCL1" visible="pad" x="-7.62" y="-2.54"/>
+<pin direction="pas" length="short" name="SDA1" visible="pad" x="-7.62" y="-5.08"/>
+<pin direction="pas" length="short" name="SDA2" rot="R180" visible="pad" x="7.62" y="-5.08"/>
+<pin direction="pas" length="short" name="SCL2" rot="R180" visible="pad" x="7.62" y="-2.54"/>
+<pin direction="pas" length="short" name="VREF2" rot="R180" visible="pad" x="7.62" y="0"/>
+<pin direction="pas" length="short" name="EN" rot="R180" visible="pad" x="7.62" y="2.54"/>
 </symbol>
 <symbol name="CAP">
 <wire layer="94" width="0.1524" x1="0" x2="0" y1="2.54" y2="2.032"/>
@@ -8848,14 +8851,14 @@ Source: http://pdf1.alldatasheet.com/datasheet-pdf/view/84563/STMICROELECTRONICS
 <devices>
 <device name="" package="DIL08">
 <connects>
-<connect gate="G$1" pad="1" pin="1"/>
-<connect gate="G$1" pad="2" pin="2"/>
-<connect gate="G$1" pad="3" pin="3"/>
-<connect gate="G$1" pad="4" pin="4"/>
-<connect gate="G$1" pad="5" pin="5"/>
-<connect gate="G$1" pad="6" pin="6"/>
-<connect gate="G$1" pad="7" pin="7"/>
-<connect gate="G$1" pad="8" pin="8"/>
+<connect gate="G$1" pad="8" pin="EN"/>
+<connect gate="G$1" pad="1" pin="GND"/>
+<connect gate="G$1" pad="3" pin="SCL1"/>
+<connect gate="G$1" pad="6" pin="SCL2"/>
+<connect gate="G$1" pad="4" pin="SDA1"/>
+<connect gate="G$1" pad="5" pin="SDA2"/>
+<connect gate="G$1" pad="2" pin="VREF1"/>
+<connect gate="G$1" pad="7" pin="VREF2"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -8863,14 +8866,14 @@ Source: http://pdf1.alldatasheet.com/datasheet-pdf/view/84563/STMICROELECTRONICS
 </device>
 <device name="S" package="SOCKET-08">
 <connects>
-<connect gate="G$1" pad="1" pin="1"/>
-<connect gate="G$1" pad="2" pin="2"/>
-<connect gate="G$1" pad="3" pin="3"/>
-<connect gate="G$1" pad="4" pin="4"/>
-<connect gate="G$1" pad="5" pin="5"/>
-<connect gate="G$1" pad="6" pin="6"/>
-<connect gate="G$1" pad="7" pin="7"/>
-<connect gate="G$1" pad="8" pin="8"/>
+<connect gate="G$1" pad="8" pin="EN"/>
+<connect gate="G$1" pad="1" pin="GND"/>
+<connect gate="G$1" pad="3" pin="SCL1"/>
+<connect gate="G$1" pad="6" pin="SCL2"/>
+<connect gate="G$1" pad="4" pin="SDA1"/>
+<connect gate="G$1" pad="5" pin="SDA2"/>
+<connect gate="G$1" pad="2" pin="VREF1"/>
+<connect gate="G$1" pad="7" pin="VREF2"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -9553,6 +9556,28 @@ Standard 7805 5V regulator. IGO (Input Ground Output). Spark Fun Electronics SKU
 <device name="" package="ANDERSON_RA_BOTTOM">
 <connects>
 <connect gate="G$1" pad="PIN1" pin="PIN1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="I2C_VOLTAGE_LEVEL_TRANSLATOR">
+<gates>
+<gate name="G$1" symbol="DIL8" x="0" y="2.54"/>
+</gates>
+<devices>
+<device name="" package="DCU_R-PDSO-G8">
+<connects>
+<connect gate="G$1" pad="8" pin="EN"/>
+<connect gate="G$1" pad="1" pin="GND"/>
+<connect gate="G$1" pad="3" pin="SCL1"/>
+<connect gate="G$1" pad="6" pin="SCL2"/>
+<connect gate="G$1" pad="4" pin="SDA1"/>
+<connect gate="G$1" pad="5" pin="SDA2"/>
+<connect gate="G$1" pad="2" pin="VREF1"/>
+<connect gate="G$1" pad="7" pin="VREF2"/>
 </connects>
 <technologies>
 <technology name=""/>
