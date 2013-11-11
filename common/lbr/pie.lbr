@@ -6575,47 +6575,43 @@ type 0309, grid 2.5 mm</description>
 <rectangle x1="-0.3302" y1="-0.3048" x2="0.254" y2="0.3048" layer="21"/>
 </package>
 <package name="DIGITAL_BUFFER">
-<description>&lt;p&gt;&lt;b&gt;8-bit, non-inverting IC Buffer&lt;/b&gt;
+<description>&lt;b&gt;DIL 20 Non inverting digital buffer TC74HC541AP IC for digital I/O buffering on the Panda&lt;/b&gt;
 
-&lt;p&gt;Used to prevent blowing out pins on Panda
-
-&lt;p&gt;Source: http://www.toshiba.com/taec/components2/Datasheet_Sync//151/387.pdf</description>
+&lt;p&gt;Source PTH version: www.digikey.com/product-detail/en/TC74HC541AP(F)/TC74HC541APF-ND</description>
 <wire x1="12.7" y1="2.921" x2="-12.7" y2="2.921" width="0.1524" layer="21"/>
 <wire x1="-12.7" y1="-2.921" x2="12.7" y2="-2.921" width="0.1524" layer="21"/>
 <wire x1="12.7" y1="2.921" x2="12.7" y2="-2.921" width="0.1524" layer="21"/>
 <wire x1="-12.7" y1="2.921" x2="-12.7" y2="1.016" width="0.1524" layer="21"/>
 <wire x1="-12.7" y1="-2.921" x2="-12.7" y2="-1.016" width="0.1524" layer="21"/>
 <wire x1="-12.7" y1="1.016" x2="-12.7" y2="-1.016" width="0.1524" layer="21" curve="-180"/>
-<pad name="1" x="-11.43" y="-3.81" drill="1" rot="R90"/>
-<pad name="2" x="-8.89" y="-3.81" drill="1" rot="R90"/>
-<pad name="7" x="3.81" y="-3.81" drill="1" rot="R90"/>
-<pad name="8" x="6.35" y="-3.81" drill="1" rot="R90"/>
-<pad name="3" x="-6.35" y="-3.81" drill="1" rot="R90"/>
-<pad name="4" x="-3.81" y="-3.81" drill="1" rot="R90"/>
-<pad name="6" x="1.27" y="-3.81" drill="1" rot="R90"/>
-<pad name="5" x="-1.27" y="-3.81" drill="1" rot="R90"/>
-<pad name="9" x="8.89" y="-3.81" drill="1" rot="R90"/>
-<pad name="10" x="11.43" y="-3.81" drill="1" rot="R90"/>
-<pad name="11" x="11.43" y="3.81" drill="1" rot="R90"/>
-<pad name="12" x="8.89" y="3.81" drill="1" rot="R90"/>
-<pad name="13" x="6.35" y="3.81" drill="1" rot="R90"/>
-<pad name="14" x="3.81" y="3.81" drill="1" rot="R90"/>
-<pad name="15" x="1.27" y="3.81" drill="1" rot="R90"/>
-<pad name="16" x="-1.27" y="3.81" drill="1" rot="R90"/>
-<pad name="17" x="-3.81" y="3.81" drill="1" rot="R90"/>
-<pad name="18" x="-6.35" y="3.81" drill="1" rot="R90"/>
-<pad name="19" x="-8.89" y="3.81" drill="1" rot="R90"/>
-<pad name="20" x="-11.43" y="3.81" drill="1" rot="R90"/>
-<text x="-13.081" y="-3.048" size="1.27" layer="25" font="vector" rot="R90">&gt;NAME</text>
-<text x="14.351" y="-3.048" size="1.27" layer="27" font="vector" rot="R90">&gt;VALUE</text>
+<pad name="G1" x="-11.43" y="-3.81" drill="1" rot="R90"/>
+<pad name="A1" x="-8.89" y="-3.81" drill="1" rot="R90"/>
+<pad name="A6" x="3.81" y="-3.81" drill="1" rot="R90"/>
+<pad name="A7" x="6.35" y="-3.81" drill="1" rot="R90"/>
+<pad name="A2" x="-6.35" y="-3.81" drill="1" rot="R90"/>
+<pad name="A3" x="-3.81" y="-3.81" drill="1" rot="R90"/>
+<pad name="A5" x="1.27" y="-3.81" drill="1" rot="R90"/>
+<pad name="A4" x="-1.27" y="-3.81" drill="1" rot="R90"/>
+<pad name="A8" x="8.89" y="-3.81" drill="1" rot="R90"/>
+<pad name="GND" x="11.43" y="-3.81" drill="1" rot="R90"/>
+<pad name="Y8" x="11.43" y="3.81" drill="1" rot="R90"/>
+<pad name="Y7" x="8.89" y="3.81" drill="1" rot="R90"/>
+<pad name="Y6" x="6.35" y="3.81" drill="1" rot="R90"/>
+<pad name="Y5" x="3.81" y="3.81" drill="1" rot="R90"/>
+<pad name="Y4" x="1.27" y="3.81" drill="1" rot="R90"/>
+<pad name="Y3" x="-1.27" y="3.81" drill="1" rot="R90"/>
+<pad name="Y2" x="-3.81" y="3.81" drill="1" rot="R90"/>
+<pad name="Y1" x="-6.35" y="3.81" drill="1" rot="R90"/>
+<pad name="G2" x="-8.89" y="3.81" drill="1" rot="R90"/>
+<pad name="VCC" x="-11.43" y="3.81" drill="1" rot="R90"/>
+<text x="-13.208" y="-3.048" size="1.27" layer="25" font="vector" rot="R90">&gt;NAME</text>
+<text x="14.478" y="-3.048" size="1.27" layer="27" font="vector" rot="R90">&gt;VALUE</text>
 <rectangle x1="-12.954" y1="-4.826" x2="12.954" y2="4.826" layer="39"/>
 </package>
 <package name="DIGITAL_BUFFER_SOCKET">
-<description>&lt;p&gt;&lt;b&gt;Socket for 8-bit, non-inverting, IC Buffer&lt;/b&gt;
+<description>&lt;b&gt;DIL 20 Socket for the TC74HC541AP digital noninverting buffer for Panda I/O Pins&lt;/b&gt;
 
-&lt;p&gt;Used to prevent blowing out pins on Panda
-
-&lt;p&gt;Source: http://www.toshiba.com/taec/components2/Datasheet_Sync//151/387.pdf</description>
+&lt;p&gt;Source: http://www.digikey.com/product-detail/en/1-390261-6/A100208-ND</description>
 <wire x1="12.7" y1="5.08" x2="-12.7" y2="5.08" width="0.1524" layer="21"/>
 <wire x1="-12.7" y1="-5.08" x2="12.7" y2="-5.08" width="0.1524" layer="21"/>
 <wire x1="12.7" y1="5.08" x2="12.7" y2="2.54" width="0.1524" layer="21"/>
@@ -6628,26 +6624,26 @@ type 0309, grid 2.5 mm</description>
 <wire x1="-12.7" y1="-2.54" x2="12.7" y2="-2.54" width="0.1524" layer="21"/>
 <wire x1="-12.7" y1="-2.54" x2="-12.7" y2="-1.016" width="0.1524" layer="21"/>
 <wire x1="12.7" y1="-2.54" x2="12.7" y2="-5.08" width="0.1524" layer="21"/>
-<pad name="1" x="-11.43" y="-3.81" drill="1" rot="R90"/>
-<pad name="2" x="-8.89" y="-3.81" drill="1" rot="R90"/>
-<pad name="5" x="-1.27" y="-3.81" drill="1" rot="R90"/>
-<pad name="6" x="1.27" y="-3.81" drill="1" rot="R90"/>
-<pad name="3" x="-6.35" y="-3.81" drill="1" rot="R90"/>
-<pad name="4" x="-3.81" y="-3.81" drill="1" rot="R90"/>
-<pad name="7" x="3.81" y="-3.81" drill="1" rot="R90"/>
-<pad name="8" x="6.35" y="-3.81" drill="1" rot="R90"/>
-<pad name="9" x="8.89" y="-3.81" drill="1" rot="R90"/>
-<pad name="10" x="11.43" y="-3.81" drill="1" rot="R90"/>
-<pad name="11" x="11.43" y="3.81" drill="1" rot="R90"/>
-<pad name="12" x="8.89" y="3.81" drill="1" rot="R90"/>
-<pad name="13" x="6.35" y="3.81" drill="1" rot="R90"/>
-<pad name="14" x="3.81" y="3.81" drill="1" rot="R90"/>
-<pad name="15" x="1.27" y="3.81" drill="1" rot="R90"/>
-<pad name="16" x="-1.27" y="3.81" drill="1" rot="R90"/>
-<pad name="17" x="-3.81" y="3.81" drill="1" rot="R90"/>
-<pad name="18" x="-6.35" y="3.81" drill="1" rot="R90"/>
-<pad name="19" x="-8.89" y="3.81" drill="1" rot="R90"/>
-<pad name="20" x="-11.43" y="3.81" drill="1" rot="R90" thermals="no"/>
+<pad name="G1" x="-11.43" y="-3.81" drill="1" rot="R90"/>
+<pad name="A1" x="-8.89" y="-3.81" drill="1" rot="R90"/>
+<pad name="A4" x="-1.27" y="-3.81" drill="1" rot="R90"/>
+<pad name="A5" x="1.27" y="-3.81" drill="1" rot="R90"/>
+<pad name="A2" x="-6.35" y="-3.81" drill="1" rot="R90"/>
+<pad name="A3" x="-3.81" y="-3.81" drill="1" rot="R90"/>
+<pad name="A6" x="3.81" y="-3.81" drill="1" rot="R90"/>
+<pad name="A7" x="6.35" y="-3.81" drill="1" rot="R90"/>
+<pad name="A8" x="8.89" y="-3.81" drill="1" rot="R90"/>
+<pad name="GND" x="11.43" y="-3.81" drill="1" rot="R90"/>
+<pad name="Y8" x="11.43" y="3.81" drill="1" rot="R90"/>
+<pad name="Y7" x="8.89" y="3.81" drill="1" rot="R90"/>
+<pad name="Y6" x="6.35" y="3.81" drill="1" rot="R90"/>
+<pad name="Y5" x="3.81" y="3.81" drill="1" rot="R90"/>
+<pad name="Y4" x="1.27" y="3.81" drill="1" rot="R90"/>
+<pad name="Y3" x="-1.27" y="3.81" drill="1" rot="R90"/>
+<pad name="Y2" x="-3.81" y="3.81" drill="1" rot="R90"/>
+<pad name="Y1" x="-6.35" y="3.81" drill="1" rot="R90"/>
+<pad name="G2" x="-8.89" y="3.81" drill="1" rot="R90"/>
+<pad name="VCC" x="-11.43" y="3.81" drill="1" rot="R90" thermals="no"/>
 <text x="14.478" y="-4.953" size="1.27" layer="27" font="vector" ratio="10" rot="R90">&gt;VALUE</text>
 <text x="-12.954" y="-4.953" size="1.27" layer="25" font="vector" ratio="10" rot="R90">&gt;NAME</text>
 <rectangle x1="-12.7" y1="-5.08" x2="12.7" y2="5.08" layer="39"/>
@@ -10156,69 +10152,67 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 </devices>
 </deviceset>
 <deviceset name="DIGITAL_BUFFER" prefix="IC" uservalue="yes">
-<description>&lt;p&gt;&lt;b&gt;8-bit, non-inverting, IC Buffer and Socket&lt;/b&gt;
-
-&lt;p&gt;Used to prevent blowing out pins on Panda
-
-&lt;p&gt;IC - Digikey: www.digikey.com/product-detail/en/TC74HC541AP(F)/TC74HC541APF-ND
-
-&lt;p&gt;Socket - Digikey: http://www.digikey.com/product-detail/en/1-390261-6/A100208-ND</description>
+<description>&lt;p&gt;&lt;b&gt;8-bit, non-inverting, IC Buffer&lt;/b&gt;</description>
 <gates>
 <gate name="G$1" symbol="DIGITAL_BUFFER" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="DIGITAL_BUFFER">
+<device name="PTH" package="DIGITAL_BUFFER">
 <connects>
-<connect gate="G$1" pin="A1" pad="2"/>
-<connect gate="G$1" pin="A2" pad="3"/>
-<connect gate="G$1" pin="A3" pad="4"/>
-<connect gate="G$1" pin="A4" pad="5"/>
-<connect gate="G$1" pin="A5" pad="6"/>
-<connect gate="G$1" pin="A6" pad="7"/>
-<connect gate="G$1" pin="A7" pad="8"/>
-<connect gate="G$1" pin="A8" pad="9"/>
-<connect gate="G$1" pin="G1" pad="1"/>
-<connect gate="G$1" pin="G2" pad="19"/>
-<connect gate="G$1" pin="GND" pad="10"/>
-<connect gate="G$1" pin="VCC" pad="20"/>
-<connect gate="G$1" pin="Y1" pad="18"/>
-<connect gate="G$1" pin="Y2" pad="17"/>
-<connect gate="G$1" pin="Y3" pad="16"/>
-<connect gate="G$1" pin="Y4" pad="15"/>
-<connect gate="G$1" pin="Y5" pad="14"/>
-<connect gate="G$1" pin="Y6" pad="13"/>
-<connect gate="G$1" pin="Y7" pad="12"/>
-<connect gate="G$1" pin="Y8" pad="11"/>
+<connect gate="G$1" pin="A1" pad="A1"/>
+<connect gate="G$1" pin="A2" pad="A2"/>
+<connect gate="G$1" pin="A3" pad="A3"/>
+<connect gate="G$1" pin="A4" pad="A4"/>
+<connect gate="G$1" pin="A5" pad="A5"/>
+<connect gate="G$1" pin="A6" pad="A6"/>
+<connect gate="G$1" pin="A7" pad="A7"/>
+<connect gate="G$1" pin="A8" pad="A8"/>
+<connect gate="G$1" pin="G1" pad="G1"/>
+<connect gate="G$1" pin="G2" pad="G2"/>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="VCC" pad="VCC"/>
+<connect gate="G$1" pin="Y1" pad="Y1"/>
+<connect gate="G$1" pin="Y2" pad="Y2"/>
+<connect gate="G$1" pin="Y3" pad="Y3"/>
+<connect gate="G$1" pin="Y4" pad="Y4"/>
+<connect gate="G$1" pin="Y5" pad="Y5"/>
+<connect gate="G$1" pin="Y6" pad="Y6"/>
+<connect gate="G$1" pin="Y7" pad="Y7"/>
+<connect gate="G$1" pin="Y8" pad="Y8"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE_DIGIKEY-PN" value="TC74HC541APF-ND" constant="no"/>
+</technology>
 </technologies>
 </device>
-<device name="S" package="DIGITAL_BUFFER_SOCKET">
+<device name="SOCKET" package="DIGITAL_BUFFER_SOCKET">
 <connects>
-<connect gate="G$1" pin="A1" pad="2"/>
-<connect gate="G$1" pin="A2" pad="3"/>
-<connect gate="G$1" pin="A3" pad="4"/>
-<connect gate="G$1" pin="A4" pad="5"/>
-<connect gate="G$1" pin="A5" pad="6"/>
-<connect gate="G$1" pin="A6" pad="7"/>
-<connect gate="G$1" pin="A7" pad="8"/>
-<connect gate="G$1" pin="A8" pad="9"/>
-<connect gate="G$1" pin="G1" pad="1"/>
-<connect gate="G$1" pin="G2" pad="19"/>
-<connect gate="G$1" pin="GND" pad="10"/>
-<connect gate="G$1" pin="VCC" pad="20"/>
-<connect gate="G$1" pin="Y1" pad="18"/>
-<connect gate="G$1" pin="Y2" pad="17"/>
-<connect gate="G$1" pin="Y3" pad="16"/>
-<connect gate="G$1" pin="Y4" pad="15"/>
-<connect gate="G$1" pin="Y5" pad="14"/>
-<connect gate="G$1" pin="Y6" pad="13"/>
-<connect gate="G$1" pin="Y7" pad="12"/>
-<connect gate="G$1" pin="Y8" pad="11"/>
+<connect gate="G$1" pin="A1" pad="A1"/>
+<connect gate="G$1" pin="A2" pad="A2"/>
+<connect gate="G$1" pin="A3" pad="A3"/>
+<connect gate="G$1" pin="A4" pad="A4"/>
+<connect gate="G$1" pin="A5" pad="A5"/>
+<connect gate="G$1" pin="A6" pad="A6"/>
+<connect gate="G$1" pin="A7" pad="A7"/>
+<connect gate="G$1" pin="A8" pad="A8"/>
+<connect gate="G$1" pin="G1" pad="G1"/>
+<connect gate="G$1" pin="G2" pad="G2"/>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="VCC" pad="VCC"/>
+<connect gate="G$1" pin="Y1" pad="Y1"/>
+<connect gate="G$1" pin="Y2" pad="Y2"/>
+<connect gate="G$1" pin="Y3" pad="Y3"/>
+<connect gate="G$1" pin="Y4" pad="Y4"/>
+<connect gate="G$1" pin="Y5" pad="Y5"/>
+<connect gate="G$1" pin="Y6" pad="Y6"/>
+<connect gate="G$1" pin="Y7" pad="Y7"/>
+<connect gate="G$1" pin="Y8" pad="Y8"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE_DIGIKEY-PN" value="TC74HC541APF-ND" constant="no"/>
+</technology>
 </technologies>
 </device>
 </devices>
