@@ -4305,7 +4305,7 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="R2" library="pie" deviceset="R-US_" device="R0603" value="30k"/>
 <part name="RFBT" library="pie" deviceset="R-US_" device="R0603" value="15.4k"/>
 <part name="RFBB" library="pie" deviceset="R-US_" device="R0603" value="2.37k"/>
-<part name="CFF" library="pie" deviceset="CAP" device="0603-CAP" value="4.7n"/>
+<part name="CFF" library="pie" deviceset="CAP" device="0603-CAP" value="4.7nf"/>
 <part name="CSS" library="pie" deviceset="CAP" device="0603-CAP" value=".47uF"/>
 <part name="CIN" library="pie" deviceset="CAP" device="0603-CAP" value="10uF"/>
 <part name="COUT1" library="SparkFun" deviceset="CAP" device="1206" value="47uF"/>
