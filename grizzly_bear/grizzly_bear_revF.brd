@@ -173,7 +173,7 @@
 <wire x1="48.26" y1="5.334" x2="48.26" y2="2.921" width="0.2032" layer="21"/>
 <wire x1="48.26" y1="2.921" x2="54.229" y2="2.921" width="0.2032" layer="21"/>
 <wire x1="54.229" y1="2.921" x2="54.229" y2="5.334" width="0.2032" layer="21"/>
-<text x="17.399" y="5.588" size="0.889" layer="21" font="vector" ratio="20" rot="R90">Q1-Q4 PSMN4R5</text>
+<text x="17.399" y="5.588" size="0.889" layer="27" font="vector" ratio="20" rot="R90">Q1-Q4 PSMN4R5</text>
 <text x="52.451" y="14.351" size="0.889" layer="21" font="vector" ratio="20">330</text>
 <text x="54.61" y="4.064" size="0.889" layer="21" font="vector" ratio="20">10k</text>
 <wire x1="44.069" y1="9.652" x2="44.069" y2="6.223" width="0.2032" layer="21"/>
@@ -190,7 +190,7 @@
 <text x="14.732" y="32.766" size="1.016" layer="22" font="vector" ratio="15" rot="SMR270">Copyright (c) 2013,
 Pioneers in Engineering
 All rights reserved.</text>
-<text x="31.75" y="40.386" size="1.016" layer="22" font="vector" ratio="15" rot="SMR270">Design by:
+<text x="30.2514" y="40.386" size="1.016" layer="22" font="vector" ratio="15" rot="SMR270">Design by:
     Jay Chenn,
     Keegan Mann, 
     Robert Ou
@@ -2343,6 +2343,7 @@ design rules under a new name.</description>
 <wire x1="18.607" y1="11.995" x2="19.907" y2="11.995" width="0" layer="19" extent="1-1"/>
 <wire x1="19.907" y1="9.395" x2="19.907" y2="10.695" width="0" layer="19" extent="1-1"/>
 <wire x1="14.5542" y1="9.779" x2="18.607" y2="10.695" width="0" layer="19" extent="1-1"/>
+<via x="18.607" y="9.395" extent="1-16" drill="0.508"/>
 </signal>
 <signal name="ISENSE">
 <contactref element="U3" pad="7"/>
