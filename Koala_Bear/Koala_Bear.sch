@@ -4401,9 +4401,9 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <attribute name="NAME" x="40.386" y="64.262" size="1.778" layer="95" font="vector"/>
 </instance>
 <instance part="XT60" gate="G$1" x="-25.4" y="50.8" smashed="yes" rot="R270"/>
-<instance part="MSTRO_PWR" gate="G$1" x="81.28" y="43.18" smashed="yes" rot="R180">
-<attribute name="VALUE" x="86.36" y="55.88" size="1.778" layer="96" font="vector" rot="R180"/>
-<attribute name="NAME" x="86.36" y="37.338" size="1.778" layer="95" font="vector" rot="R180"/>
+<instance part="MSTRO_PWR" gate="G$1" x="81.28" y="45.72" smashed="yes" rot="R180">
+<attribute name="VALUE" x="86.36" y="58.42" size="1.778" layer="96" font="vector" rot="R180"/>
+<attribute name="NAME" x="86.36" y="39.878" size="1.778" layer="95" font="vector" rot="R180"/>
 </instance>
 <instance part="SERVO_PWR_6" gate="G$1" x="66.04" y="27.94" smashed="yes" rot="R180">
 <attribute name="VALUE" x="68.58" y="33.02" size="1.778" layer="96" rot="R180"/>
@@ -4494,7 +4494,7 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <label x="55.88" y="40.64" size="1.27" layer="95" font="vector"/>
 <pinref part="MSTRO_PINS" gate="G$1" pin="1"/>
 <wire x1="43.18" y1="53.34" x2="43.18" y2="40.64" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="40.64" x2="73.66" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="40.64" x2="73.66" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="XT60" gate="G$1" pin="GND"/>
@@ -4578,7 +4578,7 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 </segment>
 <segment>
 <pinref part="MSTRO_PWR" gate="G$1" pin="4"/>
-<wire x1="73.66" y1="40.64" x2="55.88" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="43.18" x2="55.88" y2="43.18" width="0.1524" layer="91"/>
 <label x="55.88" y="43.18" size="1.27" layer="95" font="vector"/>
 </segment>
 <segment>
@@ -4623,13 +4623,8 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <pinref part="MSTRO_PINS" gate="G$1" pin="2"/>
 <wire x1="45.72" y1="53.34" x2="45.72" y2="45.72" width="0.1524" layer="91"/>
 <pinref part="MSTRO_PWR" gate="G$1" pin="3"/>
-<wire x1="45.72" y1="45.72" x2="73.66" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="45.72" x2="73.66" y2="45.72" width="0.1524" layer="91"/>
 <label x="55.88" y="45.72" size="1.27" layer="95"/>
-</segment>
-<segment>
-<pinref part="R4" gate="G$1" pin="2"/>
-<wire x1="99.06" y1="20.32" x2="99.06" y2="25.4" width="0.1524" layer="91"/>
-<label x="99.06" y="25.4" size="1.27" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="TX" class="0">
@@ -4637,8 +4632,13 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <pinref part="MSTRO_PINS" gate="G$1" pin="3"/>
 <wire x1="48.26" y1="53.34" x2="48.26" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="MSTRO_PWR" gate="G$1" pin="2"/>
-<wire x1="48.26" y1="48.26" x2="73.66" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="48.26" x2="73.66" y2="48.26" width="0.1524" layer="91"/>
 <label x="55.88" y="48.26" size="1.27" layer="95"/>
+</segment>
+<segment>
+<pinref part="R4" gate="G$1" pin="2"/>
+<wire x1="99.06" y1="20.32" x2="99.06" y2="25.4" width="0.1524" layer="91"/>
+<label x="99.06" y="25.4" size="1.27" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="RST" class="0">
@@ -4646,7 +4646,7 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <pinref part="MSTRO_PINS" gate="G$1" pin="4"/>
 <wire x1="50.8" y1="53.34" x2="50.8" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="MSTRO_PWR" gate="G$1" pin="1"/>
-<wire x1="50.8" y1="50.8" x2="73.66" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="50.8" x2="73.66" y2="50.8" width="0.1524" layer="91"/>
 <label x="55.88" y="50.8" size="1.27" layer="95"/>
 </segment>
 </net>
