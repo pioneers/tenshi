@@ -32,6 +32,7 @@
 #define MODE_SPEED_RAW                  0x00
 #define MODE_SPEED_NO_PID               0x02
 #define MODE_SPEED_PID                  0x04
+#define MODE_POS_PID                    0x06
 
 // Sign-magnitude vs. locked-antiphase
 #define MODE_SIGN_MAG_LOCKED_ANTIPHASE  0x08

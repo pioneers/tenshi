@@ -12,6 +12,7 @@ DECLARE_I2C_REGISTER(FIXED1616, kd);
 
 // Given a target_speed, return a pwm value after running through PID
 // Uses enocder feedback only at this point
-extern int do_pid_loop(FIXED1616 target_speed);
+extern int do_pid_speed(FIXED1616 target_speed);
+extern int do_pid_positional(FIXED1616 target_speed);
 
 #endif
