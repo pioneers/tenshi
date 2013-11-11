@@ -152,12 +152,26 @@ function dragMouseUp(evt) {
                 // TODO(rqou): How should this work?
                 if (neighboringBlocks.length > 0) {
                     curDragElement.blockData.x = neighboringBlocks[0].x;
-                    if (curDragElement.blockData.y < neighboringBlocks[0].y)
+                    if (curDragElement.blockData.y < neighboringBlocks[0].y) {
+                        // The current thing is being snapped above the other
                         curDragElement.blockData.y =
                             neighboringBlocks[0].y - curDragElement.blockData.h;
-                    else
+
+                        curDragElement.blockData.nextBlock =
+                            neighboringBlocks[0];
+                        neighboringBlocks[0].prevBlock =
+                            curDragElement.blockData;
+                    }
+                    else {
+                        // The current thing is being snapped below the other
                         curDragElement.blockData.y =
                             neighboringBlocks[0].y + neighboringBlocks[0].h;
+
+                        curDragElement.blockData.prevBlock =
+                            neighboringBlocks[0];
+                        neighboringBlocks[0].nextBlock =
+                            curDragElement.blockData;
+                    }
 
                     // TODO(rqou): This copypasta is somewhat dumb. There should
                     // probably be a function that handles moving blocks around.
