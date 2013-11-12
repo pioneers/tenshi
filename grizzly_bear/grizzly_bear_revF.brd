@@ -143,7 +143,7 @@
 <text x="9.3925" y="4.2715" size="0.889" layer="21" font="vector" ratio="15" rot="SR270" align="top-center">M-</text>
 <text x="9.525" y="24.511" size="0.889" layer="21" font="vector" ratio="15" rot="SR270" align="top-center">BAT</text>
 <text x="9.525" y="7.747" size="0.889" layer="21" font="vector" ratio="15" rot="SR270" align="top-center">MOTOR</text>
-<text x="19.839" y="0.62" size="1.27" layer="21" font="vector" ratio="15">Rev. B (2013.11.10)</text>
+<text x="19.839" y="0.62" size="1.27" layer="21" font="vector" ratio="15">Rev. B (2013.11.13)</text>
 <text x="19.839" y="2.316" size="1.27" layer="21" font="vector" ratio="15">Grizzly Bear v2</text>
 <text x="10.766" y="10.65" size="1.778" layer="21" font="vector" ratio="15">PiE</text>
 <text x="62.103" y="40.5384" size="0.889" layer="21" font="vector" ratio="20" align="top-left">Addr Select</text>
@@ -193,7 +193,8 @@ All rights reserved.</text>
 <text x="30.2514" y="40.386" size="1.016" layer="22" font="vector" ratio="15" rot="SMR270">Design by:
     Jay Chenn,
     Keegan Mann, 
-    Robert Ou
+    Robert Ou,
+    Jeffrey Jacinto
 This design is open
 source hardware.
 For more information,
@@ -2222,16 +2223,16 @@ design rules under a new name.</description>
 <signal name="MOSI">
 <contactref element="JP6" pad="4"/>
 <contactref element="U2" pad="10"/>
-<wire x1="70.22800625" y1="22.012" x2="72.05" y2="22.012" width="0.254" layer="1"/>
-<wire x1="72.05" y1="22.012" x2="72.898" y2="22.86" width="0.254" layer="1"/>
-<wire x1="72.898" y1="22.86" x2="72.898" y2="32.766" width="0.254" layer="1"/>
-<wire x1="63.3984" y1="33.782" x2="62.865" y2="34.3154" width="0.254" layer="1"/>
 <wire x1="62.865" y1="34.3154" x2="62.865" y2="36.3474" width="0.254" layer="1"/>
 <wire x1="62.865" y1="36.3474" x2="62.357" y2="36.8554" width="0.254" layer="1"/>
 <wire x1="62.357" y1="36.8554" x2="59.055" y2="36.8554" width="0.254" layer="1"/>
 <wire x1="59.055" y1="36.8554" x2="57.785" y2="38.1254" width="0.254" layer="1"/>
-<wire x1="72.898" y1="32.766" x2="71.882" y2="33.782" width="0.254" layer="1"/>
 <wire x1="71.882" y1="33.782" x2="63.3984" y2="33.782" width="0.254" layer="1"/>
+<wire x1="70.22800625" y1="22.012" x2="72.3548" y2="22.012" width="0.254" layer="1"/>
+<wire x1="72.3548" y1="22.012" x2="73.3298" y2="22.987" width="0.254" layer="1"/>
+<wire x1="73.3298" y1="22.987" x2="73.3298" y2="32.3342" width="0.254" layer="1"/>
+<wire x1="73.3298" y1="32.3342" x2="71.882" y2="33.782" width="0.254" layer="1"/>
+<wire x1="63.3984" y1="33.782" x2="62.865" y2="34.3154" width="0.254" layer="1"/>
 </signal>
 <signal name="RESET">
 <contactref element="JP6" pad="5"/>
@@ -2327,22 +2328,6 @@ design rules under a new name.</description>
 <wire x1="4.572" y1="11.557" x2="12.7762" y2="11.557" width="0.762" layer="1"/>
 <wire x1="14.5542" y1="7.327" x2="14.5542" y2="9.779" width="0.762" layer="1"/>
 <wire x1="14.5542" y1="9.779" x2="12.7762" y2="11.557" width="0.762" layer="1"/>
-<wire x1="19.922" y1="17.425" x2="21.192" y2="17.425" width="0" layer="19" extent="1-1"/>
-<wire x1="18.652" y1="17.425" x2="19.922" y2="17.425" width="0" layer="19" extent="1-1"/>
-<wire x1="25.146" y1="15.494" x2="21.192" y2="17.425" width="0" layer="19" extent="1-16"/>
-<wire x1="22.507" y1="11.995" x2="22.606" y2="12.954" width="0" layer="19" extent="16-16"/>
-<wire x1="22.507" y1="10.695" x2="22.507" y2="11.995" width="0" layer="19" extent="1-1"/>
-<wire x1="21.207" y1="10.695" x2="22.507" y2="10.695" width="0" layer="19" extent="1-1"/>
-<wire x1="20.557" y1="11.395" x2="21.207" y2="10.695" width="0" layer="19" extent="1-1"/>
-<wire x1="21.207" y1="11.995" x2="20.557" y2="11.395" width="0" layer="19" extent="1-1"/>
-<wire x1="19.907" y1="11.995" x2="20.557" y2="11.395" width="0" layer="19" extent="1-1"/>
-<wire x1="19.907" y1="10.695" x2="20.557" y2="11.395" width="0" layer="19" extent="1-1"/>
-<wire x1="21.207" y1="9.395" x2="21.207" y2="10.695" width="0" layer="19" extent="1-1"/>
-<wire x1="22.507" y1="9.395" x2="22.507" y2="10.695" width="0" layer="19" extent="1-1"/>
-<wire x1="18.607" y1="10.695" x2="19.907" y2="10.695" width="0" layer="19" extent="1-1"/>
-<wire x1="18.607" y1="11.995" x2="19.907" y2="11.995" width="0" layer="19" extent="1-1"/>
-<wire x1="19.907" y1="9.395" x2="19.907" y2="10.695" width="0" layer="19" extent="1-1"/>
-<wire x1="14.5542" y1="9.779" x2="18.607" y2="10.695" width="0" layer="19" extent="1-1"/>
 <via x="18.607" y="9.395" extent="1-16" drill="0.508"/>
 </signal>
 <signal name="ISENSE">
