@@ -5,6 +5,9 @@ var EXPORTED_SYMBOLS = ['blockProgram'];
 
 var MAIN_SVG_ID = 'blocks-main';
 
+var document = null;
+var mainSvg = null;
+
 var blockProgram = {};
 
 function testAABBIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
@@ -61,6 +64,15 @@ blockProgram.createNewProgram = function(document) {
     return newProg;
 };
 
+function blockMoveTo(x, y) {
+    this.x = x;
+    this.y = y;
+
+    var transform = mainSvg.createSVGTransform();
+    transform.setTranslate(x, y);
+    this.svgElem.transform.baseVal.initialize(transform);
+}
+
 blockProgram.createNewBlock = function(document, blockType, text, x, y) {
     var newBlock = {};
 
@@ -109,5 +121,14 @@ blockProgram.createNewBlock = function(document, blockType, text, x, y) {
 
     newBlock.svgElem.blockData = newBlock;
 
+    // Functions
+    newBlock.moveTo = blockMoveTo;
+
     return newBlock;
+};
+
+blockProgram.init = function(document_) {
+    document = document_;
+    // Main toplevel SVG object
+    mainSvg = document.getElementById(MAIN_SVG_ID);
 };

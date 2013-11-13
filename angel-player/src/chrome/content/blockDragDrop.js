@@ -148,13 +148,17 @@ function dragMouseUp(evt) {
                     }
                 }
 
+                var newX = curDragElement.blockData.x;
+                var newY = curDragElement.blockData.y;
+
                 // For now, we will snap to the first block found.
                 // TODO(rqou): How should this work?
                 if (neighboringBlocks.length > 0) {
-                    curDragElement.blockData.x = neighboringBlocks[0].x;
+                    newX = neighboringBlocks[0].x;
+                    
                     if (curDragElement.blockData.y < neighboringBlocks[0].y) {
                         // The current thing is being snapped above the other
-                        curDragElement.blockData.y =
+                        newY =
                             neighboringBlocks[0].y - curDragElement.blockData.h;
 
                         curDragElement.blockData.nextBlock =
@@ -164,7 +168,7 @@ function dragMouseUp(evt) {
                     }
                     else {
                         // The current thing is being snapped below the other
-                        curDragElement.blockData.y =
+                        newY =
                             neighboringBlocks[0].y + neighboringBlocks[0].h;
 
                         curDragElement.blockData.prevBlock =
@@ -173,13 +177,7 @@ function dragMouseUp(evt) {
                             curDragElement.blockData;
                     }
 
-                    // TODO(rqou): This copypasta is somewhat dumb. There should
-                    // probably be a function that handles moving blocks around.
-                    var transform = mainSvg.createSVGTransform();
-                    transform.setTranslate(
-                        curDragElement.blockData.x,
-                        curDragElement.blockData.y);
-                    curDragElement.transform.baseVal.initialize(transform);
+                    curDragElement.blockData.moveTo(newX, newY);
                 }
 
                 // Release left button, stop dragging
@@ -224,12 +222,7 @@ function dragMouseMove(evt) {
             var newX = clickX - curDragX;
             var newY = clickY - curDragY;
 
-            curDragElement.blockData.x = newX;
-            curDragElement.blockData.y = newY;
-
-            transform = mainSvg.createSVGTransform();
-            transform.setTranslate(newX, newY);
-            curDragElement.transform.baseVal.initialize(transform);
+            curDragElement.blockData.moveTo(newX, newY);
 
             // Lets us figure out which way we dragged
             var deltaX = curDragElement.blockData.x - oldDragX;
