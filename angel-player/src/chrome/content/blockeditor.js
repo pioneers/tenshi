@@ -8,6 +8,7 @@ var myProg;
 function onLoad() {
     svgUtil.init(document);
     blockDnD.init(document);
+    blockProgram.init(document);
 
     myProg = blockProgram.createNewProgram(document);
     blockDnD.setProgram(myProg);
