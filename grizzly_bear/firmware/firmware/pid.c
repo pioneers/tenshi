@@ -29,7 +29,7 @@ int do_pid_speed(FIXED1616 target) {
   // doesn't change
   FIXED1616 dterm = old_speed - speed;
   old_speed = speed;
-  FIXED1616 iterm = fixed_mult(get_ki_dangerous(), error_f);
+  FIXED1616 iterm = fixed_mult(get_ki(), error_f);
   
   // Use Brett Beuregard's trick of integrating ki*e instead of
   // integrating e and multiplying by ki
@@ -41,7 +41,7 @@ int do_pid_speed(FIXED1616 target) {
   else if(iaccum < int_to_fixed(-0x7ff))
     iaccum = int_to_fixed(-0x7ff);
 
-  FIXED1616 outval_f = fixed_mult(get_kp_dangerous(), error_f) + fixed_mult(get_kd_dangerous(), dterm)
+  FIXED1616 outval_f = fixed_mult(get_kp(), error_f) + fixed_mult(get_kd(), dterm)
     + iaccum;
 
   int outval = fixed_to_int(outval_f);
@@ -72,7 +72,7 @@ int do_pid_positional(FIXED1616 target) {
   // which equals d(setpoint-speed)/dt which equals -d(speed)/dt if setpoint
   // doesn't change
   FIXED1616 dterm = neg_speed;
-  FIXED1616 iterm = fixed_mult(get_ki_dangerous(), error_f);
+  FIXED1616 iterm = fixed_mult(get_ki(), error_f);
   // Use Brett Beuregard's trick of integrating ki*e instead of
   // integrating e and multiplying by ki
   // Also makes it easier to clamp integral windup
@@ -83,7 +83,7 @@ int do_pid_positional(FIXED1616 target) {
   else if(iaccum < int_to_fixed(-0x7ff))
     iaccum = int_to_fixed(-0x7ff);
 
-  FIXED1616 outval_f = fixed_mult(get_kp_dangerous(), error_f) + fixed_mult(get_kd_dangerous(), dterm)
+  FIXED1616 outval_f = fixed_mult(get_kp(), error_f) + fixed_mult(get_kd(), dterm)
     + iaccum;
 
   int outval = fixed_to_int(outval_f);
