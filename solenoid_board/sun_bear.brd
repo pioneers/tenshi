@@ -116,12 +116,12 @@
 <wire x1="0" y1="38.1" x2="0" y2="0" width="0.254" layer="20"/>
 <text x="31.369" y="37.338" size="1.27" layer="25" font="vector" ratio="20" rot="R180">PiE Sun Bear v2.0</text>
 <text x="30.099" y="35.56" size="1.27" layer="21" font="vector" ratio="20" rot="R180">Version 2 Revision B</text>
-<text x="19.431" y="33.782" size="1.27" layer="21" font="vector" ratio="20" rot="R180">2013.11.11</text>
-<text x="10.668" y="10.16" size="1.27" layer="21" font="vector" ratio="20">POWER</text>
+<text x="18.288" y="33.782" size="1.27" layer="21" font="vector" ratio="20" rot="R180">2013.11.11</text>
+<text x="10.668" y="9.779" size="1.27" layer="21" font="vector" ratio="20">POWER</text>
 <text x="9.144" y="15.494" size="1.27" layer="21" font="vector" ratio="20" rot="SR90">TO WATSON</text>
 <text x="33.655" y="8.89" size="1.27" layer="22" font="vector" ratio="15" rot="MR0">Copyright (c) 2013,
 Pioneers in Engineering
-All rights reserved.
+All      rights reserved.
 
 Design by: Sumita Ghosh,
 Sahar Mesri, Rhett Gentile,
@@ -129,7 +129,7 @@ and Krystyn Neisess.
 
 This design is open
 source hardware.
-For more information,
+For more information
 visit
 
 pioneers.berkeley.edu/
@@ -1058,9 +1058,9 @@ design rules under a new name.</description>
 <attribute name="NAME" x="26.035" y="5.334" size="0.9144" layer="25" font="vector" ratio="20" rot="R270"/>
 <attribute name="VALUE" x="27.051" y="4.572" size="0.4064" layer="27" rot="R90"/>
 </element>
-<element name="U$1" library="pie" package="PIE-LOGO-SMALL" value="" x="23.749" y="30.988"/>
-<element name="U$2" library="pie" package="XT60CONNECTOR" value="XT60CONNECTOR" x="9.906" y="5.842">
-<attribute name="PARTNUMBER" value="PRT-10474 " x="9.906" y="5.842" size="1.778" layer="27" display="off"/>
+<element name="U$1" library="pie" package="PIE-LOGO-SMALL" value="" x="27.305" y="4.953" rot="MR0"/>
+<element name="U$2" library="pie" package="XT60CONNECTOR" value="XT60CONNECTOR" x="9.398" y="5.334">
+<attribute name="PARTNUMBER" value="PRT-10474 " x="9.398" y="5.334" size="1.778" layer="27" display="off"/>
 </element>
 <element name="S1" library="pie" package="1X02-MTA" value="" x="35.052" y="33.528" smashed="yes" rot="R90">
 <attribute name="NAME" x="37.7952" y="37.6682" size="1.27" layer="25" font="vector" ratio="20" rot="R180"/>
@@ -1102,20 +1102,20 @@ design rules under a new name.</description>
 <attribute name="NAME" x="15.886" y="24.66" size="0.9144" layer="25" font="vector" ratio="20" rot="R270"/>
 <attribute name="PARTNUMBER" value="296-8204-1-ND" x="13.208" y="21.844" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="C1" library="pie" package="0603-CAP" value="0.1uF" x="7.112" y="11.938" smashed="yes">
-<attribute name="NAME" x="6.477" y="13.081" size="0.9144" layer="25" font="vector" ratio="20"/>
-<attribute name="VALUE" x="5.207" y="12.065" size="0.9144" layer="27" font="vector" ratio="20" rot="R180"/>
+<element name="C1" library="pie" package="0603-CAP" value="0.1uF" x="7.747" y="10.922" smashed="yes">
+<attribute name="NAME" x="7.112" y="12.065" size="0.9144" layer="25" font="vector" ratio="20"/>
+<attribute name="VALUE" x="6.096" y="10.922" size="0.9144" layer="27" font="vector" ratio="20" rot="R180"/>
 </element>
 <element name="U$3" library="pie" package="STAND-OFF" value="Mounting + Test" x="3.81" y="34.29"/>
 <element name="U$4" library="pie" package="STAND-OFF" value="Mounting + Test" x="34.29" y="3.81"/>
 <element name="U$5" library="pie" package="OSHW-LOGO-M" value="" x="19.685" y="7.747" rot="MR0"/>
-<element name="WATSON" library="pie" package="1X07-MTA" value="M07" x="2.667" y="21.971" smashed="yes" rot="R270">
-<attribute name="PARTNUMBER" value="A19472-ND" x="2.667" y="21.971" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="VALUE" x="6.1722" y="17.8308" size="0.9144" layer="27" font="vector" ratio="20" rot="R270"/>
+<element name="WATSON" library="pie" package="1X07-MTA" value="M07" x="2.794" y="20.32" smashed="yes" rot="R270">
+<attribute name="PARTNUMBER" value="A19472-ND" x="2.794" y="20.32" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="VALUE" x="6.2992" y="16.1798" size="0.9144" layer="27" font="vector" ratio="20" rot="R270"/>
 </element>
-<element name="C2" library="pie" package="0603-CAP" value="0.1uF" x="10.795" y="13.081" smashed="yes" rot="R270">
-<attribute name="NAME" x="11.938" y="13.462" size="0.9144" layer="25" font="vector" ratio="20" rot="R270"/>
-<attribute name="VALUE" x="8.763" y="14.859" size="0.9144" layer="27" font="vector" ratio="20" rot="R270"/>
+<element name="C2" library="pie" package="0603-CAP" value="0.1uF" x="11.557" y="13.081" smashed="yes" rot="R270">
+<attribute name="NAME" x="12.7" y="13.335" size="0.9144" layer="25" font="vector" ratio="20" rot="R270"/>
+<attribute name="VALUE" x="9.525" y="14.859" size="0.9144" layer="27" font="vector" ratio="20" rot="R270"/>
 </element>
 <element name="LED1" library="pie" package="LED-0805" value="" x="8.382" y="29.972" smashed="yes">
 <attribute name="NAME" x="6.477" y="31.115" size="0.9144" layer="25" font="vector" ratio="20"/>
@@ -1125,6 +1125,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="13.335" y="28.829" size="0.9144" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="13.716" y="32.004" size="0.9144" layer="27" font="vector" ratio="20" rot="R180"/>
 </element>
+<element name="U$6" library="pie" package="STAND-OFF" value="Mounting + Test" x="25.908" y="31.115"/>
 </elements>
 <signals>
 <signal name="12V" class="1">
@@ -1144,8 +1145,6 @@ design rules under a new name.</description>
 <contactref element="S3" pad="2"/>
 <contactref element="D4" pad="C"/>
 <contactref element="S4" pad="2"/>
-<wire x1="6.262" y1="11.938" x2="6.35" y2="11.85" width="0.6096" layer="1"/>
-<wire x1="6.35" y1="11.85" x2="6.35" y2="5.842" width="0.6096" layer="1"/>
 <wire x1="28.702" y1="27.4" x2="28.702" y2="28.448" width="0.6096" layer="1"/>
 <wire x1="28.702" y1="28.448" x2="35.052" y2="34.798" width="0.6096" layer="1"/>
 <wire x1="28.702" y1="13.43" x2="28.702" y2="13.97" width="0.4064" layer="1"/>
@@ -1162,6 +1161,8 @@ design rules under a new name.</description>
 <wire x1="33.02" y1="10.795" x2="33.02" y2="11.938" width="0.6096" layer="1"/>
 <wire x1="33.02" y1="11.938" x2="34.29" y2="13.208" width="0.6096" layer="1"/>
 <wire x1="34.29" y1="13.208" x2="35.052" y2="13.208" width="0.6096" layer="1"/>
+<wire x1="6.897" y1="10.922" x2="6.897" y2="6.389" width="0.4064" layer="1"/>
+<wire x1="6.897" y1="6.389" x2="5.842" y2="5.334" width="0.4064" layer="1"/>
 </signal>
 <signal name="N$15">
 <contactref element="R1" pad="1"/>
@@ -1215,9 +1216,9 @@ design rules under a new name.</description>
 <via x="18.034" y="15.494" extent="1-16" drill="0.6"/>
 <wire x1="18.034" y1="15.494" x2="19.646" y2="15.494" width="0.4064" layer="1"/>
 <wire x1="19.646" y1="15.494" x2="19.812" y2="15.328" width="0.4064" layer="1"/>
-<via x="12.954" y="15.748" extent="1-16" drill="0.6"/>
-<wire x1="12.954" y1="15.748" x2="13.208" y2="15.494" width="0.254" layer="16"/>
-<wire x1="12.954" y1="15.748" x2="12.573" y2="16.129" width="0.254" layer="1"/>
+<via x="12.827" y="15.875" extent="1-16" drill="0.6"/>
+<wire x1="12.827" y1="15.875" x2="13.208" y2="15.494" width="0.254" layer="16"/>
+<wire x1="12.827" y1="15.875" x2="12.573" y2="16.129" width="0.254" layer="1"/>
 <wire x1="12.573" y1="16.129" x2="12.573" y2="18.644" width="0.254" layer="1"/>
 </signal>
 <signal name="GATE4">
@@ -1287,8 +1288,8 @@ design rules under a new name.</description>
 <contactref element="R9" pad="1"/>
 <wire x1="11.303" y1="25.044" x2="11.151" y2="24.892" width="0.254" layer="1"/>
 <wire x1="11.151" y1="24.892" x2="10.16" y2="24.892" width="0.6096" layer="1"/>
-<wire x1="5.461" y1="29.591" x2="2.667" y2="29.591" width="0.6096" layer="16"/>
-<wire x1="5.461" y1="29.591" x2="10.16" y2="24.892" width="0.6096" layer="16"/>
+<wire x1="2.794" y1="27.94" x2="7.112" y2="27.94" width="0.6096" layer="16"/>
+<wire x1="7.112" y1="27.94" x2="10.16" y2="24.892" width="0.6096" layer="16"/>
 </signal>
 <signal name="N$2">
 <contactref element="Q1" pad="3"/>
@@ -1308,15 +1309,12 @@ design rules under a new name.</description>
 <wire x1="11.303" y1="18.644" x2="11.201" y2="18.542" width="0.254" layer="1"/>
 <wire x1="11.201" y1="18.542" x2="6.731" y2="18.542" width="0.254" layer="1"/>
 <via x="6.731" y="18.542" extent="1-16" drill="0.6"/>
-<wire x1="6.731" y1="18.542" x2="6.604" y2="18.542" width="0.254" layer="16"/>
 <wire x1="11.938" y1="23.622" x2="11.303" y2="22.987" width="0.254" layer="1"/>
 <wire x1="11.303" y1="22.987" x2="11.303" y2="20.574" width="0.254" layer="1"/>
 <wire x1="11.303" y1="20.574" x2="11.303" y2="18.644" width="0.254" layer="1"/>
 <wire x1="11.938" y1="25.044" x2="11.938" y2="23.622" width="0.254" layer="1"/>
 <wire x1="13.843" y1="21.209" x2="13.843" y2="25.044" width="0.254" layer="1"/>
 <contactref element="WATSON" pad="7"/>
-<wire x1="6.604" y1="18.542" x2="2.667" y2="14.605" width="0.254" layer="16"/>
-<wire x1="2.667" y1="14.605" x2="2.667" y2="14.351" width="0.254" layer="16"/>
 <wire x1="13.208" y1="20.574" x2="13.843" y2="21.209" width="0.254" layer="1"/>
 <wire x1="11.303" y1="20.574" x2="13.208" y2="20.574" width="0.254" layer="1"/>
 <polygon width="0.254" layer="1">
@@ -1329,6 +1327,10 @@ design rules under a new name.</description>
 <vertex x="11.684" y="20.574"/>
 <vertex x="11.303" y="20.955"/>
 </polygon>
+<wire x1="2.794" y1="12.7" x2="5.461" y2="15.367" width="0.254" layer="16"/>
+<wire x1="5.461" y1="15.367" x2="5.461" y2="17.653" width="0.254" layer="16"/>
+<wire x1="5.461" y1="17.653" x2="6.35" y2="18.542" width="0.254" layer="16"/>
+<wire x1="6.35" y1="18.542" x2="6.731" y2="18.542" width="0.254" layer="16"/>
 </signal>
 <signal name="VCC" class="1">
 <contactref element="QUADNOR" pad="VCC"/>
@@ -1336,16 +1338,19 @@ design rules under a new name.</description>
 <contactref element="WATSON" pad="2"/>
 <contactref element="C2" pad="1"/>
 <contactref element="LED1" pad="A"/>
-<via x="12.446" y="14.097" extent="1-16" drill="0.6"/>
-<wire x1="15.113" y1="15.113" x2="14.097" y2="14.097" width="0.4064" layer="1"/>
-<wire x1="14.097" y1="14.097" x2="12.446" y2="14.097" width="0.4064" layer="1"/>
-<wire x1="12.446" y1="14.097" x2="10.961" y2="14.097" width="0.4064" layer="1"/>
-<wire x1="10.961" y1="14.097" x2="10.795" y2="13.931" width="0.4064" layer="1"/>
-<wire x1="2.667" y1="27.051" x2="4.4196" y2="27.051" width="0.6096" layer="1"/>
-<wire x1="4.4196" y1="27.051" x2="7.3406" y2="29.972" width="0.6096" layer="1"/>
-<wire x1="2.667" y1="27.051" x2="8.255" y2="21.463" width="0.6096" layer="16"/>
-<wire x1="8.255" y1="21.463" x2="8.255" y2="18.288" width="0.6096" layer="16"/>
-<wire x1="8.255" y1="18.288" x2="12.446" y2="14.097" width="0.6096" layer="16"/>
+<via x="13.335" y="13.843" extent="1-16" drill="0.6"/>
+<wire x1="2.794" y1="25.4" x2="2.794" y2="25.4254" width="0.6096" layer="1"/>
+<wire x1="2.794" y1="25.4254" x2="7.3406" y2="29.972" width="0.6096" layer="1"/>
+<wire x1="8.255" y1="18.923" x2="9.017" y2="18.161" width="0.6096" layer="16"/>
+<wire x1="9.017" y1="18.161" x2="13.335" y2="13.843" width="0.6096" layer="16"/>
+<wire x1="15.113" y1="15.113" x2="13.843" y2="13.843" width="0.4064" layer="1"/>
+<wire x1="13.843" y1="13.843" x2="13.335" y2="13.843" width="0.4064" layer="1"/>
+<wire x1="13.335" y1="13.843" x2="11.645" y2="13.843" width="0.4064" layer="1"/>
+<wire x1="11.645" y1="13.843" x2="11.557" y2="13.931" width="0.4064" layer="1"/>
+<wire x1="2.794" y1="25.4" x2="2.921" y2="25.4" width="0.6096" layer="16"/>
+<wire x1="2.921" y1="25.4" x2="4.318" y2="24.003" width="0.6096" layer="16"/>
+<wire x1="4.318" y1="24.003" x2="4.318" y2="22.86" width="0.6096" layer="16"/>
+<wire x1="4.318" y1="22.86" x2="8.255" y2="18.923" width="0.6096" layer="16"/>
 </signal>
 <signal name="GATE2">
 <contactref element="R2" pad="1"/>
@@ -1363,29 +1368,27 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO65">
 <contactref element="QUADNOR" pad="4B"/>
-<wire x1="13.462" y1="14.986" x2="6.985" y2="14.986" width="0.254" layer="1"/>
-<wire x1="13.462" y1="14.986" x2="13.843" y2="15.367" width="0.254" layer="1"/>
-<wire x1="13.843" y1="15.367" x2="13.843" y2="18.644" width="0.254" layer="1"/>
 <contactref element="WATSON" pad="6"/>
-<wire x1="6.985" y1="14.986" x2="4.572" y2="14.986" width="0.254" layer="1"/>
-<wire x1="4.572" y1="14.986" x2="2.667" y2="16.891" width="0.254" layer="1"/>
+<wire x1="2.794" y1="15.24" x2="3.048" y2="14.986" width="0.254" layer="1"/>
+<wire x1="3.048" y1="14.986" x2="13.208" y2="14.986" width="0.254" layer="1"/>
+<wire x1="13.208" y1="14.986" x2="13.843" y2="15.621" width="0.254" layer="1"/>
+<wire x1="13.843" y1="15.621" x2="13.843" y2="18.644" width="0.254" layer="1"/>
 </signal>
 <signal name="IO21">
 <contactref element="QUADNOR" pad="3B"/>
-<wire x1="11.43" y1="16.51" x2="11.938" y2="17.018" width="0.254" layer="1"/>
-<wire x1="11.938" y1="17.018" x2="11.938" y2="18.644" width="0.254" layer="1"/>
 <contactref element="WATSON" pad="5"/>
-<wire x1="11.43" y1="16.51" x2="5.588" y2="16.51" width="0.254" layer="1"/>
-<wire x1="5.588" y1="16.51" x2="2.667" y2="19.431" width="0.254" layer="1"/>
+<wire x1="2.794" y1="17.78" x2="4.191" y2="16.383" width="0.254" layer="1"/>
+<wire x1="4.191" y1="16.383" x2="10.922" y2="16.383" width="0.254" layer="1"/>
+<wire x1="10.922" y1="16.383" x2="11.938" y2="17.399" width="0.254" layer="1"/>
+<wire x1="11.938" y1="17.399" x2="11.938" y2="18.644" width="0.254" layer="1"/>
 </signal>
 <signal name="IO63">
 <contactref element="QUADNOR" pad="2A"/>
-<wire x1="12.446" y1="26.67" x2="8.509" y2="26.67" width="0.254" layer="1"/>
-<wire x1="12.446" y1="26.67" x2="12.573" y2="26.543" width="0.254" layer="1"/>
-<wire x1="12.573" y1="26.543" x2="12.573" y2="25.044" width="0.254" layer="1"/>
 <contactref element="WATSON" pad="4"/>
-<wire x1="2.667" y1="21.971" x2="3.81" y2="21.971" width="0.254" layer="1"/>
-<wire x1="3.81" y1="21.971" x2="8.509" y2="26.67" width="0.254" layer="1"/>
+<wire x1="2.794" y1="20.32" x2="9.525" y2="27.051" width="0.254" layer="1"/>
+<wire x1="9.525" y1="27.051" x2="11.811" y2="27.051" width="0.254" layer="1"/>
+<wire x1="11.811" y1="27.051" x2="12.573" y2="26.289" width="0.254" layer="1"/>
+<wire x1="12.573" y1="26.289" x2="12.573" y2="25.044" width="0.254" layer="1"/>
 </signal>
 <signal name="IO64">
 <contactref element="QUADNOR" pad="1A"/>
@@ -1393,8 +1396,7 @@ design rules under a new name.</description>
 <wire x1="7.62" y1="27.686" x2="13.462" y2="27.686" width="0.254" layer="1"/>
 <wire x1="13.462" y1="27.686" x2="14.478" y2="26.67" width="0.254" layer="1"/>
 <contactref element="WATSON" pad="3"/>
-<wire x1="2.667" y1="24.511" x2="4.445" y2="24.511" width="0.254" layer="1"/>
-<wire x1="4.445" y1="24.511" x2="7.62" y2="27.686" width="0.254" layer="1"/>
+<wire x1="2.794" y1="22.86" x2="7.62" y2="27.686" width="0.254" layer="1"/>
 </signal>
 <signal name="N$1">
 <contactref element="LED1" pad="C"/>
@@ -1408,6 +1410,7 @@ design rules under a new name.</description>
 <approved hash="5,1,ca4ff672ee72d24f"/>
 <approved hash="5,1,20fc40a788f915f6"/>
 <approved hash="5,1,7a7c199313b38996"/>
+<approved hash="5,1,fcf9cd5c2d5c1cf9"/>
 </errors>
 </board>
 </drawing>
