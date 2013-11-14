@@ -115,57 +115,6 @@
 A collection of parts and footprints made for the PiE Robotics Competition.&lt;br/&gt;&lt;br/&gt;
 (c) Pioneers in Engineering and Tau Beta Pi CA-A, UC Berkeley.</description>
 <packages>
-<package name="1X02">
-<description>2-pin 0.1-inch header</description>
-<wire x1="-1.905" y1="1.27" x2="-0.635" y2="1.27" width="0.2032" layer="21"/>
-<wire x1="-0.635" y1="1.27" x2="0" y2="0.635" width="0.2032" layer="21"/>
-<wire x1="0" y1="-0.635" x2="-0.635" y2="-1.27" width="0.2032" layer="21"/>
-<wire x1="0" y1="0.635" x2="0.635" y2="1.27" width="0.2032" layer="21"/>
-<wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.2032" layer="21"/>
-<wire x1="1.905" y1="1.27" x2="2.54" y2="0.635" width="0.2032" layer="21"/>
-<wire x1="2.54" y1="-0.635" x2="1.905" y2="-1.27" width="0.2032" layer="21"/>
-<wire x1="1.905" y1="-1.27" x2="0.635" y2="-1.27" width="0.2032" layer="21"/>
-<wire x1="0.635" y1="-1.27" x2="0" y2="-0.635" width="0.2032" layer="21"/>
-<wire x1="-2.54" y1="0.635" x2="-2.54" y2="-0.635" width="0.2032" layer="21"/>
-<wire x1="-1.905" y1="1.27" x2="-2.54" y2="0.635" width="0.2032" layer="21"/>
-<wire x1="-2.54" y1="-0.635" x2="-1.905" y2="-1.27" width="0.2032" layer="21"/>
-<wire x1="-0.635" y1="-1.27" x2="-1.905" y2="-1.27" width="0.2032" layer="21"/>
-<wire x1="2.54" y1="0.635" x2="2.54" y2="-0.635" width="0.2032" layer="21"/>
-<pad name="1" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="2" x="1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<text x="-2.6162" y="1.8288" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-2.54" y="-3.175" size="1.27" layer="27" font="vector">&gt;VALUE</text>
-<rectangle x1="1.016" y1="-0.254" x2="1.524" y2="0.254" layer="51"/>
-<rectangle x1="-1.524" y1="-0.254" x2="-1.016" y2="0.254" layer="51"/>
-<rectangle x1="-2.54" y1="-1.27" x2="2.54" y2="1.27" layer="39"/>
-<rectangle x1="-2.54" y1="-1.27" x2="2.54" y2="1.27" layer="40"/>
-</package>
-<package name="1X02-MTA">
-<description>2-pin MTA connector</description>
-<wire x1="-2.54" y1="0.635" x2="-2.54" y2="-0.635" width="0.2032" layer="21"/>
-<pad name="1" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="2" x="1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
-<text x="-1.9812" y="3.7338" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-2.54" y="-4.445" size="1.27" layer="27" font="vector">&gt;VALUE</text>
-<rectangle x1="1.016" y1="-0.254" x2="1.524" y2="0.254" layer="51"/>
-<rectangle x1="-1.524" y1="-0.254" x2="-1.016" y2="0.254" layer="51"/>
-<wire x1="2.54" y1="-2.54" x2="-2.54" y2="-2.54" width="0.2032" layer="21"/>
-<wire x1="-2.54" y1="-2.54" x2="-2.54" y2="2.54" width="0.2032" layer="21"/>
-<wire x1="-2.54" y1="2.54" x2="-2.54" y2="3.175" width="0.2032" layer="21"/>
-<wire x1="-2.54" y1="3.175" x2="2.54" y2="3.175" width="0.2032" layer="21"/>
-<wire x1="2.54" y1="3.175" x2="2.54" y2="2.54" width="0.2032" layer="21"/>
-<wire x1="2.54" y1="2.54" x2="2.54" y2="-2.54" width="0.2032" layer="21"/>
-<wire x1="-2.54" y1="3.175" x2="-2.54" y2="-8.255" width="0.127" layer="51"/>
-<wire x1="-2.54" y1="3.175" x2="2.54" y2="3.175" width="0.127" layer="51"/>
-<wire x1="2.54" y1="3.175" x2="2.54" y2="-8.255" width="0.127" layer="51"/>
-<wire x1="2.54" y1="-8.255" x2="-2.54" y2="-8.255" width="0.127" layer="51"/>
-<wire x1="2.54" y1="2.54" x2="-2.54" y2="2.54" width="0.127" layer="21"/>
-<wire x1="1.27" y1="0" x2="1.27" y2="-6.985" width="0.254" layer="51"/>
-<wire x1="-1.27" y1="0" x2="-1.27" y2="-6.985" width="0.254" layer="51"/>
-<rectangle x1="-2.54" y1="1.905" x2="2.54" y2="2.54" layer="21"/>
-<rectangle x1="-2.54" y1="-2.54" x2="2.54" y2="3.302" layer="39"/>
-<rectangle x1="-2.54" y1="-1.27" x2="2.54" y2="1.27" layer="40"/>
-</package>
 <package name="XT60CONNECTOR">
 <description>12V XT60 power connector</description>
 <wire x1="-8.128" y1="-4.064" x2="5.08" y2="-4.064" width="0.127" layer="21"/>
@@ -197,18 +146,6 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </package>
 </packages>
 <symbols>
-<symbol name="M02">
-<wire x1="3.81" y1="-2.54" x2="-2.54" y2="-2.54" width="0.4064" layer="94"/>
-<wire x1="1.27" y1="2.54" x2="2.54" y2="2.54" width="0.6096" layer="94"/>
-<wire x1="1.27" y1="0" x2="2.54" y2="0" width="0.6096" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="-2.54" y2="-2.54" width="0.4064" layer="94"/>
-<wire x1="3.81" y1="-2.54" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
-<text x="-2.54" y="-5.08" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-2.54" y="5.842" size="1.778" layer="95">&gt;NAME</text>
-<pin name="1" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="2" x="7.62" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-</symbol>
 <symbol name="XT60CONNECTOR">
 <wire x1="7.62" y1="0" x2="7.62" y2="2.54" width="0.254" layer="94"/>
 <wire x1="7.62" y1="2.54" x2="5.08" y2="5.08" width="0.254" layer="94"/>
@@ -234,34 +171,6 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="M02" prefix="JP" uservalue="yes">
-<description>2-pin 0.1-inch header and MTA connector</description>
-<gates>
-<gate name="G$1" symbol="M02" x="0" y="-1.27"/>
-</gates>
-<devices>
-<device name="PTH" package="1X02">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="1X02-MTA" package="1X02-MTA">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PARTNUMBER" value="A1921-ND"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="XT60CONNECTOR">
 <description>12V XT60 power connector</description>
 <gates>
@@ -309,9 +218,7 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </class>
 </classes>
 <parts>
-<part name="JP1" library="pie" deviceset="M02" device="1X02-MTA"/>
 <part name="U$3" library="pie" deviceset="XT60CONNECTOR" device=""/>
-<part name="JP2" library="pie" deviceset="M02" device="1X02-MTA"/>
 <part name="U$1" library="pie" deviceset="ANDERSON_25A_1X2" device=""/>
 </parts>
 <sheets>
@@ -319,42 +226,24 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <plain>
 </plain>
 <instances>
-<instance part="JP1" gate="G$1" x="25.4" y="15.24" rot="R180"/>
 <instance part="U$3" gate="G$1" x="38.1" y="17.78" rot="R270"/>
-<instance part="JP2" gate="G$1" x="60.96" y="17.78" rot="R180"/>
-<instance part="U$1" gate="G$1" x="0" y="20.32" rot="R270"/>
+<instance part="U$1" gate="G$1" x="15.24" y="22.86" rot="R270"/>
 </instances>
 <busses>
 </busses>
 <nets>
-<net name="N$3" class="0">
-<segment>
-<pinref part="U$3" gate="G$1" pin="GND"/>
-<pinref part="JP2" gate="G$1" pin="2"/>
-<wire x1="45.72" y1="15.24" x2="53.34" y2="15.24" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$4" class="0">
-<segment>
-<pinref part="U$3" gate="G$1" pin="12V"/>
-<pinref part="JP2" gate="G$1" pin="1"/>
-<wire x1="45.72" y1="20.32" x2="53.34" y2="20.32" width="0.1524" layer="91"/>
-<wire x1="53.34" y1="20.32" x2="53.34" y2="17.78" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$1" class="0">
 <segment>
-<pinref part="JP1" gate="G$1" pin="1"/>
-<wire x1="17.78" y1="17.78" x2="17.78" y2="15.24" width="0.1524" layer="91"/>
+<pinref part="U$3" gate="G$1" pin="12V"/>
 <pinref part="U$1" gate="G$1" pin="PIN1"/>
-<wire x1="15.24" y1="17.78" x2="17.78" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="20.32" x2="45.72" y2="20.32" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
+<pinref part="U$3" gate="G$1" pin="GND"/>
 <pinref part="U$1" gate="G$1" pin="PIN2"/>
-<pinref part="JP1" gate="G$1" pin="2"/>
-<wire x1="15.24" y1="12.7" x2="17.78" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="15.24" x2="45.72" y2="15.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
