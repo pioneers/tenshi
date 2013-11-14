@@ -223,14 +223,14 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </symbol>
 <symbol name="ANDERSON_25A_1X2">
 <wire x1="0" y1="0" x2="5.08" y2="0" width="0.254" layer="94"/>
-<wire x1="5.08" y1="10.16" x2="0" y2="10.16" width="0.254" layer="94"/>
-<wire x1="0" y1="10.16" x2="0" y2="0" width="0.254" layer="94"/>
+<wire x1="5.08" y1="12.7" x2="0" y2="12.7" width="0.254" layer="94"/>
+<wire x1="0" y1="12.7" x2="0" y2="0" width="0.254" layer="94"/>
 <wire x1="5.08" y1="0" x2="10.16" y2="0" width="0.254" layer="94"/>
-<wire x1="10.16" y1="0" x2="10.16" y2="10.16" width="0.254" layer="94"/>
-<wire x1="10.16" y1="10.16" x2="5.08" y2="10.16" width="0.254" layer="94"/>
-<wire x1="5.08" y1="10.16" x2="5.08" y2="0" width="0.254" layer="94"/>
-<pin name="PIN1" x="2.54" y="7.62" length="middle" rot="R270"/>
-<pin name="PIN2" x="7.62" y="7.62" length="middle" rot="R270"/>
+<wire x1="10.16" y1="0" x2="10.16" y2="12.7" width="0.254" layer="94"/>
+<wire x1="10.16" y1="12.7" x2="5.08" y2="12.7" width="0.254" layer="94"/>
+<wire x1="5.08" y1="12.7" x2="5.08" y2="0" width="0.254" layer="94"/>
+<pin name="PIN1" x="2.54" y="15.24" length="middle" rot="R270"/>
+<pin name="PIN2" x="7.62" y="15.24" length="middle" rot="R270"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -322,7 +322,7 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <instance part="JP1" gate="G$1" x="25.4" y="15.24" rot="R180"/>
 <instance part="U$3" gate="G$1" x="38.1" y="17.78" rot="R270"/>
 <instance part="JP2" gate="G$1" x="60.96" y="17.78" rot="R180"/>
-<instance part="U$1" gate="G$1" x="5.08" y="20.32" rot="R270"/>
+<instance part="U$1" gate="G$1" x="0" y="20.32" rot="R270"/>
 </instances>
 <busses>
 </busses>
@@ -344,17 +344,17 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </net>
 <net name="N$1" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="PIN1"/>
 <pinref part="JP1" gate="G$1" pin="1"/>
-<wire x1="12.7" y1="17.78" x2="17.78" y2="17.78" width="0.1524" layer="91"/>
 <wire x1="17.78" y1="17.78" x2="17.78" y2="15.24" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="PIN1"/>
+<wire x1="15.24" y1="17.78" x2="17.78" y2="17.78" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="PIN2"/>
 <pinref part="JP1" gate="G$1" pin="2"/>
-<wire x1="12.7" y1="12.7" x2="17.78" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="15.24" y1="12.7" x2="17.78" y2="12.7" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
