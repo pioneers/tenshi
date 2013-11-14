@@ -29,6 +29,7 @@
 #include "encoder.h"
 #include "led.h"
 #include "pindef.h"
+#include "pid.h"
 #include "pwm.h"
 #include "twi_state_machine.h"
 
@@ -374,7 +375,11 @@ void run_control_loop(void) {
         break;
 
       case MODE_SPEED_PID:
-        // TODO(rqou)
+        pwm_val = do_pid_speed(target_speed_copy);
+        break;
+        
+      case MODE_POS_PID:
+        pwm_val = do_pid_positional(target_speed_copy);
         break;
 
       default:

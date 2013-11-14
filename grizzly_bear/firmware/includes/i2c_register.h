@@ -21,6 +21,8 @@
 
 #include <stdint.h>
 
+#include "avr-fixed.h"
+
 // Gives the value for a particular I2C register.
 // Register is passed as an argument and this function returns a byte.
 // WARNING: This function is called from an ISR. It must complete reasonably
@@ -55,6 +57,12 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val);
 #define REG_ERROR_COUNT_TYPE          uint8_t
 #define REG_ENCODER_COUNT             0x20
 #define REG_ENCODER_COUNT_TYPE        int32_t
+#define REG_PID_KP                    0x30
+#define REG_PID_KP_TYPE               FIXED1616
+#define REG_PID_KI                    0x34
+#define REG_PID_KI_TYPE               FIXED1616
+#define REG_PID_KD                    0x38
+#define REG_PID_KD_TYPE               FIXED1616
 #define REG_REVISION                  0x60
 #define REG_REVISION_LEN                21
 #define REG_TIMEOUT_PERIOD            0x80
