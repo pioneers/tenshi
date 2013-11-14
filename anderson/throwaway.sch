@@ -232,14 +232,14 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <busses>
 </busses>
 <nets>
-<net name="N$1" class="0">
+<net name="1" class="0">
 <segment>
 <pinref part="U$3" gate="G$1" pin="12V"/>
 <pinref part="U$1" gate="G$1" pin="PIN1"/>
 <wire x1="30.48" y1="20.32" x2="45.72" y2="20.32" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$2" class="0">
+<net name="2" class="0">
 <segment>
 <pinref part="U$3" gate="G$1" pin="GND"/>
 <pinref part="U$1" gate="G$1" pin="PIN2"/>
