@@ -1,0 +1,62 @@
+#toolbar
+{
+    border:double;
+    position:fixed;
+    top:5px;
+    left:5px;
+    background-color:#999999;
+    width:75;
+    height:500;
+}
+#mainScreen
+{
+    position:fixed;
+    top:5px;
+    left:80px;
+    width:1000;
+    height:500;
+}
+#addingSelector
+{
+    border:double;
+    position:fixed;
+    top:5px;
+    left:1080;
+    width:300;
+    height:250;
+    background-color:#d0e4fe;
+    font-weight:bold;
+}
+#currentSelection
+{
+    border:double;
+    position:fixed;
+    top:255px;
+    left:1080;
+    width:300;
+    height:250;
+    background-color:#d0e4fe;
+    font-weight:bold;
+}
+#options
+{
+    border:double;
+    position:fixed;
+    top:505px;
+    left:5px;
+    background-color:#d0e4fe;
+    width:1375;
+    height:25;
+}
+#classSelector
+{
+    float:right;
+}
+#objSelector
+{
+    float:right;
+}
+#add
+{
+    float:right;
+}
