@@ -1,0 +1,372 @@
+<html>
+    <head>
+        <title>test</title>
+        <script type="text/javascript" src="xmlLoad.js"></script>
+        <script type="text/javascript" src="Ammo/ammo.js"></script>
+        <script type="text/javascript" src="Ammo/ammoWrappers.js"></script>
+        <script type="text/javascript" src="Ammo/mathSupplements.js"></script>
+        <script type="text/javascript" src="Motors/Led.js"></script>
+        <script type="text/javascript" src="Motors/Motor.js"></script>
+        <script type="text/javascript" src="Sensors/Infrared.js"></script>
+        <script type="text/javascript" src="Sensors/Rangefinder.js"></script>
+        <script type="text/javascript" src="Sensors/TouchSensor.js"></script>
+        <script type="text/javascript" src="Three/SphericalCamera.js"></script>
+        <script type="text/javascript" src="Three/PovCamera.js"></script>
+        <script type="text/javascript" src="Three/three.min.js"></script>
+        <script type="text/javascript" src="Three/threeWrappers.js"></script>
+        <script type="text/javascript" src="MasterObject.js"></script>
+        <script type="text/javascript" src="PhysicsObjectManager.js"></script>
+        <script type="text/javascript" src="Robot.js"></script>
+        <script type="text/javascript" src="SaveManager.js"></script>
+    </head>
+    <style>
+        #toolbar
+        {
+            border:double;
+            position:fixed;
+            top:5px;
+            left:5px;
+            background-color:#999999;
+            width:75;
+            height:500;
+        }
+        #mainScreen
+        {
+            position:fixed;
+            top:5px;
+            left:80px;
+            width:1000;
+            height:500;
+        }
+        #addingSelector
+        {
+            border:double;
+            position:fixed;
+            top:5px;
+            left:1080;
+            width:300;
+            height:250;
+            background-color:#d0e4fe;
+            font-weight:bold;
+        }
+        #currentSelection
+        {
+            border:double;
+            position:fixed;
+            top:255px;
+            left:1080;
+            width:300;
+            height:250;
+            background-color:#d0e4fe;
+            font-weight:bold;
+        }
+        #options
+        {
+            border:double;
+            position:fixed;
+            top:505px;
+            left:5px;
+            background-color:#d0e4fe;
+            width:1375;
+            height:25;
+        }
+        #classSelector
+        {
+            float:right;
+        }
+        #objSelector
+        {
+            float:right;
+        }
+        #add
+        {
+            float:right;
+        }
+    </style>
+    <body>
+        <div id="toolbar">
+            Tools
+            <button type="button" onclick="console.log('lel')">Select</button><br>
+            <button type="button" onclick="console.log('lel')">Move</button><br>
+            <button type="button" onclick="console.log('lel')">Resize</button><br>
+            <button type="button" onclick="console.log('lel')">Rotate</button><br>
+            <button type="button" onclick="console.log('lel')">Delete</button><br>
+        </div>
+        <div id="mainScreen"></div>
+        <div id="addingSelector">
+            Object Selector<br>
+            Class: <select id="classSelector" onchange="updateObjSelection()">
+                <option></option>
+                <option>Chassi</option>
+                <option>Motors</option>
+                <option>Sensors</option>
+            </select><br>
+            Object:  <select id="objSelector" onchange="updateAttrSelection()">
+            </select><br>
+            <div id="addingInfo">
+            </div>
+            <button id="add" type="button" onclick="addObj()">ADD</button>
+        </div>
+        <div id="currentSelection">
+            Current Selection<br>
+            <div id="selnInfo">
+            </div>
+        </div>
+        <div id="options">
+            <button type="button" onclick="grid.toggle()">Grid</button> || 
+            <button type="button" onclick="1 + 1">Clear</button> || 
+            <button type="button" onclick="1 + 1">Undo</button> || 
+            <button type="button" onclick="1 + 1">Save</button> || 
+            <button type="button" onclick="1 + 1">Load</button> || 
+            <button type="button" onclick="1 + 1">Cam</button> || 
+            <button type="button" onclick="1 + 1">Help</button>
+        </div>
+        <script type="text/javascript">
+            var WIDTH = 1000, HEIGHT = 500;
+            var scene, camera, renderer, cameraController, centralPosition;
+            var physicsObjects = new PhysicsObjectManager();
+            var saveMan = new SaveManager();
+            var master = new MasterObject();
+            var version = 0;
+            var targetFrame = -1;
+            var grid;
+            var curSelection = null;
+
+            selections = {};
+                selections["Motors"] = ["Custom", "Motor 01"];
+                selections["Sensors"] = ["Infrared", "Rangefinder", "Touch Sensor"];
+                selections["Chassi"] = ["Box", "Cylinder", "Sphere"];
+
+            args = {};
+                args["Box"] = ["width", "height", "depth", "mass", "color", "iniX", "iniY", "iniZ"];
+                args["Cylinder"] = ["radius", "height", "mass", "color", "iniX", "iniY", "iniZ"];
+
+                args["Infrared"] = ["width", "length", "height", "mass", "iniX", "iniY", "iniZ"];
+                args["Rangefinder"] = ["width", "length", "height", "mass", "iniX", "iniY", "iniZ"];
+                args["Touch Sensor"] = ["width", "length", "height", "mass", "maxRange", "iniX", "iniY", "iniZ"];
+
+            constr = {};
+                constr["Box"] = createBox;
+                constr["Cylinder"] = createCylinder;
+
+                console.log(args["Rangefinder"]);
+
+            FRAME = 0; //keeps track of frame
+            /*/============================
+            Misc. Functions (to be sorted later)
+            ============================/*/
+
+            //Prints all the methods of obj : useful because useless documentation
+            function printMethods(obj)
+            {
+                var prop;
+                for(prop in obj)
+                {
+                    console.log("Foo has property " + prop);
+                }
+            }
+
+            function strifeLeft(obj)
+            {
+                console.log(centralPosition.x, cameraController.camera.position.x);
+            }
+
+            function addObj()
+            {
+                var obj = document.getElementById("objSelector").value;
+                var constructr = constr[obj];
+
+                var argArr = [];
+                var temp = document.getElementById("addingInfo").firstChild;
+                while(temp)
+                {
+                    if(temp.type)
+                        argArr.push(parseFloat(temp.value)||parseInt(temp.value));
+                    temp = temp.nextSibling;
+                }
+
+                curSelection = constructr.apply(this, argArr);
+                curSelection.args = argArr;
+                curSelection.argNames = args[obj];
+                curSelection.name = obj;
+                updateCurSelection();
+            }
+
+            function updateCurSelection()
+            {
+                var target = document.getElementById("selnInfo");
+                    target.innerHTML = "";
+                var tempTxt, inp;
+
+                tempTxt = document.createTextNode(curSelection.name);
+                target.appendChild(tempTxt);
+                target.appendChild(document.createElement("br"));
+                for(var i = 0; i < curSelection.args.length; i++)
+                {
+                    tempTxt = document.createTextNode(curSelection.argNames[i] + " : ");
+                    inp = document.createElement("input");
+                        inp.type = "text";
+                        inp.name = curSelection.argNames[i];
+                        inp.style.backgroundColor = "white";
+                        inp.value = curSelection.args[i];
+                    target.appendChild(tempTxt);
+                    target.appendChild(inp);
+                    target.appendChild(document.createElement("br"));
+                } 
+            }
+
+            function updateObjSelection()
+            {
+                var objSel = document.getElementById("objSelector");
+                    objSel.innerHTML = "";
+
+                var key = document.getElementById("classSelector").value;
+                var tempOpt;
+
+                for(var i = 0; i < selections[key].length; i++)
+                {
+                    tempOpt = new Option(selections[key][i], selections[key][i]);
+                    objSel.options[objSel.length] = tempOpt;
+                }
+            }
+
+            function updateAttrSelection()
+            {
+                var objAttr = document.getElementById("addingInfo");
+                    objAttr.innerHTML = "";
+
+                var key = document.getElementById("objSelector").value;
+                var txt, inp;
+
+                for(var i = 0; i < args[key].length; i++)
+                {
+                    txt = document.createTextNode(args[key][i] + " : ");
+                    inp = document.createElement("input");
+                        inp.type = "text";
+                        inp.name = args[key][i];
+                        inp.style.backgroundColor = "white";
+                    objAttr.appendChild(txt);
+                    objAttr.appendChild(inp);
+                    objAttr.appendChild(document.createElement("br"));
+                }
+            }
+
+            function applyToConstructor(constructor, argArray)
+            {
+              var args = [null].concat(argArray);
+              var factoryFunction = constructor.bind.apply(constructor, args);
+              return new factoryFunction();
+            }
+
+            function Grid()
+            {
+                this.axes = createBoxMesh(.01, .01, .01, 0, 0, 0, 0, 0);
+                this.axes = makeMappedMesh(this.axes, 1000, 0, 0, 0);
+
+                this.flat = createBoxMesh(2000, .01, 2000, 0x999999, 0, 0, 0, 0);
+
+                this.xlines = [];
+                this.ylines = [];
+                var tempBox;
+
+                for(var i = 0; i < 250; i++)
+                {
+                    tempBox = createBoxMesh(.1, .1, 1000, 0x000000);
+                    tempBox.position.x = 5*(i - 125);
+                    this.xlines.push(tempBox);
+                }
+
+                for(var i = 0; i < 250; i++)
+                {
+                    tempBox = createBoxMesh(1000, .1, .1, 0x000000);
+                    tempBox.position.z= 5*(i - 125);
+                    this.ylines.push(tempBox);
+                }
+
+                this.on = true;
+            }
+
+            Grid.prototype.toggle = function()
+            {
+                if(this.on)
+                {
+                    this.axes.visible = false;
+                    this.flat.visible = false;
+                    for(var i = 0; i < this.xlines.length; i++)
+                    {
+                        this.xlines[i].visible = false;
+                        this.ylines[i].visible = false;
+                    }
+                }
+                else
+                {
+                    this.axes.visible = true;
+                    this.flat.visible = true;
+                    for(var i = 0; i < this.xlines.length; i++)
+                    {
+                        this.xlines[i].visible = true;
+                        this.ylines[i].visible = true;
+                    }
+                }
+                this.on = !this.on;
+            };
+
+            var primeCameraControls = function()
+            {
+                document.onmousedown = function(evt)
+                {
+                    mouseX = evt.pageX;
+                    mouseY = evt.pageY;
+                    document.onmousemove = function(evt)
+                    {
+                        cameraController.moveX((evt.pageX - mouseX)*.001);
+                        cameraController.moveY((evt.pageY - mouseY)*.001);
+                        mouseX = evt.pageX;
+                        mouseY = evt.pageY;
+                        console.log(evt.pageX - mouseX);
+                    }
+                }
+
+                document.onmouseup = function(evt)
+                {
+                    document.onmousemove = null;
+                }
+
+                document.addEventListener("DOMMouseScroll", function(evt)
+                {
+                    console.log(evt.wheelDelta||evt.detail);
+                    cameraController.moveZ(-evt.wheelDelta||-evt.detail);
+                })
+            }
+
+            var primeSelectonControls = function()
+            {
+
+            }
+            /*/============================
+            Main loop
+            ============================/*/
+
+            var render = function()
+            {
+                scene.world.stepSimulation( 1 / 60, 5 ); // tells ammo.js to apply physics
+                physicsObjects.render(); //update meshes of moving objects
+                renderer.render(scene, camera); //tells three.js to render scene
+                requestAnimationFrame(render); //repeat ad infinium
+            }
+
+            /*/============================
+            Setting up
+            ============================/*/
+            initScene();
+            initPhysics();
+                scene.world.setGravity(new Ammo.btVector3(0, 0, 0));
+            grid = new Grid();
+            updateObjSelection();
+            updateAttrSelection()
+            primeCameraControls();
+            render();
+
+        </script>
+    </body>
+</html>
