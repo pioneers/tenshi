@@ -159,8 +159,8 @@ void set_controlled_brake(void) {
   // Make Low A side output.
   DDRB = ((DDRB & ~(_BV(PB5))) | _BV(PB6));
   
-  // Invert output
-  TCCR4B |= _BV(PWM4X);
+  // Do not invert output
+  TCCR4B &= ~(_BV(PWM4X));
   // Connect Low A side to pwm.
   TCCR4A = _BV(COM4B1) | _BV(PWM4B);
 }
