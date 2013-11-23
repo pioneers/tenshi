@@ -78,7 +78,13 @@ function make_env ( table ) {
       },
     // Gets a variable which is guaranteed to exist.
     get_text : function  ( text ) {
-      return this.table.get_text ( text );
+      var retrieved = this.table.get_text ( text );
+      if ( retrieved === undefined ) {
+        return this.get_unknown ( text );
+        }
+      else {
+        return retrieved;
+        }
       },
     // Gets a variable which may not have been declared yet.
     get_unknown : function  ( text ) {
@@ -226,6 +232,11 @@ function make_env ( table ) {
     pop_block : function ( ) {
       this.table = this.table.above ( );
       },
+    analyze : function ( node ) {
+      var result = node.analyze ( this );
+      node.run_type = result;
+      return result;
+      },
     };
   // This is where built in types and objects are currently initialized.
   // TODO(kzentner): Refactor this.
@@ -241,8 +252,8 @@ function infix ( text, type, out_type ) {
     }
   return {
       analyze: function ( env ) {
-        var ltype = this.left.analyze ( env );
-        var rtype = this.right.analyze ( env );
+        var ltype = env.analyze ( this.left );
+        var rtype = env.analyze ( this.right );
         env.unify ( ltype, env.get_type ( type ) );
         env.unify ( rtype, env.get_type ( type ) );
         return env.get_type ( out_type );
@@ -254,7 +265,7 @@ function infix ( text, type, out_type ) {
 function prefix ( type, text ) {
   return {
       analyze: function ( env ) {
-        var rtype = this.right.analyze ( env );
+        var rtype = env.analyze ( this.right );
         if ( rtype.name === type ) {
           return env.get_type ( type );
           }
@@ -289,7 +300,7 @@ function setupScopes ( scopes ) {
     // Identifiers are instances of whatever type they are in the function.
     'identifier' : {
       analyze: function ( env ) {
-        var to_prune = env.get_unknown ( this.text );
+        var to_prune = env.get_text ( this.text );
         // The use of fresh here has a few odd effects. In particular,
         // variables pointing to polymorphic types are not restricted to a
         // single concrete type.
@@ -313,12 +324,12 @@ function setupScopes ( scopes ) {
       analyze: function ( env ) {
         var left_type;
         var right_type;
-        env.unify ( env.get_type ( 'bool' ), this.condition.analyze ( env ) );
-        left_type = this.block.analyze ( env );
+        env.unify ( env.get_type ( 'bool' ), env.analyze ( this.condition ) );
+        left_type = env.analyze ( this.block );
         // If we are in an expression, we must have an alt-block and should
         // return the common type of both branches.
         if ( this.type === 'expr' ) {
-          right_type = this.alt_block.analyze ( env );
+          right_type = env.analyze ( this.alt_block );
           env.unify ( left_type, right_type );
           return left_type;
           }
@@ -328,7 +339,7 @@ function setupScopes ( scopes ) {
       // This method is only called on else statements, not in expressions, so
       // it just needs to typecheck it's block.
       analyze: function ( env ) {
-        this.block.analyze ( env );
+        env.analyze ( this.block );
         },
       },
     '(' : {
@@ -342,15 +353,15 @@ function setupScopes ( scopes ) {
         if ( this.type === 'call' ) {
           for ( idx in this.args ) {
             // Analyze all the arguments.
-            arg_types.push ( this.args[idx].analyze ( env ) );
+            arg_types.push ( env.analyze ( this.args[idx] ) );
             }
           // Function type operators ('fn') are operators of two types, the
           // first of which is a different type operator ('args').
           arg_type = env.make_type_op ( 'args', arg_types );
           func_type = env.get_text ( this.func.text );
-          if ( func_type === undefined ) {
-            func_type = env.get_unknown ( this.func.text );
-            }
+          //if ( func_type === undefined ) {
+            //func_type = env.get_text ( this.func.text );
+            //}
           // If we're calling a type-var, make that type var point to a new
           // function type-operator.
           if ( func_type.kind === 'var' &&
@@ -366,12 +377,12 @@ function setupScopes ( scopes ) {
           }
         else if ( this.type === 'expr' ) {
           // The parentheses are just around some other expression.
-          return this.children[0].analyze ( env );
+          return env.analyze ( this.children[0] );
           }
         else if ( this.type === 'tuple' ) {
           // The parentheses are around a tuple.
           for ( idx in this.children ) {
-            tuple_types.push ( this.children.analyze ( env ) );
+            tuple_types.push ( env.analyze ( this.children ) );
             }
           return env.make_type_op ( 'tuple', tuple_types );
           }
@@ -406,7 +417,7 @@ function setupScopes ( scopes ) {
           if ( child.text === 'return' ) {
             // return statements determine the return type of the function.
             // TODO(kzentner): Support expression functions with single expression bodies.
-            env.unify ( out_type, child.expr.analyze ( ) );
+            env.unify ( out_type, env.analyze ( child.expr ) );
             }
           else {
             child.analyze ( env );
@@ -430,8 +441,8 @@ function setupScopes ( scopes ) {
     // This should be self-explanatory.
     'while': {
       analyze: function ( env ) {
-        env.unify ( env.get_type ( 'bool' ), this.condition.analyze ( env ) );
-        this.block.analyze ( env );
+        env.unify ( env.get_type ( 'bool' ), env.analyze ( this.condition ) );
+        env.analyze ( this.block );
         },
       },
     '=' : {
@@ -443,7 +454,7 @@ function setupScopes ( scopes ) {
         // The variable should not have generic type in the body of its definition.
         // This is one of the trickiest parts of Hindley-Milner.
         env.non_generic.push ( old_type );
-        definition_type = this.right.analyze ( env );
+        definition_type = env.analyze ( this.right );
         env.non_generic.pop ( );
 
         // The actual variables type should be the most general of the old type
@@ -460,7 +471,7 @@ function setupScopes ( scopes ) {
        var idx;
   
         for ( idx in this.children ) {
-          this.children[idx].analyze ( env );
+          env.analyze ( this.children[idx] );
           }
         },
       },
@@ -473,7 +484,7 @@ function setupScopes ( scopes ) {
        env.push_block ( );
   
         for ( idx in this.children ) {
-          out = this.children[idx].analyze ( env );
+          out = env.analyze ( this.children[idx] );
           }
 
         env.pop_block ( );
@@ -485,7 +496,9 @@ function setupScopes ( scopes ) {
 
 function analyze ( tree ) {
   var env = make_env ( );
-  var ret = tree.analyze ( env );
+  var ret = env.analyze ( tree );
+  misc.print(env.table.toString());
+  misc.print(env.unknown.toString());
   return ret;
   }
 
