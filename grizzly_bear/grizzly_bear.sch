@@ -3294,26 +3294,6 @@ Source: http://www.nxp.com/acrobat_download/datasheets/PH7030L_4.pdf</descriptio
 <rectangle x1="-8.128" y1="-4.064" x2="7.62" y2="4.064" layer="39"/>
 <rectangle x1="-8.128" y1="-4.064" x2="7.62" y2="4.064" layer="40"/>
 </package>
-<package name="STAND-OFF">
-<description>&lt;b&gt;Stand Off&lt;/b&gt;&lt;p&gt;
-This is the mechanical footprint for a #4 phillips button head screw. Use the keepout ring to avoid running the screw head into surrounding components. SKU : PRT-00447</description>
-<wire x1="0" y1="1.8542" x2="0" y2="-1.8542" width="0.2032" layer="41" curve="-180"/>
-<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="41" curve="-180"/>
-<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="180"/>
-<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="-180"/>
-<circle x="0" y="0" radius="2.794" width="0.127" layer="39"/>
-<hole x="0" y="0" drill="3.302"/>
-</package>
-<package name="STAND-OFF-TIGHT">
-<description>&lt;b&gt;Stand Off&lt;/b&gt;&lt;p&gt;
-This is the mechanical footprint for a #4 phillips button head screw. Use the keepout ring to avoid running the screw head into surrounding components. SKU : PRT-00447</description>
-<wire x1="0" y1="1.8542" x2="0" y2="-1.8542" width="0.2032" layer="41" curve="-180"/>
-<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="41" curve="-180"/>
-<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="180"/>
-<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="-180"/>
-<circle x="0" y="0" radius="2.794" width="0.127" layer="39"/>
-<hole x="0" y="0" drill="3.048"/>
-</package>
 <package name="LED-0805">
 <description>LED 0805 Package</description>
 <smd name="A" x="-1.0414" y="0" dx="1.1938" dy="1.2446" layer="1"/>
@@ -3820,9 +3800,6 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <pin name="GND" x="2.54" y="7.62" length="middle" rot="R270"/>
 <wire x1="-2.54" y1="1.27" x2="-2.54" y2="2.54" width="0.6096" layer="94"/>
 <wire x1="2.54" y1="1.27" x2="2.54" y2="2.54" width="0.6096" layer="94"/>
-</symbol>
-<symbol name="STAND-OFF">
-<circle x="0" y="0" radius="1.27" width="0.254" layer="94"/>
 </symbol>
 <symbol name="LETTER_L">
 <wire x1="0" y1="185.42" x2="248.92" y2="185.42" width="0.4064" layer="94"/>
@@ -5613,25 +5590,6 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 </device>
 </devices>
 </deviceset>
-<deviceset name="STAND-OFF" prefix="STANDOFF">
-<description>&lt;b&gt;#4 Stand Off&lt;/b&gt;&lt;p&gt;
-This is the mechanical footprint for a #4 phillips button head screw. Use the keepout ring to avoid running the screw head into surrounding components. SKU : PRT-00447</description>
-<gates>
-<gate name="G$1" symbol="STAND-OFF" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="STAND-OFF">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="TIGHT" package="STAND-OFF-TIGHT">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="FRAME-LETTER" prefix="FRAME">
 <description>&lt;b&gt;Schematic Frame&lt;/b&gt;&lt;p&gt;
 Standard 8.5x11 US Letter frame</description>
@@ -5710,7 +5668,7 @@ Standard 8.5x11 US Letter frame</description>
 <part name="SUPPLY14" library="pie" deviceset="GND" device=""/>
 <part name="U3" library="pie" deviceset="ACS714" device=""/>
 <part name="C10" library="pie" deviceset="CAP" device="0603-CAP" value="1nF"/>
-<part name="C11" library="pie" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
+<part name="C11" library="pie" deviceset="CAP" device="0603-CAP" value="0.1 uF"/>
 <part name="SUPPLY10" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY16" library="pie" deviceset="GND" device=""/>
 <part name="U1" library="pie" deviceset="A4940" device=""/>
@@ -5752,7 +5710,6 @@ Standard 8.5x11 US Letter frame</description>
 <part name="C12" library="pie" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 <part name="U$18" library="pie" deviceset="XT60CONNECTOR" device=""/>
 <part name="U$19" library="pie" deviceset="XT60CONNECTOR" device=""/>
-<part name="STANDOFF4" library="pie" deviceset="STAND-OFF" device=""/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="K. Mann, J. Chenn, R. Ou, J. Jacinto"/>
 <attribute name="REVISION" value="B"/>
@@ -5961,7 +5918,6 @@ Don't populate</text>
 <instance part="C12" gate="G$1" x="48.26" y="43.18"/>
 <instance part="U$18" gate="G$1" x="182.88" y="48.26" rot="R270"/>
 <instance part="U$19" gate="G$1" x="137.16" y="45.72" rot="R270"/>
-<instance part="STANDOFF4" gate="G$1" x="144.78" y="2.54" rot="R90"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0">
 <attribute name="AUTHOR" x="147.32" y="0" size="1.778" layer="96" display="off"/>
