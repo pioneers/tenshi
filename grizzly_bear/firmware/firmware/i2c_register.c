@@ -101,6 +101,10 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val) {
   AUTO_SET_REG(REG_PWM_MODE, REG_PWM_MODE_TYPE, &pwm_mode_new);
   AUTO_SET_REG(REG_TARGET_SPEED_NEW, REG_TARGET_SPEED_NEW_TYPE,
       &target_speed_new);
+ 
+  AUTO_SET_REG(REG_ENCODER_COUNT, REG_ENCODER_COUNT_TYPE,
+      get_encoder_count_addr());
+
   AUTO_SET_REG(REG_PID_KP, REG_PID_KP_TYPE, get_kp_addr());
   AUTO_SET_REG(REG_PID_KI, REG_PID_KI_TYPE, get_ki_addr());
   AUTO_SET_REG(REG_PID_KD, REG_PID_KD_TYPE, get_kd_addr());
