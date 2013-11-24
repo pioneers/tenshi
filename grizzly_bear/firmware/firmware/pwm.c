@@ -149,18 +149,17 @@ void set_locked_antiphase(void) {
 }
 
 void set_controlled_brake(void) {
-  // Fix side b to have top off and bottom on.
-  PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
-  // Clear the other output.
+  // Clear all outputs
+  PORTC &= ~(_BV(PC7) | _BV(PC6));
   PORTB &= ~(_BV(PB5) | _BV(PB6));
   
-  // Make side B output.
-  DDRC |= (_BV(PC6) | _BV(PC7));
+  // Make Low B side output.
+  DDRC = ((DDRC & ~(_BV(PC7))) | _BV(PC6));
   // Make Low A side output.
   DDRB = ((DDRB & ~(_BV(PB5))) | _BV(PB6));
   
-  // Do not invert output
-  TCCR4B &= ~(_BV(PWM4X));
-  // Connect Low A side to pwm.
-  TCCR4A = _BV(COM4B1) | _BV(PWM4B);
+  // Invert output
+  TCCR4B |= _BV(PWM4X);
+  // Connect Low side A as inverted pwm. Connect Low side B as inverted pwm.
+  TCCR4A = _BV(COM4A0) | _BV(COM4B0) | _BV(COM4B1) | _BV(PWM4A) | _BV(PWM4B);
 }
