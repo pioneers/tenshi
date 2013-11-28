@@ -232,8 +232,8 @@ function make_env ( table ) {
     pop_block : function ( ) {
       this.table = this.table.above ( );
       },
-    analyze : function ( node ) {
-      var result = node.analyze ( this );
+    infer : function ( node ) {
+      var result = node.infer ( this );
       node.run_type = result;
       return result;
       },
@@ -251,9 +251,9 @@ function infix ( text, type, out_type ) {
     out_type = type;
     }
   return {
-      analyze: function ( env ) {
-        var ltype = env.analyze ( this.left );
-        var rtype = env.analyze ( this.right );
+      infer: function ( env ) {
+        var ltype = env.infer ( this.left );
+        var rtype = env.infer ( this.right );
         env.unify ( ltype, env.get_type ( type ) );
         env.unify ( rtype, env.get_type ( type ) );
         return env.get_type ( out_type );
@@ -264,8 +264,8 @@ function infix ( text, type, out_type ) {
 // Declares a prefix operator ast element.
 function prefix ( type, text ) {
   return {
-      analyze: function ( env ) {
-        var rtype = env.analyze ( this.right );
+      infer: function ( env ) {
+        var rtype = env.infer ( this.right );
         if ( rtype.name === type ) {
           return env.get_type ( type );
           }
@@ -279,13 +279,13 @@ function prefix ( type, text ) {
 // Declares a constant ast element.
 function constant ( text ) {
   return {
-      analyze: function ( env ) {
+      infer: function ( env ) {
         return env.get_type ( text );
         },
     };
   }
 
-// Add analyze methods to scopes.
+// Add infer methods to scopes.
 function setupScopes ( scopes ) {
   var escope = scopes.get ( 'expression', scope.make ( ) );
   var sscope = scopes.get ( 'statement', scope.make ( escope ) );
@@ -293,13 +293,13 @@ function setupScopes ( scopes ) {
   escope.load_type ( string_map.make ( {
     // Numbers are of type 'number'.
     'number' : {
-      analyze: function ( env ) {
+      infer: function ( env ) {
         return env.get_type ( 'number' );
         },
       },
     // Identifiers are instances of whatever type they are in the function.
     'identifier' : {
-      analyze: function ( env ) {
+      infer: function ( env ) {
         var to_prune = env.get_text ( this.text );
         // The use of fresh here has a few odd effects. In particular,
         // variables pointing to polymorphic types are not restricted to a
@@ -321,15 +321,15 @@ function setupScopes ( scopes ) {
     'true': constant ( 'bool' ),
     'false': constant ( 'bool' ),
     'if': {
-      analyze: function ( env ) {
+      infer: function ( env ) {
         var left_type;
         var right_type;
-        env.unify ( env.get_type ( 'bool' ), env.analyze ( this.condition ) );
-        left_type = env.analyze ( this.block );
+        env.unify ( env.get_type ( 'bool' ), env.infer ( this.condition ) );
+        left_type = env.infer ( this.block );
         // If we are in an expression, we must have an alt-block and should
         // return the common type of both branches.
         if ( this.type === 'expr' ) {
-          right_type = env.analyze ( this.alt_block );
+          right_type = env.infer ( this.alt_block );
           env.unify ( left_type, right_type );
           return left_type;
           }
@@ -337,13 +337,13 @@ function setupScopes ( scopes ) {
       },
     'else': {
       // This method is only called on else statements, not in expressions, so
-      // it just needs to typecheck it's block.
-      analyze: function ( env ) {
-        env.analyze ( this.block );
+      // it just needs to typecheck its block.
+      infer: function ( env ) {
+        env.infer ( this.block );
         },
       },
     '(' : {
-      analyze: function ( env ) {
+      infer: function ( env ) {
         var tuple_types = [];
         var arg_types = [];
         var arg_type;
@@ -353,7 +353,7 @@ function setupScopes ( scopes ) {
         if ( this.type === 'call' ) {
           for ( idx in this.args ) {
             // Analyze all the arguments.
-            arg_types.push ( env.analyze ( this.args[idx] ) );
+            arg_types.push ( env.infer ( this.args[idx] ) );
             }
           // Function type operators ('fn') are operators of two types, the
           // first of which is a different type operator ('args').
@@ -377,19 +377,19 @@ function setupScopes ( scopes ) {
           }
         else if ( this.type === 'expr' ) {
           // The parentheses are just around some other expression.
-          return env.analyze ( this.children[0] );
+          return env.infer ( this.children[0] );
           }
         else if ( this.type === 'tuple' ) {
           // The parentheses are around a tuple.
           for ( idx in this.children ) {
-            tuple_types.push ( env.analyze ( this.children ) );
+            tuple_types.push ( env.infer ( this.children ) );
             }
           return env.make_type_op ( 'tuple', tuple_types );
           }
         },
       },
     'fn' : {
-      analyze: function ( env ) {
+      infer: function ( env ) {
         var idx;
         var child;
         var fn_type;
@@ -417,10 +417,11 @@ function setupScopes ( scopes ) {
           if ( child.text === 'return' ) {
             // return statements determine the return type of the function.
             // TODO(kzentner): Support expression functions with single expression bodies.
-            env.unify ( out_type, env.analyze ( child.expr ) );
+            // TODO(kzentner): Support return statements in sub-blocks.
+            env.unify ( out_type, env.infer ( child.expr ) );
             }
           else {
-            child.analyze ( env );
+            child.infer ( env );
             }
           }
         // Leave the scope.
@@ -440,13 +441,13 @@ function setupScopes ( scopes ) {
   sscope.load_text ( string_map.make ( {
     // This should be self-explanatory.
     'while': {
-      analyze: function ( env ) {
-        env.unify ( env.get_type ( 'bool' ), env.analyze ( this.condition ) );
-        env.analyze ( this.block );
+      infer: function ( env ) {
+        env.unify ( env.get_type ( 'bool' ), env.infer ( this.condition ) );
+        env.infer ( this.block );
         },
       },
     '=' : {
-      analyze: function ( env ) {
+      infer: function ( env ) {
         var old_type = env.get_text ( this.left.text ) || env.make_type_var ( );
         var definition_type;
 
@@ -454,7 +455,7 @@ function setupScopes ( scopes ) {
         // The variable should not have generic type in the body of its definition.
         // This is one of the trickiest parts of Hindley-Milner.
         env.non_generic.push ( old_type );
-        definition_type = env.analyze ( this.right );
+        definition_type = env.infer ( this.right );
         env.non_generic.pop ( );
 
         // The actual variables type should be the most general of the old type
@@ -467,24 +468,24 @@ function setupScopes ( scopes ) {
   sscope.load_type ( string_map.make ( {
     // These act the same, except that top_level doesn't create a new scope.
     'top_level' : {
-      analyze: function ( env ) {
+      infer: function ( env ) {
        var idx;
   
         for ( idx in this.children ) {
-          env.analyze ( this.children[idx] );
+          env.infer ( this.children[idx] );
           }
         },
       },
     'block' : {
       // Blocks return the value of the last statement in them.
-      analyze: function ( env ) {
+      infer: function ( env ) {
        var out;
        var idx;
 
        env.push_block ( );
   
         for ( idx in this.children ) {
-          out = env.analyze ( this.children[idx] );
+          out = env.infer ( this.children[idx] );
           }
 
         env.pop_block ( );
@@ -494,9 +495,9 @@ function setupScopes ( scopes ) {
     } ) );
   }
 
-function analyze ( tree ) {
+function infer ( tree ) {
   var env = make_env ( );
-  var ret = env.analyze ( tree );
+  var ret = env.infer ( tree );
   misc.print(env.table.toString());
   misc.print(env.unknown.toString());
   return ret;
@@ -505,7 +506,7 @@ function analyze ( tree ) {
 function make ( ) {
   return {
     setupScopes: setupScopes,
-    infer: analyze,
+    infer: infer,
     };
   }
 
