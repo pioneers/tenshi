@@ -294,7 +294,7 @@ static inline int no_pid_mode_logic(FIXED1616 target_speed) {
 }
 
 static inline void check_timeout() {
-  if (!get_timeout_period()) {
+  if (!get_timeout_period() || get_usb_mode()) {
     return;
   }
   if (get_uptime() > last_i2c_update + get_timeout_period()) {
