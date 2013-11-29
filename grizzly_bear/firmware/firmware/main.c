@@ -293,6 +293,9 @@ static inline int no_pid_mode_logic(FIXED1616 target_speed) {
 }
 
 static inline void check_timeout() {
+  if (!get_timeout_period()) {
+    return;
+  }
   if (get_uptime() > last_i2c_update + get_timeout_period()) {
     pwm_mode = pwm_mode & ~MODE_ENABLE_MASK;
   }
