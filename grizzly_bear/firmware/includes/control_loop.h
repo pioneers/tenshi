@@ -71,6 +71,7 @@ DECLARE_I2C_REGISTER(unsigned long, uptime);
 
 DECLARE_I2C_REGISTER(uint16_t, timeout_period);
 DECLARE_I2C_REGISTER(uint16_t, min_switch_delta);
+DECLARE_I2C_REGISTER(uint8_t, usb_mode);
 
 // Number of high-side driver faults
 // NOTE: one byte; does not need ATOMIC_BLOCK

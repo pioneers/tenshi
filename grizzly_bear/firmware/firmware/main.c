@@ -50,6 +50,7 @@ DECLARE_I2C_REGISTER_C(unsigned long, uptime);
 
 DECLARE_I2C_REGISTER_C(uint16_t, timeout_period);
 DECLARE_I2C_REGISTER_C(uint16_t, min_switch_delta);
+DECLARE_I2C_REGISTER_C(uint8_t, usb_mode);
 
 unsigned char error_count = 0;
 

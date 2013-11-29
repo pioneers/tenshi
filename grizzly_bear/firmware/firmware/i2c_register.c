@@ -88,6 +88,8 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
       get_timeout_period_dangerous());
   AUTO_PROVIDE_REG(REG_MIN_SWITCH_DELTA, REG_MIN_SWITCH_DELTA_TYPE,
       get_min_switch_delta_dangerous());
+  AUTO_PROVIDE_REG(REG_USB_MODE, REG_USB_MODE_TYPE,
+      get_usb_mode_dangerous());
 
   return UNUSED_REG_VAL;
 }
@@ -122,4 +124,6 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val) {
       get_timeout_period_addr());
   AUTO_SET_REG(REG_MIN_SWITCH_DELTA, REG_MIN_SWITCH_DELTA_TYPE,
       get_min_switch_delta_addr());
+  AUTO_SET_REG(REG_USB_MODE, REG_USB_MODE_TYPE,
+      get_usb_mode_addr());
 }
