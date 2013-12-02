@@ -62,6 +62,12 @@ var root = {
   is_above: function ( scope ) {
     return true;
     },
+  text_distance: function ( key ) {
+    return 1/0;
+    },
+  type_distance: function ( key ) {
+    return 1/0;
+    },
   };
 
 var make = function ( ) {
@@ -74,7 +80,7 @@ var make = function ( ) {
     if ( prev_scope === undefined ) {
       prev_scope = root;
       }
-    return {
+    var scope = {
       // Set <field> on an object looked up by text <key> to <val>
       field_text: function ( key, field, val ) {
         var obj = this.get_text ( key, {} );
@@ -150,6 +156,22 @@ var make = function ( ) {
       above: function ( ) {
         return prev_scope;
         },
+      text_distance: function ( key ) {
+        if ( text_table.has ( key ) ) {
+          return 0;
+          }
+        else {
+          return 1 + prev_scope.text_distance ( key );
+          }
+        },
+      type_distance: function ( key ) {
+        if ( type_table.has ( key ) ) {
+          return 0;
+          }
+        else {
+          return 1 + prev_scope.type_distance ( key );
+          }
+        },
       is_above: function ( possible_child ) {
         while ( possible_child !== this && possible_child !== root ) {
           possible_child = possible_child.above ( );
@@ -161,7 +183,23 @@ var make = function ( ) {
           return false;
           }
         },
+      each_text: function ( func ) {
+        text_table.each ( func );
+        },
+      each_type: function ( func ) {
+        type_table.each ( func );
+        },
+      map_text: function ( func ) {
+        text_table.map ( func );
+        },
+      map_type: function ( func ) {
+        type_table.map ( func );
+        },
       };
+    return misc.obj_or ( Object.create ( scope ), {
+      text: text_table,
+      type: type_table
+      } );
     };
   } ( );
 
