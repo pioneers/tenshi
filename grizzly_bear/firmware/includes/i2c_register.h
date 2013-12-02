@@ -87,6 +87,8 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val);
 #define REG_MIN_SWITCH_DELTA_TYPE     uint16_t
 #define REG_USB_MODE                  0x9A
 #define REG_USB_MODE_TYPE             uint8_t
+#define REG_I2C_ADDR                  0x9B
+#define REG_I2C_ADDR_TYPE             uint8_t
 
 // This value is returned when reading a register that is not defined.
 #define UNUSED_REG_VAL  0xFF

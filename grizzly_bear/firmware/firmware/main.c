@@ -51,6 +51,7 @@ DECLARE_I2C_REGISTER_C(unsigned long, uptime);
 DECLARE_I2C_REGISTER_C(uint16_t, timeout_period);
 DECLARE_I2C_REGISTER_C(uint16_t, min_switch_delta);
 DECLARE_I2C_REGISTER_C(uint8_t, usb_mode);
+DECLARE_I2C_REGISTER_C(uint8_t, i2c_addr);
 
 unsigned char error_count = 0;
 
@@ -425,7 +426,10 @@ void run_control_loop(void) {
 }
 
 void init_hardware(void) {
+  // Set up i2c address
   unsigned char i2c_addr = determine_addr();
+  set_i2c_addr(i2c_addr);
+
   init_i2c(i2c_addr);
   init_encoder();
   init_adc();

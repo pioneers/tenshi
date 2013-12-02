@@ -90,6 +90,8 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
       get_min_switch_delta_dangerous());
   AUTO_PROVIDE_REG(REG_USB_MODE, REG_USB_MODE_TYPE,
       get_usb_mode_dangerous());
+  AUTO_PROVIDE_REG(REG_I2C_ADDR, REG_I2C_ADDR_TYPE,
+      get_i2c_addr_dangerous());
 
   return UNUSED_REG_VAL;
 }
