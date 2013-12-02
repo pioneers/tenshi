@@ -22,16 +22,10 @@ else {
   }
 // End Import Machinery
 
-
-var make = function make ( name, ast ) {
-  if ( name === undefined ) {
-    name = '#fn';
-    }
+var make = function make ( code ) {
   return {
-    name: name,
-    ast: ast || null,
-    data: [],
-    relocations: [],
+    type: 'internal',
+    code: code,
     };
   };
 

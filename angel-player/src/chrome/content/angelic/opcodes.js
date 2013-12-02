@@ -117,11 +117,31 @@ var opcodes = [
     state.push ( -state.pop ( ) + state.pop ( ) );
     }),
   make_opcode ( 15, 'call', 2, 0,
-  function sub ( state ) {
-    var arg_count = state.pop ( );
-    while ( arg_count > 0 ) {
-      state.pop ( );
-      // TODO(kzentner): Actually implement functions.
+  function call ( state ) {
+    var arg_count = state.get_arg ( 1 );
+    var func = state.pop ( );
+    if ( func.type === 'external' ) {
+      var args = [];
+      for ( var i = 0; i < arg_count; i++ ) {
+        args.splice ( 0, 0, state.pop ( ) );
+        func.func.apply ( null, args );
+        }
+      }
+    else if ( func.type === 'internal' ) {
+      state.call_stack[state.call_stack_top++] = [state.func, state._pc + 1];
+      state.func = func.code;
+      state._pc = 0;
+      }
+    }),
+  make_opcode ( 16, 'ret', 1, 0,
+  function ret ( state ) {
+    if ( state.call_stack_top === 0 ) {
+      state.run = false;
+      }
+    else {
+      var pair = state.call_stack[state.call_stack_top--];
+      state.func = pair[0];
+      state._pc = pair[1];
       }
     }),
   ];
