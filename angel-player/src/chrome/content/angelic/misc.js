@@ -47,7 +47,9 @@ var print = function print () {
     }
   else {
     for ( a in arguments ) {
-      console.log ( JSON.stringify ( arguments[a], null, '  ' ) );
+      var util = require ( 'util' );
+      //console.log ( JSON.stringify ( arguments[a], null, '  ' ) );
+      console.log ( util.inspect ( arguments[a], { colors: true, depth: null } ) );
       }
     }
   };

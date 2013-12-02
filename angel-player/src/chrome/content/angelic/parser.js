@@ -224,7 +224,7 @@ var make = function ( ) {
           return null;
           }
         else {
-          this.handle_error ( 'expected: ' + expected );
+          this.handle_error ( 'expected: ' + JSON.stringify ( expected ) );
           }
         }
       else {
@@ -426,32 +426,9 @@ var make = function ( ) {
           // A lot of the code complexity is due to the fact that both the
           // name and parentheses are optional.
           nud: function ( parser ) {
-            var first = parser.advance ( { type: 'identifier' } );
-            var comma = parser.advance ( { text: ',', optional: true } );
-            var paren = false;
-            var named = ! comma;
-            var tuple;
-            var i;
+            var paren = parser.advance ( { text: '(', optional: true } );
 
-            this.args = [];
-
-            paren = parser.advance ( { text: '(', optional: true } );
-
-            if ( named ) {
-              this.name = first.text;
-              this.named = true;
-              }
-            else {
-              this.name = '#fn';
-              this.named = false;
-              this.args.push ( first );
-              }
-
-            tuple = parser.lvalue_tuple ( );
-
-            for ( i in tuple ) {
-              this.args.push ( tuple[i] );
-              }
+            this.args = parser.lvalue_tuple ( );
 
             if ( paren ) {
               parser.advance ( ')' );
@@ -459,7 +436,6 @@ var make = function ( ) {
 
             parser.advance ( ':' );
             this.body = parser.block ( );
-            return this;
             },
           },
         ',' : { lbp: 0 },
