@@ -107,11 +107,11 @@ function dragMouseUp(evt) {
     switch (evt.button) {
         case 0:
             if (currentMouseMode == MOUSE_MODE_DRAG_BLOCK) {
-                // Logic to snap blocks in sequence
+                // Logic to snap blocks in sequence and horizontally
                 var neighboringBlocks = mainProgram.getBlocksInArea(
-                    curDragElement.blockData.x,
+                    curDragElement.blockData.x - BLOCK_SNAP_RADIUS,
                     curDragElement.blockData.y - BLOCK_SNAP_RADIUS,
-                    curDragElement.blockData.w,
+                    curDragElement.blockData.w + 2 * BLOCK_SNAP_RADIUS,
                     curDragElement.blockData.h + 2 * BLOCK_SNAP_RADIUS);
 
                 // Exclude the currently-dragged block
@@ -124,25 +124,43 @@ function dragMouseUp(evt) {
                 }
 
                 // Exclude all things that we don't half-overlap with
-                // horizontally. This is the heuristic we use to decide if
-                // things should snap.
-                var overlapAmount = 0;
+                // horizontally or vertically. This is the heuristic we use to
+                // decide if things should snap.
+                var overlapAmountHoriz = 0;
+                var overlapAmountVert = 0;
+                var block = null;
                 for (i = 0; i < neighboringBlocks.length; i++) {
-                    var block = neighboringBlocks[i];
+                    block = neighboringBlocks[i];
+                    // Horizontal
                     if (curDragElement.blockData.x < block.x)
-                        overlapAmount = curDragElement.blockData.x +
+                        overlapAmountHoriz = curDragElement.blockData.x +
                             curDragElement.blockData.w - block.x;
                     else
-                        overlapAmount = block.x + block.w -
+                        overlapAmountHoriz = block.x + block.w -
                             curDragElement.blockData.x;
+                    // Vertical
+                    if (curDragElement.blockData.y < block.y)
+                        overlapAmountVert = curDragElement.blockData.y +
+                            curDragElement.blockData.h - block.y;
+                    else
+                        overlapAmountVert = block.y + block.h -
+                            curDragElement.blockData.y;
 
-                    // Find the shortest width of the two interacting blocks
+                    // Find the shortest width/height of the two interacting
+                    // blocks
                     var shortestWidth =
                         block.w < curDragElement.blockData.w ?
                         block.w :
                         curDragElement.blockData.w;
+                    var shortestHeight =
+                        block.h < curDragElement.blockData.h ?
+                        block.h :
+                        curDragElement.blockData.h;
 
-                    if (overlapAmount < 0.5 * shortestWidth) {
+                    // Finally exclude things that are not half-overlapped in
+                    // either axis
+                    if (overlapAmountHoriz < 0.5 * shortestWidth &&
+                        overlapAmountVert < 0.5 * shortestHeight) {
                         neighboringBlocks.splice(i, 1);
                         i--;
                     }
@@ -152,29 +170,71 @@ function dragMouseUp(evt) {
                 var newY = curDragElement.blockData.y;
 
                 // For now, we will snap to the first block found.
+                // It will snap horizontally/vertically depending on which axis
+                // overlaps more.
                 // TODO(rqou): How should this work?
                 if (neighboringBlocks.length > 0) {
-                    newX = neighboringBlocks[0].x;
+                    block = neighboringBlocks[0];
+                    // Horizontal
+                    if (curDragElement.blockData.x < block.x)
+                        overlapAmountHoriz = curDragElement.blockData.x +
+                            curDragElement.blockData.w - block.x;
+                    else
+                        overlapAmountHoriz = block.x + block.w -
+                            curDragElement.blockData.x;
+                    var horizOverlapPercent =
+                        overlapAmountHoriz / curDragElement.blockData.w;
+                    // Vertical
+                    if (curDragElement.blockData.y < block.y)
+                        overlapAmountVert = curDragElement.blockData.y +
+                            curDragElement.blockData.h - block.y;
+                    else
+                        overlapAmountVert = block.y + block.h -
+                            curDragElement.blockData.y;
+                    var vertOverlapPercent =
+                        overlapAmountVert / curDragElement.blockData.h;
 
-                    if (curDragElement.blockData.y < neighboringBlocks[0].y) {
-                        // The current thing is being snapped above the other
-                        newY =
-                            neighboringBlocks[0].y - curDragElement.blockData.h;
+                    if (horizOverlapPercent > vertOverlapPercent) {
+                        // Snap above/below
+                        newX = block.x;
 
-                        curDragElement.blockData.nextBlock =
-                            neighboringBlocks[0];
-                        neighboringBlocks[0].prevBlock =
-                            curDragElement.blockData;
+                        if (curDragElement.blockData.y < block.y) {
+                            // The current thing is being snapped above the
+                            // other
+                            newY = block.y - curDragElement.blockData.h;
+
+                            curDragElement.blockData.nextBlock = block;
+                            block.prevBlock = curDragElement.blockData;
+                        }
+                        else {
+                            // The current thing is being snapped below the
+                            // other
+                            newY = block.y + block.h;
+
+                            curDragElement.blockData.prevBlock = block;
+                            block.nextBlock = curDragElement.blockData;
+                        }
                     }
                     else {
-                        // The current thing is being snapped below the other
-                        newY =
-                            neighboringBlocks[0].y + neighboringBlocks[0].h;
+                        // Snap left/right
+                        newY = block.y;
 
-                        curDragElement.blockData.prevBlock =
-                            neighboringBlocks[0];
-                        neighboringBlocks[0].nextBlock =
-                            curDragElement.blockData;
+                        if (curDragElement.blockData.x < block.x) {
+                            // The current thing is being snapped left of the
+                            // other
+                            newX = block.x - curDragElement.blockData.w;
+
+                            curDragElement.blockData.rightPeer = block;
+                            block.leftPeer = curDragElement.blockData;
+                        }
+                        else {
+                            // The current thing is being snapped right of the
+                            // other
+                            newX = block.x + block.w;
+
+                            curDragElement.blockData.leftPeer = block;
+                            block.rightPeer = curDragElement.blockData;
+                        }
                     }
 
                     curDragElement.blockData.moveTo(newX, newY);
