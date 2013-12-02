@@ -22,18 +22,12 @@ else {
   }
 // End Import Machinery
 
-var scope = require ( './scope.js' );
-
-function make ( name ) {
+var make = function make ( func ) {
   return {
-    name: name || '',
-    globals: scope.make ( ),
-    exports: scope.make ( ),
-    objects: [ ],
-    imports: scope.make ( ),
-    ast: null,
+    type: 'external',
+    func: func,
     };
-  }
+  };
 
 // Export Machinery to make node.js and xulrunner act the same.
 var EXPORTED_SYMBOLS = ['make'];
