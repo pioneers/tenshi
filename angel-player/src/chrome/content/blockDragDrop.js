@@ -83,6 +83,27 @@ function dragMouseDown(evt) {
                     // TODO(rqou): Do we need to copypasta this?
                     targetElem.setAttributeNS(null, 'pointer-events', 'none');
                     currentMouseMode = MOUSE_MODE_DRAG_BLOCK;
+
+                    // Remove all of the links to the other blocks
+                    if (curDragElement.blockData.leftPeer) {
+                        curDragElement.blockData.leftPeer.rightPeer = null;
+                        curDragElement.blockData.leftPeer = null;
+                    }
+
+                    if (curDragElement.blockData.rightPeer) {
+                        curDragElement.blockData.rightPeer.leftPeer = null;
+                        curDragElement.blockData.rightPeer = null;
+                    }
+
+                    if (curDragElement.blockData.prevBlock) {
+                        curDragElement.blockData.prevBlock.nextBlock = null;
+                        curDragElement.blockData.prevBlock = null;
+                    }
+
+                    if (curDragElement.blockData.nextBlock) {
+                        curDragElement.blockData.nextBlock.prevBlock = null;
+                        curDragElement.blockData.nextBlock = null;
+                    }
                 }
 
                 break;
