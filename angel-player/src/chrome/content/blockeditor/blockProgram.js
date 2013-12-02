@@ -85,6 +85,8 @@ exports.createNewBlock = function(document, blockType, text, x, y) {
     newBlock.nextBlock = null;
     // Blocks enclosed
     newBlock.firstChild = null;
+    // Will be used for things like if/function/etc.
+    newBlock.isContainer = false;
 
     var blockSVGData;
 

@@ -27,4 +27,10 @@ exports.onLoad = function(document) {
     herp = blockProgram.createNewBlock(document,
         blocksCommon.BLOCK_TYPE_LVALUE, 'test456', 0, 5);
     myProg.addRootBlock(herp);
+
+    // testContainer
+    herp = blockProgram.createNewBlock(document,
+        blocksCommon.BLOCK_TYPE_COMMENT, 'testContainer', 0, 10);
+    herp.isContainer = true;
+    myProg.addRootBlock(herp);
 };
