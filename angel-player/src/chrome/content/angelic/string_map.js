@@ -34,7 +34,7 @@ var make = function make ( obj ) {
       storage[k + '$'] = obj[k];
       }
     }
-  return {
+  var table = {
     // Get the value, or set it to alternative.
     'get': function ( key, alternative ) {
       var val = storage[key + '$'];
@@ -92,6 +92,8 @@ var make = function make ( obj ) {
       return out;
       },
     };
+  table.storage = storage;
+  return table;
   };
 
 // Export Machinery to make node.js and xulrunner act the same.

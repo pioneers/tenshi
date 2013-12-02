@@ -248,7 +248,7 @@ function compile_return ( cgen ) {
   }
 
 function compile_fn ( compiler ) {
-  var a_fn = fn.make ( this.name );
+  var a_fn = fn.make ( );
   var cgen = compiler.push_cgen ( a_fn );
   var k;
   for ( k in this.body.children ) {

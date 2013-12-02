@@ -59,7 +59,7 @@ function compile_and_run ( text ) {
   }
 
 var to_parse = '' +
-'fn fib n:\n' +
+'fib = fn (n):\n' +
 '    n = n - 1\n' +
 '    a = 0\n' +
 '    b = 1\n' +
@@ -69,7 +69,7 @@ var to_parse = '' +
 '        b = temp\n' +
 '        n = n - 1\n' +
 '    print (n)\n' +
-'fn main():\n' +
+'main = fn:\n' +
 '    x = 50 - 1\n' +
 '    a = 0\n' +
 '    b = 1\n' +
@@ -79,7 +79,7 @@ var to_parse = '' +
 '        b = temp\n' +
 '        x = x - 1\n' +
 '    print (b)\n' +
-'fn test ():\n' +
+'test = fn:\n' +
 '    test = 0\n' +
 '    if 0 != 0: test = 1\n';
 

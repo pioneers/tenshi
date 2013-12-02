@@ -22,15 +22,11 @@ else {
   }
 // End Import Machinery
 
-var scope = require ( './scope.js' );
-
-
-var make = function make ( ast, parent_scope ) {
+var make = function make ( name ) {
   return {
-    ast: ast || null,
-    data: [],
-    relocations: [],
-    scope: scope.make ( parent_scope ),
+    'name' : name,
+    'assignments' : [],
+    'location' : 'stack',
     };
   };
 

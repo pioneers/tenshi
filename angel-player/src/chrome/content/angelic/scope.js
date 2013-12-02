@@ -74,7 +74,7 @@ var make = function ( ) {
     if ( prev_scope === undefined ) {
       prev_scope = root;
       }
-    return {
+    var scope = {
       // Set <field> on an object looked up by text <key> to <val>
       field_text: function ( key, field, val ) {
         var obj = this.get_text ( key, {} );
@@ -162,6 +162,9 @@ var make = function ( ) {
           }
         },
       };
+    scope.text = text_table;
+    scope.type = type_table;
+    return scope;
     };
   } ( );
 
