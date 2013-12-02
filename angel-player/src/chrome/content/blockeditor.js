@@ -23,6 +23,12 @@ function onLoad() {
         blocksCommon.BLOCK_TYPE_LVALUE, 'test456', 0, 5);
     myProg.addRootBlock(herp);
 
+    // testContainer
+    herp = blockProgram.createNewBlock(document,
+        blocksCommon.BLOCK_TYPE_COMMENT, 'testContainer', 0, 10);
+    herp.isContainer = true;
+    myProg.addRootBlock(herp);
+
     /*
     // <test123
     herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_OUTER_ARROW_PERSISTENT, blocksCommon.BLOCK_END_FLAT);
