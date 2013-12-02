@@ -25,7 +25,6 @@ else {
 var misc = require ( './misc.js' );
 var opcodes = require ( './opcodes.js' );
 var string_map = require ( './string_map.js' );
-var library = require ( './library.js' );
 var fn = require ( './fn.js' );
 var scope = require ( './scope.js' );
 var type = require ( './type.js' );
@@ -53,28 +52,33 @@ function make_bunch ( a, b, c, d ) {
 var make_cgen = function make_cgen ( target ) {
   return {
     code: [],
+    lookups: [],
     // Number of temporary values on the stack.
     tempc: 0,
     vars: [],
     target: target,
     finalize: function finalize ( ) {
-      this.target.data = this.code;
+      this.target.code = this.code;
+      this.target.lookups = this.lookups;
       },
     handle_error: function ( expected ) {
       throw expected;
       },
+    emit_lookup: function ( lookup ) {
+      this.lookups.push ( lookup );
+      },
     emit: function ( a, b, c, d ) {
       // These if statements replace opcode objects with their code numbers.
-      if ( a instanceof Object ) {
+      if ( a !== undefined && typeof a !== 'number' ) {
         a = a.code;
         }
-      if ( b instanceof Object ) {
+      if ( b !== undefined && typeof b !== 'number' ) {
         b = b.code;
         }
-      if ( c instanceof Object ) {
+      if ( c !== undefined && typeof c !== 'number' ) {
         c = c.code;
         }
-      if ( d instanceof Object ) {
+      if ( d !== undefined && typeof d !== 'number' ) {
         d = d.code;
         }
       this.emit_bunch ( make_bunch ( a, b, c, d ) );
@@ -97,11 +101,13 @@ var make_cgen = function make_cgen ( target ) {
       },
     var_idx: function var_idx ( name ) {
       var index = this.vars.lastIndexOf( name );
+      if ( index === -1 ) {
+        throw 'Cannot get stack index of variable ' + name + '.';
+        }
       var out = this.vars.length - index - 1 + this.tempc;
       return out;
       },
     add_var: function add_var ( name ) {
-      misc.assert ( this.tempc === 1, "There should be precisely one temporary when a variable is added." );
       this.vars.push ( name );
       },
     get_pc: function get_pc ( ) {
@@ -144,47 +150,51 @@ var make_cgen = function make_cgen ( target ) {
     };
   };
 
-function compile_assignment ( cgen ) {
-   if ( cgen.has_var ( this.left.text ) ) {
-     this.right.compile ( cgen );
-     cgen.emit ( ops.set, cgen.var_idx ( this.left.text ) );
-     cgen.add_temp ( -1 );
-     }
-   else {
-     misc.assert ( cgen.tempc === 0, "There should be no temporaries when a variable is created." );
-     this.right.compile ( cgen );
-     cgen.add_var ( this.left.text );
-     cgen.add_temp ( -1 );
-     }
+function compile_assignment ( compiler ) {
+  var cgen = compiler.cgen;
+  if ( cgen.has_var ( this.left.text ) ) {
+    compiler.compile ( this.right );
+    cgen.emit ( ops.set, cgen.var_idx ( this.left.text ) );
+    cgen.add_temp ( -1 );
+    }
+  else {
+    misc.assert ( cgen.tempc === 0, "There should be no temporaries when a variable is created." );
+    compiler.compile ( this.right );
+    cgen.add_var ( this.left.text );
+    cgen.add_temp ( -1 );
+    }
   }
 
-function compile_number ( cgen ) {
-    cgen.emit ( ops.li );
-    cgen.emit_bunch ( parseInt ( this.text, 10 ) );
-    cgen.add_temp ( 1 );
+function compile_number ( compiler ) {
+  var cgen = compiler.cgen;
+  cgen.emit ( ops.li );
+  cgen.emit_bunch ( parseInt ( this.text, 10 ) );
+  cgen.add_temp ( 1 );
   }
 
 function compile_block ( compiler ) {
   for ( var c in this.children ) {
-    this.children[c].compile ( compiler );
+    compiler.compile ( this.children[c] );
     }
   }
 
-function compile_not_equal ( cgen ) {
-  this.left.compile ( cgen );
-  this.right.compile ( cgen );
+function compile_not_equal ( compiler ) {
+  var cgen = compiler.cgen;
+  compiler.compile ( this.left );
+  compiler.compile ( this.right );
   cgen.emit ( ops.eq, ops.not );
   cgen.add_temp ( -1 );
   }
 
-function compile_while ( cgen ) {
+function compile_while ( compiler ) {
+  var cgen = compiler.cgen;
   var start = cgen.get_pc ( );
-  this.condition.compile ( cgen );
+  compiler.compile ( this.condition );
   var branch = cgen.reserve_bunch ( );
   cgen.add_temp ( -1 );
   var scope_snapshot = cgen.get_scope_snapshot ( );
   for ( var c in this.block.children ) {
-    this.block.children[c].compile ( cgen );
+    compiler.compile ( this.block.children[c] );
     }
   cgen.apply_scope_snapshot ( scope_snapshot );
   cgen.emit ( ops.j1, start - cgen.get_pc ( ) - 1 );
@@ -192,69 +202,112 @@ function compile_while ( cgen ) {
   cgen.set ( branch, make_bunch ( ops.bn1.code, cgen.get_pc ( ) - branch ) );
   }
 
-function compile_if ( cgen ) {
+function compile_if ( compiler ) {
+  var cgen = compiler.cgen;
   var start = cgen.get_pc ( );
-  this.condition.compile ( cgen );
+  compiler.compile ( this.condition );
   var branch = cgen.reserve_bunch ( );
   cgen.add_temp ( -1 );
   var scope_snapshot = cgen.get_scope_snapshot ( );
   for ( var c in this.block.children ) {
-    this.block.children[c].compile ( cgen );
+    compiler.compile ( this.block.children[c] );
     }
   cgen.apply_scope_snapshot ( scope_snapshot );
   cgen.emit ( ops.noop );
   cgen.set ( branch, make_bunch ( ops.bn1.code, cgen.get_pc ( ) - branch ) );
   }
 
-function compile_add ( cgen ) {
-  this.left.compile ( cgen );
-  this.right.compile ( cgen );
+function compile_add ( compiler ) {
+  var cgen = compiler.cgen;
+  compiler.compile ( this.left );
+  compiler.compile ( this.right );
   cgen.emit ( ops.add );
   cgen.add_temp ( -1 );
   }
 
-function compile_sub ( cgen ) {
-  this.left.compile ( cgen );
-  this.right.compile ( cgen );
+function compile_sub ( compiler ) {
+  var cgen = compiler.cgen;
+  compiler.compile ( this.left );
+  compiler.compile ( this.right );
   cgen.emit ( ops.sub );
   cgen.add_temp ( -1 );
   }
 
+function make_lookup ( target, dest, index ) {
+  return {
+    target: target,
+    dest: dest,
+    index: index,
+    };
+  } 
 
-function compile_identifier ( cgen ) {
-  var idx = cgen.var_idx ( this.text );
-  cgen.emit ( ops.dup, idx );
-  cgen.add_temp ( 1 );
+function compile_identifier ( compiler ) {
+  var cgen = compiler.cgen;
+  if ( this.variable === undefined ) {
+    misc.print ( this );
+    }
+  var location = this.variable.location;
+  if ( location === 'stack' ) {
+    var idx = cgen.var_idx ( this.text );
+    cgen.emit ( ops.dup, idx );
+    cgen.add_temp ( 1 );
+    }
+  else if ( location === 'global' || 
+            location === 'external' ) {
+    cgen.emit ( ops.li );
+    cgen.add_temp ( 1 );
+    cgen.emit_lookup ( make_lookup (
+        this,
+        cgen.target,
+        cgen.reserve_bunch ( ) ) );
+    }
+  else {
+    misc.print ( cgen.vars );
+    misc.print ( this );
+    throw 'Could not find location of variable ' + this.text + '.';
+    }
   }
 
-function compile_paren ( cgen ) {
+function compile_paren ( compiler ) {
+  var cgen = compiler.cgen;
   var k;
   if ( this.type == 'call' ) {
     for ( k in this.args ) {
-      this.args[k].compile ( cgen );
+      compiler.compile ( this.args[k] );
       }
-    // TODO(kzentner): replace this hack with actual external function calls.
-    if ( this.func.text === 'print' ) {
-      cgen.emit ( ops.print, this.args.length );
-      }
-    else {
-      cgen.emit ( ops.call, this.args.length );
-      }
+    compiler.compile ( this.func );
+    cgen.emit ( ops.call, this.args.length );
     }
   }
 
-function compile_return ( cgen ) {
-  // TODO(kzentner): Implement function returns.
+function compile_return ( compiler ) {
+  var cgen = compiler.cgen;
+  // TODO(kzentner): Implement returning values.
+  cgen.emit ( ops.ret );
   }
 
+// Function call stack interface:
+// Push all the arguments from left to right.
+// Then push the function, so that the stack looks like:
+// [ ..., arg0, arg1, ..., argk, func ]
+// Then, perform the call opcode, with a single arg, the number of function
+// arguments being used. The call opcode is responsible for removing the
+// function from the stack, adding the return address to the call stack,
+// growing the stack if necessary, and jumping into the function's code body.
+//
+// Note that the call opcode is also responsible for determining if the
+// function on the top of the stack is an external function, in which case it
+// passes the arguments from the stack to the external function.
+// If this is in javascript, that involves using apply.
 function compile_fn ( compiler ) {
-  var a_fn = fn.make ( this.name );
-  var cgen = compiler.push_cgen ( a_fn );
-  var k;
-  for ( k in this.body.children ) {
-    this.body.children[k].compile ( cgen );
+  var cgen = compiler.push_cgen ( this );
+  for ( var a in this.args ) {
+    cgen.add_var ( this.args[a].text );
     }
-  compiler.lib.add_obj ( this.name, compiler.lib.name_type_idx ( 'fn' ), a_fn );
+  for ( var k in this.body.children ) {
+    compiler.compile ( this.body.children[k] );
+    }
+  cgen.emit ( ops.ret );
   compiler.pop_cgen ( );
   }
 
@@ -271,7 +324,6 @@ var root = {
       } );
     var statement_type_table = string_map.make ( {
       'block': compile_block,
-      'top_level': compile_block,
       } );
     statement_type_table.each ( function ( key, val ) {
       scopes.get ( 'statement' ).field_type ( key, 'compile', val );
@@ -296,17 +348,34 @@ var root = {
       } );
     },
 
-  compile: function compile ( ast ) {
-    var fn_t = type.make ( 'fn' );
-    var num_t = type.make ( 'num' );
+  //compile: function compile ( ast ) {
+    //var fn_t = type.make ( 'fn' );
+    //var num_t = type.make ( 'num' );
 
-    // Set up the initial types.
-    // This should probably be refactored.
+    //// Set up the initial types.
+    //// This should probably be refactored.
 
-    this.lib.add_type ( 'fn', fn_t );
-    this.lib.add_type ( 'num', num_t );
-    ast.compile ( this );
-    return this.lib;
+    //this.lib.add_type ( 'fn', fn_t );
+    //this.lib.add_type ( 'num', num_t );
+    //ast.compile ( this );
+    //return this.lib;
+    //},
+
+  compile: function ( node ) {
+    if ( node.compile === undefined ) {
+      misc.print ( node );
+      throw 'Could not compile node.';
+      }
+    else {
+      return node.compile ( this );
+      }
+    },
+
+  compile_objs: function compile_objs ( objs ) {
+    for ( var o in objs ) {
+      var obj = objs[o];
+      obj.compile ( this );
+      }
     },
 
   push_cgen: function push_cgen ( target ) {
@@ -319,12 +388,10 @@ var root = {
     this.cgen.finalize ( );
     this.cgen = this.cgen_stack.pop ( );
     },
-
   };
 
 var make = function make ( ) {
   return misc.obj_or ( Object.create ( root ), {
-    lib: library.make ( ),
     cgen_stack: [],
     cgen: null
     });
