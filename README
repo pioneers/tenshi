@@ -7,6 +7,16 @@ STUFF
 - Hints for compiling and running                                              -
 --------------------------------------------------------------------------------
 
+Things needed for compiling:
+* coreutils, build-essentials, etc.
+* tar, bz2, etc.
+* python
+* nodejs
+* wget
+* pep8
+* jshint
+* csslint
+
 Running Angel Player: It is recommended to have a separate copy of xulrunner
 located somewhere such as your home directory. The command you would need to use
 would be something like:
