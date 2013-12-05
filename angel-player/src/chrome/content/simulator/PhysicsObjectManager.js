@@ -52,7 +52,7 @@ PhysicsObjectManager.prototype.render = function()
         arr[key].mesh.position.x = origin.x();
         arr[key].mesh.position.y = origin.y();
         arr[key].mesh.position.z = origin.z();
-         
+
         // Update rotation
         rotation = transform.getRotation();
         arr[key].mesh.quaternion.x = rotation.x();
@@ -78,11 +78,20 @@ PhysicsObjectManager.prototype.getState = function()
 
         obj = arr[key];
 
-        linVel = new Ammo.btVector3(obj.getLinearVelocity().x(), obj.getLinearVelocity().y(), obj.getLinearVelocity().z());
-        angVel = new Ammo.btVector3(obj.getAngularVelocity().x(), obj.getAngularVelocity().y(), obj.getAngularVelocity().z());
+        linVel = new Ammo.btVector3(obj.getLinearVelocity().x(),
+                                    obj.getLinearVelocity().y(),
+                                    obj.getLinearVelocity().z());
+        angVel = new Ammo.btVector3(obj.getAngularVelocity().x(),
+                                    obj.getAngularVelocity().y(),
+                                    obj.getAngularVelocity().z());
         temp_tr = obj.getCenterOfMassTransform();
-        tr.setOrigin(new Ammo.btVector3(temp_tr.getOrigin().x(), temp_tr.getOrigin().y(), temp_tr.getOrigin().z()));
-        tr.setRotation(new Ammo.btQuaternion(temp_tr.getRotation().x(), temp_tr.getRotation().y(), temp_tr.getRotation().z(), temp_tr.getRotation().w()));
+        tr.setOrigin(new Ammo.btVector3(temp_tr.getOrigin().x(),
+                                        temp_tr.getOrigin().y(),
+                                        temp_tr.getOrigin().z()));
+        tr.setRotation(new Ammo.btQuaternion(temp_tr.getRotation().x(),
+                                             temp_tr.getRotation().y(),
+                                             temp_tr.getRotation().z(),
+                                             temp_tr.getRotation().w()));
 
         tempState.push([obj.physicsId, tr, linVel, angVel]);
     }

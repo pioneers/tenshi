@@ -88,18 +88,17 @@ Robot.prototype.finishChassi = function(iniX, iniY, iniZ)
     var startTransform = new Ammo.btTransform();
     startTransform.setIdentity();
     startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
-     
+
     var localInertia = new Ammo.btVector3(0, 0, 0);
-     
+
     this.chassi.calculateLocalInertia(this.mass, localInertia );
-     
+
     var motionState = new Ammo.btDefaultMotionState( startTransform );
     var cpInfo = new Ammo.btRigidBodyConstructionInfo(this.mass, motionState, this.chassi, localInertia );
     this.physicsChassi = new Ammo.btRigidBody( cpInfo );
     scene.world.addRigidBody( this.physicsChassi );
 
     physicsObjects.push(this.physicsChassi);
-
     this.physicsChassi.mesh = this.mesh; 
     scene.add(this.mesh);
 };
