@@ -1,9 +1,9 @@
 /*
 Manages saved states
-    shouldSave returns if the current frame should be saved: 
+    shouldSave returns if the current frame should be saved:
         ie, it hasn't been stored, and is not being replayed
     storeState saves the state, takes state given by physicsObjectManager
-    tenCheck is internal and should not be called externally; 
+    tenCheck is internal and should not be called externally;
         rearranges saved states, so always by order of 10
     runFrame runs the frame number,
         looks inside storage for earliest frame that is under frame number,

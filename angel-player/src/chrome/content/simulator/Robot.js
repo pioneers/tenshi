@@ -99,7 +99,7 @@ Robot.prototype.finishChassi = function(iniX, iniY, iniZ)
     scene.world.addRigidBody( this.physicsChassi );
 
     physicsObjects.push(this.physicsChassi);
-    this.physicsChassi.mesh = this.mesh; 
+    this.physicsChassi.mesh = this.mesh;
     scene.add(this.mesh);
 };
 
