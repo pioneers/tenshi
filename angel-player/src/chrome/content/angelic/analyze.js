@@ -30,20 +30,31 @@ var varb = require ( './varb.js' );
 
 function make_analyzer ( module ) {
   return {
-    unknowns: [ string_map.make ( ) ],
+    unknowns: [ scope.make ( ) ],
     scope_depth: 0,
     current_scope: module.globals,
-    add_object: function ( obj ) {
-      module.objects.push ( obj );
+    objects: [module.objects],
+    get_objects: function ( ) {
+      return this.objects [ this.objects.length - 1 ];
       },
     get_unknowns: function ( ) {
       return this.unknowns [ this.unknowns.length - 1 ];
       },
-    get_variable: function ( text, callback ) {
-      var unknown = this.get_unknowns ( ).get ( text );
+    add_object: function ( obj ) {
+      //misc.print ( 'adding object to', this.get_objects ( ) );
+      this.get_objects ( ).push ( obj );
+      },
+    push_object_list: function ( obj_list ) {
+      this.objects.push ( obj_list );
+      },
+    pop_object_list: function ( ) {
+      this.objects.pop ( );
+      },
+    get_text: function ( text, callback ) {
+      var unknown = this.get_unknowns ( ).get_text ( text );
       if ( unknown === undefined ) {
         unknown = [];
-        this.get_unknowns ( ).set ( text, unknown );
+        this.get_unknowns ( ).set_text ( text, unknown );
           
         }
       unknown.push ( { scope: this.current_scope,
@@ -59,12 +70,12 @@ function make_analyzer ( module ) {
       variable.assignments.push ( val );
       return variable;
       },
-    push_scope: function ( scope ) {
-      misc.assert ( scope.above ( ) === this.current_scope,
+    push_scope: function ( new_scope ) {
+      misc.assert ( new_scope.above ( ) === this.current_scope,
                     "New scope should be child of current scope." ); 
-      this.current_scope = scope;
+      this.current_scope = new_scope;
       this.scope_depth += 1;
-      this.unknowns.push ( string_map.make ( ) );
+      this.unknowns.push ( scope.make ( ) );
       },
     finalize_scope: function ( ) {
       var unknowns = this.get_unknowns ( );
@@ -76,17 +87,16 @@ function make_analyzer ( module ) {
         parent_unknowns = this.unknowns[this.unknowns.length - 2];
         }
       var self = this;
-      unknowns.each ( function ( key, vals ) {
+      unknowns.each_text ( function ( key, vals ) {
         if ( self.current_scope.text_distance ( key ) === 0 ) {
           // Variable was declared in this scope.
-          for ( var i in vals ) {
-            var val = vals[i];
+          vals.forEach ( function ( val ) {
             val.callback ( self.current_scope.get_text ( key ) );
-            }
+            } );
           }
         else {
           // Variable was not declared in this scope, bubble it up.
-          parent_unknowns.set ( key, vals );
+          parent_unknowns.set_text ( key, vals );
           }
         } );
       },
@@ -104,17 +114,35 @@ function make_analyzer ( module ) {
         throw 'Could not analyze ' + JSON.stringify ( node, null, '  ' );
         }
       },
+    finalize_module: function ( ) {
+      // TODO(kzentner): Replace this hack.
+      module.exports = module.globals;
+      },
     };
   }
 
 var sscope_text_methods = string_map.make ( {
   'fn' : {
     analyze : function ( analyzer ) {
-      this.scope = scope.make ( analyzer.current_scope );
+      //misc.print ( 'analyzing', this );
+      this.objects = [];
       analyzer.add_object ( this );
+      analyzer.push_object_list ( this.objects );
+
+      this.scope = scope.make ( analyzer.current_scope );
       analyzer.push_scope ( this.scope );
+
+      this.args.forEach ( function ( arg ) {
+        // TODO(kzentner): Add default argument value support.
+        analyzer.set_variable ( arg.text, { type: 'argument' } );
+        analyzer.analyze ( arg );
+        } );
+
       this.body.analyze ( analyzer );
       analyzer.pop_scope ( );
+      analyzer.pop_object_list ( );
+
+      this.patch_class = 'fn';
       },
     },
   'if' : {
@@ -148,19 +176,17 @@ var sscope_text_methods = string_map.make ( {
 var sscope_type_methods = string_map.make ( {
   'top_level' : {
     analyze : function ( analyzer ) {
-      for ( var idx in this.children ) {
-        var child = this.children[idx];
+      this.children.forEach ( function ( child ) {
         child.analyze ( analyzer );
-        }
+        } );
       analyzer.finalize_scope ( );
       }
     },
   'block' : {
     analyze : function ( analyzer ) {
-      for ( var idx in this.children ) {
-        var child = this.children[idx];
-        analyzer.analyze ( child );
-        }
+      this.children.forEach ( function ( child ) {
+        child.analyze ( analyzer );
+        } );
       }
     },
   } );
@@ -182,11 +208,10 @@ function infix ( text ) {
 var escope_text_methods = string_map.make ( {
   '(' : {
     analyze : function ( analyzer ) {
-      var i;
       analyzer.analyze ( this.func );
-      for ( i in this.args ) {
-        analyzer.analyze ( this.args[i] );
-        }
+      this.args.forEach ( function ( arg ) {
+        analyzer.analyze ( arg );
+        } );
       },
     },
   '-' : infix ( '-' ),
@@ -209,7 +234,7 @@ var escope_type_methods = string_map.make ( {
         }
       else {
         var self = this;
-        analyzer.get_variable ( this.text, function ( val ) {
+        analyzer.get_text ( this.text, function ( val ) {
           self.variable = val;
           } );
         }
@@ -230,11 +255,23 @@ function setupScopes ( scopes ) {
 
 function analyze ( ast ) {
   var root_module = module.make ( '' );
+  var core_module = make_core_module ( );
   root_module.ast = ast;
   var analyzer = make_analyzer ( root_module );
-  ast.analyze ( analyzer );
+  analyzer.analyze ( ast );
+  analyzer.finalize_module ( );
+  // TODO(kzentner): Add support for modules besides the core module.
+  root_module.imports.each_text ( function ( key, imprts ) {
+    var res = core_module.exports.get_text ( key );
+    if ( res !== undefined ) {
+      imprts.forEach ( function ( imprt ) {
+        imprt.callback ( res );
+        } );
+      }
+    } );
   return {
     '': root_module,
+    'core': core_module,
     };
   }
 
@@ -245,6 +282,66 @@ function make ( ) {
     };
   }
 
+function make_core_module ( ) {
+  var core = module.make ( 'core' );
+  core.exports.load_text ( string_map.make ( {
+    'print' : {
+      type: 'external',
+      obj: misc.print,
+      },
+    } ) );
+  return core;
+  }
+
+function get_canonical_value ( node ) {
+  if ( node.assignments && node.assignments.length == 1 ) {
+    node.canonical_value = node.assignments[0];
+    return node.assignments[0];
+    }
+  }
+
+function generate_canonical_map ( module ) {
+  var map = scope.make ( );
+  function gen_text ( scop, path, obj ) {
+    scop.set_text ( path, obj );
+    obj.canonical_name = path;
+    if ( obj.scope !== undefined ) {
+      var named = [];
+      misc.assert ( obj.objects !== undefined );
+      obj.scope.each_text ( function ( key, child ) {
+        child = get_canonical_value ( child );
+        if ( obj.objects.indexOf ( child ) !== -1 ) {
+          gen_text ( scop, path + '.' + key, child );
+          named.push ( child );
+          }
+        } );
+      for ( var i in obj.objects ) {
+        var child = obj.objects[i];
+        if ( named.indexOf ( child ) === -1 ) {
+          // This object is not named.
+          gen_text ( scop, path + '#' + i, child );
+          }
+        }
+      }
+    }
+  module.globals.each_text ( function ( key, glob ) {
+    gen_text ( map, key, get_canonical_value ( glob ) );
+    } );
+  return map;
+  }
+
+function generate_enumerations ( canonical_map ) {
+  var enumerations = string_map.make ( );
+  canonical_map.each_text ( function ( key, object ) {
+    var object_id = enumerations.get ( object.patch_class );
+    if ( object_id === undefined ) {
+      object_id = 0;
+      }
+    object.object_id = object_id;
+    enumerations.set ( object.patch_class, object_id + 1 );
+    } );
+  }
+
 function test ( text ) {
   var parser = require ( './parser.js' );
   var scopes = string_map.make ( );
@@ -253,9 +350,15 @@ function test ( text ) {
   setupScopes ( scopes );
   parse_tree = a_parser.parse ( text );
 
+  //misc.print ( parse_tree );
   var a_analyzer = make ( );
   var modules = a_analyzer.analyze ( parse_tree );
-  misc.print ( modules );
+  var module = modules[''];
+  var map = generate_canonical_map ( module );
+  generate_enumerations ( map );
+  misc.print ( map );
+  //misc.print ( module.imports );
+  //misc.print ( modules );
   }
 
 var to_parse = '' +
@@ -270,6 +373,11 @@ var to_parse = '' +
 '        n = n - 1\n' +
 '    print (n)\n' +
 'main = fn:\n' +
+'    t = fn:\n' +
+'        q = 1\n' +
+'        wack = fn: 1\n' +
+'    print(fn z: z = 12)\n' +
+'    w = fn: q = 1\n' +
 '    x = 50 - 1\n' +
 '    a = 0\n' +
 '    b = 1\n' +
@@ -279,9 +387,9 @@ var to_parse = '' +
 '        b = temp\n' +
 '        x = x - 1\n' +
 '    print (b)\n' +
-'test = fn:\n' +
+'test_fn = fn:\n' +
 '    test = 0\n' +
-'    if 0 != 0: test = 1 + test\n' +
+'    if 0 != 0: test = 1\n' +
 '    test = 0\n' +
 '';
 

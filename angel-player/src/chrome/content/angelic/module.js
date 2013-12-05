@@ -23,7 +23,6 @@ else {
 // End Import Machinery
 
 var scope = require ( './scope.js' );
-var string_map = require ( './string_map.js' );
 
 function make ( name ) {
   return {
@@ -31,7 +30,7 @@ function make ( name ) {
     globals: scope.make ( ),
     exports: scope.make ( ),
     objects: [ ],
-    imports: string_map.make ( ),
+    imports: scope.make ( ),
     ast: null,
     };
   }

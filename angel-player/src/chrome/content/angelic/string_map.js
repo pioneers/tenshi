@@ -22,6 +22,8 @@ else {
   }
 // End Import Machinery
 
+var misc = require ( './misc.js' );
+
 //
 // This module provides a simple string -> obj map.
 //
@@ -51,7 +53,7 @@ var make = function make ( obj ) {
       return key + '$' in storage;
       },
     'delete': function ( key ) {
-      return delete storage[key + '$'];
+      return delete storage [ key + '$' ];
       },
     // Update values in place using a function.
     'map': function ( func ) {
@@ -69,7 +71,7 @@ var make = function make ( obj ) {
 
       for ( key in storage ) {
         val = storage[key];
-        key = key.substr( 0, key.length - 1 );
+        key = key.substr ( 0, key.length - 1 );
         func ( key, val );
         }
       return this;
@@ -92,8 +94,9 @@ var make = function make ( obj ) {
       return out;
       },
     };
-  table.storage = storage;
-  return table;
+  return misc.obj_or ( Object.create ( table ), {
+    storage: storage,
+    } );
   };
 
 // Export Machinery to make node.js and xulrunner act the same.

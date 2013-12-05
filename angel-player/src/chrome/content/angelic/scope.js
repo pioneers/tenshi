@@ -183,10 +183,23 @@ var make = function ( ) {
           return false;
           }
         },
+      each_text: function ( func ) {
+        text_table.each ( func );
+        },
+      each_type: function ( func ) {
+        type_table.each ( func );
+        },
+      map_text: function ( func ) {
+        text_table.map ( func );
+        },
+      map_type: function ( func ) {
+        type_table.map ( func );
+        },
       };
-    scope.text = text_table;
-    scope.type = type_table;
-    return scope;
+    return misc.obj_or ( Object.create ( scope ), {
+      text: text_table,
+      type: type_table
+      } );
     };
   } ( );
 
