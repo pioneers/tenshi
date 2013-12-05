@@ -62,6 +62,12 @@ var root = {
   is_above: function ( scope ) {
     return true;
     },
+  text_distance: function ( key ) {
+    return 1/0;
+    },
+  type_distance: function ( key ) {
+    return 1/0;
+    },
   };
 
 var make = function ( ) {
@@ -149,6 +155,22 @@ var make = function ( ) {
         },
       above: function ( ) {
         return prev_scope;
+        },
+      text_distance: function ( key ) {
+        if ( text_table.has ( key ) ) {
+          return 0;
+          }
+        else {
+          return 1 + prev_scope.text_distance ( key );
+          }
+        },
+      type_distance: function ( key ) {
+        if ( type_table.has ( key ) ) {
+          return 0;
+          }
+        else {
+          return 1 + prev_scope.type_distance ( key );
+          }
         },
       is_above: function ( possible_child ) {
         while ( possible_child !== this && possible_child !== root ) {
