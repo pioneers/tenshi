@@ -1,6 +1,7 @@
 /*
 All infrareds are a single box : it shoots a ray out at its <0, 0, 1> direction
     run shoots a ray and sets its value to the color of the object it hits
+    (will later compare color to black/white, to mimic infrared)
 */
 function Infrared(width, length, height, mass, iniX, iniY, iniZ)
 {
@@ -24,6 +25,7 @@ Infrared.prototype.run = function()
 
     var nPos = rotateV3ByQuat(upQ, rot);
 
+    //ray cast uses endpoint + start point, so 1000 is magnitude of length of ray
     nPos = new Ammo.btVector3(pos.x() + 1000*nPos.x(), pos.y() + 1000*nPos.y(), pos.z() + 1000*nPos.z());
 
     this.raycast = new Ammo.ClosestRayResultCallback(pos, nPos);
