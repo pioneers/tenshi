@@ -19,70 +19,7 @@
         <script type="text/javascript" src="Robot.js"></script>
         <script type="text/javascript" src="SaveManager.js"></script>
     </head>
-    <style>
-        #toolbar
-        {
-            border:double;
-            position:fixed;
-            top:5px;
-            left:5px;
-            background-color:#999999;
-            width:75;
-            height:500;
-        }
-        #mainScreen
-        {
-            position:fixed;
-            top:5px;
-            left:80px;
-            width:1000;
-            height:500;
-        }
-        #addingSelector
-        {
-            border:double;
-            position:fixed;
-            top:5px;
-            left:1080;
-            width:300;
-            height:250;
-            background-color:#d0e4fe;
-            font-weight:bold;
-        }
-        #currentSelection
-        {
-            border:double;
-            position:fixed;
-            top:255px;
-            left:1080;
-            width:300;
-            height:250;
-            background-color:#d0e4fe;
-            font-weight:bold;
-        }
-        #options
-        {
-            border:double;
-            position:fixed;
-            top:505px;
-            left:5px;
-            background-color:#d0e4fe;
-            width:1375;
-            height:25;
-        }
-        #classSelector
-        {
-            float:right;
-        }
-        #objSelector
-        {
-            float:right;
-        }
-        #add
-        {
-            float:right;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="maker.css">
     <body>
         <div id="toolbar">
             Tools
@@ -113,11 +50,11 @@
             </div>
         </div>
         <div id="options">
-            <button type="button" onclick="grid.toggle()">Grid</button> || 
-            <button type="button" onclick="1 + 1">Clear</button> || 
-            <button type="button" onclick="1 + 1">Undo</button> || 
-            <button type="button" onclick="1 + 1">Save</button> || 
-            <button type="button" onclick="1 + 1">Load</button> || 
+            <button type="button" onclick="grid.toggle()">Grid</button> ||
+            <button type="button" onclick="1 + 1">Clear</button> ||
+            <button type="button" onclick="1 + 1">Undo</button> ||
+            <button type="button" onclick="1 + 1">Save</button> ||
+            <button type="button" onclick="1 + 1">Load</button> ||
             <button type="button" onclick="1 + 1">Cam</button> || 
             <button type="button" onclick="1 + 1">Help</button>
         </div>
@@ -132,12 +69,14 @@
             var grid;
             var curSelection = null;
 
-            selections = {};
+            var selections = {};
+                selections[""] = [""];
                 selections["Motors"] = ["Custom", "Motor 01"];
                 selections["Sensors"] = ["Infrared", "Rangefinder", "Touch Sensor"];
                 selections["Chassi"] = ["Box", "Cylinder", "Sphere"];
 
             args = {};
+                args[""] = [""];
                 args["Box"] = ["width", "height", "depth", "mass", "color", "iniX", "iniY", "iniZ"];
                 args["Cylinder"] = ["radius", "height", "mass", "color", "iniX", "iniY", "iniZ"];
 
@@ -152,9 +91,8 @@
                 console.log(args["Rangefinder"]);
 
             FRAME = 0; //keeps track of frame
-            /*/============================
-            Misc. Functions (to be sorted later)
-            ============================/*/
+            
+            //TODO sort these functions
 
             //Prints all the methods of obj : useful because useless documentation
             function printMethods(obj)
@@ -212,7 +150,7 @@
                     target.appendChild(tempTxt);
                     target.appendChild(inp);
                     target.appendChild(document.createElement("br"));
-                } 
+                }
             }
 
             function updateObjSelection()
@@ -258,6 +196,7 @@
               return new factoryFunction();
             }
 
+            //TODO organize this somewhere else
             function Grid()
             {
                 this.axes = createBoxMesh(.01, .01, .01, 0, 0, 0, 0, 0);
@@ -337,11 +276,6 @@
                     console.log(evt.wheelDelta||evt.detail);
                     cameraController.moveZ(-evt.wheelDelta||-evt.detail);
                 })
-            }
-
-            var primeSelectonControls = function()
-            {
-
             }
             /*/============================
             Main loop
