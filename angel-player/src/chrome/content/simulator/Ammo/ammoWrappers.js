@@ -2,7 +2,7 @@
 Ammo.js wrappers
 ============================/*/
 
-// initalizes physics, sets gravity to 0, -30, 0
+// initalizes physics, sets gravity to 0, -10, 0 (-m/s^2)
 function initPhysics()
 {
     var collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
@@ -20,19 +20,19 @@ function createBoxPhysics(width, height, depth, mass, iniX, iniY, iniZ)
     var startTransform = new Ammo.btTransform();
     startTransform.setIdentity();
     startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
-     
+
     var localInertia = new Ammo.btVector3(0, 0, 0);
-     
+
     var boxShape = new Ammo.btBoxShape(new Ammo.btVector3(width/2, height/2, depth/2));
     boxShape.calculateLocalInertia(nMass, localInertia);
-     
+
     var motionState = new Ammo.btDefaultMotionState(startTransform);
     var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, boxShape, localInertia);
     var boxAmmo = new Ammo.btRigidBody(rbInfo);
     scene.world.addRigidBody(boxAmmo);
 
     boxAmmo.getCollisionShape().parent = boxAmmo;
-     
+
     return boxAmmo;
 }
 
@@ -43,17 +43,18 @@ function createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ)
     var startTransform = new Ammo.btTransform();
     startTransform.setIdentity();
     startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
-     
+
     var localInertia = new Ammo.btVector3(0, 0, 0);
-     
+    //localInertia is initialized to zero because physics fills it in later
+
     var cylShape = new Ammo.btCylinderShape(new Ammo.btVector3(radius, height/2, radius));
     cylShape.calculateLocalInertia(nMass, localInertia);
-     
+
     var motionState = new Ammo.btDefaultMotionState(startTransform);
     var rbInfo = new Ammo.btRigidBodyConstructionInfo(nMass, motionState, cylShape, localInertia);
     var cylAmmo = new Ammo.btRigidBody(rbInfo);
     scene.world.addRigidBody(cylAmmo);
-     
+
     return cylAmmo;
 }
 

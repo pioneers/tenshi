@@ -6,6 +6,7 @@ Three.js wrappers
 function initScene()
 {
     scene = new THREE.Scene();
+    //45 is FOV, 1000 is draw distance
     camera = new THREE.PerspectiveCamera(45, WIDTH/HEIGHT, 1, 1000);
         camera.position.set(0, 40, 200);
         camera.lookAt(scene.position);
@@ -18,12 +19,13 @@ function initScene()
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(WIDTH, HEIGHT);
-    renderer.setClearColor(0xD4AF37, 1);
+    renderer.setClearColor(0xD4AF37, 1); //color is gold
 
     document.getElementById("mainScreen").appendChild(renderer.domElement);
 }
 
 // creates a cylinder mesh
+//TODO substitute dontAddScene for something better
 function createCylMesh(radius, height, mColor, dontAddScene)
 {
     height = height||1;
