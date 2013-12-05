@@ -81,7 +81,6 @@ function dragMouseDown(evt) {
                     currentMouseMode = MOUSE_MODE_DRAG_BLOCK;
 
                     // Remove all of the links to the other blocks
-                    // (except children)
                     if (curDragElement.blockData.leftPeer) {
                         curDragElement.blockData.leftPeer.rightPeer = null;
                         curDragElement.blockData.leftPeer = null;
@@ -100,20 +99,6 @@ function dragMouseDown(evt) {
                     if (curDragElement.blockData.nextBlock) {
                         curDragElement.blockData.nextBlock.prevBlock = null;
                         curDragElement.blockData.nextBlock = null;
-                    }
-
-                    // Currently, we will break the link to the parent only if
-                    // we are the first element.
-                    // TODO(rqou): This is probably not the expected behavior.
-                    // This allows for gaps in the subblocks of containers.
-                    if (curDragElement.blockData.parent) {
-                        if (curDragElement.blockData.parent.firstChild ==
-                            curDragElement.blockData)
-                        {
-                            curDragElement.blockData.parent.firstChild =
-                                curDragElement.blockData.nextBlock;
-                        }
-                        curDragElement.blockData.parent = null;
                     }
                 }
 
