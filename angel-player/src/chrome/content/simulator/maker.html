@@ -90,11 +90,11 @@
 
                 console.log(args["Rangefinder"]);
 
-            FRAME = 0; //keeps track of frame
+            FRAME = 0; // keeps track of frame
 
-            //TODO (ericnguyen) sort these functions
+            // TODO(ericnguyen): sort these functions
 
-            //Prints all the methods of obj : useful because useless documentation
+            // Prints all the methods of obj : useful because useless documentation
             function printMethods(obj)
             {
                 var prop;
@@ -196,7 +196,7 @@
               return new factoryFunction();
             }
 
-            //TODO organize this somewhere else
+            // TODO(ericnguyen): organize this somewhere else
             function Grid()
             {
                 this.axes = createBoxMesh(.01, .01, .01, 0, 0, 0, 0, 0);
@@ -284,9 +284,9 @@
             var render = function()
             {
                 scene.world.stepSimulation( 1 / 60, 5 ); // tells ammo.js to apply physics
-                physicsObjects.render(); //update meshes of moving objects
-                renderer.render(scene, camera); //tells three.js to render scene
-                requestAnimationFrame(render); //repeat ad infinium
+                physicsObjects.render(); // update meshes of moving objects
+                renderer.render(scene, camera); // tells three.js to render scene
+                requestAnimationFrame(render); // repeat ad infinium
             }
 
             /*/============================
