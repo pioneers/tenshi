@@ -15,7 +15,7 @@ function Motor(boxX, boxY, boxZ, boxMass, boxColor, wheelRad, wheelHeight, wheel
                                                  new Ammo.btVector3(0, -wheelHeight/2, 0),
                                                  new Ammo.btVector3(0, 0, 1),
                                                  new Ammo.btVector3(0, 1, 0));
-    scene.world.addConstraint(this.constraint); //TODO (ericnguyen) not use globals
+    scene.world.addConstraint(this.constraint); // TODO(ericnguyen): not use globals
 
     return this;
 }

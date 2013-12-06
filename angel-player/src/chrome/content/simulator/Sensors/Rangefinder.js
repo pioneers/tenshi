@@ -31,7 +31,7 @@ Rangefinder.prototype.run = function()
                         (a.z() - b.z())*(a.z() - b.z()));
     };
 
-    //ray cast uses endpoint + start point, so 1000 is magnitude of length of ray
+    // ray cast uses endpoint + start point, so 1000 is magnitude of length of ray
     nPos = new Ammo.btVector3(pos.x() + 1000*nPos.x(), pos.y() + 1000*nPos.y(), pos.z() + 1000*nPos.z());
 
     this.raycast = new Ammo.ClosestRayResultCallback(pos, nPos);
