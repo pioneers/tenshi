@@ -9,5 +9,7 @@
 
   <browser type="chrome" src="chrome://angel-player/content/main.html"
       flex="1"/>
+  <browser type="chrome" src="chrome://angel-player/content/simulator/main.html"
+      flex="1"/>
 
 </window>
