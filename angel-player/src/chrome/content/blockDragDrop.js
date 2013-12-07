@@ -76,6 +76,39 @@ function dumpNode(node) {
     dump("parent: " + (node.parent ? node.parent.text : "<null>") + "\n");
 }
 
+function generateCode(node, left, noend) {
+  if (left === undefined) {
+    left = '';
+  }
+  if (!node) {
+    return '';
+  }
+  var out = '';
+  if (!node.leftPeer) {
+    out += left;
+  }
+  //else {
+    //out += generateCode(node.leftPeer) + ' ';
+  //}
+  out += node.text;
+  var newline = true;
+  if (node.rightPeer) {
+    out += ' ';
+    out += generateCode(node.rightPeer, left, noend || node.firstChild);
+    newline = false;
+  }
+  if (node.firstChild) {
+    out += ':\n';
+    out += generateCode(node.firstChild, left + '    ');
+    newline = false;
+  }
+  if (newline && !noend) {
+    out += '\n';
+  }
+  out += generateCode(node.nextBlock, left);
+  return out;
+}
+
 function dragMouseDown(evt) {
     if (!currentMouseMode) {
         // Don't handle a new action if we're already doing one.
@@ -99,6 +132,7 @@ function dragMouseDown(evt) {
                 if (evt.shiftKey) {
                     dumpNode(targetElem.blockData);
                     dump("\n");
+                    dump(generateCode(targetElem.blockData));
                     return;
                 }
                 // HACK
