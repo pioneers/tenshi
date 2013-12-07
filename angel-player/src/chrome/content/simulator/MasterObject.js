@@ -4,6 +4,7 @@ function MasterObject()
     this.sensors = {};
     this.version = 0;
     this.isPaused = 0;
+    this.frame = 0;
 }
 
 MasterObject.prototype.saveMotors = function()
@@ -19,12 +20,12 @@ MasterObject.prototype.saveMotors = function()
     return motors;
 };
 
-MasterObject.prototype.loadMotors = function(state)
+MasterObject.prototype.loadMotors = function(state, vrsn)
 {
     for(var motor in state)
     {
         this.motors[motor] = state[motor];
     }
 
-    this.version = state.version;
+    this.version = vrsn;
 };

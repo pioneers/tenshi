@@ -2,31 +2,33 @@ DOWN = 0;
 HOLD = 1;
 UP = 2;
 
-function KeyManager()
+function KeyManager(blarh)
 {
-    this.state = {};
-    this.funcs = [{}, {}, {}];
-    document.onkeydown = this.updateDown;
-    document.onkeyup = this.updateUp;
+    var self = this;
+    self.state = {};
+    self.funcs = [{}, {}, {}];
+
+    // embedded because need reference to KeyManger, not document
+    // TODO(ericnguyen): find some way to do this better
+    self.updateDown = function(e)
+    {
+        var key = e.which || e.keyCode; // some browsers use different
+        console.log(key);
+
+        self.state[key] = 1;
+
+        self.actOnFuncs(DOWN, key);
+    };
+
+    self.updateUp = function(e)
+    {
+        var key = e.which || e.keyCode; // some browsers use different
+
+        self.state[key] = 0;
+
+        self.actOnFuncs(UP, key);
+    };
 }
-
-KeyManager.prototype.updateDown = function(e)
-{
-    var key = e.which || e.keyCode; //some browsers use different
-
-    this.state[key] = 1;
-
-    this.actOnFuncs(DOWN, key);
-};
-
-KeyManager.prototype.updateUp = function(e)
-{
-    var key = e.which || e.keyCode; //some browsers use different
-
-    this.state[key] = 0;
-
-    this.actOnFuncs(UP, key);
-};
 
 KeyManager.prototype.updateHold = function()
 {
@@ -41,7 +43,7 @@ KeyManager.prototype.updateHold = function()
 
 KeyManager.prototype.bindFunc = function(type, key, func)
 {
-    if(this.funcs[type][key])
+    if(this.funcs[type][key] !== undefined)
     {
         this.funcs[type][key].push(func);
     }
@@ -53,11 +55,11 @@ KeyManager.prototype.bindFunc = function(type, key, func)
 
 KeyManager.prototype.actOnFuncs = function(type, key)
 {
-    if(this.func[type][key])
+    if(this.funcs[type][key] !== undefined)
     {
-        for(var i = 0; i < this.func[type][key].length; i++)
+        for(var i = 0; i < this.funcs[type][key].length; i++)
         {
-            this.func[type][key][i]();
+            this.funcs[type][key][i]();
         }
     }
 };
