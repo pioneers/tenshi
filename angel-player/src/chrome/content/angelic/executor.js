@@ -58,7 +58,7 @@ function make ( ) {
       this.run_code ( main.data );
       },
     run_code: function ( code ) {
-      //misc.print ( 'Running code', code );
+      misc.print ( 'Executing code', code );
       //this.debug = true;
       this.func = code;
       while ( this.run ) {
