@@ -10,6 +10,18 @@ var blockProgram = require("tenshi/blockeditor/blockProgram");
 
 var myProg;
 
+function addNewTestBlock(text, container) {
+    var newblock = blockProgram.createNewBlock(document,
+        blocksCommon.BLOCK_TYPE_COMMENT, text, 0, 0);
+    newblock.isContainer = container;
+    myProg.addRootBlock(newblock);
+}
+
+function onKeyPress() {
+    window.openDialog("chrome://angel-player/content/hackTextDialog.xul",
+        "textdlg", "modal", addNewTestBlock);
+}
+
 exports.onLoad = function(document) {
     svgUtil.init(document);
     blockDnD.init(document);
