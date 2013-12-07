@@ -55,12 +55,13 @@ var root_lib = {
     var code = obj.code;
     for ( var l in lookups ) {
       var lookup = lookups[l];
+      //misc.print ( lookup.target.variable.canonical_value.code );
       var target = lookup.target.variable;
       if ( target.location === 'external' ) {
         var header = exfn.make ( target.canonical_value.obj );
         }
       else {
-        var header = obj.header;
+        var header = lookup.target.variable.canonical_value.header;
         }
       code[lookup.index] = header;
       }
