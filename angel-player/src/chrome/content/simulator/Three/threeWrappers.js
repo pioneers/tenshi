@@ -2,31 +2,8 @@
 Three.js wrappers
 ============================/*/
 
-// initalizes the renderer, camera, etc
-function initScene()
-{
-    scene = new THREE.Scene();
-    //45 is FOV, 1000 is draw distance
-    camera = new THREE.PerspectiveCamera(45, WIDTH/HEIGHT, 1, 1000);
-        camera.position.set(0, 40, 200);
-        camera.lookAt(scene.position);
-
-    centralPosition = scene.position;
-
-    cameraController = new PovCamera(camera, 30, 30, 30);
-        cameraController.updatePosition();
-        camera.lookAt(centralPosition);
-
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(WIDTH, HEIGHT);
-    renderer.setClearColor(0xD4AF37, 1); //color is gold
-
-    document.getElementById("mainScreen").appendChild(renderer.domElement);
-}
-
 // creates a cylinder mesh
-//TODO substitute dontAddScene for something better
-function createCylMesh(radius, height, mColor, dontAddScene)
+function createCylMesh(radius, height, mColor, scene)
 {
     height = height||1;
     radius = radius||1;
@@ -39,13 +16,14 @@ function createCylMesh(radius, height, mColor, dontAddScene)
     mesh.receiveShadow = true;
     mesh.castShadow = true;
 
-    if(!dontAddScene) scene.add(mesh);
+    if(scene) 
+        scene.add(mesh);
     return mesh;
 
 }
 
 // creates a box mesh
-function createBoxMesh(width, height, depth, mColor, dontAddScene)
+function createBoxMesh(width, height, depth, mColor, scene)
 {
     width = width||1;
     height = height||1;
@@ -59,7 +37,8 @@ function createBoxMesh(width, height, depth, mColor, dontAddScene)
     mesh.receiveShadow = true;
     mesh.castShadow = true;
 
-    if(!dontAddScene) scene.add(mesh);
+    if(scene)
+        scene.add(mesh);
     return mesh;
 }
 
@@ -69,13 +48,13 @@ function createBoxMesh(width, height, depth, mColor, dontAddScene)
     iniX...iniZ is initial position of the mesh
 */
 
-function makeMappedMesh(mesh, len, iniX, iniY, iniZ)
+function makeMappedMesh(mesh, len, iniX, iniY, iniZ, scene)
 {
     var group = new THREE.Object3D();
 
-    axisX = createBoxMesh(len, 0.5, 0.5, 0xff0000, 1);
-    axisY = createBoxMesh(0.5, len, 0.5, 0x00ff00, 1);
-    axisZ = createBoxMesh(0.5, 0.5, len, 0x0000ff, 1);
+    axisX = createBoxMesh(len, 0.5, 0.5, 0xff0000, scene);
+    axisY = createBoxMesh(0.5, len, 0.5, 0x00ff00, scene);
+    axisZ = createBoxMesh(0.5, 0.5, len, 0x0000ff, scene);
 
     axisX.position.x = len/2;
     axisY.position.y = len/2;
@@ -86,7 +65,8 @@ function makeMappedMesh(mesh, len, iniX, iniY, iniZ)
     group.add(axisY);
     group.add(axisZ);
 
-    scene.add(group);
+    if(scene)
+        scene.add(group);
 
     group.original = mesh;
     group.material = mesh.material;

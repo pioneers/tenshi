@@ -2,10 +2,10 @@
 All rangefinders are a single box : it shoots a ray out at its <0, 0, 1> direction
     run shoots a ray and sets its value to the distance
 */
-function Rangefinder(width, length, height, mass, iniX, iniY, iniZ)
+function Rangefinder(simulator, width, length, height, mass, iniX, iniY, iniZ)
 {
-    this.rangefinder = createBox(width, length, height, mass, 0x000000, iniX, iniY, iniZ);
-    this.physicsObject = this.rangefinder;
+    this.simulator = simulator;
+    this.physicsObject = simulator.createBox(width, length, height, mass, 0x000000, iniX, iniY, iniZ);
 }
 
 Rangefinder.prototype.getVal = function()
@@ -16,7 +16,7 @@ Rangefinder.prototype.getVal = function()
 Rangefinder.prototype.run = function()
 {
     var tr = new Ammo.btTransform();
-    this.rangefinder.getMotionState().getWorldTransform(tr);
+    this.physicsObject.getMotionState().getWorldTransform(tr);
 
     var pos = tr.getOrigin();
     var rot = tr.getRotation();
@@ -24,19 +24,12 @@ Rangefinder.prototype.run = function()
 
     var nPos = rotateV3ByQuat(upQ, rot);
 
-    var distance = function(a, b)
-    {
-        return Math.sqrt((a.x() - b.x())*(a.x() - b.x()) +
-                        (a.y() - b.y())*(a.y() - b.y()) +
-                        (a.z() - b.z())*(a.z() - b.z()));
-    };
-
-    // ray cast uses endpoint + start point, so 1000 is magnitude of length of ray
+    // raytracer raytraces start-point to end-point, so 1000 creates a distance raycast of magnitude 1000
     nPos = new Ammo.btVector3(pos.x() + 1000*nPos.x(), pos.y() + 1000*nPos.y(), pos.z() + 1000*nPos.z());
 
     this.raycast = new Ammo.ClosestRayResultCallback(pos, nPos);
 
-    scene.world.rayTest(pos, nPos, this.raycast);
+    this.simulator.physicsWorld.rayTest(pos, nPos, this.raycast);
     if(this.raycast.hasHit)
     {
         var end = this.raycast.get_m_hitPointWorld();

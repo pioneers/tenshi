@@ -4,10 +4,13 @@ All motors consist of a box and a cylinder shape
     getWheel gets the wheel collidable shape
     run reads the value stored, and runs the motor
 */
-function Motor(boxX, boxY, boxZ, boxMass, boxColor, wheelRad, wheelHeight, wheelMass, wheelColor, iniX, iniY, iniZ)
+function Motor(simulator, boxX, boxY, boxZ, boxMass, boxColor, wheelRad, wheelHeight, wheelMass, wheelColor, iniX, iniY, iniZ)
 {
-    this.motor = createBox(boxX, boxY, boxZ, boxMass, boxColor, iniX, iniY + boxY, iniZ - boxZ);
-    this.wheel = createCylinder(wheelRad, wheelHeight, wheelMass, wheelColor, iniX, iniY - wheelHeight, iniZ + wheelRad);
+    this.motor = simulator.createBox(boxX, boxY, boxZ, boxMass, boxColor, iniX, iniY + boxY, iniZ - boxZ);
+    this.wheel = simulator.createCylinder(wheelRad, wheelHeight, wheelMass, wheelColor, iniX, iniY - wheelHeight, iniZ + wheelRad);
+
+    // friction in sideways direction should be high, relative to rolling
+    this.wheel.setAnisotropicFriction(new Ammo.btVector3(0.1, 1, 0.1));
     this.value = 0;
 
     this.constraint = new Ammo.btHingeConstraint(this.motor, this.wheel,
@@ -15,7 +18,7 @@ function Motor(boxX, boxY, boxZ, boxMass, boxColor, wheelRad, wheelHeight, wheel
                                                  new Ammo.btVector3(0, -wheelHeight/2, 0),
                                                  new Ammo.btVector3(0, 0, 1),
                                                  new Ammo.btVector3(0, 1, 0));
-    scene.world.addConstraint(this.constraint); // TODO(ericnguyen): not use globals
+    simulator.physicsWorld.addConstraint(this.constraint);
 
     return this;
 }
@@ -53,5 +56,7 @@ Motor.prototype.run = function()
     var newQ = rotateV3ByQuat(upQ, rot);
         newQ = new Ammo.btVector3(value*newQ.x(), value*newQ.y(), value*newQ.z());
 
-    this.wheel.setAngularVelocity(newQ);
+    // torque only acts on activated objects
+    this.wheel.setActivationState(1);
+    this.wheel.applyTorqueImpulse(newQ);
 };
