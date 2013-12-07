@@ -5,6 +5,18 @@ Components.utils.import("chrome://angel-player/content/blockProgram.js");
 
 var myProg;
 
+function addNewTestBlock(text, container) {
+    var newblock = blockProgram.createNewBlock(document,
+        blocksCommon.BLOCK_TYPE_COMMENT, text, 0, 0);
+    newblock.isContainer = container;
+    myProg.addRootBlock(newblock);
+}
+
+function onKeyPress() {
+    window.openDialog("chrome://angel-player/content/hackTextDialog.xul",
+        "textdlg", "modal", addNewTestBlock);
+}
+
 function onLoad() {
     svgUtil.init(document);
     blockDnD.init(document);
