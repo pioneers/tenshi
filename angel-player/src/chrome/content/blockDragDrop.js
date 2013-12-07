@@ -33,6 +33,19 @@ var oldDragY = 0;
 // TODO(rqou): This is super jank because it breaks abstraction barriers
 var oldBlockIdx = -1;
 
+// This is (currently) used to implement heirarchical blocks.
+// TODO(rqou): The behavior of heirarchical blocks isn't clear. Work on this
+// later.
+function recursivelyReparentNodes(startNode, newParent) {
+    startNode.parent = newParent;
+    if (startNode.rightPeer) {
+        recursivelyReparentNodes(startNode.rightPeer, newParent);
+    }
+    if (startNode.nextBlock) {
+        recursivelyReparentNodes(startNode.nextBlock, newParent);
+    }
+}
+
 function dragMouseDown(evt) {
     if (!currentMouseMode) {
         // Don't handle a new action if we're already doing one.
@@ -85,6 +98,17 @@ function dragMouseDown(evt) {
                     currentMouseMode = MOUSE_MODE_DRAG_BLOCK;
 
                     // Remove all of the links to the other blocks
+
+                    // If we are being dragged away, everything "attached to"
+                    // this block (things on the right and below) become
+                    // detached from any parent we may be attached to.
+                    // TODO(rqou): This is almost certainly not the expected
+                    // behavior. Among other things, the blocks that get
+                    // detached here don't physically move, and putting the
+                    // block back probably won't reattach things properly.
+                    recursivelyReparentNodes(curDragElement.blockData, null);
+
+                    // Normal left/right/prev/next links
                     if (curDragElement.blockData.leftPeer) {
                         curDragElement.blockData.leftPeer.rightPeer = null;
                         curDragElement.blockData.leftPeer = null;
@@ -103,6 +127,22 @@ function dragMouseDown(evt) {
                     if (curDragElement.blockData.nextBlock) {
                         curDragElement.blockData.nextBlock.prevBlock = null;
                         curDragElement.blockData.nextBlock = null;
+                    }
+
+                    // If this block has children, abandon them.
+                    if (curDragElement.blockData.firstChild) {
+                        recursivelyReparentNodes(
+                            curDragElement.blockData.firstChild, null);
+                        curDragElement.blockData.firstChild = null;
+                    }
+
+                    // If we have a parent, and we are the first node, remove
+                    // ourselves. Otherwise, we have already been "lost" when
+                    // we disconnect the prev/next pointers.
+                    if (curDragElement.blockData.parent &&
+                            (curDragElement.blockData.parent.firstChild == 
+                            curDragElement.blockData)) {
+                        curDragElement.blockData.parent.firstChild = null;
                     }
                 }
 
