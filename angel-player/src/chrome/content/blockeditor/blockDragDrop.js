@@ -42,6 +42,21 @@ function recursivelyReparentNodes(startNode, newParent) {
     }
 }
 
+// Computes the height including the height of children
+function computeTotalHeight(node) {
+    var totalHeight = node.h;
+    var x;
+
+    // Child blocks
+    x = node.firstChild;
+    while (x) {
+        totalHeight += computeTotalHeight(x);
+        x = x.nextBlock;
+    }
+
+    return totalHeight;
+}
+
 function dumpNode(node) {
     if (!node) {
         dump("<null>\n");
@@ -303,6 +318,9 @@ function dragMouseUp(evt) {
                                 newX += 1;
                             }
                             else {
+                                if (block.isContainer && evt.altKey) {
+                                    newY = block.y + computeTotalHeight(block);
+                                }
                                 curDragElement.blockData.prevBlock = block;
                                 block.nextBlock = curDragElement.blockData;
                                 curDragElement.blockData.parent = block.parent;
