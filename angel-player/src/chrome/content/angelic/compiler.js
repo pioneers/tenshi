@@ -25,7 +25,6 @@ else {
 var misc = require ( './misc.js' );
 var opcodes = require ( './opcodes.js' );
 var string_map = require ( './string_map.js' );
-var library = require ( './library.js' );
 var fn = require ( './fn.js' );
 var scope = require ( './scope.js' );
 var type = require ( './type.js' );
@@ -276,14 +275,15 @@ function compile_paren ( compiler ) {
     for ( k in this.args ) {
       compiler.compile ( this.args[k] );
       }
-    cgen.emit ( ops.li, this.args.length );
     compiler.compile ( this.func );
     cgen.emit ( ops.call, this.args.length );
     }
   }
 
-function compile_return ( cgen ) {
-  // TODO(kzentner): Implement function returns.
+function compile_return ( compiler ) {
+  var cgen = compiler.cgen;
+  // TODO(kzentner): Implement returning values.
+  cgen.emit ( ops.ret );
   }
 
 // Function call stack interface:
@@ -307,6 +307,7 @@ function compile_fn ( compiler ) {
   for ( var k in this.body.children ) {
     compiler.compile ( this.body.children[k] );
     }
+  cgen.emit ( ops.ret );
   compiler.pop_cgen ( );
   }
 
@@ -391,7 +392,6 @@ var root = {
 
 var make = function make ( ) {
   return misc.obj_or ( Object.create ( root ), {
-    lib: library.make ( ),
     cgen_stack: [],
     cgen: null
     });

@@ -28,6 +28,8 @@ var module = require ( './module.js' );
 var misc = require ( './misc.js' );
 var varb = require ( './varb.js' );
 var compiler = require ( './compiler.js' );
+var library = require ( './library.js' );
+var executor = require ( './executor.js' );
 
 function make_analyzer ( module ) {
   return {
@@ -409,6 +411,8 @@ function test ( text ) {
   var scopes = string_map.make ( );
   var a_parser = parser.make ( );
   var a_compiler = compiler.make ( );
+  var a_library = library.make ( );
+  var a_executor = executor.make ( );
   a_parser.setupScopes ( scopes );
   a_compiler.setupScopes ( scopes );
 
@@ -427,12 +431,15 @@ function test ( text ) {
   //misc.print ( a_compiler );
   var lib = a_compiler.compile_objs ( all_objects );
   //misc.print ( module.objects );
+  a_library.build_all_objects ( all_objects );
 
   //a_compiler.compile ( parse_tree );
   //misc.print ( map );
   //misc.print ( module.imports );
   //misc.print ( a_compiler );
-  misc.print ( all_objects );
+  //misc.print ( all_objects );
+  //misc.print ( map );
+  a_executor.run_code ( map.get_text ( 'main' ).code );
   }
 
 var to_parse = '' +

@@ -22,10 +22,10 @@ else {
   }
 // End Import Machinery
 
-var make = function make ( code ) {
+var make = function make ( func ) {
   return {
-    type: 'internal',
-    code: code,
+    type: 'external',
+    func: func,
     };
   };
 
