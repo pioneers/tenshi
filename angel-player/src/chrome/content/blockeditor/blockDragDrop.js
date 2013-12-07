@@ -1,3 +1,7 @@
+var angelic_main = {}
+Components.utils.import("chrome://angel-player/content/angelic/main.js",
+    angelic_main);
+
 // This radius is in em.
 var BLOCK_SNAP_RADIUS = 0.5;
 
@@ -95,6 +99,9 @@ function dragMouseDown(evt) {
                 if (evt.shiftKey) {
                     dumpNode(targetElem.blockData);
                     dump("\n");
+                    var generatedCode = generateCode(targetElem.blockData);
+                    dump(generatedCode);
+                    angelic_main.compile_and_run(generatedCode);
                     return;
                 }
                 // HACK
