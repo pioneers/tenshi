@@ -10,7 +10,7 @@ function Motor(simulator, boxX, boxY, boxZ, boxMass, boxColor, wheelRad, wheelHe
     this.wheel = simulator.createCylinder(wheelRad, wheelHeight, wheelMass, wheelColor, iniX, iniY - wheelHeight, iniZ + wheelRad);
 
     // friction in sideways direction should be high, relative to rolling
-    this.wheel.setAnisotropicFriction(new Ammo.btVector3(.1, 1, .1));
+    this.wheel.setAnisotropicFriction(new Ammo.btVector3(0.1, 1, 0.1));
     this.value = 0;
 
     this.constraint = new Ammo.btHingeConstraint(this.motor, this.wheel,

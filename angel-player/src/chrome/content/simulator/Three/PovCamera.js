@@ -13,7 +13,8 @@ function PovCamera(centralPosition, camera, iniX, iniY, iniZ)
     this.camera.position.y = iniY;
     this.camera.position.z = iniZ;
     this.radius = 100;
-    this.fixedRadius = 100;
+    this.fixedRadius = 100; 
+    // implementation requires changing radius and fixed one
     this.centralPosition = centralPosition;
 
     var y = this.centralPosition.y - iniY;
@@ -21,12 +22,13 @@ function PovCamera(centralPosition, camera, iniX, iniY, iniZ)
 
     this.theta = Math.acos((this.centralPosition.x - iniX)/tempRadius);
     this.phi = Math.asin((this.centralPosition.y - iniY)/this.radius);
+    // angle measure how much camera is tilted
 }
 
 PovCamera.prototype.updatePosition = function()
 {
     this.centralPosition.y = this.radius*Math.sin(this.phi) + this.camera.position.y;
-
+    // moves the position to look at around a sphere surrounding the camera
     var y = this.centralPosition.y - this.camera.position.y;
 
     var tempRadius = Math.sqrt(this.radius*this.radius - y*y);
@@ -53,6 +55,9 @@ PovCamera.prototype.moveY = function(speed)
 
 PovCamera.prototype.moveZ = function(speed)
 {
+    // moves look-at position to position along line between it and camera,
+    // sets camera to that position
+    // sets look-at position back to 100 away from camera, in original direction
     var iniX = this.centralPosition.x;
     var iniY = this.centralPosition.y;
     var iniZ = this.centralPosition.z;

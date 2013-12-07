@@ -9,13 +9,6 @@ creates a simulator, with canvas size width and height, in domElement
 
 function Simulator(width, height, domElement)
 {
-    this.scene;
-    this.camera;
-    this.renderer;
-    this.cameraController;
-    this.centralPosition;
-    this.physicsWorld;
-
     this.domElement = domElement;
     this.saveMan = new SaveManager();
     this.master = new MasterObject(); // for interaction with VM
@@ -62,9 +55,9 @@ Simulator.prototype.initPhysics = function()
     var dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration);
     var overlappingPairCache = new Ammo.btDbvtBroadphase();
     var solver = new Ammo.btSequentialImpulseConstraintSolver();
-    this.physicsWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, 
-                                                         overlappingPairCache, 
-                                                         solver, 
+    this.physicsWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher,
+                                                         overlappingPairCache,
+                                                         solver,
                                                          collisionConfiguration);
     this.physicsWorld.setGravity(new Ammo.btVector3(0, -50, 0));
 };
@@ -78,17 +71,17 @@ Simulator.prototype.initMouseCameraControls = function()
         mouseY = evt.pageY;
         self.domElement.onmousemove = function(evt)
         {
-            self.cameraController.moveX((evt.pageX - mouseX)*.001);
-            self.cameraController.moveY((evt.pageY - mouseY)*.001);
+            self.cameraController.moveX((evt.pageX - mouseX)*0.001);
+            self.cameraController.moveY((evt.pageY - mouseY)*0.001);
             mouseX = evt.pageX;
             mouseY = evt.pageY;
-        }
-    }
+        };
+    };
 
     self.domElement.onmouseup = function(evt)
     {
            self.domElement.onmousemove = null;
-    }
+    };
 
     self.domElement.addEventListener("DOMMouseScroll", function(evt)
     {
@@ -105,7 +98,7 @@ Simulator.prototype.loadTestMap = function()
     this.createBox(600, 800, 10, 0, 0x0f0f0f, 0, 400 - 40, -300);
     this.createBox(1200, 10, 1200, 0, 0xffffff, 0, 800 - 40, 0);
     this.createBox(1200, 10, 1200, 0, 0x0000ff, 0, -40, 0).setFriction(1);
-            
+
     this.createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
     this.createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
     this.createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);

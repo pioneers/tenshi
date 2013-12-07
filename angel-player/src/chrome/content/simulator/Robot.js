@@ -96,15 +96,15 @@ Robot.prototype.finishChassi = function(iniX, iniY, iniZ)
     var startTransform = new Ammo.btTransform();
     startTransform.setIdentity();
     startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
-     
+
     var localInertia = new Ammo.btVector3(0, 0, 0);
-     
+
     this.chassi.calculateLocalInertia(this.mass, localInertia );
-     
+
     var motionState = new Ammo.btDefaultMotionState( startTransform );
     var cpInfo = new Ammo.btRigidBodyConstructionInfo(this.mass, motionState, this.chassi, localInertia );
-        cpInfo.set_m_linearDamping(.5); // TODO(ericnguyen): adjust magic numbers to resemble reality
-        cpInfo.set_m_angularDamping(.5);
+        cpInfo.set_m_linearDamping(0.5); // TODO(ericnguyen): adjust magic numbers to resemble reality
+        cpInfo.set_m_angularDamping(0.5);
     this.physicsChassi = new Ammo.btRigidBody( cpInfo );
     this.simulator.physicsWorld.addRigidBody( this.physicsChassi );
 

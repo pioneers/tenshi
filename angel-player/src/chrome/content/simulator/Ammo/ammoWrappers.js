@@ -11,12 +11,12 @@ function createBoxPhysics(width, height, depth, mass, iniX, iniY, iniZ, physicsW
     var startTransform = new Ammo.btTransform();
     startTransform.setIdentity();
     startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
-     
-    var localInertia = new Ammo.btVector3(0, 0, 0);
-     
+
+    var localInertia = new Ammo.btVector3(0, 0, 0); // physics fills this later
+
     var boxShape = new Ammo.btBoxShape(new Ammo.btVector3(width/2, height/2, depth/2));
     boxShape.calculateLocalInertia(nMass, localInertia);
-     
+
     var motionState = new Ammo.btDefaultMotionState(startTransform);
     var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, boxShape, localInertia);
         rbInfo.set_m_linearDamping(.5); // friction seems to be off, no damping = infinite sliding
@@ -27,7 +27,7 @@ function createBoxPhysics(width, height, depth, mass, iniX, iniY, iniZ, physicsW
         physicsWorld.addRigidBody(boxAmmo);
 
     boxAmmo.getCollisionShape().parent = boxAmmo;
-     
+
     return boxAmmo;
 }
 
@@ -38,12 +38,12 @@ function createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ, physicsWo
     var startTransform = new Ammo.btTransform();
     startTransform.setIdentity();
     startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
-     
+
     var localInertia = new Ammo.btVector3(0, 0, 0);
-     
+
     var cylShape = new Ammo.btCylinderShape(new Ammo.btVector3(radius, height/2, radius));
     cylShape.calculateLocalInertia(nMass, localInertia);
-     
+
     var motionState = new Ammo.btDefaultMotionState(startTransform);
     var rbInfo = new Ammo.btRigidBodyConstructionInfo(nMass, motionState, cylShape, localInertia);
         rbInfo.set_m_angularDamping(.5);
@@ -52,6 +52,6 @@ function createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ, physicsWo
 
     if(physicsWorld)
         physicsWorld.addRigidBody(cylAmmo);
-     
+
     return cylAmmo;
 }

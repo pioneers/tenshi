@@ -15,6 +15,7 @@ function SphericalCamera(camera, radius, theta, phi)
 
 SphericalCamera.prototype.updatePosition = function()
 {
+    // moves camera in a sphere around central position, calculates angles to do so
     this.camera.position.y = this.radius*Math.sin(this.phi) + centralPosition.y;
 
     var y = this.camera.position.y - centralPosition.y;

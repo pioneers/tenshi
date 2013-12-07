@@ -2,7 +2,7 @@ DOWN = 0;
 HOLD = 1;
 UP = 2;
 
-function KeyManager(blarh)
+function KeyManager()
 {
     var self = this;
     self.state = {};
