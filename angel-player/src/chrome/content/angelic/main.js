@@ -79,9 +79,10 @@ var to_parse = '' +
 '        b = temp\n' +
 '        x = x - 1\n' +
 '    print (b)\n' +
-'test = fn:\n' +
+'test_fn = fn:\n' +
 '    test = 0\n' +
-'    if 0 != 0: test = 1\n';
+'    if 0 != 0: test = 1\n' +
+'';
 
 compile_and_run ( to_parse );
 
