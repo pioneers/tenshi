@@ -13,7 +13,7 @@ function PovCamera(centralPosition, camera, iniX, iniY, iniZ)
     this.camera.position.y = iniY;
     this.camera.position.z = iniZ;
     this.radius = 100;
-    this.fixedRadius = 100; 
+    this.fixedRadius = 100;
     // implementation requires changing radius and fixed one
     this.centralPosition = centralPosition;
 
