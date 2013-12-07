@@ -1,3 +1,7 @@
+var angelic_main = {}
+Components.utils.import("chrome://angel-player/content/angelic/main.js",
+    angelic_main);
+
 var EXPORTED_SYMBOLS = ['blockDnD'];
 
 var blockDnD = {};
@@ -132,7 +136,9 @@ function dragMouseDown(evt) {
                 if (evt.shiftKey) {
                     dumpNode(targetElem.blockData);
                     dump("\n");
-                    dump(generateCode(targetElem.blockData));
+                    var generatedCode = generateCode(targetElem.blockData);
+                    dump(generatedCode);
+                    angelic_main.compile_and_run(generatedCode);
                     return;
                 }
                 // HACK
