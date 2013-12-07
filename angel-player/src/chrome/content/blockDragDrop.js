@@ -46,6 +46,10 @@ function recursivelyReparentNodes(startNode, newParent) {
     }
 }
 
+function dumpNode(node) {
+    
+}
+
 function dragMouseDown(evt) {
     if (!currentMouseMode) {
         // Don't handle a new action if we're already doing one.
@@ -64,6 +68,12 @@ function dragMouseDown(evt) {
                     targetElem = targetElem.parentNode;
                 }
                 // TODO(rqou): Can we ever end up with other random node?
+
+                // HACK
+                if (evt.shiftKey) {
+                    return;
+                }
+                // HACK
 
                 if (targetElem != mainSvg) {
                     // TODO(rqou): Sigh, figure out this px/em bullshit later.
