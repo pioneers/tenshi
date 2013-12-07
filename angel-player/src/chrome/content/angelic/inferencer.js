@@ -52,64 +52,25 @@ function make_type_op ( name, types ) {
     };
   }
 
+var number_type = make_type_op ( 'number' );
+var bool_type = make_type_op ( 'bool' );
+
 // Creates a typing environment. Basically, on of these should be used per
 // module.
-function make_env ( table ) {
+function make_env ( ) {
   var env = {
-    // Represents known variables and types.
-    table : scope.make ( ),
     // Holds which variables are not-generic.
     // This prevents the algorithm from becoming Turing complete.
     non_generic : [],
-    // Maps from variables we have encountered to pairs of which scope they
-    // appeared in and their type variable.
-    unknown : string_map.make ( ),
-    // Adds a variable.
-    load_text : function ( table ) {
-      this.table.load_text ( table );
+    functions : [],
+    push_function : function ( func ) {
+      this.functions.push ( func );
       },
-    // Adds a type.
-    load_type : function ( table ) {
-      this.table.load_type ( table );
+    pop_function : function ( ) {
+      this.functions.pop ( );
       },
-    // Gets a type.
-    get_type : function ( type ) {
-      return this.table.get_type ( type );
-      },
-    // Gets a variable which is guaranteed to exist.
-    get_text : function  ( text ) {
-      var retrieved = this.table.get_text ( text );
-      if ( retrieved === undefined ) {
-        return this.get_unknown ( text );
-        }
-      else {
-        return retrieved;
-        }
-      },
-    // Gets a variable which may not have been declared yet.
-    get_unknown : function  ( text ) {
-      var type = this.make_type_var ( );
-      this.unknown.set ( text, [this.table, type] );
-      return type;
-      },
-    // Sets a variables type. Used to determine the scope of previously unknown
-    // variables.
-    set_text : function ( text, val ) {
-      var pair;
-      if ( this.unknown.has ( text ) ) {
-        pair = this.unknown.get ( text );
-        if ( this.table.is_above ( pair[0] ) ) {
-          this.table.set_text ( text, pair[1] );
-          this.unknown.delete ( text );
-          return pair[1];
-          }
-        }
-      this.table.set_text ( text, val );
-      return val;
-      },
-    // Set a type name to a type.
-    set_type : function ( type, val ) {
-      return this.table.set_type ( type, val );
+    get_function : function ( ) {
+      return this.functions[this.functions.length - 1];
       },
     // Create a type variable.
     make_type_var : function ( ) {
@@ -136,6 +97,12 @@ function make_env ( table ) {
           }
         }
       return false;
+      },
+    add_non_generic : function ( type ) {
+      this.non_generic.push ( type );
+      },
+    remove_non_generic : function ( type ) {
+      this.non_generic.splice ( this.non_generic.lastIndexOf ( type ), 1 );
       },
     // Checks whether a variable is generic in this context.
     // Prevents Turing completeness.
@@ -188,6 +155,7 @@ function make_env ( table ) {
     // Attempts to make two types the same.
     // This is where type errors are actually checked.
     unify : function ( A, B ) {
+      misc.print ( 'unifying ', A, B );
       var a = this.prune ( A );
       var b = this.prune ( B );
       var idx;
@@ -224,24 +192,26 @@ function make_env ( table ) {
     make_tuple : function ( children ) {
       return make_tuple_type ( children );
       },
-    // Used to implement scoping.
-    push_block : function ( ) {
-      this.table = scope.make ( this.table );
-      },
-    // Used to implement scoping.
-    pop_block : function ( ) {
-      this.table = this.table.above ( );
-      },
     infer : function ( node ) {
-      var result = node.infer ( this );
-      node.run_type = result;
-      return result;
+      if ( node.infer !== undefined ) {
+        var result = node.infer ( this );
+        node.instance = result;
+        return result;
+        }
+      else if ( node.recurse !== undefined ) {
+        var self = this;
+        node.recurse ( function ( child ) {
+          self.infer ( child );
+          } );
+        }
+      },
+    get_instance : function ( obj ) {
+      if ( obj.instance === undefined ) {
+        obj.instance = this.make_type_var ( );
+        }
+      return obj.instance;
       },
     };
-  // This is where built in types and objects are currently initialized.
-  // TODO(kzentner): Refactor this.
-  env.set_type ( 'number', make_type_op ( 'number' ) );
-  env.set_type ( 'bool', make_type_op ( 'bool' ) );
   return env;
   }
 
@@ -252,11 +222,13 @@ function infix ( text, type, out_type ) {
     }
   return {
       infer: function ( env ) {
+        //misc.print ( 'left:', this.left );
         var ltype = env.infer ( this.left );
         var rtype = env.infer ( this.right );
-        env.unify ( ltype, env.get_type ( type ) );
-        env.unify ( rtype, env.get_type ( type ) );
-        return env.get_type ( out_type );
+        //misc.print ( 'ltype:', ltype );
+        env.unify ( ltype, type );
+        env.unify ( rtype, type );
+        return out_type;
         },
     };
   }
@@ -266,8 +238,8 @@ function prefix ( type, text ) {
   return {
       infer: function ( env ) {
         var rtype = env.infer ( this.right );
-        if ( rtype.name === type ) {
-          return env.get_type ( type );
+        if ( rtype.name === type.name ) {
+          return type;
           }
         else {
           throw 'argument to \'' + text + '\' was not a ' + text;
@@ -277,10 +249,10 @@ function prefix ( type, text ) {
   }
 
 // Declares a constant ast element.
-function constant ( text ) {
+function constant ( type ) {
   return {
       infer: function ( env ) {
-        return env.get_type ( text );
+        return type;
         },
     };
   }
@@ -294,37 +266,37 @@ function setupScopes ( scopes ) {
     // Numbers are of type 'number'.
     'number' : {
       infer: function ( env ) {
-        return env.get_type ( 'number' );
+        return number_type;
         },
       },
     // Identifiers are instances of whatever type they are in the function.
     'identifier' : {
       infer: function ( env ) {
-        var to_prune = env.get_text ( this.text );
-        // The use of fresh here has a few odd effects. In particular,
-        // variables pointing to polymorphic types are not restricted to a
-        // single concrete type.
-        // TODO(kzentner): Do we want this behavior.
-        return env.fresh ( to_prune );
-        }
+        return env.get_instance ( this.variable );
+        //if ( this.variable.instance !== undefined ) {
+          //this.variable.instance = env.make_type_var ( );
+          //}
+        //return this.variable.instance;
+        },
       },
     } ) );
+  //misc.print ( 'Loading scope!' );
   escope.load_text ( string_map.make ( {
     // These declaration should hopefully be self-explanatory.
-    '-' : infix ( '-', 'number'),
-    '+' : infix ( '+', 'number'),
-    'or' : infix ( 'or', 'bool' ),
-    'and' : infix ( 'and', 'bool' ),
-    '!=' : infix (  '!=', 'number', 'bool' ),
-    '==' : infix ( '==', 'number', 'bool' ),
-    'not' : prefix ( 'not', 'bool' ),
-    'true': constant ( 'bool' ),
-    'false': constant ( 'bool' ),
+    '-' : infix ( '-', number_type ),
+    '+' : infix ( '+', number_type ),
+    'or' : infix ( 'or', bool_type ),
+    'and' : infix ( 'and', bool_type ),
+    '!=' : infix (  '!=', number_type, bool_type ),
+    '==' : infix ( '==', number_type, bool_type ),
+    'not' : prefix ( 'not', bool_type ),
+    'true': constant ( bool_type ),
+    'false': constant ( bool_type ),
     'if': {
       infer: function ( env ) {
         var left_type;
         var right_type;
-        env.unify ( env.get_type ( 'bool' ), env.infer ( this.condition ) );
+        env.unify ( bool_type, env.infer ( this.condition ) );
         left_type = env.infer ( this.block );
         // If we are in an expression, we must have an alt-block and should
         // return the common type of both branches.
@@ -358,10 +330,7 @@ function setupScopes ( scopes ) {
           // Function type operators ('fn') are operators of two types, the
           // first of which is a different type operator ('args').
           arg_type = env.make_type_op ( 'args', arg_types );
-          func_type = env.get_text ( this.func.text );
-          //if ( func_type === undefined ) {
-            //func_type = env.get_text ( this.func.text );
-            //}
+          func_type = env.get_instance ( this.func );
           // If we're calling a type-var, make that type var point to a new
           // function type-operator.
           if ( func_type.kind === 'var' &&
@@ -398,18 +367,18 @@ function setupScopes ( scopes ) {
         var out_type = env.make_type_var ( );
         var arg_idx;
 
-        // Set up the scope.
-        env.push_block ( );
-
         // Set up the function arguments.
-        for ( arg_idx in this.args ) {
-          in_type = env.make_type_var ( );
-          env.set_text ( this.args[arg_idx].text, in_type );
-          in_types.push ( in_type );
-          }
+        this.args.forEach ( function ( arg ) {
+          misc.assert ( arg.instance === undefined );
+          arg.instance = env.make_type_var ( );
+          in_types.push ( arg.instance );
+          } );
+        //misc.print ( this.args );
         in_type = env.make_type_op ( 'args', in_types );
 
         fn_type = env.make_type_op ( 'fn', [in_type, out_type] );
+
+        env.push_function ( this );
   
         // Type check the body of the function.
         for ( idx in this.body.children ) {
@@ -421,86 +390,48 @@ function setupScopes ( scopes ) {
             env.unify ( out_type, env.infer ( child.expr ) );
             }
           else {
-            child.infer ( env );
+            env.infer ( child );
+            //child.infer ( env );
             }
           }
-        // Leave the scope.
-        env.pop_block ( );
+        //misc.print ( this );
+        env.pop_function ( this );
 
-        // If we are named, add ourself to the current environment.
-        // Note that this can be added late, because the inferencer can handle
-        // late-delcared variables.
-        if ( this.named ) {
-          env.set_text ( this.name, fn_type );
-          }
         return fn_type;
         },
       },
     } ) );
 
   sscope.load_text ( string_map.make ( {
-    // This should be self-explanatory.
-    'while': {
-      infer: function ( env ) {
-        env.unify ( env.get_type ( 'bool' ), env.infer ( this.condition ) );
+    'while' : {
+      infer : function ( env ) {
+        env.unify ( bool_type, env.infer ( this.condition ) );
         env.infer ( this.block );
         },
       },
     '=' : {
-      infer: function ( env ) {
-        var old_type = env.get_text ( this.left.text ) || env.make_type_var ( );
-        var definition_type;
-
-        old_type = env.set_text ( this.left.text, old_type );
-        // The variable should not have generic type in the body of its definition.
-        // This is one of the trickiest parts of Hindley-Milner.
-        env.non_generic.push ( old_type );
-        definition_type = env.infer ( this.right );
-        env.non_generic.pop ( );
-
-        // The actual variables type should be the most general of the old type
-        // and the new definition.
-        env.unify ( old_type, definition_type );
+      infer : function ( env ) {
+        var old_type = env.get_instance ( this.left.variable );
+        env.add_non_generic ( old_type );
+        var def_type = env.infer ( this.right );
+        env.remove_non_generic ( old_type );
+        return env.unify ( old_type, def_type );
         },
       },
     } ) );
 
   sscope.load_type ( string_map.make ( {
-    // These act the same, except that top_level doesn't create a new scope.
-    'top_level' : {
-      infer: function ( env ) {
-       var idx;
-  
-        for ( idx in this.children ) {
-          env.infer ( this.children[idx] );
-          }
-        },
-      },
-    'block' : {
-      // Blocks return the value of the last statement in them.
-      infer: function ( env ) {
-       var out;
-       var idx;
-
-       env.push_block ( );
-  
-        for ( idx in this.children ) {
-          out = env.infer ( this.children[idx] );
-          }
-
-        env.pop_block ( );
-        return out;
-        },
-      },
     } ) );
   }
 
 function infer ( tree ) {
   var env = make_env ( );
-  var ret = env.infer ( tree );
-  misc.print(env.table.toString());
-  misc.print(env.unknown.toString());
-  return ret;
+  return env.infer ( tree );
+  //scope.each_text ( function ( key, obj ) {
+    //env.infer ( obj );
+    //} );
+  //var ret = env.infer ( tree );
+  //return ret;
   }
 
 function make ( ) {
