@@ -300,6 +300,7 @@ function dragMouseUp(evt) {
                             if (block.isContainer && !evt.altKey) {
                                 curDragElement.blockData.parent = block;
                                 block.firstChild = curDragElement.blockData;
+                                newX += 1;
                             }
                             else {
                                 curDragElement.blockData.prevBlock = block;
