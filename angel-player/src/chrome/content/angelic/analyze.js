@@ -165,6 +165,11 @@ var sscope_text_methods = string_map.make ( {
       analyzer.pop_scope ( );
       },
     },
+  'return' : {
+    analyze : function ( analyzer ) {
+      analyzer.analyze ( this.expr );
+      },
+    },
   'while' : {
     analyze : function ( analyzer ) {
       var block_scope = scope.make ( analyzer.current_scope );
@@ -292,9 +297,24 @@ function analyze ( ast ) {
     };
   }
 
-function make ( ) {
+function make_helper ( ) {
   return {
     analyze: analyze,
+    };
+  }
+
+function full_analyze ( parse_tree ) {
+  var a_analyzer = make_helper ( );
+  var modules = a_analyzer.analyze ( parse_tree );
+  var module = modules[''];
+  this.map = generate_canonical_map ( module );
+  generate_enumerations ( this.map );
+  this.all_objects = extract_all_objs ( module );
+  }
+
+function make ( ) {
+  return {
+    analyze: full_analyze,
     setupScopes: setupScopes,
     };
   }
@@ -443,18 +463,19 @@ function test ( text ) {
   }
 
 var to_parse = '' +
-//'fib = fn (n):\n' +
-//'    n = n - 1\n' +
-//'    a = 0\n' +
-//'    b = 1\n' +
-//'    while n != 0:\n' +
-//'        temp = a + b\n' +
-//'        a = b\n' +
-//'        b = temp\n' +
-//'        n = n - 1\n' +
-//'    print (n)\n' +
-'main = fn:\n' +
-//'    x = 1\n' +
+'fib = fn (n):\n' +
+'    n = n - 1\n' +
+'    a = 0\n' +
+'    b = 1\n' +
+'    while n != 0:\n' +
+'        temp = a + b\n' +
+'        a = b\n' +
+'        b = temp\n' +
+'        n = n - 1\n' +
+'    return n\n' +
+//'main = fn:\n' +
+//'    fib50 = fib (50)\n' +
+//'    print (fib50)\n' +
 //'    while 0 != 0:\n' +
 //'        x = 2\n' +
 //'    test (0)\n' +
@@ -463,15 +484,15 @@ var to_parse = '' +
 //'        wack = fn: 1\n' +
 //'    print(fn z: z = 12)\n' +
 //'    w = fn: q = 1\n' +
-'    x = 50 - 1\n' +
-'    a = 0\n' +
-'    b = 1\n' +
-'    while x != 0:\n' +
-'        temp = a + b\n' +
-'        a = b\n' +
-'        b = temp\n' +
-'        x = x - 1\n' +
-'    print (b)\n' +
+//'    x = 50 - 1\n' +
+//'    a = 0\n' +
+//'    b = 1\n' +
+//'    while x != 0:\n' +
+//'        temp = a + b\n' +
+//'        a = b\n' +
+//'        b = temp\n' +
+//'        x = x - 1\n' +
+//'    print (b)\n' +
 //'test = fn x:\n' +
 //'    test = 0\n' +
 //'    print (x)\n' +
@@ -480,7 +501,7 @@ var to_parse = '' +
 '';
 
 
-test ( to_parse );
+//test ( to_parse );
 
 // Export Machinery to make node.js and xulrunner act the same.
 var EXPORTED_SYMBOLS = ['make'];

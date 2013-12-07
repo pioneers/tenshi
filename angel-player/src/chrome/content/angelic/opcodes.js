@@ -127,9 +127,22 @@ var opcodes = [
         func.func.apply ( null, args );
         }
       }
+    else if ( func.type === 'internal' ) {
+      state.call_stack[state.call_stack_top++] = [state.func, state._pc + 1];
+      state.func = func.code;
+      state._pc = 0;
+      }
     }),
   make_opcode ( 16, 'ret', 1, 0,
   function ret ( state ) {
+    if ( state.call_stack_top === 0 ) {
+      state.run = false;
+      }
+    else {
+      var pair = state.call_stack[state.call_stack_top--];
+      state.func = pair[0];
+      state._pc = pair[1];
+      }
     }),
   ];
 

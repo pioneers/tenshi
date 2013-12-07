@@ -29,6 +29,8 @@ var misc = require ( './misc.js' );
 var compiler = require ( './compiler.js' );
 var executor = require ( './executor.js' );
 var inferencer = require ( './inferencer.js' );
+var library = require ( './library.js' );
+var analyzer = require ( './analyze.js' );
 
 //
 // This is the main Angelic module
@@ -41,34 +43,35 @@ function compile_and_run ( text ) {
   var a_compiler = compiler.make ( );
   var a_executor = executor.make ( );
   var a_inferencer = inferencer.make ( );
+  var a_library = library.make ( );
+  var a_analyzer = analyzer.make ( );
   var parse_tree;
   var lib;
+  var all_objs;
 
   a_parser.setupScopes ( scopes );
   a_compiler.setupScopes ( scopes );
   a_inferencer.setupScopes ( scopes );
+  a_analyzer.setupScopes ( scopes );
 
   parse_tree = a_parser.parse ( text );
-  a_inferencer.infer ( parse_tree );
+  //a_inferencer.infer ( parse_tree );
 
-  misc.print ( parse_tree );
+  a_analyzer.analyze ( parse_tree );
 
-  lib = a_compiler.compile ( parse_tree );
+  a_compiler.compile_objs ( a_analyzer.all_objects );
+  a_library.build_all_objects ( a_analyzer.all_objects );
+  //misc.print ( a_analyzer.map );
+  a_executor.run_code ( a_analyzer.map.get_text ( 'main' ).code );
 
-  a_executor.execute ( lib );
+  //misc.print ( parse_tree );
+
+  //lib = a_compiler.compile ( parse_tree );
+
+  //a_executor.execute ( lib );
   }
 
 var to_parse = '' +
-'fib = fn (n):\n' +
-'    n = n - 1\n' +
-'    a = 0\n' +
-'    b = 1\n' +
-'    while n != 0:\n' +
-'        temp = a + b\n' +
-'        a = b\n' +
-'        b = temp\n' +
-'        n = n - 1\n' +
-'    print (n)\n' +
 'main = fn:\n' +
 '    x = 50 - 1\n' +
 '    a = 0\n' +
@@ -79,12 +82,9 @@ var to_parse = '' +
 '        b = temp\n' +
 '        x = x - 1\n' +
 '    print (b)\n' +
-'test_fn = fn:\n' +
-'    test = 0\n' +
-'    if 0 != 0: test = 1\n' +
 '';
 
-compile_and_run ( to_parse );
+//compile_and_run ( to_parse );
 
 // Export Machinery to make node.js and xulrunner act the same.
 var EXPORTED_SYMBOLS = ['compile_and_run'];

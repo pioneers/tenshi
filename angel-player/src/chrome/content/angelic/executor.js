@@ -45,18 +45,20 @@ function make ( ) {
   return {
     func: [],
     stack_top: 0,
+    call_stack_top: 0,
     frame: 0,
     _pc: 0,
     run: true,
     debug: false,
     stack: [],
+    call_stack: [],
     bunch: [0, 0, 0, 0],
     execute: function ( lib ) {
       var main = lib.get_obj ( 'fn', 'main' );
       this.run_code ( main.data );
       },
     run_code: function ( code ) {
-      misc.print ( 'Running code', code );
+      //misc.print ( 'Running code', code );
       //this.debug = true;
       this.func = code;
       while ( this.run ) {
