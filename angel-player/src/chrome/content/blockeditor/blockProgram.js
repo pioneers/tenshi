@@ -75,6 +75,7 @@ exports.createNewBlock = function(document, blockType, text, x, y) {
     newBlock.blockType = blockType;
     newBlock.x = x;
     newBlock.y = y;
+    newBlock.text = text;
     // Outer enclosing block
     newBlock.parent = null;
     // Blocks on the left/right (args, lvalue/rvalue, etc.)
