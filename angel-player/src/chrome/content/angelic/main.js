@@ -71,6 +71,11 @@ function compile_and_run ( text ) {
   //a_executor.execute ( lib );
   }
 
+//var to_parse = '' +
+//'main = fn:\n' +
+//'    print(1)\n' +
+//'';
+
 var to_parse = '' +
 'main = fn:\n' +
 '    x = 50 - 1\n' +

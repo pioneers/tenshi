@@ -69,16 +69,16 @@ var make_cgen = function make_cgen ( target ) {
       },
     emit: function ( a, b, c, d ) {
       // These if statements replace opcode objects with their code numbers.
-      if ( a instanceof Object ) {
+      if ( a !== undefined && typeof a !== 'number' ) {
         a = a.code;
         }
-      if ( b instanceof Object ) {
+      if ( b !== undefined && typeof b !== 'number' ) {
         b = b.code;
         }
-      if ( c instanceof Object ) {
+      if ( c !== undefined && typeof c !== 'number' ) {
         c = c.code;
         }
-      if ( d instanceof Object ) {
+      if ( d !== undefined && typeof d !== 'number' ) {
         d = d.code;
         }
       this.emit_bunch ( make_bunch ( a, b, c, d ) );
