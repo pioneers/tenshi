@@ -86,7 +86,7 @@ Simulator.prototype.initMouseCameraControls = function()
     self.domElement.addEventListener("DOMMouseScroll", function(evt)
     {
         self.cameraController.moveZ(-evt.wheelDelta||-evt.detail);
-    })
+    });
 };
 
 // TODO(ericnguyen): create map format to read/save

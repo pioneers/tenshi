@@ -19,8 +19,8 @@ function createBoxPhysics(width, height, depth, mass, iniX, iniY, iniZ, physicsW
 
     var motionState = new Ammo.btDefaultMotionState(startTransform);
     var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, boxShape, localInertia);
-        rbInfo.set_m_linearDamping(.5); // friction seems to be off, no damping = infinite sliding
-        rbInfo.set_m_angularDamping(.2);
+        rbInfo.set_m_linearDamping(0.5); // friction seems to be off, no damping = infinite sliding
+        rbInfo.set_m_angularDamping(0.2);
     var boxAmmo = new Ammo.btRigidBody(rbInfo);
 
     if(physicsWorld)
@@ -46,8 +46,8 @@ function createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ, physicsWo
 
     var motionState = new Ammo.btDefaultMotionState(startTransform);
     var rbInfo = new Ammo.btRigidBodyConstructionInfo(nMass, motionState, cylShape, localInertia);
-        rbInfo.set_m_angularDamping(.5);
-        rbInfo.set_m_linearDamping(.5);
+        rbInfo.set_m_angularDamping(0.5);
+        rbInfo.set_m_linearDamping(0.5);
     var cylAmmo = new Ammo.btRigidBody(rbInfo);
 
     if(physicsWorld)
