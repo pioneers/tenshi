@@ -293,11 +293,11 @@ function dragMouseUp(evt) {
                             newY = block.y + block.h;
 
                             // If the other block is a container, we become a
-                            // child.
+                            // child. HACK: unless alt is pressed.
                             // TODO(rqou): This may not be the best way to do
                             // this. Also, there is currently no way to put
                             // statements after containers.
-                            if (block.isContainer) {
+                            if (block.isContainer && !evt.altKey) {
                                 curDragElement.blockData.parent = block;
                                 block.firstChild = curDragElement.blockData;
                             }
