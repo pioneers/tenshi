@@ -98,9 +98,8 @@ var make = function ( ) {
         var self = this;
 
         table.each ( function ( key, val ) {
-          self.set_text ( key,
-                          misc.obj_or ( self.get_text ( key ) || {},
-                          val ) );
+          var obj = misc.obj_or ( self.get_text ( key ) || {}, val );
+          self.set_text ( key, obj );
           } );
         return this;
         },
