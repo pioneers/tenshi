@@ -262,14 +262,27 @@ function dragMouseUp(evt) {
 
                             curDragElement.blockData.nextBlock = block;
                             block.prevBlock = curDragElement.blockData;
+                            curDragElement.blockData.parent = block.parent;
                         }
                         else {
                             // The current thing is being snapped below the
                             // other
                             newY = block.y + block.h;
 
-                            curDragElement.blockData.prevBlock = block;
-                            block.nextBlock = curDragElement.blockData;
+                            // If the other block is a container, we become a
+                            // child.
+                            // TODO(rqou): This may not be the best way to do
+                            // this. Also, there is currently no way to put
+                            // statements after containers.
+                            if (block.isContainer) {
+                                curDragElement.blockData.parent = block;
+                                block.firstChild = curDragElement.blockData;
+                            }
+                            else {
+                                curDragElement.blockData.prevBlock = block;
+                                block.nextBlock = curDragElement.blockData;
+                                curDragElement.blockData.parent = block.parent;
+                            }
                         }
                     }
                     else {
@@ -283,6 +296,7 @@ function dragMouseUp(evt) {
 
                             curDragElement.blockData.rightPeer = block;
                             block.leftPeer = curDragElement.blockData;
+                            curDragElement.blockData.parent = block.parent;
                         }
                         else {
                             // The current thing is being snapped right of the
@@ -291,6 +305,7 @@ function dragMouseUp(evt) {
 
                             curDragElement.blockData.leftPeer = block;
                             block.rightPeer = curDragElement.blockData;
+                            curDragElement.blockData.parent = block.parent;
                         }
                     }
 
