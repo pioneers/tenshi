@@ -1,6 +1,8 @@
 tools/*.tar.bz2
 tools/arm-toolchain
 
+eda/*.?#?
+
 ### /home/kyle/.gitignore-boilerplates/Global/vim.gitignore
 
 .*.s[a-w][a-z]
