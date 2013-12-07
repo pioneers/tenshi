@@ -47,7 +47,18 @@ function recursivelyReparentNodes(startNode, newParent) {
 }
 
 function dumpNode(node) {
-    
+    if (!node) {
+        dump("<null>\n");
+        return;
+    }
+    dump(node.text + "\n");
+    dump("right:\n");
+    dumpNode(node.rightPeer);
+    dump("next:\n");
+    dumpNode(node.nextBlock);
+    dump("children:\n");
+    dumpNode(node.firstChild);
+    dump("parent: " + (node.parent ? node.parent.text : "<null>") + "\n");
 }
 
 function dragMouseDown(evt) {
@@ -71,6 +82,8 @@ function dragMouseDown(evt) {
 
                 // HACK
                 if (evt.shiftKey) {
+                    dumpNode(targetElem.blockData);
+                    dump("\n");
                     return;
                 }
                 // HACK
