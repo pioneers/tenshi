@@ -139,7 +139,7 @@ var opcodes = [
       state.run = false;
       }
     else {
-      var pair = state.call_stack[state.call_stack_top--];
+      var pair = state.call_stack[--state.call_stack_top];
       state.func = pair[0];
       state._pc = pair[1];
       }

@@ -96,6 +96,7 @@ var make = function ( ) {
         to_clone = end_token;
         }
       else {
+        //misc.print ( token );
         to_clone = scope.get_text ( token.text );
         if ( to_clone === undefined ) {
           to_clone = scope.get_type ( token.type );

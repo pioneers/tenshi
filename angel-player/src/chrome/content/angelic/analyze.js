@@ -31,7 +31,6 @@ var compiler = require ( './compiler.js' );
 var library = require ( './library.js' );
 var executor = require ( './executor.js' );
 
-
 //
 // This module is responsible for finding all identifiers, and determining
 // which variables those identifiers refer to.  It determines if variables have
@@ -222,8 +221,7 @@ var executor = require ( './executor.js' );
 // time that variable is read (the one assignment can also be removed).
 //
 
-function make_analyzer ( module ) {
-  return {
+function make ( ) {
 
     //
     // Most of these fields and methods are involved in the variable
@@ -248,63 +246,71 @@ function make_analyzer ( module ) {
     // seperate module.
     //
 
-    unknowns: [ scope.make ( ) ],
-    scope_depth: 0,
-    current_scope: module.globals,
-    objects: [ module.objects ],
-    get_objects: function ( ) {
+  return {
+    unknownses : null,
+    scope_depth : null,
+    current_scope : null,
+    objects : null,
+    variables : null,
+    get_objects : function ( ) {
       return this.objects [ this.objects.length - 1 ];
       },
-    get_unknowns: function ( ) {
-      return this.unknowns [ this.unknowns.length - 1 ];
+    get_unknowns : function ( ) {
+      return this.unknownses [ this.unknownses.length - 1 ];
       },
-    add_object: function ( obj ) {
+    add_object : function ( obj ) {
       //misc.print ( 'adding object to', this.get_objects ( ) );
       this.get_objects ( ).push ( obj );
       },
-    push_object_list: function ( obj_list ) {
+    push_object_list : function ( obj_list ) {
       this.objects.push ( obj_list );
       },
-    pop_object_list: function ( ) {
+    pop_object_list : function ( ) {
       this.objects.pop ( );
       },
-    get_text: function ( text, callback ) {
+    get_text : function ( text, callback ) {
       var unknown = this.get_unknowns ( ).get_text ( text );
       if ( unknown === undefined ) {
         unknown = [];
         this.get_unknowns ( ).set_text ( text, unknown );
         }
-      unknown.push ( { scope: this.current_scope,
-                       callback: callback } );
+      unknown.push ( { scope : this.current_scope,
+                       callback : callback } );
       },
-    set_variable: function ( text, val ) {
+    set_variable : function ( text, val ) {
       var variable = this.current_scope.get_text ( text );
       if ( variable === undefined || variable.location === 'global' ) {
         //misc.print ( 'Got variable declaration for ' + text );
         //misc.print ( 'Variable = ', variable );
         // This is a variable declaration.
         variable = varb.make ( text );
+        this.variables.push ( variable );
         this.current_scope.set_text ( text, variable );
         }
       variable.assignments.push ( val );
       return variable;
       },
-    push_scope: function ( new_scope ) {
+    push_scope : function ( new_scope ) {
       misc.assert ( new_scope.above ( ) === this.current_scope,
                     "New scope should be child of current scope." ); 
+      if ( this.current_scope.children === undefined ) {
+        this.current_scope.children = [];
+        }
+      this.current_scope.children.push ( new_scope );
       this.current_scope = new_scope;
       this.scope_depth += 1;
-      this.unknowns.push ( scope.make ( ) );
+      this.unknownses.push ( scope.make ( ) );
       },
-    finalize_scope: function ( ) {
+    finalize_scope : function ( ) {
       var unknowns = this.get_unknowns ( );
       var parent_unknowns;
       //misc.print ( 'unknowns', unknowns );
-      if ( this.unknowns.length === 1 ) {
-        parent_unknowns = module.imports;
+      if ( this.unknownses.length === 1 ) {
+        // TODO(kzentner): Remove this hack.
+        parent_unknowns = this.root_module.imports;
         }
       else {
-        parent_unknowns = this.unknowns[this.unknowns.length - 2];
+        parent_unknowns = this.unknownses[this.unknownses.length - 2];
         }
       var self = this;
       unknowns.each_text ( function ( key, vals ) {
@@ -326,16 +332,16 @@ function make_analyzer ( module ) {
           }
         } );
       },
-    pop_scope: function ( ) {
+    pop_scope : function ( ) {
       this.finalize_scope ( );
-      this.unknowns.pop ( );
+      this.unknownses.pop ( );
       this.current_scope = this.current_scope.above ( );
       this.scope_depth -= 1;
       },
     //
     // Walk the AST.
     //
-    analyze: function ( node ) {
+    recurse : function ( node ) {
       if ( node.analyze !== undefined ) {
         // If we can analyze this node, do so.
         return node.analyze ( this );
@@ -344,10 +350,39 @@ function make_analyzer ( module ) {
         throw 'Could not analyze ' + JSON.stringify ( node, null, '  ' );
         }
       },
-    finalize_module: function ( ) {
+    init : function ( root_module ) {
+      this.unknownses = [ scope.make ( ) ];
+      this.scope_depth = 0;
+      this.current_scope = root_module.globals;
+      this.objects = [ root_module.objects ];
+      this.variables = [];
+      this.root_module = root_module;
+      },
+    analyze : function ( tree ) {
+      var root_module = module.make ( '' );
+      var core_module = make_core_module ( );
+      root_module.ast = tree;
+      this.init ( root_module );
+      this.recurse ( tree );
+      this.finalize_module ( );
+      // TODO(kzentner): Add support for modules besides the core module.
+      root_module.imports.each_text ( function ( key, imprts ) {
+        var res = core_module.exports.get_text ( key );
+        if ( res !== undefined ) {
+          imprts.forEach ( function ( imprt ) {
+            imprt.callback ( res );
+            } );
+          }
+        } );
+      this.map = generate_canonical_map ( root_module );
+      generate_enumerations ( this.map );
+      this.all_objects = extract_all_objs ( root_module );
+      },
+    finalize_module : function ( ) {
       // TODO(kzentner): Replace this hack.
       module.exports = module.globals;
       },
+    setupScopes : setupScopes,
     };
   }
 
@@ -363,8 +398,8 @@ var sscope_text_methods = string_map.make ( {
 
       this.args.forEach ( function ( arg ) {
         // TODO(kzentner): Add default argument value support.
-        analyzer.set_variable ( arg.text, { type: 'argument', location: 'stack' } );
-        analyzer.analyze ( arg );
+        analyzer.set_variable ( arg.text, { type: 'argument' } );
+        analyzer.recurse ( arg );
         } );
 
       this.body.analyze ( analyzer );
@@ -377,7 +412,7 @@ var sscope_text_methods = string_map.make ( {
   'if' : {
     analyze : function ( analyzer ) {
       var block_scope = scope.make ( analyzer.current_scope );
-      analyzer.analyze ( this.condition );
+      analyzer.recurse ( this.condition );
       analyzer.push_scope ( block_scope );
       this.block.analyze ( analyzer );
       analyzer.pop_scope ( );
@@ -385,13 +420,13 @@ var sscope_text_methods = string_map.make ( {
     },
   'return' : {
     analyze : function ( analyzer ) {
-      analyzer.analyze ( this.expr );
+      analyzer.recurse ( this.expr );
       },
     },
   'while' : {
     analyze : function ( analyzer ) {
       var block_scope = scope.make ( analyzer.current_scope );
-      analyzer.analyze ( this.condition );
+      analyzer.recurse ( this.condition );
       analyzer.push_scope ( block_scope );
       this.block.analyze ( analyzer );
       analyzer.pop_scope ( );
@@ -404,8 +439,8 @@ var sscope_text_methods = string_map.make ( {
       if ( analyzer.scope_depth === 0 ) {
         variable.location = 'global';
         }
-      analyzer.analyze ( this.left );
-      analyzer.analyze ( this.right );
+      analyzer.recurse ( this.left );
+      analyzer.recurse ( this.right );
       },
     },
   } );
@@ -423,7 +458,7 @@ var sscope_type_methods = string_map.make ( {
     analyze : function ( analyzer ) {
       this.children.forEach ( function ( child ) {
         //misc.print ( 'Analyzing', child );
-        analyzer.analyze ( child );
+        analyzer.recurse ( child );
         } );
       }
     },
@@ -437,8 +472,8 @@ var magic_identifiers = string_map.make ( {
 function infix ( text ) {
   return {
     analyze : function ( analyzer ) {
-      analyzer.analyze ( this.left );
-      analyzer.analyze ( this.right );
+      analyzer.recurse ( this.left );
+      analyzer.recurse ( this.right );
       }
     };
   } 
@@ -446,9 +481,9 @@ function infix ( text ) {
 var escope_text_methods = string_map.make ( {
   '(' : {
     analyze : function ( analyzer ) {
-      analyzer.analyze ( this.func );
+      analyzer.recurse ( this.func );
       this.args.forEach ( function ( arg ) {
-        analyzer.analyze ( arg );
+        analyzer.recurse ( arg );
         } );
       },
     },
@@ -491,50 +526,6 @@ function setupScopes ( scopes ) {
 
   escope.load_text ( escope_text_methods );
   escope.load_type ( escope_type_methods );
-  }
-
-function analyze ( ast ) {
-  var root_module = module.make ( '' );
-  var core_module = make_core_module ( );
-  root_module.ast = ast;
-  var analyzer = make_analyzer ( root_module );
-  analyzer.analyze ( ast );
-  analyzer.finalize_module ( );
-  // TODO(kzentner): Add support for modules besides the core module.
-  root_module.imports.each_text ( function ( key, imprts ) {
-    var res = core_module.exports.get_text ( key );
-    if ( res !== undefined ) {
-      imprts.forEach ( function ( imprt ) {
-        imprt.callback ( res );
-        } );
-      }
-    } );
-  return {
-    '': root_module,
-    'core': core_module,
-    };
-  }
-
-function make_helper ( ) {
-  return {
-    analyze: analyze,
-    };
-  }
-
-function full_analyze ( parse_tree ) {
-  var a_analyzer = make_helper ( );
-  var modules = a_analyzer.analyze ( parse_tree );
-  var module = modules[''];
-  this.map = generate_canonical_map ( module );
-  generate_enumerations ( this.map );
-  this.all_objects = extract_all_objs ( module );
-  }
-
-function make ( ) {
-  return {
-    analyze: full_analyze,
-    setupScopes: setupScopes,
-    };
   }
 
 var next_external_obj_id = 0;
@@ -685,83 +676,6 @@ function extract_all_objs ( module ) {
     } );
   return out;
   }
-
-function test ( text ) {
-  var parser = require ( './parser.js' );
-  var scopes = string_map.make ( );
-  var a_parser = parser.make ( );
-  var a_compiler = compiler.make ( );
-  var a_library = library.make ( );
-  var a_executor = executor.make ( );
-  a_parser.setupScopes ( scopes );
-  a_compiler.setupScopes ( scopes );
-
-  setupScopes ( scopes );
-  parse_tree = a_parser.parse ( text );
-
-  //misc.print ( parse_tree );
-  var a_analyzer = make ( );
-  var modules = a_analyzer.analyze ( parse_tree );
-  var module = modules[''];
-  var map = generate_canonical_map ( module );
-  generate_enumerations ( map );
-  //misc.print ( module.globals );
-  var all_objects = extract_all_objs ( module );
-  //misc.print ( all_objects );
-  //misc.print ( a_compiler );
-  var lib = a_compiler.compile_objs ( all_objects );
-  //misc.print ( module.objects );
-  a_library.build_all_objects ( all_objects );
-
-  //a_compiler.compile ( parse_tree );
-  //misc.print ( map );
-  //misc.print ( module.imports );
-  //misc.print ( a_compiler );
-  //misc.print ( all_objects );
-  //misc.print ( map );
-  a_executor.run_code ( map.get_text ( 'main' ).code );
-  }
-
-var to_parse = '' +
-'fib = fn (n):\n' +
-'    n = n - 1\n' +
-'    a = 0\n' +
-'    b = 1\n' +
-'    while n != 0:\n' +
-'        temp = a + b\n' +
-'        a = b\n' +
-'        b = temp\n' +
-'        n = n - 1\n' +
-'    return n\n' +
-//'main = fn:\n' +
-//'    fib50 = fib (50)\n' +
-//'    print (fib50)\n' +
-//'    while 0 != 0:\n' +
-//'        x = 2\n' +
-//'    test (0)\n' +
-//'    t = fn:\n' +
-//'        q = 1\n' +
-//'        wack = fn: 1\n' +
-//'    print(fn z: z = 12)\n' +
-//'    w = fn: q = 1\n' +
-//'    x = 50 - 1\n' +
-//'    a = 0\n' +
-//'    b = 1\n' +
-//'    while x != 0:\n' +
-//'        temp = a + b\n' +
-//'        a = b\n' +
-//'        b = temp\n' +
-//'        x = x - 1\n' +
-//'    print (b)\n' +
-//'test = fn x:\n' +
-//'    test = 0\n' +
-//'    print (x)\n' +
-//'    if 0 != 0: test = 1\n' +
-//'    test = 0\n' +
-'';
-
-
-//test ( to_parse );
 
 // Export Machinery to make node.js and xulrunner act the same.
 var EXPORTED_SYMBOLS = ['make'];
