@@ -8,12 +8,28 @@ Manages saved states
     runFrame runs the frame number,
         looks inside storage for earliest frame that is under frame number,
         runs until it hits frame number
+    printVersions prints data structure of saveQueue
+        useful for debugging
 */
 function SaveManager()
 {
     this.saveQueues = [[]];
     this.savedFrames = 0;
 }
+
+SaveManager.prototype.printVersions = function()
+{
+    var temp_str;
+    for(i = 0; i < this.saveQueues.length; i++)
+    {
+        temp_str = i + " :: ";
+        for(j = 0; j < this.saveQueues[i].length; j++)
+        {
+            temp_str += this.saveQueues[i][j].version + " | ";
+        }
+        console.log(temp_str);
+    }
+};
 
 SaveManager.prototype.shouldSave = function(frame)
 {
@@ -44,7 +60,7 @@ SaveManager.prototype.tenCheck = function()
     }
 };
 
-SaveManager.prototype.runFrame = function(frame)
+SaveManager.prototype.runFrame = function(simulator, frame)
 {
     for(i = 0; i < this.saveQueues.length && this.saveQueues[i][0].frame > frame; i++);
 
@@ -56,14 +72,14 @@ SaveManager.prototype.runFrame = function(frame)
         save = tempQ[i];
     }
 
-    physicsObjects.loadState(save);
+    simulator.physicsObjects.loadState(simulator, save);
     console.log(save.frame, frame);
 
     for(var curFrame = save.frame; curFrame < frame; curFrame++)
-        scene.world.stepSimulation(1/60, 5);
+        simulator.physicsWorld.stepSimulation(1/60, 5);
 };
 
-SaveManager.prototype.runVersion = function(vrsn)
+SaveManager.prototype.runVersion = function(simulator, vrsn)
 {
     for(i = 0; i < this.saveQueues.length && this.saveQueues[i][0].version > vrsn; i++);
 
@@ -75,5 +91,5 @@ SaveManager.prototype.runVersion = function(vrsn)
         save = tempQ[i];
     }
 
-    physicsObjects.loadState(save);
+    simulator.physicsObjects.loadState(simulator, save);
 };

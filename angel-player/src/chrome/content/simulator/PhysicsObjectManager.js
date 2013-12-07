@@ -3,16 +3,14 @@ Manages physics objects in the world
     push adds an object to the list, assigns unique id to each object
     render adjusts the mesh of each object to match its physic object
     getState writes the state to a data structure, returns it
-    runState reads from that state data structure, sets all object to such state, sets frame to that state
-
-    todo:
-        make getState read robot port values, make runState set such things
+    runState reads from that state data structure,
+        sets all object to such state, sets frame to that state
 */
 function PhysicsObjectManager()
 {
-    this.array = []; //objects currently in world
+    this.array = []; // objects currently in world
 
-    this.objects = {}; //objects that existed at some point; to allow access after removing
+    this.objects = {}; // objects that existed at some point; to allow access after removing
 
     this.ids = 0;
 }
@@ -62,7 +60,7 @@ PhysicsObjectManager.prototype.render = function()
     }
 };
 
-PhysicsObjectManager.prototype.getState = function()
+PhysicsObjectManager.prototype.getState = function(simulator)
 {
     var tempState = [],
         arr = this.array,
@@ -96,17 +94,17 @@ PhysicsObjectManager.prototype.getState = function()
         tempState.push([obj.physicsId, tr, linVel, angVel]);
     }
 
-    tempState.frame = FRAME;
-    tempState.version = version;
-    tempState.motors = master.saveMotors();
+    tempState.frame = simulator.currentFrame;
+    tempState.version = simulator.version;
+    tempState.motors = simulator.master.saveMotors();
 
     return tempState;
 };
 
-PhysicsObjectManager.prototype.loadState = function(state)
+PhysicsObjectManager.prototype.loadState = function(simulator, state)
 {
-    FRAME = state.frame;
-    version = state.version;
+    simulator.currentFrame = state.frame;
+    simulator.version = state.version;
 
     for(var i = 0; i < state.length; i++)
     {
@@ -117,7 +115,8 @@ PhysicsObjectManager.prototype.loadState = function(state)
         this.array[i].setAngularVelocity(state[i][3]);
     }
 
-    master.loadMotors(state.motors);
+    // simulator.master.loadMotors(state.motors, state.version);
+    // TODO(ericnguyen): fix saving/loading of motor ports
 
     this.render();
 };

@@ -5,7 +5,7 @@ function strVector(v)
 
 function strQuat(q)
 {
-    return "<" + q.x() + ", " + q.y() + ", " + q.z() + ", " + q.z() + ">";
+    return "<" + q.x() + ", " + q.y() + ", " + q.z() + ", " + q.w() + ">";
 }
 
 // Multiplies quaternions; built in library's multiply is broken
@@ -26,4 +26,25 @@ function rotateV3ByQuat(vector, quat)
     var quatConj = new Ammo.btQuaternion(-quat.x(), -quat.y(), -quat.z(), quat.w());
 
     return multQuats(multQuats(quat, tempQuat), quatConj);
+}
+
+function toUnitVector(vector)
+{
+  var magnitude = Math.sqrt(vector.x()*vector.x() +
+                            vector.y()*vector.y() +
+                            vector.z()*vector.z());
+  return new Ammo.btVector3(vector.x()/magnitude, vector.y()/magnitude, vector.z()/magnitude);
+}
+
+function scaleVector(scale, vector)
+{
+  return new Ammo.btVector3(vector.x()*scale, vector.y()*scale, vector.z()*scale);
+}
+
+// a and b are btVector3s representing points
+function distance(a, b)
+{
+  return Math.sqrt((a.x() - b.x())*(a.x() - b.x()) +
+                   (a.y() - b.y())*(a.y() - b.y()) +
+                   (a.z() - b.z())*(a.z() - b.z()));
 }

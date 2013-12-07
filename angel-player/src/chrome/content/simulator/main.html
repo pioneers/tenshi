@@ -5,8 +5,8 @@
         <script type="text/javascript" src="Ammo/ammo.js"></script>
         <script type="text/javascript" src="Ammo/ammoWrappers.js"></script>
         <script type="text/javascript" src="Ammo/mathSupplements.js"></script>
-        <script type="text/javascript" src="Motors/Led.js"></script>
-        <script type="text/javascript" src="Motors/Motor.js"></script>
+        <script type="text/javascript" src="Actuators/Led.js"></script>
+        <script type="text/javascript" src="Actuators/Motor.js"></script>
         <script type="text/javascript" src="Sensors/Infrared.js"></script>
         <script type="text/javascript" src="Sensors/Rangefinder.js"></script>
         <script type="text/javascript" src="Sensors/TouchSensor.js"></script>
@@ -14,212 +14,102 @@
         <script type="text/javascript" src="Three/PovCamera.js"></script>
         <script type="text/javascript" src="Three/three.min.js"></script>
         <script type="text/javascript" src="Three/threeWrappers.js"></script>
+        <script type="text/javascript" src="KeyManager.js"></script>
         <script type="text/javascript" src="MasterObject.js"></script>
         <script type="text/javascript" src="PhysicsObjectManager.js"></script>
         <script type="text/javascript" src="Robot.js"></script>
         <script type="text/javascript" src="SaveManager.js"></script>
+        <script type="text/javascript" src="miscFuncs.js"></script>
+        <script type="text/javascript" src="Simulator.js"></script>
     </head>
     <body>
         <div id="mainScreen"></div>
+        <div><a id="RF number">lele</a></div>
         <script type="text/javascript">
-            var WIDTH = 1000, HEIGHT = 500;
-            var scene, camera, renderer, cameraController, centralPosition;
-            var physicsObjects = new PhysicsObjectManager();
-            var saveMan = new SaveManager();
-            var master = new MasterObject();
-            var version = 0;
-            var targetFrame = -1;
+            var simmy = new Simulator(700, 500, document.getElementById("mainScreen"));
 
-            FRAME = 0; // keeps track of frame
-            // TODO(ericnguyen): sort these functions
+            // TODO (ericnguyen): wrap all these test functions and organize them elsewhere
+            var keyMan = new KeyManager(document);
 
-            // Prints all the methods of obj : useful because useless documentation
-            function printMethods(obj)
+            var moveForwardRight = function()
             {
-                var prop;
-                for(prop in obj)
-                {
-                    console.log("Foo has property " + prop);
-                }
+                simmy.robot.setMotor(3, -100);
+                simmy.robot.setMotor(1, -100);
             }
 
-            function saveFrame()
+            var moveForwardLeft = function()
             {
-                targetVersion = master.version;
+                simmy.robot.setMotor(2, 100);
+                simmy.robot.setMotor(0, 100);
             }
 
-            function loadFrame()
+            var moveBackLeft = function()
             {
-                master.version = targetVersion;
+                simmy.robot.setMotor(2, -100);
+                simmy.robot.setMotor(0, -100);
             }
 
-            // creates a test car
-            // Will soon be deprecated, only used for testing purposes right now
-            function createCar3()
+            var moveBackRight = function()
             {
-                var robot = new Robot();
-                var testShape = new Ammo.btBoxShape(new Ammo.btVector3(1, 1, 5));
-                robot.initChassi();
-                robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(5, 10, 1)),
-                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1),
-                               new Ammo.btVector3(0, 0, 0)),
-                               300,
-                               makeMappedMesh(createBoxMesh(10, 20, 2, 0xaa00aa), 5));
-                robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(5, 5, 1)),
-                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1),
-                               new Ammo.btVector3(0, 0, 2)),
-                               100,
-                               makeMappedMesh(createBoxMesh(10, 10, 2, 0xbb00bb), 5));
-                robot.addShape(testShape,
-                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1),
-                               new Ammo.btVector3(4, 4, 2 + 5 + 1)),
-                               10,
-                               makeMappedMesh(createBoxMesh(2, 2, 10, 0xbbbbbb), 5));
-                robot.addShape(testShape,
-                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1),
-                               new Ammo.btVector3(4, -4, 2 + 5 + 1)),
-                               10,
-                               makeMappedMesh(createBoxMesh(2, 2, 10, 0xbbbbbb), 5));
-                robot.addShape(testShape,
-                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1),
-                               new Ammo.btVector3(-4, 4, 2 + 5 + 1)),
-                               10,
-                               makeMappedMesh(createBoxMesh(2, 2, 10, 0xbbbbbb), 5));
-                robot.addShape(testShape,
-                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1),
-                               new Ammo.btVector3(-4, -4, 2 + 5 + 1)),
-                               10,
-                               makeMappedMesh(createBoxMesh(2, 2, 10, 0xbbbbbb), 5));
-                robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(5, 6, 1)),
-                               new Ammo.btTransform(new Ammo.btQuaternion(0, 0, 0, 1),
-                               new Ammo.btVector3(0, 0, 2 + 5 + 5 + 1 + 1)),
-                               10,
-                               makeMappedMesh(createBoxMesh(10, 12, 2, 0x0055555), 5));
-                robot.finishChassi(0, 0, 100);
-
-                var x = [1, -1, 1, -1];
-                var y = [1, 1, -1, -1];
-                for(var i = 0; i < 4; i++)
-                {
-                    temp_motor = new Motor(2, 2, 2, 10, 0xff99ff, 3, 2, 10, 0xaabbff, x[i]*5, y[i]*7, 100);
-                    robot.addMotor(i, temp_motor, temp_motor.motor,
-                                   new Ammo.btVector3(x[i]*5, y[i]*7, 0),
-                                   new Ammo.btVector3(0, 0, -1),
-                                   new Ammo.btVector3(x[i]*1, 0, 0),
-                                   new Ammo.btVector3(0, 0, 1));
-
-                }
-
-                temp_motor = new Motor(2, 2, 2, 10, 0xff99ff, 2, 2, 10, 0xaabbff, 0, 0, 140);
-                robot.addMotor(5, temp_motor, temp_motor.motor,
-                               new Ammo.btVector3(0, 0, 2+5+5+2+1),
-                               new Ammo.btVector3(0, 0, -1),
-                               new Ammo.btVector3(0, 0, 1),
-                               new Ammo.btVector3(0, 0, 1));
-
-                temp_infrared = new Infrared(1, 1, 1, 1, 0, 100, 0, 150);
-                robot.addSensor(0, temp_infrared, temp_infrared.physicsObject,
-                                new Ammo.btVector3(0, 10, 0),
-                                new Ammo.btVector3(0, 0, -0.5),
-                                new Ammo.btVector3(0, 1, 0),
-                                new Ammo.btVector3(0, 0, 1));
-                return robot;
+                simmy.robot.setMotor(3, 100);
+                simmy.robot.setMotor(1, 100);
             }
 
-            var addCameraControls = function()
+            var stopLeft = function()
             {
-                document.onmousedown = function(evt)
-                {
-                    mouseX = evt.pageX;
-                    mouseY = evt.pageY;
-                    document.onmousemove = function(evt)
-                    {
-                        cameraController.moveX((evt.pageX - mouseX)*.001);
-                        cameraController.moveY((evt.pageY - mouseY)*.001);
-                        mouseX = evt.pageX;
-                        mouseY = evt.pageY;
-                        console.log(evt.pageX - mouseX);
-                    }
-                }
-
-                document.onmouseup = function(evt)
-                {
-                    document.onmousemove = null;
-                }
-
-                document.addEventListener("DOMMouseScroll", function(evt)
-                {
-                    console.log(evt.wheelDelta||evt.detail);
-                    cameraController.moveZ(-evt.wheelDelta||-evt.detail);
-                })
-            }
-            /*/============================
-            Main loop
-            ============================/*/
-
-            var render = function()
-            {
-                if(saveMan.shouldSave(FRAME)) saveMan.storeState(physicsObjects.getState()); // deals with saving
-
-                if(master.isPaused);
-                else if(master.version < version) // Checks for reversing
-                {
-                    saveMan.runVersion(master.version);
-                    targetFrame = master.version;
-                }
-                else if(FRAME < targetFrame) // refines reversing
-                {
-                    saveMan.runFrame(targetFrame);
-                    targetFrame = -1;
-                }
-                else
-                {
-                    if(master.version > version)
-                    {
-                        ROBOT.updateMotors();
-                        version = master.version;
-                    }
-                    else
-                    {
-                        version += 1;
-                        master.version = version;
-                    }
-
-                    ROBOT.simulate(); // check version, update motors as necessary, write new sensor to master
-                    ROBOT.updateSensors(); // writes sensory data to master object
-                    scene.world.stepSimulation( 1 / 60, 5 ); // tells ammo.js to apply physics
-                    physicsObjects.render(); // update meshes of moving objects
-                    renderer.render(scene, camera); // tells three.js to render scene
-                    FRAME += 1; // update frame
-                    version = master.version; // synchs versions
-                }
-
-                requestAnimationFrame(render); // repeat ad infinium
+                simmy.robot.setMotor(2, 0);
+                simmy.robot.setMotor(0, 0);
             }
 
-            /*/============================
-            Setting up
-            ============================/*/
+            var stopRight = function()
+            {
+                simmy.robot.setMotor(3, 0);
+                simmy.robot.setMotor(1, 0);
+            }
 
-            // this is only for testing, will be removed later
-            initScene();
-            initPhysics();
+            var jump = function()
+            {
+                simmy.robot.physicsChassi.setActivationState(1);
+                simmy.robot.physicsChassi.applyCentralForce(new Ammo.btVector3(0, 10000000, 0));
+                simmy.robot.physicsChassi.applyTorqueImpulse(new Ammo.btVector3(0, 1000, 0));
+            }
 
-            createBox(10, 800, 600, 0, 0x0f0f0f, -300, 400 - 40, 0, 1);
-            createBox(10, 800, 600, 0, 0x0f0f0f, 300, 400 - 40, 0, 1);
-            createBox(600, 800, 10, 0, 0x0f0f0f, 0, 400 - 40, 300, 1);
-            createBox(600, 800, 10, 0, 0x0f0f0f, 0, 400 - 40, -300, 1);
-            createBox(1200, 10, 1200, 0, 0xffffff, 0, 800 - 40, 0, 1);
-            createBox(1200, 10, 1200, 0, 0x0000ff, 0, -40, 0, 1);
+            var readVal = function()
+            {
+                val = simmy.robot.sensors[0].getVal();
+                document.getElementById("RF number").innerHTML = val;
+                requestAnimationFrame(readVal);
+            }
 
-            createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
-            createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
-            createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
-            createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
-            ROBOT = createCar3();
-            addCameraControls();
-            render();
+            var save = function()
+            {
+                saveFrame(simmy);
+            }
 
+            var load = function()
+            {
+                loadFrame(simmy);
+            }
+
+            keyMan.bindFunc(DOWN, 81, moveForwardLeft);
+            keyMan.bindFunc(UP, 81, stopLeft);
+            keyMan.bindFunc(DOWN, 65, moveBackLeft);
+            keyMan.bindFunc(UP, 65, stopLeft);
+            keyMan.bindFunc(DOWN, 69, moveForwardRight);
+            keyMan.bindFunc(UP, 69, stopRight);
+            keyMan.bindFunc(DOWN, 68, moveBackRight);
+            keyMan.bindFunc(UP, 68, stopRight);
+
+            keyMan.bindFunc(DOWN, 87, save);
+            keyMan.bindFunc(DOWN, 83, load);
+
+            keyMan.bindFunc(DOWN, 71, jump);
+
+            document.onkeydown = keyMan.updateDown; // apparently, cannot pass document as reference
+            document.onkeyup = keyMan.updateUp;
+
+            simmy.render();
+            readVal();
         </script>
     </body>
 </html>
