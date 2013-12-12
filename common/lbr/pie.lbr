@@ -137,6 +137,9 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 
 
 
+
+
+
 <packages>
 <package name="WSC0001">
 <description>&lt;b&gt;Wirewound Resistors, Precision Power&lt;/b&gt;&lt;p&gt;
@@ -2773,12 +2776,17 @@ type 0207, grid 10 mm</description>
 <pad diameter="3.175" drill="1.778" name="PIN2" x="7.874" y="0"/>
 <rectangle layer="39" x1="-4.191" x2="12.065" y1="-34.544" y2="0"/>
 <wire layer="51" width="0.127" x1="-4.191" x2="12.065" y1="-34.544" y2="-34.544"/>
-<wire layer="51" width="0.127" x1="12.065" x2="12.065" y1="-34.544" y2="1.778"/>
-<wire layer="51" width="0.127" x1="12.065" x2="-4.191" y1="1.778" y2="1.778"/>
-<wire layer="51" width="0.127" x1="-4.191" x2="-4.191" y1="1.778" y2="-34.544"/>
-<wire layer="51" width="0.127" x1="-4.191" x2="12.065" y1="-9.906" y2="-9.906"/>
+<wire layer="51" width="0.127" x1="-4.191" x2="0" y1="-9.906" y2="-9.906"/>
+<wire layer="51" width="0.127" x1="0" x2="7.874" y1="-9.906" y2="-9.906"/>
+<wire layer="51" width="0.127" x1="7.874" x2="12.065" y1="-9.906" y2="-9.906"/>
 <wire layer="51" width="0.127" x1="3.937" x2="3.937" y1="-9.906" y2="-34.544"/>
 <text font="vector" layer="25" size="1.27" x="-3.81" y="2.54">&gt;NAME</text>
+<wire layer="51" width="0.127" x1="0" x2="0" y1="0" y2="-9.906"/>
+<wire layer="51" width="0.127" x1="7.874" x2="7.874" y1="0" y2="-9.906"/>
+<wire layer="51" width="0.127" x1="-4.191" x2="-4.191" y1="-9.906" y2="-34.544"/>
+<wire layer="51" width="0.127" x1="12.065" x2="12.065" y1="-9.906" y2="-34.544"/>
+<smd dx="7.62" dy="2.54" layer="1" name="P$1" rot="R90" x="0" y="-5.588"/>
+<smd dx="7.62" dy="2.54" layer="1" name="P$3" rot="R90" x="7.62" y="-5.588"/>
 </package>
 <package name="1X03-MTA">
 <description>3-pin MTA connector</description>
@@ -4198,6 +4206,16 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle layer="51" x1="-1.4" x2="-1.1" y1="-1.6" y2="1.6"/>
 <rectangle layer="51" rot="R180" x1="1.1" x2="1.4" y1="-1.6" y2="1.6"/>
 </package>
+<package name="ANDERSON_VERTICAL">
+<pad diameter="3.175" drill="1.778" name="PIN1" x="3.937" y="3.937"/>
+<pad diameter="3.175" drill="1.778" name="PIN2" x="11.811" y="3.937"/>
+<rectangle layer="39" x1="0" x2="15.748" y1="0" y2="7.874"/>
+<wire layer="51" width="0.127" x1="0" x2="0" y1="0" y2="7.874"/>
+<wire layer="51" width="0.127" x1="0" x2="15.748" y1="7.874" y2="7.874"/>
+<wire layer="51" width="0.127" x1="15.748" x2="15.748" y1="7.874" y2="0"/>
+<wire layer="51" width="0.127" x1="0" x2="15.748" y1="0" y2="0"/>
+<wire layer="51" width="0.127" x1="7.874" x2="7.874" y1="0" y2="7.874"/>
+</package>
 <package name="R2012W">
 <description>&lt;b&gt;RESISTOR&lt;/b&gt;&lt;p&gt;
 wave soldering</description>
@@ -4991,11 +5009,11 @@ type 0204, grid 5 mm</description>
 <pad diameter="3.175" drill="1.778" name="PIN1" x="0" y="0"/>
 <rectangle layer="39" x1="-4.191" x2="4.191" y1="-34.544" y2="0"/>
 <wire layer="51" width="0.127" x1="-4.191" x2="4.191" y1="-34.544" y2="-34.544"/>
-<wire layer="51" width="0.127" x1="4.191" x2="4.191" y1="-34.544" y2="1.778"/>
-<wire layer="51" width="0.127" x1="4.191" x2="-4.191" y1="1.778" y2="1.778"/>
-<wire layer="51" width="0.127" x1="-4.191" x2="-4.191" y1="1.778" y2="-34.544"/>
+<wire layer="51" width="0.127" x1="4.191" x2="4.191" y1="-34.544" y2="-9.906"/>
+<wire layer="51" width="0.127" x1="-4.191" x2="-4.191" y1="-9.906" y2="-34.544"/>
 <wire layer="51" width="0.127" x1="-4.191" x2="4.191" y1="-9.906" y2="-9.906"/>
 <text font="vector" layer="25" size="1.27" x="-3.81" y="2.54">&gt;NAME</text>
+<wire layer="51" width="0.127" x1="0" x2="0" y1="0" y2="-9.906"/>
 </package>
 <package name="GRM43D">
 <wire layer="51" width="0.127" x1="2.25" x2="1.1" y1="1.6" y2="1.6"/>
@@ -7719,6 +7737,17 @@ type 0309, grid 2.5 mm</description>
 <pin direction="pas" length="short" name="4" rot="R180" swaplevel="1" visible="pad" x="5.08" y="-2.54"/>
 <pin direction="pas" length="short" name="2" swaplevel="2" visible="pad" x="-5.08" y="-2.54"/>
 </symbol>
+<symbol name="ANDERSON_VERTICAL">
+<pin length="middle" name="PIN1" rot="R270" x="2.54" y="15.24"/>
+<pin length="middle" name="PIN2" rot="R270" x="7.62" y="15.24"/>
+<wire layer="94" width="0.254" x1="0" x2="5.08" y1="0" y2="0"/>
+<wire layer="94" width="0.254" x1="5.08" x2="5.08" y1="0" y2="12.7"/>
+<wire layer="94" width="0.254" x1="5.08" x2="0" y1="12.7" y2="12.7"/>
+<wire layer="94" width="0.254" x1="0" x2="0" y1="12.7" y2="0"/>
+<wire layer="94" width="0.254" x1="5.08" x2="10.16" y1="0" y2="0"/>
+<wire layer="94" width="0.254" x1="10.16" x2="10.16" y1="0" y2="12.7"/>
+<wire layer="94" width="0.254" x1="10.16" x2="5.08" y1="12.7" y2="12.7"/>
+</symbol>
 <symbol name="M05">
 <wire layer="94" width="0.4064" x1="3.81" x2="-2.54" y1="-7.62" y2="-7.62"/>
 <wire layer="94" width="0.6096" x1="1.27" x2="2.54" y1="0" y2="0"/>
@@ -9520,6 +9549,22 @@ For buffering the I2C signals on the Watson, and hopefully  to avoid killing so 
 <technology name="">
 <attribute constant="no" name="PIE_TEXASINST-PN" value="PCA9306"/>
 </technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="ANDERSON_VERTICAL">
+<gates>
+<gate name="G$1" symbol="ANDERSON_VERTICAL" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="ANDERSON_VERTICAL">
+<connects>
+<connect gate="G$1" pad="PIN1" pin="PIN1"/>
+<connect gate="G$1" pad="PIN2" pin="PIN2"/>
+</connects>
+<technologies>
+<technology name=""/>
 </technologies>
 </device>
 </devices>
