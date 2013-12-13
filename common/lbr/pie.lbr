@@ -4,7 +4,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid altdistance="0.025" altunit="inch" altunitdist="inch" display="yes" distance="0.05" multiple="1" style="lines" unit="inch" unitdist="inch"/>
+<grid altdistance="0.01" altunit="inch" altunitdist="inch" display="no" distance="0.1" multiple="1" style="lines" unit="inch" unitdist="inch"/>
 <layers>
 <layer active="yes" color="4" fill="1" name="Top" number="1" visible="yes"/>
 <layer active="no" color="1" fill="3" name="Route2" number="2" visible="no"/>
@@ -125,6 +125,9 @@
 <description>&lt;b&gt;PiE Part Library&lt;/b&gt;&lt;br/&gt;
 A collection of parts and footprints made for the PiE Robotics Competition.&lt;br/&gt;&lt;br/&gt;
 (c) Pioneers in Engineering and Tau Beta Pi CA-A, UC Berkeley.</description>
+
+
+
 
 
 
@@ -9033,7 +9036,9 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <connect gate="G$1" pad="PIN2" pin="VCC"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute constant="no" name="PARTNUMBER" value="1377G1"/>
+</technology>
 </technologies>
 </device>
 <device name="VERTICAL" package="ANDERSON_VERTICAL">
@@ -9042,7 +9047,9 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <connect gate="G$1" pad="PIN2" pin="VCC"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute constant="no" name="PARTNUMBER" value="1377G3"/>
+</technology>
 </technologies>
 </device>
 </devices>
