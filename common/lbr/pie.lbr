@@ -4,7 +4,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid altdistance="0.025" altunit="inch" altunitdist="inch" display="yes" distance="0.05" multiple="1" style="lines" unit="inch" unitdist="inch"/>
+<grid altdistance="0.01" altunit="inch" altunitdist="inch" display="no" distance="0.1" multiple="1" style="lines" unit="inch" unitdist="inch"/>
 <layers>
 <layer active="yes" color="4" fill="1" name="Top" number="1" visible="yes"/>
 <layer active="no" color="1" fill="3" name="Route2" number="2" visible="no"/>
@@ -125,6 +125,9 @@
 <description>&lt;b&gt;PiE Part Library&lt;/b&gt;&lt;br/&gt;
 A collection of parts and footprints made for the PiE Robotics Competition.&lt;br/&gt;&lt;br/&gt;
 (c) Pioneers in Engineering and Tau Beta Pi CA-A, UC Berkeley.</description>
+
+
+
 
 
 
@@ -1124,21 +1127,23 @@ Source: VISHAY .. vta56.pdf</description>
 <package name="ANDERSON_HORIZONTAL">
 <description>2-pin 25A Anderson Connector
 Horizontal</description>
-<pad diameter="3.175" drill="1.778" name="PIN1" x="0" y="0"/>
-<pad diameter="3.175" drill="1.778" name="PIN2" x="7.874" y="0"/>
-<rectangle layer="39" x1="-4.191" x2="12.065" y1="-34.544" y2="0"/>
-<wire layer="51" width="0.127" x1="-4.191" x2="12.065" y1="-34.544" y2="-34.544"/>
-<wire layer="51" width="0.127" x1="-4.191" x2="0" y1="-9.906" y2="-9.906"/>
-<wire layer="51" width="0.127" x1="0" x2="7.874" y1="-9.906" y2="-9.906"/>
-<wire layer="51" width="0.127" x1="7.874" x2="12.065" y1="-9.906" y2="-9.906"/>
-<wire layer="51" width="0.127" x1="3.937" x2="3.937" y1="-9.906" y2="-34.544"/>
-<text font="vector" layer="25" size="1.27" x="-3.81" y="2.54">&gt;NAME</text>
-<wire layer="51" width="0.127" x1="0" x2="0" y1="0" y2="-9.906"/>
-<wire layer="51" width="0.127" x1="7.874" x2="7.874" y1="0" y2="-9.906"/>
-<wire layer="51" width="0.127" x1="-4.191" x2="-4.191" y1="-9.906" y2="-34.544"/>
-<wire layer="51" width="0.127" x1="12.065" x2="12.065" y1="-9.906" y2="-34.544"/>
-<smd dx="8.89" dy="1.27" layer="1" name="P$1" rot="R90" x="0" y="-5.334"/>
-<smd dx="8.89" dy="1.27" layer="1" name="P$3" rot="R90" x="7.874" y="-5.334"/>
+<pad diameter="3.175" drill="1.778" name="PIN1" x="-3.937" y="10.922"/>
+<pad diameter="3.175" drill="1.778" name="PIN2" x="3.937" y="10.922"/>
+<rectangle layer="39" x1="-8.128" x2="8.128" y1="-23.622" y2="10.922"/>
+<wire layer="51" width="0.127" x1="-8.128" x2="0" y1="-23.622" y2="-23.622"/>
+<wire layer="51" width="0.127" x1="0" x2="8.128" y1="-23.622" y2="-23.622"/>
+<wire layer="51" width="0.127" x1="-8.128" x2="-3.937" y1="1.016" y2="1.016"/>
+<wire layer="51" width="0.127" x1="-3.937" x2="0" y1="1.016" y2="1.016"/>
+<wire layer="51" width="0.127" x1="0" x2="3.937" y1="1.016" y2="1.016"/>
+<wire layer="51" width="0.127" x1="3.937" x2="8.128" y1="1.016" y2="1.016"/>
+<wire layer="51" width="0.127" x1="0" x2="0" y1="1.016" y2="-23.622"/>
+<text font="vector" layer="25" size="1.27" x="-7.747" y="13.462">&gt;NAME</text>
+<wire layer="51" width="0.127" x1="-3.937" x2="-3.937" y1="10.922" y2="1.016"/>
+<wire layer="51" width="0.127" x1="3.937" x2="3.937" y1="10.922" y2="1.016"/>
+<wire layer="51" width="0.127" x1="-8.128" x2="-8.128" y1="1.016" y2="-23.622"/>
+<wire layer="51" width="0.127" x1="8.128" x2="8.128" y1="1.016" y2="-23.622"/>
+<smd dx="8.89" dy="1.27" layer="1" name="P$1" rot="R90" x="-3.937" y="5.588"/>
+<smd dx="8.89" dy="1.27" layer="1" name="P$3" rot="R90" x="3.937" y="5.588"/>
 </package>
 <package name="CRYSTAL-SMD-5X3">
 <wire layer="21" width="0.2032" x1="-0.6" x2="0.6" y1="1.6" y2="1.6"/>
@@ -4216,17 +4221,17 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <package name="ANDERSON_VERTICAL">
 <description>2-pin 25A Anderson Connector
 Vertical</description>
-<pad diameter="3.175" drill="1.778" name="PIN1" x="0" y="0"/>
-<pad diameter="3.175" drill="1.778" name="PIN2" x="7.874" y="0"/>
-<rectangle layer="39" x1="-3.937" x2="11.811" y1="-3.937" y2="3.937"/>
-<wire layer="51" width="0.127" x1="-3.937" x2="-3.937" y1="-3.937" y2="3.937"/>
-<wire layer="51" width="0.127" x1="-3.937" x2="3.937" y1="3.937" y2="3.937"/>
-<wire layer="51" width="0.127" x1="3.937" x2="11.811" y1="3.937" y2="3.937"/>
-<wire layer="51" width="0.127" x1="11.811" x2="11.811" y1="3.937" y2="-3.937"/>
-<wire layer="51" width="0.127" x1="-3.937" x2="3.937" y1="-3.937" y2="-3.937"/>
-<wire layer="51" width="0.127" x1="3.937" x2="11.811" y1="-3.937" y2="-3.937"/>
-<wire layer="51" width="0.127" x1="3.937" x2="3.937" y1="-3.937" y2="3.937"/>
-<text font="vector" layer="25" size="1.27" x="-3.81" y="2.54">&gt;NAME
+<pad diameter="3.175" drill="1.778" name="PIN1" x="-3.937" y="0"/>
+<pad diameter="3.175" drill="1.778" name="PIN2" x="3.937" y="0"/>
+<rectangle layer="39" x1="-7.874" x2="7.874" y1="-3.937" y2="3.937"/>
+<wire layer="51" width="0.127" x1="-7.874" x2="-7.874" y1="-3.937" y2="3.937"/>
+<wire layer="51" width="0.127" x1="-7.874" x2="0" y1="3.937" y2="3.937"/>
+<wire layer="51" width="0.127" x1="0" x2="7.874" y1="3.937" y2="3.937"/>
+<wire layer="51" width="0.127" x1="7.874" x2="7.874" y1="3.937" y2="-3.937"/>
+<wire layer="51" width="0.127" x1="-7.874" x2="0" y1="-3.937" y2="-3.937"/>
+<wire layer="51" width="0.127" x1="0" x2="7.874" y1="-3.937" y2="-3.937"/>
+<wire layer="51" width="0.127" x1="0" x2="0" y1="-3.937" y2="3.937"/>
+<text font="vector" layer="25" size="1.27" x="-7.747" y="2.54">&gt;NAME
 </text>
 </package>
 <package name="R2012W">
@@ -7030,15 +7035,15 @@ type 0309, grid 2.5 mm</description>
 <pin length="point" name="1" rot="R180" visible="off" x="0" y="0"/>
 </symbol>
 <symbol name="ANDERSON">
-<wire layer="94" width="0.254" x1="0" x2="5.08" y1="0" y2="0"/>
-<wire layer="94" width="0.254" x1="5.08" x2="0" y1="12.7" y2="12.7"/>
-<wire layer="94" width="0.254" x1="0" x2="0" y1="12.7" y2="0"/>
-<wire layer="94" width="0.254" x1="5.08" x2="10.16" y1="0" y2="0"/>
-<wire layer="94" width="0.254" x1="10.16" x2="10.16" y1="0" y2="12.7"/>
-<wire layer="94" width="0.254" x1="10.16" x2="5.08" y1="12.7" y2="12.7"/>
-<wire layer="94" width="0.254" x1="5.08" x2="5.08" y1="12.7" y2="0"/>
-<pin length="middle" name="VCC" rot="R270" x="2.54" y="15.24"/>
-<pin length="middle" name="GND" rot="R270" x="7.62" y="15.24"/>
+<wire layer="94" width="0.254" x1="-5.08" x2="0" y1="-7.62" y2="-7.62"/>
+<wire layer="94" width="0.254" x1="0" x2="-5.08" y1="5.08" y2="5.08"/>
+<wire layer="94" width="0.254" x1="-5.08" x2="-5.08" y1="5.08" y2="-7.62"/>
+<wire layer="94" width="0.254" x1="0" x2="5.08" y1="-7.62" y2="-7.62"/>
+<wire layer="94" width="0.254" x1="5.08" x2="5.08" y1="-7.62" y2="5.08"/>
+<wire layer="94" width="0.254" x1="5.08" x2="0" y1="5.08" y2="5.08"/>
+<wire layer="94" width="0.254" x1="0" x2="0" y1="5.08" y2="-7.62"/>
+<pin length="middle" name="VCC" rot="R270" x="-2.54" y="7.62"/>
+<pin length="middle" name="GND" rot="R270" x="2.54" y="7.62"/>
 </symbol>
 <symbol name="PINH2X20">
 <wire layer="94" width="0.4064" x1="-6.35" x2="8.89" y1="-25.4" y2="-25.4"/>
