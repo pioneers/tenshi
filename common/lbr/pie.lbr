@@ -4,7 +4,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid altdistance="0.01" altunit="inch" altunitdist="inch" display="yes" distance="0.1" multiple="1" style="lines" unit="inch" unitdist="inch"/>
+<grid altdistance="0.01" altunit="inch" altunitdist="inch" display="no" distance="0.1" multiple="1" style="lines" unit="inch" unitdist="inch"/>
 <layers>
 <layer active="yes" color="4" fill="1" name="Top" number="1" visible="yes"/>
 <layer active="no" color="1" fill="3" name="Route2" number="2" visible="no"/>
@@ -125,6 +125,33 @@
 <description>&lt;b&gt;PiE Part Library&lt;/b&gt;&lt;br/&gt;
 A collection of parts and footprints made for the PiE Robotics Competition.&lt;br/&gt;&lt;br/&gt;
 (c) Pioneers in Engineering and Tau Beta Pi CA-A, UC Berkeley.</description>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1102,6 +1129,27 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle layer="51" x1="-2.5999" x2="-2.1999" y1="4.95" y2="6.1001"/>
 <rectangle layer="51" x1="-3.4" x2="-3" y1="4.95" y2="6.1001"/>
 <rectangle layer="51" x1="-4.1999" x2="-3.8001" y1="4.95" y2="6.1001"/>
+</package>
+<package name="ANDERSON_HORIZONTAL">
+<description>2-pin 25A Anderson Connector
+Horizontal</description>
+<pad diameter="3.175" drill="1.778" name="PIN1" rot="R270" x="0" y="3.937"/>
+<pad diameter="3.175" drill="1.778" name="PIN2" rot="R270" x="0" y="-3.937"/>
+<rectangle layer="39" rot="R270" x1="-25.4" x2="-9.144" y1="-17.272" y2="17.272"/>
+<wire layer="51" width="0.127" x1="-34.544" x2="-34.544" y1="8.128" y2="0"/>
+<wire layer="51" width="0.127" x1="-34.544" x2="-34.544" y1="0" y2="-8.128"/>
+<wire layer="51" width="0.127" x1="-9.906" x2="-9.906" y1="8.128" y2="3.937"/>
+<wire layer="51" width="0.127" x1="-9.906" x2="-9.906" y1="3.937" y2="0"/>
+<wire layer="51" width="0.127" x1="-9.906" x2="-9.906" y1="0" y2="-3.937"/>
+<wire layer="51" width="0.127" x1="-9.906" x2="-9.906" y1="-3.937" y2="-8.128"/>
+<wire layer="51" width="0.127" x1="-9.906" x2="-34.544" y1="0" y2="0"/>
+<text font="vector" layer="25" size="1.27" x="-34.417" y="8.89">&gt;NAME</text>
+<wire layer="51" width="0.127" x1="0" x2="-9.906" y1="3.937" y2="3.937"/>
+<wire layer="51" width="0.127" x1="0" x2="-9.906" y1="-3.937" y2="-3.937"/>
+<wire layer="51" width="0.127" x1="-9.906" x2="-34.544" y1="8.128" y2="8.128"/>
+<wire layer="51" width="0.127" x1="-9.906" x2="-34.544" y1="-8.128" y2="-8.128"/>
+<smd dx="8.89" dy="1.27" layer="1" name="P$1" x="-5.334" y="3.937"/>
+<smd dx="8.89" dy="1.27" layer="1" name="P$3" x="-5.334" y="-3.937"/>
 </package>
 <package name="CRYSTAL-SMD-5X3">
 <wire layer="21" width="0.2032" x1="-0.6" x2="0.6" y1="1.6" y2="1.6"/>
@@ -4176,6 +4224,22 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle layer="51" x1="-1.4" x2="-1.1" y1="-1.6" y2="1.6"/>
 <rectangle layer="51" rot="R180" x1="1.1" x2="1.4" y1="-1.6" y2="1.6"/>
 </package>
+<package name="ANDERSON_VERTICAL">
+<description>2-pin 25A Anderson Connector
+Vertical</description>
+<pad diameter="3.175" drill="1.778" name="PIN1" rot="R90" x="0" y="-3.937"/>
+<pad diameter="3.175" drill="1.778" name="PIN2" rot="R90" x="0" y="3.937"/>
+<rectangle layer="39" rot="R90" x1="-7.874" x2="7.874" y1="-3.937" y2="3.937"/>
+<wire layer="51" width="0.127" x1="3.937" x2="-3.937" y1="-7.874" y2="-7.874"/>
+<wire layer="51" width="0.127" x1="-3.937" x2="-3.937" y1="-7.874" y2="0"/>
+<wire layer="51" width="0.127" x1="-3.937" x2="-3.937" y1="0" y2="7.874"/>
+<wire layer="51" width="0.127" x1="-3.937" x2="3.937" y1="7.874" y2="7.874"/>
+<wire layer="51" width="0.127" x1="3.937" x2="3.937" y1="-7.874" y2="0"/>
+<wire layer="51" width="0.127" x1="3.937" x2="3.937" y1="0" y2="7.874"/>
+<wire layer="51" width="0.127" x1="3.937" x2="-3.937" y1="0" y2="0"/>
+<text font="vector" layer="25" rot="R180" size="1.27" x="1.27" y="10.033">&gt;NAME
+</text>
+</package>
 <package name="R2012W">
 <description>&lt;b&gt;RESISTOR&lt;/b&gt;&lt;p&gt;
 wave soldering</description>
@@ -6715,13 +6779,6 @@ Currently used for OPAMP_DUAL (see http://ww1.microchip.com/downloads/en/deviced
 <rectangle layer="51" x1="1.651" x2="2.5009" y1="-1.3208" y2="1.3292"/>
 <rectangle layer="35" x1="-0.5001" x2="0.5001" y1="-1" y2="1"/>
 </package>
-<package name="ANDERSON_RA_BOTTOM">
-<pad drill="4.318" name="PIN1" x="1.8415" y="0.508"/>
-<wire layer="51" width="0.127" x1="0" x2="3.81" y1="0" y2="0"/>
-<wire layer="51" width="0.127" x1="3.81" x2="3.81" y1="0" y2="1.016"/>
-<wire layer="51" width="0.127" x1="3.81" x2="0" y1="1.016" y2="1.016"/>
-<wire layer="51" width="0.127" x1="0" x2="0" y1="1.016" y2="0"/>
-</package>
 <package name="EN_J2">
 <description>Type J2 package for SMD supercap PRT-10317 (p# EEC-EN0F204J2)</description>
 <wire layer="51" width="0.127" x1="-2.5" x2="2.5" y1="-3.5" y2="-3.5"/>
@@ -6983,6 +7040,17 @@ type 0309, grid 2.5 mm</description>
 <text layer="96" size="1.778" x="-2.54" y="-2.54">&gt;Value</text>
 <pin length="point" name="1" rot="R180" visible="off" x="0" y="0"/>
 </symbol>
+<symbol name="ANDERSON">
+<wire layer="94" width="0.254" x1="-7.62" x2="-7.62" y1="5.08" y2="0"/>
+<wire layer="94" width="0.254" x1="5.08" x2="5.08" y1="0" y2="5.08"/>
+<wire layer="94" width="0.254" x1="5.08" x2="-7.62" y1="5.08" y2="5.08"/>
+<wire layer="94" width="0.254" x1="-7.62" x2="-7.62" y1="0" y2="-5.08"/>
+<wire layer="94" width="0.254" x1="-7.62" x2="5.08" y1="-5.08" y2="-5.08"/>
+<wire layer="94" width="0.254" x1="5.08" x2="5.08" y1="-5.08" y2="0"/>
+<wire layer="94" width="0.254" x1="5.08" x2="-7.62" y1="0" y2="0"/>
+<pin length="middle" name="VCC" rot="R180" visible="pin" x="7.62" y="2.54"/>
+<pin length="middle" name="GND" rot="R180" visible="pin" x="7.62" y="-2.54"/>
+</symbol>
 <symbol name="PINH2X20">
 <wire layer="94" width="0.4064" x1="-6.35" x2="8.89" y1="-25.4" y2="-25.4"/>
 <wire layer="94" width="0.4064" x1="8.89" x2="8.89" y1="-25.4" y2="27.94"/>
@@ -7090,13 +7158,6 @@ type 0309, grid 2.5 mm</description>
 <text align="center" layer="99" size="0.4064" x="-5.08" y="-12.7">SpiceOrder 2</text>
 <text align="center-left" layer="95" size="1.778" x="2.54" y="-10.16">&gt;NAME</text>
 <text align="center-left" layer="96" size="1.778" x="2.54" y="-20.32">&gt;VALUE</text>
-</symbol>
-<symbol name="ANDERSON_RA_BOTTOM">
-<pin length="middle" name="PIN1" x="0" y="0"/>
-<wire layer="94" width="0.254" x1="-2.54" x2="7.62" y1="2.54" y2="2.54"/>
-<wire layer="94" width="0.254" x1="7.62" x2="7.62" y1="2.54" y2="-2.54"/>
-<wire layer="94" width="0.254" x1="7.62" x2="-2.54" y1="-2.54" y2="-2.54"/>
-<wire layer="94" width="0.254" x1="-2.54" x2="-2.54" y1="-2.54" y2="2.54"/>
 </symbol>
 <symbol name="MA03-2">
 <wire layer="94" width="0.4064" x1="3.81" x2="-3.81" y1="-5.08" y2="-5.08"/>
@@ -8962,6 +9023,37 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </device>
 </devices>
 </deviceset>
+<deviceset name="ANDERSON">
+<description>2-pin 25A Anderson Connector
+http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/70162018.pdf</description>
+<gates>
+<gate name="G$1" symbol="ANDERSON" x="0" y="0"/>
+</gates>
+<devices>
+<device name="HORIZONTAL" package="ANDERSON_HORIZONTAL">
+<connects>
+<connect gate="G$1" pad="PIN1" pin="GND"/>
+<connect gate="G$1" pad="PIN2" pin="VCC"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute constant="no" name="PARTNUMBER" value="1377G1"/>
+</technology>
+</technologies>
+</device>
+<device name="VERTICAL" package="ANDERSON_VERTICAL">
+<connects>
+<connect gate="G$1" pad="PIN1" pin="GND"/>
+<connect gate="G$1" pad="PIN2" pin="VCC"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute constant="no" name="PARTNUMBER" value="1377G3"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
 <deviceset name="A4940">
 <gates>
 <gate name="G$1" symbol="A4940" x="0" y="0"/>
@@ -9554,21 +9646,6 @@ Standard 7805 5V regulator. IGO (Input Ground Output). Spark Fun Electronics SKU
 <technology name="">
 <attribute name="PARTNUMBER" value="296-8204-1-ND"/>
 </technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="ANDERSON_RA_BOTTOM">
-<gates>
-<gate name="G$1" symbol="ANDERSON_RA_BOTTOM" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="ANDERSON_RA_BOTTOM">
-<connects>
-<connect gate="G$1" pad="PIN1" pin="PIN1"/>
-</connects>
-<technologies>
-<technology name=""/>
 </technologies>
 </device>
 </devices>
@@ -10470,4 +10547,10 @@ Standard 0603 ceramic capacitor, and 0.1&quot; leaded capacitor.</description>
 </devicesets>
 </library>
 </drawing>
+<compatibility>
+<note minversion="6.2.2" severity="warning" version="6.3">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
+</compatibility>
 </eagle>
