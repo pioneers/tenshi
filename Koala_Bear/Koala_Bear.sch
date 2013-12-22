@@ -57,6 +57,7 @@
 <layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="97" name="Info" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="98" name="Guide" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="99" name="SpiceOrder" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="100" name="Muster" color="7" fill="1" visible="no" active="no"/>
 <layer number="101" name="Patch_Top" color="12" fill="4" visible="no" active="yes"/>
 <layer number="102" name="Vscore" color="7" fill="1" visible="no" active="yes"/>
@@ -2913,6 +2914,43 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="-2.54" y1="-2.54" x2="2.54" y2="3.302" layer="39"/>
 <rectangle x1="-2.54" y1="-1.27" x2="2.54" y2="1.27" layer="40"/>
 </package>
+<package name="ANDERSON_HORIZONTAL">
+<description>2-pin 25A Anderson Connector
+Horizontal</description>
+<pad name="PIN1" x="0" y="3.937" drill="1.778" diameter="3.175" rot="R270"/>
+<pad name="PIN2" x="0" y="-3.937" drill="1.778" diameter="3.175" rot="R270"/>
+<rectangle x1="-25.4" y1="-17.272" x2="-9.144" y2="17.272" layer="39" rot="R270"/>
+<wire x1="-34.544" y1="8.128" x2="-34.544" y2="0" width="0.127" layer="51"/>
+<wire x1="-34.544" y1="0" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="8.128" x2="-9.906" y2="3.937" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="3.937" x2="-9.906" y2="0" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="0" x2="-9.906" y2="-3.937" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="-3.937" x2="-9.906" y2="-8.128" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="0" x2="-34.544" y2="0" width="0.127" layer="51"/>
+<text x="-34.417" y="8.89" size="1.27" layer="25" font="vector">&gt;NAME</text>
+<wire x1="0" y1="3.937" x2="-9.906" y2="3.937" width="0.127" layer="51"/>
+<wire x1="0" y1="-3.937" x2="-9.906" y2="-3.937" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="8.128" x2="-34.544" y2="8.128" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="-8.128" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
+<smd name="P$1" x="-5.334" y="3.937" dx="8.89" dy="1.27" layer="1"/>
+<smd name="P$3" x="-5.334" y="-3.937" dx="8.89" dy="1.27" layer="1"/>
+</package>
+<package name="ANDERSON_VERTICAL">
+<description>2-pin 25A Anderson Connector
+Vertical</description>
+<pad name="PIN1" x="0" y="-3.937" drill="1.778" diameter="3.175" rot="R90"/>
+<pad name="PIN2" x="0" y="3.937" drill="1.778" diameter="3.175" rot="R90"/>
+<rectangle x1="-7.874" y1="-3.937" x2="7.874" y2="3.937" layer="39" rot="R90"/>
+<wire x1="3.937" y1="-7.874" x2="-3.937" y2="-7.874" width="0.127" layer="51"/>
+<wire x1="-3.937" y1="-7.874" x2="-3.937" y2="0" width="0.127" layer="51"/>
+<wire x1="-3.937" y1="0" x2="-3.937" y2="7.874" width="0.127" layer="51"/>
+<wire x1="-3.937" y1="7.874" x2="3.937" y2="7.874" width="0.127" layer="51"/>
+<wire x1="3.937" y1="-7.874" x2="3.937" y2="0" width="0.127" layer="51"/>
+<wire x1="3.937" y1="0" x2="3.937" y2="7.874" width="0.127" layer="51"/>
+<wire x1="3.937" y1="0" x2="-3.937" y2="0" width="0.127" layer="51"/>
+<text x="1.27" y="10.033" size="1.27" layer="25" font="vector" rot="R180">&gt;NAME
+</text>
+</package>
 </packages>
 <symbols>
 <symbol name="CAP">
@@ -3032,6 +3070,17 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <vertex x="-2.921" y="-1.143"/>
 <vertex x="-2.413" y="-1.651"/>
 </polygon>
+</symbol>
+<symbol name="ANDERSON">
+<wire x1="-7.62" y1="5.08" x2="-7.62" y2="0" width="0.254" layer="94"/>
+<wire x1="5.08" y1="0" x2="5.08" y2="5.08" width="0.254" layer="94"/>
+<wire x1="5.08" y1="5.08" x2="-7.62" y2="5.08" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="0" x2="-7.62" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-5.08" x2="5.08" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="5.08" y1="-5.08" x2="5.08" y2="0" width="0.254" layer="94"/>
+<wire x1="5.08" y1="0" x2="-7.62" y2="0" width="0.254" layer="94"/>
+<pin name="VCC" x="7.62" y="2.54" visible="pin" length="middle" rot="R180"/>
+<pin name="GND" x="7.62" y="-2.54" visible="pin" length="middle" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -4112,6 +4161,37 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </device>
 </devices>
 </deviceset>
+<deviceset name="ANDERSON">
+<description>2-pin 25A Anderson Connector
+http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/70162018.pdf</description>
+<gates>
+<gate name="G$1" symbol="ANDERSON" x="0" y="0"/>
+</gates>
+<devices>
+<device name="HORIZONTAL" package="ANDERSON_HORIZONTAL">
+<connects>
+<connect gate="G$1" pin="GND" pad="PIN1"/>
+<connect gate="G$1" pin="VCC" pad="PIN2"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PARTNUMBER" value="1377G1" constant="no"/>
+</technology>
+</technologies>
+</device>
+<device name="VERTICAL" package="ANDERSON_VERTICAL">
+<connects>
+<connect gate="G$1" pin="GND" pad="PIN1"/>
+<connect gate="G$1" pin="VCC" pad="PIN2"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PARTNUMBER" value="1377G3" constant="no"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 <library name="pie_new">
@@ -4119,21 +4199,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 A collection of parts and footprints made for the PiE Robotics Competition.&lt;br/&gt;&lt;br/&gt;
 (c) Pioneers in Engineering and Tau Beta Pi CA-A, UC Berkeley.</description>
 <packages>
-<package name="XT60CONNECTOR">
-<description>12V XT60 power connector</description>
-<wire x1="0" y1="0" x2="13.208" y2="0" width="0.127" layer="21"/>
-<wire x1="13.208" y1="0" x2="15.748" y2="2.54" width="0.127" layer="21"/>
-<wire x1="15.748" y1="2.54" x2="15.748" y2="5.588" width="0.127" layer="21"/>
-<wire x1="15.748" y1="5.588" x2="13.208" y2="8.128" width="0.127" layer="21"/>
-<wire x1="13.208" y1="8.128" x2="0" y2="8.128" width="0.127" layer="21"/>
-<wire x1="0" y1="8.128" x2="0" y2="0" width="0.127" layer="21"/>
-<wire x1="0" y1="8.128" x2="15.748" y2="8.128" width="0.127" layer="51"/>
-<wire x1="15.748" y1="8.128" x2="15.748" y2="0" width="0.127" layer="51"/>
-<wire x1="15.748" y1="0" x2="0" y2="0" width="0.127" layer="51"/>
-<wire x1="0" y1="0" x2="0" y2="8.128" width="0.127" layer="51"/>
-<pad name="12V" x="4.572" y="4.064" drill="4.572" diameter="6.096"/>
-<pad name="GND" x="11.684" y="4.064" drill="4.572" diameter="6.096" rot="R180"/>
-</package>
 <package name="1X04-MTA">
 <pad name="1" x="-3.81" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
@@ -4202,16 +4267,6 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </package>
 </packages>
 <symbols>
-<symbol name="XT60CONNECTOR">
-<wire x1="15.24" y1="2.54" x2="15.24" y2="5.08" width="0.254" layer="94"/>
-<wire x1="15.24" y1="5.08" x2="12.7" y2="7.62" width="0.254" layer="94"/>
-<wire x1="12.7" y1="7.62" x2="0" y2="7.62" width="0.254" layer="94"/>
-<wire x1="0" y1="7.62" x2="0" y2="0" width="0.254" layer="94"/>
-<wire x1="0" y1="0" x2="12.7" y2="0" width="0.254" layer="94"/>
-<wire x1="12.7" y1="0" x2="15.24" y2="2.54" width="0.254" layer="94"/>
-<pin name="12V" x="5.08" y="10.16" length="middle" rot="R270"/>
-<pin name="GND" x="10.16" y="10.16" length="middle" rot="R270"/>
-</symbol>
 <symbol name="M04">
 <wire x1="1.27" y1="-5.08" x2="-5.08" y2="-5.08" width="0.4064" layer="94"/>
 <wire x1="-1.27" y1="2.54" x2="0" y2="2.54" width="0.6096" layer="94"/>
@@ -4230,25 +4285,6 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="XT60CONNECTOR">
-<description>12V XT60 power connector</description>
-<gates>
-<gate name="G$1" symbol="XT60CONNECTOR" x="10.16" y="0"/>
-</gates>
-<devices>
-<device name="" package="XT60CONNECTOR">
-<connects>
-<connect gate="G$1" pin="12V" pad="12V"/>
-<connect gate="G$1" pin="GND" pad="GND"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PARTNUMBER" value="PRT-10474 "/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="M04" prefix="JP" uservalue="yes">
 <description>&lt;b&gt;Header 4&lt;/b&gt;
 Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-00116), right angle break away headers (PRT-00553), swiss pins (PRT-00743), machine pins (PRT-00117), and female headers (PRT-00115). Molex polarized connector foot print use with SKU : PRT-08231 with associated crimp pins and housings. 1MM SMD Version SKU: PRT-10208</description>
@@ -4313,7 +4349,6 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="COUT2" library="TANT_CASE_E" deviceset="TANT_CASE_E" device="" value="470uF"/>
 <part name="R3" library="pie" deviceset="R-US_" device="R0603" value="100"/>
 <part name="MSTRO_PINS" library="pie_new" deviceset="M04" device="1X04-MTA"/>
-<part name="XT60" library="pie_new" deviceset="XT60CONNECTOR" device=""/>
 <part name="MSTRO_PWR" library="pie" deviceset="M05" device="MTA"/>
 <part name="SERVO_PWR_6" library="pie" deviceset="M02" device="PTH"/>
 <part name="SERVO_PWR_12" library="pie" deviceset="M02" device="PTH"/>
@@ -4326,6 +4361,7 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="LED1" library="pie" deviceset="LED" device="0805" value="GRN"/>
 <part name="LED2" library="pie" deviceset="LED" device="0805" value="YEL"/>
 <part name="SUPPLY4" library="supply2" deviceset="GND" device=""/>
+<part name="U$6" library="pie" deviceset="ANDERSON" device="VERTICAL"/>
 </parts>
 <sheets>
 <sheet>
@@ -4400,7 +4436,6 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <attribute name="VALUE" x="38.1" y="60.96" size="1.778" layer="96" rot="R270"/>
 <attribute name="NAME" x="40.386" y="64.262" size="1.778" layer="95" font="vector"/>
 </instance>
-<instance part="XT60" gate="G$1" x="-25.4" y="50.8" smashed="yes" rot="R270"/>
 <instance part="MSTRO_PWR" gate="G$1" x="81.28" y="45.72" smashed="yes" rot="R180">
 <attribute name="VALUE" x="86.36" y="58.42" size="1.778" layer="96" font="vector" rot="R180"/>
 <attribute name="NAME" x="86.36" y="39.878" size="1.778" layer="95" font="vector" rot="R180"/>
@@ -4440,6 +4475,7 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <instance part="SUPPLY4" gate="GND" x="106.68" y="-12.7" smashed="yes">
 <attribute name="VALUE" x="104.775" y="-15.875" size="1.27" layer="96"/>
 </instance>
+<instance part="U$6" gate="G$1" x="-22.86" y="43.18"/>
 </instances>
 <busses>
 </busses>
@@ -4497,11 +4533,6 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <wire x1="43.18" y1="40.64" x2="73.66" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="XT60" gate="G$1" pin="GND"/>
-<wire x1="-15.24" y1="40.64" x2="-10.16" y2="40.64" width="0.1524" layer="91"/>
-<label x="-12.7" y="40.64" size="1.27" layer="95" font="vector"/>
-</segment>
-<segment>
 <pinref part="LED1" gate="G$1" pin="C"/>
 <wire x1="99.06" y1="0" x2="99.06" y2="-7.62" width="0.1524" layer="91"/>
 <pinref part="LED2" gate="G$1" pin="C"/>
@@ -4513,6 +4544,11 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <pinref part="SUPPLY4" gate="GND" pin="GND"/>
 <wire x1="106.68" y1="-10.16" x2="106.68" y2="-12.7" width="0.1524" layer="91"/>
 <junction x="106.68" y="-10.16"/>
+</segment>
+<segment>
+<pinref part="U$6" gate="G$1" pin="GND"/>
+<wire x1="-15.24" y1="40.64" x2="-10.16" y2="40.64" width="0.1524" layer="91"/>
+<label x="-10.16" y="40.64" size="1.27" layer="95" font="vector"/>
 </segment>
 </net>
 <net name="VIN" class="0">
@@ -4528,9 +4564,9 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <junction x="0" y="38.1"/>
 </segment>
 <segment>
-<pinref part="XT60" gate="G$1" pin="12V"/>
+<pinref part="U$6" gate="G$1" pin="VCC"/>
 <wire x1="-15.24" y1="45.72" x2="-10.16" y2="45.72" width="0.1524" layer="91"/>
-<label x="-12.7" y="45.72" size="1.27" layer="95" font="vector"/>
+<label x="-10.16" y="45.72" size="1.27" layer="95" font="vector"/>
 </segment>
 </net>
 <net name="FB" class="0">
@@ -4669,4 +4705,10 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 </sheets>
 </schematic>
 </drawing>
+<compatibility>
+<note version="6.3" minversion="6.2.2" severity="warning">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
+</compatibility>
 </eagle>
