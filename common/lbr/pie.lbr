@@ -1115,7 +1115,7 @@ Horizontal</description>
 <wire x1="-9.906" y1="0" x2="-9.906" y2="-3.937" width="0.127" layer="51"/>
 <wire x1="-9.906" y1="-3.937" x2="-9.906" y2="-8.128" width="0.127" layer="51"/>
 <wire x1="-9.906" y1="0" x2="-34.544" y2="0" width="0.127" layer="51"/>
-<text x="-34.417" y="8.89" size="1.27" layer="25" font="vector">&gt;NAME</text>
+<text x="-4.572" y="8.255" size="1.27" layer="25" font="vector">&gt;NAME</text>
 <wire x1="0" y1="3.937" x2="-9.906" y2="3.937" width="0.127" layer="51"/>
 <wire x1="0" y1="-3.937" x2="-9.906" y2="-3.937" width="0.127" layer="51"/>
 <wire x1="-9.906" y1="8.128" x2="-34.544" y2="8.128" width="0.127" layer="51"/>
@@ -4209,8 +4209,7 @@ Vertical</description>
 <wire x1="3.937" y1="-7.874" x2="3.937" y2="0" width="0.127" layer="21"/>
 <wire x1="3.937" y1="0" x2="3.937" y2="7.874" width="0.127" layer="21"/>
 <wire x1="3.937" y1="0" x2="-3.937" y2="0" width="0.127" layer="21"/>
-<text x="1.27" y="10.033" size="1.27" layer="25" font="vector" rot="R180">&gt;NAME
-</text>
+<text x="-3.175" y="8.255" size="1.27" layer="25" font="vector">&gt;NAME</text>
 </package>
 <package name="R2012W">
 <description>&lt;b&gt;RESISTOR&lt;/b&gt;&lt;p&gt;
@@ -10519,10 +10518,4 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 </devicesets>
 </library>
 </drawing>
-<compatibility>
-<note version="6.3" minversion="6.2.2" severity="warning">
-Since Version 6.2.2 text objects can contain more than one line,
-which will not be processed correctly with this version.
-</note>
-</compatibility>
 </eagle>
