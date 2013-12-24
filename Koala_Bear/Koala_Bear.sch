@@ -2914,6 +2914,21 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="-2.54" y1="-2.54" x2="2.54" y2="3.302" layer="39"/>
 <rectangle x1="-2.54" y1="-1.27" x2="2.54" y2="1.27" layer="40"/>
 </package>
+<package name="ANDERSON_VERTICAL">
+<description>2-pin 25A Anderson Connector
+Vertical</description>
+<pad name="PIN1" x="0" y="-3.937" drill="1.778" diameter="3.175" rot="R90"/>
+<pad name="PIN2" x="0" y="3.937" drill="1.778" diameter="3.175" rot="R90"/>
+<rectangle x1="-7.874" y1="-3.937" x2="7.874" y2="3.937" layer="39" rot="R90"/>
+<wire x1="3.937" y1="-7.874" x2="-3.937" y2="-7.874" width="0.127" layer="21"/>
+<wire x1="-3.937" y1="-7.874" x2="-3.937" y2="0" width="0.127" layer="21"/>
+<wire x1="-3.937" y1="0" x2="-3.937" y2="7.874" width="0.127" layer="21"/>
+<wire x1="-3.937" y1="7.874" x2="3.937" y2="7.874" width="0.127" layer="21"/>
+<wire x1="3.937" y1="-7.874" x2="3.937" y2="0" width="0.127" layer="21"/>
+<wire x1="3.937" y1="0" x2="3.937" y2="7.874" width="0.127" layer="21"/>
+<wire x1="3.937" y1="0" x2="-3.937" y2="0" width="0.127" layer="21"/>
+<text x="-3.175" y="8.255" size="1.27" layer="25" font="vector">&gt;NAME</text>
+</package>
 <package name="ANDERSON_HORIZONTAL">
 <description>2-pin 25A Anderson Connector
 Horizontal</description>
@@ -2927,29 +2942,13 @@ Horizontal</description>
 <wire x1="-9.906" y1="0" x2="-9.906" y2="-3.937" width="0.127" layer="51"/>
 <wire x1="-9.906" y1="-3.937" x2="-9.906" y2="-8.128" width="0.127" layer="51"/>
 <wire x1="-9.906" y1="0" x2="-34.544" y2="0" width="0.127" layer="51"/>
-<text x="-34.417" y="8.89" size="1.27" layer="25" font="vector">&gt;NAME</text>
+<text x="-4.572" y="8.255" size="1.27" layer="25" font="vector">&gt;NAME</text>
 <wire x1="0" y1="3.937" x2="-9.906" y2="3.937" width="0.127" layer="51"/>
 <wire x1="0" y1="-3.937" x2="-9.906" y2="-3.937" width="0.127" layer="51"/>
 <wire x1="-9.906" y1="8.128" x2="-34.544" y2="8.128" width="0.127" layer="51"/>
 <wire x1="-9.906" y1="-8.128" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
 <smd name="P$1" x="-5.334" y="3.937" dx="8.89" dy="1.27" layer="1"/>
 <smd name="P$3" x="-5.334" y="-3.937" dx="8.89" dy="1.27" layer="1"/>
-</package>
-<package name="ANDERSON_VERTICAL">
-<description>2-pin 25A Anderson Connector
-Vertical</description>
-<pad name="PIN1" x="0" y="-3.937" drill="1.778" diameter="3.175" rot="R90"/>
-<pad name="PIN2" x="0" y="3.937" drill="1.778" diameter="3.175" rot="R90"/>
-<rectangle x1="-7.874" y1="-3.937" x2="7.874" y2="3.937" layer="39" rot="R90"/>
-<wire x1="3.937" y1="-7.874" x2="-3.937" y2="-7.874" width="0.127" layer="51"/>
-<wire x1="-3.937" y1="-7.874" x2="-3.937" y2="0" width="0.127" layer="51"/>
-<wire x1="-3.937" y1="0" x2="-3.937" y2="7.874" width="0.127" layer="51"/>
-<wire x1="-3.937" y1="7.874" x2="3.937" y2="7.874" width="0.127" layer="51"/>
-<wire x1="3.937" y1="-7.874" x2="3.937" y2="0" width="0.127" layer="51"/>
-<wire x1="3.937" y1="0" x2="3.937" y2="7.874" width="0.127" layer="51"/>
-<wire x1="3.937" y1="0" x2="-3.937" y2="0" width="0.127" layer="51"/>
-<text x="1.27" y="10.033" size="1.27" layer="25" font="vector" rot="R180">&gt;NAME
-</text>
 </package>
 </packages>
 <symbols>
@@ -4361,7 +4360,7 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="LED1" library="pie" deviceset="LED" device="0805" value="GRN"/>
 <part name="LED2" library="pie" deviceset="LED" device="0805" value="YEL"/>
 <part name="SUPPLY4" library="supply2" deviceset="GND" device=""/>
-<part name="U$6" library="pie" deviceset="ANDERSON" device="VERTICAL"/>
+<part name="PWR" library="pie" deviceset="ANDERSON" device="VERTICAL"/>
 </parts>
 <sheets>
 <sheet>
@@ -4475,7 +4474,7 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <instance part="SUPPLY4" gate="GND" x="106.68" y="-12.7" smashed="yes">
 <attribute name="VALUE" x="104.775" y="-15.875" size="1.27" layer="96"/>
 </instance>
-<instance part="U$6" gate="G$1" x="-22.86" y="43.18"/>
+<instance part="PWR" gate="G$1" x="-22.86" y="43.18"/>
 </instances>
 <busses>
 </busses>
@@ -4546,7 +4545,7 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <junction x="106.68" y="-10.16"/>
 </segment>
 <segment>
-<pinref part="U$6" gate="G$1" pin="GND"/>
+<pinref part="PWR" gate="G$1" pin="GND"/>
 <wire x1="-15.24" y1="40.64" x2="-10.16" y2="40.64" width="0.1524" layer="91"/>
 <label x="-10.16" y="40.64" size="1.27" layer="95" font="vector"/>
 </segment>
@@ -4564,7 +4563,7 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <junction x="0" y="38.1"/>
 </segment>
 <segment>
-<pinref part="U$6" gate="G$1" pin="VCC"/>
+<pinref part="PWR" gate="G$1" pin="VCC"/>
 <wire x1="-15.24" y1="45.72" x2="-10.16" y2="45.72" width="0.1524" layer="91"/>
 <label x="-10.16" y="45.72" size="1.27" layer="95" font="vector"/>
 </segment>
@@ -4705,10 +4704,4 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 </sheets>
 </schematic>
 </drawing>
-<compatibility>
-<note version="6.3" minversion="6.2.2" severity="warning">
-Since Version 6.2.2 text objects can contain more than one line,
-which will not be processed correctly with this version.
-</note>
-</compatibility>
 </eagle>
