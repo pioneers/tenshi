@@ -3081,6 +3081,12 @@ Horizontal</description>
 <pin name="VCC" x="7.62" y="2.54" visible="pin" length="middle" rot="R180"/>
 <pin name="GND" x="7.62" y="-2.54" visible="pin" length="middle" rot="R180"/>
 </symbol>
+<symbol name="5V">
+<wire x1="0.762" y1="1.27" x2="0" y2="2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="2.54" x2="-0.762" y2="1.27" width="0.254" layer="94"/>
+<text x="-1.016" y="3.556" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="5V" x="0" y="0" visible="off" length="short" direction="sup" rot="R90"/>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="CAP" prefix="C" uservalue="yes">
@@ -4191,6 +4197,18 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </device>
 </devices>
 </deviceset>
+<deviceset name="5V">
+<gates>
+<gate name="G$1" symbol="5V" x="0" y="0"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 <library name="pie_new">
@@ -4355,12 +4373,13 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <attribute name="AUTHOR" value="Kate Rakelly, Andrew Hild"/>
 <attribute name="REVISION" value="A"/>
 </part>
-<part name="R4" library="pie" deviceset="R-US_" device="R0603" value="330"/>
+<part name="R4" library="pie" deviceset="R-US_" device="R0603" value="500"/>
 <part name="R5" library="pie" deviceset="R-US_" device="R0603" value="330"/>
 <part name="LED1" library="pie" deviceset="LED" device="0805" value="GRN"/>
 <part name="LED2" library="pie" deviceset="LED" device="0805" value="YEL"/>
 <part name="SUPPLY4" library="supply2" deviceset="GND" device=""/>
 <part name="PWR" library="pie" deviceset="ANDERSON" device="VERTICAL"/>
+<part name="VOUT" library="pie" deviceset="5V" device="" value="VOUT"/>
 </parts>
 <sheets>
 <sheet>
@@ -4455,26 +4474,29 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <attribute name="AUTHOR" x="59.69" y="-76.835" size="2.7432" layer="94" font="vector"/>
 <attribute name="REVISION" x="147.32" y="-76.835" size="2.7432" layer="94" font="vector"/>
 </instance>
-<instance part="R4" gate="G$1" x="99.06" y="15.24" smashed="yes" rot="R90">
-<attribute name="NAME" x="97.5614" y="11.43" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="102.362" y="11.43" size="1.778" layer="96" rot="R90"/>
+<instance part="R4" gate="G$1" x="99.06" y="2.54" smashed="yes" rot="R90">
+<attribute name="NAME" x="97.5614" y="-1.27" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="102.362" y="-1.27" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="R5" gate="G$1" x="111.76" y="15.24" smashed="yes" rot="R90">
 <attribute name="NAME" x="110.2614" y="11.43" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="115.062" y="11.43" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="LED1" gate="G$1" x="99.06" y="2.54" smashed="yes">
-<attribute name="NAME" x="102.616" y="-2.032" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="104.775" y="-2.032" size="1.778" layer="96" rot="R90"/>
+<instance part="LED1" gate="G$1" x="99.06" y="15.24" smashed="yes">
+<attribute name="NAME" x="102.616" y="10.668" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="104.775" y="10.668" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="LED2" gate="G$1" x="111.76" y="2.54" smashed="yes">
 <attribute name="NAME" x="115.316" y="-2.032" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="117.475" y="-2.032" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="SUPPLY4" gate="GND" x="106.68" y="-12.7" smashed="yes">
-<attribute name="VALUE" x="104.775" y="-15.875" size="1.27" layer="96"/>
+<instance part="SUPPLY4" gate="GND" x="111.76" y="-10.16" smashed="yes">
+<attribute name="VALUE" x="109.855" y="-13.335" size="1.27" layer="96"/>
 </instance>
 <instance part="PWR" gate="G$1" x="-22.86" y="43.18"/>
+<instance part="VOUT" gate="G$1" x="99.06" y="-7.62" smashed="yes" rot="R180">
+<attribute name="VALUE" x="100.076" y="-11.176" size="1.778" layer="96" rot="R180"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -4532,22 +4554,14 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <wire x1="43.18" y1="40.64" x2="73.66" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="LED1" gate="G$1" pin="C"/>
-<wire x1="99.06" y1="0" x2="99.06" y2="-7.62" width="0.1524" layer="91"/>
-<pinref part="LED2" gate="G$1" pin="C"/>
-<wire x1="99.06" y1="-7.62" x2="106.68" y2="-7.62" width="0.1524" layer="91"/>
-<wire x1="106.68" y1="-7.62" x2="111.76" y2="-7.62" width="0.1524" layer="91"/>
-<wire x1="111.76" y1="-7.62" x2="111.76" y2="0" width="0.1524" layer="91"/>
-<junction x="106.68" y="-7.62"/>
-<wire x1="106.68" y1="-7.62" x2="106.68" y2="-10.16" width="0.1524" layer="91"/>
-<pinref part="SUPPLY4" gate="GND" pin="GND"/>
-<wire x1="106.68" y1="-10.16" x2="106.68" y2="-12.7" width="0.1524" layer="91"/>
-<junction x="106.68" y="-10.16"/>
-</segment>
-<segment>
 <pinref part="PWR" gate="G$1" pin="GND"/>
 <wire x1="-15.24" y1="40.64" x2="-10.16" y2="40.64" width="0.1524" layer="91"/>
 <label x="-10.16" y="40.64" size="1.27" layer="95" font="vector"/>
+</segment>
+<segment>
+<pinref part="LED2" gate="G$1" pin="C"/>
+<pinref part="SUPPLY4" gate="GND" pin="GND"/>
+<wire x1="111.76" y1="0" x2="111.76" y2="-7.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VIN" class="0">
@@ -4631,6 +4645,15 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <wire x1="111.76" y1="20.32" x2="111.76" y2="25.4" width="0.1524" layer="91"/>
 <label x="111.76" y="25.4" size="1.27" layer="95" rot="R180"/>
 </segment>
+<segment>
+<pinref part="R4" gate="G$1" pin="1"/>
+<pinref part="VOUT" gate="G$1" pin="5V"/>
+<wire x1="99.06" y1="-2.54" x2="99.06" y2="-7.62" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="LED1" gate="G$1" pin="C"/>
+<wire x1="99.06" y1="12.7" x2="99.06" y2="5.08" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="DIODE" class="0">
 <segment>
@@ -4661,6 +4684,11 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <wire x1="45.72" y1="45.72" x2="73.66" y2="45.72" width="0.1524" layer="91"/>
 <label x="55.88" y="45.72" size="1.27" layer="95"/>
 </segment>
+<segment>
+<pinref part="LED1" gate="G$1" pin="A"/>
+<wire x1="99.06" y1="20.32" x2="99.06" y2="25.4" width="0.1524" layer="91"/>
+<label x="99.06" y="25.4" size="1.27" layer="95"/>
+</segment>
 </net>
 <net name="TX" class="0">
 <segment>
@@ -4670,11 +4698,6 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <wire x1="48.26" y1="48.26" x2="73.66" y2="48.26" width="0.1524" layer="91"/>
 <label x="55.88" y="48.26" size="1.27" layer="95"/>
 </segment>
-<segment>
-<pinref part="R4" gate="G$1" pin="2"/>
-<wire x1="99.06" y1="20.32" x2="99.06" y2="25.4" width="0.1524" layer="91"/>
-<label x="99.06" y="25.4" size="1.27" layer="95" rot="R180"/>
-</segment>
 </net>
 <net name="RST" class="0">
 <segment>
@@ -4683,13 +4706,6 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <pinref part="MSTRO_PWR" gate="G$1" pin="1"/>
 <wire x1="50.8" y1="50.8" x2="73.66" y2="50.8" width="0.1524" layer="91"/>
 <label x="55.88" y="50.8" size="1.27" layer="95"/>
-</segment>
-</net>
-<net name="N$1" class="0">
-<segment>
-<pinref part="R4" gate="G$1" pin="1"/>
-<wire x1="99.06" y1="10.16" x2="99.06" y2="7.62" width="0.1524" layer="91"/>
-<pinref part="LED1" gate="G$1" pin="A"/>
 </segment>
 </net>
 <net name="N$5" class="0">
