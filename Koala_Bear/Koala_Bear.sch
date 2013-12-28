@@ -4650,10 +4650,6 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <pinref part="VOUT" gate="G$1" pin="5V"/>
 <wire x1="99.06" y1="-2.54" x2="99.06" y2="-7.62" width="0.1524" layer="91"/>
 </segment>
-<segment>
-<pinref part="LED1" gate="G$1" pin="C"/>
-<wire x1="99.06" y1="12.7" x2="99.06" y2="5.08" width="0.1524" layer="91"/>
-</segment>
 </net>
 <net name="DIODE" class="0">
 <segment>
@@ -4713,6 +4709,13 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <pinref part="R5" gate="G$1" pin="1"/>
 <wire x1="111.76" y1="10.16" x2="111.76" y2="7.62" width="0.1524" layer="91"/>
 <pinref part="LED2" gate="G$1" pin="A"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="LED1" gate="G$1" pin="C"/>
+<pinref part="R4" gate="G$1" pin="2"/>
+<wire x1="99.06" y1="12.7" x2="99.06" y2="7.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
