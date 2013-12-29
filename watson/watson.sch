@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -2212,62 +2212,6 @@ Currently used for OPAMP_DUAL (see http://ww1.microchip.com/downloads/en/deviced
 <rectangle x1="-5.08" y1="-5.08" x2="5.08" y2="5.08" layer="39"/>
 <rectangle x1="-5.08" y1="-5.08" x2="5.08" y2="5.08" layer="40"/>
 </package>
-<package name="SJ_2S">
-<description>Small solder jumper with big paste layer so it will short during reflow.</description>
-<wire x1="0.8" y1="-1" x2="-0.8" y2="-1" width="0.1524" layer="21"/>
-<wire x1="0.8" y1="1" x2="1.1" y2="0.75" width="0.1524" layer="21" curve="-90"/>
-<wire x1="-1.1" y1="0.75" x2="-0.8" y2="1" width="0.1524" layer="21" curve="-90"/>
-<wire x1="-1.1" y1="-0.75" x2="-0.8" y2="-1" width="0.1524" layer="21" curve="90.114706"/>
-<wire x1="0.8" y1="-1" x2="1.1" y2="-0.75" width="0.1524" layer="21" curve="90"/>
-<wire x1="1.1" y1="-0.75" x2="1.1" y2="0.75" width="0.1524" layer="21"/>
-<wire x1="-1.1" y1="-0.75" x2="-1.1" y2="0.75" width="0.1524" layer="21"/>
-<wire x1="-0.8" y1="1" x2="0.8" y2="1" width="0.1524" layer="21"/>
-<smd name="1" x="-0.4119" y="0" dx="0.635" dy="1.27" layer="1"/>
-<smd name="2" x="0.4119" y="0" dx="0.635" dy="1.27" layer="1"/>
-<text x="-0.9498" y="1.27" size="0.4064" layer="25">&gt;NAME</text>
-<text x="-0.9498" y="-1.651" size="0.4064" layer="27">&gt;VALUE</text>
-<rectangle x1="-1.2192" y1="-1.143" x2="1.2192" y2="1.143" layer="31"/>
-</package>
-<package name="SJ_2S-TRACE">
-<description>Solder jumper, small, shorted with trace. No paste layer. Trace is cuttable.</description>
-<wire x1="0.8255" y1="-1.016" x2="-0.8255" y2="-1.016" width="0.2032" layer="21"/>
-<wire x1="0.8255" y1="1.016" x2="1.0795" y2="0.762" width="0.2032" layer="21" curve="-90"/>
-<wire x1="-1.0795" y1="0.762" x2="-0.8255" y2="1.016" width="0.2032" layer="21" curve="-90"/>
-<wire x1="-1.0795" y1="-0.762" x2="-0.8255" y2="-1.016" width="0.2032" layer="21" curve="90"/>
-<wire x1="0.8255" y1="-1.016" x2="1.0795" y2="-0.762" width="0.2032" layer="21" curve="90"/>
-<wire x1="-0.8255" y1="1.016" x2="0.8255" y2="1.016" width="0.2032" layer="21"/>
-<wire x1="-0.381" y1="0" x2="0.381" y2="0" width="0.2032" layer="1"/>
-<smd name="1" x="-0.508" y="0" dx="0.635" dy="1.27" layer="1" cream="no"/>
-<smd name="2" x="0.508" y="0" dx="0.635" dy="1.27" layer="1" cream="no"/>
-<text x="-0.9525" y="1.27" size="0.4064" layer="25">&gt;NAME</text>
-<text x="-0.9525" y="-1.651" size="0.4064" layer="27">&gt;VALUE</text>
-</package>
-<package name="SJ_2S-NOTRACE">
-<wire x1="0.8" y1="-1" x2="-0.8" y2="-1" width="0.2032" layer="21"/>
-<wire x1="0.8" y1="1" x2="1" y2="0.7" width="0.2032" layer="21" curve="-90.076445"/>
-<wire x1="-1" y1="0.7" x2="-0.8" y2="1" width="0.2032" layer="21" curve="-90.03821"/>
-<wire x1="-1" y1="-0.7" x2="-0.8" y2="-1" width="0.2032" layer="21" curve="90.03821"/>
-<wire x1="0.8" y1="-1" x2="1" y2="-0.7" width="0.2032" layer="21" curve="90.03821"/>
-<wire x1="-0.8" y1="1" x2="0.8" y2="1" width="0.2032" layer="21"/>
-<smd name="1" x="-0.4009" y="0" dx="0.635" dy="1.27" layer="1" rot="R180" cream="no"/>
-<smd name="2" x="0.4127" y="0" dx="0.635" dy="1.27" layer="1" cream="no"/>
-<text x="-0.9525" y="1.27" size="0.4064" layer="25">&gt;NAME</text>
-<text x="-0.9525" y="-1.651" size="0.4064" layer="27">&gt;VALUE</text>
-<rectangle x1="-1.016" y1="-1.016" x2="1.016" y2="1.016" layer="31"/>
-</package>
-<package name="SJ_2S-NO">
-<description>Small solder jumper with no paste layer so it will open after reflow.</description>
-<wire x1="0.8" y1="-1" x2="-0.8" y2="-1" width="0.2032" layer="21"/>
-<wire x1="0.8" y1="1" x2="1" y2="0.7" width="0.2032" layer="21" curve="-90"/>
-<wire x1="-1" y1="0.7" x2="-0.8" y2="1" width="0.2032" layer="21" curve="-90"/>
-<wire x1="-1" y1="-0.7" x2="-0.8" y2="-1" width="0.2032" layer="21" curve="90"/>
-<wire x1="0.8" y1="-1" x2="1" y2="-0.7" width="0.2032" layer="21" curve="90"/>
-<wire x1="-0.8" y1="1" x2="0.8" y2="1" width="0.2032" layer="21"/>
-<smd name="1" x="-0.45" y="0" dx="0.635" dy="1.27" layer="1" cream="no"/>
-<smd name="2" x="0.45" y="0" dx="0.635" dy="1.27" layer="1" cream="no"/>
-<text x="-0.908" y="1.27" size="0.4064" layer="25">&gt;NAME</text>
-<text x="-0.908" y="-1.651" size="0.4064" layer="27">&gt;VALUE</text>
-</package>
 </packages>
 <symbols>
 <symbol name="M03">
@@ -2531,16 +2475,6 @@ Currently used for OPAMP_DUAL (see http://ww1.microchip.com/downloads/en/deviced
 <text x="1.27" y="-4.445" size="0.8128" layer="93" rot="R90">V-</text>
 <pin name="V+" x="0" y="7.62" visible="pad" length="middle" direction="pwr" rot="R270"/>
 <pin name="V-" x="0" y="-7.62" visible="pad" length="middle" direction="pwr" rot="R90"/>
-</symbol>
-<symbol name="SJ">
-<wire x1="0.381" y1="0.635" x2="0.381" y2="-0.635" width="1.27" layer="94" curve="-180" cap="flat"/>
-<wire x1="-0.381" y1="-0.635" x2="-0.381" y2="0.635" width="1.27" layer="94" curve="-180" cap="flat"/>
-<wire x1="2.54" y1="0" x2="1.651" y2="0" width="0.1524" layer="94"/>
-<wire x1="-2.54" y1="0" x2="-1.651" y2="0" width="0.1524" layer="94"/>
-<text x="-2.54" y="2.54" size="1.778" layer="95">&gt;NAME</text>
-<text x="-2.54" y="-5.08" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -3665,51 +3599,6 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </device>
 </devices>
 </deviceset>
-<deviceset name="SOLDERJUMPER" prefix="SJ">
-<description>&lt;b&gt;Solder Jumper&lt;/b&gt;
-Standard SMD solder jumper. Used to automate production. Two varients : Normally Open and Normally Closed are the same, but have different paste layers. NC will have a large amount of paste and should jumper during reflow.</description>
-<gates>
-<gate name="1" symbol="SJ" x="0" y="0"/>
-</gates>
-<devices>
-<device name="NC" package="SJ_2S">
-<connects>
-<connect gate="1" pin="1" pad="1"/>
-<connect gate="1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="TRACE" package="SJ_2S-TRACE">
-<connects>
-<connect gate="1" pin="1" pad="1"/>
-<connect gate="1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="NC2" package="SJ_2S-NOTRACE">
-<connects>
-<connect gate="1" pin="1" pad="1"/>
-<connect gate="1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="NO" package="SJ_2S-NO">
-<connects>
-<connect gate="1" pin="1" pad="1"/>
-<connect gate="1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -3769,8 +3658,6 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <part name="IC4" library="pie" deviceset="OPAMP_DUAL" device="SOCKET"/>
 <part name="IC5" library="pie" deviceset="OPAMP_DUAL" device="SOCKET"/>
 <part name="IC6" library="pie" deviceset="OPAMP_DUAL" device="SOCKET"/>
-<part name="SJ1" library="pie" deviceset="SOLDERJUMPER" device="NO"/>
-<part name="SJ2" library="pie" deviceset="SOLDERJUMPER" device="NO"/>
 </parts>
 <sheets>
 <sheet>
@@ -3856,8 +3743,6 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <instance part="IC6" gate="G$1" x="124.46" y="91.44"/>
 <instance part="IC6" gate="G$2" x="132.08" y="71.12"/>
 <instance part="IC6" gate="G$3" x="124.46" y="91.44"/>
-<instance part="SJ1" gate="1" x="134.62" y="175.26"/>
-<instance part="SJ2" gate="1" x="139.7" y="165.1"/>
 </instances>
 <busses>
 </busses>
@@ -4165,11 +4050,6 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <label x="73.66" y="25.4" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="G$1" pin="VCC"/>
-<wire x1="127" y1="25.4" x2="144.78" y2="25.4" width="0.1524" layer="91"/>
-<label x="129.54" y="25.4" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="IC4" gate="G$3" pin="V+"/>
 <wire x1="58.42" y1="99.06" x2="63.5" y2="99.06" width="0.1524" layer="91"/>
 <label x="58.42" y="99.06" size="1.778" layer="95"/>
@@ -4230,17 +4110,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <wire x1="111.125" y1="163.83" x2="123.825" y2="163.83" width="0.1524" layer="91"/>
 <pinref part="I2C5" gate="G$1" pin="3"/>
 <junction x="123.825" y="163.83"/>
-<label x="97.409" y="163.83" size="1.778" layer="95"/>
+<label x="127.889" y="163.83" size="1.778" layer="95"/>
 <junction x="60.325" y="163.83"/>
-<wire x1="134.62" y1="165.1" x2="127" y2="165.1" width="0.1524" layer="91"/>
-<pinref part="SJ2" gate="1" pin="1"/>
-<wire x1="123.825" y1="163.83" x2="127" y2="163.83" width="0.1524" layer="91"/>
-<wire x1="127" y1="163.83" x2="127" y2="165.1" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="SJ2" gate="1" pin="2"/>
-<wire x1="144.78" y1="165.1" x2="149.86" y2="165.1" width="0.1524" layer="91"/>
-<label x="144.78" y="165.1" size="1.778" layer="95"/>
+<wire x1="123.825" y1="163.83" x2="127.762" y2="163.83" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SCL0/IO31*" class="0">
@@ -4288,16 +4160,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <wire x1="111.125" y1="166.37" x2="123.825" y2="166.37" width="0.1524" layer="91"/>
 <pinref part="I2C5" gate="G$1" pin="4"/>
 <junction x="123.825" y="166.37"/>
-<wire x1="123.825" y1="166.37" x2="123.825" y2="175.26" width="0.1524" layer="91"/>
-<label x="110.109" y="173.99" size="1.778" layer="95"/>
+<wire x1="123.825" y1="166.37" x2="127.635" y2="166.37" width="0.1524" layer="91"/>
+<label x="127.889" y="166.37" size="1.778" layer="95"/>
 <junction x="60.325" y="166.37"/>
-<wire x1="129.54" y1="175.26" x2="123.825" y2="175.26" width="0.1524" layer="91"/>
-<pinref part="SJ1" gate="1" pin="1"/>
-</segment>
-<segment>
-<pinref part="SJ1" gate="1" pin="2"/>
-<wire x1="139.7" y1="175.26" x2="144.78" y2="175.26" width="0.1524" layer="91"/>
-<label x="139.7" y="175.26" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IO6/MOSI1" class="0">
@@ -4407,6 +4272,11 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <wire x1="231.14" y1="43.18" x2="222.885" y2="43.18" width="0.1524" layer="91"/>
 <pinref part="FLAG" gate="G$1" pin="2"/>
 <label x="226.06" y="43.18" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="IC3" gate="G$1" pin="VCC"/>
+<wire x1="127" y1="25.4" x2="144.78" y2="25.4" width="0.1524" layer="91"/>
+<label x="129.54" y="25.4" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IO51" class="0">
@@ -4903,20 +4773,6 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <wire x1="17.78" y1="53.34" x2="22.86" y2="53.34" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="EMPTYOUT1" class="0">
-<segment>
-<pinref part="IC2" gate="G$1" pin="Y8"/>
-<wire x1="71.12" y1="2.54" x2="86.36" y2="2.54" width="0.1524" layer="91"/>
-<label x="73.66" y="2.54" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="EMPTYIN1" class="0">
-<segment>
-<pinref part="IC2" gate="G$1" pin="A8"/>
-<wire x1="55.88" y1="5.08" x2="40.64" y2="5.08" width="0.1524" layer="91"/>
-<label x="40.64" y="5.08" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="SB3/IO21" class="0">
 <segment>
 <wire x1="175.26" y1="95.25" x2="175.26" y2="93.98" width="0.1524" layer="91"/>
@@ -5061,62 +4917,6 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <wire x1="222.885" y1="45.72" x2="231.14" y2="45.72" width="0.1524" layer="91"/>
 <label x="226.06" y="45.72" size="1.778" layer="95"/>
 <pinref part="FLAG" gate="G$1" pin="3"/>
-</segment>
-</net>
-<net name="EMPTYIN3" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="A6"/>
-<wire x1="111.76" y1="10.16" x2="93.98" y2="10.16" width="0.1524" layer="91"/>
-<label x="93.98" y="10.16" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="EMPTYIN2" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="A5"/>
-<wire x1="111.76" y1="12.7" x2="93.98" y2="12.7" width="0.1524" layer="91"/>
-<label x="93.98" y="12.7" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="EMPTYIN4" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="A7"/>
-<wire x1="111.76" y1="7.62" x2="93.98" y2="7.62" width="0.1524" layer="91"/>
-<label x="93.98" y="7.62" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="EMPTYIN5" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="A8"/>
-<wire x1="111.76" y1="5.08" x2="93.98" y2="5.08" width="0.1524" layer="91"/>
-<label x="93.98" y="5.08" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="EMPTYOUT2" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="Y5"/>
-<wire x1="127" y1="10.16" x2="144.78" y2="10.16" width="0.1524" layer="91"/>
-<label x="129.54" y="10.16" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="EMPTYOUT3" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="Y6"/>
-<wire x1="127" y1="7.62" x2="144.78" y2="7.62" width="0.1524" layer="91"/>
-<label x="129.54" y="7.62" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="EMPTYOUT4" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="Y7"/>
-<wire x1="127" y1="5.08" x2="144.78" y2="5.08" width="0.1524" layer="91"/>
-<label x="129.54" y="5.08" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="EMPTYOUT5" class="0">
-<segment>
-<pinref part="IC3" gate="G$1" pin="Y8"/>
-<wire x1="127" y1="2.54" x2="144.78" y2="2.54" width="0.1524" layer="91"/>
-<label x="129.54" y="2.54" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="A5" class="0">
