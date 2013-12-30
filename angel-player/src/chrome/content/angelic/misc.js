@@ -49,7 +49,7 @@ var print = function print () {
     for ( a in arguments ) {
       var util = require ( 'util' );
       //console.log ( JSON.stringify ( arguments[a], null, '  ' ) );
-      console.log ( util.inspect ( arguments[a], { colors: true, depth: 3 } ) );
+      console.log ( util.inspect ( arguments[a], { colors: true, depth: null } ) );
       }
     }
   };

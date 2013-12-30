@@ -268,28 +268,47 @@ function compile_identifier ( compiler ) {
     }
   }
 
-function compile_paren ( compiler ) {
+function compile_paren_expr ( compiler ) {
   var cgen = compiler.cgen;
   var k;
   if ( this.type == 'call' ) {
+    compiler.compile ( this.func );
     for ( k in this.args ) {
       compiler.compile ( this.args[k] );
       }
-    compiler.compile ( this.func );
     cgen.emit ( ops.call, this.args.length );
+    // + 1 for the function, -1 for the return value.
+    cgen.add_temp ( -this.args.length );
     }
   }
+
+function compile_paren_statement ( compiler ) {
+  var cgen = compiler.cgen;
+  var k;
+  if ( this.type == 'call' ) {
+    compiler.compile ( this.func );
+    for ( k in this.args ) {
+      compiler.compile ( this.args[k] );
+      }
+    cgen.emit ( ops.call, this.args.length );
+    // + 1 for the function, no return value (since this is a statement).
+    cgen.add_temp ( - ( 1 + this.args.length ) );
+    }
+  }
+
 
 function compile_return ( compiler ) {
   var cgen = compiler.cgen;
   // TODO(kzentner): Implement returning values.
+  compiler.compile ( this.expr );
   cgen.emit ( ops.ret );
   }
 
 // Function call stack interface:
-// Push all the arguments from left to right.
-// Then push the function, so that the stack looks like:
-// [ ..., arg0, arg1, ..., argk, func ]
+// First, push the function.
+// Then, push all the arguments from left to right.
+// The call stack should look like:
+// [ ..., func, arg0, arg1, ..., argk ]
 // Then, perform the call opcode, with a single arg, the number of function
 // arguments being used. The call opcode is responsible for removing the
 // function from the stack, adding the return address to the call stack,
@@ -318,6 +337,7 @@ var root = {
       '=': compile_assignment,
       'while': compile_while,
       'return': compile_return,
+      //'(': compile_paren_statement,
       } );
     statement_text_table.each ( function ( key, val ) {
       scopes.get ( 'statement' ).field_text ( key, 'compile', val );
@@ -339,7 +359,7 @@ var root = {
       '!=': compile_not_equal,
       '+': compile_add,
       '-': compile_sub,
-      '(': compile_paren,
+      '(': compile_paren_expr,
       'fn': compile_fn,
       'if': compile_if,
       } );
