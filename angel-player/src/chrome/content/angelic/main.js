@@ -65,24 +65,20 @@ function compile_and_run ( text ) {
   //misc.print ( a_analyzer.map );
   //misc.print ( a_analyzer.all_objects );
 
-  //a_inferencer.infer ( a_analyzer.map );
+  //misc.print ( a_analyzer.variables );
   a_inferencer.infer ( parse_tree );
 
-  a_compiler.compile_objs ( a_analyzer.all_objects );
+  //a_compiler.compile_objs ( a_analyzer.all_objects );
 
   //misc.print ( a_analyzer.map );
   //misc.print ( a_analyzer.root_module );
   //misc.print ( a_analyzer.all_objects );
-  misc.print ( a_analyzer.variables );
+  //misc.print ( a_analyzer.variables );
 
-  a_library.build_all_objects ( a_analyzer.all_objects );
-  a_executor.run_code ( a_analyzer.map.get_text ( 'main' ).code );
+  //a_library.build_all_objects ( a_analyzer.all_objects );
+  //a_executor.run_code ( a_analyzer.map.get_text ( 'main' ).code );
 
   //misc.print ( parse_tree );
-
-  //lib = a_compiler.compile ( parse_tree );
-
-  //a_executor.execute ( lib );
   }
 
 //var to_parse = '' +
@@ -114,12 +110,13 @@ var to_parse = '' +
 '        a = b\n' +
 '        b = temp\n' +
 '        n = n - 1\n' +
-'    return n\n' +
+'    return 1\n' +
 'main = fn:\n' +
 '    x = 50\n' +
+'    print (x)\n' +
+'    fib50 = fib (x)\n' +
+'    print (fib50)\n' +
 //'    print (x)\n' +
-//'    fib50 = fib (x)\n' +
-//'    print (fib50)\n' +
 //'    while 0 != 0:\n' +
 //'        x = 2\n' +
 //'    test (0)\n' +
