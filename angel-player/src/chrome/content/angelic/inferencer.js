@@ -155,7 +155,6 @@ function make_env ( ) {
     // Attempts to make two types the same.
     // This is where type errors are actually checked.
     unify : function ( A, B ) {
-      misc.print ( 'unifying ', A, B );
       var a = this.prune ( A );
       var b = this.prune ( B );
       var idx;
@@ -222,10 +221,8 @@ function infix ( text, type, out_type ) {
     }
   return {
       infer: function ( env ) {
-        //misc.print ( 'left:', this.left );
         var ltype = env.infer ( this.left );
         var rtype = env.infer ( this.right );
-        //misc.print ( 'ltype:', ltype );
         env.unify ( ltype, type );
         env.unify ( rtype, type );
         return out_type;
@@ -272,15 +269,14 @@ function setupScopes ( scopes ) {
     // Identifiers are instances of whatever type they are in the function.
     'identifier' : {
       infer: function ( env ) {
-        return env.get_instance ( this.variable );
-        //if ( this.variable.instance !== undefined ) {
-          //this.variable.instance = env.make_type_var ( );
-          //}
-        //return this.variable.instance;
+        // In response to previous quandries about the use of fresh here:
+        // The use of fresh here does not cause problems for e.g. local
+        // variables of polymorphic function because of the non_generic list.
+
+        return env.fresh ( env.get_instance ( this.variable ) );
         },
       },
     } ) );
-  //misc.print ( 'Loading scope!' );
   escope.load_text ( string_map.make ( {
     // These declaration should hopefully be self-explanatory.
     '-' : infix ( '-', number_type ),
@@ -327,12 +323,16 @@ function setupScopes ( scopes ) {
             // Analyze all the arguments.
             arg_types.push ( env.infer ( this.args[idx] ) );
             }
+
           // Function type operators ('fn') are operators of two types, the
           // first of which is a different type operator ('args').
+
           arg_type = env.make_type_op ( 'args', arg_types );
           func_type = env.get_instance ( this.func );
+
           // If we're calling a type-var, make that type var point to a new
           // function type-operator.
+
           if ( func_type.kind === 'var' &&
                func_type.instance === null ) {
             func_type.instance = env.make_type_op ( 'fn', 
@@ -341,7 +341,9 @@ function setupScopes ( scopes ) {
             func_type = func_type.instance;
             }
           env.unify ( arg_type, func_type.types[0] );
+
           // The type of a call is the return type of the function for that call.
+
           return func_type.types[1];
           }
         else if ( this.type === 'expr' ) {
@@ -369,32 +371,21 @@ function setupScopes ( scopes ) {
 
         // Set up the function arguments.
         this.args.forEach ( function ( arg ) {
-          misc.assert ( arg.instance === undefined );
-          arg.instance = env.make_type_var ( );
-          in_types.push ( arg.instance );
+          in_types.push ( env.get_instance ( arg.variable ) );
           } );
-        //misc.print ( this.args );
         in_type = env.make_type_op ( 'args', in_types );
 
         fn_type = env.make_type_op ( 'fn', [in_type, out_type] );
 
+        // Assigned early so that return statements in the body can use it.
+
+        this.instance = fn_type;
+
         env.push_function ( this );
   
         // Type check the body of the function.
-        for ( idx in this.body.children ) {
-          child = this.body.children[idx];
-          if ( child.text === 'return' ) {
-            // return statements determine the return type of the function.
-            // TODO(kzentner): Support expression functions with single expression bodies.
-            // TODO(kzentner): Support return statements in sub-blocks.
-            env.unify ( out_type, env.infer ( child.expr ) );
-            }
-          else {
-            env.infer ( child );
-            //child.infer ( env );
-            }
-          }
-        //misc.print ( this );
+        env.infer ( this.body );
+
         env.pop_function ( this );
 
         return fn_type;
@@ -418,6 +409,17 @@ function setupScopes ( scopes ) {
         return env.unify ( old_type, def_type );
         },
       },
+    'return' : {
+      infer : function ( env ) {
+
+        var type = env.infer ( this.expr );
+
+        // Unify the return value's type with the current function's return
+        // type.
+
+        env.unify ( env.get_function ( ).instance.types [ 1 ], type );
+        },
+      },
     } ) );
 
   sscope.load_type ( string_map.make ( {
@@ -426,12 +428,7 @@ function setupScopes ( scopes ) {
 
 function infer ( tree ) {
   var env = make_env ( );
-  return env.infer ( tree );
-  //scope.each_text ( function ( key, obj ) {
-    //env.infer ( obj );
-    //} );
-  //var ret = env.infer ( tree );
-  //return ret;
+  env.infer ( tree );
   }
 
 function make ( ) {
