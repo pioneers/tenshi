@@ -520,6 +520,15 @@ var make = function ( ) {
             this.block = parser.block ( );
             },
           },
+        //'(' : { lbp: 100,
+          //led: function ( parser, left ) {
+            //this.type = 'call';
+            //this.func = left;
+            //this.args = parser.tuple ( );
+            //parser.advance ( ')' );
+            //return this;
+            //}
+          //},
         } ) );
       sscope.load_type ( string_map.make ( {
         'block': { text: 'block',

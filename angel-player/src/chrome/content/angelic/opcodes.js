@@ -119,16 +119,22 @@ var opcodes = [
   make_opcode ( 15, 'call', 2, 0,
   function call ( state ) {
     var arg_count = state.get_arg ( 1 );
-    var func = state.pop ( );
+    var func = state.get_stack ( arg_count );
+    //misc.print ( 'func', func );
     if ( func.type === 'external' ) {
-      var args = [];
+      var size = state.stack.length;
+      var args = state.stack.splice ( size - arg_count, size );
+      //var args = [];
+      //misc.print ( 'args', args );
+      func.func.apply ( null, args );
       for ( var i = 0; i < arg_count; i++ ) {
-        args.splice ( 0, 0, state.pop ( ) );
-        func.func.apply ( null, args );
+        state.pop ( );
         }
+      // Pop the function.
+      state.pop ( );
       }
     else if ( func.type === 'internal' ) {
-      state.call_stack[state.call_stack_top++] = [state.func, state._pc + 1];
+      state.call_stack[state.call_stack_top++] = [state.func, state._pc, state.stack_top - ( arg_count + 1 ) ];
       state.func = func.code;
       state._pc = 0;
       }
@@ -139,9 +145,17 @@ var opcodes = [
       state.run = false;
       }
     else {
-      var pair = state.call_stack[--state.call_stack_top];
-      state.func = pair[0];
-      state._pc = pair[1];
+      var info = state.call_stack[--state.call_stack_top];
+      state.func = info[0];
+      //misc.print ( 'func =', state.func );
+      state._pc = info[1];
+      var ret = state.pop ( );
+      while ( state.stack_top > info[2] ) {
+        state.pop ( );
+        }
+      state.push ( ret );
+      //misc.print ( 'ret done' );
+      //state.debug_print ( );
       }
     }),
   ];
