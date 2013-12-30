@@ -259,7 +259,6 @@ function make ( ) {
       return this.unknownses [ this.unknownses.length - 1 ];
       },
     add_object : function ( obj ) {
-      //misc.print ( 'adding object to', this.get_objects ( ) );
       this.get_objects ( ).push ( obj );
       },
     push_object_list : function ( obj_list ) {
@@ -280,8 +279,6 @@ function make ( ) {
     set_variable : function ( text, val ) {
       var variable = this.current_scope.get_text ( text );
       if ( variable === undefined || variable.location === 'global' ) {
-        //misc.print ( 'Got variable declaration for ' + text );
-        //misc.print ( 'Variable = ', variable );
         // This is a variable declaration.
         variable = varb.make ( text );
         this.variables.push ( variable );
@@ -304,7 +301,6 @@ function make ( ) {
     finalize_scope : function ( ) {
       var unknowns = this.get_unknowns ( );
       var parent_unknowns;
-      //misc.print ( 'unknowns', unknowns );
       if ( this.unknownses.length === 1 ) {
         // TODO(kzentner): Remove this hack.
         parent_unknowns = this.root_module.imports;
@@ -345,6 +341,12 @@ function make ( ) {
       if ( node.analyze !== undefined ) {
         // If we can analyze this node, do so.
         return node.analyze ( this );
+        }
+      else if ( node.recurse !== undefined ) {
+        var self = this;
+        return node.recurse ( function ( child ) {
+          self.recurse ( child );
+          } );
         }
       else {
         throw 'Could not analyze ' + JSON.stringify ( node, null, '  ' );
@@ -402,7 +404,7 @@ var sscope_text_methods = string_map.make ( {
         analyzer.recurse ( arg );
         } );
 
-      this.body.analyze ( analyzer );
+      analyzer.recurse ( this.body );
       analyzer.pop_scope ( );
       analyzer.pop_object_list ( );
 
@@ -414,7 +416,7 @@ var sscope_text_methods = string_map.make ( {
       var block_scope = scope.make ( analyzer.current_scope );
       analyzer.recurse ( this.condition );
       analyzer.push_scope ( block_scope );
-      this.block.analyze ( analyzer );
+      analyzer.recurse ( this.block );
       analyzer.pop_scope ( );
       },
     },
@@ -428,13 +430,12 @@ var sscope_text_methods = string_map.make ( {
       var block_scope = scope.make ( analyzer.current_scope );
       analyzer.recurse ( this.condition );
       analyzer.push_scope ( block_scope );
-      this.block.analyze ( analyzer );
+      analyzer.recurse ( this.block );
       analyzer.pop_scope ( );
       },
     },
   '=' : {
     analyze : function ( analyzer ) {
-      //misc.print ( 'Analyzing assignment to ' + this.left.text );
       var variable = analyzer.set_variable ( this.left.text, this.right );
       if ( analyzer.scope_depth === 0 ) {
         variable.location = 'global';
@@ -449,47 +450,19 @@ var sscope_type_methods = string_map.make ( {
   'top_level' : {
     analyze : function ( analyzer ) {
       this.children.forEach ( function ( child ) {
-        child.analyze ( analyzer );
-        } );
-      analyzer.finalize_scope ( );
-      }
-    },
-  'block' : {
-    analyze : function ( analyzer ) {
-      this.children.forEach ( function ( child ) {
-        //misc.print ( 'Analyzing', child );
         analyzer.recurse ( child );
         } );
+      analyzer.finalize_scope ( );
       }
     },
   } );
 
 var magic_identifiers = string_map.make ( {
-  'true' : { run_type: 'bool', text: 'true' },
-  'false' : { run_type: 'bool', text: 'true' }
+  'true' : varb.make ( 'true' ),
+  'false' : varb.make ( 'false' ),
   } );
 
-function infix ( text ) {
-  return {
-    analyze : function ( analyzer ) {
-      analyzer.recurse ( this.left );
-      analyzer.recurse ( this.right );
-      }
-    };
-  } 
-
 var escope_text_methods = string_map.make ( {
-  '(' : {
-    analyze : function ( analyzer ) {
-      analyzer.recurse ( this.func );
-      this.args.forEach ( function ( arg ) {
-        analyzer.recurse ( arg );
-        } );
-      },
-    },
-  '-' : infix ( '-' ),
-  '+' : infix ( '+' ),
-  '!=' : infix ( '!=' ),
   } );
 
 var escope_type_methods = string_map.make ( {
@@ -506,10 +479,8 @@ var escope_type_methods = string_map.make ( {
         this.variable = res;
         }
       else {
-        //misc.print ( 'Registering callback!' );
         var self = this;
         analyzer.get_text ( this.text, function ( val ) {
-          //misc.print ( 'Calling callback!' );
           self.variable = val;
           } );
         }
@@ -560,7 +531,6 @@ function get_canonical_value ( node ) {
     return node.assignments[0];
     }
   else {
-    misc.print ( node );
     throw 'Could not get canonical value.';
     }
   }
@@ -658,15 +628,11 @@ function extract_all_objs ( module ) {
   var out = [];
   function extract ( obj ) {
     if ( obj.canonical_name === undefined ) {
-      //obj = get_canonical_value ( obj );
-      //misc.print ( obj );
       throw 'No canonical name!';
       }
     out.push ( obj );
     if ( obj.objects !== undefined ) {
-      //misc.print ( obj.objects );
       obj.objects.forEach ( function ( child ) {
-        //misc.print ( child );
         extract ( child );
         } );
       }
