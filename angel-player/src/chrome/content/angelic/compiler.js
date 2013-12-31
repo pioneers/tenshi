@@ -51,6 +51,7 @@ function make_bunch ( a, b, c, d ) {
 
 var make_cgen = function make_cgen ( target ) {
   return {
+    bunch: [],
     code: [],
     lookups: [],
     // Number of temporary values on the stack.
@@ -58,6 +59,10 @@ var make_cgen = function make_cgen ( target ) {
     vars: [],
     target: target,
     finalize: function finalize ( ) {
+      if ( this.bunch.length > 0 ) {
+        this.emit_pending_bunch ( );
+        this.bunch = [];
+        }
       this.target.code = this.code;
       this.target.lookups = this.lookups;
       },
@@ -81,16 +86,51 @@ var make_cgen = function make_cgen ( target ) {
       if ( d !== undefined && typeof d !== 'number' ) {
         d = d.code;
         }
-      this.emit_bunch ( make_bunch ( a, b, c, d ) );
+      var count = 0;
+      var bunch = [];
+      if ( a !== undefined ) {
+        ++count;
+        bunch.push ( a );
+        }
+      if ( b !== undefined ) {
+        ++count;
+        bunch.push ( b );
+        }
+      if ( c !== undefined ) {
+        ++count;
+        bunch.push ( c );
+        }
+      if ( d !== undefined ) {
+        ++count;
+        bunch.push ( d );
+        }
+      if ( this.bunch.length + count > 4 ) {
+        this.emit_pending_bunch ( );
+        this.bunch = bunch;
+        }
+      else {
+        this.bunch = this.bunch.concat ( bunch );
+        }
+      },
+    emit_pending_bunch: function ( ) {
+      if ( this.bunch.length > 0 ) {
+        while ( this.bunch.length < 4 ) {
+          this.bunch.push ( 0 );
+          }
+        misc.assert ( this.bunch.length === 4 );
+        this.code.push ( this.bunch );
+        this.bunch = [];
+        }
       },
     emit_bunch: function ( bunch ) {
       var i;
 
-      for (i in bunch) {
-        if (bunch[i] instanceof Object) {
+      for ( i in bunch ) {
+        if ( typeof bunch[i] !== 'number' ) {
           bunch[i] = bunch[i].code;
           }
         }
+      this.emit_pending_bunch ( );
       this.code.push ( bunch );
       },
     add_temp: function ( count ) {
@@ -118,6 +158,7 @@ var make_cgen = function make_cgen ( target ) {
       this.code[idx] = val;
       },
     reserve_bunch: function ( ) {
+      this.emit_pending_bunch ( );
       this.code.push ( 'reserved' );
       return this.get_pc ( );
       },
@@ -197,8 +238,10 @@ function compile_while ( compiler ) {
     compiler.compile ( this.block.children[c] );
     }
   cgen.apply_scope_snapshot ( scope_snapshot );
+  cgen.emit_pending_bunch ( );
   cgen.emit ( ops.j1, start - cgen.get_pc ( ) - 1 );
   cgen.emit ( ops.noop );
+  cgen.emit_pending_bunch ( );
   cgen.set ( branch, make_bunch ( ops.bn1.code, cgen.get_pc ( ) - branch ) );
   }
 
@@ -277,6 +320,7 @@ function compile_paren_expr ( compiler ) {
       compiler.compile ( this.args[k] );
       }
     cgen.emit ( ops.call, this.args.length );
+    cgen.emit_pending_bunch ( );
     // + 1 for the function, -1 for the return value.
     cgen.add_temp ( -this.args.length );
     }
@@ -291,6 +335,7 @@ function compile_paren_statement ( compiler ) {
       compiler.compile ( this.args[k] );
       }
     cgen.emit ( ops.call, this.args.length );
+    cgen.emit_pending_bunch ( );
     // + 1 for the function, no return value (since this is a statement).
     cgen.add_temp ( - ( 1 + this.args.length ) );
     }
@@ -299,7 +344,6 @@ function compile_paren_statement ( compiler ) {
 
 function compile_return ( compiler ) {
   var cgen = compiler.cgen;
-  // TODO(kzentner): Implement returning values.
   compiler.compile ( this.expr );
   cgen.emit ( ops.ret );
   }
