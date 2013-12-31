@@ -147,15 +147,13 @@ var opcodes = [
     else {
       var info = state.call_stack[--state.call_stack_top];
       state.func = info[0];
-      //misc.print ( 'func =', state.func );
       state._pc = info[1];
       var ret = state.pop ( );
       while ( state.stack_top > info[2] ) {
         state.pop ( );
         }
       state.push ( ret );
-      //misc.print ( 'ret done' );
-      //state.debug_print ( );
+      state.clear_bunch ( );
       }
     }),
   ];
