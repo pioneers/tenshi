@@ -337,7 +337,7 @@ var root = {
       '=': compile_assignment,
       'while': compile_while,
       'return': compile_return,
-      //'(': compile_paren_statement,
+      '(': compile_paren_statement,
       } );
     statement_text_table.each ( function ( key, val ) {
       scopes.get ( 'statement' ).field_text ( key, 'compile', val );
@@ -367,19 +367,6 @@ var root = {
       scopes.get ( 'expression' ).field_text ( key, 'compile', val );
       } );
     },
-
-  //compile: function compile ( ast ) {
-    //var fn_t = type.make ( 'fn' );
-    //var num_t = type.make ( 'num' );
-
-    //// Set up the initial types.
-    //// This should probably be refactored.
-
-    //this.lib.add_type ( 'fn', fn_t );
-    //this.lib.add_type ( 'num', num_t );
-    //ast.compile ( this );
-    //return this.lib;
-    //},
 
   compile: function ( node ) {
     if ( node.compile === undefined ) {
