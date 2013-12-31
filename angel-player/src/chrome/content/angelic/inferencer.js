@@ -254,6 +254,54 @@ function constant ( type ) {
     };
   }
 
+function infer_paren ( env ) {
+  var tuple_types = [];
+  var arg_types = [];
+  var arg_type;
+  var idx;
+  var func_type;
+
+  if ( this.type === 'call' ) {
+    for ( idx in this.args ) {
+      // Analyze all the arguments.
+      arg_types.push ( env.infer ( this.args[idx] ) );
+      }
+
+    // Function type operators ('fn') are operators of two types, the
+    // first of which is a different type operator ('args').
+
+    arg_type = env.make_type_op ( 'args', arg_types );
+    func_type = env.get_instance ( this.func );
+
+    // If we're calling a type-var, make that type var point to a new
+    // function type-operator.
+
+    if ( func_type.kind === 'var' &&
+         func_type.instance === null ) {
+      func_type.instance = env.make_type_op ( 'fn', 
+          [ env.make_type_var ( ),
+            env.make_type_var ( ) ] );
+      func_type = func_type.instance;
+      }
+    env.unify ( arg_type, func_type.types[0] );
+
+    // The type of a call is the return type of the function for that call.
+
+    return func_type.types[1];
+    }
+  else if ( this.type === 'expr' ) {
+    // The parentheses are just around some other expression.
+    return env.infer ( this.children[0] );
+    }
+  else if ( this.type === 'tuple' ) {
+    // The parentheses are around a tuple.
+    for ( idx in this.children ) {
+      tuple_types.push ( env.infer ( this.children ) );
+      }
+    return env.make_type_op ( 'tuple', tuple_types );
+    }
+  }
+
 // Add infer methods to scopes.
 function setupScopes ( scopes ) {
   var escope = scopes.get ( 'expression', scope.make ( ) );
@@ -310,55 +358,7 @@ function setupScopes ( scopes ) {
         env.infer ( this.block );
         },
       },
-    '(' : {
-      infer: function ( env ) {
-        var tuple_types = [];
-        var arg_types = [];
-        var arg_type;
-        var idx;
-        var func_type;
-
-        if ( this.type === 'call' ) {
-          for ( idx in this.args ) {
-            // Analyze all the arguments.
-            arg_types.push ( env.infer ( this.args[idx] ) );
-            }
-
-          // Function type operators ('fn') are operators of two types, the
-          // first of which is a different type operator ('args').
-
-          arg_type = env.make_type_op ( 'args', arg_types );
-          func_type = env.get_instance ( this.func );
-
-          // If we're calling a type-var, make that type var point to a new
-          // function type-operator.
-
-          if ( func_type.kind === 'var' &&
-               func_type.instance === null ) {
-            func_type.instance = env.make_type_op ( 'fn', 
-                [ env.make_type_var ( ),
-                  env.make_type_var ( ) ] );
-            func_type = func_type.instance;
-            }
-          env.unify ( arg_type, func_type.types[0] );
-
-          // The type of a call is the return type of the function for that call.
-
-          return func_type.types[1];
-          }
-        else if ( this.type === 'expr' ) {
-          // The parentheses are just around some other expression.
-          return env.infer ( this.children[0] );
-          }
-        else if ( this.type === 'tuple' ) {
-          // The parentheses are around a tuple.
-          for ( idx in this.children ) {
-            tuple_types.push ( env.infer ( this.children ) );
-            }
-          return env.make_type_op ( 'tuple', tuple_types );
-          }
-        },
-      },
+    '(' : { infer: infer_paren },
     'fn' : {
       infer: function ( env ) {
         var idx;
@@ -420,6 +420,7 @@ function setupScopes ( scopes ) {
         env.unify ( env.get_function ( ).instance.types [ 1 ], type );
         },
       },
+    '(' : { infer: infer_paren },
     } ) );
 
   sscope.load_type ( string_map.make ( {
