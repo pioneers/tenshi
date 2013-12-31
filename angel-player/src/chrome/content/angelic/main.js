@@ -116,6 +116,7 @@ var to_parse = '' +
 '    print (x)\n' +
 '    fib50 = fib (x)\n' +
 '    print (fib50)\n' +
+//'    print (fib50)\n' +
 //'    print (x)\n' +
 //'    while 0 != 0:\n' +
 //'        x = 2\n' +
