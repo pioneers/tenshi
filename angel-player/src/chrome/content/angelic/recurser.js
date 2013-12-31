@@ -76,8 +76,6 @@ var make = function ( ) {
         } ).map ( function ( key, val ) { return infix ( val ); } );
 
       var prefix_table = string_map.make ( {
-        '+' : 80,
-        '-' : 80,
         '++' : 90,
         '--' : 90,
         'not': 90,
@@ -89,6 +87,18 @@ var make = function ( ) {
         'space' : atom,
         } );
 
+      function paren_recurse ( func ) {
+        if ( this.children ) {
+          this.children.forEach ( func );
+          }
+        if ( this.func ) {
+          func ( this.func );
+          }
+        if ( this.args ) {
+          this.args.forEach ( func );
+          }
+        }
+
       escope.load_text ( infix_table );
       escope.load_text ( prefix_table );
       escope.load_type ( type_table );
@@ -99,20 +109,7 @@ var make = function ( ) {
             func ( this.body );
             },
           },
-        '(' : { lbp: 100,
-          recurse: function ( func ) {
-            if ( this.children ) {
-              this.children.forEach ( func );
-              }
-            if ( this.func ) {
-              func ( this.func );
-              }
-            if ( this.args ) {
-              this.args.forEach ( func );
-              }
-            },
-          },
-        ')' : { lbp: 0 },
+        '(' : { recurse: paren_recurse, },
         'if': {
           recurse: function ( func ) {
             func ( this.condition );
@@ -141,6 +138,7 @@ var make = function ( ) {
             func ( this.block );
             }
           },
+        '(' : { recurse: paren_recurse, },
         } ) );
       sscope.load_type ( string_map.make ( {
         'block': {

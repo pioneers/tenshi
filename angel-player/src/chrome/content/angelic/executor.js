@@ -59,7 +59,7 @@ function make ( ) {
       },
     run_code: function ( code ) {
       //misc.print ( 'Executing code', code );
-      this.debug = true;
+      //this.debug = true;
       this.func = code;
       while ( this.run ) {
         var op = this.bunch[0];

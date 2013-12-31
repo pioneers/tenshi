@@ -83,23 +83,22 @@ var make = function ( ) {
     var scope = {
       // Set <field> on an object looked up by text <key> to <val>
       field_text: function ( key, field, val ) {
-        var obj = this.get_text ( key, {} );
+        var obj = text_table.get ( key, {} );
         obj[field] = val;
         },
       // Set <field> on an object looked up by type <key> to <val>
       field_type: function ( key, field, val ) {
-        var obj = this.get_type ( key, {} );
+        var obj = type_table.get ( key, {} );
         obj[field] = val;
         },
       // Combine each element in a string_map with the object with
       // the same text key. Basically, this function maps
       // misc.obj_or.
       load_text: function ( table ) {
-        var self = this;
 
         table.each ( function ( key, val ) {
-          var obj = misc.obj_or ( self.get_text ( key ) || {}, val );
-          self.set_text ( key, obj );
+          var obj = misc.obj_or ( text_table.get ( key ) || {}, val );
+          text_table.set ( key, obj );
           } );
         return this;
         },
@@ -107,11 +106,10 @@ var make = function ( ) {
       // the same type key. Basically, this function maps
       // misc.obj_or.
       load_type: function ( table ) {
-        var self = this;
 
         table.each ( function ( key, val ) {
-          self.set_type ( key,
-                          misc.obj_or ( self.get_type ( key ) || {},
+          type_table.set ( key,
+                          misc.obj_or ( type_table.get ( key ) || {},
                           val ) );
           } );
         return this;
@@ -197,7 +195,8 @@ var make = function ( ) {
       };
     return misc.obj_or ( Object.create ( scope ), {
       text: text_table,
-      type: type_table
+      type: type_table,
+      parent: prev_scope,
       } );
     };
   } ( );
