@@ -68,15 +68,15 @@ function compile_and_run ( text ) {
   //misc.print ( a_analyzer.variables );
   a_inferencer.infer ( parse_tree );
 
-  //a_compiler.compile_objs ( a_analyzer.all_objects );
+  a_compiler.compile_objs ( a_analyzer.all_objects );
 
   //misc.print ( a_analyzer.map );
   //misc.print ( a_analyzer.root_module );
   //misc.print ( a_analyzer.all_objects );
   //misc.print ( a_analyzer.variables );
 
-  //a_library.build_all_objects ( a_analyzer.all_objects );
-  //a_executor.run_code ( a_analyzer.map.get_text ( 'main' ).code );
+  a_library.build_all_objects ( a_analyzer.all_objects );
+  a_executor.run_code ( a_analyzer.map.get_text ( 'main' ).code );
 
   //misc.print ( parse_tree );
   }
@@ -110,7 +110,7 @@ var to_parse = '' +
 '        a = b\n' +
 '        b = temp\n' +
 '        n = n - 1\n' +
-'    return 1\n' +
+'    return b\n' +
 'main = fn:\n' +
 '    x = 50\n' +
 '    print (x)\n' +

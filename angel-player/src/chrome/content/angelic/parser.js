@@ -116,6 +116,9 @@ var make = function ( ) {
         token.text = token.text.substr ( 0, token.text.length - 1 );
         return this.lookup_token ( token, scope );
         }
+      if ( token.text === '(' ) {
+        //misc.print ( to_clone );
+        }
 
       return misc.obj_or ( Object.create ( to_clone || {} ), token );
       },
@@ -416,6 +419,14 @@ var make = function ( ) {
         'space' : atom,
         } );
 
+      function paren_led ( parser, left ) {
+        this.type = 'call';
+        this.func = left;
+        this.args = parser.tuple ( );
+        parser.advance ( ')' );
+        return this;
+        }
+
       escope.load_text ( infix_table );
       escope.load_text ( prefix_table );
       escope.load_type ( type_table );
@@ -443,25 +454,19 @@ var make = function ( ) {
         '(' : { lbp: 100,
           // Note that this needs to be fixed, so that it intelligently is
           // either a tuple or parentheses around an expression.
-         nud: function ( parser ) {
-           this.children = parser.tuple ( );
-           // TODO(kzentner): Fix this, because the above line eats the comma.
-           if ( this.children.length != 1 ||
-               parser.advance ( { text: ',', optional: true } ) ) {
-             this.type = 'tuple';
-             }
-           else {
-             this.type = 'expr';
-             }
-           parser.advance ( ')' );
-           },
-         led: function ( parser, left ) {
-           this.type = 'call';
-           this.func = left;
-           this.args = parser.tuple ( );
-           parser.advance ( ')' );
-           return this;
-           }
+          nud: function ( parser ) {
+            this.children = parser.tuple ( );
+            // TODO(kzentner): Fix this, because the above line eats the comma.
+            if ( this.children.length != 1 ||
+                parser.advance ( { text: ',', optional: true } ) ) {
+              this.type = 'tuple';
+              }
+            else {
+              this.type = 'expr';
+              }
+            parser.advance ( ')' );
+            },
+          led: paren_led,
           },
         ')' : { lbp: 0 },
         'if': {
@@ -520,15 +525,10 @@ var make = function ( ) {
             this.block = parser.block ( );
             },
           },
-        //'(' : { lbp: 100,
-          //led: function ( parser, left ) {
-            //this.type = 'call';
-            //this.func = left;
-            //this.args = parser.tuple ( );
-            //parser.advance ( ')' );
-            //return this;
-            //}
-          //},
+        '(' : {
+          lbp: 100,
+          led: paren_led,
+          },
         } ) );
       sscope.load_type ( string_map.make ( {
         'block': { text: 'block',
