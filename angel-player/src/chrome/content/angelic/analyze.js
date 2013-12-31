@@ -172,37 +172,6 @@ function make ( ) {
   }
 
 var sscope_text_methods = string_map.make ( {
-  'fn' : {
-    analyze : function ( analyzer ) {
-      this.objects = [];
-      analyzer.add_object ( this );
-      analyzer.push_object_list ( this.objects );
-
-      this.scope = scope.make ( analyzer.current_scope );
-      analyzer.push_scope ( this.scope );
-
-      this.args.forEach ( function ( arg ) {
-        // TODO(kzentner): Add default argument value support.
-        analyzer.set_variable ( arg.text, { type: 'argument' } );
-        analyzer.recurse ( arg );
-        } );
-
-      analyzer.recurse ( this.body );
-      analyzer.pop_scope ( );
-      analyzer.pop_object_list ( );
-
-      this.patch_class = 'fn';
-      },
-    },
-  'if' : {
-    analyze : function ( analyzer ) {
-      var block_scope = scope.make ( analyzer.current_scope );
-      analyzer.recurse ( this.condition );
-      analyzer.push_scope ( block_scope );
-      analyzer.recurse ( this.block );
-      analyzer.pop_scope ( );
-      },
-    },
   'return' : {
     analyze : function ( analyzer ) {
       analyzer.recurse ( this.expr );
@@ -246,6 +215,37 @@ var magic_identifiers = string_map.make ( {
   } );
 
 var escope_text_methods = string_map.make ( {
+  'fn' : {
+    analyze : function ( analyzer ) {
+      this.objects = [];
+      analyzer.add_object ( this );
+      analyzer.push_object_list ( this.objects );
+
+      this.scope = scope.make ( analyzer.current_scope );
+      analyzer.push_scope ( this.scope );
+
+      this.args.forEach ( function ( arg ) {
+        // TODO(kzentner): Add default argument value support.
+        analyzer.set_variable ( arg.text, { type: 'argument' } );
+        analyzer.recurse ( arg );
+        } );
+
+      analyzer.recurse ( this.body );
+      analyzer.pop_scope ( );
+      analyzer.pop_object_list ( );
+
+      this.patch_class = 'fn';
+      },
+    },
+  'if' : {
+    analyze : function ( analyzer ) {
+      var block_scope = scope.make ( analyzer.current_scope );
+      analyzer.recurse ( this.condition );
+      analyzer.push_scope ( block_scope );
+      analyzer.recurse ( this.block );
+      analyzer.pop_scope ( );
+      },
+    },
   } );
 
 var escope_type_methods = string_map.make ( {
