@@ -101,6 +101,9 @@ function make ( ) {
         misc.print ( 'Invalid opcode bunch:', bunch );
         }
       },
+    clear_bunch: function ( ) {
+      this.bunch = [ 0, 0, 0, 0 ];
+      },
     debug_print: function ( ) {
       var op = this.bunch[0];
       if ( op === 0 ) {
