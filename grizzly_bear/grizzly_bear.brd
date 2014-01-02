@@ -137,24 +137,24 @@
 <text x="48.26" y="34.29" size="1.27" layer="21" font="vector" ratio="15" align="top-center">C</text>
 <text x="50.927" y="34.29" size="1.27" layer="21" font="vector" ratio="15" align="top-center">D</text>
 <text x="60.6806" y="40.6146" size="0.889" layer="21" font="vector" ratio="20" align="top-left">ICSP</text>
-<text x="59.0296" y="40.4876" size="0.889" layer="21" font="vector" ratio="20" align="top-center">I2C</text>
+<text x="57.15" y="40.4876" size="0.889" layer="21" font="vector" ratio="20" align="top-center">I2C</text>
 <text x="9.3925" y="20.955" size="0.889" layer="21" font="vector" ratio="15" rot="SR270" align="top-center">GND</text>
 <text x="9.3925" y="28.3955" size="0.889" layer="21" font="vector" ratio="15" rot="SR270" align="top-center">VBAT</text>
 <text x="9.3925" y="11.1935" size="0.889" layer="21" font="vector" ratio="15" rot="SR270" align="top-center">M+</text>
 <text x="9.3925" y="4.2715" size="0.889" layer="21" font="vector" ratio="15" rot="SR270" align="top-center">M-</text>
 <text x="9.525" y="24.511" size="0.889" layer="21" font="vector" ratio="15" rot="SR270" align="top-center">BAT</text>
 <text x="9.525" y="7.747" size="0.889" layer="21" font="vector" ratio="15" rot="SR270" align="top-center">MOTOR</text>
-<text x="12.7" y="0.62" size="1.27" layer="21" font="vector" ratio="15">Rev. B (2013.11.13)</text>
+<text x="12.7" y="0.62" size="1.27" layer="21" font="vector" ratio="15">Rev. C (2014.1.1)</text>
 <text x="12.7" y="2.316" size="1.27" layer="21" font="vector" ratio="15">Grizzly Bear v2</text>
 <text x="10.766" y="10.65" size="1.778" layer="21" font="vector" ratio="15">PiE</text>
 <text x="67.7418" y="34.29" size="0.889" layer="21" font="vector" ratio="20" align="top-left">Addr Select</text>
-<text x="33.1203" y="39.9658" size="0.889" layer="21" font="vector" ratio="20" align="top-center">Encoder</text>
-<wire x1="56.489403125" y1="39.6815" x2="56.220703125" y2="39.9355" width="0.1524" layer="21"/>
-<wire x1="56.220703125" y1="39.9355" x2="56.494903125" y2="40.2097" width="0.1524" layer="21"/>
-<wire x1="56.220703125" y1="39.9355" x2="56.952103125" y2="39.9355" width="0.1524" layer="21"/>
-<wire x1="36.1368" y1="39.5291" x2="36.6901" y2="39.5291" width="0.1524" layer="21"/>
-<wire x1="36.6901" y1="39.5291" x2="36.3905" y2="39.8033" width="0.1524" layer="21"/>
-<wire x1="36.6901" y1="39.5291" x2="36.4159" y2="39.2803" width="0.1524" layer="21"/>
+<text x="31.242" y="39.9658" size="0.889" layer="21" font="vector" ratio="20" align="top-center">Encoder</text>
+<wire x1="55.224903125" y1="39.7577" x2="54.976103125" y2="39.9863" width="0.1524" layer="21"/>
+<wire x1="54.976103125" y1="39.9863" x2="55.224903125" y2="40.2097" width="0.1524" layer="21"/>
+<wire x1="54.976103125" y1="39.9863" x2="55.707503125" y2="39.9863" width="0.1524" layer="21"/>
+<wire x1="34.1048" y1="39.5291" x2="34.6581" y2="39.5291" width="0.1524" layer="21"/>
+<wire x1="34.6581" y1="39.5291" x2="34.3331" y2="39.8541" width="0.1524" layer="21"/>
+<wire x1="34.6581" y1="39.5291" x2="34.3585" y2="39.2295" width="0.1524" layer="21"/>
 <text x="52.7304" y="35.8394" size="0.889" layer="21" font="vector" ratio="20" align="top-left">1</text>
 <wire x1="48.514" y1="15.621" x2="48.514" y2="9.906" width="0.2032" layer="21"/>
 <wire x1="48.514" y1="9.906" x2="52.197" y2="9.906" width="0.2032" layer="21"/>
