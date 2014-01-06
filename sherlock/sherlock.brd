@@ -1675,7 +1675,7 @@ design rules under a new name.</description>
 <attribute name="OC_FARNELL" value="unknown" x="84.074" y="29.464" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
 <element name="U$7" library="pie" package="OSHW-LOGO-L" value="" x="60.198" y="28.448" rot="MR0"/>
-<element name="U$2" library="pie" package="SHERLOCK" value="" x="8.89" y="2.794" smashed="yes" rot="R90"/>
+<element name="U$2" library="pie" package="SHERLOCK" value="" x="7.874" y="1.524" smashed="yes" rot="R90"/>
 <element name="POWER" library="pie" package="ANDERSON_HORIZONTAL" value="ANDERSONHORIZONTAL" x="9.652" y="43.434" smashed="yes">
 <attribute name="PARTNUMBER" value="1377G1" x="9.652" y="43.434" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="11.176" y="41.275" size="1.778" layer="25" font="vector"/>
