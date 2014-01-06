@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -4808,14 +4808,13 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <part name="C2" library="pie" deviceset="CAP" device="0603-CAP" value="10uF"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Sahar M, Michael C, Sumita G, Aravind K"/>
-<attribute name="REVISION" value="B"/>
+<attribute name="REVISION" value="C"/>
 </part>
 <part name="LED1" library="pie" deviceset="LED" device="0805"/>
 <part name="LED2" library="pie" deviceset="LED" device="0805"/>
 <part name="LED3" library="pie" deviceset="LED" device="0805"/>
 <part name="X1" library="pie" deviceset="2540-" device=""/>
 <part name="GND1" library="supply2" deviceset="GND" device=""/>
-<part name="VIN" library="supply1" deviceset="VCC" device=""/>
 <part name="POWER" library="pie" deviceset="ANDERSON" device="HORIZONTAL" value="ANDERSONHORIZONTAL"/>
 </parts>
 <sheets>
@@ -4832,17 +4831,17 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <text x="99.06" y="26.67" size="6.4516" layer="100">Reset</text>
 </plain>
 <instances>
-<instance part="P1" gate="A" x="149.86" y="166.37" rot="MR90"/>
-<instance part="P2" gate="A" x="175.26" y="166.37" rot="MR90"/>
-<instance part="P4" gate="A" x="173.99" y="105.41" rot="MR270"/>
-<instance part="P5" gate="A" x="149.86" y="105.41" rot="MR270"/>
-<instance part="GND2" gate="GND" x="153.67" y="129.54" rot="R180"/>
-<instance part="V17" gate="VCC" x="148.59" y="120.65"/>
-<instance part="V18" gate="VCC" x="146.05" y="127"/>
+<instance part="P1" gate="A" x="148.59" y="166.37" rot="MR90"/>
+<instance part="P2" gate="A" x="173.99" y="166.37" rot="MR90"/>
+<instance part="P4" gate="A" x="175.26" y="105.41" rot="MR270"/>
+<instance part="P5" gate="A" x="151.13" y="105.41" rot="MR270"/>
+<instance part="GND2" gate="GND" x="153.67" y="130.81" rot="R180"/>
+<instance part="V17" gate="VCC" x="148.59" y="130.81"/>
+<instance part="V18" gate="VCC" x="146.05" y="130.81"/>
 <instance part="U3" gate="G$1" x="89.662" y="63.5"/>
 <instance part="S2" gate="S" x="113.03" y="16.51"/>
 <instance part="V1" gate="VCC" x="73.66" y="153.67"/>
-<instance part="P3" gate="A" x="212.09" y="143.51"/>
+<instance part="P3" gate="A" x="212.09" y="142.24"/>
 <instance part="GND3" gate="GND" x="111.76" y="118.11"/>
 <instance part="R1" gate="G$1" x="97.79" y="138.43" rot="R180"/>
 <instance part="R2" gate="G$1" x="97.79" y="128.27" rot="R180"/>
@@ -4853,7 +4852,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </instance>
 <instance part="C1" gate="G$1" x="227.33" y="58.42"/>
 <instance part="IC1" gate="G$1" x="204.47" y="62.23"/>
-<instance part="BATTERY" gate="G$1" x="40.64" y="19.05"/>
+<instance part="BATTERY" gate="G$1" x="40.64" y="17.78"/>
 <instance part="BUZZER" gate="G$1" x="17.78" y="20.32"/>
 <instance part="R4" gate="G$1" x="66.04" y="17.78"/>
 <instance part="V2" gate="VCC" x="55.88" y="20.32"/>
@@ -4868,23 +4867,22 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <instance part="LED3" gate="G$1" x="87.63" y="118.11" rot="R90"/>
 <instance part="X1" gate="G$1" x="44.45" y="104.14" rot="MR180"/>
 <instance part="GND1" gate="GND" x="30.48" y="29.21"/>
-<instance part="VIN" gate="VCC" x="227.33" y="71.12"/>
-<instance part="POWER" gate="G$1" x="167.64" y="58.42"/>
+<instance part="POWER" gate="G$1" x="170.18" y="60.96"/>
 </instances>
 <busses>
 </busses>
 <nets>
 <net name="+5V" class="1">
 <segment>
-<wire x1="148.59" y1="118.11" x2="147.32" y2="105.41" width="0.1524" layer="91"/>
-<junction x="147.32" y="105.41"/>
-<junction x="148.59" y="118.11"/>
+<wire x1="148.59" y1="128.27" x2="148.59" y2="105.41" width="0.1524" layer="91"/>
+<junction x="148.59" y="105.41"/>
+<junction x="148.59" y="128.27"/>
 <pinref part="P5" gate="A" pin="3"/>
 <pinref part="V17" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
-<wire x1="209.55" y1="120.65" x2="196.85" y2="119.38" width="0.1524" layer="91"/>
-<junction x="209.55" y="120.65"/>
+<wire x1="209.55" y1="119.38" x2="196.85" y2="119.38" width="0.1524" layer="91"/>
+<junction x="209.55" y="119.38"/>
 <label x="196.85" y="119.38" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="39"/>
 </segment>
@@ -4897,29 +4895,29 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="GND" class="0">
 <segment>
-<wire x1="217.17" y1="148.59" x2="227.33" y2="147.32" width="0.1524" layer="91"/>
-<junction x="217.17" y="148.59"/>
+<wire x1="217.17" y1="147.32" x2="227.33" y2="147.32" width="0.1524" layer="91"/>
+<junction x="217.17" y="147.32"/>
 <label x="222.25" y="147.32" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="18"/>
 </segment>
 <segment>
-<wire x1="217.17" y1="168.91" x2="227.33" y2="167.64" width="0.1524" layer="91"/>
-<junction x="217.17" y="168.91"/>
+<wire x1="217.17" y1="167.64" x2="227.33" y2="167.64" width="0.1524" layer="91"/>
+<junction x="217.17" y="167.64"/>
 <label x="222.25" y="167.64" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="2"/>
 </segment>
 <segment>
-<wire x1="149.86" y1="105.41" x2="152.4" y2="105.41" width="0.1524" layer="91"/>
-<wire x1="153.67" y1="127" x2="152.4" y2="105.41" width="0.1524" layer="91"/>
-<junction x="149.86" y="105.41"/>
-<junction x="152.4" y="105.41"/>
+<wire x1="151.13" y1="105.41" x2="153.67" y2="105.41" width="0.1524" layer="91"/>
+<wire x1="153.67" y1="128.27" x2="153.67" y2="105.41" width="0.1524" layer="91"/>
+<junction x="151.13" y="105.41"/>
+<junction x="153.67" y="105.41"/>
 <pinref part="P5" gate="A" pin="4"/>
 <pinref part="P5" gate="A" pin="5"/>
 <pinref part="GND2" gate="GND" pin="GND"/>
 </segment>
 <segment>
-<wire x1="217.17" y1="123.19" x2="229.87" y2="121.92" width="0.1524" layer="91"/>
-<junction x="217.17" y="123.19"/>
+<wire x1="217.17" y1="121.92" x2="229.87" y2="121.92" width="0.1524" layer="91"/>
+<junction x="217.17" y="121.92"/>
 <label x="222.25" y="121.92" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="38"/>
 </segment>
@@ -4942,25 +4940,22 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <junction x="101.6" y="148.59"/>
 </segment>
 <segment>
-<wire x1="179.07" y1="55.88" x2="187.96" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="177.8" y1="55.88" x2="187.96" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="187.96" y1="55.88" x2="204.47" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="C1" gate="G$1" pin="2"/>
 <junction x="227.33" y="55.88"/>
 <pinref part="IC1" gate="G$1" pin="GND"/>
 <wire x1="204.47" y1="55.88" x2="227.33" y2="55.88" width="0.1524" layer="91"/>
 <junction x="204.47" y="55.88"/>
-<wire x1="179.07" y1="58.42" x2="179.07" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="179.07" y1="58.42" x2="176.53" y2="58.42" width="0.1524" layer="91"/>
-<junction x="179.07" y="58.42"/>
+<wire x1="177.8" y1="58.42" x2="177.8" y2="55.88" width="0.1524" layer="91"/>
+<junction x="177.8" y="58.42"/>
 <pinref part="C2" gate="G$1" pin="2"/>
 <junction x="187.96" y="55.88"/>
-<wire x1="176.53" y1="58.42" x2="176.53" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="176.53" y1="55.88" x2="175.26" y2="55.88" width="0.1524" layer="91"/>
 <label x="179.07" y="53.34" size="1.778" layer="95"/>
 <pinref part="POWER" gate="G$1" pin="GND"/>
 </segment>
 <segment>
-<wire x1="144.78" y1="166.37" x2="143.51" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="143.51" y1="166.37" x2="143.51" y2="147.32" width="0.1524" layer="91"/>
 <pinref part="P1" gate="A" pin="7"/>
 <label x="143.51" y="147.32" size="1.778" layer="95" rot="R90"/>
 </segment>
@@ -5016,20 +5011,20 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <junction x="73.66" y="148.59"/>
 </segment>
 <segment>
-<wire x1="209.55" y1="168.91" x2="196.85" y2="167.64" width="0.1524" layer="91"/>
-<junction x="209.55" y="168.91"/>
+<wire x1="209.55" y1="167.64" x2="196.85" y2="167.64" width="0.1524" layer="91"/>
+<junction x="209.55" y="167.64"/>
 <label x="196.85" y="167.64" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="1"/>
 </segment>
 <segment>
-<wire x1="144.78" y1="105.41" x2="146.05" y2="124.46" width="0.1524" layer="91"/>
-<junction x="144.78" y="105.41"/>
+<wire x1="146.05" y1="105.41" x2="146.05" y2="128.27" width="0.1524" layer="91"/>
+<junction x="146.05" y="105.41"/>
 <pinref part="P5" gate="A" pin="2"/>
 <pinref part="V18" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
-<wire x1="217.17" y1="120.65" x2="227.33" y2="119.38" width="0.1524" layer="91"/>
-<junction x="217.17" y="120.65"/>
+<wire x1="217.17" y1="119.38" x2="227.33" y2="119.38" width="0.1524" layer="91"/>
+<junction x="217.17" y="119.38"/>
 <label x="222.25" y="119.38" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="40"/>
 </segment>
@@ -5066,7 +5061,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <net name="RESET#" class="0">
 <segment>
 <pinref part="P5" gate="A" pin="1"/>
-<wire x1="142.24" y1="105.41" x2="143.51" y2="128.27" width="0.1524" layer="91"/>
+<wire x1="143.51" y1="105.41" x2="143.51" y2="128.27" width="0.1524" layer="91"/>
 <label x="143.51" y="110.49" size="1.778" layer="95" rot="R90"/>
 </segment>
 <segment>
@@ -5088,7 +5083,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <label x="177.8" y="110.49" size="1.778" layer="95" rot="R90"/>
 <pinref part="P4" gate="A" pin="5"/>
-<wire x1="176.53" y1="105.41" x2="177.8" y2="128.27" width="0.1524" layer="91"/>
+<wire x1="177.8" y1="105.41" x2="177.8" y2="128.27" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="39.37" y1="67.31" x2="16.51" y2="67.31" width="0.1524" layer="91"/>
@@ -5101,7 +5096,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <label x="180.34" y="110.49" size="1.778" layer="95" rot="R90"/>
 <pinref part="P4" gate="A" pin="6"/>
-<wire x1="179.07" y1="105.41" x2="180.34" y2="128.27" width="0.1524" layer="91"/>
+<wire x1="180.34" y1="105.41" x2="180.34" y2="128.27" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="39.37" y1="64.77" x2="16.51" y2="64.77" width="0.1524" layer="91"/>
@@ -5114,7 +5109,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <label x="175.26" y="110.49" size="1.778" layer="95" rot="R90"/>
 <pinref part="P4" gate="A" pin="4"/>
-<wire x1="173.99" y1="105.41" x2="175.26" y2="128.27" width="0.1524" layer="91"/>
+<wire x1="175.26" y1="105.41" x2="175.26" y2="128.27" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="39.37" y1="69.85" x2="24.13" y2="69.85" width="0.1524" layer="91"/>
@@ -5127,7 +5122,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <label x="172.72" y="110.49" size="1.778" layer="95" rot="R90"/>
 <pinref part="P4" gate="A" pin="3"/>
-<wire x1="171.45" y1="105.41" x2="172.72" y2="128.27" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="105.41" x2="172.72" y2="128.27" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="39.37" y1="72.39" x2="16.51" y2="72.39" width="0.1524" layer="91"/>
@@ -5140,7 +5135,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <label x="170.18" y="110.49" size="1.778" layer="95" rot="R90"/>
 <pinref part="P4" gate="A" pin="2"/>
-<wire x1="168.91" y1="105.41" x2="170.18" y2="128.27" width="0.1524" layer="91"/>
+<wire x1="170.18" y1="105.41" x2="170.18" y2="128.27" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="39.37" y1="74.93" x2="16.51" y2="74.93" width="0.1524" layer="91"/>
@@ -5153,7 +5148,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <label x="167.64" y="110.49" size="1.778" layer="95" rot="R90"/>
 <pinref part="P4" gate="A" pin="1"/>
-<wire x1="166.37" y1="105.41" x2="167.64" y2="128.27" width="0.1524" layer="91"/>
+<wire x1="167.64" y1="105.41" x2="167.64" y2="128.27" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="39.37" y1="77.47" x2="16.51" y2="77.47" width="0.1524" layer="91"/>
@@ -5164,48 +5159,48 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="PWM5/IO2*" class="0">
 <segment>
-<wire x1="171.45" y1="146.05" x2="172.72" y2="166.37" width="0.1524" layer="91"/>
-<junction x="172.72" y="166.37"/>
+<wire x1="171.45" y1="146.05" x2="171.45" y2="166.37" width="0.1524" layer="91"/>
+<junction x="171.45" y="166.37"/>
 <label x="171.45" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P2" gate="A" pin="6"/>
 </segment>
 </net>
 <net name="MISO0/IO40*" class="0">
 <segment>
-<wire x1="148.59" y1="147.32" x2="149.86" y2="166.37" width="0.1524" layer="91"/>
-<junction x="149.86" y="166.37"/>
+<wire x1="148.59" y1="147.32" x2="148.59" y2="166.37" width="0.1524" layer="91"/>
+<junction x="148.59" y="166.37"/>
 <label x="148.59" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P1" gate="A" pin="5"/>
 </segment>
 </net>
 <net name="PWM6/IO7*" class="0">
 <segment>
-<wire x1="170.18" y1="166.37" x2="168.91" y2="146.05" width="0.1524" layer="91"/>
-<junction x="170.18" y="166.37"/>
+<wire x1="168.91" y1="166.37" x2="168.91" y2="146.05" width="0.1524" layer="91"/>
+<junction x="168.91" y="166.37"/>
 <label x="168.91" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P2" gate="A" pin="7"/>
 </segment>
 </net>
 <net name="PWM1/IO35" class="0">
 <segment>
-<wire x1="153.67" y1="147.32" x2="154.94" y2="166.37" width="0.1524" layer="91"/>
-<junction x="154.94" y="166.37"/>
+<wire x1="153.67" y1="147.32" x2="153.67" y2="166.37" width="0.1524" layer="91"/>
+<junction x="153.67" y="166.37"/>
 <label x="153.67" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P1" gate="A" pin="3"/>
 </segment>
 </net>
 <net name="PWM2/IO25" class="0">
 <segment>
-<wire x1="157.48" y1="166.37" x2="156.21" y2="147.32" width="0.1524" layer="91"/>
-<junction x="157.48" y="166.37"/>
+<wire x1="156.21" y1="166.37" x2="156.21" y2="147.32" width="0.1524" layer="91"/>
+<junction x="156.21" y="166.37"/>
 <label x="156.21" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P1" gate="A" pin="2"/>
 </segment>
 </net>
 <net name="PWM3/IO23" class="0">
 <segment>
-<wire x1="158.75" y1="146.05" x2="160.02" y2="166.37" width="0.1524" layer="91"/>
-<junction x="160.02" y="166.37"/>
+<wire x1="158.75" y1="146.05" x2="158.75" y2="166.37" width="0.1524" layer="91"/>
+<junction x="158.75" y="166.37"/>
 <label x="158.75" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P1" gate="A" pin="1"/>
 </segment>
@@ -5219,51 +5214,50 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <pinref part="IC1" gate="G$1" pin="OUT"/>
 <junction x="212.09" y="63.5"/>
 <junction x="227.33" y="63.5"/>
-<label x="227.33" y="68.58" size="1.778" layer="95"/>
-<pinref part="VIN" gate="VCC" pin="VCC"/>
+<label x="226.06" y="64.77" size="1.778" layer="95" rot="R90"/>
 </segment>
 <segment>
-<junction x="154.94" y="105.41"/>
+<junction x="156.21" y="105.41"/>
 <pinref part="P5" gate="A" pin="6"/>
-<wire x1="156.21" y1="104.14" x2="154.94" y2="105.41" width="0.1524" layer="91"/>
+<wire x1="156.21" y1="104.14" x2="156.21" y2="105.41" width="0.1524" layer="91"/>
 <label x="156.21" y="110.49" size="1.778" layer="95" rot="R90"/>
-<wire x1="154.94" y1="105.41" x2="156.21" y2="128.27" width="0.1524" layer="91"/>
+<wire x1="156.21" y1="105.41" x2="156.21" y2="128.27" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SCK0/IO42*" class="0">
 <segment>
-<wire x1="146.05" y1="147.32" x2="147.32" y2="166.37" width="0.1524" layer="91"/>
-<junction x="147.32" y="166.37"/>
+<wire x1="146.05" y1="147.32" x2="146.05" y2="166.37" width="0.1524" layer="91"/>
+<junction x="146.05" y="166.37"/>
 <label x="146.05" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P1" gate="A" pin="6"/>
 </segment>
 </net>
 <net name="RD1/IO19*" class="0">
 <segment>
-<wire x1="173.99" y1="147.32" x2="175.26" y2="166.37" width="0.1524" layer="91"/>
-<junction x="175.26" y="166.37"/>
+<wire x1="173.99" y1="147.32" x2="173.99" y2="166.37" width="0.1524" layer="91"/>
+<junction x="173.99" y="166.37"/>
 <label x="173.99" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P2" gate="A" pin="5"/>
 </segment>
 </net>
 <net name="TD1/IO15*" class="0">
 <segment>
-<wire x1="166.37" y1="147.32" x2="167.64" y2="166.37" width="0.1524" layer="91"/>
-<junction x="167.64" y="166.37"/>
+<wire x1="166.37" y1="147.32" x2="166.37" y2="166.37" width="0.1524" layer="91"/>
+<junction x="166.37" y="166.37"/>
 <label x="166.37" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P2" gate="A" pin="8"/>
 </segment>
 <segment>
 <pinref part="BATTERY" gate="G$1" pin="1"/>
-<wire x1="48.26" y1="16.51" x2="25.4" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="15.24" x2="25.4" y2="15.24" width="0.1524" layer="91"/>
 <pinref part="BUZZER" gate="G$1" pin="1"/>
 <junction x="25.4" y="15.24"/>
 <wire x1="25.4" y1="15.24" x2="22.86" y2="15.24" width="0.1524" layer="91"/>
-<junction x="48.26" y="16.51"/>
+<junction x="48.26" y="15.24"/>
 <pinref part="R4" gate="G$1" pin="2"/>
 <wire x1="71.12" y1="17.78" x2="73.66" y2="17.78" width="0.1524" layer="91"/>
 <wire x1="81.28" y1="17.78" x2="73.66" y2="17.78" width="0.1524" layer="91"/>
-<wire x1="48.26" y1="16.51" x2="73.66" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="15.24" x2="73.66" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="15.24" x2="73.66" y2="17.78" width="0.1524" layer="91"/>
 <junction x="73.66" y="17.78"/>
 <label x="76.2" y="17.78" size="1.778" layer="95"/>
@@ -5271,16 +5265,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="MOSI0/IO41*" class="0">
 <segment>
-<wire x1="152.4" y1="166.37" x2="151.13" y2="147.32" width="0.1524" layer="91"/>
-<junction x="152.4" y="166.37"/>
+<wire x1="151.13" y1="166.37" x2="151.13" y2="147.32" width="0.1524" layer="91"/>
+<junction x="151.13" y="166.37"/>
 <label x="151.13" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P1" gate="A" pin="4"/>
 </segment>
 </net>
 <net name="IO51" class="0">
 <segment>
-<wire x1="227.33" y1="165.1" x2="217.17" y2="166.37" width="0.1524" layer="91"/>
-<junction x="217.17" y="166.37"/>
+<wire x1="227.33" y1="165.1" x2="217.17" y2="165.1" width="0.1524" layer="91"/>
+<junction x="217.17" y="165.1"/>
 <label x="222.25" y="165.1" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="4"/>
 </segment>
@@ -5293,8 +5287,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO52" class="0">
 <segment>
-<wire x1="209.55" y1="166.37" x2="196.85" y2="165.1" width="0.1524" layer="91"/>
-<junction x="209.55" y="166.37"/>
+<wire x1="209.55" y1="165.1" x2="196.85" y2="165.1" width="0.1524" layer="91"/>
+<junction x="209.55" y="165.1"/>
 <label x="196.85" y="165.1" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="3"/>
 </segment>
@@ -5307,8 +5301,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO53" class="0">
 <segment>
-<wire x1="217.17" y1="163.83" x2="227.33" y2="162.56" width="0.1524" layer="91"/>
-<junction x="217.17" y="163.83"/>
+<wire x1="217.17" y1="162.56" x2="227.33" y2="162.56" width="0.1524" layer="91"/>
+<junction x="217.17" y="162.56"/>
 <label x="222.25" y="162.56" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="6"/>
 </segment>
@@ -5321,8 +5315,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO55" class="0">
 <segment>
-<wire x1="227.33" y1="160.02" x2="217.17" y2="161.29" width="0.1524" layer="91"/>
-<junction x="217.17" y="161.29"/>
+<wire x1="227.33" y1="160.02" x2="217.17" y2="160.02" width="0.1524" layer="91"/>
+<junction x="217.17" y="160.02"/>
 <label x="222.25" y="160.02" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="8"/>
 </segment>
@@ -5335,8 +5329,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO56" class="0">
 <segment>
-<wire x1="209.55" y1="161.29" x2="196.85" y2="160.02" width="0.1524" layer="91"/>
-<junction x="209.55" y="161.29"/>
+<wire x1="209.55" y1="160.02" x2="196.85" y2="160.02" width="0.1524" layer="91"/>
+<junction x="209.55" y="160.02"/>
 <label x="196.85" y="160.02" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="7"/>
 </segment>
@@ -5349,8 +5343,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO57" class="0">
 <segment>
-<wire x1="217.17" y1="158.75" x2="227.33" y2="157.48" width="0.1524" layer="91"/>
-<junction x="217.17" y="158.75"/>
+<wire x1="217.17" y1="157.48" x2="227.33" y2="157.48" width="0.1524" layer="91"/>
+<junction x="217.17" y="157.48"/>
 <label x="222.25" y="157.48" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="10"/>
 </segment>
@@ -5368,16 +5362,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <pinref part="LED2" gate="G$1" pin="A"/>
 </segment>
 <segment>
-<wire x1="227.33" y1="154.94" x2="217.17" y2="156.21" width="0.1524" layer="91"/>
-<junction x="217.17" y="156.21"/>
+<wire x1="227.33" y1="154.94" x2="217.17" y2="154.94" width="0.1524" layer="91"/>
+<junction x="217.17" y="154.94"/>
 <label x="222.25" y="154.94" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="12"/>
 </segment>
 </net>
 <net name="IO58" class="0">
 <segment>
-<wire x1="209.55" y1="158.75" x2="196.85" y2="157.48" width="0.1524" layer="91"/>
-<junction x="209.55" y="158.75"/>
+<wire x1="209.55" y1="157.48" x2="196.85" y2="157.48" width="0.1524" layer="91"/>
+<junction x="209.55" y="157.48"/>
 <label x="196.85" y="157.48" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="9"/>
 </segment>
@@ -5395,8 +5389,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <label x="77.47" y="118.11" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="209.55" y1="156.21" x2="196.85" y2="154.94" width="0.1524" layer="91"/>
-<junction x="209.55" y="156.21"/>
+<wire x1="209.55" y1="154.94" x2="196.85" y2="154.94" width="0.1524" layer="91"/>
+<junction x="209.55" y="154.94"/>
 <label x="196.85" y="154.94" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="11"/>
 </segment>
@@ -5409,8 +5403,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <wire x1="69.342" y1="73.66" x2="57.15" y2="73.66" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="227.33" y1="152.4" x2="217.17" y2="153.67" width="0.1524" layer="91"/>
-<junction x="217.17" y="153.67"/>
+<wire x1="227.33" y1="152.4" x2="217.17" y2="152.4" width="0.1524" layer="91"/>
+<junction x="217.17" y="152.4"/>
 <label x="222.25" y="152.4" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="14"/>
 </segment>
@@ -5423,32 +5417,32 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <wire x1="69.342" y1="71.12" x2="57.15" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="217.17" y1="151.13" x2="227.33" y2="149.86" width="0.1524" layer="91"/>
-<junction x="217.17" y="151.13"/>
+<wire x1="217.17" y1="149.86" x2="227.33" y2="149.86" width="0.1524" layer="91"/>
+<junction x="217.17" y="149.86"/>
 <label x="222.25" y="149.86" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="16"/>
 </segment>
 </net>
 <net name="IO16/RD2" class="0">
 <segment>
-<wire x1="209.55" y1="153.67" x2="194.31" y2="152.4" width="0.1524" layer="91"/>
-<junction x="209.55" y="153.67"/>
+<wire x1="209.55" y1="152.4" x2="194.31" y2="152.4" width="0.1524" layer="91"/>
+<junction x="209.55" y="152.4"/>
 <label x="191.77" y="152.4" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="13"/>
 </segment>
 </net>
 <net name="IO14/TD2" class="0">
 <segment>
-<wire x1="209.55" y1="151.13" x2="196.85" y2="149.86" width="0.1524" layer="91"/>
-<junction x="209.55" y="151.13"/>
+<wire x1="209.55" y1="149.86" x2="196.85" y2="149.86" width="0.1524" layer="91"/>
+<junction x="209.55" y="149.86"/>
 <label x="191.77" y="149.86" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="15"/>
 </segment>
 </net>
 <net name="IO12" class="0">
 <segment>
-<wire x1="209.55" y1="148.59" x2="196.85" y2="147.32" width="0.1524" layer="91"/>
-<junction x="209.55" y="148.59"/>
+<wire x1="209.55" y1="147.32" x2="196.85" y2="147.32" width="0.1524" layer="91"/>
+<junction x="209.55" y="147.32"/>
 <label x="196.85" y="147.32" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="17"/>
 </segment>
@@ -5461,8 +5455,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO10/SCK1" class="0">
 <segment>
-<wire x1="209.55" y1="146.05" x2="191.77" y2="144.78" width="0.1524" layer="91"/>
-<junction x="209.55" y="146.05"/>
+<wire x1="209.55" y1="144.78" x2="191.77" y2="144.78" width="0.1524" layer="91"/>
+<junction x="209.55" y="144.78"/>
 <label x="189.23" y="144.78" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="19"/>
 </segment>
@@ -5475,8 +5469,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO6/MOSI1" class="0">
 <segment>
-<wire x1="209.55" y1="140.97" x2="194.31" y2="139.7" width="0.1524" layer="91"/>
-<junction x="209.55" y="140.97"/>
+<wire x1="209.55" y1="139.7" x2="194.31" y2="139.7" width="0.1524" layer="91"/>
+<junction x="209.55" y="139.7"/>
 <label x="191.77" y="139.7" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="23"/>
 </segment>
@@ -5489,8 +5483,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO38/RXD2" class="0">
 <segment>
-<wire x1="199.39" y1="137.16" x2="209.55" y2="138.43" width="0.1524" layer="91"/>
-<junction x="209.55" y="138.43"/>
+<wire x1="199.39" y1="137.16" x2="209.55" y2="137.16" width="0.1524" layer="91"/>
+<junction x="209.55" y="137.16"/>
 <label x="189.23" y="137.16" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="25"/>
 </segment>
@@ -5503,8 +5497,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO39/TXD2" class="0">
 <segment>
-<wire x1="209.55" y1="135.89" x2="196.85" y2="134.62" width="0.1524" layer="91"/>
-<junction x="209.55" y="135.89"/>
+<wire x1="209.55" y1="134.62" x2="196.85" y2="134.62" width="0.1524" layer="91"/>
+<junction x="209.55" y="134.62"/>
 <label x="189.23" y="134.62" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="27"/>
 </segment>
@@ -5517,8 +5511,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO67" class="0">
 <segment>
-<wire x1="196.85" y1="132.08" x2="209.55" y2="133.35" width="0.1524" layer="91"/>
-<junction x="209.55" y="133.35"/>
+<wire x1="196.85" y1="132.08" x2="209.55" y2="132.08" width="0.1524" layer="91"/>
+<junction x="209.55" y="132.08"/>
 <label x="196.85" y="132.08" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="29"/>
 </segment>
@@ -5531,8 +5525,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO21" class="0">
 <segment>
-<wire x1="209.55" y1="130.81" x2="196.85" y2="129.54" width="0.1524" layer="91"/>
-<junction x="209.55" y="130.81"/>
+<wire x1="209.55" y1="129.54" x2="196.85" y2="129.54" width="0.1524" layer="91"/>
+<junction x="209.55" y="129.54"/>
 <label x="196.85" y="129.54" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="31"/>
 </segment>
@@ -5545,8 +5539,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO64" class="0">
 <segment>
-<wire x1="209.55" y1="128.27" x2="196.85" y2="127" width="0.1524" layer="91"/>
-<junction x="209.55" y="128.27"/>
+<wire x1="209.55" y1="127" x2="196.85" y2="127" width="0.1524" layer="91"/>
+<junction x="209.55" y="127"/>
 <label x="196.85" y="127" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="33"/>
 </segment>
@@ -5559,24 +5553,24 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO62" class="0">
 <segment>
-<wire x1="196.85" y1="124.46" x2="209.55" y2="125.73" width="0.1524" layer="91"/>
-<junction x="209.55" y="125.73"/>
+<wire x1="196.85" y1="124.46" x2="209.55" y2="124.46" width="0.1524" layer="91"/>
+<junction x="209.55" y="124.46"/>
 <label x="196.85" y="124.46" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="35"/>
 </segment>
 </net>
 <net name="IO68" class="0">
 <segment>
-<wire x1="209.55" y1="123.19" x2="196.85" y2="121.92" width="0.1524" layer="91"/>
-<junction x="209.55" y="123.19"/>
+<wire x1="209.55" y1="121.92" x2="196.85" y2="121.92" width="0.1524" layer="91"/>
+<junction x="209.55" y="121.92"/>
 <label x="196.85" y="121.92" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="37"/>
 </segment>
 </net>
 <net name="IO61" class="0">
 <segment>
-<wire x1="217.17" y1="125.73" x2="227.33" y2="124.46" width="0.1524" layer="91"/>
-<junction x="217.17" y="125.73"/>
+<wire x1="217.17" y1="124.46" x2="227.33" y2="124.46" width="0.1524" layer="91"/>
+<junction x="217.17" y="124.46"/>
 <label x="222.25" y="124.46" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="36"/>
 </segment>
@@ -5589,8 +5583,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO63" class="0">
 <segment>
-<wire x1="217.17" y1="128.27" x2="227.33" y2="127" width="0.1524" layer="91"/>
-<junction x="217.17" y="128.27"/>
+<wire x1="217.17" y1="127" x2="227.33" y2="127" width="0.1524" layer="91"/>
+<junction x="217.17" y="127"/>
 <label x="222.25" y="127" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="34"/>
 </segment>
@@ -5603,8 +5597,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO66" class="0">
 <segment>
-<wire x1="217.17" y1="133.35" x2="227.33" y2="132.08" width="0.1524" layer="91"/>
-<junction x="217.17" y="133.35"/>
+<wire x1="217.17" y1="132.08" x2="227.33" y2="132.08" width="0.1524" layer="91"/>
+<junction x="217.17" y="132.08"/>
 <label x="222.25" y="132.08" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="30"/>
 </segment>
@@ -5617,8 +5611,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO11/RTS1" class="0">
 <segment>
-<wire x1="217.17" y1="135.89" x2="227.33" y2="134.62" width="0.1524" layer="91"/>
-<junction x="217.17" y="135.89"/>
+<wire x1="217.17" y1="134.62" x2="227.33" y2="134.62" width="0.1524" layer="91"/>
+<junction x="217.17" y="134.62"/>
 <label x="222.25" y="134.62" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="28"/>
 </segment>
@@ -5631,16 +5625,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO1/CTS1" class="0">
 <segment>
-<wire x1="217.17" y1="138.43" x2="227.33" y2="137.16" width="0.1524" layer="91"/>
-<junction x="217.17" y="138.43"/>
+<wire x1="217.17" y1="137.16" x2="227.33" y2="137.16" width="0.1524" layer="91"/>
+<junction x="217.17" y="137.16"/>
 <label x="222.25" y="137.16" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="26"/>
 </segment>
 </net>
 <net name="IO5/TXD1" class="0">
 <segment>
-<wire x1="217.17" y1="140.97" x2="227.33" y2="139.7" width="0.1524" layer="91"/>
-<junction x="217.17" y="140.97"/>
+<wire x1="217.17" y1="139.7" x2="227.33" y2="139.7" width="0.1524" layer="91"/>
+<junction x="217.17" y="139.7"/>
 <label x="222.25" y="139.7" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="24"/>
 </segment>
@@ -5653,8 +5647,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO3/RXD1" class="0">
 <segment>
-<wire x1="217.17" y1="143.51" x2="227.33" y2="142.24" width="0.1524" layer="91"/>
-<junction x="217.17" y="143.51"/>
+<wire x1="217.17" y1="142.24" x2="227.33" y2="142.24" width="0.1524" layer="91"/>
+<junction x="217.17" y="142.24"/>
 <label x="222.25" y="142.24" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="22"/>
 </segment>
@@ -5667,16 +5661,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO4/PWM4/MODE" class="0">
 <segment>
-<wire x1="217.17" y1="146.05" x2="227.33" y2="144.78" width="0.1524" layer="91"/>
-<junction x="217.17" y="146.05"/>
+<wire x1="217.17" y1="144.78" x2="227.33" y2="144.78" width="0.1524" layer="91"/>
+<junction x="217.17" y="144.78"/>
 <label x="222.25" y="144.78" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="20"/>
 </segment>
 </net>
 <net name="IO8/MISO1" class="0">
 <segment>
-<wire x1="194.31" y1="142.24" x2="209.55" y2="143.51" width="0.1524" layer="91"/>
-<junction x="209.55" y="143.51"/>
+<wire x1="194.31" y1="142.24" x2="209.55" y2="142.24" width="0.1524" layer="91"/>
+<junction x="209.55" y="142.24"/>
 <label x="191.77" y="142.24" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="21"/>
 </segment>
@@ -5689,8 +5683,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO65" class="0">
 <segment>
-<wire x1="217.17" y1="130.81" x2="227.33" y2="129.54" width="0.1524" layer="91"/>
-<junction x="217.17" y="130.81"/>
+<wire x1="217.17" y1="129.54" x2="227.33" y2="129.54" width="0.1524" layer="91"/>
+<junction x="217.17" y="129.54"/>
 <label x="222.25" y="129.54" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="32"/>
 </segment>
@@ -5703,8 +5697,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="IO54" class="0">
 <segment>
-<wire x1="209.55" y1="163.83" x2="196.85" y2="162.56" width="0.1524" layer="91"/>
-<junction x="209.55" y="163.83"/>
+<wire x1="209.55" y1="162.56" x2="196.85" y2="162.56" width="0.1524" layer="91"/>
+<junction x="209.55" y="162.56"/>
 <label x="196.85" y="162.56" size="1.778" layer="95"/>
 <pinref part="P3" gate="A" pin="5"/>
 </segment>
@@ -5717,28 +5711,26 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="BAT" class="0">
 <segment>
-<wire x1="142.24" y1="166.37" x2="140.97" y2="147.32" width="0.1524" layer="91"/>
-<junction x="142.24" y="166.37"/>
+<wire x1="140.97" y1="166.37" x2="140.97" y2="147.32" width="0.1524" layer="91"/>
+<junction x="140.97" y="166.37"/>
 <label x="140.97" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P1" gate="A" pin="8"/>
 </segment>
 </net>
 <net name="TXD0/IO18*" class="0">
 <segment>
-<wire x1="182.88" y1="166.37" x2="181.61" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="181.61" y1="166.37" x2="181.61" y2="147.32" width="0.1524" layer="91"/>
 <label x="181.61" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P2" gate="A" pin="2"/>
 </segment>
 </net>
 <net name="12V" class="0">
 <segment>
-<wire x1="179.07" y1="63.5" x2="187.96" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="177.8" y1="63.5" x2="187.96" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="187.96" y1="63.5" x2="196.85" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="IN"/>
 <junction x="196.85" y="63.5"/>
-<wire x1="179.07" y1="60.96" x2="179.07" y2="63.5" width="0.1524" layer="91"/>
-<wire x1="179.07" y1="60.96" x2="175.26" y2="60.96" width="0.1524" layer="91"/>
-<junction x="179.07" y="60.96"/>
+<junction x="177.8" y="63.5"/>
 <pinref part="C2" gate="G$1" pin="1"/>
 <junction x="187.96" y="63.5"/>
 <pinref part="POWER" gate="G$1" pin="VCC"/>
@@ -5747,7 +5739,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <net name="SDA0/IO33*" class="0">
 <segment>
 <pinref part="P2" gate="A" pin="3"/>
-<wire x1="179.07" y1="147.32" x2="180.34" y2="166.37" width="0.1524" layer="91"/>
+<wire x1="179.07" y1="147.32" x2="179.07" y2="166.37" width="0.1524" layer="91"/>
 <label x="179.07" y="147.32" size="1.778" layer="95" rot="R90"/>
 </segment>
 <segment>
@@ -5760,7 +5752,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <net name="SCL0/IO31*" class="0">
 <segment>
 <pinref part="P2" gate="A" pin="4"/>
-<wire x1="176.53" y1="147.32" x2="177.8" y2="166.37" width="0.1524" layer="91"/>
+<wire x1="176.53" y1="147.32" x2="176.53" y2="166.37" width="0.1524" layer="91"/>
 <label x="176.53" y="147.32" size="1.778" layer="95" rot="R90"/>
 </segment>
 <segment>
@@ -5772,39 +5764,42 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="RXD0/IO20*" class="0">
 <segment>
-<wire x1="185.42" y1="166.37" x2="184.15" y2="146.05" width="0.1524" layer="91"/>
+<wire x1="184.15" y1="166.37" x2="184.15" y2="146.05" width="0.1524" layer="91"/>
 <label x="184.15" y="147.32" size="1.778" layer="95" rot="R90"/>
 <pinref part="P2" gate="A" pin="1"/>
 </segment>
 </net>
-<net name="N$5" class="0">
+<net name="CELL_3" class="0">
 <segment>
 <pinref part="BATTERY" gate="G$1" pin="4"/>
-<wire x1="48.26" y1="24.13" x2="25.4" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="22.86" x2="25.4" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="BUZZER" gate="G$1" pin="4"/>
 <junction x="25.4" y="22.86"/>
 <wire x1="25.4" y1="22.86" x2="22.86" y2="22.86" width="0.1524" layer="91"/>
-<junction x="48.26" y="24.13"/>
+<junction x="48.26" y="22.86"/>
+<label x="27.94" y="22.86" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$6" class="0">
+<net name="CELL_2" class="0">
 <segment>
 <pinref part="BUZZER" gate="G$1" pin="3"/>
 <pinref part="BATTERY" gate="G$1" pin="3"/>
-<wire x1="25.4" y1="20.32" x2="48.26" y2="21.59" width="0.1524" layer="91"/>
+<wire x1="25.4" y1="20.32" x2="48.26" y2="20.32" width="0.1524" layer="91"/>
 <wire x1="25.4" y1="20.32" x2="22.86" y2="20.32" width="0.1524" layer="91"/>
 <junction x="25.4" y="20.32"/>
-<junction x="48.26" y="21.59"/>
+<junction x="48.26" y="20.32"/>
+<label x="27.94" y="20.32" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$7" class="0">
+<net name="CELL_1" class="0">
 <segment>
-<wire x1="48.26" y1="19.05" x2="25.4" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="17.78" x2="25.4" y2="17.78" width="0.1524" layer="91"/>
 <pinref part="BATTERY" gate="G$1" pin="2"/>
 <wire x1="25.4" y1="17.78" x2="22.86" y2="17.78" width="0.1524" layer="91"/>
 <pinref part="BUZZER" gate="G$1" pin="2"/>
 <junction x="25.4" y="17.78"/>
-<junction x="48.26" y="19.05"/>
+<junction x="48.26" y="17.78"/>
+<label x="27.94" y="17.78" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$2" class="0">

@@ -3695,7 +3695,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <part name="S4" library="pie" deviceset="M02" device="1X02-MTA"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Sumita Ghosh, Sahar Mesri"/>
-<attribute name="REVISION" value="B"/>
+<attribute name="REVISION" value="C"/>
 </part>
 <part name="GND1" library="pie" deviceset="GND" device=""/>
 <part name="GND2" library="pie" deviceset="GND" device=""/>
@@ -3718,7 +3718,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <part name="SUPPLY1" library="pie" deviceset="GND" device=""/>
 <part name="R9" library="pie" deviceset="R-US_" device="R0603" value="330"/>
 <part name="SUPPLY2" library="pie" deviceset="GND" device=""/>
-<part name="U$7" library="pie" deviceset="ANDERSON" device="VERTICAL"/>
+<part name="POWER" library="pie" deviceset="ANDERSON" device="VERTICAL"/>
 </parts>
 <sheets>
 <sheet>
@@ -3781,7 +3781,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <instance part="SUPPLY1" gate="GND" x="175.26" y="99.06"/>
 <instance part="R9" gate="G$1" x="175.26" y="106.68" rot="R90"/>
 <instance part="SUPPLY2" gate="GND" x="165.1" y="116.84"/>
-<instance part="U$7" gate="G$1" x="63.5" y="147.32"/>
+<instance part="POWER" gate="G$1" x="63.5" y="147.32"/>
 </instances>
 <busses>
 </busses>
@@ -3799,7 +3799,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <pinref part="C1" gate="G$1" pin="1"/>
 <wire x1="86.36" y1="149.86" x2="71.12" y2="149.86" width="0.1524" layer="91"/>
 <label x="76.2" y="149.86" size="1.778" layer="95"/>
-<pinref part="U$7" gate="G$1" pin="VCC"/>
+<pinref part="POWER" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="D2" gate="G$1" pin="C"/>
@@ -3965,7 +3965,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <wire x1="81.28" y1="144.78" x2="81.28" y2="142.24" width="0.1524" layer="91"/>
 <pinref part="C1" gate="G$1" pin="2"/>
 <wire x1="81.28" y1="142.24" x2="86.36" y2="142.24" width="0.1524" layer="91"/>
-<pinref part="U$7" gate="G$1" pin="GND"/>
+<pinref part="POWER" gate="G$1" pin="GND"/>
 </segment>
 <segment>
 <pinref part="GND6" gate="GND" pin="GND"/>
