@@ -151,6 +151,8 @@ This design is open source hardware.
 <text x="19.431" y="16.383" size="0.889" layer="27" font="vector" ratio="20" rot="R90">.47uF</text>
 <text x="23.368" y="32.004" size="0.889" layer="27" font="vector" ratio="20">470uF</text>
 <text x="1.016" y="23.114" size="0.889" layer="27" font="vector" ratio="20" rot="R90">10uF</text>
+<text x="21.209" y="11.684" size="0.889" layer="21" font="vector" ratio="20">DNP</text>
+<text x="25.781" y="11.684" size="0.889" layer="21" font="vector" ratio="20">DNP</text>
 </plain>
 <libraries>
 <library name="LMZ12010">
