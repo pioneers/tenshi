@@ -115,9 +115,9 @@
 <wire x1="38.1" y1="0" x2="38.1" y2="38.1" width="0.254" layer="20"/>
 <wire x1="38.1" y1="38.1" x2="0" y2="38.1" width="0.254" layer="20"/>
 <wire x1="0" y1="38.1" x2="0" y2="0" width="0.254" layer="20"/>
-<text x="31.369" y="37.338" size="1.27" layer="25" font="vector" ratio="20" rot="R180">PiE Sun Bear v2.0</text>
-<text x="30.099" y="35.56" size="1.27" layer="21" font="vector" ratio="20" rot="R180">Version 2 Revision C</text>
-<text x="18.288" y="33.782" size="1.27" layer="21" font="vector" ratio="20" rot="R180">2014.01.05</text>
+<text x="30.48" y="37.338" size="1.27" layer="25" font="vector" ratio="20" rot="R180">PiE Sun Bear v2.0</text>
+<text x="29.591" y="35.687" size="1.27" layer="21" font="vector" ratio="20" rot="R180">Version 2 Revision C</text>
+<text x="22.352" y="33.909" size="1.27" layer="21" font="vector" ratio="20" rot="R180">2014.01.05</text>
 <text x="12.446" y="8.509" size="1.27" layer="21" font="vector">GND</text>
 <text x="9.144" y="15.494" size="1.27" layer="21" font="vector" ratio="20" rot="SR90">TO WATSON</text>
 <text x="33.655" y="8.89" size="1.27" layer="22" font="vector" ratio="15" rot="MR0">Copyright (c) 2013,
@@ -135,6 +135,14 @@ visit
 
 pioneers.berkeley.edu/
 opensource</text>
+<text x="31.496" y="12.065" size="0.889" layer="21" font="vector" ratio="20" rot="R90">12V</text>
+<text x="31.623" y="19.177" size="0.889" layer="21" font="vector" ratio="20" rot="R90">12V</text>
+<text x="31.496" y="26.543" size="0.889" layer="21" font="vector" ratio="20" rot="R90">12V</text>
+<text x="31.623" y="33.655" size="0.889" layer="21" font="vector" ratio="20" rot="R90">12V</text>
+<text x="31.623" y="30.734" size="0.889" layer="21" font="vector" ratio="20" rot="R90">GND</text>
+<text x="31.623" y="23.368" size="0.889" layer="21" font="vector" ratio="20" rot="R90">GND</text>
+<text x="31.623" y="16.256" size="0.889" layer="21" font="vector" ratio="20" rot="R90">GND</text>
+<text x="31.623" y="9.144" size="0.889" layer="21" font="vector" ratio="20" rot="R90">GND</text>
 </plain>
 <libraries>
 <library name="pie">
