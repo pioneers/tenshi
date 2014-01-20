@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -3481,12 +3481,14 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PARTNUMBER" value="SS16-E3/61TGICT-ND"/>
+</technology>
 </technologies>
 </device>
 </devices>
 </deviceset>
-<deviceset name="MOSFET-NCHANNEL" prefix="Q">
+<deviceset name="MOSFET-NCHANNEL" prefix="Q" uservalue="yes">
 <description>N-Type MOSFET, SOT23-3 Package</description>
 <gates>
 <gate name="G$1" symbol="MOSFET-NCHANNEL" x="0" y="0"/>
@@ -3499,7 +3501,9 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <connect gate="G$1" pin="S" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PARTNUM" value="DMN65D8L-7DICT-ND"/>
+</technology>
 </technologies>
 </device>
 </devices>
