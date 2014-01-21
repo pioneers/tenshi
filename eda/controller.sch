@@ -2769,6 +2769,133 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <wire x1="2.286" y1="-5.715" x2="2.286" y2="5.08" width="0.635" layer="51"/>
 <text x="-11.43" y="-7.62" size="1.27" layer="27">&gt;VALUE</text>
 </package>
+<package name="SOIC8">
+<description>&lt;b&gt;8-pin SOIC&lt;/b&gt;
+50-mil pitch, 6mm wide</description>
+<smd name="P$1" x="-2.45" y="1.905" dx="2" dy="0.6" layer="1"/>
+<smd name="P$2" x="-2.45" y="0.635" dx="2" dy="0.6" layer="1"/>
+<smd name="P$3" x="-2.45" y="-0.635" dx="2" dy="0.6" layer="1"/>
+<smd name="P$4" x="-2.45" y="-1.905" dx="2" dy="0.6" layer="1"/>
+<smd name="P$5" x="2.45" y="-1.905" dx="2" dy="0.6" layer="1"/>
+<smd name="P$6" x="2.45" y="-0.635" dx="2" dy="0.6" layer="1"/>
+<smd name="P$7" x="2.45" y="0.635" dx="2" dy="0.6" layer="1"/>
+<smd name="P$8" x="2.45" y="1.905" dx="2" dy="0.6" layer="1"/>
+<wire x1="-1.125" y1="2.75" x2="1.125" y2="2.75" width="0.2032" layer="21"/>
+<wire x1="1.125" y1="-2.75" x2="-1.125" y2="-2.75" width="0.2032" layer="21"/>
+<wire x1="-2" y1="2.5" x2="2" y2="2.5" width="0.2032" layer="51"/>
+<wire x1="2" y1="2.5" x2="2" y2="-2.5" width="0.2032" layer="51"/>
+<wire x1="2" y1="-2.5" x2="-2" y2="-2.5" width="0.2032" layer="51"/>
+<wire x1="-2" y1="-2.5" x2="-2" y2="2.5" width="0.2032" layer="51"/>
+<circle x="-0.8" y="1.9" radius="0.3" width="0" layer="21"/>
+<rectangle x1="-3.1" y1="1.7" x2="-2.1" y2="2.1" layer="51"/>
+<rectangle x1="-3.1" y1="0.43" x2="-2.1" y2="0.83" layer="51"/>
+<rectangle x1="-3.1" y1="-0.84" x2="-2.1" y2="-0.44" layer="51"/>
+<rectangle x1="-3.1" y1="-2.11" x2="-2.1" y2="-1.71" layer="51"/>
+<rectangle x1="2.1" y1="1.7" x2="3.1" y2="2.1" layer="51"/>
+<rectangle x1="2.1" y1="0.43" x2="3.1" y2="0.83" layer="51"/>
+<rectangle x1="2.1" y1="-0.84" x2="3.1" y2="-0.44" layer="51"/>
+<rectangle x1="2.1" y1="-2.11" x2="3.1" y2="-1.71" layer="51"/>
+<rectangle x1="-3.7" y1="-2.75" x2="3.7" y2="2.75" layer="39"/>
+<text x="-2.54" y="3.81" size="1.27" layer="25">&gt;NAME</text>
+</package>
+<package name="USB-MICRO-AB">
+<description>&lt;b&gt;USB Micro-AB connector&lt;/b&gt;
+Designed for Hirose ZX62-AB-5PA</description>
+<smd name="P$1" x="-1.3" y="1" dx="0.4" dy="1.35" layer="1"/>
+<smd name="P$2" x="-0.65" y="1" dx="0.4" dy="1.35" layer="1"/>
+<smd name="P$3" x="0" y="1" dx="0.4" dy="1.35" layer="1"/>
+<smd name="P$4" x="0.65" y="1" dx="0.4" dy="1.35" layer="1"/>
+<smd name="P$5" x="1.3" y="1" dx="0.4" dy="1.35" layer="1"/>
+<smd name="P$6" x="-3.1" y="0.875" dx="2.1" dy="1.6" layer="1"/>
+<smd name="P$7" x="3.1" y="0.875" dx="2.1" dy="1.6" layer="1"/>
+<smd name="P$8" x="-4" y="-1.675" dx="1.8" dy="1.9" layer="1"/>
+<smd name="P$9" x="4" y="-1.675" dx="1.8" dy="1.9" layer="1"/>
+<smd name="P$10" x="-1.2" y="-1.675" dx="1.9" dy="1.9" layer="1"/>
+<smd name="P$11" x="1.2" y="-1.675" dx="1.9" dy="1.9" layer="1"/>
+<wire x1="-10" y1="-3.125" x2="10" y2="-3.125" width="0.2032" layer="51"/>
+<text x="-5" y="3" size="1.27" layer="25">&gt;NAME</text>
+<wire x1="-3.75" y1="1" x2="-3.75" y2="-4" width="0.2032" layer="51"/>
+<wire x1="-3.75" y1="-4" x2="3.75" y2="-4" width="0.2032" layer="51"/>
+<wire x1="3.75" y1="-4" x2="3.75" y2="1" width="0.2032" layer="51"/>
+<wire x1="3.75" y1="1" x2="-3.75" y2="1" width="0.2032" layer="51"/>
+<rectangle x1="-3.9" y1="-3.3" x2="3.9" y2="0.9" layer="43"/>
+<rectangle x1="-5.3" y1="-3" x2="5.3" y2="2" layer="39"/>
+</package>
+<package name="TC2070">
+<smd name="P$1" x="-3.81" y="-0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$2" x="-3.81" y="0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$3" x="-2.54" y="-0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$4" x="-2.54" y="0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$5" x="-1.27" y="-0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$6" x="-1.27" y="0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$7" x="0" y="-0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$8" x="0" y="0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$9" x="1.27" y="-0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$10" x="1.27" y="0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$11" x="2.54" y="-0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$12" x="2.54" y="0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$13" x="3.81" y="-0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<smd name="P$14" x="3.81" y="0.635" dx="0.7874" dy="0.7874" layer="1" roundness="100"/>
+<hole x="-5.08" y="0" drill="0.9906"/>
+<hole x="5.08" y="1.016" drill="0.9906"/>
+<hole x="5.08" y="-1.016" drill="0.9906"/>
+<text x="-5.08" y="1.27" size="1.27" layer="25" font="vector">&gt;NAME</text>
+<text x="-5.08" y="-2.54" size="1.27" layer="27" font="vector">&gt;VALUE</text>
+<polygon width="0.0254" layer="39">
+<vertex x="-3.81" y="-0.2286"/>
+<vertex x="-3.81" y="0.2286"/>
+<vertex x="-3.4036" y="0.2286"/>
+<vertex x="-3.4036" y="0.635"/>
+<vertex x="-2.9464" y="0.635"/>
+<vertex x="-2.9464" y="0.2286"/>
+<vertex x="-2.1336" y="0.2286"/>
+<vertex x="-2.1336" y="0.635"/>
+<vertex x="-1.6764" y="0.635"/>
+<vertex x="-1.6764" y="0.2286"/>
+<vertex x="-0.8636" y="0.2286"/>
+<vertex x="-0.8636" y="0.635"/>
+<vertex x="-0.4064" y="0.635"/>
+<vertex x="-0.4064" y="0.2286"/>
+<vertex x="0.4064" y="0.2286"/>
+<vertex x="0.4064" y="0.635"/>
+<vertex x="0.8636" y="0.635"/>
+<vertex x="0.8636" y="0.2286"/>
+<vertex x="1.6764" y="0.2286"/>
+<vertex x="1.6764" y="0.635"/>
+<vertex x="2.1336" y="0.635"/>
+<vertex x="2.1336" y="0.2286"/>
+<vertex x="2.9464" y="0.2286"/>
+<vertex x="2.9464" y="0.635"/>
+<vertex x="3.4036" y="0.635"/>
+<vertex x="3.4036" y="0.2286"/>
+<vertex x="3.81" y="0.2286"/>
+<vertex x="3.81" y="-0.2286"/>
+<vertex x="3.4036" y="-0.2286"/>
+<vertex x="3.4036" y="-0.635"/>
+<vertex x="2.9464" y="-0.635"/>
+<vertex x="2.9464" y="-0.2286"/>
+<vertex x="2.1336" y="-0.2286"/>
+<vertex x="2.1336" y="-0.635"/>
+<vertex x="1.6764" y="-0.635"/>
+<vertex x="1.6764" y="-0.2286"/>
+<vertex x="0.8636" y="-0.2286"/>
+<vertex x="0.8636" y="-0.635"/>
+<vertex x="0.4064" y="-0.635"/>
+<vertex x="0.4064" y="-0.2286"/>
+<vertex x="-0.4064" y="-0.2286"/>
+<vertex x="-0.4064" y="-0.635"/>
+<vertex x="-0.8636" y="-0.635"/>
+<vertex x="-0.8636" y="-0.2286"/>
+<vertex x="-1.6764" y="-0.2286"/>
+<vertex x="-1.6764" y="-0.635"/>
+<vertex x="-2.1336" y="-0.635"/>
+<vertex x="-2.1336" y="-0.2286"/>
+<vertex x="-2.9464" y="-0.2286"/>
+<vertex x="-2.9464" y="-0.635"/>
+<vertex x="-3.4036" y="-0.635"/>
+<vertex x="-3.4036" y="-0.2286"/>
+</polygon>
+</package>
 </packages>
 <symbols>
 <symbol name="LETTER_L">
@@ -3095,6 +3222,51 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <pin name="6" x="2.54" y="-2.54" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
 <pin name="7" x="-5.08" y="-5.08" visible="pad" length="short" direction="pas" function="dot"/>
 <pin name="8" x="2.54" y="-5.08" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
+</symbol>
+<symbol name="LM3525">
+<pin name="IN" x="-17.78" y="5.08" length="middle"/>
+<pin name="FLAG" x="-17.78" y="-2.54" length="middle"/>
+<pin name="EN" x="-17.78" y="-5.08" length="middle"/>
+<pin name="GND" x="17.78" y="-5.08" length="middle" rot="R180"/>
+<pin name="OUT" x="17.78" y="5.08" length="middle" rot="R180"/>
+<wire x1="-12.7" y1="7.62" x2="-12.7" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="-12.7" y1="-7.62" x2="12.7" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="12.7" y1="-7.62" x2="12.7" y2="7.62" width="0.254" layer="94"/>
+<wire x1="12.7" y1="7.62" x2="-12.7" y2="7.62" width="0.254" layer="94"/>
+</symbol>
+<symbol name="USB-OTG">
+<pin name="VBUS" x="12.7" y="5.08" length="middle" rot="R180"/>
+<pin name="D-" x="12.7" y="2.54" length="middle" rot="R180"/>
+<pin name="D+" x="12.7" y="0" length="middle" rot="R180"/>
+<pin name="ID" x="12.7" y="-2.54" length="middle" rot="R180"/>
+<pin name="GND" x="12.7" y="-5.08" length="middle" rot="R180"/>
+<pin name="SHIELD" x="12.7" y="-7.62" length="middle" rot="R180"/>
+<text x="-2.54" y="-2.54" size="2.54" layer="94" rot="R90">USB</text>
+<wire x1="-7.62" y1="7.62" x2="7.62" y2="7.62" width="0.254" layer="94"/>
+<wire x1="7.62" y1="7.62" x2="7.62" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-10.16" x2="-7.62" y2="-10.16" width="0.254" layer="94"/>
+</symbol>
+<symbol name="TC2070">
+<wire x1="-6.35" y1="-10.16" x2="8.89" y2="-10.16" width="0.4064" layer="94"/>
+<wire x1="8.89" y1="-10.16" x2="8.89" y2="10.16" width="0.4064" layer="94"/>
+<wire x1="8.89" y1="10.16" x2="-6.35" y2="10.16" width="0.4064" layer="94"/>
+<wire x1="-6.35" y1="10.16" x2="-6.35" y2="-10.16" width="0.4064" layer="94"/>
+<text x="-6.35" y="10.795" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-12.7" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="1" x="-2.54" y="7.62" visible="pad" length="short" direction="pas" function="dot"/>
+<pin name="2" x="5.08" y="7.62" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
+<pin name="3" x="-2.54" y="5.08" visible="pad" length="short" direction="pas" function="dot"/>
+<pin name="4" x="5.08" y="5.08" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
+<pin name="5" x="-2.54" y="2.54" visible="pad" length="short" direction="pas" function="dot"/>
+<pin name="6" x="5.08" y="2.54" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
+<pin name="7" x="-2.54" y="0" visible="pad" length="short" direction="pas" function="dot"/>
+<pin name="8" x="5.08" y="0" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
+<pin name="9" x="-2.54" y="-2.54" visible="pad" length="short" direction="pas" function="dot"/>
+<pin name="10" x="5.08" y="-2.54" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
+<pin name="11" x="-2.54" y="-5.08" visible="pad" length="short" direction="pas" function="dot"/>
+<pin name="12" x="5.08" y="-5.08" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
+<pin name="13" x="-2.54" y="-7.62" visible="pad" length="short" direction="pas" function="dot"/>
+<pin name="14" x="5.08" y="-7.62" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -4520,6 +4692,77 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 </device>
 </devices>
 </deviceset>
+<deviceset name="LM3525" prefix="U">
+<description>&lt;b&gt;LM3525&lt;/b&gt;
+Single Port USB Power Switch and Over-Current Protection</description>
+<gates>
+<gate name="G$1" symbol="LM3525" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SOIC8">
+<connects>
+<connect gate="G$1" pin="EN" pad="P$1"/>
+<connect gate="G$1" pin="FLAG" pad="P$2"/>
+<connect gate="G$1" pin="GND" pad="P$3"/>
+<connect gate="G$1" pin="IN" pad="P$7"/>
+<connect gate="G$1" pin="OUT" pad="P$6 P$8"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="USB-OTG" prefix="USB">
+<description>&lt;b&gt;USB Connector&lt;/b&gt;
+OTG connector with ID pin</description>
+<gates>
+<gate name="G$1" symbol="USB-OTG" x="0" y="0"/>
+</gates>
+<devices>
+<device name="MICRO-AB" package="USB-MICRO-AB">
+<connects>
+<connect gate="G$1" pin="D+" pad="P$3"/>
+<connect gate="G$1" pin="D-" pad="P$2"/>
+<connect gate="G$1" pin="GND" pad="P$5"/>
+<connect gate="G$1" pin="ID" pad="P$4"/>
+<connect gate="G$1" pin="SHIELD" pad="P$6 P$7 P$8 P$9 P$10 P$11"/>
+<connect gate="G$1" pin="VBUS" pad="P$1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="TC2070">
+<gates>
+<gate name="G$1" symbol="TC2070" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="TC2070">
+<connects>
+<connect gate="G$1" pin="1" pad="P$1"/>
+<connect gate="G$1" pin="10" pad="P$10"/>
+<connect gate="G$1" pin="11" pad="P$11"/>
+<connect gate="G$1" pin="12" pad="P$12"/>
+<connect gate="G$1" pin="13" pad="P$13"/>
+<connect gate="G$1" pin="14" pad="P$14"/>
+<connect gate="G$1" pin="2" pad="P$2"/>
+<connect gate="G$1" pin="3" pad="P$3"/>
+<connect gate="G$1" pin="4" pad="P$4"/>
+<connect gate="G$1" pin="5" pad="P$5"/>
+<connect gate="G$1" pin="6" pad="P$6"/>
+<connect gate="G$1" pin="7" pad="P$7"/>
+<connect gate="G$1" pin="8" pad="P$8"/>
+<connect gate="G$1" pin="9" pad="P$9"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -4620,6 +4863,21 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <part name="R9" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="R10" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="R11" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="FRAME3" library="pie" deviceset="FRAME-LETTER" device=""/>
+<part name="U6" library="pie" deviceset="LM3525" device=""/>
+<part name="USB1" library="pie" deviceset="USB-OTG" device="MICRO-AB"/>
+<part name="C17" library="pie" deviceset="CAP" device="0603-CAP" value="4.7 uF"/>
+<part name="U$18" library="pie" deviceset="5V" device=""/>
+<part name="U$19" library="pie" deviceset="3.3V" device=""/>
+<part name="SUPPLY22" library="pie" deviceset="GND" device=""/>
+<part name="R12" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="C18" library="pie" deviceset="CAP" device="0603-CAP" value="0.01 uF"/>
+<part name="SUPPLY23" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY24" library="pie" deviceset="GND" device=""/>
+<part name="C19" library="pie" deviceset="CAP" device="0603-CAP" value="0.1 uF"/>
+<part name="U$20" library="pie" deviceset="TC2070" device=""/>
+<part name="SUPPLY25" library="pie" deviceset="GND" device=""/>
+<part name="U$21" library="pie" deviceset="3.3V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5258,6 +5516,62 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <label x="101.6" y="134.62" size="1.778" layer="95"/>
 </segment>
 </net>
+<net name="USB_VBUSEN" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PA8"/>
+<wire x1="12.7" y1="132.08" x2="40.64" y2="132.08" width="0.1524" layer="91"/>
+<label x="15.24" y="132.08" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="USB_VBUS" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PA9"/>
+<wire x1="12.7" y1="129.54" x2="40.64" y2="129.54" width="0.1524" layer="91"/>
+<label x="15.24" y="129.54" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="USB_ID" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PA10"/>
+<wire x1="12.7" y1="127" x2="40.64" y2="127" width="0.1524" layer="91"/>
+<label x="15.24" y="127" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="USB_D_N" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PA11"/>
+<wire x1="12.7" y1="124.46" x2="40.64" y2="124.46" width="0.1524" layer="91"/>
+<label x="15.24" y="124.46" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="USB_D_P" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PA12"/>
+<wire x1="12.7" y1="121.92" x2="40.64" y2="121.92" width="0.1524" layer="91"/>
+<label x="15.24" y="121.92" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="USB_OVP" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PA15"/>
+<wire x1="12.7" y1="114.3" x2="40.64" y2="114.3" width="0.1524" layer="91"/>
+<label x="15.24" y="114.3" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="SWDIO" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PA13"/>
+<wire x1="12.7" y1="119.38" x2="40.64" y2="119.38" width="0.1524" layer="91"/>
+<label x="15.24" y="119.38" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="SWCLK" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PA14"/>
+<wire x1="12.7" y1="116.84" x2="40.64" y2="116.84" width="0.1524" layer="91"/>
+<label x="15.24" y="116.84" size="1.778" layer="95"/>
+</segment>
+</net>
 </nets>
 </sheet>
 <sheet>
@@ -5772,6 +6086,171 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <wire x1="78.74" y1="53.34" x2="78.74" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="78.74" y1="45.72" x2="81.28" y2="45.72" width="0.1524" layer="91"/>
 <label x="43.18" y="45.72" size="1.778" layer="95"/>
+</segment>
+</net>
+</nets>
+</sheet>
+<sheet>
+<plain>
+<text x="187.96" y="17.78" size="1.778" layer="91">USB, SWD</text>
+<text x="154.94" y="25.4" size="2.54" layer="94">Project Tenshi Main Controller</text>
+</plain>
+<instances>
+<instance part="FRAME3" gate="G$1" x="0" y="0"/>
+<instance part="FRAME3" gate="G$2" x="147.32" y="0"/>
+<instance part="U6" gate="G$1" x="88.9" y="114.3"/>
+<instance part="USB1" gate="G$1" x="154.94" y="124.46" rot="MR0"/>
+<instance part="C17" gate="G$1" x="111.76" y="111.76"/>
+<instance part="U$18" gate="G$1" x="50.8" y="119.38"/>
+<instance part="U$19" gate="G$1" x="58.42" y="101.6"/>
+<instance part="SUPPLY22" gate="GND" x="137.16" y="111.76"/>
+<instance part="R12" gate="G$1" x="58.42" y="96.52" rot="R90"/>
+<instance part="C18" gate="G$1" x="132.08" y="124.46" rot="MR0"/>
+<instance part="SUPPLY23" gate="GND" x="109.22" y="104.14"/>
+<instance part="SUPPLY24" gate="GND" x="50.8" y="109.22"/>
+<instance part="C19" gate="G$1" x="50.8" y="114.3"/>
+<instance part="U$20" gate="G$1" x="137.16" y="63.5"/>
+<instance part="SUPPLY25" gate="GND" x="147.32" y="48.26"/>
+<instance part="U$21" gate="G$1" x="129.54" y="76.2"/>
+</instances>
+<busses>
+</busses>
+<nets>
+<net name="GND" class="0">
+<segment>
+<pinref part="USB1" gate="G$1" pin="GND"/>
+<pinref part="SUPPLY22" gate="GND" pin="GND"/>
+<wire x1="142.24" y1="119.38" x2="137.16" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="119.38" x2="137.16" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="C18" gate="G$1" pin="2"/>
+<wire x1="132.08" y1="121.92" x2="132.08" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="132.08" y1="119.38" x2="137.16" y2="119.38" width="0.1524" layer="91"/>
+<junction x="137.16" y="119.38"/>
+</segment>
+<segment>
+<pinref part="U6" gate="G$1" pin="GND"/>
+<pinref part="SUPPLY23" gate="GND" pin="GND"/>
+<wire x1="106.68" y1="109.22" x2="109.22" y2="109.22" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="109.22" x2="109.22" y2="106.68" width="0.1524" layer="91"/>
+<pinref part="C17" gate="G$1" pin="2"/>
+<wire x1="109.22" y1="109.22" x2="111.76" y2="109.22" width="0.1524" layer="91"/>
+<junction x="109.22" y="109.22"/>
+</segment>
+<segment>
+<pinref part="SUPPLY24" gate="GND" pin="GND"/>
+<pinref part="C19" gate="G$1" pin="2"/>
+</segment>
+<segment>
+<pinref part="U$20" gate="G$1" pin="14"/>
+<pinref part="SUPPLY25" gate="GND" pin="GND"/>
+<wire x1="142.24" y1="55.88" x2="147.32" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="147.32" y1="55.88" x2="147.32" y2="50.8" width="0.1524" layer="91"/>
+<pinref part="U$20" gate="G$1" pin="12"/>
+<wire x1="142.24" y1="58.42" x2="147.32" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="147.32" y1="58.42" x2="147.32" y2="55.88" width="0.1524" layer="91"/>
+<junction x="147.32" y="55.88"/>
+</segment>
+</net>
+<net name="USB_VBUS" class="0">
+<segment>
+<pinref part="USB1" gate="G$1" pin="VBUS"/>
+<pinref part="C18" gate="G$1" pin="1"/>
+<wire x1="142.24" y1="129.54" x2="132.08" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="106.68" y1="129.54" x2="116.84" y2="129.54" width="0.1524" layer="91"/>
+<junction x="132.08" y="129.54"/>
+<label x="109.22" y="129.54" size="1.778" layer="95"/>
+<pinref part="U6" gate="G$1" pin="OUT"/>
+<wire x1="116.84" y1="129.54" x2="132.08" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="106.68" y1="119.38" x2="111.76" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="119.38" x2="116.84" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="119.38" x2="116.84" y2="129.54" width="0.1524" layer="91"/>
+<junction x="116.84" y="129.54"/>
+<pinref part="C17" gate="G$1" pin="1"/>
+<wire x1="111.76" y1="116.84" x2="111.76" y2="119.38" width="0.1524" layer="91"/>
+<junction x="111.76" y="119.38"/>
+</segment>
+</net>
+<net name="USB_ID" class="0">
+<segment>
+<pinref part="USB1" gate="G$1" pin="ID"/>
+<wire x1="142.24" y1="121.92" x2="134.62" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="134.62" y1="121.92" x2="134.62" y2="132.08" width="0.1524" layer="91"/>
+<wire x1="134.62" y1="132.08" x2="106.68" y2="132.08" width="0.1524" layer="91"/>
+<label x="109.22" y="132.08" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="USB_D_P" class="0">
+<segment>
+<pinref part="USB1" gate="G$1" pin="D+"/>
+<wire x1="142.24" y1="124.46" x2="137.16" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="124.46" x2="137.16" y2="134.62" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="134.62" x2="106.68" y2="134.62" width="0.1524" layer="91"/>
+<label x="109.22" y="134.62" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="USB_D_N" class="0">
+<segment>
+<pinref part="USB1" gate="G$1" pin="D-"/>
+<wire x1="142.24" y1="127" x2="139.7" y2="127" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="127" x2="139.7" y2="137.16" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="137.16" x2="106.68" y2="137.16" width="0.1524" layer="91"/>
+<label x="109.22" y="137.16" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="5V" class="0">
+<segment>
+<pinref part="U$18" gate="G$1" pin="5V"/>
+<pinref part="C19" gate="G$1" pin="1"/>
+<pinref part="U6" gate="G$1" pin="IN"/>
+<wire x1="71.12" y1="119.38" x2="50.8" y2="119.38" width="0.1524" layer="91"/>
+<junction x="50.8" y="119.38"/>
+</segment>
+</net>
+<net name="USB_OVP" class="0">
+<segment>
+<pinref part="U6" gate="G$1" pin="FLAG"/>
+<wire x1="71.12" y1="111.76" x2="66.04" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="111.76" x2="66.04" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="91.44" x2="58.42" y2="91.44" width="0.1524" layer="91"/>
+<pinref part="R12" gate="G$1" pin="1"/>
+<wire x1="58.42" y1="91.44" x2="35.56" y2="91.44" width="0.1524" layer="91"/>
+<junction x="58.42" y="91.44"/>
+<label x="38.1" y="91.44" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="3.3V" class="0">
+<segment>
+<pinref part="R12" gate="G$1" pin="2"/>
+<pinref part="U$19" gate="G$1" pin="3.3V"/>
+</segment>
+<segment>
+<pinref part="U$20" gate="G$1" pin="1"/>
+<pinref part="U$21" gate="G$1" pin="3.3V"/>
+<wire x1="134.62" y1="71.12" x2="129.54" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="71.12" x2="129.54" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="USB_VBUSEN" class="0">
+<segment>
+<pinref part="U6" gate="G$1" pin="EN"/>
+<wire x1="71.12" y1="109.22" x2="68.58" y2="109.22" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="109.22" x2="68.58" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="88.9" x2="35.56" y2="88.9" width="0.1524" layer="91"/>
+<label x="38.1" y="88.9" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="SWCLK" class="0">
+<segment>
+<pinref part="U$20" gate="G$1" pin="13"/>
+<wire x1="134.62" y1="55.88" x2="109.22" y2="55.88" width="0.1524" layer="91"/>
+<label x="111.76" y="55.88" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="SWDIO" class="0">
+<segment>
+<pinref part="U$20" gate="G$1" pin="11"/>
+<wire x1="109.22" y1="58.42" x2="134.62" y2="58.42" width="0.1524" layer="91"/>
+<label x="111.76" y="58.42" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
