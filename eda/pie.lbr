@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -7161,6 +7161,69 @@ Designed for Hirose ZX62-AB-5PA</description>
 <rectangle x1="-3.9" y1="-3.3" x2="3.9" y2="0.9" layer="43"/>
 <rectangle x1="-5.3" y1="-3" x2="5.3" y2="2" layer="39"/>
 </package>
+<package name="BLE-HM-10">
+<description>&lt;b&gt;HM-10 module&lt;/b&gt;
+CC2540-based BTLE module</description>
+<wire x1="-6.5" y1="-12" x2="-6.5" y2="14.9" width="0.127" layer="51"/>
+<wire x1="6.5" y1="-12" x2="6.5" y2="14.9" width="0.127" layer="51"/>
+<wire x1="-6.5" y1="-12" x2="6.5" y2="-12" width="0.127" layer="51"/>
+<wire x1="-6.5" y1="14.9" x2="6.5" y2="14.9" width="0.127" layer="51"/>
+<smd name="13" x="-6.5" y="-10.21" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="12" x="-6.5" y="-8.71" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="11" x="-6.5" y="-7.21" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="8" x="-6.5" y="-2.71" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="7" x="-6.5" y="-1.21" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="6" x="-6.5" y="0.29" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="4" x="-6.5" y="3.29" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="5" x="-6.5" y="1.79" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="9" x="-6.5" y="-4.21" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="10" x="-6.5" y="-5.71" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="3" x="-6.5" y="4.79" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="2" x="-6.5" y="6.29" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="1" x="-6.5" y="7.79" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="22" x="6.5" y="-10.21" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="23" x="6.5" y="-8.71" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="24" x="6.5" y="-7.21" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="27" x="6.5" y="-2.71" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="28" x="6.5" y="-1.21" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="29" x="6.5" y="0.29" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="31" x="6.5" y="3.29" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="30" x="6.5" y="1.79" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="26" x="6.5" y="-4.21" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="25" x="6.5" y="-5.71" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="32" x="6.5" y="4.79" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="33" x="6.5" y="6.29" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="34" x="6.5" y="7.79" dx="1.6764" dy="0.8128" layer="1"/>
+<smd name="15" x="-3.73" y="-12" dx="1.6764" dy="0.8128" layer="1" rot="R90"/>
+<smd name="14" x="-5.23" y="-12" dx="1.6764" dy="0.8128" layer="1" rot="R90"/>
+<smd name="16" x="-2.23" y="-12" dx="1.6764" dy="0.8128" layer="1" rot="R90"/>
+<smd name="17" x="-0.73" y="-12" dx="1.6764" dy="0.8128" layer="1" rot="R90"/>
+<smd name="18" x="0.77" y="-12" dx="1.6764" dy="0.8128" layer="1" rot="R90"/>
+<smd name="19" x="2.27" y="-12" dx="1.6764" dy="0.8128" layer="1" rot="R90"/>
+<smd name="20" x="3.77" y="-12" dx="1.6764" dy="0.8128" layer="1" rot="R90"/>
+<smd name="21" x="5.27" y="-12" dx="1.6764" dy="0.8128" layer="1" rot="R90"/>
+<wire x1="-5.078609375" y1="9.86616875" x2="-5.078609375" y2="13.923265625" width="0.127" layer="51"/>
+<wire x1="-5.078609375" y1="13.923265625" x2="-2.551690625" y2="13.923265625" width="0.127" layer="51"/>
+<wire x1="-2.551690625" y1="13.923265625" x2="-2.551690625" y2="11.341478125" width="0.127" layer="51"/>
+<wire x1="-2.551690625" y1="11.341478125" x2="-0.077415625" y2="11.341478125" width="0.127" layer="51"/>
+<wire x1="-0.077415625" y1="11.341478125" x2="-0.077415625" y2="11.44685625" width="0.127" layer="21"/>
+<wire x1="-0.080196875" y1="11.356153125" x2="-0.067525" y2="11.356153125" width="0.127" layer="21"/>
+<wire x1="-0.067525" y1="11.356153125" x2="-0.067525" y2="13.978203125" width="0.127" layer="51"/>
+<wire x1="-0.067525" y1="13.978203125" x2="2.89905" y2="13.978203125" width="0.127" layer="51"/>
+<wire x1="2.89905" y1="13.978203125" x2="2.89905" y2="11.202690625" width="0.127" layer="51"/>
+<wire x1="2.89905" y1="11.202690625" x2="5.630790625" y2="11.202690625" width="0.127" layer="51"/>
+<wire x1="5.630790625" y1="11.202690625" x2="5.630790625" y2="14.061184375" width="0.127" layer="51"/>
+<rectangle x1="-6.5" y1="8.1" x2="6.5" y2="14.9" layer="41"/>
+<rectangle x1="-6.5" y1="-12" x2="6.5" y2="8.3" layer="43"/>
+<rectangle x1="-7.7" y1="-13.2" x2="7.7" y2="8.5" layer="41"/>
+<wire x1="-5.08" y1="7.62" x2="-5.08" y2="-10.16" width="0.2032" layer="21"/>
+<wire x1="-5.08" y1="-10.16" x2="5.08" y2="-10.16" width="0.2032" layer="21"/>
+<wire x1="5.08" y1="-10.16" x2="5.08" y2="7.62" width="0.2032" layer="21"/>
+<circle x="-8.001" y="7.874" radius="0.254" width="0" layer="21"/>
+<text x="-2.794" y="-2.54" size="1.27" layer="21">HM-10
+module</text>
+<text x="-7.62" y="-15.24" size="1.27" layer="25">&gt;NAME</text>
+</package>
 </packages>
 <symbols>
 <symbol name="SJ">
@@ -7885,32 +7948,32 @@ Designed for Hirose ZX62-AB-5PA</description>
 <pin name="VCC" x="12.7" y="7.62" length="middle" rot="R180"/>
 </symbol>
 <symbol name="XBEE-1">
-<wire x1="-15.24" y1="13.97" x2="15.24" y2="13.97" width="0.254" layer="94"/>
-<wire x1="15.24" y1="13.97" x2="15.24" y2="-13.97" width="0.254" layer="94"/>
-<wire x1="15.24" y1="-13.97" x2="-15.24" y2="-13.97" width="0.254" layer="94"/>
-<wire x1="-15.24" y1="-13.97" x2="-15.24" y2="13.97" width="0.254" layer="94"/>
-<text x="-15.24" y="14.732" size="1.6764" layer="95">&gt;Name</text>
-<text x="-15.24" y="-16.51" size="1.6764" layer="96">&gt;Value</text>
-<pin name="VDD" x="-20.32" y="11.43" length="middle" direction="pwr"/>
-<pin name="DOUT" x="-20.32" y="8.89" length="middle" direction="out"/>
-<pin name="DIN" x="-20.32" y="6.35" length="middle" direction="in"/>
-<pin name="DIO12" x="-20.32" y="3.81" length="middle"/>
-<pin name="RESET" x="-20.32" y="1.27" length="middle" direction="in" function="dot"/>
-<pin name="RSSI" x="-20.32" y="-1.27" length="middle"/>
-<pin name="DIO11" x="-20.32" y="-3.81" length="middle"/>
-<pin name="RES@8" x="-20.32" y="-6.35" length="middle"/>
-<pin name="DTR" x="-20.32" y="-8.89" length="middle" function="dot"/>
-<pin name="GND" x="-20.32" y="-11.43" length="middle" direction="pwr"/>
-<pin name="DIO4" x="20.32" y="-11.43" length="middle" rot="R180"/>
-<pin name="CTS" x="20.32" y="-8.89" length="middle" direction="out" function="dot" rot="R180"/>
-<pin name="DIO9" x="20.32" y="-6.35" length="middle" rot="R180"/>
-<pin name="RES@14" x="20.32" y="-3.81" length="middle" rot="R180"/>
-<pin name="DIO5" x="20.32" y="-1.27" length="middle" rot="R180"/>
-<pin name="RTS" x="20.32" y="1.27" length="middle" direction="in" function="dot" rot="R180"/>
-<pin name="DIO3" x="20.32" y="3.81" length="middle" rot="R180"/>
-<pin name="DIO2" x="20.32" y="6.35" length="middle" rot="R180"/>
-<pin name="DIO1" x="20.32" y="8.89" length="middle" rot="R180"/>
-<pin name="DIO0" x="20.32" y="11.43" length="middle" rot="R180"/>
+<wire x1="-15.24" y1="15.24" x2="15.24" y2="15.24" width="0.254" layer="94"/>
+<wire x1="15.24" y1="15.24" x2="15.24" y2="-12.7" width="0.254" layer="94"/>
+<wire x1="15.24" y1="-12.7" x2="-15.24" y2="-12.7" width="0.254" layer="94"/>
+<wire x1="-15.24" y1="-12.7" x2="-15.24" y2="15.24" width="0.254" layer="94"/>
+<text x="-15.24" y="16.002" size="1.6764" layer="95">&gt;Name</text>
+<text x="-15.24" y="-15.24" size="1.6764" layer="96">&gt;Value</text>
+<pin name="VDD" x="-20.32" y="12.7" length="middle" direction="pwr"/>
+<pin name="DOUT" x="-20.32" y="10.16" length="middle" direction="out"/>
+<pin name="DIN" x="-20.32" y="7.62" length="middle" direction="in"/>
+<pin name="DIO12" x="-20.32" y="5.08" length="middle"/>
+<pin name="RESET" x="-20.32" y="2.54" length="middle" direction="in" function="dot"/>
+<pin name="RSSI" x="-20.32" y="0" length="middle"/>
+<pin name="DIO11" x="-20.32" y="-2.54" length="middle"/>
+<pin name="RES@8" x="-20.32" y="-5.08" length="middle"/>
+<pin name="DTR" x="-20.32" y="-7.62" length="middle" function="dot"/>
+<pin name="GND" x="-20.32" y="-10.16" length="middle" direction="pwr"/>
+<pin name="DIO4" x="20.32" y="-10.16" length="middle" rot="R180"/>
+<pin name="CTS" x="20.32" y="-7.62" length="middle" direction="out" function="dot" rot="R180"/>
+<pin name="DIO9" x="20.32" y="-5.08" length="middle" rot="R180"/>
+<pin name="RES@14" x="20.32" y="-2.54" length="middle" rot="R180"/>
+<pin name="DIO5" x="20.32" y="0" length="middle" rot="R180"/>
+<pin name="RTS" x="20.32" y="2.54" length="middle" direction="in" function="dot" rot="R180"/>
+<pin name="DIO3" x="20.32" y="5.08" length="middle" rot="R180"/>
+<pin name="DIO2" x="20.32" y="7.62" length="middle" rot="R180"/>
+<pin name="DIO1" x="20.32" y="10.16" length="middle" rot="R180"/>
+<pin name="DIO0" x="20.32" y="12.7" length="middle" rot="R180"/>
 </symbol>
 <symbol name="SWITCH-MOMENTARY">
 <wire x1="1.905" y1="0" x2="2.54" y2="0" width="0.254" layer="94"/>
@@ -8529,6 +8592,50 @@ Designed for Hirose ZX62-AB-5PA</description>
 <wire x1="-7.62" y1="7.62" x2="7.62" y2="7.62" width="0.254" layer="94"/>
 <wire x1="7.62" y1="7.62" x2="7.62" y2="-10.16" width="0.254" layer="94"/>
 <wire x1="7.62" y1="-10.16" x2="-7.62" y2="-10.16" width="0.254" layer="94"/>
+</symbol>
+<symbol name="BLE-HM-10">
+<pin name="P1.6/UART_TX" x="-25.4" y="12.7" length="middle"/>
+<pin name="P1.7/UART_RX" x="-25.4" y="10.16" length="middle"/>
+<pin name="P1.4/UART_CTS" x="-25.4" y="7.62" length="middle"/>
+<pin name="P1.5/UART_RTS" x="-25.4" y="5.08" length="middle"/>
+<pin name="P2.2" x="-25.4" y="-2.54" length="middle"/>
+<pin name="P2.1" x="-25.4" y="-5.08" length="middle"/>
+<pin name="P2.0" x="-25.4" y="-7.62" length="middle"/>
+<pin name="RESETB" x="-25.4" y="-12.7" length="middle"/>
+<pin name="3.3V" x="-25.4" y="-15.24" length="middle"/>
+<pin name="GND1" x="-25.4" y="-17.78" length="middle"/>
+<pin name="GND2" x="-7.62" y="-35.56" length="middle" rot="R90"/>
+<pin name="USB_DM" x="-5.08" y="-35.56" length="middle" rot="R90"/>
+<pin name="USB_DP" x="7.62" y="-35.56" length="middle" rot="R90"/>
+<pin name="GND3" x="10.16" y="-35.56" length="middle" rot="R90"/>
+<pin name="GND4" x="25.4" y="-17.78" length="middle" rot="R180"/>
+<pin name="P1.3" x="25.4" y="-15.24" length="middle" rot="R180"/>
+<pin name="P1.2" x="25.4" y="-12.7" length="middle" rot="R180"/>
+<pin name="P1.1" x="25.4" y="-10.16" length="middle" rot="R180"/>
+<pin name="P1.0" x="25.4" y="-7.62" length="middle" rot="R180"/>
+<pin name="P0.7" x="25.4" y="-5.08" length="middle" rot="R180"/>
+<pin name="P0.6" x="25.4" y="-2.54" length="middle" rot="R180"/>
+<pin name="P0.5" x="25.4" y="0" length="middle" rot="R180"/>
+<pin name="P0.4" x="25.4" y="2.54" length="middle" rot="R180"/>
+<pin name="P0.3" x="25.4" y="5.08" length="middle" rot="R180"/>
+<pin name="P0.2" x="25.4" y="7.62" length="middle" rot="R180"/>
+<pin name="P0.1" x="25.4" y="10.16" length="middle" rot="R180"/>
+<pin name="P0.0" x="25.4" y="12.7" length="middle" rot="R180"/>
+<wire x1="-20.32" y1="30.48" x2="-20.32" y2="-30.48" width="0.254" layer="94"/>
+<wire x1="-20.32" y1="-30.48" x2="20.32" y2="-30.48" width="0.254" layer="94"/>
+<wire x1="20.32" y1="-30.48" x2="20.32" y2="30.48" width="0.254" layer="94"/>
+<wire x1="20.32" y1="30.48" x2="-20.32" y2="30.48" width="0.254" layer="94"/>
+<wire x1="-17.78" y1="17.78" x2="-17.78" y2="27.94" width="0.254" layer="94"/>
+<wire x1="-17.78" y1="27.94" x2="-10.16" y2="27.94" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="27.94" x2="-10.16" y2="22.86" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="22.86" x2="-5.08" y2="22.86" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="22.86" x2="-5.08" y2="27.94" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="27.94" x2="0" y2="27.94" width="0.254" layer="94"/>
+<wire x1="0" y1="27.94" x2="0" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="5.08" y2="22.86" width="0.254" layer="94"/>
+<wire x1="5.08" y1="22.86" x2="5.08" y2="27.94" width="0.254" layer="94"/>
+<wire x1="5.08" y1="27.94" x2="10.16" y2="27.94" width="0.254" layer="94"/>
+<wire x1="10.16" y1="27.94" x2="10.16" y2="22.86" width="0.254" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -11321,7 +11428,56 @@ OTG connector with ID pin</description>
 </device>
 </devices>
 </deviceset>
+<deviceset name="BLE-HM-10">
+<description>&lt;b&gt;HM-10 module&lt;/b&gt;
+CC2540-based BTLE module</description>
+<gates>
+<gate name="G$1" symbol="BLE-HM-10" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="BLE-HM-10">
+<connects>
+<connect gate="G$1" pin="3.3V" pad="12"/>
+<connect gate="G$1" pin="GND1" pad="13"/>
+<connect gate="G$1" pin="GND2" pad="14"/>
+<connect gate="G$1" pin="GND3" pad="21"/>
+<connect gate="G$1" pin="GND4" pad="22"/>
+<connect gate="G$1" pin="P0.0" pad="34"/>
+<connect gate="G$1" pin="P0.1" pad="33"/>
+<connect gate="G$1" pin="P0.2" pad="32"/>
+<connect gate="G$1" pin="P0.3" pad="31"/>
+<connect gate="G$1" pin="P0.4" pad="30"/>
+<connect gate="G$1" pin="P0.5" pad="29"/>
+<connect gate="G$1" pin="P0.6" pad="28"/>
+<connect gate="G$1" pin="P0.7" pad="27"/>
+<connect gate="G$1" pin="P1.0" pad="26"/>
+<connect gate="G$1" pin="P1.1" pad="25"/>
+<connect gate="G$1" pin="P1.2" pad="24"/>
+<connect gate="G$1" pin="P1.3" pad="23"/>
+<connect gate="G$1" pin="P1.4/UART_CTS" pad="3"/>
+<connect gate="G$1" pin="P1.5/UART_RTS" pad="4"/>
+<connect gate="G$1" pin="P1.6/UART_TX" pad="1"/>
+<connect gate="G$1" pin="P1.7/UART_RX" pad="2"/>
+<connect gate="G$1" pin="P2.0" pad="9"/>
+<connect gate="G$1" pin="P2.1" pad="8"/>
+<connect gate="G$1" pin="P2.2" pad="7"/>
+<connect gate="G$1" pin="RESETB" pad="11"/>
+<connect gate="G$1" pin="USB_DM" pad="15"/>
+<connect gate="G$1" pin="USB_DP" pad="20"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </drawing>
+<compatibility>
+<note version="6.3" minversion="6.2.2" severity="warning">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
+</compatibility>
 </eagle>
