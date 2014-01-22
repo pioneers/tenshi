@@ -4,7 +4,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid altdistance="0.01" altunit="inch" altunitdist="inch" display="no" distance="0.1" multiple="1" style="lines" unit="inch" unitdist="inch"/>
+<grid altdistance="0.01" altunit="inch" altunitdist="inch" display="yes" distance="0.05" multiple="1" style="lines" unit="inch" unitdist="inch"/>
 <layers>
 <layer active="yes" color="4" fill="1" name="Top" number="1" visible="yes"/>
 <layer active="no" color="1" fill="3" name="Route2" number="2" visible="no"/>
@@ -125,6 +125,9 @@
 <description>&lt;b&gt;PiE Part Library&lt;/b&gt;&lt;br/&gt;
 A collection of parts and footprints made for the PiE Robotics Competition.&lt;br/&gt;&lt;br/&gt;
 (c) Pioneers in Engineering and Tau Beta Pi CA-A, UC Berkeley.</description>
+
+
+
 
 
 
@@ -2433,8 +2436,7 @@ Source: VISHAY wscwsn.pdf</description>
 <text layer="25" ratio="10" size="1.27" x="3.175" y="0.5334">&gt;NAME</text>
 <text layer="27" ratio="10" size="1.27" x="3.2004" y="-1.8034">&gt;VALUE</text>
 <wire curve="-73.739795" layer="21" width="0.254" x1="2.54" x2="2.54" y1="1.905" y2="-1.905"/>
-<wire layer="21" width="0.254" x1="-1.27" x2="-1.27" y1="0" y2="2.54"/>
-<wire layer="21" width="0.254" x1="1.27" x2="1.27" y1="0" y2="1.27"/>
+<text layer="21" size="2.54" x="-5.842" y="-1.016">+</text>
 </package>
 <package name="SMA-DIODE_ALT">
 <wire layer="21" width="0.2032" x1="-2.3" x2="-2.3" y1="1.3" y2="1.45"/>
