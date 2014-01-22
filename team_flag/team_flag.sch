@@ -4116,8 +4116,8 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <parts>
 <part name="LED1" library="pie" deviceset="LED" device="LED5MM-NOFLAT"/>
 <part name="LED2" library="pie" deviceset="LED" device="LED5MM-NOFLAT"/>
-<part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="330"/>
-<part name="R2" library="rcl" deviceset="R-US_" device="R0603" value="330"/>
+<part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="200"/>
+<part name="R2" library="rcl" deviceset="R-US_" device="R0603" value="200"/>
 <part name="Q1" library="pie" deviceset="MOSFET-LOGIC-NCHANNEL" device="SMD"/>
 <part name="Q2" library="pie" deviceset="MOSFET-LOGIC-NCHANNEL" device="SMD"/>
 <part name="SUPPLY1" library="pie" deviceset="GND" device=""/>
