@@ -5781,6 +5781,8 @@ Standard inductor, American symbol</description>
 <part name="SUPPLY40" library="pie" deviceset="GND" device=""/>
 <part name="C29" library="pie" deviceset="CAP" device="0603-CAP" value="10 uF"/>
 <part name="C30" library="pie" deviceset="CAP" device="0603-CAP" value="10 uF"/>
+<part name="S3" library="pie" deviceset="TAC_SWITCH" device="PTH"/>
+<part name="SUPPLY41" library="pie" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5866,6 +5868,8 @@ Standard inductor, American symbol</description>
 <instance part="SUPPLY32" gate="GND" x="86.36" y="162.56"/>
 <instance part="U$27" gate="G$1" x="38.1" y="170.18" rot="MR0"/>
 <instance part="SUPPLY33" gate="GND" x="27.94" y="160.02"/>
+<instance part="S3" gate="S" x="114.3" y="20.32"/>
+<instance part="SUPPLY41" gate="GND" x="121.92" y="12.7"/>
 </instances>
 <busses>
 </busses>
@@ -6032,6 +6036,16 @@ Standard inductor, American symbol</description>
 <wire x1="27.94" y1="177.8" x2="27.94" y2="170.18" width="0.1524" layer="91"/>
 <junction x="27.94" y="170.18"/>
 </segment>
+<segment>
+<pinref part="S3" gate="S" pin="3"/>
+<pinref part="SUPPLY41" gate="GND" pin="GND"/>
+<wire x1="119.38" y1="20.32" x2="121.92" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="121.92" y1="20.32" x2="121.92" y2="17.78" width="0.1524" layer="91"/>
+<pinref part="S3" gate="S" pin="4"/>
+<wire x1="121.92" y1="17.78" x2="121.92" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="119.38" y1="17.78" x2="121.92" y2="17.78" width="0.1524" layer="91"/>
+<junction x="121.92" y="17.78"/>
+</segment>
 </net>
 <net name="3.3V" class="0">
 <segment>
@@ -6146,6 +6160,14 @@ Standard inductor, American symbol</description>
 <wire x1="137.16" y1="88.9" x2="152.4" y2="88.9" width="0.1524" layer="91"/>
 <junction x="137.16" y="88.9"/>
 <label x="142.24" y="88.9" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="S3" gate="S" pin="1"/>
+<wire x1="109.22" y1="20.32" x2="83.82" y2="20.32" width="0.1524" layer="91"/>
+<pinref part="S3" gate="S" pin="2"/>
+<wire x1="109.22" y1="17.78" x2="109.22" y2="20.32" width="0.1524" layer="91"/>
+<junction x="109.22" y="20.32"/>
+<label x="86.36" y="20.32" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$6" class="0">
