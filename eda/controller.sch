@@ -10,8 +10,8 @@
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
-<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
-<layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
+<layer number="3" name="Route3" color="20" fill="3" visible="no" active="no"/>
+<layer number="4" name="Route4" color="21" fill="4" visible="no" active="no"/>
 <layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
 <layer number="6" name="Route6" color="1" fill="8" visible="no" active="no"/>
 <layer number="7" name="Route7" color="4" fill="8" visible="no" active="no"/>
@@ -28,14 +28,14 @@
 <layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="16" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="17" fill="1" visible="no" active="no"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="18" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="19" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="18" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="19" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -58,8 +58,8 @@
 <layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="14" fill="1" visible="no" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="6" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="6" fill="1" visible="no" active="no"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
 <layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
@@ -5759,8 +5759,8 @@ Standard inductor, American symbol</description>
 <part name="U$30" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY34" library="pie" deviceset="GND" device=""/>
 <part name="R14" library="pie" deviceset="R-US_" device="R0603" value="22.1k"/>
-<part name="C22" library="pie" deviceset="CAP" device="0603-CAP" value="10 uF"/>
-<part name="C23" library="pie" deviceset="CAP" device="0603-CAP" value="10 uF"/>
+<part name="C22" library="pie" deviceset="CAP" device="1206" value="10 uF"/>
+<part name="C23" library="pie" deviceset="CAP" device="1206" value="10 uF"/>
 <part name="SUPPLY35" library="pie" deviceset="GND" device=""/>
 <part name="C24" library="pie" deviceset="CAP" device="0603-CAP" value="1 uF"/>
 <part name="C25" library="pie" deviceset="CAP" device="0603-CAP" value="3.3 nF"/>
@@ -5771,18 +5771,20 @@ Standard inductor, American symbol</description>
 <part name="R16" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="L1" library="pie" deviceset="INDUCTOR" device="0603" value="4.7 uH"/>
 <part name="C26" library="pie" deviceset="CAP" device="0603-CAP" value="0.1 uF"/>
-<part name="C27" library="pie" deviceset="CAP" device="0603-CAP" value="22 uF"/>
-<part name="C28" library="pie" deviceset="CAP" device="0603-CAP" value="22 uF"/>
+<part name="C27" library="pie" deviceset="CAP" device="1206" value="22 uF"/>
+<part name="C28" library="pie" deviceset="CAP" device="1206" value="22 uF"/>
 <part name="SUPPLY39" library="pie" deviceset="GND" device=""/>
 <part name="U$31" library="pie" deviceset="5V" device=""/>
 <part name="U7" library="pie" deviceset="LM1117" device="" value="3.3V"/>
 <part name="U$32" library="pie" deviceset="5V" device=""/>
 <part name="U$33" library="pie" deviceset="3.3V" device=""/>
 <part name="SUPPLY40" library="pie" deviceset="GND" device=""/>
-<part name="C29" library="pie" deviceset="CAP" device="0603-CAP" value="10 uF"/>
-<part name="C30" library="pie" deviceset="CAP" device="0603-CAP" value="10 uF"/>
+<part name="C29" library="pie" deviceset="CAP" device="1206" value="10 uF"/>
+<part name="C30" library="pie" deviceset="CAP" device="1206" value="10 uF"/>
 <part name="S3" library="pie" deviceset="TAC_SWITCH" device="PTH"/>
 <part name="SUPPLY41" library="pie" deviceset="GND" device=""/>
+<part name="JP6" library="pie" deviceset="M02" device="PTH"/>
+<part name="SUPPLY42" library="pie" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6651,50 +6653,50 @@ Standard inductor, American symbol</description>
 </net>
 <net name="ADC0" class="0">
 <segment>
-<pinref part="U$27" gate="G$1" pin="6"/>
-<wire x1="30.48" y1="175.26" x2="7.62" y2="175.26" width="0.1524" layer="91"/>
-<label x="10.16" y="175.26" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="U1" gate="G$1" pin="PA6"/>
 <wire x1="12.7" y1="137.16" x2="40.64" y2="137.16" width="0.1524" layer="91"/>
 <label x="15.24" y="137.16" size="1.778" layer="95"/>
 </segment>
-</net>
-<net name="ADC1" class="0">
-<segment>
-<pinref part="U$27" gate="G$1" pin="5"/>
-<wire x1="7.62" y1="172.72" x2="30.48" y2="172.72" width="0.1524" layer="91"/>
-<label x="10.16" y="172.72" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="U1" gate="G$1" pin="PA7"/>
-<wire x1="12.7" y1="134.62" x2="40.64" y2="134.62" width="0.1524" layer="91"/>
-<label x="15.24" y="134.62" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="ADC2" class="0">
-<segment>
-<pinref part="U$27" gate="G$1" pin="3"/>
-<wire x1="7.62" y1="167.64" x2="30.48" y2="167.64" width="0.1524" layer="91"/>
-<label x="10.16" y="167.64" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="U1" gate="G$1" pin="PB0"/>
-<wire x1="12.7" y1="106.68" x2="40.64" y2="106.68" width="0.1524" layer="91"/>
-<label x="15.24" y="106.68" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="ADC3" class="0">
 <segment>
 <pinref part="U$27" gate="G$1" pin="2"/>
 <wire x1="7.62" y1="165.1" x2="30.48" y2="165.1" width="0.1524" layer="91"/>
 <label x="10.16" y="165.1" size="1.778" layer="95"/>
 </segment>
+</net>
+<net name="ADC1" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PA7"/>
+<wire x1="12.7" y1="134.62" x2="40.64" y2="134.62" width="0.1524" layer="91"/>
+<label x="15.24" y="134.62" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$27" gate="G$1" pin="3"/>
+<wire x1="7.62" y1="167.64" x2="30.48" y2="167.64" width="0.1524" layer="91"/>
+<label x="10.16" y="167.64" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="ADC2" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PB0"/>
+<wire x1="12.7" y1="106.68" x2="40.64" y2="106.68" width="0.1524" layer="91"/>
+<label x="15.24" y="106.68" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$27" gate="G$1" pin="5"/>
+<wire x1="7.62" y1="172.72" x2="30.48" y2="172.72" width="0.1524" layer="91"/>
+<label x="10.16" y="172.72" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="ADC3" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="PB1"/>
 <wire x1="12.7" y1="104.14" x2="40.64" y2="104.14" width="0.1524" layer="91"/>
 <label x="15.24" y="104.14" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$27" gate="G$1" pin="6"/>
+<wire x1="30.48" y1="175.26" x2="7.62" y2="175.26" width="0.1524" layer="91"/>
+<label x="10.16" y="175.26" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
@@ -7595,6 +7597,8 @@ Standard inductor, American symbol</description>
 <instance part="SUPPLY40" gate="GND" x="127" y="91.44"/>
 <instance part="C29" gate="G$1" x="149.86" y="99.06"/>
 <instance part="C30" gate="G$1" x="104.14" y="99.06"/>
+<instance part="JP6" gate="G$1" x="27.94" y="86.36"/>
+<instance part="SUPPLY42" gate="GND" x="38.1" y="78.74"/>
 </instances>
 <busses>
 </busses>
@@ -7674,6 +7678,16 @@ Standard inductor, American symbol</description>
 <pinref part="C29" gate="G$1" pin="2"/>
 <wire x1="127" y1="93.98" x2="149.86" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="149.86" y1="93.98" x2="149.86" y2="96.52" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="JP6" gate="G$1" pin="2"/>
+<pinref part="SUPPLY42" gate="GND" pin="GND"/>
+<wire x1="35.56" y1="86.36" x2="38.1" y2="86.36" width="0.1524" layer="91"/>
+<wire x1="38.1" y1="86.36" x2="38.1" y2="83.82" width="0.1524" layer="91"/>
+<pinref part="JP6" gate="G$1" pin="1"/>
+<wire x1="38.1" y1="83.82" x2="38.1" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="35.56" y1="83.82" x2="38.1" y2="83.82" width="0.1524" layer="91"/>
+<junction x="38.1" y="83.82"/>
 </segment>
 </net>
 <net name="N$13" class="0">
