@@ -3618,8 +3618,7 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <text x="3.175" y="0.5334" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="3.2004" y="-1.8034" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 <wire x1="2.54" y1="1.905" x2="2.54" y2="-1.905" width="0.254" layer="21" curve="-73.739795"/>
-<wire x1="-1.27" y1="0" x2="-1.27" y2="2.54" width="0.254" layer="21"/>
-<wire x1="1.27" y1="0" x2="1.27" y2="1.27" width="0.254" layer="21"/>
+<text x="-5.842" y="-1.016" size="2.54" layer="21">+</text>
 </package>
 <package name="LED5MM">
 <description>&lt;B&gt;LED&lt;/B&gt;&lt;p&gt;
