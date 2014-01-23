@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -10891,7 +10891,7 @@ Standard 8.5x11 US Letter frame</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="M07">
+<deviceset name="M07" prefix="JP">
 <description>7-pin 0.1-inch header and MTA connector</description>
 <gates>
 <gate name="G$1" symbol="M07" x="2.54" y="0"/>
@@ -10946,7 +10946,7 @@ Standard 8.5x11 US Letter frame</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="XBEE-1">
+<deviceset name="XBEE-1" prefix="U">
 <description>XBee Header</description>
 <gates>
 <gate name="G$1" symbol="XBEE-1" x="0" y="1.27"/>
@@ -11276,7 +11276,7 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </device>
 </devices>
 </deviceset>
-<deviceset name="SENSOR_CON">
+<deviceset name="SENSOR_CON" prefix="CONN">
 <gates>
 <gate name="G$1" symbol="PINHD-2X4" x="0" y="0"/>
 </gates>
@@ -11406,7 +11406,7 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </device>
 </devices>
 </deviceset>
-<deviceset name="TC2070">
+<deviceset name="TC2070" prefix="DBG">
 <gates>
 <gate name="G$1" symbol="TC2070" x="0" y="0"/>
 </gates>
@@ -11594,7 +11594,7 @@ OTG connector with ID pin</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="BLE-HM-10">
+<deviceset name="BLE-HM-10" prefix="U">
 <description>&lt;b&gt;HM-10 module&lt;/b&gt;
 CC2540-based BTLE module</description>
 <gates>
@@ -11637,7 +11637,7 @@ CC2540-based BTLE module</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="TPS54227">
+<deviceset name="TPS54227" prefix="U">
 <description>&lt;b&gt;TPS54227&lt;/b&gt;
 4.5V to 18V Input, 2-A SYNCHRONOUS STEP DOWN CONVERTER</description>
 <gates>
@@ -11706,7 +11706,7 @@ Standard inductor, American symbol</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="ANDERSON">
+<deviceset name="ANDERSON" prefix="CONN">
 <description>2-pin 25A Anderson Connector
 http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/70162018.pdf</description>
 <gates>
