@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.05" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -4810,9 +4810,9 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <attribute name="AUTHOR" value="Sahar M, Michael C, Sumita G, Aravind K"/>
 <attribute name="REVISION" value="C"/>
 </part>
-<part name="LED1" library="pie" deviceset="LED" device="0805"/>
-<part name="LED2" library="pie" deviceset="LED" device="0805"/>
-<part name="LED3" library="pie" deviceset="LED" device="0805"/>
+<part name="POWER_LIGHT" library="pie" deviceset="LED" device="0805"/>
+<part name="RADIO_LIGHT" library="pie" deviceset="LED" device="0805"/>
+<part name="ERROR_LIGHT" library="pie" deviceset="LED" device="0805"/>
 <part name="X1" library="pie" deviceset="2540-" device=""/>
 <part name="GND1" library="supply2" deviceset="GND" device=""/>
 <part name="POWER" library="pie" deviceset="ANDERSON" device="HORIZONTAL" value="ANDERSONHORIZONTAL"/>
@@ -4862,9 +4862,18 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <attribute name="REVISION" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 <attribute name="AUTHOR" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 </instance>
-<instance part="LED1" gate="G$1" x="87.63" y="138.43" rot="R90"/>
-<instance part="LED2" gate="G$1" x="87.63" y="128.27" rot="R90"/>
-<instance part="LED3" gate="G$1" x="87.63" y="118.11" rot="R90"/>
+<instance part="POWER_LIGHT" gate="G$1" x="87.63" y="138.43" smashed="yes" rot="R90">
+<attribute name="NAME" x="93.472" y="143.256" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="89.662" y="144.145" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="RADIO_LIGHT" gate="G$1" x="87.63" y="128.27" smashed="yes" rot="R90">
+<attribute name="NAME" x="93.472" y="133.096" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="89.662" y="133.985" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="ERROR_LIGHT" gate="G$1" x="87.63" y="118.11" smashed="yes" rot="R90">
+<attribute name="NAME" x="93.472" y="122.936" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="89.662" y="123.825" size="1.778" layer="96" rot="R180"/>
+</instance>
 <instance part="X1" gate="G$1" x="44.45" y="104.14" rot="MR180"/>
 <instance part="GND1" gate="GND" x="30.48" y="29.21"/>
 <instance part="POWER" gate="G$1" x="170.18" y="60.96"/>
@@ -5004,7 +5013,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <wire x1="82.55" y1="138.43" x2="73.66" y2="138.43" width="0.1524" layer="91"/>
 <pinref part="V1" gate="VCC" pin="VCC"/>
 <pinref part="C3" gate="G$1" pin="1"/>
-<pinref part="LED1" gate="G$1" pin="A"/>
+<pinref part="POWER_LIGHT" gate="G$1" pin="A"/>
 <wire x1="73.66" y1="151.13" x2="73.66" y2="148.59" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="138.43" x2="73.66" y2="148.59" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="148.59" x2="93.98" y2="148.59" width="0.1524" layer="91"/>
@@ -5359,7 +5368,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <wire x1="77.47" y1="128.27" x2="82.55" y2="128.27" width="0.1524" layer="91"/>
 <label x="77.47" y="128.27" size="1.778" layer="95"/>
-<pinref part="LED2" gate="G$1" pin="A"/>
+<pinref part="RADIO_LIGHT" gate="G$1" pin="A"/>
 </segment>
 <segment>
 <wire x1="227.33" y1="154.94" x2="217.17" y2="154.94" width="0.1524" layer="91"/>
@@ -5385,7 +5394,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <net name="IO60" class="0">
 <segment>
 <wire x1="77.47" y1="118.11" x2="82.55" y2="118.11" width="0.1524" layer="91"/>
-<pinref part="LED3" gate="G$1" pin="A"/>
+<pinref part="ERROR_LIGHT" gate="G$1" pin="A"/>
 <label x="77.47" y="118.11" size="1.778" layer="95"/>
 </segment>
 <segment>
@@ -5805,7 +5814,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <net name="N$2" class="0">
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
-<pinref part="LED1" gate="G$1" pin="C"/>
+<pinref part="POWER_LIGHT" gate="G$1" pin="C"/>
 <junction x="90.17" y="138.43"/>
 <wire x1="92.71" y1="138.43" x2="90.17" y2="138.43" width="0.1524" layer="91"/>
 </segment>
@@ -5813,7 +5822,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <net name="N$3" class="0">
 <segment>
 <pinref part="R2" gate="G$1" pin="2"/>
-<pinref part="LED2" gate="G$1" pin="C"/>
+<pinref part="RADIO_LIGHT" gate="G$1" pin="C"/>
 <junction x="90.17" y="128.27"/>
 <wire x1="92.71" y1="128.27" x2="90.17" y2="128.27" width="0.1524" layer="91"/>
 </segment>
@@ -5821,7 +5830,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <net name="N$4" class="0">
 <segment>
 <pinref part="R3" gate="G$1" pin="2"/>
-<pinref part="LED3" gate="G$1" pin="C"/>
+<pinref part="ERROR_LIGHT" gate="G$1" pin="C"/>
 <junction x="90.17" y="118.11"/>
 <wire x1="92.71" y1="118.11" x2="90.17" y2="118.11" width="0.1524" layer="91"/>
 </segment>
