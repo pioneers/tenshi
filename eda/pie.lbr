@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -7216,7 +7216,7 @@ CC2540-based BTLE module</description>
 <wire x1="5.630790625" y1="11.202690625" x2="5.630790625" y2="14.061184375" width="0.127" layer="51"/>
 <rectangle x1="-6.5" y1="8.1" x2="6.5" y2="14.9" layer="41"/>
 <rectangle x1="-6.5" y1="-12" x2="6.5" y2="8.3" layer="43"/>
-<rectangle x1="-7.7" y1="-13.2" x2="7.7" y2="8.5" layer="41"/>
+<rectangle x1="-7.7" y1="-13.2" x2="7.7" y2="8.5" layer="39"/>
 <wire x1="-5.08" y1="7.62" x2="-5.08" y2="-10.16" width="0.2032" layer="21"/>
 <wire x1="-5.08" y1="-10.16" x2="5.08" y2="-10.16" width="0.2032" layer="21"/>
 <wire x1="5.08" y1="-10.16" x2="5.08" y2="7.62" width="0.2032" layer="21"/>
@@ -7304,7 +7304,6 @@ TI PowerPAD(TM) Plastic Small Outline (8-pin)</description>
 Horizontal</description>
 <pad name="PIN1" x="0" y="3.937" drill="1.778" diameter="3.175" rot="R270"/>
 <pad name="PIN2" x="0" y="-3.937" drill="1.778" diameter="3.175" rot="R270"/>
-<rectangle x1="-25.4" y1="-17.272" x2="-9.144" y2="17.272" layer="39" rot="R270"/>
 <wire x1="-34.544" y1="8.128" x2="-34.544" y2="0" width="0.127" layer="51"/>
 <wire x1="-34.544" y1="0" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
 <wire x1="-9.906" y1="8.128" x2="-9.906" y2="3.937" width="0.127" layer="51"/>
@@ -7319,6 +7318,9 @@ Horizontal</description>
 <wire x1="-9.906" y1="-8.128" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
 <smd name="P$1" x="-5.334" y="3.937" dx="8.89" dy="1.27" layer="1"/>
 <smd name="P$3" x="-5.334" y="-3.937" dx="8.89" dy="1.27" layer="1"/>
+<rectangle x1="-34.544" y1="-8.128" x2="-9.906" y2="8.128" layer="39"/>
+<rectangle x1="-10.16" y1="1.27" x2="2.54" y2="6.35" layer="39"/>
+<rectangle x1="-10.16" y1="-6.35" x2="2.54" y2="-1.27" layer="39"/>
 </package>
 <package name="ANDERSON_VERTICAL">
 <description>2-pin 25A Anderson Connector
