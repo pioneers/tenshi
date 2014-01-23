@@ -3706,12 +3706,12 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <part name="SHERLOCK" library="pie" deviceset="2540-" device=""/>
 <part name="KOALA" library="pie" deviceset="M04" device="1X04-MTA" value="Servos"/>
 <part name="FLAG" library="pie" deviceset="M04" device="1X04-MTA"/>
-<part name="IC1" library="pie" deviceset="DIGITAL_BUFFER" device="SOCKET"/>
-<part name="IC2" library="pie" deviceset="DIGITAL_BUFFER" device="SOCKET"/>
-<part name="IC3" library="pie" deviceset="DIGITAL_BUFFER" device="SOCKET"/>
-<part name="IC4" library="pie" deviceset="OPAMP_DUAL" device="SOCKET"/>
-<part name="IC5" library="pie" deviceset="OPAMP_DUAL" device="SOCKET"/>
-<part name="IC6" library="pie" deviceset="OPAMP_DUAL" device="SOCKET"/>
+<part name="DIGITAL" library="pie" deviceset="DIGITAL_BUFFER" device="SOCKET"/>
+<part name="SUN+KOALA" library="pie" deviceset="DIGITAL_BUFFER" device="SOCKET"/>
+<part name="SIMPLE+FLAG" library="pie" deviceset="DIGITAL_BUFFER" device="SOCKET"/>
+<part name="A_BUF3" library="pie" deviceset="OPAMP_DUAL" device="SOCKET"/>
+<part name="A_BUF2" library="pie" deviceset="OPAMP_DUAL" device="SOCKET"/>
+<part name="A_BUF1" library="pie" deviceset="OPAMP_DUAL" device="SOCKET"/>
 <part name="SUPPLY1" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY2" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY3" library="pie" deviceset="GND" device=""/>
@@ -3791,18 +3791,18 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <instance part="SHERLOCK" gate="G$1" x="15.24" y="119.38" rot="R180"/>
 <instance part="KOALA" gate="G$1" x="124.46" y="44.45"/>
 <instance part="FLAG" gate="G$1" x="215.9" y="44.45"/>
-<instance part="IC1" gate="G$1" x="20.32" y="15.24"/>
-<instance part="IC2" gate="G$1" x="63.5" y="15.24"/>
-<instance part="IC3" gate="G$1" x="119.38" y="15.24"/>
-<instance part="IC4" gate="G$1" x="58.42" y="91.44"/>
-<instance part="IC4" gate="G$2" x="58.42" y="71.12"/>
-<instance part="IC4" gate="G$3" x="58.42" y="91.44"/>
-<instance part="IC5" gate="G$1" x="91.44" y="91.44"/>
-<instance part="IC5" gate="G$2" x="91.44" y="71.12"/>
-<instance part="IC5" gate="G$3" x="91.44" y="91.44"/>
-<instance part="IC6" gate="G$1" x="124.46" y="91.44"/>
-<instance part="IC6" gate="G$2" x="132.08" y="71.12"/>
-<instance part="IC6" gate="G$3" x="124.46" y="91.44"/>
+<instance part="DIGITAL" gate="G$1" x="20.32" y="15.24"/>
+<instance part="SUN+KOALA" gate="G$1" x="63.5" y="15.24"/>
+<instance part="SIMPLE+FLAG" gate="G$1" x="119.38" y="15.24"/>
+<instance part="A_BUF3" gate="G$1" x="58.42" y="91.44"/>
+<instance part="A_BUF3" gate="G$2" x="58.42" y="71.12"/>
+<instance part="A_BUF3" gate="G$3" x="58.42" y="91.44"/>
+<instance part="A_BUF2" gate="G$1" x="91.44" y="91.44"/>
+<instance part="A_BUF2" gate="G$2" x="91.44" y="71.12"/>
+<instance part="A_BUF2" gate="G$3" x="91.44" y="91.44"/>
+<instance part="A_BUF1" gate="G$1" x="124.46" y="91.44"/>
+<instance part="A_BUF1" gate="G$2" x="132.08" y="71.12"/>
+<instance part="A_BUF1" gate="G$3" x="124.46" y="91.44"/>
 <instance part="SUPPLY1" gate="GND" x="58.42" y="81.28" smashed="yes">
 <attribute name="VALUE" x="59.055" y="83.185" size="1.778" layer="96"/>
 </instance>
@@ -3957,60 +3957,60 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="175.26" y="83.82"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="G1"/>
+<pinref part="DIGITAL" gate="G$1" pin="G1"/>
 <wire x1="12.7" y1="25.4" x2="2.54" y2="25.4" width="0.1524" layer="91"/>
 <label x="2.54" y="25.4" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="G2"/>
+<pinref part="DIGITAL" gate="G$1" pin="G2"/>
 <wire x1="27.94" y1="22.86" x2="35.56" y2="22.86" width="0.1524" layer="91"/>
 <label x="30.48" y="22.86" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="GND"/>
+<pinref part="DIGITAL" gate="G$1" pin="GND"/>
 <wire x1="12.7" y1="2.54" x2="2.54" y2="2.54" width="0.1524" layer="91"/>
 <label x="2.54" y="2.54" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="G1"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="G1"/>
 <wire x1="55.88" y1="25.4" x2="40.64" y2="25.4" width="0.1524" layer="91"/>
 <label x="40.64" y="25.4" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="G2"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="G2"/>
 <wire x1="71.12" y1="22.86" x2="86.36" y2="22.86" width="0.1524" layer="91"/>
 <label x="73.66" y="22.86" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="GND"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="GND"/>
 <wire x1="55.88" y1="2.54" x2="40.64" y2="2.54" width="0.1524" layer="91"/>
 <label x="40.64" y="2.54" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="G$1" pin="G1"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="G1"/>
 <wire x1="111.76" y1="25.4" x2="93.98" y2="25.4" width="0.1524" layer="91"/>
 <label x="93.98" y="25.4" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="G$1" pin="G2"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="G2"/>
 <wire x1="127" y1="22.86" x2="144.78" y2="22.86" width="0.1524" layer="91"/>
 <label x="129.54" y="22.86" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="G$1" pin="GND"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="GND"/>
 <wire x1="111.76" y1="2.54" x2="93.98" y2="2.54" width="0.1524" layer="91"/>
 <label x="93.98" y="2.54" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC4" gate="G$3" pin="V-"/>
+<pinref part="A_BUF3" gate="G$3" pin="V-"/>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
 </segment>
 <segment>
-<pinref part="IC5" gate="G$3" pin="V-"/>
+<pinref part="A_BUF2" gate="G$3" pin="V-"/>
 <pinref part="SUPPLY2" gate="GND" pin="GND"/>
 </segment>
 <segment>
-<pinref part="IC6" gate="G$3" pin="V-"/>
+<pinref part="A_BUF1" gate="G$3" pin="V-"/>
 <pinref part="SUPPLY3" gate="GND" pin="GND"/>
 </segment>
 </net>
@@ -4115,29 +4115,29 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="175.26" y="86.36"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="VCC"/>
+<pinref part="DIGITAL" gate="G$1" pin="VCC"/>
 <wire x1="27.94" y1="25.4" x2="35.56" y2="25.4" width="0.1524" layer="91"/>
 <label x="30.48" y="25.4" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="VCC"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="VCC"/>
 <wire x1="71.12" y1="25.4" x2="86.36" y2="25.4" width="0.1524" layer="91"/>
 <label x="73.66" y="25.4" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC4" gate="G$3" pin="V+"/>
+<pinref part="A_BUF3" gate="G$3" pin="V+"/>
 <pinref part="P+1" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
-<pinref part="IC5" gate="G$3" pin="V+"/>
+<pinref part="A_BUF2" gate="G$3" pin="V+"/>
 <pinref part="P+2" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
-<pinref part="IC6" gate="G$3" pin="V+"/>
+<pinref part="A_BUF1" gate="G$3" pin="V+"/>
 <pinref part="P+3" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="G$1" pin="VCC"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="VCC"/>
 <wire x1="127" y1="25.4" x2="144.78" y2="25.4" width="0.1524" layer="91"/>
 <label x="129.54" y="25.4" size="1.778" layer="95"/>
 </segment>
@@ -4289,11 +4289,11 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="92.71"/>
 </segment>
 <segment>
-<pinref part="IC4" gate="G$1" pin="OUT"/>
+<pinref part="A_BUF3" gate="G$1" pin="OUT"/>
 <wire x1="66.04" y1="91.44" x2="68.58" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="91.44" x2="68.58" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="78.74" x2="50.8" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="IC4" gate="G$1" pin="-IN"/>
+<pinref part="A_BUF3" gate="G$1" pin="-IN"/>
 <wire x1="50.8" y1="78.74" x2="50.8" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="91.44" x2="78.74" y2="91.44" width="0.1524" layer="91"/>
 <junction x="68.58" y="91.44"/>
@@ -4327,7 +4327,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="128.27"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="Y7"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="Y7"/>
 <wire x1="71.12" y1="5.08" x2="86.36" y2="5.08" width="0.1524" layer="91"/>
 <label x="73.66" y="5.08" size="1.778" layer="95"/>
 </segment>
@@ -4359,7 +4359,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="158.75"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="Y8"/>
+<pinref part="DIGITAL" gate="G$1" pin="Y8"/>
 <wire x1="27.94" y1="2.54" x2="35.56" y2="2.54" width="0.1524" layer="91"/>
 <label x="30.48" y="2.54" size="1.778" layer="95"/>
 </segment>
@@ -4372,7 +4372,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="156.21"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="Y7"/>
+<pinref part="DIGITAL" gate="G$1" pin="Y7"/>
 <wire x1="27.94" y1="5.08" x2="35.56" y2="5.08" width="0.1524" layer="91"/>
 <label x="30.48" y="5.08" size="1.778" layer="95"/>
 </segment>
@@ -4385,7 +4385,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="153.67"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="Y6"/>
+<pinref part="DIGITAL" gate="G$1" pin="Y6"/>
 <wire x1="27.94" y1="7.62" x2="35.56" y2="7.62" width="0.1524" layer="91"/>
 <label x="30.48" y="7.62" size="1.778" layer="95"/>
 </segment>
@@ -4398,7 +4398,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="151.13"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="Y5"/>
+<pinref part="DIGITAL" gate="G$1" pin="Y5"/>
 <wire x1="27.94" y1="10.16" x2="35.56" y2="10.16" width="0.1524" layer="91"/>
 <label x="30.48" y="10.16" size="1.778" layer="95"/>
 </segment>
@@ -4411,7 +4411,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="148.59"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="Y4"/>
+<pinref part="DIGITAL" gate="G$1" pin="Y4"/>
 <wire x1="27.94" y1="12.7" x2="35.56" y2="12.7" width="0.1524" layer="91"/>
 <label x="30.48" y="12.7" size="1.778" layer="95"/>
 </segment>
@@ -4424,7 +4424,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="146.05"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="Y3"/>
+<pinref part="DIGITAL" gate="G$1" pin="Y3"/>
 <wire x1="27.94" y1="15.24" x2="35.56" y2="15.24" width="0.1524" layer="91"/>
 <label x="30.48" y="15.24" size="1.778" layer="95"/>
 </segment>
@@ -4437,7 +4437,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="143.51"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="Y2"/>
+<pinref part="DIGITAL" gate="G$1" pin="Y2"/>
 <wire x1="27.94" y1="17.78" x2="35.56" y2="17.78" width="0.1524" layer="91"/>
 <label x="30.48" y="17.78" size="1.778" layer="95"/>
 </segment>
@@ -4450,7 +4450,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="140.97"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="G$1" pin="Y1"/>
+<pinref part="DIGITAL" gate="G$1" pin="Y1"/>
 <wire x1="27.94" y1="20.32" x2="35.56" y2="20.32" width="0.1524" layer="91"/>
 <label x="30.48" y="20.32" size="1.778" layer="95"/>
 </segment>
@@ -4476,7 +4476,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="123.19"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="G$1" pin="Y2"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="Y2"/>
 <wire x1="127" y1="17.78" x2="144.78" y2="17.78" width="0.1524" layer="91"/>
 <label x="129.54" y="17.78" size="1.778" layer="95"/>
 </segment>
@@ -4489,7 +4489,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="120.65"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="G$1" pin="A1"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="A1"/>
 <wire x1="111.76" y1="22.86" x2="93.98" y2="22.86" width="0.1524" layer="91"/>
 <label x="93.98" y="22.86" size="1.778" layer="95"/>
 </segment>
@@ -4502,7 +4502,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="113.03"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="A2"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="A2"/>
 <wire x1="55.88" y1="20.32" x2="40.64" y2="20.32" width="0.1524" layer="91"/>
 <label x="40.64" y="20.32" size="1.778" layer="95"/>
 </segment>
@@ -4515,7 +4515,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="107.95"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="A4"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="A4"/>
 <wire x1="55.88" y1="15.24" x2="40.64" y2="15.24" width="0.1524" layer="91"/>
 <label x="40.64" y="15.24" size="1.778" layer="95"/>
 </segment>
@@ -4528,7 +4528,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="105.41"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="A5"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="A5"/>
 <wire x1="55.88" y1="12.7" x2="40.64" y2="12.7" width="0.1524" layer="91"/>
 <label x="40.64" y="12.7" size="1.778" layer="95"/>
 </segment>
@@ -4541,11 +4541,11 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="90.17"/>
 </segment>
 <segment>
-<pinref part="IC4" gate="G$2" pin="-IN"/>
+<pinref part="A_BUF3" gate="G$2" pin="-IN"/>
 <wire x1="50.8" y1="68.58" x2="50.8" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="50.8" y1="63.5" x2="68.58" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="63.5" x2="68.58" y2="71.12" width="0.1524" layer="91"/>
-<pinref part="IC4" gate="G$2" pin="OUT"/>
+<pinref part="A_BUF3" gate="G$2" pin="OUT"/>
 <wire x1="68.58" y1="71.12" x2="66.04" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="71.12" x2="78.74" y2="71.12" width="0.1524" layer="91"/>
 <junction x="68.58" y="71.12"/>
@@ -4560,11 +4560,11 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="85.09"/>
 </segment>
 <segment>
-<pinref part="IC5" gate="G$2" pin="-IN"/>
+<pinref part="A_BUF2" gate="G$2" pin="-IN"/>
 <wire x1="83.82" y1="68.58" x2="83.82" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="83.82" y1="63.5" x2="101.6" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="63.5" x2="101.6" y2="71.12" width="0.1524" layer="91"/>
-<pinref part="IC5" gate="G$2" pin="OUT"/>
+<pinref part="A_BUF2" gate="G$2" pin="OUT"/>
 <wire x1="101.6" y1="71.12" x2="99.06" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="71.12" x2="119.38" y2="71.12" width="0.1524" layer="91"/>
 <junction x="101.6" y="71.12"/>
@@ -4579,11 +4579,11 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="82.55"/>
 </segment>
 <segment>
-<pinref part="IC6" gate="G$1" pin="OUT"/>
+<pinref part="A_BUF1" gate="G$1" pin="OUT"/>
 <wire x1="132.08" y1="91.44" x2="134.62" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="134.62" y1="91.44" x2="134.62" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="134.62" y1="78.74" x2="116.84" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="IC6" gate="G$1" pin="-IN"/>
+<pinref part="A_BUF1" gate="G$1" pin="-IN"/>
 <wire x1="116.84" y1="78.74" x2="116.84" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="134.62" y1="91.44" x2="144.78" y2="91.44" width="0.1524" layer="91"/>
 <junction x="134.62" y="91.44"/>
@@ -4598,11 +4598,11 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="80.01"/>
 </segment>
 <segment>
-<pinref part="IC6" gate="G$2" pin="-IN"/>
+<pinref part="A_BUF1" gate="G$2" pin="-IN"/>
 <wire x1="124.46" y1="68.58" x2="124.46" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="124.46" y1="63.5" x2="142.24" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="142.24" y1="63.5" x2="142.24" y2="71.12" width="0.1524" layer="91"/>
-<pinref part="IC6" gate="G$2" pin="OUT"/>
+<pinref part="A_BUF1" gate="G$2" pin="OUT"/>
 <wire x1="142.24" y1="71.12" x2="139.7" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="142.24" y1="71.12" x2="152.4" y2="71.12" width="0.1524" layer="91"/>
 <junction x="142.24" y="71.12"/>
@@ -4617,7 +4617,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="118.11"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="G$1" pin="A3"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="A3"/>
 <wire x1="111.76" y1="17.78" x2="93.98" y2="17.78" width="0.1524" layer="91"/>
 <label x="93.98" y="17.78" size="1.778" layer="95"/>
 </segment>
@@ -4630,7 +4630,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="115.57"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="G$1" pin="A4"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="A4"/>
 <wire x1="111.76" y1="15.24" x2="93.98" y2="15.24" width="0.1524" layer="91"/>
 <label x="93.98" y="15.24" size="1.778" layer="95"/>
 </segment>
@@ -4643,7 +4643,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="110.49"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="A3"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="A3"/>
 <wire x1="55.88" y1="17.78" x2="40.64" y2="17.78" width="0.1524" layer="91"/>
 <label x="40.64" y="17.78" size="1.778" layer="95"/>
 </segment>
@@ -4707,7 +4707,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="95.25"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="A1"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="A1"/>
 <wire x1="55.88" y1="22.86" x2="40.64" y2="22.86" width="0.1524" layer="91"/>
 <label x="40.64" y="22.86" size="1.778" layer="95"/>
 </segment>
@@ -4720,14 +4720,14 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="20.32" y="125.73"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="A6"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="A6"/>
 <wire x1="55.88" y1="10.16" x2="40.64" y2="10.16" width="0.1524" layer="91"/>
 <label x="40.64" y="10.16" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D0/IO58" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="A1"/>
+<pinref part="DIGITAL" gate="G$1" pin="A1"/>
 <wire x1="12.7" y1="22.86" x2="2.54" y2="22.86" width="0.1524" layer="91"/>
 <label x="2.54" y="22.86" size="1.778" layer="95"/>
 </segment>
@@ -4741,7 +4741,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="D1/IO57" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="A2"/>
+<pinref part="DIGITAL" gate="G$1" pin="A2"/>
 <wire x1="12.7" y1="20.32" x2="2.54" y2="20.32" width="0.1524" layer="91"/>
 <label x="2.54" y="20.32" size="1.778" layer="95"/>
 </segment>
@@ -4756,7 +4756,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="D2/IO56" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="A3"/>
+<pinref part="DIGITAL" gate="G$1" pin="A3"/>
 <wire x1="12.7" y1="17.78" x2="2.54" y2="17.78" width="0.1524" layer="91"/>
 <label x="2.54" y="17.78" size="1.778" layer="95"/>
 </segment>
@@ -4771,7 +4771,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="D3/IO55" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="A4"/>
+<pinref part="DIGITAL" gate="G$1" pin="A4"/>
 <wire x1="12.7" y1="15.24" x2="2.54" y2="15.24" width="0.1524" layer="91"/>
 <label x="2.54" y="15.24" size="1.778" layer="95"/>
 </segment>
@@ -4786,7 +4786,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="D4/IO54" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="A5"/>
+<pinref part="DIGITAL" gate="G$1" pin="A5"/>
 <wire x1="12.7" y1="12.7" x2="2.54" y2="12.7" width="0.1524" layer="91"/>
 <label x="2.54" y="12.7" size="1.778" layer="95"/>
 </segment>
@@ -4802,7 +4802,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="D5/IO53" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="A6"/>
+<pinref part="DIGITAL" gate="G$1" pin="A6"/>
 <wire x1="12.7" y1="10.16" x2="2.54" y2="10.16" width="0.1524" layer="91"/>
 <label x="2.54" y="10.16" size="1.778" layer="95"/>
 </segment>
@@ -4817,7 +4817,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="D6/IO52" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="A7"/>
+<pinref part="DIGITAL" gate="G$1" pin="A7"/>
 <wire x1="12.7" y1="7.62" x2="2.54" y2="7.62" width="0.1524" layer="91"/>
 <label x="2.54" y="7.62" size="1.778" layer="95"/>
 </segment>
@@ -4832,7 +4832,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="D7/IO51" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="A8"/>
+<pinref part="DIGITAL" gate="G$1" pin="A8"/>
 <wire x1="12.7" y1="5.08" x2="2.54" y2="5.08" width="0.1524" layer="91"/>
 <label x="2.54" y="5.08" size="1.778" layer="95"/>
 </segment>
@@ -4854,7 +4854,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="175.26" y="93.98"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="Y3"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="Y3"/>
 <wire x1="71.12" y1="15.24" x2="86.36" y2="15.24" width="0.1524" layer="91"/>
 <label x="73.66" y="15.24" size="1.778" layer="95"/>
 </segment>
@@ -4868,7 +4868,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="175.26" y="91.44"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="Y4"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="Y4"/>
 <wire x1="71.12" y1="12.7" x2="86.36" y2="12.7" width="0.1524" layer="91"/>
 <label x="73.66" y="12.7" size="1.778" layer="95"/>
 </segment>
@@ -4882,7 +4882,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="175.26" y="88.9"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="Y5"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="Y5"/>
 <wire x1="71.12" y1="10.16" x2="86.36" y2="10.16" width="0.1524" layer="91"/>
 <label x="73.66" y="10.16" size="1.778" layer="95"/>
 </segment>
@@ -4896,7 +4896,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="175.26" y="99.06"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="Y1"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="Y1"/>
 <wire x1="71.12" y1="20.32" x2="86.36" y2="20.32" width="0.1524" layer="91"/>
 <label x="73.66" y="20.32" size="1.778" layer="95"/>
 </segment>
@@ -4910,14 +4910,14 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <junction x="175.26" y="96.52"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="Y2"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="Y2"/>
 <wire x1="71.12" y1="17.78" x2="86.36" y2="17.78" width="0.1524" layer="91"/>
 <label x="73.66" y="17.78" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="K1/IO5/TXD1" class="0">
 <segment>
-<pinref part="IC2" gate="G$1" pin="Y6"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="Y6"/>
 <wire x1="71.12" y1="7.62" x2="86.36" y2="7.62" width="0.1524" layer="91"/>
 <label x="73.66" y="7.62" size="1.778" layer="95"/>
 </segment>
@@ -4936,14 +4936,14 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 <label x="182.88" y="40.64" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="A7"/>
+<pinref part="SUN+KOALA" gate="G$1" pin="A7"/>
 <wire x1="55.88" y1="7.62" x2="40.64" y2="7.62" width="0.1524" layer="91"/>
 <label x="40.64" y="7.62" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SIM/IO38/RXD2" class="0">
 <segment>
-<pinref part="IC3" gate="G$1" pin="A2"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="A2"/>
 <wire x1="111.76" y1="20.32" x2="93.98" y2="20.32" width="0.1524" layer="91"/>
 <label x="93.98" y="20.32" size="1.778" layer="95"/>
 </segment>
@@ -4956,7 +4956,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="SIM/IO39/TXD2" class="0">
 <segment>
-<pinref part="IC3" gate="G$1" pin="Y1"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="Y1"/>
 <wire x1="127" y1="20.32" x2="144.78" y2="20.32" width="0.1524" layer="91"/>
 <label x="129.54" y="20.32" size="1.778" layer="95"/>
 </segment>
@@ -4969,7 +4969,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="TF1/IO66" class="0">
 <segment>
-<pinref part="IC3" gate="G$1" pin="Y3"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="Y3"/>
 <wire x1="127" y1="15.24" x2="144.78" y2="15.24" width="0.1524" layer="91"/>
 <label x="129.54" y="15.24" size="1.778" layer="95"/>
 </segment>
@@ -4981,7 +4981,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="TF2/IO67" class="0">
 <segment>
-<pinref part="IC3" gate="G$1" pin="Y4"/>
+<pinref part="SIMPLE+FLAG" gate="G$1" pin="Y4"/>
 <wire x1="127" y1="12.7" x2="144.78" y2="12.7" width="0.1524" layer="91"/>
 <label x="129.54" y="12.7" size="1.778" layer="95"/>
 </segment>
@@ -4993,7 +4993,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="A5" class="0">
 <segment>
-<pinref part="IC4" gate="G$1" pin="+IN"/>
+<pinref part="A_BUF3" gate="G$1" pin="+IN"/>
 <wire x1="50.8" y1="93.98" x2="48.26" y2="93.98" width="0.1524" layer="91"/>
 <label x="48.26" y="93.98" size="1.778" layer="95"/>
 </segment>
@@ -5006,7 +5006,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="A4" class="0">
 <segment>
-<pinref part="IC4" gate="G$2" pin="+IN"/>
+<pinref part="A_BUF3" gate="G$2" pin="+IN"/>
 <wire x1="50.8" y1="73.66" x2="48.26" y2="73.66" width="0.1524" layer="91"/>
 <label x="48.26" y="73.66" size="1.778" layer="95"/>
 </segment>
@@ -5019,7 +5019,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="A3" class="0">
 <segment>
-<pinref part="IC5" gate="G$1" pin="+IN"/>
+<pinref part="A_BUF2" gate="G$1" pin="+IN"/>
 <wire x1="83.82" y1="93.98" x2="81.28" y2="93.98" width="0.1524" layer="91"/>
 <label x="81.28" y="93.98" size="1.778" layer="95"/>
 </segment>
@@ -5032,7 +5032,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="A2" class="0">
 <segment>
-<pinref part="IC5" gate="G$2" pin="+IN"/>
+<pinref part="A_BUF2" gate="G$2" pin="+IN"/>
 <wire x1="83.82" y1="73.66" x2="81.28" y2="73.66" width="0.1524" layer="91"/>
 <label x="81.28" y="73.66" size="1.778" layer="95"/>
 </segment>
@@ -5045,7 +5045,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="A1" class="0">
 <segment>
-<pinref part="IC6" gate="G$1" pin="+IN"/>
+<pinref part="A_BUF1" gate="G$1" pin="+IN"/>
 <wire x1="116.84" y1="93.98" x2="114.3" y2="93.98" width="0.1524" layer="91"/>
 <label x="114.3" y="93.98" size="1.778" layer="95"/>
 </segment>
@@ -5058,7 +5058,7 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="A0" class="0">
 <segment>
-<pinref part="IC6" gate="G$2" pin="+IN"/>
+<pinref part="A_BUF1" gate="G$2" pin="+IN"/>
 <wire x1="124.46" y1="73.66" x2="121.92" y2="73.66" width="0.1524" layer="91"/>
 <label x="121.92" y="73.66" size="1.778" layer="95"/>
 </segment>
@@ -5070,11 +5070,11 @@ data sheet: http://ww1.microchip.com/downloads/en/devicedoc/21733j.pdf</descript
 </net>
 <net name="ADC2/IO24*" class="0">
 <segment>
-<pinref part="IC5" gate="G$1" pin="OUT"/>
+<pinref part="A_BUF2" gate="G$1" pin="OUT"/>
 <wire x1="99.06" y1="91.44" x2="101.6" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="91.44" x2="101.6" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="78.74" x2="83.82" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="IC5" gate="G$1" pin="-IN"/>
+<pinref part="A_BUF2" gate="G$1" pin="-IN"/>
 <wire x1="83.82" y1="78.74" x2="83.82" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="91.44" x2="111.76" y2="91.44" width="0.1524" layer="91"/>
 <junction x="101.6" y="91.44"/>

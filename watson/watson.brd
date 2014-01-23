@@ -116,8 +116,8 @@
 <wire x1="104.14" y1="58.42" x2="0" y2="58.42" width="0.254" layer="20"/>
 <wire x1="0" y1="58.42" x2="0" y2="0" width="0.254" layer="20"/>
 <text x="42.164" y="39.243" size="1.524" layer="21" font="vector" rot="R180">Pioneers in Engineering</text>
-<text x="57.15" y="38.989" size="1.524" layer="21" font="vector" rot="R180">2014.01.01</text>
-<text x="61.468" y="36.5125" size="1.524" layer="21" font="vector" rot="R180">Watson V2.0 Rev B</text>
+<text x="57.15" y="38.989" size="1.524" layer="21" font="vector" rot="R180">2014.01.20</text>
+<text x="60.706" y="37.0205" size="1.524" layer="21" font="vector" rot="R180">Watson V2.0 Rev C</text>
 <text x="13.208" y="1.27" size="2.032" layer="21" font="vector" ratio="10" rot="R90">TO SHERLOCK</text>
 <text x="59.69" y="6.35" size="1.27" layer="22" font="vector" ratio="10" rot="MR0">This design is open source hardware.
 For more information, visit
@@ -159,6 +159,10 @@ Tobin H., Krystyn N.</text>
 <text x="74.676" y="14.478" size="1.016" layer="21" font="vector" rot="SR90">GND</text>
 <text x="84.328" y="14.478" size="1.016" layer="21" font="vector" rot="SR90">GND</text>
 <text x="75.946" y="2.54" size="1.016" layer="21" font="vector" rot="SR90">GND</text>
+<text x="18.796" y="22.606" size="1.27" layer="21" font="vector" rot="R180">A0</text>
+<text x="16.51" y="22.606" size="1.27" layer="21" font="vector" rot="R180">A1</text>
+<text x="23.368" y="21.336" size="1.27" layer="21" font="vector">A3A2</text>
+<text x="33.274" y="21.336" size="1.27" layer="21" font="vector">A4A5</text>
 </plain>
 <libraries>
 <library name="pie">
@@ -1341,32 +1345,38 @@ design rules under a new name.</description>
 <attribute name="NAME" x="96.7232" y="22.1488" size="2.54" layer="25" font="vector" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="104.775" y="21.717" size="1.27" layer="27" font="vector" rot="R90"/>
 </element>
-<element name="IC1" library="pie" package="DIGITAL_BUFFER_SOCKET" value="" x="56.134" y="27.686" smashed="yes">
+<element name="DIGITAL" library="pie" package="DIGITAL_BUFFER_SOCKET" value="" x="56.134" y="27.686" smashed="yes">
 <attribute name="PIE_DIGIKEY-PN" value="TC74HC541APF-ND" x="56.134" y="27.686" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="70.612" y="22.733" size="1.27" layer="27" font="vector" ratio="10" rot="R90"/>
-<attribute name="NAME" x="64.897" y="33.02" size="1.778" layer="25" font="vector" ratio="10"/>
+<attribute name="NAME" x="43.307" y="33.02" size="1.778" layer="25" font="vector" ratio="10"/>
 </element>
-<element name="IC2" library="pie" package="DIGITAL_BUFFER_SOCKET" value="" x="74.676" y="35.306" smashed="yes" rot="R270">
+<element name="SUN+KOALA" library="pie" package="DIGITAL_BUFFER_SOCKET" value="" x="74.676" y="35.306" smashed="yes" rot="R270">
 <attribute name="PIE_DIGIKEY-PN" value="TC74HC541APF-ND" x="74.676" y="35.306" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="69.723" y="20.828" size="1.27" layer="27" font="vector" ratio="10"/>
-<attribute name="NAME" x="69.342" y="44.069" size="1.778" layer="25" font="vector" ratio="10" rot="R90"/>
+<attribute name="NAME" x="69.342" y="33.655" size="1.778" layer="25" font="vector" ratio="10" rot="R90"/>
 </element>
-<element name="IC3" library="pie" package="DIGITAL_BUFFER_SOCKET" value="" x="85.598" y="35.306" smashed="yes" rot="R270">
+<element name="SIMPLE+FLAG" library="pie" package="DIGITAL_BUFFER_SOCKET" value="" x="85.598" y="35.306" smashed="yes" rot="R270">
 <attribute name="PIE_DIGIKEY-PN" value="TC74HC541APF-ND" x="85.598" y="35.306" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="80.645" y="20.828" size="1.27" layer="27" font="vector" ratio="10"/>
-<attribute name="NAME" x="92.71" y="44.069" size="1.778" layer="25" font="vector" ratio="10" rot="R90"/>
+<attribute name="NAME" x="92.71" y="30.861" size="1.778" layer="25" font="vector" ratio="10" rot="R90"/>
 </element>
-<element name="IC4" library="pie" package="OPAMP_DUAL_DIL" value="" x="37.846" y="27.94" rot="R270">
+<element name="A_BUF3" library="pie" package="OPAMP_DUAL_DIL" value="" x="37.846" y="27.94" smashed="yes" rot="R270">
 <attribute name="PIE_DIGIKEY-PN" value="A100204-ND" x="37.846" y="27.94" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="PIE_MICROCHIP-PN" value="MCP6001" x="37.846" y="27.94" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="NAME" x="33.02" y="33.1978" size="1.778" layer="25" font="vector" ratio="10"/>
+<attribute name="VALUE" x="34.036" y="20.701" size="1.778" layer="27" font="vector" ratio="10"/>
 </element>
-<element name="IC5" library="pie" package="OPAMP_DUAL_DIL" value="" x="27.178" y="27.94" rot="R270">
+<element name="A_BUF2" library="pie" package="OPAMP_DUAL_DIL" value="" x="27.178" y="27.94" smashed="yes" rot="R270">
 <attribute name="PIE_DIGIKEY-PN" value="A100204-ND" x="25.654" y="27.94" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="PIE_MICROCHIP-PN" value="MCP6001" x="25.654" y="27.94" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="NAME" x="22.352" y="33.1978" size="1.778" layer="25" font="vector" ratio="10"/>
+<attribute name="VALUE" x="23.368" y="20.701" size="1.778" layer="27" font="vector" ratio="10"/>
 </element>
-<element name="IC6" library="pie" package="OPAMP_DUAL_DIL" value="" x="16.51" y="27.94" rot="R270">
+<element name="A_BUF1" library="pie" package="OPAMP_DUAL_DIL" value="" x="16.51" y="27.94" smashed="yes" rot="R270">
 <attribute name="PIE_DIGIKEY-PN" value="A100204-ND" x="14.986" y="27.94" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="PIE_MICROCHIP-PN" value="MCP6001" x="14.986" y="27.94" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="NAME" x="11.684" y="33.1978" size="1.778" layer="25" font="vector" ratio="10"/>
+<attribute name="VALUE" x="12.7" y="20.701" size="1.778" layer="27" font="vector" ratio="10"/>
 </element>
 </elements>
 <signals>
@@ -1410,18 +1420,18 @@ design rules under a new name.</description>
 <contactref element="D6" pad="1"/>
 <contactref element="SUNBEAR" pad="1"/>
 <contactref element="FLAG" pad="1"/>
-<contactref element="IC1" pad="G1"/>
-<contactref element="IC1" pad="G2"/>
-<contactref element="IC1" pad="GND"/>
-<contactref element="IC2" pad="G1"/>
-<contactref element="IC2" pad="G2"/>
-<contactref element="IC2" pad="GND"/>
-<contactref element="IC3" pad="G1"/>
-<contactref element="IC3" pad="G2"/>
-<contactref element="IC3" pad="GND"/>
-<contactref element="IC4" pad="4"/>
-<contactref element="IC5" pad="4"/>
-<contactref element="IC6" pad="4"/>
+<contactref element="DIGITAL" pad="G1"/>
+<contactref element="DIGITAL" pad="G2"/>
+<contactref element="DIGITAL" pad="GND"/>
+<contactref element="SUN+KOALA" pad="G1"/>
+<contactref element="SUN+KOALA" pad="G2"/>
+<contactref element="SUN+KOALA" pad="GND"/>
+<contactref element="SIMPLE+FLAG" pad="G1"/>
+<contactref element="SIMPLE+FLAG" pad="G2"/>
+<contactref element="SIMPLE+FLAG" pad="GND"/>
+<contactref element="A_BUF3" pad="4"/>
+<contactref element="A_BUF2" pad="4"/>
+<contactref element="A_BUF1" pad="4"/>
 <wire x1="70.866" y1="46.736" x2="75.946" y2="46.736" width="1.016" layer="1"/>
 <wire x1="75.946" y1="46.736" x2="78.486" y2="44.196" width="1.016" layer="1"/>
 <wire x1="44.704" y1="23.876" x2="44.704" y2="28.956" width="1.016" layer="1"/>
@@ -1463,12 +1473,12 @@ design rules under a new name.</description>
 <wire x1="89.408" y1="56.134" x2="96.012" y2="56.134" width="0.4064" layer="16"/>
 <wire x1="96.012" y1="56.134" x2="96.305" y2="55.841" width="0.4064" layer="16"/>
 <wire x1="96.305" y1="55.841" x2="96.52" y2="55.841" width="0.4064" layer="16"/>
-<contactref element="IC1" pad="VCC"/>
-<contactref element="IC2" pad="VCC"/>
-<contactref element="IC4" pad="8"/>
-<contactref element="IC5" pad="8"/>
-<contactref element="IC6" pad="8"/>
-<contactref element="IC3" pad="VCC"/>
+<contactref element="DIGITAL" pad="VCC"/>
+<contactref element="SUN+KOALA" pad="VCC"/>
+<contactref element="A_BUF3" pad="8"/>
+<contactref element="A_BUF2" pad="8"/>
+<contactref element="A_BUF1" pad="8"/>
+<contactref element="SIMPLE+FLAG" pad="VCC"/>
 </signal>
 <signal name="SDA0/IO33*">
 <contactref element="M0" pad="2"/>
@@ -1718,8 +1728,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="ADC0/IO28*">
 <contactref element="SHERLOCK" pad="10"/>
-<contactref element="IC4" pad="1"/>
-<contactref element="IC4" pad="2"/>
+<contactref element="A_BUF3" pad="1"/>
+<contactref element="A_BUF3" pad="2"/>
 <wire x1="4.826" y1="15.24" x2="6.096" y2="16.51" width="0.4064" layer="1"/>
 <wire x1="6.096" y1="16.51" x2="15.24" y2="16.51" width="0.4064" layer="1"/>
 <wire x1="15.24" y1="16.51" x2="19.05" y2="20.32" width="0.4064" layer="1"/>
@@ -1743,7 +1753,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO3/RXD1">
 <contactref element="SHERLOCK" pad="24"/>
-<contactref element="IC2" pad="Y7"/>
+<contactref element="SUN+KOALA" pad="Y7"/>
 <wire x1="4.826" y1="33.02" x2="4.826" y2="32.258" width="0.3048" layer="1"/>
 <wire x1="4.826" y1="32.258" x2="6.096" y2="30.988" width="0.3048" layer="1"/>
 <wire x1="6.096" y1="30.988" x2="6.096" y2="29.972" width="0.3048" layer="1"/>
@@ -1778,7 +1788,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO51">
 <contactref element="SHERLOCK" pad="36"/>
-<contactref element="IC1" pad="Y8"/>
+<contactref element="DIGITAL" pad="Y8"/>
 <wire x1="4.826" y1="48.26" x2="6.096" y2="49.53" width="0.3048" layer="16"/>
 <wire x1="6.096" y1="49.53" x2="7.874" y2="49.53" width="0.3048" layer="16"/>
 <wire x1="7.874" y1="49.53" x2="9.652" y2="47.752" width="0.3048" layer="16"/>
@@ -1790,7 +1800,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO52">
 <contactref element="SHERLOCK" pad="35"/>
-<contactref element="IC1" pad="Y7"/>
+<contactref element="DIGITAL" pad="Y7"/>
 <wire x1="7.366" y1="48.26" x2="9.144" y2="46.482" width="0.3048" layer="16"/>
 <wire x1="9.144" y1="46.482" x2="9.144" y2="45.72" width="0.3048" layer="16"/>
 <wire x1="9.144" y1="45.72" x2="12.192" y2="42.672" width="0.3048" layer="16"/>
@@ -1799,7 +1809,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO53">
 <contactref element="SHERLOCK" pad="34"/>
-<contactref element="IC1" pad="Y6"/>
+<contactref element="DIGITAL" pad="Y6"/>
 <wire x1="4.826" y1="45.72" x2="6.096" y2="46.99" width="0.3048" layer="16"/>
 <wire x1="6.096" y1="46.99" x2="7.874" y2="46.99" width="0.3048" layer="16"/>
 <wire x1="7.874" y1="46.99" x2="8.636" y2="46.228" width="0.3048" layer="16"/>
@@ -1810,14 +1820,14 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO54">
 <contactref element="SHERLOCK" pad="33"/>
-<contactref element="IC1" pad="Y5"/>
+<contactref element="DIGITAL" pad="Y5"/>
 <wire x1="7.366" y1="45.72" x2="11.43" y2="41.656" width="0.3048" layer="16"/>
 <wire x1="11.43" y1="41.656" x2="49.784" y2="41.656" width="0.3048" layer="16"/>
 <wire x1="59.944" y1="31.496" x2="49.784" y2="41.656" width="0.3048" layer="16"/>
 </signal>
 <signal name="IO55">
 <contactref element="SHERLOCK" pad="32"/>
-<contactref element="IC1" pad="Y4"/>
+<contactref element="DIGITAL" pad="Y4"/>
 <wire x1="4.826" y1="43.18" x2="6.096" y2="44.45" width="0.3048" layer="16"/>
 <wire x1="6.096" y1="44.45" x2="7.874" y2="44.45" width="0.3048" layer="16"/>
 <wire x1="7.874" y1="44.45" x2="11.176" y2="41.148" width="0.3048" layer="16"/>
@@ -1826,7 +1836,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO56">
 <contactref element="SHERLOCK" pad="31"/>
-<contactref element="IC1" pad="Y3"/>
+<contactref element="DIGITAL" pad="Y3"/>
 <wire x1="7.366" y1="43.18" x2="9.906" y2="40.64" width="0.3048" layer="16"/>
 <wire x1="9.906" y1="40.64" x2="37.084" y2="40.64" width="0.3048" layer="16"/>
 <wire x1="37.084" y1="40.64" x2="37.592" y2="40.64" width="0.3048" layer="16"/>
@@ -1835,7 +1845,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO57">
 <contactref element="SHERLOCK" pad="30"/>
-<contactref element="IC1" pad="Y2"/>
+<contactref element="DIGITAL" pad="Y2"/>
 <wire x1="4.826" y1="40.64" x2="6.096" y2="41.91" width="0.3048" layer="16"/>
 <wire x1="6.096" y1="41.91" x2="7.874" y2="41.91" width="0.3048" layer="16"/>
 <wire x1="7.874" y1="41.91" x2="9.652" y2="40.132" width="0.3048" layer="16"/>
@@ -1844,7 +1854,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO58">
 <contactref element="SHERLOCK" pad="29"/>
-<contactref element="IC1" pad="Y1"/>
+<contactref element="DIGITAL" pad="Y1"/>
 <wire x1="7.366" y1="40.64" x2="8.382" y2="39.624" width="0.3048" layer="16"/>
 <wire x1="8.382" y1="39.624" x2="37.338" y2="39.624" width="0.3048" layer="16"/>
 <wire x1="37.338" y1="39.624" x2="37.592" y2="39.624" width="0.3048" layer="16"/>
@@ -1877,7 +1887,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO38/RXD2">
 <contactref element="SHERLOCK" pad="22"/>
-<contactref element="IC3" pad="Y2"/>
+<contactref element="SIMPLE+FLAG" pad="Y2"/>
 <wire x1="85.598" y1="42.926" x2="89.408" y2="39.116" width="0.3048" layer="1"/>
 <wire x1="85.598" y1="42.926" x2="85.598" y2="46.99" width="0.3048" layer="1"/>
 <wire x1="85.598" y1="46.99" x2="84.328" y2="48.26" width="0.3048" layer="1"/>
@@ -1894,7 +1904,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO39/TXD2">
 <contactref element="SHERLOCK" pad="21"/>
-<contactref element="IC3" pad="A1"/>
+<contactref element="SIMPLE+FLAG" pad="A1"/>
 <wire x1="81.788" y1="44.196" x2="80.518" y2="42.926" width="0.3048" layer="1"/>
 <wire x1="80.518" y1="42.926" x2="77.724" y2="42.926" width="0.3048" layer="1"/>
 <wire x1="77.724" y1="42.926" x2="75.184" y2="45.466" width="0.3048" layer="1"/>
@@ -1909,7 +1919,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO65">
 <contactref element="SHERLOCK" pad="18"/>
-<contactref element="IC2" pad="A2"/>
+<contactref element="SUN+KOALA" pad="A2"/>
 <wire x1="70.866" y1="41.656" x2="69.342" y2="43.18" width="0.3048" layer="1"/>
 <wire x1="69.342" y1="43.18" x2="65.786" y2="43.18" width="0.3048" layer="1"/>
 <wire x1="65.786" y1="43.18" x2="64.516" y2="41.91" width="0.3048" layer="1"/>
@@ -1928,7 +1938,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO63">
 <contactref element="SHERLOCK" pad="16"/>
-<contactref element="IC2" pad="A4"/>
+<contactref element="SUN+KOALA" pad="A4"/>
 <wire x1="70.866" y1="36.576" x2="69.088" y2="34.798" width="0.3048" layer="1"/>
 <wire x1="69.088" y1="34.798" x2="62.484" y2="34.798" width="0.3048" layer="1"/>
 <wire x1="62.484" y1="34.798" x2="56.896" y2="40.386" width="0.3048" layer="1"/>
@@ -1946,7 +1956,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO64">
 <contactref element="SHERLOCK" pad="15"/>
-<contactref element="IC2" pad="A5"/>
+<contactref element="SUN+KOALA" pad="A5"/>
 <wire x1="70.866" y1="34.036" x2="70.612" y2="34.29" width="0.3048" layer="1"/>
 <wire x1="7.366" y1="22.86" x2="8.636" y2="22.86" width="0.3048" layer="1"/>
 <wire x1="8.636" y1="22.86" x2="11.176" y2="25.4" width="0.3048" layer="1"/>
@@ -1965,8 +1975,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="ADC1/IO26*">
 <contactref element="SHERLOCK" pad="9"/>
-<contactref element="IC4" pad="6"/>
-<contactref element="IC4" pad="7"/>
+<contactref element="A_BUF3" pad="6"/>
+<contactref element="A_BUF3" pad="7"/>
 <wire x1="19.304" y1="19.558" x2="34.544" y2="19.558" width="0.4064" layer="1"/>
 <wire x1="41.656" y1="26.67" x2="34.544" y2="19.558" width="0.4064" layer="1"/>
 <wire x1="7.366" y1="15.24" x2="14.986" y2="15.24" width="0.4064" layer="1"/>
@@ -1975,8 +1985,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="ADC3/AOUT/IO22*">
 <contactref element="SHERLOCK" pad="7"/>
-<contactref element="IC5" pad="6"/>
-<contactref element="IC5" pad="7"/>
+<contactref element="A_BUF2" pad="6"/>
+<contactref element="A_BUF2" pad="7"/>
 <wire x1="7.366" y1="12.7" x2="26.162" y2="12.7" width="0.4064" layer="1"/>
 <via x="26.162" y="12.7" extent="1-16" drill="0.6"/>
 <wire x1="26.162" y1="12.7" x2="25.654" y2="13.208" width="0.4064" layer="16"/>
@@ -1986,8 +1996,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="ADC4/IO29">
 <contactref element="SHERLOCK" pad="6"/>
-<contactref element="IC6" pad="1"/>
-<contactref element="IC6" pad="2"/>
+<contactref element="A_BUF1" pad="1"/>
+<contactref element="A_BUF1" pad="2"/>
 <wire x1="4.318" y1="26.67" x2="3.556" y2="25.908" width="0.4064" layer="1"/>
 <wire x1="3.556" y1="25.908" x2="3.556" y2="11.43" width="0.4064" layer="1"/>
 <wire x1="3.556" y1="11.43" x2="4.826" y2="10.16" width="0.4064" layer="1"/>
@@ -1998,8 +2008,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="ADC5/IO32">
 <contactref element="SHERLOCK" pad="5"/>
-<contactref element="IC6" pad="6"/>
-<contactref element="IC6" pad="7"/>
+<contactref element="A_BUF1" pad="6"/>
+<contactref element="A_BUF1" pad="7"/>
 <wire x1="20.32" y1="26.67" x2="13.97" y2="20.32" width="0.4064" layer="16"/>
 <wire x1="13.97" y1="20.32" x2="13.97" y2="10.16" width="0.4064" layer="16"/>
 <via x="13.97" y="10.16" extent="1-16" drill="0.6"/>
@@ -2008,7 +2018,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO66">
 <contactref element="SHERLOCK" pad="20"/>
-<contactref element="IC3" pad="A3"/>
+<contactref element="SIMPLE+FLAG" pad="A3"/>
 <wire x1="81.788" y1="39.116" x2="80.264" y2="39.116" width="0.3048" layer="1"/>
 <wire x1="80.264" y1="39.116" x2="78.994" y2="40.386" width="0.3048" layer="1"/>
 <wire x1="78.994" y1="40.386" x2="77.978" y2="40.386" width="0.3048" layer="1"/>
@@ -2028,7 +2038,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO67">
 <contactref element="SHERLOCK" pad="19"/>
-<contactref element="IC3" pad="A4"/>
+<contactref element="SIMPLE+FLAG" pad="A4"/>
 <wire x1="81.788" y1="36.576" x2="80.264" y2="36.576" width="0.3048" layer="1"/>
 <wire x1="80.264" y1="36.576" x2="78.994" y2="37.846" width="0.3048" layer="1"/>
 <wire x1="71.628" y1="40.386" x2="70.358" y2="40.386" width="0.3048" layer="1"/>
@@ -2045,7 +2055,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO21">
 <contactref element="SHERLOCK" pad="17"/>
-<contactref element="IC2" pad="A3"/>
+<contactref element="SUN+KOALA" pad="A3"/>
 <wire x1="70.866" y1="39.116" x2="67.056" y2="35.306" width="0.3048" layer="1"/>
 <wire x1="67.056" y1="35.306" x2="62.738" y2="35.306" width="0.3048" layer="1"/>
 <wire x1="7.366" y1="25.4" x2="9.906" y2="27.94" width="0.3048" layer="16"/>
@@ -2101,7 +2111,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO61">
 <contactref element="SHERLOCK" pad="11"/>
-<contactref element="IC2" pad="A1"/>
+<contactref element="SUN+KOALA" pad="A1"/>
 <wire x1="70.866" y1="44.196" x2="65.278" y2="44.196" width="0.3048" layer="1"/>
 <wire x1="65.278" y1="44.196" x2="64.008" y2="42.926" width="0.3048" layer="1"/>
 <wire x1="64.008" y1="42.926" x2="15.748" y2="42.926" width="0.3048" layer="1"/>
@@ -2117,7 +2127,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="IO5/TXD1">
 <contactref element="SHERLOCK" pad="23"/>
-<contactref element="IC2" pad="A6"/>
+<contactref element="SUN+KOALA" pad="A6"/>
 <wire x1="70.866" y1="31.496" x2="68.58" y2="33.782" width="0.3048" layer="1"/>
 <wire x1="68.58" y1="33.782" x2="61.976" y2="33.782" width="0.3048" layer="1"/>
 <wire x1="61.976" y1="33.782" x2="56.388" y2="39.37" width="0.3048" layer="1"/>
@@ -2127,53 +2137,53 @@ design rules under a new name.</description>
 <wire x1="9.144" y1="34.798" x2="27.686" y2="34.798" width="0.3048" layer="1"/>
 </signal>
 <signal name="D0/IO58">
-<contactref element="IC1" pad="A1"/>
+<contactref element="DIGITAL" pad="A1"/>
 <contactref element="D0" pad="3"/>
 <wire x1="23.368" y1="15.748" x2="26.416" y2="18.796" width="0.4064" layer="1"/>
 <wire x1="26.416" y1="18.796" x2="42.164" y2="18.796" width="0.4064" layer="1"/>
 <wire x1="42.164" y1="18.796" x2="47.244" y2="23.876" width="0.4064" layer="1"/>
 </signal>
 <signal name="D1/IO57">
-<contactref element="IC1" pad="A2"/>
+<contactref element="DIGITAL" pad="A2"/>
 <contactref element="D1" pad="3"/>
 <wire x1="33.02" y1="15.748" x2="34.798" y2="17.526" width="0.4064" layer="1"/>
 <wire x1="34.798" y1="17.526" x2="43.434" y2="17.526" width="0.4064" layer="1"/>
 <wire x1="43.434" y1="17.526" x2="49.784" y2="23.876" width="0.4064" layer="1"/>
 </signal>
 <signal name="D2/IO56">
-<contactref element="IC1" pad="A3"/>
+<contactref element="DIGITAL" pad="A3"/>
 <contactref element="D2" pad="3"/>
 <wire x1="42.672" y1="15.748" x2="44.196" y2="15.748" width="0.4064" layer="1"/>
 <wire x1="44.196" y1="15.748" x2="52.324" y2="23.876" width="0.4064" layer="1"/>
 </signal>
 <signal name="D3/IO55">
-<contactref element="IC1" pad="A4"/>
+<contactref element="DIGITAL" pad="A4"/>
 <contactref element="D3" pad="3"/>
 <wire x1="52.324" y1="15.748" x2="54.864" y2="18.288" width="0.4064" layer="1"/>
 <wire x1="54.864" y1="18.288" x2="54.864" y2="23.876" width="0.4064" layer="1"/>
 </signal>
 <signal name="D4/IO54">
-<contactref element="IC1" pad="A5"/>
+<contactref element="DIGITAL" pad="A5"/>
 <contactref element="D4" pad="3"/>
 <wire x1="61.976" y1="15.748" x2="57.404" y2="20.32" width="0.4064" layer="1"/>
 <wire x1="57.404" y1="20.32" x2="57.404" y2="23.876" width="0.4064" layer="1"/>
 </signal>
 <signal name="D5/IO53">
-<contactref element="IC1" pad="A6"/>
+<contactref element="DIGITAL" pad="A6"/>
 <contactref element="D5" pad="3"/>
 <wire x1="71.628" y1="15.748" x2="66.802" y2="20.574" width="0.4064" layer="1"/>
 <wire x1="66.802" y1="20.574" x2="63.246" y2="20.574" width="0.4064" layer="1"/>
 <wire x1="63.246" y1="20.574" x2="59.944" y2="23.876" width="0.4064" layer="1"/>
 </signal>
 <signal name="D6/IO52">
-<contactref element="IC1" pad="A7"/>
+<contactref element="DIGITAL" pad="A7"/>
 <contactref element="D6" pad="3"/>
 <wire x1="81.28" y1="15.748" x2="75.692" y2="21.336" width="0.4064" layer="1"/>
 <wire x1="75.692" y1="21.336" x2="65.024" y2="21.336" width="0.4064" layer="1"/>
 <wire x1="65.024" y1="21.336" x2="62.484" y2="23.876" width="0.4064" layer="1"/>
 </signal>
 <signal name="D7/IO51">
-<contactref element="IC1" pad="A8"/>
+<contactref element="DIGITAL" pad="A8"/>
 <contactref element="D7" pad="3"/>
 <wire x1="90.932" y1="15.748" x2="84.582" y2="22.098" width="0.4064" layer="1"/>
 <wire x1="84.582" y1="22.098" x2="66.802" y2="22.098" width="0.4064" layer="1"/>
@@ -2181,7 +2191,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="SB3/IO21">
 <contactref element="SUNBEAR" pad="5"/>
-<contactref element="IC2" pad="Y3"/>
+<contactref element="SUN+KOALA" pad="Y3"/>
 <wire x1="88.9" y1="30.226" x2="83.82" y2="35.306" width="0.3048" layer="16"/>
 <wire x1="83.82" y1="35.306" x2="79.756" y2="35.306" width="0.3048" layer="16"/>
 <wire x1="79.756" y1="35.306" x2="78.486" y2="36.576" width="0.3048" layer="16"/>
@@ -2192,7 +2202,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="SB4/IO63">
 <contactref element="SUNBEAR" pad="4"/>
-<contactref element="IC2" pad="Y4"/>
+<contactref element="SUN+KOALA" pad="Y4"/>
 <wire x1="80.518" y1="32.004" x2="78.486" y2="34.036" width="0.3048" layer="16"/>
 <wire x1="80.518" y1="32.004" x2="80.518" y2="28.448" width="0.3048" layer="16"/>
 <wire x1="80.518" y1="28.448" x2="81.28" y2="27.686" width="0.3048" layer="16"/>
@@ -2201,7 +2211,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="SB5/IO64">
 <contactref element="SUNBEAR" pad="3"/>
-<contactref element="IC2" pad="Y5"/>
+<contactref element="SUN+KOALA" pad="Y5"/>
 <wire x1="83.82" y1="25.146" x2="81.28" y2="25.146" width="0.3048" layer="16"/>
 <wire x1="81.28" y1="25.146" x2="79.756" y2="26.67" width="0.3048" layer="16"/>
 <wire x1="79.756" y1="26.67" x2="79.756" y2="30.226" width="0.3048" layer="16"/>
@@ -2211,7 +2221,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="SB1/IO61">
 <contactref element="SUNBEAR" pad="7"/>
-<contactref element="IC2" pad="Y1"/>
+<contactref element="SUN+KOALA" pad="Y1"/>
 <wire x1="100.33" y1="18.288" x2="93.218" y2="25.4" width="0.4064" layer="16"/>
 <via x="93.218" y="25.4" extent="1-16" drill="0.6"/>
 <wire x1="93.218" y1="25.4" x2="90.932" y2="27.686" width="0.4064" layer="1"/>
@@ -2225,7 +2235,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="SB2/IO65">
 <contactref element="SUNBEAR" pad="6"/>
-<contactref element="IC2" pad="Y2"/>
+<contactref element="SUN+KOALA" pad="Y2"/>
 <wire x1="89.916" y1="32.766" x2="88.9" y2="32.766" width="0.3048" layer="16"/>
 <wire x1="88.9" y1="32.766" x2="83.82" y2="37.846" width="0.3048" layer="16"/>
 <wire x1="83.82" y1="37.846" x2="79.756" y2="37.846" width="0.3048" layer="16"/>
@@ -2235,7 +2245,7 @@ design rules under a new name.</description>
 <wire x1="91.694" y1="30.988" x2="89.916" y2="32.766" width="0.3048" layer="16"/>
 </signal>
 <signal name="K1/IO5/TXD1">
-<contactref element="IC2" pad="Y6"/>
+<contactref element="SUN+KOALA" pad="Y6"/>
 <contactref element="R1" pad="2"/>
 <wire x1="94.146" y1="49.022" x2="78.486" y2="49.022" width="0.4064" layer="16"/>
 <wire x1="78.486" y1="49.022" x2="77.216" y2="47.752" width="0.4064" layer="16"/>
@@ -2245,14 +2255,14 @@ design rules under a new name.</description>
 </signal>
 <signal name="K2/IO3/RXD1">
 <contactref element="R2" pad="2"/>
-<contactref element="IC2" pad="A7"/>
+<contactref element="SUN+KOALA" pad="A7"/>
 <wire x1="70.866" y1="28.956" x2="72.136" y2="30.226" width="0.3048" layer="16"/>
 <wire x1="72.136" y1="30.226" x2="72.136" y2="48.006" width="0.3048" layer="16"/>
 <wire x1="72.136" y1="48.006" x2="73.826" y2="49.696" width="0.3048" layer="16"/>
 <wire x1="73.826" y1="49.696" x2="96.52" y2="49.696" width="0.3048" layer="16"/>
 </signal>
 <signal name="SIM/IO38/RXD2">
-<contactref element="IC3" pad="A2"/>
+<contactref element="SIMPLE+FLAG" pad="A2"/>
 <contactref element="R5" pad="2"/>
 <wire x1="96.52" y1="38.901" x2="94.195" y2="38.901" width="0.3048" layer="16"/>
 <wire x1="94.195" y1="38.901" x2="90.17" y2="42.926" width="0.3048" layer="16"/>
@@ -2260,25 +2270,25 @@ design rules under a new name.</description>
 <wire x1="83.058" y1="42.926" x2="81.788" y2="41.656" width="0.3048" layer="16"/>
 </signal>
 <signal name="SIM/IO39/TXD2">
-<contactref element="IC3" pad="Y1"/>
+<contactref element="SIMPLE+FLAG" pad="Y1"/>
 <contactref element="R4" pad="2"/>
 <wire x1="96.52" y1="34.329" x2="89.408" y2="41.441" width="0.4064" layer="16"/>
 <wire x1="89.408" y1="41.441" x2="89.408" y2="41.656" width="0.4064" layer="16"/>
 </signal>
 <signal name="TF1/IO66">
-<contactref element="IC3" pad="Y3"/>
+<contactref element="SIMPLE+FLAG" pad="Y3"/>
 <contactref element="FLAG" pad="4"/>
 <wire x1="100.33" y1="29.972" x2="96.012" y2="29.972" width="0.3048" layer="16"/>
 <wire x1="96.012" y1="29.972" x2="89.408" y2="36.576" width="0.3048" layer="16"/>
 </signal>
 <signal name="TF2/IO67">
-<contactref element="IC3" pad="Y4"/>
+<contactref element="SIMPLE+FLAG" pad="Y4"/>
 <contactref element="FLAG" pad="3"/>
 <wire x1="100.33" y1="27.432" x2="96.012" y2="27.432" width="0.3048" layer="16"/>
 <wire x1="96.012" y1="27.432" x2="89.408" y2="34.036" width="0.3048" layer="16"/>
 </signal>
 <signal name="A5">
-<contactref element="IC4" pad="3"/>
+<contactref element="A_BUF3" pad="3"/>
 <contactref element="A5" pad="3"/>
 <wire x1="72.39" y1="3.81" x2="72.39" y2="6.35" width="0.4064" layer="16"/>
 <wire x1="72.39" y1="6.35" x2="72.39" y2="7.62" width="0" layer="19" extent="1-16"/>
@@ -2289,7 +2299,7 @@ design rules under a new name.</description>
 <wire x1="63.754" y1="14.986" x2="72.39" y2="6.35" width="0.4064" layer="16"/>
 </signal>
 <signal name="A4">
-<contactref element="IC4" pad="5"/>
+<contactref element="A_BUF3" pad="5"/>
 <contactref element="A4" pad="3"/>
 <wire x1="62.23" y1="3.81" x2="54.61" y2="11.43" width="0.4064" layer="16"/>
 <wire x1="54.61" y1="11.43" x2="54.61" y2="16.002" width="0.4064" layer="16"/>
@@ -2298,7 +2308,7 @@ design rules under a new name.</description>
 <wire x1="43.434" y1="22.352" x2="41.656" y2="24.13" width="0.4064" layer="16"/>
 </signal>
 <signal name="A3">
-<contactref element="IC5" pad="3"/>
+<contactref element="A_BUF2" pad="3"/>
 <contactref element="A3" pad="3"/>
 <wire x1="52.07" y1="3.81" x2="44.196" y2="11.684" width="0.3048" layer="16"/>
 <wire x1="44.196" y1="11.684" x2="39.116" y2="11.684" width="0.3048" layer="16"/>
@@ -2309,7 +2319,7 @@ design rules under a new name.</description>
 <wire x1="24.638" y1="27.94" x2="23.368" y2="26.67" width="0.3048" layer="16"/>
 </signal>
 <signal name="A2">
-<contactref element="IC5" pad="5"/>
+<contactref element="A_BUF2" pad="5"/>
 <contactref element="A2" pad="3"/>
 <wire x1="26.416" y1="14.732" x2="26.416" y2="19.558" width="0.4064" layer="16"/>
 <wire x1="26.416" y1="19.558" x2="30.988" y2="24.13" width="0.4064" layer="16"/>
@@ -2320,7 +2330,7 @@ design rules under a new name.</description>
 <wire x1="36.83" y1="8.89" x2="41.91" y2="3.81" width="0.4064" layer="16"/>
 </signal>
 <signal name="A1">
-<contactref element="IC6" pad="3"/>
+<contactref element="A_BUF1" pad="3"/>
 <contactref element="A1" pad="3"/>
 <wire x1="10.668" y1="7.112" x2="16.256" y2="1.524" width="0.4064" layer="16"/>
 <wire x1="16.256" y1="1.524" x2="29.464" y2="1.524" width="0.3048" layer="16"/>
@@ -2331,15 +2341,15 @@ design rules under a new name.</description>
 <wire x1="10.668" y1="24.638" x2="11.176" y2="25.146" width="0.4064" layer="16"/>
 </signal>
 <signal name="A0">
-<contactref element="IC6" pad="5"/>
+<contactref element="A_BUF1" pad="5"/>
 <contactref element="A0" pad="3"/>
 <wire x1="21.59" y1="3.81" x2="15.24" y2="10.16" width="0.4064" layer="16"/>
 <wire x1="15.24" y1="19.05" x2="20.32" y2="24.13" width="0.4064" layer="16"/>
 <wire x1="15.24" y1="10.16" x2="15.24" y2="19.05" width="0.4064" layer="16"/>
 </signal>
 <signal name="ADC2/IO24*">
-<contactref element="IC5" pad="1"/>
-<contactref element="IC5" pad="2"/>
+<contactref element="A_BUF2" pad="1"/>
+<contactref element="A_BUF2" pad="2"/>
 <contactref element="SHERLOCK" pad="8"/>
 <wire x1="4.826" y1="12.7" x2="6.096" y2="13.97" width="0.4064" layer="1"/>
 <via x="16.256" y="13.716" extent="1-16" drill="0.6"/>
