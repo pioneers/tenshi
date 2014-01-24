@@ -11,7 +11,7 @@ export PATH=$PATH:$PROJECT_ROOT_DIR/tools/arm-toolchain/bin
 mkdir -p build
 
 # Main build
-for dir in controller angel-player
+for dir in controller angel-player eda
 do
 	./$dir/build.sh
 done
