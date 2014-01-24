@@ -360,9 +360,16 @@ function make ( ) {
       this.variables = [];
       this.root_module = root_module;
       },
-    analyze : function ( tree ) {
+    analyze : function ( tree, modules ) {
       var root_module = module.make ( '' );
-      var core_module = make_core_module ( );
+      var core_module;
+      // TODO(kzentner): Fix this hackery.
+      if ( modules !== undefined ) {
+        core_module = modules.get ( 'core' );
+        }
+      if ( core_module === undefined ) {
+        core_module = make_core_module ( );
+        }
       root_module.ast = tree;
       this.init ( root_module );
       this.recurse ( tree );
