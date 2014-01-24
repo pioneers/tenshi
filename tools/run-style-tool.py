@@ -79,7 +79,7 @@ def main():
     if styletool == "cpplint":
         exit_code = subprocess.call([
             './tools/cpplint.py',
-            '--filter=-legal/copyright',
+            '--filter=-legal/copyright,-readability/casting',
             '--root=controller',
             ] + source_files)
         sys.exit(exit_code)

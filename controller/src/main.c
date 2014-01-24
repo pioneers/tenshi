@@ -9,8 +9,8 @@
 static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
   while (1) {
     // Blink green LED
-    GPIO_BANK(PINDEF_DISCOVERY_GREEN_LED)->ODR ^=
-      (1 << GPIO_PIN(PINDEF_DISCOVERY_GREEN_LED));
+    GPIO_BANK(PINDEF_GREEN_LED)->ODR ^=
+      (1 << GPIO_PIN(PINDEF_GREEN_LED));
 
     debug_uart_tx("Hello World!\r\n", 14);
 
@@ -26,11 +26,11 @@ int main(int argc, char **argv) {
   // TODO(rqou): Need some kind of io_init function
 
   // Set red and green LED GPIO output
-  CONFIGURE_IO(DISCOVERY_RED_LED);
-  CONFIGURE_IO(DISCOVERY_GREEN_LED);
+  CONFIGURE_IO(RED_LED);
+  CONFIGURE_IO(GREEN_LED);
   // Turn on red LED
-  GPIO_BANK(PINDEF_DISCOVERY_RED_LED)->ODR =
-    (1 << GPIO_PIN(PINDEF_DISCOVERY_RED_LED));
+  GPIO_BANK(PINDEF_RED_LED)->ODR =
+    (1 << GPIO_PIN(PINDEF_RED_LED));
 
   debug_uart_setup();
 
