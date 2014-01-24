@@ -1,6 +1,7 @@
 // Configure the processor into a "normal" state. This mostly consists of
 // initializing the clocks. Mostly derived from system_stm32f4xx.c.
 
+#include "inc/pindef.h"
 #include "inc/stm32f4xx.h"
 
 /************************* PLL Parameters *************************************/
@@ -13,6 +14,10 @@
 #define PLL_P      2
 // USB OTG FS, SDIO and RNG Clock =  PLL_VCO / PLLQ
 #define PLL_Q      7
+
+extern void *fake_heap_end;
+extern void *__sp_main;
+#define MAIN_TASK_MAX_STACK 1024    // 1 KiB
 
 // This function is called from the crt0 before main or even libc_init_array.
 // However, a stack has been set up and data has been relocated to the correct
@@ -83,8 +88,30 @@ void __ll_init(void) {
   } else {
     // If HSE fails to start-up, the application will have wrong clock
     // configuration. User can add here some code to deal with this error
+
+    // Set on board LED GPIO output
+    CONFIGURE_IO(RED_LED);
+    CONFIGURE_IO(GREEN_LED);
+    CONFIGURE_IO(BLUE_LED);
+    CONFIGURE_IO(YELLOW_LED);
+
+    // Turn on all the LEDs
+    GPIO_BANK(PINDEF_RED_LED)->ODR |=
+      (1 << GPIO_PIN(PINDEF_RED_LED));
+    GPIO_BANK(PINDEF_GREEN_LED)->ODR |=
+      (1 << GPIO_PIN(PINDEF_GREEN_LED));
+    GPIO_BANK(PINDEF_BLUE_LED)->ODR |=
+      (1 << GPIO_PIN(PINDEF_BLUE_LED));
+    GPIO_BANK(PINDEF_YELLOW_LED)->ODR |=
+      (1 << GPIO_PIN(PINDEF_YELLOW_LED));
+
+    // Hang
+    while (1) {}
   }
 
   // Vector Table Relocation in Internal FLASH
   SCB->VTOR = FLASH_BASE;
+
+  // Fix heap end for sbrk inside a FreeRTOS task
+  fake_heap_end = (void*)(&__sp_main) - MAIN_TASK_MAX_STACK;
 }
