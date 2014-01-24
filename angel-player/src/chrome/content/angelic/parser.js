@@ -269,6 +269,9 @@ var make = function ( ) {
       // This is a very commonly hit failure point, so this line is here for
       // debugging purposes.
       //misc.print ( 't', t );
+      if ( t.nud === undefined ) {
+        misc.print ( 'Invalid expression:', t );
+        }
       left = this.get_res ( t, t.nud ( this ) );
       // This loop here is basically the standard Vaugn Pratt parsing
       // algorithm.
@@ -350,7 +353,7 @@ var make = function ( ) {
       if ( ex ) {
         out.push ( ex );
         }
-      while ( this.advance ( { text: ',', peek: true } ) ) {
+      while ( this.advance ( { text: ',', optional: true } ) ) {
         ex = this.expr ( );
         if ( ex ) {
           out.push ( ex );
