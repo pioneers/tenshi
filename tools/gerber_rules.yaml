@@ -1,0 +1,50 @@
+- description:          Board outline
+  output_extension:     bor
+  type:                 gerber
+  layers:               "20"
+
+- description:          Component side copper
+  output_extension:     cmp
+  type:                 gerber
+  layers:               "1 17 18"
+
+- description:          Solder side copper
+  output_extension:     sol
+  type:                 gerber
+  layers:               "16 17 18"
+
+- description:          Component side silkscreen
+  output_extension:     plc
+  type:                 gerber
+  layers:               "20 21 25 27"
+
+- description:          Solder side silkscreen
+  output_extension:     pls
+  type:                 gerber
+  layers:               "20 22 26 28"
+
+- description:          Component side soldermask
+  output_extension:     stc
+  type:                 gerber
+  layers:               "29"
+
+- description:          Solder side soldermask
+  output_extension:     sts
+  type:                 gerber
+  layers:               "30"
+
+- description:          Component side solder paste
+  output_extension:     crc
+  type:                 gerber
+  layers:               "31"
+
+- description:          Solder side solder paste
+  output_extension:     crs
+  type:                 gerber
+  layers:               "32"
+
+- description:          Drill data
+  output_extension:     drd
+  type:                 excellon
+  layers:               "44 45"
+
