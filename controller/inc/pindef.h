@@ -2,8 +2,8 @@
 #define INC_PINDEF_H_
 
 // Board revision to hardware mapping:
-//   A ---> STM32F4DISCOVERY
-#define BOARD_REVISION    'A'
+//   @ ---> STM32F4DISCOVERY
+#define BOARD_REVISION    '@'
 
 // Do not use these macro directly.
 // Evaluates to the GPIOx structure for the bank the pin is on.
@@ -82,16 +82,22 @@
 
 // Bank, number in bank, mode, type, speed, pullup/pulldown, alternate function
 
+#if BOARD_REVISION == '@'
+
 // Debug serial port
 #define PINDEF_DEBUG_UART_TX    B, 6, PIN_MODE_AF, PIN_TYPE_PUSHPULL, \
   PIN_SPEED_LOW, PIN_PULLUP_NONE, 7
 #define PINDEF_DEBUG_UART_RX    B, 7, PIN_MODE_AF, PIN_TYPE_PUSHPULL, \
   PIN_SPEED_LOW, PIN_PULLUP_NONE, 7
 
-#if BOARD_REVISION == 'A'
-#define PINDEF_DISCOVERY_RED_LED    D, 14, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
+// LEDs on main controller
+#define PINDEF_YELLOW_LED       D, 13, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
   PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
-#define PINDEF_DISCOVERY_GREEN_LED  D, 12, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
+#define PINDEF_GREEN_LED        D, 12, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
+#define PINDEF_BLUE_LED         D, 15, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
+#define PINDEF_RED_LED          D, 14, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
   PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
 #endif
 
