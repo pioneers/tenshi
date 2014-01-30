@@ -1,29 +1,3 @@
-// Import Machinery used to make xulrunner and node.js act the same.
-var require = require;
-var export_vals;
-var console = console;
-
-if ( require === undefined ) {
-  export_vals = function ( names, vals ) {
-    };
-  require = function ( filename ) {
-    var module = {};
-    Components.utils.import ( 'chrome://angel-player/content/angelic/' + filename, module );
-    return module;
-    };
-  }
-else {
-  export_vals = function ( names, vals ) {
-    var n;
-
-    for ( n in names ) {
-      exports[names[n]] = vals[n];
-      }
-    };
-  console = require ( 'console' );
-  }
-// End Import Machinery
-
 //
 // This module provides small helper functions.
 //
@@ -61,10 +35,6 @@ function assert ( thing, reason ) {
     }
   }
 
-
-// Export Machinery to make node.js and xulrunner act the same.
-var EXPORTED_SYMBOLS = ['obj_or', 'print', 'assert' ];
-var exported_objects = [ obj_or ,  print ,  assert  ];
-export_vals ( EXPORTED_SYMBOLS,
-              exported_objects );
-// End Export Machinery
+exports.obj_or = obj_or;
+exports.print = print;
+exports.assert = assert;

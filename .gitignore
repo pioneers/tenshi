@@ -1,3 +1,7 @@
+angel-player/node_modules
+
+bundle.js
+
 tools/*.tar.bz2
 tools/arm-toolchain
 
