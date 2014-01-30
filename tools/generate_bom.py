@@ -46,9 +46,22 @@ def remove_tmp_dir(tmpdir):
     shutil.rmtree(tmpdir)
 
 
+_eagle_binary_path = '/opt/eagle-6.5.0/bin/eagle'
+
+
+def get_eagle_path():
+    global _eagle_binary_path
+    if not os.path.exists(_eagle_binary_path):
+        status, _eagle_binary_path = subprocess.getstatusoutput('which eagle')
+        if status != 0:
+            print("Could not find eagle!")
+            sys.exit(1)
+    return _eagle_binary_path
+
+
 def run_eagle_bom_ulp(infile, outfile, ulpfile):
     subprocess.call([
-        '/opt/eagle-6.5.0/bin/eagle',
+        get_eagle_path(),
         '-C', 'run %s %s; quit' % (ulpfile, outfile),
         infile,
         ])
