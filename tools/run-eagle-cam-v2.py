@@ -13,12 +13,22 @@ except ImportError:
     sys.exit(1)
 
 
-EAGLE_BINARY_PATH = '/opt/eagle-6.5.0/bin/eagle'
+_eagle_binary_path = '/opt/eagle-6.5.0/bin/eagle'
+
+
+def get_eagle_path():
+    global _eagle_binary_path
+    if not os.path.exists(_eagle_binary_path):
+        status, _eagle_binary_path = subprocess.getstatusoutput('which eagle')
+        if status != 0:
+            print("Could not find eagle!")
+            sys.exit(1)
+    return _eagle_binary_path
 
 
 def generate_gerber(brdFile, outFile, layers):
     ret = subprocess.call([
-        EAGLE_BINARY_PATH,
+        get_eagle_path(),
         '-X',               # Run the command line CAM processor
         '-N',               # No output messages
         '-dGERBER_RS274X',  # Output in gerber format
@@ -34,7 +44,7 @@ def generate_gerber(brdFile, outFile, layers):
 
 def generate_drill(brdFile, outFile, layers):
     ret = subprocess.call([
-        EAGLE_BINARY_PATH,
+        get_eagle_path(),
         '-X',               # Run the command line CAM processor
         '-N',               # No output messages
         '-dEXCELLON',       # Output in gerber format
