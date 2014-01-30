@@ -107,32 +107,35 @@ void set_sign_magnitude_go_brake_bck(void) {
 }
 
 void set_sign_magnitude_go_coast_fwd(void) {
-  // Fix side b to have top off and bottom on.
-  PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
-  // Clear the other output.
+  // Clear all outputs
+  PORTC &= ~(_BV(PC7) | _BV(PC6));
   PORTB &= ~(_BV(PB5) | _BV(PB6));
-  // Make side b output
-  DDRC |= (_BV(PC6) | _BV(PC7));
-  // Make only inverted pin on side a output
+  
+  // Make only Low B side output. Let High side be pulled down.
+  DDRC = ((DDRC & ~(_BV(PC7))) | _BV(PC6));
+  // Make only High A side output. Let Low side be pulled down.
   DDRB = ((DDRB & ~(_BV(PB6))) | _BV(PB5));
+  
   // Invert output
   TCCR4B |= _BV(PWM4X);
-  // Connect side a to pwm.
-  TCCR4A = _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
+  // Connect High A and Low B side to pwm.
+  TCCR4A =  _BV(COM4A0) | _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
 }
 
 void set_sign_magnitude_go_coast_bck(void) {
-  // Fix side a to have top off and bottom on.
-  PORTB = (PORTB & ~(_BV(PB5))) | _BV(PB6);
-  // Clear the other output.
+  // Clear all ouptuts.
+  PORTB &= ~(_BV(PB5) | _BV(PB6));
   PORTC &= ~(_BV(PC6) | _BV(PC7));
-  // Make all outputs
-  DDRB |= (_BV(PB5) | _BV(PB6));
-  DDRC |= (_BV(PC6) | _BV(PC7));
+  
+  // Make only Low A side output. Let High side be pulled down.
+  DDRB = ((DDRB & ~(_BV(PB5))) | _BV(PB6));
+  // Make only High B side output. Let Low side be pulled down.
+  DDRC = ((DDRC & ~(_BV(PC6))) | _BV(PC7));
+  
   // Do not invert output
   TCCR4B &= ~(_BV(PWM4X));
   // Connect side b HIGH ONLY to pwm.
-  TCCR4A = _BV(COM4A1) | _BV(PWM4A) | _BV(PWM4B);
+  TCCR4A = _BV(COM4A1) | _BV(COM4B1) | _BV(PWM4A) | _BV(PWM4B);
 }
 
 void set_locked_antiphase(void) {
@@ -146,14 +149,17 @@ void set_locked_antiphase(void) {
 }
 
 void set_controlled_brake(void) {
-  // Fix side b to have top off and bottom on.
-  PORTC = (PORTC & ~(_BV(PC7))) | _BV(PC6);
-  // Clear the other output.
+  // Clear all outputs
+  PORTC &= ~(_BV(PC7) | _BV(PC6));
   PORTB &= ~(_BV(PB5) | _BV(PB6));
-  // Make side b output
-  DDRC |= (_BV(PC6) | _BV(PC7));
-  // Make LOW pins on side a output
+  
+  // Make Low B side output.
+  DDRC = ((DDRC & ~(_BV(PC7))) | _BV(PC6));
+  // Make Low A side output.
   DDRB = ((DDRB & ~(_BV(PB5))) | _BV(PB6));
-  // Connect side a to pwm.
-  TCCR4A = _BV(COM4B0) | _BV(PWM4A) | _BV(PWM4B);
+  
+  // Invert output
+  TCCR4B |= _BV(PWM4X);
+  // Connect Low side A as inverted pwm. Connect Low side B as inverted pwm.
+  TCCR4A = _BV(COM4A0) | _BV(COM4B0) | _BV(COM4B1) | _BV(PWM4A) | _BV(PWM4B);
 }
