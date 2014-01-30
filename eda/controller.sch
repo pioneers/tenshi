@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.05" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="yes" active="no"/>
@@ -4016,7 +4016,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="VSSA/VREF-" pad="P$12"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="stm32f405"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -4059,7 +4061,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
+</technology>
 </technologies>
 </device>
 <device name="1X02-MTA" package="1X02-MTA">
@@ -4069,7 +4073,7 @@ Standard 8.5x11 US Letter frame</description>
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="A1921-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA"/>
 </technology>
 </technologies>
 </device>
@@ -4087,7 +4091,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0603" package="R0603">
@@ -4096,7 +4102,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0805" package="R0805">
@@ -4105,7 +4113,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0805W" package="R0805W">
@@ -4114,7 +4124,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1005" package="R1005">
@@ -4123,7 +4135,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1206" package="R1206">
@@ -4132,7 +4146,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1206W" package="R1206W">
@@ -4141,7 +4157,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1210" package="R1210">
@@ -4150,7 +4168,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1210W" package="R1210W">
@@ -4159,7 +4179,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2010" package="R2010">
@@ -4168,7 +4190,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2010W" package="R2010W">
@@ -4177,7 +4201,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2012" package="R2012">
@@ -4186,7 +4212,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2012W" package="R2012W">
@@ -4195,7 +4223,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2512" package="R2512">
@@ -4204,7 +4234,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2512W" package="R2512W">
@@ -4213,7 +4245,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3216" package="R3216">
@@ -4222,7 +4256,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3216W" package="R3216W">
@@ -4231,7 +4267,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3225" package="R3225">
@@ -4240,7 +4278,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3225W" package="R3225W">
@@ -4249,7 +4289,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R5025" package="R5025">
@@ -4258,7 +4300,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R5025W" package="R5025W">
@@ -4267,7 +4311,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R6332" package="R6332">
@@ -4276,7 +4322,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R6332W" package="R6332W">
@@ -4285,7 +4333,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M0805" package="M0805">
@@ -4294,7 +4344,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M1206" package="M1206">
@@ -4303,7 +4355,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M1406" package="M1406">
@@ -4312,7 +4366,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M2012" package="M2012">
@@ -4321,7 +4377,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M2309" package="M2309">
@@ -4330,7 +4388,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M3216" package="M3216">
@@ -4339,7 +4399,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M3516" package="M3516">
@@ -4348,7 +4410,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M5923" package="M5923">
@@ -4357,7 +4421,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0204/5" package="0204/5">
@@ -4366,7 +4432,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0204/7" package="0204/7">
@@ -4375,7 +4443,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/10" package="0207/10">
@@ -4384,7 +4454,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/12" package="0207/12">
@@ -4393,7 +4465,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/15" package="0207/15">
@@ -4402,7 +4476,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/2V" package="0207/2V">
@@ -4411,7 +4487,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/5V" package="0207/5V">
@@ -4420,7 +4498,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/7" package="0207/7">
@@ -4429,7 +4509,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0309/10" package="0309/10">
@@ -4438,7 +4520,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0309/12" package="0309/12">
@@ -4447,7 +4531,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0411/12" package="0411/12">
@@ -4456,7 +4542,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0411/15" package="0411/15">
@@ -4465,7 +4553,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0411/3V" package="0411V">
@@ -4474,7 +4564,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0414/15" package="0414/15">
@@ -4483,7 +4575,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0414/5V" package="0414V">
@@ -4492,7 +4586,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0617/17" package="0617/17">
@@ -4501,7 +4597,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0617/22" package="0617/22">
@@ -4510,7 +4608,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0617/5V" package="0617V">
@@ -4519,7 +4619,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0922/22" package="0922/22">
@@ -4528,7 +4630,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0613/5V" package="P0613V">
@@ -4537,7 +4641,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0613/15" package="P0613/15">
@@ -4546,7 +4652,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0817/22" package="P0817/22">
@@ -4555,7 +4663,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0817/7V" package="P0817V">
@@ -4564,7 +4674,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="V234/12" package="V234/12">
@@ -4573,7 +4685,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="V235/17" package="V235/17">
@@ -4582,7 +4696,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="V526-0" package="V526-0">
@@ -4591,7 +4707,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0102AX" package="MINI_MELF-0102AX">
@@ -4600,7 +4718,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0922V" package="0922V">
@@ -4609,7 +4729,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0102R" package="MINI_MELF-0102R">
@@ -4618,7 +4740,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0102W" package="MINI_MELF-0102W">
@@ -4627,7 +4751,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0204R" package="MINI_MELF-0204R">
@@ -4636,7 +4762,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0204W" package="MINI_MELF-0204W">
@@ -4645,7 +4773,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0207R" package="MINI_MELF-0207R">
@@ -4654,7 +4784,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0207W" package="MINI_MELF-0207W">
@@ -4663,7 +4795,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="RDH/15" package="RDH/15">
@@ -4672,7 +4806,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0204/2V" package="0204V">
@@ -4681,7 +4817,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0309/V" package="0309V">
@@ -4690,7 +4828,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0201" package="R0201">
@@ -4699,7 +4839,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VMTA55" package="VMTA55">
@@ -4708,7 +4850,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VMTB60" package="VMTB60">
@@ -4717,7 +4861,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA52" package="VTA52">
@@ -4726,7 +4872,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA53" package="VTA53">
@@ -4735,7 +4883,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA54" package="VTA54">
@@ -4744,7 +4894,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA55" package="VTA55">
@@ -4753,7 +4905,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA56" package="VTA56">
@@ -4762,7 +4916,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R4527" package="R4527">
@@ -4771,7 +4927,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC0001" package="WSC0001">
@@ -4780,7 +4938,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC0002" package="WSC0002">
@@ -4789,7 +4949,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC01/2" package="WSC01/2">
@@ -4798,7 +4960,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC2515" package="WSC2515">
@@ -4807,7 +4971,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC4527" package="WSC4527">
@@ -4816,7 +4982,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC6927" package="WSC6927">
@@ -4825,7 +4993,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1218" package="R1218">
@@ -4834,7 +5004,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="1812X7R" package="1812X7R">
@@ -4843,7 +5015,9 @@ Standard 8.5x11 US Letter frame</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -4861,7 +5035,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="PTH2" package="CAP-PTH-SMALL2">
@@ -4870,7 +5046,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0805" package="0805">
@@ -4879,7 +5057,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="PTH3" package="CAP-PTH-LARGE">
@@ -4888,7 +5068,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="SMD" package="GRM43D">
@@ -4897,7 +5079,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0603-CAP" package="0603-CAP">
@@ -4906,7 +5090,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0402-CAP" package="0402-CAP">
@@ -4915,7 +5101,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="PTH1" package="CAP-PTH-5MM">
@@ -4924,7 +5112,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="_" package="AXIAL-5MM">
@@ -4933,7 +5123,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="P$2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="1210" package="1210">
@@ -4942,7 +5134,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="1206" package="1206">
@@ -4951,7 +5145,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="ASMD" package="CTZ3">
@@ -4960,7 +5156,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="-"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="KIT" package="CAP-PTH-SMALL-KIT">
@@ -4969,7 +5167,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="EZ" package="CAP-PTH-SMALLEZ">
@@ -4978,7 +5178,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -4995,7 +5197,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="TC38H" package="TC38H">
@@ -5004,7 +5208,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="TC26H" package="TC26H">
@@ -5013,7 +5219,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="SMD" package="HC49UP">
@@ -5022,7 +5230,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="HC49US" package="HC49US">
@@ -5031,7 +5241,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="32-SMD" package="CRYSTAL-32KHZ-SMD">
@@ -5040,7 +5252,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="X2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="5X3" package="CRYSTAL-SMD-5X3">
@@ -5049,7 +5263,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="3"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="EPSONMC146" package="CRYSTAL-32KHZ-SMD_EPSON_MC146">
@@ -5058,7 +5274,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="P$1"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="10.5X4.8" package="CRYSTAL-SMD-10.5X4.8-2PIN">
@@ -5067,7 +5285,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="P$2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="TC26H_EZ" package="TC26HEZ">
@@ -5076,7 +5296,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="TXC-7A" package="CRYSTAL-TXC-7A">
@@ -5085,7 +5307,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="P$2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5110,7 +5334,9 @@ Socket for a MicroSD/TransFlash card</description>
 <connect gate="G$1" pin="VCC" pad="P$4"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="uSD"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5128,7 +5354,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="3MM" package="LED3MM">
@@ -5137,7 +5365,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="1206" package="LED-1206">
@@ -5146,7 +5376,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="0603" package="LED-0603">
@@ -5155,7 +5387,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="10MM" package="LED10MM">
@@ -5164,7 +5398,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="-FKIT-1206" package="FKIT-LED-1206">
@@ -5173,7 +5409,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="-3MM-NO_SILK" package="LED3MM-NS">
@@ -5182,7 +5420,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="5MM-KIT" package="LED5MM-KIT">
@@ -5191,7 +5431,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="0805" package="LED-0805">
@@ -5200,7 +5442,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5221,7 +5465,7 @@ Button commonly used for reset or general input. Spark Fun Electronics SKU : COM
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="S5751-10-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="pth_pushbutton"/>
 </technology>
 </technologies>
 </device>
@@ -5236,12 +5480,16 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <devices>
 <device name="" package="STAND-OFF">
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 <device name="TIGHT" package="STAND-OFF-TIGHT">
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5259,7 +5507,9 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <connect gate="G$1" pin="3" pad="3"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
+</technology>
 </technologies>
 </device>
 <device name="1X03-MTA" package="1X03-MTA">
@@ -5270,7 +5520,7 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="A19470-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA"/>
 </technology>
 </technologies>
 </device>
@@ -5295,7 +5545,9 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <connect gate="G$1" pin="Z" pad="10"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="rs485_491"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5329,7 +5581,9 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <connect gate="G$1" pin="8" pad="8"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
+</technology>
 </technologies>
 </device>
 <device name="SMD-EDGE" package="2X4-EDGE">
@@ -5344,7 +5598,9 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <connect gate="G$1" pin="8" pad="8"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5365,7 +5621,9 @@ Single Port USB Power Switch and Over-Current Protection</description>
 <connect gate="G$1" pin="OUT" pad="P$6 P$8"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="lm3525"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5387,7 +5645,9 @@ OTG connector with ID pin</description>
 <connect gate="G$1" pin="VBUS" pad="P$1"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="USB"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5415,7 +5675,9 @@ OTG connector with ID pin</description>
 <connect gate="G$1" pin="9" pad="P$9"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5458,7 +5720,9 @@ CC2540-based BTLE module</description>
 <connect gate="G$1" pin="USB_DP" pad="20"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="hm10"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5494,7 +5758,7 @@ CC2540-based BTLE module</description>
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="S5751-10-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="xbee"/>
 </technology>
 </technologies>
 </device>
@@ -5522,7 +5786,9 @@ CC2540-based BTLE module</description>
 <connect gate="G$1" pin="VDD" pad="1"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="xbee"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5543,7 +5809,7 @@ CC2540-based BTLE module</description>
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="965"/>
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
 </technology>
 </technologies>
 </device>
@@ -5557,7 +5823,7 @@ CC2540-based BTLE module</description>
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="A19471-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA"/>
 </technology>
 </technologies>
 </device>
@@ -5577,7 +5843,9 @@ CC2540-based BTLE module</description>
 <connect gate="G$1" pin="4" pad="4"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
+</technology>
 </technologies>
 </device>
 <device name="1X04-MTA" package="1X04-MTA">
@@ -5589,7 +5857,7 @@ CC2540-based BTLE module</description>
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="A1922-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA"/>
 </technology>
 </technologies>
 </device>
@@ -5613,7 +5881,7 @@ CC2540-based BTLE module</description>
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="A19472-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA"/>
 </technology>
 </technologies>
 </device>
@@ -5683,7 +5951,9 @@ Standard inductor, American symbol</description>
 <connect gate="G$1" pin="OUT" pad="P$2 P$4"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="lm1117"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5702,7 +5972,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="1377G1" constant="no"/>
+<attribute name="PIE-INT-REF-NUM" value="Anderson"/>
 </technology>
 </technologies>
 </device>
@@ -5713,7 +5983,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="1377G3" constant="no"/>
+<attribute name="PIE-INT-REF-NUM" value="Anderson"/>
 </technology>
 </technologies>
 </device>
@@ -5751,7 +6021,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <part name="C7" library="pie" deviceset="CAP" device="0603-CAP" value="0.1 uF"/>
 <part name="U$5" library="pie" deviceset="3.3V" device=""/>
 <part name="SUPPLY4" library="pie" deviceset="GND" device=""/>
-<part name="Y1" library="pie" deviceset="CRYSTAL" device="SMD" value="8 MHz/C_L=15 pF"/>
+<part name="Y1" library="pie" deviceset="CRYSTAL" device="SMD" value="8 MHz/C_L=18 pF"/>
 <part name="C8" library="pie" deviceset="CAP" device="0603-CAP" value="20 pF"/>
 <part name="C9" library="pie" deviceset="CAP" device="0603-CAP" value="20 pF"/>
 <part name="SUPPLY5" library="pie" deviceset="GND" device=""/>
@@ -5872,7 +6142,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <part name="SUPPLY38" library="pie" deviceset="GND" device=""/>
 <part name="R20" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="L1" library="pie" deviceset="INDUCTOR" device="6MM" value="4.7 uH">
-<attribute name="PARTNUMBER" value="NR6028T4R7M"/>
+<attribute name="PIE-INT-REF-NUM" value="NR6028T4R7M"/>
 </part>
 <part name="C27" library="pie" deviceset="CAP" device="0603-CAP" value="0.1 uF"/>
 <part name="C29" library="pie" deviceset="CAP" device="1206" value="22 uF"/>
@@ -7745,7 +8015,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <attribute name="VALUE" x="67.31" y="159.258" size="1.778" layer="96"/>
 </instance>
 <instance part="L1" gate="G$1" x="144.78" y="149.86" rot="R90">
-<attribute name="PARTNUMBER" x="132.08" y="144.78" size="1.778" layer="96"/>
+<attribute name="PIE-INT-REF-NUM" x="144.78" y="149.86" size="1.778" layer="96" rot="R90" display="off"/>
 </instance>
 <instance part="C27" gate="G$1" x="132.08" y="154.94" rot="R90"/>
 <instance part="C29" gate="G$1" x="157.48" y="144.78"/>
