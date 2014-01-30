@@ -18,3 +18,9 @@ angel-player/src/chrome/content/simulator/Ammo/ammo.js
 
 # Three Renderer
 angel-player/src/chrome/content/simulator/Three/three.min.js
+
+# npm modules
+angel-player/node_modules/*
+
+# browserify output
+*bundle.js

@@ -1,27 +1,3 @@
-// Import Machinery used to make xulrunner and node.js act the same.
-var require = require;
-var export_vals;
-
-if ( require === undefined ) {
-  export_vals = function ( names, vals ) {
-    };
-  require = function ( filename ) {
-    var module = {};
-    Components.utils.import ( 'chrome://angel-player/content/angelic/' + filename, module );
-    return module;
-    };
-  }
-else {
-  export_vals = function ( names, vals ) {
-    var n;
-
-    for ( n in names ) {
-      exports[names[n]] = vals[n];
-      }
-    };
-  }
-// End Import Machinery
-
 var misc = require ( './misc.js' );
 
 function make_opcode ( code, name, argc, stack, func ) {
@@ -187,9 +163,11 @@ var name = tables.name;
 var code_to_obj = tables.code_to_obj;
 var op = tables.op;
 
-// Export Machinery to make node.js and xulrunner act the same.
-var EXPORTED_SYMBOLS = ['opcodes', 'op', 'code_to_obj', 'code', 'argc', 'func', 'name', 'tables'];
-var exported_objects = [ opcodes ,  op ,  code_to_obj ,  code ,  argc ,  func ,  name ,  tables ];
-export_vals ( EXPORTED_SYMBOLS,
-              exported_objects );
-// End Export Machinery
+exports.opcodes = opcodes;
+exports.op = op;
+exports.code_to_obj = code_to_obj;
+exports.code = code;
+exports.argc = argc;
+exports.func = func;
+exports.name = name;
+exports.tables = tables;
