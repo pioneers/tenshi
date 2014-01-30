@@ -1,27 +1,3 @@
-// Import Machinery used to make xulrunner and node.js act the same.
-var require = require;
-var export_vals;
-
-if ( require === undefined ) {
-  export_vals = function ( names, vals ) {
-    };
-  require = function ( filename ) {
-    var module = {};
-    Components.utils.import ( 'chrome://angel-player/content/angelic/' + filename, module );
-    return module;
-    };
-  }
-else {
-  export_vals = function ( names, vals ) {
-    var n;
-
-    for ( n in names ) {
-      exports[names[n]] = vals[n];
-      }
-    };
-  }
-// End Import Machinery
-
 var misc = require ( './misc.js' );
 var angelic = require ( './main.js' );
 
@@ -85,9 +61,4 @@ var robot = { motors: {}, sensors: {}, version: 0 };
 compile_and_run ( to_parse, robot );
 misc.print ( 'robot', robot );
 
-// Export Machinery to make node.js and xulrunner act the same.
-var EXPORTED_SYMBOLS = ['compile_and_run'];
-var exported_objects = [ compile_and_run ];
-export_vals ( EXPORTED_SYMBOLS,
-              exported_objects );
-// End Export Machinery
+exports.compile_and_run = compile_and_run;
