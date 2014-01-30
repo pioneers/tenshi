@@ -66,8 +66,8 @@ popd
 $PROJECT_ROOT_DIR/tools/inject-version-angel-player.py $ANGEL_PLAYER_MAIN_DIR/src/application.ini angel-player-linux-x86_64/application.ini angel-player-win32/application.ini angel-player-mac.app/Contents/Resources/application.ini
 
 # Archive the outputs
-tar cjf angel-player-linux-x86_64.tar.bz2 angel-player-linux-x86_64
-tar cjf angel-player-win32.tar.bz2 angel-player-win32
-tar cjf angel-player-mac.tar.bz2 angel-player-mac.app
+tar cjf angel-player-linux-x86_64.tar.bz2 angel-player-linux-x86_64 &
+tar cjf angel-player-win32.tar.bz2 angel-player-win32 &
+tar cjf angel-player-mac.tar.bz2 angel-player-mac.app &
 
 popd
