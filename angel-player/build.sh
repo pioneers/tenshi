@@ -70,4 +70,7 @@ tar cjf angel-player-linux-x86_64.tar.bz2 angel-player-linux-x86_64 &
 tar cjf angel-player-win32.tar.bz2 angel-player-win32 &
 tar cjf angel-player-mac.tar.bz2 angel-player-mac.app &
 
+# Make sure archiving finishes
+wait
+
 popd
