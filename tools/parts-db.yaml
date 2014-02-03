@@ -332,3 +332,13 @@
                 distributor:    DigiKey
                 distributor_pn: LM1117MPX-3.3/NOPBCT-ND
                 notes:          Substituting vendors allowed.
+"ATtiny1634":
+    "SOIC20S":
+        "*":
+            primary_part:
+                mfg:            Atmel
+                mfg_pn:         ATTINY1634-SU
+                distributor:    DigiKey
+                distributor_pn: ATTINY1634-SU-ND
+                notes:          Substituting 1634R is OK; MU vs. MUR is irrelevant
+

@@ -11465,7 +11465,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 <device name="TRACE" package="SJ_2S-TRACE">
@@ -11474,7 +11476,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 <device name="NC2" package="SJ_2S-NOTRACE">
@@ -11483,7 +11487,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 <device name="NO" package="SJ_2S-NO">
@@ -11492,7 +11498,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -11508,7 +11516,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="G$1" pin="1" pad="P$1"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 <device name="3" package="PAD.03X.03">
@@ -11516,7 +11526,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="G$1" pin="1" pad="P$1"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 <device name="3X5" package="PAD.03X.05">
@@ -11524,7 +11536,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="G$1" pin="1" pad="P$1"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -11973,7 +11987,9 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <connect gate="G$1" pin="VCC" pad="11"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="ATtiny1634"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -12055,7 +12071,9 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <connect gate="G$1" pin="2" pad="P$1"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 </devices>
