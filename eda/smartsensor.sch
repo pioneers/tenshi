@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -3696,7 +3696,7 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <attribute name="REVISION" value="A"/>
 </part>
 <part name="U1" library="pie" deviceset="ISL83491" device="SOIC"/>
-<part name="U$1" library="pie" deviceset="ATTINY1634" device=""/>
+<part name="U2" library="pie" deviceset="ATTINY1634" device=""/>
 <part name="U$2" library="pie" deviceset="5V" device=""/>
 <part name="U$3" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY1" library="pie" deviceset="GND" device=""/>
@@ -3713,12 +3713,12 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <part name="U$8" library="pie" deviceset="SENSOR_CON" device="SMD-EDGE"/>
 <part name="U$9" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY5" library="pie" deviceset="GND" device=""/>
-<part name="U$10" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
-<part name="U$11" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
-<part name="U$12" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
-<part name="U$13" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
-<part name="U$14" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
-<part name="U$15" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
+<part name="IN2" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
+<part name="IN3" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
+<part name="GND" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
+<part name="VCC" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
+<part name="IN1" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
+<part name="IN0" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
 <part name="U$16" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY6" library="pie" deviceset="GND" device=""/>
 <part name="SJ1" library="pie" deviceset="SOLDERJUMPER" device="NO"/>
@@ -3771,7 +3771,7 @@ C=0.1u</text>
 </instance>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0"/>
 <instance part="U1" gate="G$1" x="147.32" y="137.16"/>
-<instance part="U$1" gate="G$1" x="50.8" y="25.4"/>
+<instance part="U2" gate="G$1" x="50.8" y="25.4"/>
 <instance part="U$2" gate="G$1" x="170.18" y="127"/>
 <instance part="U$3" gate="G$1" x="91.44" y="15.24"/>
 <instance part="SUPPLY1" gate="GND" x="15.24" y="10.16"/>
@@ -3788,12 +3788,12 @@ C=0.1u</text>
 <instance part="U$8" gate="G$1" x="236.22" y="139.7"/>
 <instance part="U$9" gate="G$1" x="182.88" y="154.94"/>
 <instance part="SUPPLY5" gate="GND" x="182.88" y="119.38"/>
-<instance part="U$10" gate="G$1" x="22.86" y="175.26"/>
-<instance part="U$11" gate="G$1" x="22.86" y="142.24"/>
-<instance part="U$12" gate="G$1" x="91.44" y="154.94"/>
-<instance part="U$13" gate="G$1" x="91.44" y="167.64"/>
-<instance part="U$14" gate="G$1" x="22.86" y="76.2"/>
-<instance part="U$15" gate="G$1" x="22.86" y="106.68"/>
+<instance part="IN2" gate="G$1" x="22.86" y="175.26"/>
+<instance part="IN3" gate="G$1" x="22.86" y="142.24"/>
+<instance part="GND" gate="G$1" x="91.44" y="154.94"/>
+<instance part="VCC" gate="G$1" x="91.44" y="167.64"/>
+<instance part="IN1" gate="G$1" x="22.86" y="76.2"/>
+<instance part="IN0" gate="G$1" x="22.86" y="106.68"/>
 <instance part="U$16" gate="G$1" x="101.6" y="172.72"/>
 <instance part="SUPPLY6" gate="GND" x="101.6" y="147.32"/>
 <instance part="SJ1" gate="1" x="45.72" y="175.26"/>
@@ -3832,7 +3832,7 @@ C=0.1u</text>
 <wire x1="165.1" y1="127" x2="170.18" y2="127" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="VCC"/>
+<pinref part="U2" gate="G$1" pin="VCC"/>
 <pinref part="U$3" gate="G$1" pin="5V"/>
 <wire x1="81.28" y1="15.24" x2="91.44" y2="15.24" width="0.1524" layer="91"/>
 </segment>
@@ -3868,7 +3868,7 @@ C=0.1u</text>
 <wire x1="99.06" y1="167.64" x2="101.6" y2="167.64" width="0.1524" layer="91"/>
 <pinref part="U$16" gate="G$1" pin="5V"/>
 <wire x1="101.6" y1="167.64" x2="101.6" y2="172.72" width="0.1524" layer="91"/>
-<pinref part="U$13" gate="G$1" pin="2"/>
+<pinref part="VCC" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -3888,7 +3888,7 @@ C=0.1u</text>
 </segment>
 <segment>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
-<pinref part="U$1" gate="G$1" pin="GND"/>
+<pinref part="U2" gate="G$1" pin="GND"/>
 <wire x1="15.24" y1="12.7" x2="15.24" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="15.24" y1="15.24" x2="20.32" y2="15.24" width="0.1524" layer="91"/>
 </segment>
@@ -3921,7 +3921,7 @@ C=0.1u</text>
 <wire x1="99.06" y1="154.94" x2="101.6" y2="154.94" width="0.1524" layer="91"/>
 <pinref part="SUPPLY6" gate="GND" pin="GND"/>
 <wire x1="101.6" y1="154.94" x2="101.6" y2="149.86" width="0.1524" layer="91"/>
-<pinref part="U$12" gate="G$1" pin="2"/>
+<pinref part="GND" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="C6" gate="G$1" pin="2"/>
@@ -3942,7 +3942,7 @@ C=0.1u</text>
 </net>
 <net name="TX" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="(PCINT8/ADC5)PB0"/>
+<pinref part="U2" gate="G$1" pin="(PCINT8/ADC5)PB0"/>
 <wire x1="20.32" y1="38.1" x2="15.24" y2="38.1" width="0.1524" layer="91"/>
 <label x="15.24" y="38.1" size="1.778" layer="95"/>
 </segment>
@@ -3954,7 +3954,7 @@ C=0.1u</text>
 </net>
 <net name="RX" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="(PCINT7/ADC4)PA7"/>
+<pinref part="U2" gate="G$1" pin="(PCINT7/ADC4)PA7"/>
 <wire x1="20.32" y1="35.56" x2="15.24" y2="35.56" width="0.1524" layer="91"/>
 <label x="15.24" y="35.56" size="1.778" layer="95"/>
 </segment>
@@ -3966,7 +3966,7 @@ C=0.1u</text>
 </net>
 <net name="TXE" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="(PCINT6/ADC3)PA6"/>
+<pinref part="U2" gate="G$1" pin="(PCINT6/ADC3)PA6"/>
 <wire x1="20.32" y1="33.02" x2="15.24" y2="33.02" width="0.1524" layer="91"/>
 <label x="15.24" y="33.02" size="1.778" layer="95"/>
 </segment>
@@ -3978,7 +3978,7 @@ C=0.1u</text>
 </net>
 <net name="!RXE" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="(PCINT5/ADC2)PA5"/>
+<pinref part="U2" gate="G$1" pin="(PCINT5/ADC2)PA5"/>
 <wire x1="20.32" y1="30.48" x2="15.24" y2="30.48" width="0.1524" layer="91"/>
 <label x="15.24" y="30.48" size="1.778" layer="95"/>
 </segment>
@@ -3990,7 +3990,7 @@ C=0.1u</text>
 </net>
 <net name="RESET" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="PC3(RESET/PCINT15)"/>
+<pinref part="U2" gate="G$1" pin="PC3(RESET/PCINT15)"/>
 <wire x1="81.28" y1="22.86" x2="88.9" y2="22.86" width="0.1524" layer="91"/>
 <wire x1="88.9" y1="22.86" x2="88.9" y2="25.4" width="0.1524" layer="91"/>
 <pinref part="R1" gate="G$1" pin="1"/>
@@ -4076,7 +4076,7 @@ C=0.1u</text>
 </net>
 <net name="IO1" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="PB1(ADC6/PCINT9)"/>
+<pinref part="U2" gate="G$1" pin="PB1(ADC6/PCINT9)"/>
 <wire x1="81.28" y1="38.1" x2="88.9" y2="38.1" width="0.1524" layer="91"/>
 <label x="83.82" y="38.1" size="1.778" layer="95"/>
 </segment>
@@ -4096,7 +4096,7 @@ C=0.1u</text>
 </net>
 <net name="IO2" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="PB2(ADC7/PCINT10)"/>
+<pinref part="U2" gate="G$1" pin="PB2(ADC7/PCINT10)"/>
 <wire x1="81.28" y1="35.56" x2="88.9" y2="35.56" width="0.1524" layer="91"/>
 <label x="83.82" y="35.56" size="1.778" layer="95"/>
 </segment>
@@ -4116,7 +4116,7 @@ C=0.1u</text>
 </net>
 <net name="IO3" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="PC1(ADC10/PCINT13)"/>
+<pinref part="U2" gate="G$1" pin="PC1(ADC10/PCINT13)"/>
 <wire x1="81.28" y1="27.94" x2="88.9" y2="27.94" width="0.1524" layer="91"/>
 <label x="83.82" y="27.94" size="1.778" layer="95"/>
 </segment>
@@ -4136,7 +4136,7 @@ C=0.1u</text>
 </net>
 <net name="IO4" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="PB3(ADC8/PCINT11)"/>
+<pinref part="U2" gate="G$1" pin="PB3(ADC8/PCINT11)"/>
 <wire x1="81.28" y1="33.02" x2="88.9" y2="33.02" width="0.1524" layer="91"/>
 <label x="83.82" y="33.02" size="1.778" layer="95"/>
 </segment>
@@ -4161,7 +4161,7 @@ C=0.1u</text>
 <pinref part="R5" gate="G$1" pin="1"/>
 <wire x1="33.02" y1="76.2" x2="30.48" y2="76.2" width="0.1524" layer="91"/>
 <junction x="33.02" y="76.2"/>
-<pinref part="U$14" gate="G$1" pin="2"/>
+<pinref part="IN1" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="CONN3" class="0">
@@ -4171,7 +4171,7 @@ C=0.1u</text>
 <pinref part="R4" gate="G$1" pin="1"/>
 <wire x1="33.02" y1="106.68" x2="30.48" y2="106.68" width="0.1524" layer="91"/>
 <junction x="33.02" y="106.68"/>
-<pinref part="U$15" gate="G$1" pin="2"/>
+<pinref part="IN0" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="CONN2" class="0">
@@ -4181,7 +4181,7 @@ C=0.1u</text>
 <pinref part="R3" gate="G$1" pin="1"/>
 <wire x1="33.02" y1="142.24" x2="30.48" y2="142.24" width="0.1524" layer="91"/>
 <junction x="33.02" y="142.24"/>
-<pinref part="U$11" gate="G$1" pin="2"/>
+<pinref part="IN3" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="CONN1" class="0">
@@ -4191,7 +4191,7 @@ C=0.1u</text>
 <pinref part="R2" gate="G$1" pin="1"/>
 <wire x1="33.02" y1="175.26" x2="30.48" y2="175.26" width="0.1524" layer="91"/>
 <junction x="33.02" y="175.26"/>
-<pinref part="U$10" gate="G$1" pin="2"/>
+<pinref part="IN2" gate="G$1" pin="2"/>
 </segment>
 </net>
 </nets>
