@@ -11958,7 +11958,7 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </device>
 </devices>
 </deviceset>
-<deviceset name="ATTINY1634">
+<deviceset name="ATTINY1634" prefix="U">
 <gates>
 <gate name="G$1" symbol="ATTINY1634" x="0" y="0"/>
 </gates>
