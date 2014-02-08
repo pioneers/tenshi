@@ -10,8 +10,10 @@ export PATH=$PATH:$PROJECT_ROOT_DIR/tools/arm-toolchain/bin
 
 mkdir -p build
 
+./waf configure build
+
 # Main build
-for dir in controller angel-player eda
+for dir in angel-player
 do
 	./$dir/build.sh
 done
