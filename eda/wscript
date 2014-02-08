@@ -1,0 +1,28 @@
+from __future__ import print_function
+
+import glob
+import os.path
+
+def options(ctx):
+    pass
+
+def configure(ctx):
+    pass
+
+def build(bld):
+    def apath(filename):
+        return ' ' + os.path.join(bld.top_dir, filename) + ' '
+    for board in glob.glob('eda/*.brd'):
+        base_name = os.path.split(board)[-1]
+        outfile = '../boards/' + base_name.split('.')[0] + '.zip'
+        bld(rule=apath('tools/run-eagle-cam-v2.py') + apath('tools/gerber_rules.yaml') +
+            '${SRC} ${TGT}',
+            source=base_name,
+            target=outfile)
+
+    for schematic in glob.glob('eda/*.sch'):
+        base_name = os.path.split(schematic)[-1]
+        outfile = '../boards/' + base_name.split('.')[0] + '.csv'
+        bld(rule=apath('tools/generate_bom.py') + '${SRC} ${TGT}' + apath('tools/parts-db.yaml'),
+            source=base_name,
+            target=outfile)

@@ -10,8 +10,10 @@ export PATH=$PATH:$PROJECT_ROOT_DIR/tools/arm-toolchain/bin
 
 mkdir -p build
 
+waf configure build &
+
 # Main build
-for dir in controller angel-player eda
+for dir in angel-player
 do
 	./$dir/build.sh
 done
@@ -23,5 +25,8 @@ do
   ./tools/run-style-tool.py $tool 2>&1 | tee build/${tool}.txt
   linter_status=$[${linter_status} || ${PIPESTATUS[0]}]
 done
+
+# Make sure waf finishes
+wait
 
 exit $linter_status
