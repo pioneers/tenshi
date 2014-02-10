@@ -3,10 +3,9 @@
 ARM_CROSS_COMPILER_C = 'arm-none-eabi-gcc'
 ARM_CROSS_COMPILER_CXX = 'arm-none-eabi-g++'
 
-out = '../build/controller'
-
-from waf_extensions import declare_variants
-declare_variants('deb', 'rel', 'debopt', 'relopt')
+import os.path
+from waf_extensions import declare_variants, sub_conf, run_all
+declare_variants(['deb', 'rel', 'debopt', 'relopt'], subdir='controller')
 
 
 def options(opt):
@@ -104,38 +103,29 @@ def opt_configure(conf):
 
 
 def configure_deb(conf):
-    conf.setenv('deb')
-    common_configure(conf)
-    debug_configure(conf)
-    noopt_configure(conf)
+    with sub_conf(conf, 'deb'):
+        debug_configure(conf)
+        with sub_conf(conf, 'debopt'):
+            opt_configure(conf)
+            sub_conf(conf, 'controller/debopt')
+        noopt_configure(conf)
+        sub_conf(conf, 'controller/deb')
 
 
 def configure_rel(conf):
-    conf.setenv('rel')
-    common_configure(conf)
-    release_configure(conf)
-    noopt_configure(conf)
-
-
-def configure_debopt(conf):
-    conf.setenv('debopt')
-    common_configure(conf)
-    debug_configure(conf)
-    opt_configure(conf)
-
-
-def configure_relopt(conf):
-    conf.setenv('relopt')
-    common_configure(conf)
-    release_configure(conf)
-    opt_configure(conf)
+    with sub_conf(conf, 'controller/rel'):
+        debug_configure(conf)
+        with sub_conf(conf, 'controller/relopt'):
+            opt_configure(conf)
+            sub_conf(conf, 'controller/relopt')
+        noopt_configure(conf)
+        sub_conf(conf, 'controller/rel')
 
 
 def configure(conf):
+    common_configure(conf)
     configure_deb(conf)
     configure_rel(conf)
-    configure_debopt(conf)
-    configure_relopt(conf)
 
 # Build step
 
@@ -143,12 +133,14 @@ def configure(conf):
 def build(bld):
     if not bld.variant:
         print('Building all variants.')
-        from waflib.Scripting import run_command
-        run_command('build_deb')
-        run_command('build_rel')
-        run_command('build_debopt')
-        run_command('build_relopt')
+        run_all('build')
     else:
+        if 'controller' not in bld.variant:
+            return
+
+        def bld_path(path):
+            return bld.root.make_node(bld.variant_dir).make_node(path)
+
         def add_dependency(tgt, src):
             src_node = bld.path.find_resource(src)
             if src_node is None:
@@ -190,16 +182,16 @@ def build(bld):
 
         bld.program(
             source="",
-            target="tenshi.elf",
+            target=bld_path("tenshi.elf"),
             features="cxx cxxprogram",
             use="crt0 c_objects cpp_objects version_obj",
         )
 
         bld(
             rule='arm-none-eabi-objcopy -O binary ${SRC} ${TGT}',
-            source="tenshi.elf",
-            target="tenshi.bin",
+            source=bld_path("tenshi.elf"),
+            target=bld_path("tenshi.bin"),
         )
 
-        add_dependency("tenshi.elf", "ldscript.ld")
-        add_dependency("tenshi.elf", "linkspec.specs")
+        add_dependency(bld_path("tenshi.elf"), "ldscript.ld")
+        add_dependency(bld_path("tenshi.elf"), "linkspec.specs")
