@@ -29,7 +29,7 @@ def run_all(kind):
 
 def clone_env(conf, old_name, new_name):
     conf.setenv(old_name)
-    new_env = conf.env.copy()
+    new_env = conf.env.derive()
     new_env.detach()
     conf.setenv(new_name, new_env)
 
