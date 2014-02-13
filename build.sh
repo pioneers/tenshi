@@ -15,7 +15,7 @@ mkdir -p build
 # Main build
 for dir in angel-player
 do
-	./$dir/build.sh
+	#./$dir/build.sh
 done
 
 # Run linters
