@@ -2,6 +2,7 @@
 
 #include "inc/FreeRTOS.h"
 #include "inc/debug_uart.h"
+#include "inc/i2c_master.h"
 #include "inc/pindef.h"
 #include "inc/stm32f4xx.h"
 #include "inc/task.h"
@@ -33,6 +34,9 @@ int main(int argc, char **argv) {
     (1 << GPIO_PIN(PINDEF_RED_LED));
 
   debug_uart_setup();
+
+  // Setup I2C
+  i2c_master_init_module(I2C1);
 
   xTaskCreate(blinkTask, "Blink", 256, NULL, tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();
