@@ -1,8 +1,8 @@
 // Subpages for the left and right panes
 var links_left = {
-  "welcome" : {
-    text : "Welcome",
-    url : "welcome/welcome.html"
+  "selector" : {
+    text : "Project",
+    url : "projects/selector.html"
   },
   "texteditor" : {
     text: "Text Editor",
@@ -118,8 +118,8 @@ $(function(){
     }
   }
 
-  // Initialize the right pane to a welcome page
-  load_subpage("#pages-left", links_left, "welcome");
+  // Initialize the right pane to the project selector page
+  load_subpage("#pages-left", links_left, "selector");
 
   // Initialize the left pane to an empty page.
   // Add and pre-select an empty option for the drop-down, which will be
