@@ -2,6 +2,7 @@
 // initializing the clocks. Mostly derived from system_stm32f4xx.c.
 
 #include "inc/pindef.h"
+#include "inc/led_driver.h"
 #include "inc/stm32f4xx.h"
 
 /************************* PLL Parameters *************************************/
@@ -89,21 +90,8 @@ void __ll_init(void) {
     // If HSE fails to start-up, the application will have wrong clock
     // configuration. User can add here some code to deal with this error
 
-    // Set on board LED GPIO output
-    CONFIGURE_IO(RED_LED);
-    CONFIGURE_IO(GREEN_LED);
-    CONFIGURE_IO(BLUE_LED);
-    CONFIGURE_IO(YELLOW_LED);
-
-    // Turn on all the LEDs
-    GPIO_BANK(PINDEF_RED_LED)->ODR |=
-      (1 << GPIO_PIN(PINDEF_RED_LED));
-    GPIO_BANK(PINDEF_GREEN_LED)->ODR |=
-      (1 << GPIO_PIN(PINDEF_GREEN_LED));
-    GPIO_BANK(PINDEF_BLUE_LED)->ODR |=
-      (1 << GPIO_PIN(PINDEF_BLUE_LED));
-    GPIO_BANK(PINDEF_YELLOW_LED)->ODR |=
-      (1 << GPIO_PIN(PINDEF_YELLOW_LED));
+    // Set LEDs to panic
+    led_driver_panic();
 
     // Hang
     while (1) {}
