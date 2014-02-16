@@ -43,6 +43,33 @@ static led_driver_pattern driver_patterns[] = {
         .num_ticks = 4,
       },
     },
+  }, {
+    // PATTERN_BACK_AND_FORTH
+    // LEDs light up back and forth for 1 tick each
+    // Note that to make looping smooth red and yellow are not repeated.
+    .len = 6,
+    .entries =
+    (led_driver_pattern_entry[]) {
+      {
+        .led_states = LED_YELLOW,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_BLUE,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_GREEN,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_RED,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_GREEN,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_BLUE,
+        .num_ticks = 1,
+      },
+    },
   },
 };
 
