@@ -54,7 +54,9 @@ var to_parse = '' +
 '    fib50 = fib (x)\n' +
 //'    fib10 = recfib (10)\n' +
 '    print (fib50)\n' +
-'    print (get_sensor(0))\n' +
+'    g = get_sensor(0)\n' +
+'    print (g)\n' +
+'    print (x)\n' +
 //'    print (fib10)\n' +
 //'    set_motor (0, 20)\n' +
 //'    set_motor (1, 20)\n' +

@@ -311,6 +311,9 @@ function compile_paren_statement ( compiler ) {
       compiler.compile ( this.args[k] );
       }
     cgen.emit ( ops.call, this.args.length );
+
+    // Remove the function's return value from the stack, since it won't be needed.
+    cgen.emit ( ops.pop );
     cgen.emit_pending_bunch ( );
     // + 1 for the function, no return value (since this is a statement).
     cgen.add_temp ( - ( 1 + this.args.length ) );
