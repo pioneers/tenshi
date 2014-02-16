@@ -27,6 +27,8 @@ function make ( ) {
   var text = '';
   var modules = string_map.make ( );
 
+  var evaluation_steps = 0;
+  var evaluation_period = 0;
   var vm = { };
   vm.make_exfn = function ( id, name, val ) {
     return { name: name, patch_class: 'external', object_id: id, obj: val };
@@ -40,7 +42,7 @@ function make ( ) {
     objs.forEach ( function ( o ) {
       map.set ( o.name, { canonical_value: o, location: 'external' } );
       } );
-    misc.print ( map );
+    //misc.print ( map );
     mod.exports.load_text ( map );
     modules.set ( modname, mod );
     };
@@ -63,11 +65,21 @@ function make ( ) {
     a_compiler.compile_objs ( a_analyzer.all_objects );
 
     a_library.build_all_objects ( a_analyzer.all_objects );
-    a_executor.run_code ( a_analyzer.map.get_text ( 'main' ).code );
+
+    a_executor.func = a_analyzer.map.get_text ( 'main' ).code;
     };
   vm.set_evaluation_rate = function ( steps, period ) {
-    //TODO(kzentner): Implement this function, instead of start_main blocking.
+    evaluation_steps = steps;
+    evaluation_period = period;
+    clearTimeout ( tick_vm );
+    if ( period !== 0 && steps !== 0 ) {
+      setTimeout ( tick_vm, evaluation_period );
+      }
     };
+  function tick_vm ( ) {
+    a_executor.run_code ( null, evaluation_steps );
+    setTimeout ( tick_vm, evaluation_period );
+    }
   return vm;
   }
 

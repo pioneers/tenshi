@@ -33,11 +33,17 @@ function make ( ) {
       var main = lib.get_obj ( 'fn', 'main' );
       this.run_code ( main.data );
       },
-    run_code: function ( code ) {
+    run_code: function ( code, max_steps ) {
       //misc.print ( 'Executing code', code );
       //this.debug = true;
-      this.func = code;
-      while ( this.run ) {
+      var steps_so_far = 0;
+      if ( code ) {
+        this.func = code;
+        }
+      while ( this.run && steps_so_far < max_steps ) {
+        if ( max_steps !== undefined && ++steps_so_far >= max_steps ) {
+          return;
+          }
         var op = this.bunch[0];
         if ( this.debug ) {
           this.debug_print ( );
