@@ -13,6 +13,8 @@ extern void led_driver_init(void);
 
 // Default "chaser" sequence: 1 sec of each LED
 #define PATTERN_DEFAULT_CHASER    0
+// LEDs go back and forth quickly
+#define PATTERN_BACK_AND_FORTH    1
 
 // Set the LED pattern
 extern void led_driver_set_mode(uint8_t mode);
