@@ -22,7 +22,7 @@ function compile_and_run ( text, robot ) {
     ] );
   vm.load_text ( text );
   vm.start_main ( );
-  vm.set_evaluation_rate ( 1000, 0.01 ); 
+  vm.set_evaluation_rate ( 100, 0.01 );
   return vm;
   }
 
@@ -45,6 +45,8 @@ var to_parse = '' +
 //'    else:\n' +
 //'        return recfib (n - 1) + recfib (n - 2)\n' +
 'main = fn:\n' +
+//'     while 1 != 0:\n' +
+//'         print(1337)\n' +
 '    x = 50\n' +
 '    set_motor (0, 100)\n' +
 '    set_motor (1, 100)\n' +
@@ -53,12 +55,12 @@ var to_parse = '' +
 //'    fib10 = recfib (10)\n' +
 '    print (fib50)\n' +
 //'    print (fib10)\n' +
-'    set_motor (0, 20)\n' +
-'    set_motor (1, 20)\n' +
+//'    set_motor (0, 20)\n' +
+//'    set_motor (1, 20)\n' +
 '';
 
 var robot = { motors: {}, sensors: {}, version: 0 };
 compile_and_run ( to_parse, robot );
-misc.print ( 'robot', robot );
 
 exports.compile_and_run = compile_and_run;
+exports.make = angelic.make;
