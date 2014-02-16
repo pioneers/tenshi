@@ -12,7 +12,7 @@ function compile_and_run ( text, robot ) {
     robot.motors [ port ] = val;
     robot.version += 1;
     }
-  function get_sensor ( port, val ) {
+  function get_sensor ( port ) {
     return robot.sensors [ port ];
     }
   vm.add_library ( 'core', [
@@ -54,12 +54,13 @@ var to_parse = '' +
 '    fib50 = fib (x)\n' +
 //'    fib10 = recfib (10)\n' +
 '    print (fib50)\n' +
+'    print (get_sensor(0))\n' +
 //'    print (fib10)\n' +
 //'    set_motor (0, 20)\n' +
 //'    set_motor (1, 20)\n' +
 '';
 
-var robot = { motors: {}, sensors: {}, version: 0 };
+var robot = { motors: {}, sensors: { 0: 100 }, version: 0 };
 compile_and_run ( to_parse, robot );
 
 exports.compile_and_run = compile_and_run;

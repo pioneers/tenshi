@@ -100,14 +100,18 @@ var opcodes = [
     if ( func.type === 'external' ) {
       var size = state.stack.length;
       var args = state.stack.splice ( size - arg_count, size );
-      //var args = [];
-      //misc.print ( 'args', args );
-      func.func.apply ( null, args );
+      var res = func.func.apply ( null, args );
+
+      // Pop the args.
       for ( var i = 0; i < arg_count; i++ ) {
         state.pop ( );
         }
+
       // Pop the function.
       state.pop ( );
+
+      // Push the result
+      state.push ( res );
       }
     else if ( func.type === 'internal' ) {
       state.call_stack[state.call_stack_top++] = [state.func, state._pc, state.stack_top - ( arg_count + 1 ) ];
