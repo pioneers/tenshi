@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "inc/FreeRTOS.h"
+#include "inc/button_driver.h"
 #include "inc/led_driver.h"
 #include "inc/pindef.h"
 #include "inc/stm32f4xx.h"
@@ -14,12 +15,20 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
 
     // debug_uart_tx("Hello World!\r\n", 14);
 
-    vTaskDelay(1000);
+    // vTaskDelay(1000);
+
+    if (button_driver_get_button_state(0) ||
+        button_driver_get_button_state(1)) {
+      led_driver_set_mode(PATTERN_BACK_AND_FORTH);
+    } else {
+      led_driver_set_mode(PATTERN_DEFAULT_CHASER);
+    }
   }
 }
 
 int main(int argc, char **argv) {
   led_driver_init();
+  button_driver_init();
   // Enable GPIOD clock
   // RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
   // Enable GPIOB clock
