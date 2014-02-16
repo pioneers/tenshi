@@ -3,9 +3,12 @@
 
 // Board revision to hardware mapping:
 //   @ ---> STM32F4DISCOVERY
-#define BOARD_REVISION    '@'
+//   A ---> Yurippe, date code 23 Jan 2014
+#define BOARD_REVISION    'A'
 
 // Do not use these macro directly.
+// Evaluates to the bitfield in AHB1ENR to turn on the GPIO bank
+#define __GPIO_BANK_AHB1ENR(b, p, m, t, s, pu, af) RCC_AHB1ENR_GPIO##b##EN
 // Evaluates to the GPIOx structure for the bank the pin is on.
 #define __GPIO_BANK(b, p, m, t, s, pu, af)  GPIO##b
 // Evaluates to the pin number in the bank.
@@ -45,13 +48,14 @@
 // The extra indirection is necessary because macros will expand their
 // arguments. This is needed to expand the PINDEF_x macros into two arguments
 // for the __x macros
-#define GPIO_BANK(x)        __GPIO_BANK(x)
-#define GPIO_PIN(x)         __GPIO_PIN(x)
-#define SET_GPIO_MODE(x)    __SET_GPIO_MODE(x)
-#define SET_GPIO_TYPE(x)    __SET_GPIO_TYPE(x)
-#define SET_GPIO_SPEED(x)   __SET_GPIO_SPEED(x)
-#define SET_GPIO_PULLUP(x)  __SET_GPIO_PULLUP(x)
-#define SET_GPIO_AF(x)      __SET_GPIO_AF(x)
+#define GPIO_BANK_AHB1ENR(x)  __GPIO_BANK_AHB1ENR(x)
+#define GPIO_BANK(x)          __GPIO_BANK(x)
+#define GPIO_PIN(x)           __GPIO_PIN(x)
+#define SET_GPIO_MODE(x)      __SET_GPIO_MODE(x)
+#define SET_GPIO_TYPE(x)      __SET_GPIO_TYPE(x)
+#define SET_GPIO_SPEED(x)     __SET_GPIO_SPEED(x)
+#define SET_GPIO_PULLUP(x)    __SET_GPIO_PULLUP(x)
+#define SET_GPIO_AF(x)        __SET_GPIO_AF(x)
 
 #define PIN_MODE_INPUT    0
 #define PIN_MODE_GPIO     1
@@ -98,6 +102,19 @@
 #define PINDEF_BLUE_LED         D, 15, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
   PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
 #define PINDEF_RED_LED          D, 14, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
+#endif
+
+#if BOARD_REVISION == 'A'
+
+// LEDs on main controller
+#define PINDEF_YELLOW_LED       C, 3, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
+#define PINDEF_GREEN_LED        C, 1, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
+#define PINDEF_BLUE_LED         C, 2, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
+#define PINDEF_RED_LED          C, 0, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
   PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
 #endif
 
