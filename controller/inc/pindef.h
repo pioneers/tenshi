@@ -116,6 +116,15 @@
   PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
 #define PINDEF_RED_LED          C, 0, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
   PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
+
+// Buttons on the PCB
+// NOTE: This is not the only source of information regarding the buttons.
+// You also need to fix up button_driver.c if you move the buttons.
+// TODO(rqou): Possibly apply more macro magic to fix this.
+#define PINDEF_BUTTON0          C, 14, PIN_MODE_INPUT, PIN_TYPE_PUSHPULL,  \
+  PIN_SPEED_LOW, PIN_PULLUP_PU, 0
+#define PINDEF_BUTTON1          C, 15, PIN_MODE_INPUT, PIN_TYPE_PUSHPULL,  \
+  PIN_SPEED_LOW, PIN_PULLUP_PU, 0
 #endif
 
 #endif  // INC_PINDEF_H_
