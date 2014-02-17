@@ -17,6 +17,33 @@ var links_right = {
   }
 };
 
+var links_footer = {
+  "controls": {
+    text: "",
+    url: "controls/main.html"
+  }
+};
+
+function require( pkg ) {
+  // A system for sharing data between iframes
+  // Each frame defines an exports object in its global scope, which can be
+  // loaded from other frames using the frame name (the frame's key in the
+  // links_* objects above)
+  var containers = ["#pages-left", "#pages-right"];
+
+  for (var i in containers) {
+    var subpages = $(containers[i]).data("subpages");
+
+    if (subpages === undefined ||
+        subpages[pkg] === undefined ||
+        subpages[pkg][0].contentWindow.exports === undefined) {
+      continue;
+    }
+    return subpages[pkg][0].contentWindow.exports;
+  }
+  return undefined;
+}
+
 function load_subpage(container, links, link) {
   // Loads the subpage in an iframe
 
@@ -38,6 +65,12 @@ function load_subpage(container, links, link) {
       "width": "100%",
       "height": "550px"
     }).appendTo($(container));
+  } else {
+    // Call onResume() when resuming that page
+    var onResume = subpages[link][0].contentWindow.onResume;
+    if (onResume !== undefined) {
+      onResume();
+    }
   }
   subpages[link].css("display", "inherit");
   $(container).data("subpages", subpages);
