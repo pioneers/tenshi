@@ -1,7 +1,7 @@
-Components.utils.import("chrome://angel-player/content/svgUtil.js");
-Components.utils.import("chrome://angel-player/content/blockscommon.js");
-Components.utils.import("chrome://angel-player/content/blockDragDrop.js");
-Components.utils.import("chrome://angel-player/content/blockProgram.js");
+Components.utils.import("chrome://angel-player/content/blockeditor/svgUtil.js");
+Components.utils.import("chrome://angel-player/content/blockeditor/blockscommon.js");
+Components.utils.import("chrome://angel-player/content/blockeditor/blockDragDrop.js");
+Components.utils.import("chrome://angel-player/content/blockeditor/blockProgram.js");
 
 var myProg;
 
