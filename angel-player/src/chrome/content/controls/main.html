@@ -19,6 +19,7 @@
 
                 var texteditor = require("texteditor");
                 if (texteditor === undefined) {
+                    $("#status").text("ERROR: text editor not yet loaded");
                     throw "ERROR: text editor not yet loaded";
                 }
 
@@ -26,6 +27,7 @@
                 current_vm = exports.vm_generator();
 
                 if (current_vm === null) {
+                    $("#status").text("ERROR: no targets are open. Try opening Simulator or Console");
                     throw "ERROR: no vm could be created. Try opening a valid VM target page"
                 }
 
@@ -57,9 +59,11 @@
                 if (current_vm === null) {
                     run();
                     $("#toggle").text("STOP");
+                    $("#status").text("Running in: " + current_vm.source);
                 } else {
                     stop();
                     $("#toggle").text("RUN");
+                    $("#status").text("");
                 }
             }
 
@@ -69,7 +73,7 @@
     </head>
     <body>
         <p>
-            <a href="#" id="toggle" onClick="toggle_running()">RUN</a>
+            <a href="#" id="toggle" onClick="toggle_running()">RUN</a> <a id="status"></a>
         </p>
     </body>
 </html>
