@@ -1,8 +1,8 @@
 // Subpages for the left and right panes
 var links_left = {
-  "welcome" : {
-    text : "Welcome",
-    url : "welcome/welcome.html"
+  "selector" : {
+    text : "Project",
+    url : "projects/selector.html"
   },
   "texteditor" : {
     text: "Text Editor",
@@ -129,8 +129,8 @@ $(function(){
   $.each(links_left, populate_left);
   $.each(links_right, populate_right);
 
-  // Initialize the right pane to a welcome page
-  load_subpage("#pages-left", links_left, "welcome");
+  // Initialize the right pane to the project selector page
+  load_subpage("#pages-left", links_left, "selector");
 
   // Initialize the bottom page to the controls.
   // There are no other tabs for the bottom page
