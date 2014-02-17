@@ -112,5 +112,33 @@
             simmy.render();
             readVal();
         </script>
+        <script type="text/javascript">
+            function compile_and_run ( text ) {
+                var vm = angelic.make ( );
+                var robot = simmy.robot.master;
+
+                function set_motor ( port, val ) {
+                    robot.motors [ port ] = val;
+                    robot.version += 1;
+                }
+
+                function get_sensor ( port, val ) {
+                    return robot.sensors [ port ];
+                }
+
+                vm.add_library ( 'core', [
+                    vm.make_exfn ( 0, 'print', function(args) {console.log(args)} ),
+                    vm.make_exfn ( 1, 'set_motor', set_motor ),
+                    vm.make_exfn ( 2, 'get_sensor', get_sensor ),
+                ] );
+                vm.load_text ( text );
+                vm.start_main ( );
+                vm.set_evaluation_rate ( 100, 0.01 );
+                return vm;
+            }
+
+            var exports = {};
+            exports.compile_and_run = compile_and_run;
+       </script>
     </body>
 </html>
