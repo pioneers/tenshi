@@ -1,4 +1,4 @@
-Components.utils.import("chrome://angel-player/content/blockscommon.js");
+Components.utils.import("chrome://angel-player/content/blockeditor/blockscommon.js");
 
 var EXPORTED_SYMBOLS = ['svgUtil'];
 
