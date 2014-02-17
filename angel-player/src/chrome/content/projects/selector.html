@@ -1,0 +1,17 @@
+<!doctype html>
+
+<html>
+    <head>
+        <script src="../tenshi-frontend/javascripts/vendor/jquery.js">
+        </script>
+        <script src="selector.js">
+        </script>
+    </head>
+    <body onLoad="update_screen('(auto-loaded on startup) ')">
+        <p id="text"></p>
+        <button onClick="serialize_all()">Save</button>
+        <button onClick="deserialize_all()">Load</button>
+        <button onClick="reset_all()">Reset to defaults</button>
+        <button onClick="clear_save()">Clear saved data</button>
+    </body>
+</html>
