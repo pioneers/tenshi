@@ -31,6 +31,10 @@
                 return vm;
             }
 
+            function report_error(what) {
+                $("#text").text($("#text").text() + "\nERROR:" + what);
+            }
+
             function onResume() {
                 // Set console as default VM target when it is focused
                 var require = parent.require;
@@ -50,6 +54,8 @@
                     });
             });
 
+            var exports = {};
+            exports.report_error = report_error;
         </script>
     </head>
     <body>
