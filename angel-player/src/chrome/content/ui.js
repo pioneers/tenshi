@@ -3,6 +3,10 @@ var links_left = {
   "welcome" : {
     text : "Welcome",
     url : "welcome/welcome.html"
+  },
+  "texteditor" : {
+    text: "Text Editor",
+    url : "texteditor/editor.html"
   }
 };
 
