@@ -28,8 +28,8 @@ var links_right = {
     url: "console/console.html"
   },
   "api_help" : {
-    text: "API Help (TODO)",
-    url: "about:blank"
+    text: "API Help",
+    url: "help/api_help.html"
   },
   "language_help" : {
     text: "Language Reference (TODO)",
