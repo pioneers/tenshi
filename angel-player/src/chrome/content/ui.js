@@ -14,6 +14,10 @@ var links_right = {
   "simulator" : {
     text: "Simulator",
     url: "simulator/main.html"
+  },
+  "console" : {
+    text: "Console",
+    url: "console/console.html"
   }
 };
 
