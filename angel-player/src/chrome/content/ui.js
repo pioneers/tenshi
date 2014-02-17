@@ -29,7 +29,7 @@ function require( pkg ) {
   // Each frame defines an exports object in its global scope, which can be
   // loaded from other frames using the frame name (the frame's key in the
   // links_* objects above)
-  var results = $.map(["#pages-left", "#pages-right"], function(container) {
+  var results = $.map(["#pages-left", "#pages-right", "footer"], function(container) {
     var subpages = $(container).data("subpages");
 
     if (subpages === undefined || subpages[pkg] === undefined) {
@@ -61,11 +61,15 @@ function load_subpage(container, links, link) {
   }
 
   if (subpages[link] === undefined) {
+    var height = "550px;"
+    if (arguments.length > 3) {
+      height = arguments[4];
+    }
     subpages[link] = $("<iframe/>");
     subpages[link].attr({
       "src": links[link].url,
       "width": "100%",
-      "height": "550px"
+      "height": height
     }).appendTo($(container));
   } else {
     // Call onResume() when resuming that page
@@ -108,6 +112,7 @@ $(function(){
       })(key);
     }
   }
-});
 
+  load_subpage("footer", links_footer, "controls", "auto")
+});
 
