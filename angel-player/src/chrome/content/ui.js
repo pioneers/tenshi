@@ -7,6 +7,14 @@ var links_left = {
   "texteditor" : {
     text: "Text Editor",
     url : "texteditor/editor.html"
+  },
+  "blockeditor" : {
+    text : "Block Editor (TODO)",
+    url : "about:blank"
+  },
+  "maker" : {
+    text : "Robot maker (TODO)",
+    url : "about:blank"
   }
 };
 
@@ -22,6 +30,14 @@ var links_right = {
   "api_help" : {
     text: "API Help",
     url: "help/api_help.html"
+  },
+  "language_help" : {
+    text: "Language Help (TODO)",
+    url: "about:blank"
+  },
+  "library" : {
+    text: "Library (TODO)",
+    url: "about:blank"
   }
 };
 
