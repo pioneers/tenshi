@@ -1,0 +1,23 @@
+<!doctype html>
+
+<html>
+    <head>
+        <script type="text/javascript">
+            function run() {
+                var require = parent.require;
+                if (require === undefined) {
+                    return; // Cannot run as independent page
+                }
+                var simulator = require("simulator");
+                var texteditor = require("texteditor");
+
+                simulator.compile_and_run(texteditor.get_text());
+            }
+        </script>
+    </head>
+    <body>
+        <p>
+            <a href="#" onClick="run()">RUN</a>
+        </p>
+    </body>
+</html>

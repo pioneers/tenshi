@@ -17,12 +17,19 @@ var links_right = {
   }
 };
 
+var links_footer = {
+  "controls": {
+    text: "",
+    url: "controls/main.html"
+  }
+};
+
 function require( pkg ) {
   // A system for sharing data between iframes
   // Each frame defines an exports object in its global scope, which can be
   // loaded from other frames using the frame name (the frame's key in the
   // links_* objects above)
-  var containers = ["#pages-left", "#pages-right"];
+  var containers = ["#pages-left", "#pages-right", "footer"];
 
   for (var i in containers) {
     var subpages = $(containers[i]).data("subpages");
@@ -52,11 +59,15 @@ function load_subpage(container, links, link) {
   }
 
   if (subpages[link] === undefined) {
+    var height = "550px";
+    if (arguments.length > 3) {
+      height = arguments[4];
+    }
     subpages[link] = $("<iframe/>");
     subpages[link].attr({
       "src": links[link].url,
       "width": "100%",
-      "height": "550px"
+      "height": height
     }).appendTo($(container));
   } else {
     // Call onResume() when resuming that page
@@ -96,6 +107,9 @@ $(function(){
 
   // Initialize the right pane to a welcome page
   load_subpage("#pages-left", links_left, "welcome");
-});
 
+  // Initialize the bottom page to the controls.
+  // There are no other tabs for the bottom page
+  load_subpage("footer", links_footer, "controls", "auto");
+});
 
