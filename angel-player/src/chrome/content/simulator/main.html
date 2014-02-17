@@ -22,6 +22,7 @@
         <script type="text/javascript" src="miscFuncs.js"></script>
         <script type="text/javascript" src="Simulator.js"></script>
         <script type="text/javascript" src="../angelic/bundle.js"></script>
+        <script src="../tenshi-frontend/javascripts/vendor/jquery.js"></script>
     </head>
     <body>
         <div id="mainScreen"></div>
@@ -113,7 +114,7 @@
             readVal();
         </script>
         <script type="text/javascript">
-            function compile_and_run ( text ) {
+            function gen_vm() {
                 var vm = angelic.make ( );
                 var robot = simmy.robot.master;
 
@@ -122,7 +123,7 @@
                     robot.version += 1;
                 }
 
-                function get_sensor ( port, val ) {
+                function get_sensor ( port ) {
                     return robot.sensors [ port ];
                 }
 
@@ -131,14 +132,22 @@
                     vm.make_exfn ( 1, 'set_motor', set_motor ),
                     vm.make_exfn ( 2, 'get_sensor', get_sensor ),
                 ] );
-                vm.load_text ( text );
-                vm.start_main ( );
-                vm.set_evaluation_rate ( 100, 0.01 );
                 return vm;
             }
 
-            var exports = {};
-            exports.compile_and_run = compile_and_run;
+            function onResume() {
+                // Set simulator as default VM target when it is focused
+                var require = parent.require;
+                if (require === undefined) {
+                    return;
+                }
+
+                var controls = require("controls");
+
+                controls.vm_generator = gen_vm;
+            }
+
+            $(onResume); // also call on load
        </script>
     </body>
 </html>
