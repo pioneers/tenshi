@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<div id="editor">fib = fn (n):
+<div id="editor-defaults" style="display:none">fib = fn (n):
     n = n - 1
     a = 0
     b = 1
@@ -32,8 +32,11 @@ main = fn:
     fib50 = fib (x)
     print (fib50)
 </div>
+<div id="editor">
+</div>
 
 <script src="../tenshi-frontend/javascripts/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="../tenshi-frontend/javascripts/vendor/jquery.js"></script>
 <script>
     var editor = ace.edit("editor");
     function get_text() {
@@ -42,6 +45,23 @@ main = fn:
 
     var exports = {};
     exports.get_text = get_text;
+
+    var require = parent.require;
+    if (require !== undefined) {
+        var selector = require("selector");
+        selector.connect_storage("editor",
+                                function() {
+                                    // Serialize
+                                    return editor.getValue();
+                                }, function(obj) {
+                                    // Deserialize
+                                    if (obj === undefined) {
+                                        editor.setValue($("#editor-defaults").text());
+                                        return;
+                                    }
+                                    editor.setValue(obj);
+                                });
+    }
 </script>
 </body>
 </html>
