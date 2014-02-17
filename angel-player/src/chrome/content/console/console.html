@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html>
+    <head>
+        <script type="text/javascript" src="../angelic/bundle.js"></script>
+        <script src="../tenshi-frontend/javascripts/vendor/jquery.js"></script>
+        <style type="text/css">
+            #text {
+                width: 100%;
+                height: 500px;
+            }
+        </style>
+        <script type="text/javascript">
+            function gen_vm() {
+                var vm = angelic.make();
+
+                function set_motor() {}
+                function get_sensor(port) {
+                    return 0;
+                }
+                function print_fn(what) {
+                    $("#text").text($("#text").text() + "\n" + what);
+                }
+                vm.add_library ( 'core', [
+                    vm.make_exfn ( 0, 'print', print_fn),
+                    vm.make_exfn ( 1, 'set_motor', set_motor ),
+                    vm.make_exfn ( 2, 'get_sensor', get_sensor ),
+                ] );
+
+                print_fn("====== RESTART =====");
+                return vm;
+            }
+
+            function onResume() {
+                // Set console as default VM target when it is focused
+                var require = parent.require;
+                if (require === undefined) {
+                    return;
+                }
+
+                var controls = require("controls");
+
+                controls.vm_generator = gen_vm;
+            }
+
+            $(function(){
+                onResume();
+                $("#clear").click(function(){
+                    $("#text").text("");
+                    });
+            });
+
+        </script>
+    </head>
+    <body>
+        <textarea id="text" disabled></textarea>
+        <button id="clear">Clear</button>
+    </body>
+</html>
