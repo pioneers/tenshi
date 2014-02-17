@@ -1,0 +1,98 @@
+<!doctype html>
+
+<html>
+    <head>
+        <style type="text/css">
+            header {
+                border-bottom: 1px solid black;
+            }
+
+            header p {
+                text-align: center;
+            }
+
+            #main {
+                height: 600px;
+            }
+
+            #left {
+                float: left;
+                width:calc(50% - 5px);
+                height:100%;
+            }
+
+            nav {
+                background: lightgrey;
+                padding: 1px;
+                height: 25px;
+            }
+
+            nav a {
+                border: 1px solid #363895;
+                background: #363895;
+                margin: 0 0 0 0;
+                color: #c7aa36;
+                text-decoration: none;
+                margin-right: 5px;
+            }
+
+            #right {
+                float: right;
+                width:calc(50% - 5px);
+                height:100%;
+                border-left: 1px solid black;
+            }
+
+            #tabs-right-div {
+                background: lightgrey;
+                padding: 1px;
+                height: 25px;
+            }
+
+            footer {
+                clear: both;
+                border-top: 1px solid black;
+            }
+
+            footer p {
+                text-align: center;
+            }
+
+            iframe {
+                border: none;
+            }
+        </style>
+        <script src="tenshi-frontend/javascripts/vendor/jquery.js">
+        </script>
+        <script src="ui.js">
+        </script>
+    </head>
+    <body>
+        <header>
+            <p>Project Tenshi</p>
+        </header>
+        <div id="main">
+            <div id="left">
+                <nav id="tabs-left">
+                    <!-- Options are inserted automatically -->
+                </nav>
+                <div id="pages-left">
+                    <!-- Pages are inserted automatically -->
+                </div>
+            </div>
+            <div id="right">
+                <div id="tabs-right-div">
+                    <select id="tabs-right">
+                        <!-- Options are inserted automatically -->
+                    </select>
+                </div>
+                <div id="pages-right">
+                    <!-- Pages are inserted automatically -->
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p><!-- TODO --></p>
+        </footer>
+    </body>
+</html>
