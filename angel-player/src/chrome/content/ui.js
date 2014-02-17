@@ -18,6 +18,10 @@ var links_right = {
   "console" : {
     text: "Console",
     url: "console/console.html"
+  },
+  "api_help" : {
+    text: "API Help",
+    url: "help/api_help.html"
   }
 };
 
