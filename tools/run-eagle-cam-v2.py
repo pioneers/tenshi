@@ -19,10 +19,16 @@ _eagle_binary_path = '/opt/eagle-6.5.0/bin/eagle'
 def get_eagle_path():
     global _eagle_binary_path
     if not os.path.exists(_eagle_binary_path):
-        status, _eagle_binary_path = subprocess.getstatusoutput('which eagle')
+        which_eagle = subprocess.Popen(['which', 'eagle'],
+                                       stdout=subprocess.PIPE)
+        which_eagle.wait()
+        status = which_eagle.returncode
         if status != 0:
             print("Could not find eagle!")
             sys.exit(1)
+        else:
+            # Remove newline from which ouput.
+            _eagle_binary_path = which_eagle.stdout.read().strip()
     return _eagle_binary_path
 
 
