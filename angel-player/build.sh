@@ -29,24 +29,24 @@ mkdir -p $PROJECT_ROOT_DIR/build/angel-player
 pushd $PROJECT_ROOT_DIR/build/angel-player
 
 # Download XULRunner if it isn't already
-if [ ! -e xulrunner-24.0.en-US.linux-x86_64.tar.bz2 ]
+if [ ! -e xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 ]
 then
-    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/24.0/runtimes/xulrunner-24.0.en-US.linux-x86_64.tar.bz2
+    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
 fi
-if [ ! -e xulrunner-24.0.en-US.win32.zip ]
+if [ ! -e xulrunner-27.0.1.en-US.win32.zip ]
 then
-    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/24.0/runtimes/xulrunner-24.0.en-US.win32.zip
+    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.win32.zip
 fi
-if [ ! -e xulrunner-24.0.en-US.mac.tar.bz2 ]
+if [ ! -e xulrunner-27.0.1.en-US.mac.tar.bz2 ]
 then
-    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/24.0/runtimes/xulrunner-24.0.en-US.mac.tar.bz2
+    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.mac.tar.bz2
 fi
 
 # Prepare linux version
 rm -rf angel-player-linux-x86_64
 mkdir angel-player-linux-x86_64
 pushd angel-player-linux-x86_64
-tar xjf ../xulrunner-24.0.en-US.linux-x86_64.tar.bz2
+tar xjf ../xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
 cp xulrunner/xulrunner-stub angel-player
 cp -r $ANGEL_PLAYER_MAIN_DIR/src/* .
 # Remove debug file
@@ -57,7 +57,7 @@ popd
 rm -rf angel-player-win32
 mkdir angel-player-win32
 pushd angel-player-win32
-unzip ../xulrunner-24.0.en-US.win32.zip
+unzip ../xulrunner-27.0.1.en-US.win32.zip
 cp xulrunner/xulrunner-stub.exe angel-player.exe
 cp -r $ANGEL_PLAYER_MAIN_DIR/src/* .
 # Remove debug file
@@ -73,7 +73,7 @@ mkdir -p Contents/Frameworks
 mkdir -p Contents/Resources
 mkdir -p Contents/MacOS
 pushd Contents/Frameworks
-tar xjf ../../../xulrunner-24.0.en-US.mac.tar.bz2
+tar xjf ../../../xulrunner-27.0.1.en-US.mac.tar.bz2
 popd
 cp -r $ANGEL_PLAYER_MAIN_DIR/src/* Contents/Resources
 # Remove debug file
