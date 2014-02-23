@@ -32,9 +32,9 @@ static portTASK_FUNCTION_PROTO(i2c_master_task, pvParameters) {
     xSemaphoreTake(module->inUse, portMAX_DELAY);
     module->currentTxn = txn;
     if (txn->len_out) {
-      txn->status = TRANSACTION_STATUS_SENDING;
+      txn->status = I2C_TRANSACTION_STATUS_SENDING;
     } else {
-      txn->status = TRANSACTION_STATUS_RECEIVING;
+      txn->status = I2C_TRANSACTION_STATUS_RECEIVING;
     }
     module->periph_base->CR1 |= I2C_CR1_START;
   }
@@ -90,7 +90,7 @@ void *i2c_issue_transaction(i2c_master_module *module, uint8_t addr,
   obj->len_out = len_out;
   obj->len_in = len_in;
   obj->addr = addr;
-  obj->status = TRANSACTION_STATUS_QUEUED;
+  obj->status = I2C_TRANSACTION_STATUS_QUEUED;
 
   xQueueSendToBack(((i2c_master_module_private*)module)->txnQueue,
     &obj, portMAX_DELAY);
@@ -113,7 +113,7 @@ void i2c_handle_interrupt(i2c_master_module *_module) {
   sr2_reg = module->periph_base->SR2;
 
   // Transmitting data
-  if (txn->status == TRANSACTION_STATUS_SENDING) {
+  if (txn->status == I2C_TRANSACTION_STATUS_SENDING) {
     if (sr1_reg & I2C_SR1_SB) {
       // Send the address for a write
       module->periph_base->DR = txn->addr;
@@ -131,16 +131,16 @@ void i2c_handle_interrupt(i2c_master_module *_module) {
         // RX.
         if (txn->len_in) {
           module->periph_base->CR1 |= I2C_CR1_START;
-          txn->status = TRANSACTION_STATUS_RECEIVING;
+          txn->status = I2C_TRANSACTION_STATUS_RECEIVING;
         } else {
           module->periph_base->CR1 |= I2C_CR1_STOP;
-          txn->status = TRANSACTION_STATUS_DONE;
+          txn->status = I2C_TRANSACTION_STATUS_DONE;
           module->currentTxn = NULL;
           xSemaphoreGiveFromISR(module->inUse, NULL);
         }
       }
     }
-  } else if (txn->status == TRANSACTION_STATUS_RECEIVING) {
+  } else if (txn->status == I2C_TRANSACTION_STATUS_RECEIVING) {
     if (sr1_reg & I2C_SR1_SB) {
       // Send the address for a read
       module->periph_base->DR = txn->addr | 1;
@@ -164,7 +164,7 @@ void i2c_handle_interrupt(i2c_master_module *_module) {
       }
       // If there are no bytes left, we are done!
       if (txn->len_in == 0) {
-        txn->status = TRANSACTION_STATUS_DONE;
+        txn->status = I2C_TRANSACTION_STATUS_DONE;
         module->currentTxn = NULL;
         xSemaphoreGiveFromISR(module->inUse, NULL);
       }
@@ -182,7 +182,7 @@ void i2c_handle_interrupt_error(i2c_master_module *_module) {
   sr2_reg = module->periph_base->SR2;
 
   if (txn) {
-    txn->status = TRANSACTION_STATUS_ERROR;
+    txn->status = I2C_TRANSACTION_STATUS_ERROR;
     module->currentTxn = NULL;
     xSemaphoreGiveFromISR(module->inUse, NULL);
     module->periph_base->CR1 |= I2C_CR1_STOP;
@@ -201,8 +201,8 @@ int i2c_transaction_finish(i2c_master_module *module,
   void *_transaction) {
   i2c_transaction_obj *transaction = (i2c_transaction_obj *)_transaction;
   // Ignore non-finished transactions
-  if ((transaction->status != TRANSACTION_STATUS_DONE) &&
-      (transaction->status != TRANSACTION_STATUS_ERROR)) {
+  if ((transaction->status != I2C_TRANSACTION_STATUS_DONE) &&
+      (transaction->status != I2C_TRANSACTION_STATUS_ERROR)) {
     return 0;
   }
 
