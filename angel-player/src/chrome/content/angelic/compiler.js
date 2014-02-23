@@ -7,20 +7,20 @@ var type = require ( './type.js' );
 
 var tables = opcodes.tables;
 var ops = tables.op;
-var noop = ops.noop.code;
+var next = ops.next.code;
 
 function make_bunch ( a, b, c, d ) {
   if ( a === undefined ) {
-    a = noop;
+    a = next;
     }
   if ( b === undefined ) {
-    b = noop;
+    b = next;
     }
   if ( c === undefined ) {
-    c = noop;
+    c = next;
     }
   if ( d === undefined ) {
-    d = noop;
+    d = next;
     }
   return [a, b, c, d];
   }
@@ -171,7 +171,7 @@ function compile_assignment ( compiler ) {
   var cgen = compiler.cgen;
   if ( cgen.has_var ( this.left.text ) ) {
     compiler.compile ( this.right );
-    cgen.emit ( ops.set, cgen.var_idx ( this.left.text ) );
+    cgen.emit ( ops.set1, cgen.var_idx ( this.left.text ) );
     cgen.add_temp ( -1 );
     }
   else {
@@ -184,7 +184,7 @@ function compile_assignment ( compiler ) {
 
 function compile_number ( compiler ) {
   var cgen = compiler.cgen;
-  cgen.emit ( ops.li );
+  cgen.emit ( ops.li4 );
   cgen.emit_bunch ( parseInt ( this.text, 10 ) );
   cgen.add_temp ( 1 );
   }
@@ -202,6 +202,23 @@ function compile_not_equal ( compiler ) {
   cgen.emit ( ops.eq, ops.not );
   cgen.add_temp ( -1 );
   }
+function compile_equal ( compiler ) {
+  var cgen = compiler.cgen;
+  compiler.compile ( this.left );
+  compiler.compile ( this.right );
+  cgen.emit ( ops.eq );
+  cgen.add_temp ( -1 );
+  }
+
+function insert_jump ( cgen, difference ) {
+  // TODO(kzentner): Use correct sized jump opcode.
+  cgen.emit ( ops.j1, difference );
+  }
+
+function insert_bz ( cgen, opcode, target ) {
+  // TODO(kzentner): Use correct sized branch.
+  cgen.set ( opcode, make_bunch ( ops.bz1.code, target ) );
+  }
 
 function compile_while ( compiler ) {
   var cgen = compiler.cgen;
@@ -215,10 +232,12 @@ function compile_while ( compiler ) {
     }
   cgen.apply_scope_snapshot ( scope_snapshot );
   cgen.emit_pending_bunch ( );
-  cgen.emit ( ops.j1, start - cgen.get_pc ( ) - 1 );
-  cgen.emit ( ops.noop );
+  insert_jump ( cgen, start - cgen.get_pc ( ) - 1 );
+  cgen.emit ( ops.next );
+  cgen.emit ( ops.next );
+  cgen.emit ( ops.next );
   cgen.emit_pending_bunch ( );
-  cgen.set ( branch, make_bunch ( ops.bn1.code, cgen.get_pc ( ) - branch ) );
+  insert_bz ( cgen, branch, cgen.get_pc ( ) - branch );
   }
 
 function compile_if ( compiler ) {
@@ -232,15 +251,16 @@ function compile_if ( compiler ) {
     compiler.compile ( this.block.children[c] );
     }
   cgen.apply_scope_snapshot ( scope_snapshot );
-  cgen.emit ( ops.noop );
-  cgen.set ( branch, make_bunch ( ops.bn1.code, cgen.get_pc ( ) - branch ) );
+  cgen.emit ( ops.next );
+  cgen.emit_pending_bunch ( );
+  insert_bz ( cgen, branch, cgen.get_pc ( ) - branch );
   }
 
 function compile_add ( compiler ) {
   var cgen = compiler.cgen;
   compiler.compile ( this.left );
   compiler.compile ( this.right );
-  cgen.emit ( ops.add );
+  cgen.emit ( ops.fadd );
   cgen.add_temp ( -1 );
   }
 
@@ -248,7 +268,7 @@ function compile_sub ( compiler ) {
   var cgen = compiler.cgen;
   compiler.compile ( this.left );
   compiler.compile ( this.right );
-  cgen.emit ( ops.sub );
+  cgen.emit ( ops.fsub );
   cgen.add_temp ( -1 );
   }
 
@@ -268,12 +288,12 @@ function compile_identifier ( compiler ) {
   var location = this.variable.location;
   if ( location === 'stack' ) {
     var idx = cgen.var_idx ( this.text );
-    cgen.emit ( ops.dup, idx );
+    cgen.emit ( ops.dup1, idx );
     cgen.add_temp ( 1 );
     }
   else if ( location === 'global' || 
             location === 'external' ) {
-    cgen.emit ( ops.li );
+    cgen.emit ( ops.li4 );
     cgen.add_temp ( 1 );
     cgen.emit_lookup ( make_lookup (
         this,
@@ -295,7 +315,7 @@ function compile_paren_expr ( compiler ) {
     for ( k in this.args ) {
       compiler.compile ( this.args[k] );
       }
-    cgen.emit ( ops.call, this.args.length );
+    cgen.emit ( ops.call1, this.args.length );
     cgen.emit_pending_bunch ( );
     // + 1 for the function, -1 for the return value.
     cgen.add_temp ( -this.args.length );
@@ -310,7 +330,7 @@ function compile_paren_statement ( compiler ) {
     for ( k in this.args ) {
       compiler.compile ( this.args[k] );
       }
-    cgen.emit ( ops.call, this.args.length );
+    cgen.emit ( ops.call1, this.args.length );
 
     // Remove the function's return value from the stack, since it won't be needed.
     cgen.emit ( ops.pop );
