@@ -28,12 +28,24 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
       led_driver_set_mode(PATTERN_DEFAULT_CHASER);
     }*/
 
-    void *txn = i2c_issue_transaction(i2c1_driver, 0x1c, "\x60", 1, buf, 32);
+    /*void *txn = i2c_issue_transaction(i2c1_driver, 0x1c, "\x60", 1, buf, 32);
     while ((i2c_transaction_status(i2c1_driver, txn) !=
         I2C_TRANSACTION_STATUS_DONE) &&
         (i2c_transaction_status(i2c1_driver, txn) !=
           I2C_TRANSACTION_STATUS_ERROR)) {}
-    i2c_transaction_finish(i2c1_driver, txn);
+    i2c_transaction_finish(i2c1_driver, txn);*/
+
+    void *txn = uart_serial_send_data(smartsensor_1, "\x00\x0A""CDEFGHIJKL", 12);
+    while ((uart_serial_send_status(smartsensor_1, txn) !=
+        UART_SERIAL_SEND_DONE) &&
+        (uart_serial_send_status(smartsensor_1, txn) !=
+          UART_SERIAL_SEND_ERROR)) {}
+    uart_serial_send_finish(smartsensor_1, txn);
+
+    size_t len;
+    uint8_t *buf2;
+    buf2 = uart_serial_receive_packet(smartsensor_1, &len);
+    vPortFree(buf2);
 
     vTaskDelay(500);
   }
@@ -59,6 +71,9 @@ int main(int argc, char **argv) {
 
   // Setup I2C
   i2c1_init();
+
+  // Setup SmartSensors
+  smartsensor1_init();
 
   xTaskCreate(blinkTask, "Blink", 256, NULL, tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();

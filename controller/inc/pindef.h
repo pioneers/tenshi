@@ -131,6 +131,23 @@
   PIN_SPEED_LOW, PIN_PULLUP_PU, 4
 #define PINDEF_I2C_SDA          B, 9, PIN_MODE_AF, PIN_TYPE_OPENDRAIN,  \
   PIN_SPEED_LOW, PIN_PULLUP_PU, 4
+
+// Smart sensor interfaces
+#define PINDEF_SENSOR_CH1_TX    A, 0, PIN_MODE_AF, PIN_TYPE_PUSHPULL,   \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 8
+#define PINDEF_SENSOR_CH1_RX    A, 1, PIN_MODE_AF, PIN_TYPE_PUSHPULL,   \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 8
+#define PINDEF_SENSOR_CH1_TXE   B, 3, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL, \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
+
 #endif
+
+// Misc. other definitions
+
+// TODO(rqou): Consolidate the sources of truth for this
+#define SYSCLK_FREQ   168000000
+#define HCLK_FREQ     SYSCLK_FREQ
+#define PCLK1_FREQ    (SYSCLK_FREQ/2)
+#define PCLK2_FREQ    (SYSCLK_FREQ/4)
 
 #endif  // INC_PINDEF_H_
