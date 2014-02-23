@@ -133,4 +133,12 @@
   PIN_SPEED_LOW, PIN_PULLUP_PU, 4
 #endif
 
+// Misc. other definitions
+
+// TODO(rqou): Consolidate the sources of truth for this
+#define SYSCLK_FREQ   168000000
+#define HCLK_FREQ     SYSCLK_FREQ
+#define PCLK1_FREQ    (SYSCLK_FREQ/2)
+#define PCLK2_FREQ    (SYSCLK_FREQ/4)
+
 #endif  // INC_PINDEF_H_
