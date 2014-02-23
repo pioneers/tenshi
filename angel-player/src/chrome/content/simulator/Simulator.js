@@ -76,11 +76,17 @@ Simulator.prototype.initMouseCameraControls = function()
             mouseX = evt.pageX;
             mouseY = evt.pageY;
         };
+
+        self.domElement.onmouseout = function(evt)
+        {
+            self.domElement.onmousemove = null;
+        };
     };
 
     self.domElement.onmouseup = function(evt)
     {
            self.domElement.onmousemove = null;
+           self.domElement.onmouseout = null;
     };
 
     self.domElement.addEventListener("DOMMouseScroll", function(evt)
