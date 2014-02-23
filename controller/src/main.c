@@ -30,9 +30,9 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
 
     void *txn = i2c_issue_transaction(i2c1_driver, 0x1c, "\x60", 1, buf, 32);
     while ((i2c_transaction_status(i2c1_driver, txn) !=
-        TRANSACTION_STATUS_DONE) &&
+        I2C_TRANSACTION_STATUS_DONE) &&
         (i2c_transaction_status(i2c1_driver, txn) !=
-          TRANSACTION_STATUS_ERROR)) {}
+          I2C_TRANSACTION_STATUS_ERROR)) {}
     i2c_transaction_finish(i2c1_driver, txn);
 
     vTaskDelay(500);

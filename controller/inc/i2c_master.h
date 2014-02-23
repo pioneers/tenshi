@@ -12,11 +12,11 @@ typedef struct tag_i2c_master_module {
 
 // The only possible transactions are send only, receive only, or send then
 // receive.
-#define TRANSACTION_STATUS_QUEUED     1
-#define TRANSACTION_STATUS_SENDING    2
-#define TRANSACTION_STATUS_RECEIVING  3
-#define TRANSACTION_STATUS_DONE       4
-#define TRANSACTION_STATUS_ERROR      5
+#define I2C_TRANSACTION_STATUS_QUEUED     1
+#define I2C_TRANSACTION_STATUS_SENDING    2
+#define I2C_TRANSACTION_STATUS_RECEIVING  3
+#define I2C_TRANSACTION_STATUS_DONE       4
+#define I2C_TRANSACTION_STATUS_ERROR      5
 
 extern i2c_master_module *i2c_master_init_module(void *periph_base);
 extern void *i2c_issue_transaction(i2c_master_module *module, uint8_t addr,
