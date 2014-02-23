@@ -92,11 +92,6 @@ function make ( ) {
         return;
         }
       misc.print ( this.stack );
-      for ( var s in this.stack ) {
-        if (this.stack[s] === undefined) {
-          throw 'Undefined on stack!';
-          }
-        }
       var args = ' ';
       for ( var i = 1; i < tables.argc[op]; i++) {
         args += this.get_arg ( i ) + ' ';
