@@ -1,5 +1,6 @@
-var misc = require ( './misc.js' );
-var scope = require ( './scope.js' );
+var root = process.argv[2];
+var misc = require ( root + '/misc.js' );
+var scope = require ( root + '/scope.js' );
 
 function heirarchies_work ( ) {
   var p = scope.make ( );
