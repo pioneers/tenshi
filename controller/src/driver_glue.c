@@ -286,3 +286,55 @@ void DMA2_Stream6_IRQHandler(void) {
 void DMA2_Stream1_IRQHandler(void) {
   uart_serial_handle_rx_dma_interrupt(smartsensor_4);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+uart_serial_module *radio_driver;
+
+static void radio_txen(int enable) {
+  // We aren't currently using SPI or anything, so we don't need to do anything
+  // here.
+}
+
+void radio_driver_init(void) {
+  // Enable appropriate GPIO banks
+  RCC->AHB1ENR |= GPIO_BANK_AHB1ENR(PINDEF_RADIO_TX);
+  RCC->AHB1ENR |= GPIO_BANK_AHB1ENR(PINDEF_RADIO_RX);
+
+  // Configure the I/O
+  CONFIGURE_IO(RADIO_TX);
+  CONFIGURE_IO(RADIO_RX);
+
+  // Enable the USART3 clock
+  RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
+
+  // Enable the DMA
+  RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN;
+
+  // Initialize the actual driver
+  radio_driver = uart_serial_init_module(3, dummy_length_finder,
+    radio_txen, 57600);
+
+  // Enable the interrupt at priority 15 (lowest)
+  // TODO(rqou): Better place to put things like 15 being lowest priority
+  NVIC_SetPriority(USART3_IRQn, 15);
+  NVIC_EnableIRQ(USART3_IRQn);
+  // TODO(rqou): This DMA stuff shouldn't be split here and in the driver part.
+  NVIC_SetPriority(DMA1_Stream3_IRQn, 15);
+  NVIC_EnableIRQ(DMA1_Stream3_IRQn);
+  NVIC_SetPriority(DMA1_Stream1_IRQn, 15);
+  NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+}
+
+void USART3_IRQHandler(void) {
+  uart_serial_handle_uart_interrupt(radio_driver);
+}
+
+void DMA1_Stream3_IRQHandler(void) {
+  uart_serial_handle_tx_dma_interrupt(radio_driver);
+}
+
+void DMA1_Stream1_IRQHandler(void) {
+  uart_serial_handle_rx_dma_interrupt(radio_driver);
+}
+

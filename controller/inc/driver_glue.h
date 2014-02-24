@@ -23,4 +23,8 @@ extern void smartsensor3_init(void);
 extern uart_serial_module *smartsensor_4;
 extern void smartsensor4_init(void);
 
+// UART3
+extern uart_serial_module *radio_driver;
+extern void radio_driver_init(void);
+
 #endif  // INC_DRIVER_GLUE_H_

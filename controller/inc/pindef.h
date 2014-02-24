@@ -158,6 +158,14 @@
 #define PINDEF_SENSOR_CH4_TXE   C, 13, PIN_MODE_GPIO, PIN_TYPE_PUSHPULL,  \
   PIN_SPEED_LOW, PIN_PULLUP_NONE, 0
 
+// Radio
+// TODO(rqou): How do we handle switching between either an SPI radio or a UART
+// radio? (We currently don't have a SPI radio, but we can)
+#define PINDEF_RADIO_TX         B, 10, PIN_MODE_AF, PIN_TYPE_PUSHPULL,  \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 7
+#define PINDEF_RADIO_RX         B, 11, PIN_MODE_AF, PIN_TYPE_PUSHPULL,  \
+  PIN_SPEED_LOW, PIN_PULLUP_NONE, 7
+
 #endif
 
 // Misc. other definitions
