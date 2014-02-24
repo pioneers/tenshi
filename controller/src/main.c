@@ -13,6 +13,9 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
   uint8_t buf[32];
 
   while (1) {
+    size_t len;
+    uint8_t *buf2;
+    void *txn;
     // Blink green LED
     // GPIO_BANK(PINDEF_GREEN_LED)->ODR ^=
     //   (1 << GPIO_PIN(PINDEF_GREEN_LED));
@@ -35,7 +38,7 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
           I2C_TRANSACTION_STATUS_ERROR)) {}
     i2c_transaction_finish(i2c1_driver, txn);*/
 
-    void *txn = uart_serial_send_data(smartsensor_1, "\x00\x0A""CDEFGHIJKL",
+    txn = uart_serial_send_data(smartsensor_1, "\x00\x0A""CDEFGHIJKL",
       12);
     while ((uart_serial_send_status(smartsensor_1, txn) !=
         UART_SERIAL_SEND_DONE) &&
@@ -43,9 +46,40 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
           UART_SERIAL_SEND_ERROR)) {}
     uart_serial_send_finish(smartsensor_1, txn);
 
-    size_t len;
-    uint8_t *buf2;
     buf2 = uart_serial_receive_packet(smartsensor_1, &len);
+    vPortFree(buf2);
+
+    txn = uart_serial_send_data(smartsensor_2, "\x00\x0A""CDEFGHIJKL",
+      12);
+    while ((uart_serial_send_status(smartsensor_2, txn) !=
+        UART_SERIAL_SEND_DONE) &&
+        (uart_serial_send_status(smartsensor_2, txn) !=
+          UART_SERIAL_SEND_ERROR)) {}
+    uart_serial_send_finish(smartsensor_2, txn);
+
+    buf2 = uart_serial_receive_packet(smartsensor_2, &len);
+    vPortFree(buf2);
+
+    txn = uart_serial_send_data(smartsensor_3, "\x00\x0A""CDEFGHIJKL",
+      12);
+    while ((uart_serial_send_status(smartsensor_3, txn) !=
+        UART_SERIAL_SEND_DONE) &&
+        (uart_serial_send_status(smartsensor_3, txn) !=
+          UART_SERIAL_SEND_ERROR)) {}
+    uart_serial_send_finish(smartsensor_3, txn);
+
+    buf2 = uart_serial_receive_packet(smartsensor_3, &len);
+    vPortFree(buf2);
+
+    txn = uart_serial_send_data(smartsensor_4, "\x00\x0A""CDEFGHIJKL",
+      12);
+    while ((uart_serial_send_status(smartsensor_4, txn) !=
+        UART_SERIAL_SEND_DONE) &&
+        (uart_serial_send_status(smartsensor_4, txn) !=
+          UART_SERIAL_SEND_ERROR)) {}
+    uart_serial_send_finish(smartsensor_4, txn);
+
+    buf2 = uart_serial_receive_packet(smartsensor_4, &len);
     vPortFree(buf2);
 
     vTaskDelay(500);
@@ -75,6 +109,9 @@ int main(int argc, char **argv) {
 
   // Setup SmartSensors
   smartsensor1_init();
+  smartsensor2_init();
+  smartsensor3_init();
+  smartsensor4_init();
 
   xTaskCreate(blinkTask, "Blink", 256, NULL, tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();
