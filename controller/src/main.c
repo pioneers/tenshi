@@ -46,7 +46,7 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
           UART_SERIAL_SEND_ERROR)) {}
     uart_serial_send_finish(smartsensor_1, txn);
 
-    buf2 = uart_serial_receive_packet(smartsensor_1, &len);
+    buf2 = uart_serial_receive_packet(smartsensor_1, &len, 1);
     vPortFree(buf2);
 
     txn = uart_serial_send_data(smartsensor_2, "\x00\x0A""CDEFGHIJKL",
@@ -57,7 +57,7 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
           UART_SERIAL_SEND_ERROR)) {}
     uart_serial_send_finish(smartsensor_2, txn);
 
-    buf2 = uart_serial_receive_packet(smartsensor_2, &len);
+    buf2 = uart_serial_receive_packet(smartsensor_2, &len, 1);
     vPortFree(buf2);
 
     txn = uart_serial_send_data(smartsensor_3, "\x00\x0A""CDEFGHIJKL",
@@ -68,7 +68,7 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
           UART_SERIAL_SEND_ERROR)) {}
     uart_serial_send_finish(smartsensor_3, txn);
 
-    buf2 = uart_serial_receive_packet(smartsensor_3, &len);
+    buf2 = uart_serial_receive_packet(smartsensor_3, &len, 1);
     vPortFree(buf2);
 
     txn = uart_serial_send_data(smartsensor_4, "\x00\x0A""CDEFGHIJKL",
@@ -79,7 +79,7 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
           UART_SERIAL_SEND_ERROR)) {}
     uart_serial_send_finish(smartsensor_4, txn);
 
-    buf2 = uart_serial_receive_packet(smartsensor_4, &len);
+    buf2 = uart_serial_receive_packet(smartsensor_4, &len, 1);
     vPortFree(buf2);
 
     vTaskDelay(500);
