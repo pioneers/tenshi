@@ -8,7 +8,7 @@
 
   <script type="text/javascript" src="globalinit.js"/>
 
-  <browser type="chrome" src="chrome://angel-player/content/main.html"
+  <browser type="chrome" src="chrome://angel-player/content/simulator/main.html"
       flex="1"/>
 
 </window>

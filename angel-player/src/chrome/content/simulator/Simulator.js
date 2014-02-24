@@ -7,47 +7,65 @@ creates a simulator, with canvas size width and height, in domElement
     render loops the simulator
 */
 
-function Simulator(width, height, domElement)
+function Simulator(domElement, master, mapId)
 {
+    this.robots = [];
+    this.robot = null;
     this.domElement = domElement;
     this.saveMan = new SaveManager();
-    this.master = new MasterObject(); // for interaction with VM
+    this.master = master||(new MasterObject()); // for interaction with VM
     this.physicsObjects = new PhysicsObjectManager();
     this.version = 0;
     this.targetFrame = -1;
     this.currentFrame = 0;
 
-    this.initScene(width, height);
-    this.initPhysics();
-    this.initMouseCameraControls();
-    this.loadTestMap();
+    this.width = domElement.offsetWidth;
+    this.height = domElement.offsetHeight;
 
-    this.robot = createCar3(this); // createCar3 is placeholder for loading car model
+    this.loadMap(mapId||"testMap");
 }
 
-Simulator.prototype.initScene = function(width, height)
+Simulator.prototype.initScene = function(width, height, fov, drawDistance, cameraPosition, backgroundColor)
 {
     this.scene = new THREE.Scene();
 
-    // 45 is fov, 1000 is draw distance
-    this.camera = new THREE.PerspectiveCamera(45, width/height, 1, 1000);
-        this.camera.position.set(0, 40, 200);
-        this.camera.lookAt(this.scene.position);
+    this.camera = new THREE.PerspectiveCamera(fov, width/height, 1, drawDistance);
 
     this.centralPosition = this.scene.position;
 
-    this.cameraController = new PovCamera(this.centralPosition, this.camera, 30, 30, 30);
+    this.cameraController = new PovCamera(this.centralPosition, this.camera,
+                                          cameraPosition[0], cameraPosition[1], cameraPosition[2]);
         this.cameraController.updatePosition();
         this.camera.lookAt(this.centralPosition);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(0xD4AF37, 1);
+    this.renderer.setClearColor(backgroundColor, 1);
 
     this.domElement.appendChild(this.renderer.domElement);
 };
 
-Simulator.prototype.initPhysics = function()
+Simulator.prototype.resizeCheck = function()
+{
+    if((this.domElement.offsetWidth^this.width)|
+       (this.domElement.offsetHeight^this.height))
+    {
+        //if size has changed
+
+        this.width = this.domElement.offsetWidth;
+        this.height = this.domElement.offsetHeight;
+
+        this.resizeScene();
+    }
+};
+
+Simulator.prototype.resizeScene = function()
+{
+    this.renderer.setSize(this.offsetWidth, this.domElement.offsetHeight);
+    this.camera.aspect = this.domElement.offsetWidth/this.domElement.offsetHeight;
+};
+
+Simulator.prototype.initPhysics = function(gravity)
 {
     // the following lines were borrowed from a tutorial
     // simulator team is not sure how it works
@@ -59,12 +77,12 @@ Simulator.prototype.initPhysics = function()
                                                          overlappingPairCache,
                                                          solver,
                                                          collisionConfiguration);
-    this.physicsWorld.setGravity(new Ammo.btVector3(0, -50, 0));
+    this.physicsWorld.setGravity(new Ammo.btVector3(gravity[0], gravity[1], gravity[2]));
 };
 
 Simulator.prototype.initMouseCameraControls = function()
 {
-	var self = this;
+    var self = this;
     self.domElement.onmousedown = function(evt)
     {
         mouseX = evt.pageX;
@@ -76,11 +94,17 @@ Simulator.prototype.initMouseCameraControls = function()
             mouseX = evt.pageX;
             mouseY = evt.pageY;
         };
+
+        self.domElement.onmouseout = function(evt)
+        {
+            self.domElement.onmousemove = null;
+        };
     };
 
     self.domElement.onmouseup = function(evt)
     {
            self.domElement.onmousemove = null;
+           self.domElement.onmouseout = null;
     };
 
     self.domElement.addEventListener("DOMMouseScroll", function(evt)
@@ -89,26 +113,110 @@ Simulator.prototype.initMouseCameraControls = function()
     });
 };
 
-// TODO(ericnguyen): create map format to read/save
-Simulator.prototype.loadTestMap = function()
+Simulator.prototype.loadMap = function(mapId)
 {
-    this.createBox(10, 800, 600, 0, 0x0f0f0f, -300, 400 - 40, 0);
-    this.createBox(10, 800, 600, 0, 0x0f0f0f, 300, 400 - 40, 0);
-    this.createBox(600, 800, 10, 0, 0x0f0f0f, 0, 400 - 40, 300);
-    this.createBox(600, 800, 10, 0, 0x0f0f0f, 0, 400 - 40, -300);
-    this.createBox(1200, 10, 1200, 0, 0xffffff, 0, 800 - 40, 0);
-    this.createBox(1200, 10, 1200, 0, 0x0000ff, 0, -40, 0).setFriction(1);
+    var fReader = new FileManager();
 
-    this.createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
-    this.createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
-    this.createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
-    this.createBox(3, 3, 3, 27, 0x990000, 0, 50, 0);
+    var map = fReader.getMapJson(mapId);
+    var cam = map.camera;
+
+    var temp = null;
+
+    this.initScene(this.width,this.height,cam.fov,cam.drawDistance,cam.position,map.backgroundColor);
+    this.initPhysics(map.gravity);
+    this.initMouseCameraControls();
+
+    for(var i = 0; i < map.objects.length; i++)
+    {
+        temp = map.objects[i];
+
+        if(temp.type == "BOX")
+        {
+            this.createBox(temp.width, temp.height, temp.depth, temp.mass, parseInt(temp.color, 16),
+                           temp.position[0], temp.position[1], temp.position[2]).setFriction(temp.friction);
+        }
+        // TODO(ericnguyen): do cylinders later
+    }
+
+
+    for(i = 0; i < map.robot.length; i++)
+    {
+        temp = map.robot[i];
+
+        this.loadRobot(fReader.getRobotJson(temp.id), temp.position);
+    }
+
+    this.robot = this.robots[0];
+};
+
+Simulator.prototype.loadRobot = function(robotJson, position)
+{
+    var data = robotJson;
+    var robot = new Robot(this, this.master);
+        robot.initChassi();
+        // TODO(ericnguyen): modify master objects to allow working different robots
+    var temp = null;
+
+    for(var i = 0; i < data.chassi.length; i++)
+    {
+        temp = data.chassi[i];
+
+        if(temp.type == "BOX")
+        {
+            robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(temp.size[0]/2, temp.size[1]/2, temp.size[2]/2)),
+                           new Ammo.btTransform(new Ammo.btQuaternion(temp.rot[0], temp.rot[1], temp.rot[2]),
+                                                new Ammo.btVector3(temp.offset[0], temp.offset[1], temp.offset[2])),
+                           temp.mass,
+                           createBoxMesh(temp.size[0], temp.size[1], temp.size[2], parseInt(temp.color, 16), this.scene));
+
+        }
+    }
+
+        robot.finishChassi(position[0],position[1],position[2]);
+
+    for(i = 0; i < data.motors.length; i++)
+    {
+        temp = data.motors[i];
+        var motor = new Motor(this, temp.boxSize[0], temp.boxSize[1], temp.boxSize[2], temp.boxMass, parseInt(temp.boxColor, 16),
+                              temp.wheelRad, temp.wheelHeight, temp.wheelMass, parseInt(temp.wheelColor, 16),
+                              temp.offset[0] + position[0], temp.offset[1] + position[1], temp.offset[2] + position[2]);
+
+        robot.addMotor(i, motor, motor.motor,
+                       new Ammo.btVector3(temp.chassiLoc[0], temp.chassiLoc[1], temp.chassiLoc[2]),
+                       new Ammo.btVector3(temp.objectLoc[0], temp.objectLoc[1], temp.objectLoc[2]),
+                       new Ammo.btVector3(temp.chassiAxis[0], temp.chassiAxis[1], temp.chassiAxis[2]),
+                       new Ammo.btVector3(temp.objectAxis[0], temp.objectAxis[1], temp.objectAxis[2]));
+    }
+
+    for(i = 0; i < data.sensors.length; i++)
+    {
+        temp = data.sensors[i];
+
+        if(temp.type == "RF")
+        {
+            var rf = new Rangefinder(this, temp.size[0], temp.size[1], temp.size[2],
+                                    temp.mass, temp.offset[0], temp.offset[1], temp.offset[2],
+                                    temp.maxDistance);
+
+            robot.addSensor(i, rf, rf.physicsObject,
+                            new Ammo.btVector3(temp.chassiLoc[0], temp.chassiLoc[1], temp.chassiLoc[2]),
+                            new Ammo.btVector3(temp.objectLoc[0], temp.objectLoc[1], temp.objectLoc[2]),
+                            new Ammo.btVector3(temp.chassiAxis[0], temp.chassiAxis[1], temp.chassiAxis[2]),
+                            new Ammo.btVector3(temp.objectAxis[0], temp.objectAxis[1], temp.objectAxis[2]));
+        }
+
+        // TODO(ericnguyen): allow loading of other types of sensors
+    }
+
+    this.robots.push(robot);
 };
 
 Simulator.prototype.render = function()
 {
     if(this.saveMan.shouldSave(this.currentFrame))
         this.saveMan.storeState(this.physicsObjects.getState(this)); // deals with saving
+
+    this.resizeCheck(); //if div has changed, resize
 
     if(this.master.isPaused);
     else if(this.master.version < this.version) // Checks for reversing
@@ -138,8 +246,12 @@ Simulator.prototype.render = function()
             this.master.version = this.version;
         }
 
-        this.robot.simulate(); // check version, update motors as necessary, write new sensor to master
-        this.robot.updateSensors(); // writes sensory data to master object
+        for(var botIndex in this.robots)
+        {
+            this.robots[botIndex].simulate(); // check version, update motors as necessary, write new sensor to master
+            this.robots[botIndex].updateSensors(); // writes sensory data to master object
+        }
+
         this.physicsWorld.stepSimulation( 1 / 60, 5 ); // tells ammo.js to apply physics
         this.physicsObjects.render(); // update meshes of moving objects
         this.renderer.render(this.scene, this.camera); // tells three.js to render scene

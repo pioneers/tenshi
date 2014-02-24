@@ -2,6 +2,7 @@
     <head>
         <title>test</title>
         <script type="text/javascript" src="xmlLoad.js"></script>
+        <script type="text/javascript" src="FileManager.js"></script>
         <script type="text/javascript" src="Ammo/ammo.js"></script>
         <script type="text/javascript" src="Ammo/ammoWrappers.js"></script>
         <script type="text/javascript" src="Ammo/mathSupplements.js"></script>
@@ -25,10 +26,11 @@
         <script src="../tenshi-frontend/javascripts/vendor/jquery.js"></script>
     </head>
     <body>
-        <div id="mainScreen"></div>
+        <div id="mainScreen" style="height: 900px; width: 1400px;"></div>
         <div><a id="RF number">lele</a></div>
         <script type="text/javascript">
-            var simmy = new Simulator(500, 500, document.getElementById("mainScreen"));
+            (new FileManager()).test();
+            var simmy = new Simulator(document.getElementById("mainScreen"), null, "testMap");
 
             // TODO (ericnguyen): wrap all these test functions and organize them elsewhere
             var keyMan = new KeyManager(document);
@@ -106,9 +108,6 @@
             keyMan.bindFunc(DOWN, 83, load);
 
             keyMan.bindFunc(DOWN, 71, jump);
-
-            document.onkeydown = keyMan.updateDown; // apparently, cannot pass document as reference
-            document.onkeyup = keyMan.updateUp;
 
             simmy.render();
             readVal();
