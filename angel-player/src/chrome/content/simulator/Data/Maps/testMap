@@ -1,0 +1,126 @@
+{
+    "objects" :
+    [
+        {
+            "type":"BOX",
+            "width":10,
+            "height":800,
+            "depth":600,
+            "color":"0x0f0f0f",
+            "mass":0,
+            "friction":0,
+            "position":[-300, 360, 0]
+        },
+        {
+            "type":"BOX",
+            "width":10,
+            "height":800,
+            "depth":600,
+            "color":"0x0f0f0f",
+            "mass":0,
+            "friction":0,
+            "position":[300, 360, 0]
+        },
+        {
+            "type":"BOX",
+            "width":600,
+            "height":800,
+            "depth":10,
+            "color":"0x0f0f0f",
+            "mass":0,
+            "friction":0,
+            "position":[0, 360, 300]
+        },
+        {
+            "type":"BOX",
+            "width":600,
+            "height":800,
+            "depth":10,
+            "color":"0x0f0f0f",
+            "mass":0,
+            "friction":0,
+            "position":[0, 360, -300]
+        },
+        {
+            "type":"BOX",
+            "width":1200,
+            "height":10,
+            "depth":1200,
+            "color":"0xffffff",
+            "mass":0,
+            "friction":0,
+            "position":[0, 760, 0]
+        },
+        {
+            "type":"BOX",
+            "width":1200,
+            "height":10,
+            "depth":1200,
+            "color":"0x0000ff",
+            "mass":0,
+            "friction":1,
+            "position":[0, -40, 0]
+        },
+        {
+            "type":"BOX",
+            "width":3,
+            "height":3,
+            "depth":3,
+            "color":"0x990000",
+            "mass":27,
+            "friction":0,
+            "position":[0, 50, 0]
+        },
+        {
+            "type":"BOX",
+            "width":3,
+            "height":3,
+            "depth":3,
+            "color":"0x990000",
+            "mass":27,
+            "friction":0,
+            "position":[0, 50, 0]
+        },
+        {
+            "type":"BOX",
+            "width":3,
+            "height":3,
+            "depth":3,
+            "color":"0x990000",
+            "mass":27,
+            "friction":0,
+            "position":[0, 50, 0]
+        },
+        {
+            "type":"BOX",
+            "width":3,
+            "height":3,
+            "depth":3,
+            "color":"0x990000",
+            "mass":27,
+            "friction":0,
+            "position":[0, 50, 0]
+        }
+    ],
+
+    "gravity" : [0, -50, 0],
+    
+    "camera" :
+    {
+        "fov" : 45,
+        "drawDistance" : 1000,
+        
+        "type" : "POV",
+        "position" : [30, 30, 30]
+    },
+    
+    "backgroundColor" : "0xD4AF37",
+
+    "robot" :
+    [
+        {
+            "id" : "testRobot",
+            "position" : [0,100,0]
+        }
+    ]
+}
