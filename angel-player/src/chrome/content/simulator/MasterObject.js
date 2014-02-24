@@ -12,9 +12,13 @@ MasterObject.prototype.saveMotors = function()
     var motors = {};
     motors.version = this.version;
 
-    for(var motor in this.motors)
+    for(var robot in this.motors)
     {
-        motors[motor] = this.motors[motor];
+        motors[robot] = {};
+        for(var motor in this.motors[robot])
+        {
+            motors[robot][motor] = this.motors[robot][motor];
+        }
     }
 
     return motors;
@@ -22,9 +26,12 @@ MasterObject.prototype.saveMotors = function()
 
 MasterObject.prototype.loadMotors = function(state, vrsn)
 {
-    for(var motor in state)
+    for(var robot in state)
     {
-        this.motors[motor] = state[motor];
+        for(var motor in state[robot])
+        {
+            this.motors[robot][motor] = state[robot][motor];
+        }
     }
 
     this.version = vrsn;

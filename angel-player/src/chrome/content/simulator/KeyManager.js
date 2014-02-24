@@ -2,7 +2,7 @@ DOWN = 0;
 HOLD = 1;
 UP = 2;
 
-function KeyManager()
+function KeyManager(doc)
 {
     var self = this;
     self.state = {};
@@ -13,7 +13,7 @@ function KeyManager()
     self.updateDown = function(e)
     {
         var key = e.which || e.keyCode; // some browsers use different
-        console.log(key);
+        printOut(key);
 
         self.state[key] = 1;
 
@@ -28,6 +28,9 @@ function KeyManager()
 
         self.actOnFuncs(UP, key);
     };
+
+    doc.onkeydown = self.updateDown;
+    doc.onkeyup = self.updateUp;
 }
 
 KeyManager.prototype.updateHold = function()
