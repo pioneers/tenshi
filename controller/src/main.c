@@ -82,6 +82,17 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
     buf2 = uart_serial_receive_packet(smartsensor_4, &len, 1);
     vPortFree(buf2);
 
+    txn = uart_serial_send_data(radio_driver, "\x00\x0A""CDEFGHIJKL",
+      12);
+    while ((uart_serial_send_status(radio_driver, txn) !=
+        UART_SERIAL_SEND_DONE) &&
+        (uart_serial_send_status(radio_driver, txn) !=
+          UART_SERIAL_SEND_ERROR)) {}
+    uart_serial_send_finish(radio_driver, txn);
+
+    buf2 = uart_serial_receive_packet(radio_driver, &len, 1);
+    vPortFree(buf2);
+
     vTaskDelay(500);
   }
 }
@@ -112,6 +123,9 @@ int main(int argc, char **argv) {
   smartsensor2_init();
   smartsensor3_init();
   smartsensor4_init();
+
+  // Setup radio
+  radio_driver_init();
 
   xTaskCreate(blinkTask, "Blink", 256, NULL, tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();
