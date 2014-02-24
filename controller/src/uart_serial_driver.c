@@ -286,11 +286,16 @@ int uart_serial_send_finish(uart_serial_module *module, void *_transaction) {
 }
 
 uint8_t *uart_serial_receive_packet(uart_serial_module *module,
-  size_t *len_out) {
+  size_t *len_out, int shouldBlock) {
   uart_txn *txn;
 
-  xQueueReceive(((uart_serial_module_private *)module)->rxQueue, &txn,
-    portMAX_DELAY);
+  int ret = xQueueReceive(
+    ((uart_serial_module_private *)module)->rxQueue, &txn,
+    shouldBlock ? portMAX_DELAY : 0);
+
+  if (!ret) {
+    return NULL;
+  }
 
   if (len_out) {
     *len_out = txn->len;

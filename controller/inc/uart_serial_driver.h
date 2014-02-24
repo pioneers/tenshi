@@ -24,7 +24,7 @@ extern int uart_serial_send_status(uart_serial_module *module,
 extern int uart_serial_send_finish(uart_serial_module *module,
   void *transaction);
 extern uint8_t *uart_serial_receive_packet(uart_serial_module *module,
-  size_t *len_out);
+  size_t *len_out, int shouldBlock);
 
 extern void uart_serial_handle_tx_dma_interrupt(uart_serial_module *module);
 extern void uart_serial_handle_rx_dma_interrupt(uart_serial_module *module);
