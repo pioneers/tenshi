@@ -10,7 +10,7 @@ then
 fi
 
 export PATH="`npm bin`:$PATH"
-for module in browserify
+for module in browserify buffer
 do
   echo "Checking for $module"
   if [ ! -e node_modules/$module ]
