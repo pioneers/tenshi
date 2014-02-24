@@ -2,6 +2,7 @@
     <head>
         <title>test</title>
         <script type="text/javascript" src="xmlLoad.js"></script>
+        <script type="text/javascript" src="FileManager.js"></script>
         <script type="text/javascript" src="Ammo/ammo.js"></script>
         <script type="text/javascript" src="Ammo/ammoWrappers.js"></script>
         <script type="text/javascript" src="Ammo/mathSupplements.js"></script>
@@ -21,14 +22,13 @@
         <script type="text/javascript" src="SaveManager.js"></script>
         <script type="text/javascript" src="miscFuncs.js"></script>
         <script type="text/javascript" src="Simulator.js"></script>
-        <script type="text/javascript" src="../angelic/bundle.js"></script>
-        <script src="../tenshi-frontend/javascripts/vendor/jquery.js"></script>
     </head>
     <body>
-        <div id="mainScreen"></div>
+        <div id="mainScreen" style="height: 900px; width: 1400px;"></div>
         <div><a id="RF number">lele</a></div>
         <script type="text/javascript">
-            var simmy = new Simulator(500, 500, document.getElementById("mainScreen"));
+            (new FileManager()).test();
+            var simmy = new Simulator(document.getElementById("mainScreen"), null, "testMap");
 
             // TODO (ericnguyen): wrap all these test functions and organize them elsewhere
             var keyMan = new KeyManager(document);
@@ -107,47 +107,8 @@
 
             keyMan.bindFunc(DOWN, 71, jump);
 
-            document.onkeydown = keyMan.updateDown; // apparently, cannot pass document as reference
-            document.onkeyup = keyMan.updateUp;
-
             simmy.render();
             readVal();
         </script>
-        <script type="text/javascript">
-            function gen_vm() {
-                var vm = angelic.make ( );
-                var robot = simmy.robot.master;
-
-                function set_motor ( port, val ) {
-                    robot.motors [ port ] = val;
-                    robot.version += 1;
-                }
-
-                function get_sensor ( port ) {
-                    return robot.sensors [ port ];
-                }
-
-                vm.add_library ( 'core', [
-                    vm.make_exfn ( 0, 'print', function(args) {console.log(args)} ),
-                    vm.make_exfn ( 1, 'set_motor', set_motor ),
-                    vm.make_exfn ( 2, 'get_sensor', get_sensor ),
-                ] );
-                return vm;
-            }
-
-            function onResume() {
-                // Set simulator as default VM target when it is focused
-                var require = parent.require;
-                if (require === undefined) {
-                    return;
-                }
-
-                var controls = require("controls");
-
-                controls.vm_generator = gen_vm;
-            }
-
-            $(onResume); // also call on load
-       </script>
     </body>
 </html>

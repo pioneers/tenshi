@@ -3,8 +3,14 @@ function printMethods(obj)
     var prop;
     for(prop in obj)
     {
-        console.log("Foo has property " + prop);
+        printOut("Foo has property " + prop);
     }
+}
+
+function printOut(string)
+{
+  Components.utils.reportError(string);
+  console.log(string);
 }
 
 // TODO(ericnguyen): fix bug with saving wrong frame (right version, wrong frame)
