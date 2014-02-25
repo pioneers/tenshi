@@ -9,7 +9,7 @@ var misc = require ( './misc.js' );
 
 var lex = function ( ) {
   var token_reg = xregexp.XRegExp (
-      ' (?<space>       \\p{Whitespace}+)                   |' +
+      ' (?<space>       [\\n ][ ]*)                         |' +
       ' (?<number>      [0-9]+)                             |' +
       ' (?<identifier>  [\\p{Letter}_] [\\p{Letter}_0-9]*)  |' +
       ' (?<operator>    [^\\p{Letter}_0-9\\p{Whitespace}]+)  ' ,
