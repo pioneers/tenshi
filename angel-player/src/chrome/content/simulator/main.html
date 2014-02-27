@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>test</title>
-        <script type="text/javascript" src="xmlLoad.js"></script>
+        <script type="text/javascript" src="FileManager.js"></script>
         <script type="text/javascript" src="Ammo/ammo.js"></script>
         <script type="text/javascript" src="Ammo/ammoWrappers.js"></script>
         <script type="text/javascript" src="Ammo/mathSupplements.js"></script>
@@ -25,10 +25,10 @@
         <script src="../tenshi-frontend/javascripts/vendor/jquery.js"></script>
     </head>
     <body>
-        <div id="mainScreen"></div>
+        <div id="mainScreen" style="height: 500px; width: 1400px;"></div>
         <div><a id="RF number">lele</a></div>
         <script type="text/javascript">
-            var simmy = new Simulator(500, 500, document.getElementById("mainScreen"));
+            var simmy = new Simulator(document.getElementById("mainScreen"), null, "testMap");
 
             // TODO (ericnguyen): wrap all these test functions and organize them elsewhere
             var keyMan = new KeyManager(document);
@@ -107,9 +107,6 @@
 
             keyMan.bindFunc(DOWN, 71, jump);
 
-            document.onkeydown = keyMan.updateDown; // apparently, cannot pass document as reference
-            document.onkeyup = keyMan.updateUp;
-
             simmy.render();
             readVal();
         </script>
@@ -119,12 +116,12 @@
                 var robot = simmy.robot.master;
 
                 function set_motor ( port, val ) {
-                    robot.motors [ port ] = val;
+                    robot.motors[0] [ port ] = val;
                     robot.version += 1;
                 }
 
                 function get_sensor ( port ) {
-                    return robot.sensors [ port ];
+                    return robot.sensors[0] [ port ];
                 }
 
                 vm.add_library ( 'core', [
