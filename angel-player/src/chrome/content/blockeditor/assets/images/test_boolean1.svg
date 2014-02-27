@@ -1,0 +1,122 @@
+<?xml version="1.0" ?>
+<!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.1//EN'
+  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
+<svg height="250px" style="enable-background:new 0 0 244.8 250;" version="1.1" viewBox="0 0 244.8 250" width="244.8px" x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0px">
+<style type="text/css">
+
+
+	.unusedb8bc20a6{opacity:0.unusedb8bc5ca6;fill:url(#bs2_input_l_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unfocused_x5F_{fill:#E6E7E8;}
+	.unusedb8bc96a6{opacity:0.unusedb8bca8a6;fill:url(#fn_f_input_2_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.focused_x5F_{opacity:0.unusedb8bcd2a6;fill:url(#focused_x5F_style_15_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bce2a6{opacity:0.unusedb8bcf2a6;fill:url(#focused_x5F_style_16_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bd04a6{opacity:0.unusedb8bd14a6;fill:url(#focused_x5F_style_17_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bd24a6{opacity:0.unusedb8bd36a6;fill:url(#focused_x5F_style_18_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bd46a6{opacity:0.unusedb8bd58a6;fill:url(#focused_x5F_style_19_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bd68a6{opacity:0.unusedb8bd70a6;fill:url(#assign1_inputvar_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bd82a6{opacity:0.unusedb8bd92a6;fill:url(#focused_x5F_style_20_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bda2a6{opacity:0.unusedb8bdb4a6;fill:url(#focused_x5F_style_21_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bdc4a6{opacity:0.unusedb8bdd6a6;fill:url(#focused_x5F_style_22_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bde6a6{opacity:0.unusedb8bdf6a6;fill:url(#focused_x5F_style_23_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8be08a6{opacity:0.unusedb8be10a6;fill:url(#focused_x5F_style_24_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8be20a6{opacity:0.unusedb8be32a6;fill:url(#focused_x5F_style_25_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8be42a6{opacity:0.unusedb8be52a6;fill:url(#focused_x5F_style_26_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8be64a6{opacity:0.unusedb8be6ca6;fill:url(#focused_x5F_style_27_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8be7ca6{opacity:0.unusedb8be8ea6;fill:url(#focused_x5F_style_28_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8be9ea6{opacity:0.unusedb8bea6a6;fill:url(#focused_x5F_style_29_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8beb8a6{opacity:0.unusedb8bec8a6;fill:url(#ms_input_r_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bedaa6{opacity:0.unusedb8bee2a6;fill:url(#ms_selector_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.st21_-422659284306941763{fill:#231F20;}
+	.unusedb8bf0ca6{opacity:0.unusedb8bf14a6;fill:url(#assign1_inputval_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bf2ea6{opacity:0.unusedb8bf36a6;fill:url(#ms_input_l_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bf46a6{opacity:0.unusedb8bf56a6;fill:url(#focused_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bf68a6{opacity:0.unusedb8bf70a6;fill:url(#assign2_inputvar_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bf80a6{opacity:0.unusedb8bf92a6;fill:url(#focus);}
+	.st27_-422659284306941763{fill:#FFFFFF;stroke:#BCBEC0;stroke-miterlimit:10;}
+	.st28_-422659284306941763{opacity:0.unusedb8bfc4a6;fill:url(#bs1_input_r_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.st29_-422659284306941763{opacity:0.unusedb8bfdea6;fill:url(#bs1_selector_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8bfeea6{opacity:0.unusedb8bffea6;fill:url(#assign2_inputval_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.st31_-422659284306941763{fill:none;}
+	.st32_-422659284306941763{opacity:0.unusedb8c028a6;fill:url(#bs1_input_l_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8c03aa6{opacity:0.unusedb8c04aa6;fill:url(#input_filler_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8c05ca6{opacity:0.unusedb8c06ca6;fill:none;}
+	.unusedb8c07ca6{opacity:0.unusedb8c084a6;fill:url(#bs2_selector_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.unusedb8c096a6{opacity:0.unusedb8c0a6a6;fill:url(#bs2_input_r_1_);stroke:#BCBEC0;stroke-miterlimit:10;}
+	.st37_-422659284306941763{fill:#A7A9AC;}
+
+
+</style>
+<pattern height="36.1" id="focus" patternUnits="userSpaceOnUse" style="overflow:visible;" viewBox="38.7 -67.9 36.1 36.1" width="36.1" x="-1578.8" y="8">
+<g>
+<polygon class="st31_-422659284306941763" points="38.7,-67.9 74.9,-67.9 74.9,-31.8 38.7,-31.8   "/>
+<g>
+<polygon class="st37_-422659284306941763" points="104,-40.8 65.8,-2.6 66.9,-1.4 105.2,-39.6    "/>
+<polygon class="st37_-422659284306941763" points="111.5,-43 73.3,-4.8 74.4,-3.6 112.6,-41.8    "/>
+<polygon class="st37_-422659284306941763" points="97.8,-47.5 59.6,-9.3 60.7,-8.2 99,-46.4    "/>
+<polygon class="st37_-422659284306941763" points="106.5,-51.7 68.3,-13.5 69.5,-12.4 107.7,-50.6    "/>
+<polygon class="st37_-422659284306941763" points="110.5,-51.6 72.3,-13.3 73.4,-12.2 111.7,-50.4    "/>
+</g>
+<g>
+<polygon class="st37_-422659284306941763" points="81.5,-40.6 43.2,-2.3 44.4,-1.2 82.6,-39.4    "/>
+<polygon class="st37_-422659284306941763" points="84.4,-39.4 46.2,-1.2 47.4,0 85.6,-38.2    "/>
+<polygon class="st37_-422659284306941763" points="67.9,-40.8 29.6,-2.6 30.8,-1.4 69,-39.6    "/>
+<polygon class="st37_-422659284306941763" points="75.3,-43 37.1,-4.8 38.3,-3.6 76.5,-41.8    "/>
+<polygon class="st37_-422659284306941763" points="80.6,-43.8 42.3,-5.6 43.5,-4.5 81.7,-42.7    "/>
+<polygon class="st37_-422659284306941763" points="61.7,-47.5 23.4,-9.3 24.6,-8.2 62.8,-46.4    "/>
+<polygon class="st37_-422659284306941763" points="70.4,-51.7 32.2,-13.5 33.3,-12.4 71.5,-50.6    "/>
+<polygon class="st37_-422659284306941763" points="74.4,-51.6 36.1,-13.3 37.3,-12.2 75.5,-50.4    "/>
+</g>
+<g>
+<polygon class="st37_-422659284306941763" points="45.3,-40.6 7.1,-2.3 8.3,-1.2 46.5,-39.4    "/>
+<polygon class="st37_-422659284306941763" points="48.3,-39.4 10.1,-1.2 11.2,0 49.5,-38.2    "/>
+<polygon class="st37_-422659284306941763" points="39.2,-43 1,-4.8 2.1,-3.6 40.3,-41.8    "/>
+<polygon class="st37_-422659284306941763" points="44.4,-43.8 6.2,-5.6 7.3,-4.5 45.6,-42.7    "/>
+<polygon class="st37_-422659284306941763" points="38.2,-51.6 0,-13.3 1.2,-12.2 39.4,-50.4    "/>
+</g>
+<g>
+<polygon class="st37_-422659284306941763" points="104,-76.9 65.8,-38.7 66.9,-37.6 105.2,-75.8    "/>
+<polygon class="st37_-422659284306941763" points="111.5,-79.1 73.3,-40.9 74.4,-39.8 112.6,-78    "/>
+<polygon class="st37_-422659284306941763" points="97.8,-83.7 59.6,-45.4 60.7,-44.3 99,-82.5    "/>
+<polygon class="st37_-422659284306941763" points="106.5,-87.9 68.3,-49.6 69.5,-48.5 107.7,-86.7    "/>
+<polygon class="st37_-422659284306941763" points="110.5,-87.7 72.3,-49.5 73.4,-48.3 111.7,-86.5    "/>
+</g>
+<g>
+<polygon class="st37_-422659284306941763" points="81.5,-76.7 43.2,-38.5 44.4,-37.3 82.6,-75.5    "/>
+<polygon class="st37_-422659284306941763" points="84.4,-75.5 46.2,-37.3 47.4,-36.1 85.6,-74.4    "/>
+<polygon class="st37_-422659284306941763" points="67.9,-76.9 29.6,-38.7 30.8,-37.6 69,-75.8    "/>
+<polygon class="st37_-422659284306941763" points="75.3,-79.1 37.1,-40.9 38.3,-39.8 76.5,-78    "/>
+<polygon class="st37_-422659284306941763" points="80.6,-80 42.3,-41.7 43.5,-40.6 81.7,-78.8    "/>
+<polygon class="st37_-422659284306941763" points="61.7,-83.7 23.4,-45.4 24.6,-44.3 62.8,-82.5    "/>
+<polygon class="st37_-422659284306941763" points="70.4,-87.9 32.2,-49.6 33.3,-48.5 71.5,-86.7    "/>
+<polygon class="st37_-422659284306941763" points="74.4,-87.7 36.1,-49.5 37.3,-48.3 75.5,-86.5    "/>
+</g>
+<g>
+<polygon class="st37_-422659284306941763" points="45.3,-76.7 7.1,-38.5 8.3,-37.3 46.5,-75.5    "/>
+<polygon class="st37_-422659284306941763" points="48.3,-75.5 10.1,-37.3 11.2,-36.1 49.5,-74.4    "/>
+<polygon class="st37_-422659284306941763" points="39.2,-79.1 1,-40.9 2.1,-39.8 40.3,-78    "/>
+<polygon class="st37_-422659284306941763" points="44.4,-80 6.2,-41.7 7.3,-40.6 45.6,-78.8    "/>
+<polygon class="st37_-422659284306941763" points="38.2,-87.7 0,-49.5 1.2,-48.3 39.4,-86.5    "/>
+</g>
+</g>
+</pattern>
+<g id="boolean_select1">
+<polygon class="st27_-422659284306941763" id="bs1_body" points="150.5,125.1 166.7,141.5 87.1,141.5 103.5,124.9 87.2,108.5 166.9,108.5  "/>
+<pattern id="bs1_input_r_1_" patternTransform="matrix(1 0 0 1 48.7969 -180.7124)" xlink:href="#focus"/>
+<polygon class="st28_-422659284306941763" id="bs1_input_r" points="224.5,124.9 208.1,141.5 166.7,141.5 150.5,125.1 166.9,108.5 208.2,108.5  "/>
+<pattern id="bs1_input_l_1_" patternTransform="matrix(1 0 0 1 48.7969 -180.7124)" xlink:href="#focus"/>
+<polygon class="st32_-422659284306941763" id="bs1_input_l" points="103.5,124.9 87.1,141.5 45.7,141.5 29.5,125.1 45.9,108.5 87.2,108.5  "/>
+<rect class="st27_-422659284306941763" height="12.9" id="bs1_box" width="30" x="112.3" y="120.7"/>
+<rect class="st27_-422659284306941763" height="64.5" id="bs1_dropdown" width="30" x="112.3" y="133.1"/>
+<pattern id="bs1_selector_1_" patternTransform="matrix(1 0 0 1 48.7969 -180.7124)" xlink:href="#focus"/>
+<rect class="st29_-422659284306941763" height="11.6" id="bs1_selector" width="30" x="111.8" y="121.4"/>
+<path class="st21_-422659284306941763" d="M123.4,174.5l6.8-3v1l-5.5,2.4v0l5.5,2.4v1l-6.8-3V174.5z M130.2,180.7v0.9h-6.8v-0.9H130.2z   " id="bs1_lesseq"/>
+<path class="st21_-422659284306941763" d="M123.9,191.4l5.5-2.4v0l-5.5-2.4v-1l6.8,3v0.8l-6.8,3V191.4z M130.6,194.8v0.9h-6.8v-0.9   H130.6z" id="bs1_greatereq"/>
+<path class="st21_-422659284306941763" d="M125.6,142.1h-1.9v-0.9h2.5l1.4-1.9h-3.9v-0.9h4.6l1.4-1.9l0.7,0.5l-1,1.4h1.9v0.9h-2.5   l-1.4,1.9h3.9v0.9h-4.5l-1.3,1.8l-0.7-0.5L125.6,142.1z" id="bs1_notequal"/>
+<path class="st21_-422659284306941763" d="M123.5,151.3l7.2-3.2v1.1l-5.9,2.5v0l5.9,2.5v1.1l-7.2-3.2V151.3z" id="bs1_less"/>
+<path class="st21_-422659284306941763" d="M123.8,165.6l5.9-2.5v0l-5.9-2.5v-1.1l7.2,3.2v0.8l-7.2,3.2V165.6z" id="bs1_greater"/>
+<path class="st21_-422659284306941763" d="M122.8,125.5h8.4v1h-8.4V125.5z M122.8,128.6h8.4v1h-8.4V128.6z" id="bs1_equals"/>
+<pattern id="focused_x5F_style_15_" patternTransform="matrix(1 0 0 1 48.7969 -180.7124)" xlink:href="#focus"/>
+</g>
+</svg>
