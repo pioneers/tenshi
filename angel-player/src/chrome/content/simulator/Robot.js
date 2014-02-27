@@ -22,7 +22,7 @@ Robot is the main robot class
         object axis is in which axis (relative to object) the hinge should be connected
 */
 
-function Robot(simulator, master)
+function Robot(simulator, master, id)
 {
     this.chassi = null;
     this.mesh = null;
@@ -32,6 +32,9 @@ function Robot(simulator, master)
     this.sensors = {};
     this.mass = 0;
     this.master = master;
+        this.master.robotMotors[id] = {};
+        this.master.robotSensors[id] = {};
+    this.id = id;
 
     this.simulator = simulator;
 
@@ -41,7 +44,7 @@ function Robot(simulator, master)
 Robot.prototype.setMotor = function(port, value)
 {
     this.motors[port].setVal(value);
-    this.master.motors[port] = value;
+    this.master.robotMotors[this.id][port] = value;
 };
 
 Robot.prototype.simulate = function()
@@ -61,7 +64,7 @@ Robot.prototype.updateMotors = function()
 {
     for(var port in this.motors)
     {
-        this.motors[port].setVal(this.master.motors[port]);
+        this.motors[port].setVal(this.master.robotMotors[this.id][port]);
     }
 };
 
@@ -69,7 +72,7 @@ Robot.prototype.updateSensors = function()
 {
     for(var port in this.sensors)
     {
-        this.simulator.master.sensors[port] = this.sensors[port].getVal();
+        this.simulator.master.robotSensors[this.id][port] = this.sensors[port].getVal();
     }
 };
 
@@ -116,7 +119,7 @@ Robot.prototype.finishChassi = function(iniX, iniY, iniZ)
 
 Robot.prototype.addMotor = function(port, object, physicsObject, chassiLoc, objectLoc, chassiAxis, objectAxis)
 {
-    this.simulator.master.motors[port] = 0;
+    this.simulator.master.robotMotors[this.id][port] = 0;
     this.motors[port] = object;
 
     var constraint = new Ammo.btHingeConstraint(this.physicsChassi, physicsObject,
@@ -130,7 +133,7 @@ Robot.prototype.addMotor = function(port, object, physicsObject, chassiLoc, obje
 
 Robot.prototype.addSensor = function(port, object, physicsObject, chassiLoc, objectLoc, chassiAxis, objectAxis)
 {
-    this.simulator.master.sensors[port] = 0;
+    this.simulator.master.robotSensors[this.id][port] = 0;
     this.sensors[port] = object;
 
     var constraint = new Ammo.btHingeConstraint(this.physicsChassi, physicsObject,
