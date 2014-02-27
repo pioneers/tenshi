@@ -1,17 +1,17 @@
 var root = process.argv[2];
 var misc = require ( root + '/misc.js' );
-var assembler = require ( root + '/assembler.js' );
+var emitter = require ( root + '/emitter.js' );
 
-var asm = assembler.make ( );
+var emit = emitter.make ( );
 
-asm.begin_obj ( 'test_obj' );
-  var label = asm.emit_label ( );
-    asm.emit_li ( 'int', 1 );
-    var label2 = asm.emit_label ( );
-      asm.emit_li ( 'int', 1 );
-  asm.emit_label_end ( label );
-  asm.emit_li ( 'int', 1 );
-asm.end_obj ( );
+emit.begin_obj ( 'test_obj' );
+  var label = emit.emit_label ( );
+    emit.emit_li ( 'int', 1 );
+    var label2 = emit.emit_label ( );
+      emit.emit_li ( 'int', 1 );
+  emit.emit_label_end ( label );
+  emit.emit_li ( 'int', 1 );
+emit.end_obj ( );
 
 function line ( i, out ) {
   if ( i === 0 ) {
@@ -22,7 +22,7 @@ function line ( i, out ) {
     }
   }
 
-var o = asm.to_asm ( '', '  ' );
+var o = emit.to_asm ( '', '  ' );
 
 misc.print ( o );
 
@@ -33,7 +33,7 @@ misc.assert ( /    [^ ]/.test ( line ( 2, o ).substr ( 0, 5 ) ),
 misc.assert ( /      [^ ]/.test ( line ( 6, o ).substr ( 0, 7 ) ),
               'Indent should be 6 spaces.' );
 
-var o = asm.to_asm ( '  ', '    ' );
+var o = emit.to_asm ( '  ', '    ' );
 
 misc.print ( o );
 

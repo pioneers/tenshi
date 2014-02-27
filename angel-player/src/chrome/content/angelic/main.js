@@ -9,6 +9,7 @@ var library = require ( './library.js' );
 var analyzer = require ( './analyze.js' );
 var recurser = require ( './recurser.js' );
 var module = require ( './module.js' );
+var emitter = require ( './emitter.js' );
 
 //
 // This is the main Angelic module
@@ -24,6 +25,7 @@ function make ( ) {
   var a_library = library.make ( );
   var a_analyzer = analyzer.make ( );
   var a_recurser = recurser.make ( );
+  var a_emitter = emitter.make ( );
   var text = '';
   var modules = string_map.make ( );
 

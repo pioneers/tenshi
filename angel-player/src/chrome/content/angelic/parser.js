@@ -442,6 +442,7 @@ var make = function ( ) {
               }
             parser.advance ( ')' );
             },
+          ctxt : 'expression',
           led: paren_led,
           },
         ')' : { lbp: 0 },
@@ -503,6 +504,7 @@ var make = function ( ) {
           },
         '(' : {
           lbp: 100,
+          ctxt : 'statement',
           led: paren_led,
           },
         } ) );
