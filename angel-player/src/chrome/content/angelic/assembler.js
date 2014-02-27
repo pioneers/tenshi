@@ -30,13 +30,14 @@ function get_label_end ( rows, start_index ) {
   for ( end_label = start_index + 1; end_label < rows.length; end_label++ ) {
     if ( rows[end_label].type === 'label_end' &&
          rows[end_label].val === rows[start_index].val ) {
-      return end_label;
+      return end_label + 1;
       }
     }
   if ( end_label === rows.length ) {
     for ( end_label = start_index + 1; end_label < rows.length; end_label++ ) {
       if ( rows[end_label].type === 'label' ) {
-        return end_label;
+        // Don't skip the next label's start.
+        return end_label - 1;
         }
       }
     }
@@ -45,19 +46,16 @@ function get_label_end ( rows, start_index ) {
 
 function cmd_to_asm ( val ) {
   var out = val[0];
-  val[1].forEach ( function ( v ) {
-    if ( v !== undefined ) {
-      out += ' ' + v;
-      }
-    } );
-  if ( val[1].length + val[2].length !== 0 ) {
-    out += ' ->';
+  if ( val[1] !== undefined ) {
+    val[1].forEach ( function ( v ) {
+      if ( typeof v === 'string' ) {
+        out += ' $(' + v + ')';
+        }
+      else {
+        out += ' ' + v;
+        }
+      } );
     }
-  val[2].forEach ( function ( v ) {
-    if ( v !== undefined ) {
-      out += ' $(' + v + ')';
-      }
-    } );
   return out;
   }
 
@@ -79,6 +77,15 @@ function literal_to_asm ( val ) {
   return prefix + ' ' + val[1];
   }
 
+function res_to_asm ( res ) {
+  var out = '';
+  for ( var i = 0; i < res.length - 1; i++ ) {
+    out += '$(' + res[i] + '), ';
+    }
+  out += '$(' + res[res.length - 1] + ')';
+  return out;
+  }
+
 function rows_to_asm ( rows, indent, mindent ) {
   if ( mindent === undefined ) {
     mindent = '  ';
@@ -89,18 +96,20 @@ function rows_to_asm ( rows, indent, mindent ) {
     if ( row.type === 'label' ) {
       out += indent + row.val + ':\n';
       var end_label = get_label_end ( rows, i );
-      misc.print ( rows.slice ( i + 1, end_label ) );
       out += rows_to_asm ( rows.slice ( i + 1, end_label ), indent + mindent, mindent );
       i = end_label;
       }
-    if ( row.type === 'end_label' ) {
+    else if ( row.type === 'end_label' ) {
       throw 'Label ended without having begun.';
       }
-    if ( row.type === 'cmd' ) {
+    else if ( row.type === 'res' ) {
+      out += indent + ' -> ' + res_to_asm ( row.val ) + '\n';
+      }
+    else if ( row.type === 'cmd' ) {
       out += indent + cmd_to_asm ( row.val ) + '\n';
       }
-    if ( row.type === 'li' ) {
-      out += indent + cmd_to_asm ( [ 'liw', [ ], [ row.val[2] ] ] ) + '\n';
+    else if ( row.type === 'li' ) {
+      out += indent + cmd_to_asm ( [ 'liw' ] ) + '\n';
       if ( typeof row.val[1] === 'string' ) {
         out += indent + lookup_to_asm ( row.val[1] ) + '\n'; 
         }
@@ -108,16 +117,20 @@ function rows_to_asm ( rows, indent, mindent ) {
         out += indent + literal_to_asm ( row.val ) + '\n';
         }
       }
-    if ( row.type === 'lookup' ) {
+    else if ( row.type === 'lookup' ) {
       out += indent + lookup_to_asm ( row.val[1] ) + '\n'; 
       }
-    if ( row.type === 'j' ) {
-      out += indent + cmd_to_asm ( [ 'jw', [ ], [ ] ] ) + '\n';
+    else if ( row.type === 'j' ) {
+      out += indent + cmd_to_asm ( [ 'jw' ] ) + '\n';
       out += indent + row.val + '\n';
       }
-    if ( row.type === 'bz' ) {
-      out += indent + cmd_to_asm ( [ 'bzw', [ ], [ ] ] ) + '\n';
+    else if ( row.type === 'bz' ) {
+      out += indent + cmd_to_asm ( [ 'bzw' ] ) + '\n';
       out += indent + row.val + '\n';
+      }
+    else {
+      // This line is very useful for debugging this function.
+      //out += indent + JSON.stringify ( row ) + '\n';
       }
     }
   return out;
@@ -128,13 +141,12 @@ function obj_to_asm ( obj, indent, mindent ) {
   }
 
 function make ( ) {
-  return misc.obj_or (
-    {
+  return misc.obj_or ( {
       objs : string_map.make ( ),
       obj_stack : [ ],
       next_id: 0,
-    },
-    {
+      block_stack : [ ],
+    }, {
       begin_obj : function begin_obj ( name, id ) {
         if ( id === undefined ) {
           id = this.next_id + 1;
@@ -143,12 +155,45 @@ function make ( ) {
         var o = obj.make ( name );
         this.objs.set ( name, o );
         this.obj_stack.push ( o );
+        this.begin_block ( );
         },
       get_obj : function get_obj ( ) {
         return this.obj_stack [ this.obj_stack.length - 1 ];
         },
       end_obj : function end_obj ( ) {
+        this.end_block ( );
         this.obj_stack.pop ( );
+        },
+      begin_block : function begin_block ( ) {
+        this.block_stack.push ( string_map.make ( ) );
+        this.emit ( 'block_begin', '' );
+        return '';
+        },
+      end_block : function begin_block ( ) {
+        var block = this.block_stack.pop ( );
+        var vars = [];
+        var self = this;
+        block.each ( function ( name, _ ) {
+          self.emit_cmd ( 'pop', [ ] );
+          vars.push ( name );
+          } );
+        this.emit ( 'block_end', vars );
+        },
+      get_block : function get_block ( ) {
+        return this.block_stack [ this.block_stack.length - 1 ];
+        },
+      add_var : function add_var ( name ) {
+        this.emit ( 'var', name );
+        this.get_block ( ).set ( name, true );
+        },
+      has_var : function has_var ( name ) {
+        for ( var b in this.block_stack ) {
+          var block = this.block_stack[b];
+          if ( block.has ( name ) ) {
+            return true;
+            }
+          }
+        return false;
         },
       make_row : function ( type, val ) {
         return { type : type, val : val };
@@ -186,21 +231,28 @@ function make ( ) {
       emit_lookup : function emit_lookup ( name ) {
         return this.emit ( 'lookup', name );
         },
-      emit_li : function emit_li ( kind, val, res ) {
-        if ( res === undefined ) {
-          res = [ next_stack ( this.get_obj ( ) ) ];
+      emit_li : function emit_li ( kind, val ) {
+        if ( val === undefined ) {
+          throw 'Load immediate argument should not be undefined.';
           }
-        this.emit ( 'li', [ kind, val, res ] );
-        return res;
+        this.emit ( 'li', [ kind, val ] );
         },
-      emit_cmd : function emit_cmd ( cmd, args, res ) {
-        if ( res === undefined ) {
-          res = [ next_stack ( this.get_obj ( ) ) ];
+      emit_cmd : function emit_cmd ( cmd, args ) {
+        var row = [];
+        row.push ( cmd );
+        if ( args !== undefined ) {
+          if ( typeof args !== 'object' ) {
+            throw 'Command arguments should be an object not ' + typeof args;
+            }
+          row.push ( args );
           }
-        if ( args === undefined ) {
-          args = [ ];
+        this.emit ( 'cmd', row );
+        },
+      emit_result : function ( res ) {
+        for ( var r in res ) {
+          this.add_var ( res[r] );
           }
-        this.emit ( 'cmd', [ args, res ] );
+        this.emit ( 'res', res );
         return res;
         },
       emit_bz : function emit_bz ( label ) {
