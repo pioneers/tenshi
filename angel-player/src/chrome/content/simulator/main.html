@@ -93,19 +93,14 @@
                 loadFrame(simmy);
             }
 
-            keyMan.bindFunc(DOWN, 81, moveForwardLeft);
-            keyMan.bindFunc(UP, 81, stopLeft);
-            keyMan.bindFunc(DOWN, 65, moveBackLeft);
-            keyMan.bindFunc(UP, 65, stopLeft);
-            keyMan.bindFunc(DOWN, 69, moveForwardRight);
-            keyMan.bindFunc(UP, 69, stopRight);
-            keyMan.bindFunc(DOWN, 68, moveBackRight);
-            keyMan.bindFunc(UP, 68, stopRight);
+            keyMan.bindFunc(DOWN, 68, function() {simmy.cameraController.strafe(3);});
+            keyMan.bindFunc(DOWN, 65, function() {simmy.cameraController.strafe(-3);});
 
-            keyMan.bindFunc(DOWN, 87, save);
-            keyMan.bindFunc(DOWN, 83, load);
+            keyMan.bindFunc(DOWN, 87, function() {simmy.cameraController.forward(3);});
+            keyMan.bindFunc(DOWN, 83, function() {simmy.cameraController.forward(-3);});
 
-            keyMan.bindFunc(DOWN, 71, jump);
+            keyMan.bindFunc(DOWN, 32, function() {simmy.cameraController.elevate(3);});
+            keyMan.bindFunc(DOWN, 16, function() {simmy.cameraController.elevate(-3);});
 
             simmy.render();
             readVal();
