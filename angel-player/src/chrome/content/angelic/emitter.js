@@ -105,17 +105,17 @@ function make ( ) {
         this.make_row ( 'label', name );
         return name;
         },
-      emit_literal : function emit_literal ( kind, val ) {
-        return this.emit ( 'literal', [ kind, val ] );
+      emit_literal : function emit_literal ( fixup_kind, val ) {
+        return this.emit ( 'literal', [ fixup_kind, val ] );
         },
       emit_lookup : function emit_lookup ( name ) {
         return this.emit ( 'lookup', name );
         },
-      emit_li : function emit_li ( kind, val ) {
+      emit_li : function emit_li ( fixup_kind, val ) {
         if ( val === undefined ) {
           throw 'Load immediate argument should not be undefined.';
           }
-        this.emit ( 'li', [ kind, val ] );
+        this.emit ( 'li', [ fixup_kind, val ] );
         },
       emit_cmd : function emit_cmd ( cmd, args ) {
         var row = [];

@@ -1,6 +1,6 @@
 var string_map = require ( './string_map.js' );
 
-var make = function make ( name ) {
+var make = function make ( name, id ) {
   if ( name === undefined ) {
     name = '#obj';
     }
@@ -8,7 +8,7 @@ var make = function make ( name ) {
     name : name,
     data : [],
     relocations : [],
-    id : 0,
+    id : id,
     last_label_id : 0,
     last_stack_id : 0,
     labels : string_map.make ( ),
