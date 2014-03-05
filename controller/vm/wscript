@@ -1,0 +1,208 @@
+#! /usr/bin/env python3
+# encoding: utf-8
+APPNAME = 'angelic'
+VERSION = '0.0'
+top = '.'
+out = 'build'
+
+from waf_extensions import declare_variants, run_all, sub_conf
+import os
+import os.path
+
+declare_variants(['debug_native',
+                  'release_native',
+                  'debug_arm',
+                  'release_arm'],
+                 subdir='vm')
+
+
+def recurse(ctxt):
+    ctxt.recurse('src', mandatory=False)
+    ctxt.recurse('tests', mandatory=False)
+
+
+def options(opt):
+    opt.add_option('--cc',
+                   action='store',
+                   default='clang',
+                   help='The C Compiler to use.')
+    opt.add_option('--cflags',
+                   action='store',
+                   default='',
+                   help='Extra cflags.')
+    opt.add_option('--strip-micro',
+                   action='store',
+                   default='yes',
+                   choices=['yes', 'no', 'try'],
+                   help='Strip micro library.')
+    opt.add_option('--strip',
+                   action='store',
+                   default='strip',
+                   help='Program to use to strip micro library.')
+    # TODO(kzentner): Change this to 'try' once computed gotos are fixed.
+    opt.add_option('--computed-gotos',
+                   '--use-computed-gotos',
+                   action='store',
+                   default='no',
+                   choices=['yes', 'no', 'try'],
+                   help='Whether to use computed gotos or not.')
+    opt.load('compiler_c')
+    opt.load('compiler_cxx')
+    opt.load('gas')
+    recurse(opt)
+
+
+profiling = False
+build_tests = True
+
+
+def configure_mingw(conf):
+    conf.env['cprogram_PATTERN'] = '%s.exe'
+
+
+def has_cflag(conf, flag):
+    try:
+        conf.check(feature='cc cprogram cstdlib', cflags=flag)
+        return True
+    except Exception as e:
+        return False
+
+
+def add_cflags(conf, flags, alternatives=tuple()):
+    try:
+        conf.check(feature='cc cprogram cstdlib', cflags=flags)
+    except Exception as e:
+        if alternatives:
+            add_cflags(conf, alternatives[0], alternatives[1:])
+    else:
+        conf.env.append_value('CFLAGS', flags)
+
+
+def configure_native(conf):
+    try:
+        if conf.find_program(conf.options.cc):
+            conf.env['CC'] = conf.options.cc
+            conf.env['CC_NAME'] = conf.options.cc
+            conf.env['COMPILER_CC'] = conf.options.cc
+            conf.env['LINK_CC'] = conf.options.cc
+    except Exception:
+        pass
+    conf.load('compiler_c')
+
+
+def configure_arm(conf):
+    namespace = {}
+    here = conf.env['ANGELIC_ROOT']
+    exec(open(os.path.join(here, os.pardir, 'wscript')).read(), namespace)
+    namespace['common_configure'](conf, os.path.join(here, os.pardir))
+    conf.load('compiler_c')
+
+
+def configure_common(conf):
+    conf.check_cc(lib='m', uselib_store='math', mandatory=False)
+    if 'mingw' in conf.env['CC'][0]:
+        configure_mingw(conf)
+    else:
+        add_cflags(conf, '-fPIC')
+    conf.env['core_cflags'] = ''
+    if has_cflag(conf, '-fno-gcse'):
+        conf.env.append_value('core_cflags', ['-fno-gcse'])
+    for flag in conf.options.cflags.split(' '):
+        add_cflags(conf, flag)
+    warning_flags = [
+        '-Wall',
+        '-Wextra',
+    ]
+    add_cflags(conf, '-std=gnu99', ['-std=c99', '-std=gnu89', '-std=c89'])
+    add_cflags(conf, warning_flags)
+    add_cflags(conf, '-Wno-unused-function')
+
+    if conf.options.computed_gotos in ['yes', 'try']:
+        need_computed_gotos = conf.options.computed_gotos == 'yes'
+        have_computed_gotos = conf.check_cc(
+            msg = 'Checking for computed gotos',
+            fragment = 'int main() {'
+            'void * target_val;'
+            'target: target_val = &&target;'
+            'goto *target_val;'
+            'return 0;}',
+            define_name = 'HAVE_COMPUTED_GOTOS',
+            mandatory = need_computed_gotos
+        )
+        if have_computed_gotos:
+            conf.define('USE_COMPUTED_GOTOS', '')
+    if profiling:
+        try:
+            conf.check(feature='cc cprogram cstdlib', cflags=['-pg'],
+                       linkflags=['-pg'])
+        except Exception:
+            pass
+        else:
+            conf.env.append_value('LINKFLAGS', ['-pg'])
+            conf.env.append_value('CFLAGS', ['-pg'])
+
+
+def configure_debug_native(conf):
+    with sub_conf(conf, 'vm/debug_native'):
+        configure_native(conf)
+        configure_common(conf)
+        configure_debug(conf)
+
+
+def configure_debug_arm(conf):
+    with sub_conf(conf, 'vm/debug_arm'):
+        configure_arm(conf)
+        configure_common(conf)
+        configure_debug(conf)
+
+
+def configure_debug(conf):
+    add_cflags(conf, '-DANGELIC_DEBUG')
+    add_cflags(conf, '-g')
+
+
+def configure_release_native(conf):
+    with sub_conf(conf, 'vm/release_native'):
+        configure_native(conf)
+        configure_common(conf)
+        configure_release(conf)
+
+
+def configure_release_arm(conf):
+    with sub_conf(conf, 'vm/release_arm'):
+        configure_arm(conf)
+        configure_common(conf)
+        configure_release(conf)
+
+
+def configure_release(conf):
+    add_cflags(conf, '-DNDEBUG')
+    add_cflags(conf, '-DANGELIC_RELEASE')
+    add_cflags(conf, '-O3')
+
+
+def configure(conf):
+    conf.env['ANGELIC_ROOT'] = conf.path.abspath()
+    configure_debug_native(conf)
+    configure_release_native(conf)
+    configure_debug_arm(conf)
+    configure_release_arm(conf)
+    recurse(conf)
+
+
+def build(bld):
+    if not bld.variant:
+        print('Building all variants.')
+        run_all('build')
+    else:
+        if 'vm' not in bld.variant:
+            return
+        bld.recurse('src')
+        if 'native' in bld.variant:
+            if build_tests:
+                bld.recurse('tests')
+
+
+def test(context):
+    build_tests = True
+    context.recurse('tests')
