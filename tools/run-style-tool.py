@@ -80,7 +80,7 @@ def main():
         exit_code = subprocess.call([
             './tools/cpplint.py',
             '--filter=-legal/copyright,-readability/casting',
-            '--root=controller',
+            '--extensions=c,cpp,h,template'
             ] + source_files)
         sys.exit(exit_code)
     elif styletool == "pep8":
