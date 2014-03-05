@@ -21,6 +21,58 @@ function expand_li ( rows ) {
   return out;
   }
 
+function expand_vars ( rows ) {
+  var stack = [];
+  var v;
+
+  var out = [];
+  for ( var r in rows ) {
+    var row = rows[r];
+    if ( row.type === 'res' ) {
+      stack = stack.slice ( 0, -row.val.length );
+      for ( v in row.val ) {
+        stack.push ( row.val [ v ] );
+        }
+      }
+    else if ( row.type === 'cmd' ) {
+      var args = row.val[1].slice();
+
+      for ( v in args ) {
+        // Replace only variables, not labels.
+        if ( typeof args[v] === 'string' && args[v][0] !== '.' ) {
+          args[v] = stack.length - stack.lastIndexOf ( args[v] ) - 1;
+          }
+        }
+
+      var cmd = row.val[0];
+      var movement = 0;
+      if ( cmd === 'call_1' ) {
+        movement = -row.val[1][0];
+        }
+      else if ( cmd === 'stack_1' ) {
+        movement = row.val[1][0];
+        }
+      else {
+        movement = opcodes.stack[opcodes.op[cmd].code];
+        }
+      if ( movement >= 0 ) {
+        for ( var i = 0; i < movement; i++ ) {
+          stack.push ( 0 );
+          }
+        }
+      else {
+        stack = stack.slice ( 0, stack.length + movement );
+        }
+
+      out.push ( make_row ( 'cmd', [ cmd, args ] ) );
+      }
+    else {
+      out.push ( row );
+      }
+    }
+  return out;
+  }
+
 function max_size_row ( row ) {
   if ( row.type === 'cmd' ) {
     return 1;
@@ -145,6 +197,7 @@ var root = {
 
     data = expand_li ( data );
     data = expand_bz_and_j ( data );
+    data = expand_vars ( data );
 
     var patch = this.make_patch ( obj, data );
     this.patches.push ( patch );
