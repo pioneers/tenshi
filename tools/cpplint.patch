@@ -1,11 +1,25 @@
---- cpplint.py.orig	2013-07-12 12:57:05.000000000 -0700
-+++ cpplint.py	2013-09-01 14:11:42.995802695 -0700
-@@ -3909,7 +3909,7 @@
-   # When reading from stdin, the extension is unknown, so no cpplint tests
-   # should rely on the extension.
-   if (filename != '-' and file_extension != 'cc' and file_extension != 'h'
--      and file_extension != 'cpp'):
-+      and file_extension != 'cpp' and file_extension != 'c'):
-     sys.stderr.write('Ignoring %s; not a .cc or .h file\n' % filename)
-   else:
-     ProcessFileData(filename, file_extension, lines, Error,
+--- cpplint.py.orig	2013-12-16 14:48:54.000000000 -0800
++++ cpplint.py	2014-03-04 19:36:48.759693133 -0800
+@@ -899,16 +899,20 @@
+ 
+       # Not SVN <= 1.6? Try to find a git, hg, or svn top level directory by
+       # searching up from the current path.
++      # Note: Tenshi hacks this to make cpplint handle multiple projects
++      # in the same git repo.
+       root_dir = os.path.dirname(fullname)
+       while (root_dir != os.path.dirname(root_dir) and
+              not os.path.exists(os.path.join(root_dir, ".git")) and
+              not os.path.exists(os.path.join(root_dir, ".hg")) and
+-             not os.path.exists(os.path.join(root_dir, ".svn"))):
++             not os.path.exists(os.path.join(root_dir, ".svn")) and
++             not os.path.exists(os.path.join(root_dir, ".tenshi_cpp_root"))):
+         root_dir = os.path.dirname(root_dir)
+ 
+       if (os.path.exists(os.path.join(root_dir, ".git")) or
+           os.path.exists(os.path.join(root_dir, ".hg")) or
+-          os.path.exists(os.path.join(root_dir, ".svn"))):
++          os.path.exists(os.path.join(root_dir, ".svn")) or
++          os.path.exists(os.path.join(root_dir, ".tenshi_cpp_root"))):
+         prefix = os.path.commonprefix([root_dir, project_dir])
+         return fullname[len(prefix) + 1:]
+ 
