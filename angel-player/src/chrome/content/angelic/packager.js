@@ -21,6 +21,87 @@ function expand_li ( rows ) {
   return out;
   }
 
+function expand_vars ( rows ) {
+  // This function works by simulating the operations the virtual machine will
+  // actually perform, and then extracts the stack location of variables from
+  // that simulation.
+
+  // This is more robust, and actually produces the correct result in all
+  // currently used cases, compared to counting temporary values, which assumes
+  // variables are not created while there are temporary values.
+
+  // TODO(kzentner): Add some checks that simulated stack is the same before
+  // and after a branch or jump. Of course, this condition should already be
+  // true in correct code output, but a check here would help debugging.
+
+  // This is the simulated stack. It will contain variable names, and 0 (which
+  // is used to represent temporary values).
+  var stack = [];
+  var v;
+  var TEMP = 0;
+
+  var out = [];
+  for ( var r in rows ) {
+    var row = rows[r];
+    if ( row.type === 'res' ) {
+      // The top values on the stack have been declared to be a variable.
+      var to_remove = stack.slice ( -row.val.length );
+      for ( var k in to_remove ) {
+        misc.assert ( to_remove[k] === TEMP,
+                      'Only temporary values should become variables.' );
+        }
+
+      // Replace the top row.val.length temporaries with variables.
+      stack = stack.slice ( 0, -row.val.length );
+      for ( v in row.val ) {
+        stack.push ( row.val [ v ] );
+        }
+      }
+    else if ( row.type === 'cmd' ) {
+      var args = row.val[1].slice();
+
+      // Expand the variables.
+      for ( v in args ) {
+        // Replace only variables, not labels.
+        if ( typeof args[v] === 'string' && args[v][0] !== '.' ) {
+          args[v] = stack.length - stack.lastIndexOf ( args[v] ) - 1;
+          }
+        }
+
+      // Calculate the stack movement caused by this opcode. If it's positive,
+      // add that many temporaries to the top of the stack.
+      var cmd = row.val[0];
+      var movement = 0;
+      // The call_1 and stack_1 opcodes have variable stack movement, depending
+      // on their arguments.
+      if ( cmd === 'call_1' ) {
+        movement = -row.val[1][0];
+        }
+      else if ( cmd === 'stack_1' ) {
+        movement = row.val[1][0];
+        }
+      else {
+        movement = opcodes.stack[opcodes.op[cmd].code];
+        }
+      if ( movement >= 0 ) {
+        for ( var i = 0; i < movement; i++ ) {
+          stack.push ( TEMP );
+          }
+        }
+      else {
+        stack = stack.slice ( 0, stack.length + movement );
+        }
+
+      out.push ( make_row ( 'cmd', [ cmd, args ] ) );
+      }
+    else {
+      // Propagate all other unmatched rows.
+      out.push ( row );
+      }
+    }
+  return out;
+  }
+
 function max_size_row ( row ) {
   if ( row.type === 'cmd' ) {
     return 1;
@@ -145,6 +226,7 @@ var root = {
 
     data = expand_li ( data );
     data = expand_bz_and_j ( data );
+    data = expand_vars ( data );
 
     var patch = this.make_patch ( obj, data );
     this.patches.push ( patch );
