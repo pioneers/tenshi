@@ -8,7 +8,12 @@ from waf_extensions import declare_variants, sub_conf, run_all
 declare_variants(['deb', 'rel', 'debopt', 'relopt'], subdir='controller')
 
 
+def recurse(ctxt):
+    ctxt.recurse('vm', mandatory=False)
+
+
 def options(opt):
+    recurse(opt)
     opt.load('compiler_c')
     opt.load('compiler_cxx')
     opt.load('gas')
@@ -16,7 +21,9 @@ def options(opt):
 # Configure fragments used for variants
 
 
-def common_configure(conf):
+def common_configure(conf, root=None):
+    if root is None:
+        root = conf.path.abspath()
     conf.env['CC'] = ARM_CROSS_COMPILER_C
     conf.env['CC_NAME'] = ARM_CROSS_COMPILER_C
     conf.env['COMPILER_CC'] = ARM_CROSS_COMPILER_C
@@ -67,9 +74,9 @@ def common_configure(conf):
         '-mfloat-abi=hard',           # Pass arguments via FPU registers
         '-Wl,--gc-sections',          # Discard unused sections
         '-Wl,-uVERSION_INFORMATION',  # Force retain VERSION_INFORMATION
-        '-B' + conf.path.abspath(),   # For finding .ld file
+        '-B' + root,                  # For finding .ld file
         # Linker rules + crt0
-        '-specs=' + conf.path.abspath() + '/linkspec.specs',
+        '-specs=' + root + '/linkspec.specs',
         ])
     conf.load('compiler_c')
     conf.load('compiler_cxx')
@@ -125,6 +132,7 @@ def configure_rel(conf):
 
 
 def configure(conf):
+    recurse(conf)
     configure_deb(conf)
     configure_rel(conf)
 
@@ -132,6 +140,7 @@ def configure(conf):
 
 
 def build(bld):
+    recurse(bld)
     if not bld.variant:
         print('Building all variants.')
         run_all('build')
