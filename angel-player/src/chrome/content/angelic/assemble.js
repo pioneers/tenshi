@@ -1,5 +1,7 @@
-var string_map = require ( './string_map.js' );
+var fixup_kinds = require ( './fixup_kinds.js' );
+var lookup = require ( './lookup.js' );
 var misc = require ( './misc.js' );
+var string_map = require ( './string_map.js' );
 
 var root = {
   setupScopes: function setupScopes ( scopes ) {
@@ -152,22 +154,47 @@ function assemble_if ( emitter ) {
   // TODO(kzentner): Add support for else blocks.
   }
 
+function get_fixup_kind ( value ) {
+  if ( value.text === 'fn' ) {
+    return fixup_kinds.vm_func;
+    }
+  else {
+    throw 'Could not determine fixup_kind of node!';
+    }
+  }
+
 function assemble_identifier ( emitter ) {
   if ( this.variable === undefined ||
        this.variable.location === undefined ) {
     throw 'Cannot assemble un-analyzed variable ' + this.text;
     }
   var loc = this.variable.location;
+
+  var value;
+  var name;
+  var fixup_kind;
+  var id;
+
   if ( loc === 'stack' ) {
     // If this is a local variable, a later compiler pass will actually expand
     // the stack address of the variable.
     emitter.emit_cmd ( 'dup_1', [ this.text ] );
     }
   else if ( loc === 'global' ) {
-    emitter.emit_li ( 'lookup', this.variable.canonical_value.canonical_name );
+    value = this.variable.canonical_value;
+    name = value.canonical_name;
+    fixup_kind = get_fixup_kind ( value );
+    id = value.object_id;
+    emitter.emit_li ( 'lookup',
+                      lookup.make ( name, fixup_kind, id ) );
     }
   else if ( loc === 'external' ) {
-    emitter.emit_li ( 'lookup', this.variable.canonical_value.name );
+    value = this.variable.canonical_value;
+    name = value.name;
+    fixup_kind = fixup_kinds.external;
+    id = value.object_id;
+    emitter.emit_li ( 'lookup',
+                      lookup.make ( name, fixup_kind, id ) );
     }
   else {
     throw 'Could not find location of variable ' + this.text + '.';

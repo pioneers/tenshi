@@ -12,7 +12,7 @@ var type_var_idx = 0;
 function make_type_var ( ) {
   type_var_idx += 1;
   return {
-    kind : 'var',
+    fixup_kind : 'var',
     name : '#var' + type_var_idx,
     instance : null,
     };
@@ -22,7 +22,7 @@ function make_type_var ( ) {
 // functions).
 function make_type_op ( name, types ) {
   return {
-    kind : 'op',
+    fixup_kind : 'op',
     name : name,
     types: types || [],
     };
@@ -59,7 +59,7 @@ function make_env ( ) {
       if ( pruned_other === type_var ) {
         return true;
         }
-      else if ( pruned_other.kind === 'op' ) {
+      else if ( pruned_other.fixup_kind === 'op' ) {
         return this.occurs_in ( type_var, pruned_other.types );
         }
       return false;
@@ -91,7 +91,7 @@ function make_env ( ) {
       },
     // Collapses a chain of type variables.
     prune : function ( type_var ) {
-      if ( type_var.kind === 'var' ) {
+      if ( type_var.fixup_kind === 'var' ) {
         if ( type_var.instance ) {
           type_var.instance = this.prune ( type_var.instance );
           return type_var.instance;
@@ -107,7 +107,7 @@ function make_env ( ) {
       var fresh_types = [];
       var idx;
 
-      if ( pruned.kind === 'var' ) {
+      if ( pruned.fixup_kind === 'var' ) {
         if ( this.is_generic ( pruned ) ) {
           if ( ! mappings.get ( pruned.name ) ) {
             mappings.set ( pruned.name, env.make_type_var ( ) );
@@ -118,14 +118,14 @@ function make_env ( ) {
           return pruned;
           }
         }
-      else if ( pruned.kind === 'op' ) {
+      else if ( pruned.fixup_kind === 'op' ) {
         for ( idx in pruned.types ) {
           fresh_types.push ( this.fresh ( pruned.types[idx] ) );
           }
         return this.make_type_op ( pruned.name, fresh_types );
         }
       else {
-        throw 'Could not contruct fresh kind: ' + type.kind;
+        throw 'Could not contruct fresh fixup_kind: ' + type.fixup_kind;
         }
       },
     // Attempts to make two types the same.
@@ -135,7 +135,7 @@ function make_env ( ) {
       var b = this.prune ( B );
       var idx;
 
-      if ( a.kind === 'var' ) {
+      if ( a.fixup_kind === 'var' ) {
         if ( this.occurs_in_type ( a, b ) ) {
           throw "Recursive unification.";
           }
@@ -143,11 +143,11 @@ function make_env ( ) {
         // pruned it.
         a.instance = b;
         }
-      else if ( a.kind === 'op' && b.kind === 'var' ) {
+      else if ( a.fixup_kind === 'op' && b.fixup_kind === 'var' ) {
         // Reverse the order.
         this.unify ( b, a );
         }
-      else if ( a.kind === 'op' && b.kind === 'op' ) {
+      else if ( a.fixup_kind === 'op' && b.fixup_kind === 'op' ) {
         // Type operators should have the same name and size.
         if ( a.name !== b.name ) {
           throw a.name + ' does not match ' + b.name;
@@ -252,7 +252,7 @@ function infer_paren ( env ) {
     // If we're calling a type-var, make that type var point to a new
     // function type-operator.
 
-    if ( func_type.kind === 'var' &&
+    if ( func_type.fixup_kind === 'var' &&
          func_type.instance === null ) {
       func_type.instance = env.make_type_op ( 'fn', 
           [ env.make_type_var ( ),
