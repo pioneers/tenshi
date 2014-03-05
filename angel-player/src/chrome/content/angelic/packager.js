@@ -388,6 +388,29 @@ function expand_labels ( rows, literal_size ) {
   return out;
   }
 
+function expand_ops ( rows ) {
+  var out = [ ];
+  for ( var r in rows ) {
+    var row = rows[r];
+    if ( row.type === 'bunch' ) {
+      for ( var i in row.val ) {
+        var byt = row.val[i];
+        if ( typeof byt === 'string' ) {
+          var code = opcodes.code[byt];
+          if ( code === undefined ) {
+            throw 'Could not expand opcode ' + byt;
+            }
+          else {
+            row.val[i] = code;
+            }
+          }
+        }
+      }
+      out.push ( row );
+    }
+  return out;
+  }
+
 var root = {
   make_patch : function make_patch ( obj, rows ) {
     // TODO(kzentner): Actually create a patch here.
@@ -410,6 +433,7 @@ var root = {
     data = expand_vars ( data );
     data = compress_opcodes ( data );
     data = expand_labels ( data, this.literal_size );
+    data = expand_ops ( data );
 
     var patch = this.make_patch ( obj, data );
     this.patches.push ( patch );
