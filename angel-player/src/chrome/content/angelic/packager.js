@@ -206,6 +206,78 @@ function expand_bz_and_j ( rows ) {
 
 var BUNCH_SIZE = 4;
 
+function push_bunch ( out, index, bunch ) {
+  for ( var i = bunch.length; i < BUNCH_SIZE; i++ ) {
+    bunch[i] = 0;
+    }
+  out[index] = make_row ( 'bunch', bunch );
+  }
+
+function compress_opcodes ( rows ) {
+  var out = [ ];
+  var current_bunch = [ ];
+  // The number of rows which have been output. Note that this count includes
+  // literals and labels, even though labels don't take up actual space.
+  var row_count = 0;
+
+  // The address where current_bunch should be written to. The reason this is
+  // not just row_count + 1 is that we want to be able to output a bunch of
+  // commands after having output their word-sized argument.
+  // In particular, we would like to be able to put more commands in the same
+  // bunch as a li_W.
+  var bunch_out_index = 0;
+  for ( var r in rows ) {
+    var row = rows[r];
+    if ( row.type === 'label' ) {
+      // If we encounter a label, output the current bunch.
+      // This is because we need the label to be a valid jump address, so we
+      // cannot compress together opcodes from before and after the label.
+      // Basically, we need to prevent the label from being mid-bunch.
+      push_bunch ( out, bunch_out_index, current_bunch );
+      // We output 1 bunch.
+      ++row_count;
+
+      // We output the label.
+      out[row_count] = row;
+      ++row_count;
+
+      bunch_out_index = row_count;
+      current_bunch = [ ];
+
+      // Output the label for later use in label expansion.
+      out.push ( row );
+      }
+    else if ( row.type === 'cmd' ) {
+      var size = 1 + row.val[1].length;
+      // If the current_bunch would become to big from adding this opcode,
+      // output the current bunch and begin a new one.
+      if ( current_bunch.length + size > BUNCH_SIZE ) {
+        push_bunch ( out, bunch_out_index, current_bunch );
+        ++row_count;
+        bunch_out_index = row_count;
+        current_bunch = [ ];
+        }
+      current_bunch.push ( row.val[0] );
+      current_bunch = current_bunch.concat ( row.val[1] );
+      }
+    else if ( row.type === 'literal' ) {
+      // We can generate much better code here if we don't output a bunch.
+      // This allows multiple variables to be initialized using one bunch of
+      // li_w's, for example.
+      out[ row_count + 1 ] = row;
+      ++row_count;
+      }
+    }
+  // Make sure to output the current_bunch (unless it's empty from a label at
+  // the end of function). Note that actually *using* such a label would be
+  // wrong, since there's no return opcode afterwards.
+  // TODO(kzentner): Check the consistency of labels more thoroughly.
+  if ( current_bunch.length > 0 ) {
+    push_bunch ( out, bunch_out_index, current_bunch );
+    }
+  return out;
+  }
+
 var root = {
   make_patch : function make_patch ( obj, rows ) {
     // TODO(kzentner): Actually create a patch here.
@@ -226,6 +298,7 @@ var root = {
     data = expand_li ( data );
     data = expand_bz_and_j ( data );
     data = expand_vars ( data );
+    data = compress_opcodes ( data );
 
     var patch = this.make_patch ( obj, data );
     this.patches.push ( patch );
