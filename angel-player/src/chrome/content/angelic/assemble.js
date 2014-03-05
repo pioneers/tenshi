@@ -1,5 +1,7 @@
-var string_map = require ( './string_map.js' );
+var kinds = require ( './kinds.js' );
+var lookup = require ( './lookup.js' );
 var misc = require ( './misc.js' );
+var string_map = require ( './string_map.js' );
 
 var root = {
   setupScopes: function setupScopes ( scopes ) {
@@ -144,20 +146,45 @@ function assemble_if ( emitter ) {
   emitter.emit_label ( end );
   }
 
+function get_kind ( value ) {
+  if ( value.text === 'fn' ) {
+    return kinds.vm_func;
+    }
+  else {
+    throw 'Could not determine kind of node!';
+    }
+  }
+
 function assemble_identifier ( emitter ) {
   if ( this.variable === undefined ||
        this.variable.location === undefined ) {
     throw 'Cannot assemble un-analyzed variable ' + this.text;
     }
   var loc = this.variable.location;
+
+  var value;
+  var name;
+  var kind;
+  var id;
+
   if ( loc === 'stack' ) {
     emitter.emit_cmd ( 'dup_1', [ this.text ] );
     }
   else if ( loc === 'global' ) {
-    emitter.emit_li ( 'lookup', this.variable.canonical_value.canonical_name );
+    value = this.variable.canonical_value;
+    name = value.canonical_name;
+    kind = get_kind ( value );
+    id = value.object_id;
+    emitter.emit_li ( 'lookup',
+                      lookup.make ( name, kind, id ) );
     }
   else if ( loc === 'external' ) {
-    emitter.emit_li ( 'lookup', this.variable.canonical_value.name );
+    value = this.variable.canonical_value;
+    name = value.name;
+    kind = kinds.external;
+    id = value.object_id;
+    emitter.emit_li ( 'lookup',
+                      lookup.make ( name, kind, id ) );
     }
   else {
     throw 'Could not find location of variable ' + this.text + '.';

@@ -590,14 +590,24 @@ function generate_canonical_map ( module ) {
 function generate_enumerations ( canonical_map ) {
   var enumerations = string_map.make ( );
   canonical_map.each_text ( function ( key, object ) {
-    if ( key === object.canonical_name ) {
       // Only process by canonical name.
-      var object_id = enumerations.get ( object.patch_class );
-      if ( object_id === undefined ) {
-        object_id = 0;
+    if ( key === object.canonical_name ) {
+      if ( key === 'main' ) {
+        object.object_id = 0;
         }
-      object.object_id = object_id;
-      enumerations.set ( object.patch_class, object_id + 1 );
+      else {
+        var object_id = enumerations.get ( object.patch_class );
+        if ( object_id === undefined ) {
+          if ( object.text == 'fn' ) {
+            object_id = 1;
+            }
+          else {
+            object_id = 0;
+            }
+          }
+        object.object_id = object_id;
+        enumerations.set ( object.patch_class, object_id + 1 );
+        }
       }
     } );
   }
