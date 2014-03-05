@@ -10,6 +10,7 @@ var analyzer = require ( './analyze.js' );
 var recurser = require ( './recurser.js' );
 var module = require ( './module.js' );
 var emitter = require ( './emitter.js' );
+var assemble = require ( './assemble.js' );
 
 //
 // This is the main Angelic module
@@ -26,6 +27,7 @@ function make ( ) {
   var a_analyzer = analyzer.make ( );
   var a_recurser = recurser.make ( );
   var a_emitter = emitter.make ( );
+  var a_assemble = assemble.make ( a_emitter );
   var text = '';
   var modules = string_map.make ( );
 
@@ -57,6 +59,7 @@ function make ( ) {
     a_recurser.setupScopes ( scopes );
     a_inferencer.setupScopes ( scopes );
     a_analyzer.setupScopes ( scopes );
+    a_assemble.setupScopes ( scopes );
 
     parse_tree = a_parser.parse ( text );
 
@@ -65,6 +68,8 @@ function make ( ) {
     a_inferencer.infer ( parse_tree );
 
     a_compiler.compile_objs ( a_analyzer.all_objects );
+
+    a_assemble.assemble_objs ( a_analyzer.all_objects );
 
     a_library.build_all_objects ( a_analyzer.all_objects );
 
