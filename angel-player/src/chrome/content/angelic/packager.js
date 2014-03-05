@@ -178,6 +178,58 @@ function expand_bz_and_j ( rows ) {
 
 var BUNCH_SIZE = 4;
 
+function push_bunch ( out, index, bunch ) {
+  for ( var i = bunch.length; i < BUNCH_SIZE; i++ ) {
+    bunch[i] = 0;
+    }
+  out[index] = make_row ( 'bunch', bunch );
+  }
+
+function compress_opcodes ( rows ) {
+  var out = [ ];
+  var current_bunch = [ ];
+  var bunch_count = 0;
+  var bunch_out_index = 0;
+  for ( var r in rows ) {
+    var row = rows[r];
+    if ( row.type === 'label' ) {
+      push_bunch ( out, bunch_out_index, current_bunch );
+      // We output 1 bunch.
+      ++bunch_count;
+
+      // We output the label.
+      out[bunch_count] = row;
+      ++bunch_count;
+
+      bunch_out_index = bunch_count;
+      current_bunch = [ ];
+      out.push ( row );
+      }
+    else if ( row.type === 'cmd' ) {
+      var size = 1 + row.val[1].length;
+      if ( current_bunch.length + size > BUNCH_SIZE ) {
+        push_bunch ( out, bunch_out_index, current_bunch );
+        ++bunch_count;
+        bunch_out_index = bunch_count;
+        current_bunch = [ ];
+        }
+      current_bunch.push ( row.val[0] );
+      current_bunch = current_bunch.concat ( row.val[1] );
+      }
+    else if ( row.type === 'literal' ) {
+      // We can generate much better code here if we don't output a bunch.
+      // This allows multiple variables to be initialized using one bunch of
+      // li_w's.
+      out[ bunch_count + 1 ] = row;
+      ++bunch_count;
+      }
+    }
+  if ( current_bunch.length > 0 ) {
+    push_bunch ( out, bunch_out_index, current_bunch );
+    }
+  return out;
+  }
+
 var root = {
   make_patch : function make_patch ( obj, rows ) {
     // TODO(kzentner): Actually create a patch here.
@@ -198,6 +250,7 @@ var root = {
     data = expand_li ( data );
     data = expand_bz_and_j ( data );
     data = expand_vars ( data );
+    data = compress_opcodes ( data );
 
     var patch = this.make_patch ( obj, data );
     this.patches.push ( patch );
