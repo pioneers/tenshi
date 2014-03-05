@@ -72,7 +72,7 @@ function assemble ( node, emitter ) {
 function assemble_assignment ( emitter ) {
   if ( emitter.has_var ( this.left.text ) ) {
     assemble ( this.right, emitter );
-    emitter.emit_cmd ( 'set', [ this.left.text ] );
+    emitter.emit_cmd ( 'set_1', [ this.left.text ] );
     }
   else {
     assemble ( this.right, emitter );
@@ -151,7 +151,7 @@ function assemble_identifier ( emitter ) {
     }
   var loc = this.variable.location;
   if ( loc === 'stack' ) {
-    emitter.emit_cmd ( 'dup1', [ this.text ] );
+    emitter.emit_cmd ( 'dup_1', [ this.text ] );
     }
   else if ( loc === 'global' ) {
     emitter.emit_li ( 'lookup', this.variable.canonical_value.canonical_name );
@@ -170,7 +170,7 @@ function assemble_paren ( emitter ) {
     this.args.forEach ( function ( arg ) {
       assemble ( arg, emitter );
       } );
-    emitter.emit_cmd ( 'call1', [ this.args.length ] );
+    emitter.emit_cmd ( 'call_1', [ this.args.length ] );
     }
   if ( this.ctxt === 'statement' ) {
     // Remove the function's return value from the stack, since it won't be needed.

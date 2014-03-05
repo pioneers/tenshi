@@ -26,16 +26,16 @@ var opcodes = [
       state.move_pc ( 1 );
       }
     } ),
-  make_opcode ( 0x01, 'dup1', 2, 1,
+  make_opcode ( 0x01, 'dup_1', 2, 1,
     function dup1 ( state ) {
     state.push ( state.get_stack ( state.get_arg ( 1 ) ) );
     } ),
-  make_opcode ( 0x02, 'liw', 1, 1,
-  function liw ( state ) {
+  make_opcode ( 0x02, 'li_w', 1, 1,
+  function li_w ( state ) {
     state.push ( state.func[ state.get_pc ( ) ] );
     state.move_pc ( 1 );
     } ),
-  make_opcode ( 0x03, 'set1', 2, -1,
+  make_opcode ( 0x03, 'set_1', 2, -1,
     function set ( state ) {
     state.set_stack ( state.get_arg ( 1 ), state.pop ( ) );
     } ),
@@ -43,7 +43,7 @@ var opcodes = [
   function pop ( state ) {
     state.pop ( );
     } ),
-  make_opcode ( 0x05, 'call1', 2, 0,
+  make_opcode ( 0x05, 'call_1', 2, 0,
   function call ( state ) {
     var arg_count = state.get_arg ( 1 );
     var func = state.get_stack ( arg_count );
@@ -90,46 +90,46 @@ var opcodes = [
   function eq ( state ) {
     state.push ( state.pop ( ) === state.pop ( ) );
     } ),
-  make_opcode ( 0x08, 'j1', 2, 0,
-  function j1 ( state ) {
+  make_opcode ( 0x08, 'j_1', 2, 0,
+  function j_1 ( state ) {
     state.move_pc ( state.get_arg ( 1 ) );
     } ),
-  make_opcode ( 0x09, 'j2', 3, 0,
-  function j2 ( state ) {
+  make_opcode ( 0x09, 'j_2', 3, 0,
+  function j_2 ( state ) {
     state.move_pc ( state.get_arg ( 1 ) << 8 + state.get_arg ( 2 ) );
     } ),
-  make_opcode ( 0x0a, 'j3', 4, 0,
-  function j3 ( state ) {
+  make_opcode ( 0x0a, 'j_3', 4, 0,
+  function j_3 ( state ) {
     state.move_pc ( ( state.get_arg ( 1 ) << 8 +
                       state.get_arg ( 2 ) << 8 ) +
                       state.get_arg ( 3 ) );
     } ),
-  make_opcode ( 0x0b, 'jw', 1, 0,
-  function jw ( state ) {
+  make_opcode ( 0x0b, 'j_w', 1, 0,
+  function j_w ( state ) {
     state.move_pc ( state.func[ state.get_pc ( ) ] );
     } ),
-  make_opcode ( 0x0c, 'bz1', 2, -1,
-  function bz1 ( state ) {
+  make_opcode ( 0x0c, 'bz_1', 2, -1,
+  function bz_1 ( state ) {
     if ( ! state.pop ( ) ) {
       state.move_pc ( state.get_arg ( 1 ) );
       }
     } ),
-  make_opcode ( 0x0d, 'bz2', 3, -1,
-  function bz2 ( state ) {
+  make_opcode ( 0x0d, 'bz_2', 3, -1,
+  function bz_2 ( state ) {
     if ( ! state.pop ( ) ) {
       state.move_pc ( state.get_arg ( 1 ) << 8 + state.get_arg ( 2 ) );
       }
     } ),
-  make_opcode ( 0x0e, 'bz3', 4, -1,
-  function bz3 ( state ) {
+  make_opcode ( 0x0e, 'bz_3', 4, -1,
+  function bz_3 ( state ) {
     if ( ! state.pop ( ) ) {
     state.move_pc ( ( state.get_arg ( 1 ) << 8 +
                       state.get_arg ( 2 ) << 8 ) +
                       state.get_arg ( 3 ) );
       }
     } ),
-  make_opcode ( 0x0f, 'bzw', 1, -1,
-  function bzw ( state ) {
+  make_opcode ( 0x0f, 'bz_w', 1, -1,
+  function bz_w ( state ) {
     if ( ! state.pop ( ) ) {
       state.move_pc ( state.func[ state.get_pc ( ) ] );
       }
@@ -242,7 +242,7 @@ var opcodes = [
     state.pop ( );
     } ),
 
-  make_opcode ( 0x22, 'make1', 2, 0,
+  make_opcode ( 0x22, 'make_1', 2, 0,
   function make1 ( state ) {
     var field_count = state.get_arg ( 1 );
     var size = state.stack.length;
@@ -259,13 +259,13 @@ var opcodes = [
     state.push ( obj );
     } ),
 
-  make_opcode ( 0x23, 'pushfree1', 1, 0,
-  function pushfree1 ( state ) {
+  make_opcode ( 0x23, 'pushfree_1', 1, 0,
+  function pushfree_1 ( state ) {
     // TODO(kzentner): Do we want to emulate reference counting in javascript?
     } ),
 
-  make_opcode ( 0x24, 'popfree1', 1, 0,
-  function popfree1 ( state ) {
+  make_opcode ( 0x24, 'popfree_1', 1, 0,
+  function popfree_1 ( state ) {
     // TODO(kzentner): Do we want to emulate reference counting in javascript?
     } ),
 
@@ -290,20 +290,20 @@ var opcodes = [
     // TODO(kzentner): Implement safe point instrumentation.
     } ),
 
-  make_opcode ( 0x27, 'read1', 2, 0,
-  function read1 ( state ) {
+  make_opcode ( 0x27, 'read_1', 2, 0,
+  function read_1 ( state ) {
     state.push ( state.pop ( )[ state.get_arg ( 1 ) - 1 ] );
     } ),
 
-  make_opcode ( 0x28, 'write1', 2, 0,
-  function write1 ( state ) {
+  make_opcode ( 0x28, 'write_1', 2, 0,
+  function write_1 ( state ) {
     var val = state.pop ( );
     var obj = state.pop ( );
     obj[ state.get_arg ( 1 ) - 1 ] = val;
     } ),
 
-  make_opcode ( 0x29, 'stack1', 2, 0,
-  function stack1 ( state ) {
+  make_opcode ( 0x29, 'stack_1', 2, 0,
+  function stack_1 ( state ) {
     state.stack_top += state.get_arg ( 1 );
     } ),
 
@@ -331,21 +331,21 @@ var opcodes = [
     // TODO(kzentner): Implement integer arithmetic in the vm.
     } ),
 
-  make_opcode ( 0x2f, 'band', 1, 0,
+  make_opcode ( 0x2f, 'band', 1, -1,
   function band ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
     state.push ( left & right );
     } ),
 
-  make_opcode ( 0x30, 'bor', 1, 0,
+  make_opcode ( 0x30, 'bor', 1, -1,
   function band ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
     state.push ( left | right );
     } ),
 
-  make_opcode ( 0x31, 'bxor', 1, 0,
+  make_opcode ( 0x31, 'bxor', 1, -1,
   function bxor ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
@@ -357,21 +357,21 @@ var opcodes = [
     state.push ( ~state.pop ( ) );
     } ),
 
-  make_opcode ( 0x33, 'bsl', 1, 0,
+  make_opcode ( 0x33, 'bsl', 1, -1,
   function bsl ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
     state.push ( left << right );
     } ),
 
-  make_opcode ( 0x34, 'bsrl', 1, 0,
+  make_opcode ( 0x34, 'bsrl', 1, -1,
   function bsra ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
     state.push ( left >>> right );
     } ),
 
-  make_opcode ( 0x35, 'bsra', 1, 0,
+  make_opcode ( 0x35, 'bsra', 1, -1,
   function bsrl ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
@@ -388,6 +388,7 @@ function make_optables ( ops ) {
     name: [],
     argc: [],
     func: [],
+    stack: [],
     };
   for ( var i in ops ) {
     out.op[ops[i].name] = ops[i];
@@ -396,6 +397,7 @@ function make_optables ( ops ) {
     out.argc[ops[i].code] = ops[i].argc;
     out.func[ops[i].code] = ops[i].func;
     out.name[ops[i].code] = ops[i].name;
+    out.stack[ops[i].code] = ops[i].stack;
     }
   return out;
   }
@@ -408,6 +410,7 @@ var func = tables.func;
 var name = tables.name;
 var code_to_obj = tables.code_to_obj;
 var op = tables.op;
+var stack = tables.stack;
 
 exports.opcodes = opcodes;
 exports.op = op;
@@ -417,3 +420,4 @@ exports.argc = argc;
 exports.func = func;
 exports.name = name;
 exports.tables = tables;
+exports.stack = stack;
