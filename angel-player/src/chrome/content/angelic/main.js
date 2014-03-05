@@ -11,6 +11,8 @@ var recurser = require ( './recurser.js' );
 var module = require ( './module.js' );
 var emitter = require ( './emitter.js' );
 var assemble = require ( './assemble.js' );
+var packager = require ( './packager.js' );
+var binary = require ( './binary.js' );
 
 //
 // This is the main Angelic module
@@ -28,8 +30,10 @@ function make ( ) {
   var a_recurser = recurser.make ( );
   var a_emitter = emitter.make ( );
   var a_assemble = assemble.make ( a_emitter );
+  var a_packager = packager.make ( );
   var text = '';
   var modules = string_map.make ( );
+  var pkg = null;
 
   var evaluation_steps = 0;
   var evaluation_period = 0;
@@ -52,8 +56,7 @@ function make ( ) {
     };
   vm.load_text = function ( t ) {
     text = t;
-    };
-  vm.start_main = function ( ) {
+
     a_parser.setupScopes ( scopes );
     a_compiler.setupScopes ( scopes );
     a_recurser.setupScopes ( scopes );
@@ -70,6 +73,17 @@ function make ( ) {
     a_compiler.compile_objs ( a_analyzer.all_objects );
 
     a_assemble.assemble_objs ( a_analyzer.all_objects );
+
+    a_library.build_all_objects ( a_analyzer.all_objects );
+    };
+  vm.save_pkg = function ( target_type, filename, ecallback ) {
+    var pkg = a_packager.create_pkg ( a_emitter.objs, modules, target_type );
+    binary.write_buffer ( pkg, filename, ecallback );
+    };
+  vm.get_pkg = function ( target_type ) {
+    return a_packager.create_pkg ( a_emitter.objs, modules, target_type );
+    };
+  vm.start_main = function ( ) {
 
     a_library.build_all_objects ( a_analyzer.all_objects );
 
