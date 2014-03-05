@@ -31,7 +31,7 @@ Opcodes are 7 bit numbers mapping to particular functions in the Angelic VM.
 The top (8th) bit is used to control value inspection in the C implementation.
 
 ## Opcode Loading and Evalutation
-Opcodes are loaded in groups of 4 (32 bits) called "bunches." As opcodes are evaluated, the other opcodes are removed from the bunch, and 0s are added at the end. Opcodes may also consume some fixed number of bytes from the bunch, indicated in the rest of this documentation as `[opcode_name arg1 ... argn]`. Instructions should not rely on bytes of 0 being fed into the bunch as opcodes are evaluated (the compiler should not, for example, emit a `li.1` at the end of a bunch to load a 0). This implies that opcodes should not receive more than 3 bytes of arguments in this manner.
+Opcodes are loaded in groups of 4 (32 bits) called "bunches." As opcodes are evaluated, the other opcodes are removed from the bunch, and 0s are added at the end. Opcodes may also consume some fixed number of bytes from the bunch, indicated in the rest of this documentation as `[opcode_name arg1 ... argn]`. Instructions should not rely on bytes of 0 being fed into the bunch as opcodes are evaluated (the compiler should not, for example, emit a `li_1` at the end of a bunch to load a 0). This implies that opcodes should not receive more than 3 bytes of arguments in this manner.
 Opcodes may also remove whole bunches (multiples of 32 bits) from the opcode stream. This is indicated in the rest of this document as `[opcode_name] [arg]`. The number of bunches consumed in this way need not be bounded or fixed at a particular value per opcode.
 
 If the top bit of an opcode is set, the evaluation of that opcode is logged in some VM specific way.
@@ -41,21 +41,21 @@ This is the number to opcode mapping.
 <code>
 
   * 0x00 : next
-  * 0x01 : dup.1
-  * 0x02 : li.w
-  * 0x03 : set.1
+  * 0x01 : dup_1
+  * 0x02 : li_w
+  * 0x03 : set_1
   * 0x04 : pop
-  * 0x05 : call.1
+  * 0x05 : call_1
   * 0x06 : ret
   * 0x07 : eq
-  * 0x08 : j.1
-  * 0x09 : j.2
-  * 0x0a : j.3
-  * 0x0b : j.w
-  * 0x0c : bz.1
-  * 0x0d : bz.2
-  * 0x0e : bz.3
-  * 0x0f : bz.w
+  * 0x08 : j_1
+  * 0x09 : j_2
+  * 0x0a : j_3
+  * 0x0b : j_w
+  * 0x0c : bz_1
+  * 0x0d : bz_2
+  * 0x0e : bz_3
+  * 0x0f : bz_w
   * 0x10 : not
   * 0x11 : f.add
   * 0x12 : f.sub
@@ -74,14 +74,14 @@ This is the number to opcode mapping.
   * 0x1f : u.mod
   * 0x20 : refi
   * 0x21 : refd
-  * 0x22 : make.1
-  * 0x23 : pushfree.1
-  * 0x24 : popfree.1
+  * 0x22 : make_1
+  * 0x23 : pushfree_1
+  * 0x24 : popfree_1
   * 0x25 : clone
   * 0x26 : safe
-  * 0x27 : read.1
-  * 0x28 : write.1
-  * 0x29 : stack.1
+  * 0x27 : read_1
+  * 0x28 : write_1
+  * 0x29 : stack_1
   * 0x2a : noop
   * 0x2b : end
   * 0x2c : debug
@@ -94,7 +94,7 @@ This is the number to opcode mapping.
   * 0x33 : bsl
   * 0x34 : bsrl
   * 0x35 : bsra
-  * 0x36 : catch.w
+  * 0x36 : catch_w
   * 0x37 : throw
   * 0x38 : reserved
   * 0x39 : reserved
@@ -174,19 +174,19 @@ This is the number to opcode mapping.
 ### [next]
 Causes the next bunch of opcodes to be loaded. Any further opcodes in this bunch will be skipped.
 
-### [dup.1 *idx*]
+### [dup_1 *idx*]
 Duplicates the value *idx* places from the top of stack.
 
-### [li.w] [*val*]
+### [li_w] [*val*]
 Causes *val* to be pushed to the top of the stack.
 
-### [set.1 *idx*]
+### [set_1 *idx*]
 Causes the top value of the stack to be written into *idx* from the top of stack. Pops the top value from the stack.
 
 ### [pop]
 Removes the top value from the stack.
 
-### [call.1 *argc*]
+### [call_1 *argc*]
 Performs a function call, where the top *argc* arguments on the stack are arguments, and *argc* + 1 is the location of the function to call.
 
 ### [ret]
@@ -196,28 +196,28 @@ If there are no further functions to return to, stops the vm.
 ### [eq]
 Pops the top two values on the stack, and pushes whether they are equal.
 
-### [j.1 *relative_dest*]
+### [j_1 *relative_dest*]
 Causes PC to be moved by *relative_dest*, a signed 8 bit integer.
 
-### [j.2 *relative_dest0* *relative_dest1*]
+### [j_2 *relative_dest0* *relative_dest1*]
 Causes PC to be moved by *relative_dest0*:*relative_dest1*, a signed 16 bit integer.
 
-### [j.3 *relative_dest0* *relative_dest1* *relative_dest2*]
+### [j_3 *relative_dest0* *relative_dest1* *relative_dest2*]
 Causes PC to be moved by *relative_dest0*:*relative_dest1*:*relative_dest2*, a signed 24 bit integer.
 
-### [j.w] [*relative_dest*]
+### [j_w] [*relative_dest*]
 Causes PC to be moved by *relative_dest*, a signed 32 bit integer.
 
-### [bz.1 *relative_dest*]
+### [bz_1 *relative_dest*]
 Pops the top value on the stack. If that value is zero, causes PC to be moved by *relative_dest*, a signed 8 bit integer.
 
-### [bz.2 *relative_dest0* *relative_dest1*]
+### [bz_2 *relative_dest0* *relative_dest1*]
 Pops the top value on the stack. If that value is zero, causes PC to be moved by *relative_dest0*:*relative_dest1*, a signed 16 bit integer.
 
-### [bz.3 *relative_dest0* *relative_dest1* *relative_dest2*]
+### [bz_3 *relative_dest0* *relative_dest1* *relative_dest2*]
 Pops the top value on the stack. If that value is zero, causes PC to be moved by *relative_dest0*:*relative_dest1*:*relative_dest2*, a signed 24 bit integer.
 
-### [bz.w] [*relative_dest*]
+### [bz_w] [*relative_dest*]
 Pops the top value on the stack. If that value is zero, causes PC to be moved by *relative_dest*, a signed 32 bit integer.
 
 ### [not]
@@ -274,13 +274,13 @@ Increments the reference count of the val on top of stack.
 ### [refd]
 Decrements the reference count of the val on top of stack. Frees if the reference count became 0. Pops the value off the stack.
 
-### [make.1 *argc*]
+### [make_1 *argc*]
 Constructs an object, where the top *argc* arguments on the stack are fields, and *argc* + 1 is the location of the type to create.
 
-### [pushfree.1 *count*]
+### [pushfree_1 *count*]
 Push the offset of the top *count* frame location from the top of stack onto the freestack. Intended to be used only for local variables and the destructuring objects.
 
-### [popfree.1 *count*]
+### [popfree_1 *count*]
 Pop the top *count* offsets from the freestack, decrementing the references at those locations. Intended to be used only for local variables and destructuring objects.
 
 ### [clone]
@@ -289,15 +289,15 @@ Pop the top object off the stack. Duplicate it and push the duplicate.
 ### [safe]
 Indicates a safe point. The vm may suspend here, update external data sctructure, etc.
 
-### [read.1 *idx*]
+### [read_1 *idx*]
 Read the field of the object on the top of the stack at index *idx*. *idx* == 1 is the index of the type tag in most objects, and the actual fields start at *idx* == 2.
 Pops the object off the stack.
 
-### [write.1 *idx*]
+### [write_1 *idx*]
 Write the second value on the stack to the object on the top of the stack at index *idx*. *idx* == 1 is the index of the type tag in most objects, and the actual fields start at *idx* == 2.
 Pops both the object and value off the stack.
 
-### [stack.1 *diff*]
+### [stack_1 *diff*]
 Move the stack up or down by *diff*. Note that the pop opcode is a special case, where *diff* = -1.
 
 ### [noop]
@@ -336,7 +336,7 @@ Pops the top two values from the stack (both integers) and pushed the the second
 ### [bsra]
 Pops the top two values from the stack (both integers) and pushed the the second value bit shifted to the right by the first value, doing sign extension.
 
-### [catch.w] [*offset*]
+### [catch_w] [*offset*]
 Pops the top value on the stack, which should be a type tag. Push a handler onto the exception handling stack. If an exception matching the type tag occurs, the top handler will be invoked by jumping to the location the handler was registered plus *offset*.
 
 ### [throw]

@@ -171,7 +171,7 @@ function compile_assignment ( compiler ) {
   var cgen = compiler.cgen;
   if ( cgen.has_var ( this.left.text ) ) {
     compiler.compile ( this.right );
-    cgen.emit ( ops.set1, cgen.var_idx ( this.left.text ) );
+    cgen.emit ( ops.set_1, cgen.var_idx ( this.left.text ) );
     cgen.add_temp ( -1 );
     }
   else {
@@ -184,7 +184,7 @@ function compile_assignment ( compiler ) {
 
 function compile_number ( compiler ) {
   var cgen = compiler.cgen;
-  cgen.emit ( ops.liw );
+  cgen.emit ( ops.li_w );
   cgen.emit_bunch ( parseInt ( this.text, 10 ) );
   cgen.add_temp ( 1 );
   }
@@ -212,12 +212,12 @@ function compile_equal ( compiler ) {
 
 function insert_jump ( cgen, difference ) {
   // TODO(kzentner): Use correct sized jump opcode.
-  cgen.emit ( ops.j1, difference );
+  cgen.emit ( ops.j_1, difference );
   }
 
 function insert_bz ( cgen, opcode, target ) {
   // TODO(kzentner): Use correct sized branch.
-  cgen.set ( opcode, make_bunch ( ops.bz1.code, target ) );
+  cgen.set ( opcode, make_bunch ( ops.bz_1.code, target ) );
   }
 
 function compile_while ( compiler ) {
@@ -288,12 +288,12 @@ function compile_identifier ( compiler ) {
   var location = this.variable.location;
   if ( location === 'stack' ) {
     var idx = cgen.var_idx ( this.text );
-    cgen.emit ( ops.dup1, idx );
+    cgen.emit ( ops.dup_1, idx );
     cgen.add_temp ( 1 );
     }
   else if ( location === 'global' || 
             location === 'external' ) {
-    cgen.emit ( ops.liw );
+    cgen.emit ( ops.li_w );
     cgen.add_temp ( 1 );
     cgen.emit_lookup ( make_lookup (
         this,
@@ -315,7 +315,7 @@ function compile_paren_expr ( compiler ) {
     for ( k in this.args ) {
       compiler.compile ( this.args[k] );
       }
-    cgen.emit ( ops.call1, this.args.length );
+    cgen.emit ( ops.call_1, this.args.length );
     cgen.emit_pending_bunch ( );
     // + 1 for the function, -1 for the return value.
     cgen.add_temp ( -this.args.length );
@@ -330,7 +330,7 @@ function compile_paren_statement ( compiler ) {
     for ( k in this.args ) {
       compiler.compile ( this.args[k] );
       }
-    cgen.emit ( ops.call1, this.args.length );
+    cgen.emit ( ops.call_1, this.args.length );
 
     // Remove the function's return value from the stack, since it won't be needed.
     cgen.emit ( ops.pop );
