@@ -104,24 +104,27 @@ def opt_configure(conf):
 
 def configure_deb(conf):
     with sub_conf(conf, 'controller/deb'):
+        common_configure(conf)
         debug_configure(conf)
         noopt_configure(conf)
     with sub_conf(conf, 'controller/debopt'):
+        common_configure(conf)
         debug_configure(conf)
         opt_configure(conf)
 
 
 def configure_rel(conf):
     with sub_conf(conf, 'controller/rel'):
+        common_configure(conf)
         release_configure(conf)
         noopt_configure(conf)
     with sub_conf(conf, 'controller/relopt'):
+        common_configure(conf)
         release_configure(conf)
         opt_configure(conf)
 
 
 def configure(conf):
-    common_configure(conf)
     configure_deb(conf)
     configure_rel(conf)
 
