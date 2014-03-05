@@ -1,6 +1,25 @@
 var buffer = require ( 'buffer' );
 var misc = require ( './misc.js' );
 
+function make_row ( type, val ) {
+  return { type : type, val : val };
+  }
+
+function expand_li ( rows ) {
+  var out = [];
+  for ( var r in rows ) {
+    var row = rows[r];
+    if ( row.type === 'li' ) {
+      out.push ( make_row ( 'cmd', [ 'li_w', [ ] ] ) );
+      out.push ( make_row ( 'literal', row.val ) );
+      }
+    else {
+      out.push ( row );
+      }
+    }
+  return out;
+  }
+
 var BUNCH_SIZE = 4;
 
 var root = {
@@ -20,7 +39,7 @@ var root = {
   process_obj : function process_obj ( name, obj ) {
     var data = obj.data;
 
-    // TODO(kzentner): Add passes here.
+    data = expand_li ( data );
 
     var patch = this.make_patch ( obj, data );
     this.patches.push ( patch );
