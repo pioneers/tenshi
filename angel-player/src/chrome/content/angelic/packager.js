@@ -1,4 +1,5 @@
 var buffer = require ( 'buffer' );
+var fixup_kinds = require ( './fixup_kinds.js' );
 var misc = require ( './misc.js' );
 var opcodes = require ( './opcodes.js' );
 
@@ -587,15 +588,84 @@ var root = {
     // This makes binary diffs cleaner.
     this.buffer.fill ( 0 );
 
+    this.sort_patches ( );
+
     this.write ( );
 
     return this.buffer;
     },
+  sort_patches : function sort_patches ( ) {
+    // TODO(kzentner): Sort patches! Required by the spec!
+    },
+  write_uint32 : function write_uint32 ( val ) {
+    this.buffer.writeUInt32LE ( val, this.offset );
+    this.offset += size_uint32_t;
+    },
+  write_header : function write_header ( ) {
+    // Magic number found in ngl_vm/src/ngl_package.c
+    this.write_uint32 ( 0x32204157 );
+    // Version
+    this.write_uint32 ( 1 );
+    // Location of fixup table
+    this.write_uint32 ( size_pkg_header + size_patch_table_header + this.size_of_patches ( ) );
+    // Location of patch table
+    this.write_uint32 ( size_pkg_header );
+    },
+  write_patches : function write_patches ( ) {
+    // Count
+    this.write_uint32 ( this.patches.length );
+    for ( var i in this.patches ) {
+      var patch = this.patches[i];
+
+      // Kind
+      // TODO(kzentner): Make the compiler output objects besides bytecode.
+      this.write_uint32 ( fixup_kinds.bytecode );
+      // ID
+      this.write_uint32 ( patch.id );
+      // TODO(kzentner): Make the compiler actually output patches, not just
+      // new objects.
+      // Offset
+      this.write_uint32 ( 0 );
+
+      var size = patch.buf.length + size_uint32_t * this.literal_size + size_uint32_t * this.literal_size;
+      // to_delete
+      this.write_uint32 ( size );
+      // to_insert
+      this.write_uint32 ( size );
+
+      // ngl_buffer.header
+      this.offset += size_uint32_t * this.literal_size;
+
+      // ngl_buffer.size
+      this.write_literal ( this.buffer, this.offset, [ 'uinteger', patch.buf.length ] );
+      this.offset += size_uint32_t * this.literal_size;
+
+      patch.offset = this.offset;
+      patch.buf.copy ( this.buffer, this.offset );
+      this.offset += patch.buf.length;
+      }
+    },
+  write_fixups : function write_fixups ( ) {
+    var fixup_num = 0;
+    // Count
+    this.write_uint32 ( this.fixup_count ( ) );
+    for ( var i in this.patches ) {
+      var patch = this.patches[i];
+      for ( var j in patch.fixups ) {
+        var fix = patch.fixups[j];
+        // Kind
+        this.write_uint32 ( fix.val.fixup_kind );
+        // ID
+        this.write_uint32 ( fix.val.id );
+        // Offset
+        this.write_uint32 ( fix.offset + patch.offset );
+        }
+      }
+    },
   write : function write ( ) {
-    // TODO(kzentner): Implement these methods.
-    // this.write_header ( );
-    // this.write_patches ( );
-    // this.write_fixups ( );
+    this.write_header ( );
+    this.write_patches ( );
+    this.write_fixups ( );
     },
   };
 
