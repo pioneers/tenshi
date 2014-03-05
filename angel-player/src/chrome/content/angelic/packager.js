@@ -2,6 +2,16 @@ var buffer = require ( 'buffer' );
 var misc = require ( './misc.js' );
 var opcodes = require ( './opcodes.js' );
 
+// These values are from ngl_package.h
+var size_uint32_t = 4;
+var size_pkg_header = size_uint32_t * 4;
+var size_fixup_table_header = size_uint32_t;
+var size_fixup = size_uint32_t * 3;
+var size_patch_table_header = size_uint32_t;
+var size_patch_header = size_uint32_t * 5;
+var size_bytecode_header = size_uint32_t * 2;
+var size_obj_header = size_uint32_t;
+
 function make_row ( type, val ) {
   return { type : type, val : val };
   }
@@ -349,12 +359,99 @@ function expand_ops ( rows ) {
   }
 
 var root = {
+  write_bunch : function write_bunch ( buf, offset, bunch ) {
+    misc.assert ( bunch.length === BUNCH_SIZE,
+                  'Bunches should be ' + BUNCH_SIZE + ' bytes long.' );
+    for ( var b in bunch ) {
+      var byt = bunch[b];
+      if ( byt >= 0 ) {
+        buf.writeUInt8 ( byt, offset++ )
+        }
+      else {
+        buf.writeInt8 ( byt, offset++ )
+        }
+      }
+    },
+  write_literal : function write_literal ( buf, offset, val ) {
+    if ( val[0] === 'float' ) {
+      if ( this.target_type === 'x86_64' ) {
+        buf.writeDoubleLE ( val[1], offset );
+        }
+      else if ( this.target_type === 'ARM' ) {
+        buf.writeFloatLE ( val[1], offset );
+        }
+      else {
+        throw 'Uknown target type!';
+        }
+      }
+    else if ( val[0] === 'integer' ) {
+      if ( this.target_type === 'x86_64' ) {
+        buf.writeInt32LE ( val[1] & 0xffffffff, offset );
+        // Javascript seems to ignore shifts >= 32 bits.
+        buf.writeInt32LE ( ( val[1] >>> 16 ) >> 16, offset + size_uint32_t );
+        }
+      else if ( this.target_type === 'ARM' ) {
+        buf.writeInt32LE ( val[1], offset );
+        }
+      else {
+        throw 'Uknown target type!';
+        }
+      }
+    else if ( val[0] === 'uinteger' ) {
+      if ( this.target_type === 'x86_64' ) {
+        buf.writeUInt32LE ( val[1] & 0xffffffff, offset );
+        // Javascript seems to ignore shifts >= 32 bits.
+        buf.writeUInt32LE ( ( val[1] >>> 16 ) >> 16, offset + size_uint32_t );
+        }
+      else if ( this.target_type === 'ARM' ) {
+        buf.writeUInt32LE ( val[1], offset );
+        }
+      else {
+        throw 'Uknown target type!';
+        }
+      }
+    else if ( val[1] === 'lookup' ) {
+      for ( var i = 0; i < BUNCH_SIZE * this.literal_size; i++ ) {
+        buf.writeUInt8 ( 0xff, offset + i );
+        }
+      }
+    },
+  patch_size : function patch_size ( rows ) {
+    var size = 0;
+    for ( var r in rows ) {
+      var row = rows[r];
+      if ( row.type === 'literal' ) {
+        size += BUNCH_SIZE * this.literal_size;
+        }
+      else if ( row.type === 'bunch' ) {
+        size += BUNCH_SIZE;
+        }
+      else {
+        throw 'Cannot determine the size of row with type ' + row.type;
+        }
+      }
+    return size;
+    },
   make_patch : function make_patch ( obj, rows ) {
-    // TODO(kzentner): Actually create a patch here.
-    var buf = new buffer.Buffer ( rows.length * BUNCH_SIZE );
+    var buf = new buffer.Buffer ( this.patch_size ( rows ) );
     // This makes binary diffs cleaner.
     buf.fill ( 0 );
     var fixups = [];
+    var offset = 0;
+    for ( var r in rows ) {
+      var row = rows[r];
+      if ( row.type === 'bunch' ) {
+        this.write_bunch ( buf, offset, row.val );
+        offset += BUNCH_SIZE;
+        }
+      if ( row.type === 'literal' ) {
+        this.write_literal ( buf, offset, row.val );
+        if ( row.val[0] === 'lookup' ) {
+          fixups.push ( { offset : offset, val : row.val[1] } );
+          }
+        offset += BUNCH_SIZE * this.literal_size;
+        }
+      }
     return {
       buf : buf,
       fixups : fixups,
@@ -383,6 +480,15 @@ var root = {
   create_pkg : function create_pkg ( map, modules, target_type ) {
     var self = this;
     this.target_type = target_type;
+    if ( target_type === 'js' ) {
+      this.literal_size = 1;
+      }
+    else if ( target_type === 'x86_64' ) {
+      this.literal_size = 2;
+      }
+    else if ( target_type === 'ARM' ) {
+      this.literal_size = 1;
+      }
 
     map.each ( function ( name, obj ) {
       self.process_obj ( name, obj );
@@ -413,6 +519,7 @@ function make ( ) {
     buffer: null,
     buffer_idx: 0,
     offset: 0,
+    literal_size: 1,
     },
     root );
   }
