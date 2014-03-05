@@ -230,6 +230,101 @@ function compress_opcodes ( rows ) {
   return out;
   }
 
+function size_of_row ( row, literal_size ) {
+  if ( row.type === 'label' ) {
+    return 0;
+    }
+  else if ( row.type === 'literal' ) {
+    return literal_size;
+    }
+  else if ( row.type === 'bunch' ) {
+    return 1;
+    }
+  else {
+    throw 'Could not determince precise size of row of type ' + row.type;
+    }
+  }
+
+function find_label ( rows, start, label, literal_size ) {
+  var dist = 0;
+  var i;
+  var row;
+
+  for ( i = start; i < rows.length; i++ ) {
+    row = rows[i];
+    if ( row.type === 'label' && row.val === label ) {
+      return dist - 1;
+      }
+    dist += size_of_row ( row, literal_size );
+    }
+
+  // Didn't find it going forwards, search backwards.
+  dist = 0;
+  for ( i = start; i >= 0; i-- ) {
+    row = rows[i];
+    if ( row.type === 'label' && row.val === label ) {
+      return dist;
+      }
+    dist -= size_of_row ( row, literal_size );
+    }
+
+  throw 'Could not find label ' + label;
+  }
+
+function get_byte ( label, label_byte ) {
+  if ( typeof label_byte !== 'string' ) {
+    return null;
+    }
+  var match = label_byte.match ( label );
+  if ( match === null || match.index !== 0 ) {
+    return null;
+    }
+  var re = /\[([0-9])\]/;
+  var res = re.exec ( label_byte.substr ( label.length ) );
+  if ( res.index !== 0 ) {
+    return null;
+    }
+  else {
+    return parseInt ( res[1], 10 );
+    }
+  }
+
+function expand_labels ( rows, literal_size ) {
+  var out = [ ];
+  for ( var r in rows ) {
+    var row = rows[r];
+    if ( row.type === 'bunch' ) {
+      for ( var ib in row.val ) {
+        var b = row.val[ib];
+        if ( typeof b === 'string' && b[0] === '.' ) {
+          var label = b.substr ( 0, b.length - '[0]'.length );
+          var offset = find_label ( rows, r, label, literal_size );
+          while ( true ) {
+            var byt = get_byte ( label, row.val[ib] );
+            if ( byt === null ) {
+              break;
+              }
+            else {
+              // Note that if offset it negative, this may result in large
+              // positive values here.
+              row.val[ib] = offset & ( 0xff << byt );
+              }
+            ++ib;
+            }
+          }
+        }
+      out.push ( row );
+      }
+    else if ( row.type === 'literal' ) {
+      if ( row.val[0] === 'label' ) {
+        row.val = [ 'integer', find_label ( rows, r, row.val[1], literal_size ) ];
+        }
+      out.push ( row );
+      }
+    }
+  return out;
+  }
+
 var root = {
   make_patch : function make_patch ( obj, rows ) {
     // TODO(kzentner): Actually create a patch here.
@@ -251,6 +346,7 @@ var root = {
     data = expand_bz_and_j ( data );
     data = expand_vars ( data );
     data = compress_opcodes ( data );
+    data = expand_labels ( data, this.literal_size );
 
     var patch = this.make_patch ( obj, data );
     this.patches.push ( patch );
