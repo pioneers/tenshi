@@ -365,10 +365,10 @@ var root = {
     for ( var b in bunch ) {
       var byt = bunch[b];
       if ( byt >= 0 ) {
-        buf.writeUInt8 ( byt, offset++ )
+        buf.writeUInt8 ( byt, offset++ );
         }
       else {
-        buf.writeInt8 ( byt, offset++ )
+        buf.writeInt8 ( byt, offset++ );
         }
       }
     },
@@ -472,9 +472,34 @@ var root = {
     var patch = this.make_patch ( obj, data );
     this.patches.push ( patch );
     },
+  size_of_patches : function size_of_patches ( ) {
+    size = 0;
+    for ( var i in this.patches ) {
+      var patch = this.patches[i];
+      size += size_patch_header;
+      // ngl_buffer.type
+      size += size_uint32_t * this.literal_size;
+      // ngl_buffer.length
+      size += size_uint32_t * this.literal_size;
+      size += patch.buf.length;
+      }
+    return size;
+    },
+  fixup_count : function fixup_count ( ) {
+    var count = 0;
+    for ( var i in this.patches ) {
+      var patch = this.patches[i];
+      count += patch.fixups.length;
+      }
+    return count;
+    },
   output_size : function output_size ( ) {
-    // TODO(kzentner): Compute the size.
     var size = 0;
+    size += size_pkg_header;
+    size += size_fixup_table_header;
+    size += size_patch_table_header;
+    size += this.size_of_patches ( );
+    size += size_fixup * this.fixup_count ( );
     return size;
     },
   create_pkg : function create_pkg ( map, modules, target_type ) {
