@@ -1,2 +1,4 @@
 controller/inc/*
 controller/src/*
+smartsensor_fw/inc/*
+smartsensor_fw/src/*
