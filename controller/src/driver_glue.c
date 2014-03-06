@@ -3,6 +3,7 @@
 #include "inc/i2c_master.h"
 #include "inc/pindef.h"
 #include "inc/stm32f4xx.h"
+#include "inc/xbee_framing.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -312,7 +313,7 @@ void radio_driver_init(void) {
   RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN;
 
   // Initialize the actual driver
-  radio_driver = uart_serial_init_module(3, dummy_length_finder,
+  radio_driver = uart_serial_init_module(3, xbee_length_finder,
     radio_txen, 57600);
 
   // Enable the interrupt at priority 15 (lowest)
