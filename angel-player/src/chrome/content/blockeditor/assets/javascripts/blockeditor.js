@@ -2,10 +2,10 @@
 Components.utils.import("chrome://angel-player/content/blockeditor/assets/javascripts/blockscommon.js");
 Components.utils.import("chrome://angel-player/content/blockeditor/assets/javascripts/blockDragDrop.js");
 Components.utils.import("chrome://angel-player/content/blockeditor/assets/javascripts/load.js");
-Components.utils.import("chrome://angel-player/content/blockeditor/libraries/snapsvg/dist/snap.svg.js");
-Components.utils.import("chrome://angel-player/content/blockeditor/libraries/jquery-2.0.3.js");
-Components.utils.import("chrome://angel-player/content/blockeditor/libraries/snap-plugins.js");
-Components.utils.import("chrome://angel-player/content/blockeditor/libraries/snap-plugins-jquery.js");
+// Components.utils.import("chrome://angel-player/content/blockeditor/libraries/snapsvg/dist/snap.svg.js");
+// Components.utils.import("chrome://angel-player/content/blockeditor/libraries/jquery-2.0.3.js");
+// Components.utils.import("chrome://angel-player/content/blockeditor/libraries/snap-plugins.js");
+// Components.utils.import("chrome://angel-player/content/blockeditor/libraries/snap-plugins-jquery.js");
 // Components.utils.import("chrome://angel-player/content/blockProgram.js");
 
 var myProg;

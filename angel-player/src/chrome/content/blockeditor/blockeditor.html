@@ -1,17 +1,21 @@
 <!doctype html>
-
 <html>
-    <head>
-        <title>Block Editor</title>
-        <script type='application/javascript;version=1.7'
+  <head>
+    <title>Block Editor</title>
+    <link rel="stylesheet" type="text/css" href="blockeditor.css">
+    <script src="libraries/snapsvg/dist/snap.svg.js"></script>
+    <script src="libraries/jquery-2.0.3.js"></script>
+    <script src="libraries/snap-plugins.js"></script>
+    <script src="libraries/snap-plugins-jquery.js"></script>
+    <script type='application/javascript;version=1.7'
             src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
-        <script src="../common/require_stub.js"></script>
-        <link rel="stylesheet" type="text/css" href="blockeditor.css">
-    </head>
-    <body onload="requireStub('tenshi/blockeditor/blockeditor')">
-        <svg id="blocks-main" xmlns="http://www.w3.org/2000/svg" version="1.1"
-                width="10000em" height="10000em" viewBox="0 0 10000 10000">
-            <g id="width-computing-group"/>
-        </svg>
-    </body>
+    <script src="../common/require_stub.js"></script>
+  </head>
+  <body onload="requireStub('tenshi/blockeditor/blockeditor')">
+    <div id="main">
+      <svg id='workarea' xmlns='http://www.w3.org/2000/svg' version='1.1'\
+          width='1000px' height='1000px' viewBox='0 0 1000 1000'>\
+      </svg>"
+    </div>
+  </body>
 </html>
