@@ -1,0 +1,32 @@
+{
+    "objects" :
+    [
+        {
+            "type":"BOX",
+            "width":1200,
+            "height":10,
+            "depth":1200,
+            "color":"0x0000ff",
+            "mass":0,
+            "friction":1,
+            "position":[0, -40, 0]
+        }
+    ],
+
+    "gravity" : [0, 0, 0],
+
+    "camera" :
+    {
+        "fov" : 45,
+        "drawDistance" : 1000,
+
+        "type" : "POV",
+        "position" : [30, 30, 30]
+    },
+
+    "backgroundColor" : "0xD4AF37",
+
+    "robot" :
+    [
+    ]
+}
