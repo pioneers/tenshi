@@ -7,10 +7,34 @@
 #include "inc/led_driver.h"
 #include "inc/pindef.h"
 #include "inc/stm32f4xx.h"
+#include "inc/core_cm4.h"
+#include "inc/core_cmInstr.h"
 #include "inc/task.h"
+#include "inc/xbee_framing.h"
+
+#define PIER_INCOMINGDATA_IDENT   254
+#define PIER_OUTGOINGDATA_IDENT   253
+
+typedef struct __attribute__((packed)) tag_pier_incomingdata {
+  uint8_t ident;
+  uint8_t fieldtime;
+  uint8_t flags;
+  uint8_t analog[7];
+  uint8_t digital;
+} pier_incomingdata;
+
+typedef struct __attribute__((packed)) tag_pier_outgoingdata {
+  uint8_t ident;
+  uint8_t rssi;
+  uint8_t batteryStatus;
+  uint8_t analog[7];
+  uint8_t digital;
+} pier_outgoingdata;
 
 static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
-  uint8_t buf[32];
+  uint8_t buf[64];
+
+  uint8_t counter = 0;
 
   while (1) {
     size_t len;
@@ -38,6 +62,7 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
           I2C_TRANSACTION_STATUS_ERROR)) {}
     i2c_transaction_finish(i2c1_driver, txn);*/
 
+    /*
     txn = uart_serial_send_data(smartsensor_1, "\x00\x0A""CDEFGHIJKL",
       12);
     while ((uart_serial_send_status(smartsensor_1, txn) !=
@@ -94,6 +119,44 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
     vPortFree(buf2);
 
     vTaskDelay(500);
+    */
+
+    buf2 = uart_serial_receive_packet(radio_driver, &len, 1);
+    if (!xbee_verify_checksum(buf2)) {
+      continue;
+    }
+    xbee_api_packet *packetIn = buf2;
+    if (packetIn->xbee_api_type != XBEE_API_TYPE_RX64) {
+      continue;
+    }
+    xbee_api_packet *packetOut = buf;
+    packetOut->xbee_api_magic = XBEE_MAGIC;
+    int lenThing = sizeof(xbee_tx64_header) + sizeof(pier_outgoingdata);
+    packetOut->length = __REV16(lenThing);
+    packetOut->tx64.xbee_api_type = XBEE_API_TYPE_TX64;
+    packetOut->tx64.frameId = 0;
+    packetOut->tx64.xbee_dest_addr = packetIn->rx64.xbee_src_addr;
+    packetOut->tx64.options = 0;
+    pier_incomingdata *inData = &(packetIn->rx64.data);
+    pier_outgoingdata *outData = &(packetOut->tx64.data);
+
+    if (inData->ident != PIER_INCOMINGDATA_IDENT) {
+      continue;
+    }
+
+    outData->ident = PIER_OUTGOINGDATA_IDENT;
+    outData->analog[0] = inData->analog[0] + inData->analog[1];
+    outData->analog[1] = counter++;
+
+    xbee_fill_checksum(packetOut);
+
+    vPortFree(buf2);
+    txn = uart_serial_send_data(radio_driver, buf, lenThing + 4);
+    while ((uart_serial_send_status(radio_driver, txn) !=
+        UART_SERIAL_SEND_DONE) &&
+        (uart_serial_send_status(radio_driver, txn) !=
+          UART_SERIAL_SEND_ERROR)) {}
+    uart_serial_send_finish(radio_driver, txn);
   }
 }
 
