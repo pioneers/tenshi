@@ -28,9 +28,6 @@ function Simulator(domElement, master, mapId)
 
     window.onresize = function(event)
     {
-        self.domElement.style.width = window.innerWidth + "px";
-        self.domElement.style.height = window.innerHeight + "px";
-
         self.width = self.domElement.offsetWidth;
         self.height = self.domElement.offsetHeight;
         self.renderer.setSize(self.width, self.height);
@@ -116,7 +113,7 @@ Simulator.prototype.loadMap = function(mapId)
 
     var temp = null;
 
-    this.initScene(this.width,this.height,cam.fov,cam.drawDistance,cam.position,map.backgroundColor);
+    this.initScene(this.width,this.height,cam.fov,cam.drawDistance,cam.position, parseInt(map.backgroundColor, 16));
     this.initPhysics(map.gravity);
     this.initMouseCameraControls();
 
