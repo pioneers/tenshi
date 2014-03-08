@@ -6,14 +6,16 @@
         <link rel="stylesheet" type="text/css" href="main.css">
     </head>
     <body onload="onLoad()">
-        <iframe id="mainContent" src="actualMain.html" seamless></iframe>
+        <iframe id="mainContent" src="actualMain.html"></iframe>
         <!-- Footer only contains debug things -->
         <div id="footer">
             <div id="toggle-debug" onclick="toggleDebug()"></div>
             <div id="footer-debug-container">
+                <a onclick="mainContentGoBack()">Back</a>
+                <a onclick="mainContentGoForward()">Forward</a>
+                <a onclick="mainContentReload()">Reload</a>
                 <span id="version-data">VERSIONINFO</span>
                 <a onclick="openInspector()">DOM inspector</a>
-                <a href="chrome://global/content/config.xul">about:config</a>
             </div>
         </div>
     </body>
