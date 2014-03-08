@@ -1,4 +1,5 @@
 body {
+    margin: 0 0 0 0;
     background-color: white;
 }
 
@@ -7,6 +8,15 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index: 1000;
+    /* This is so that scroll bars don't mess up (as bad) with the debug
+    overlay visible. */
+    pointer-events: none;
+}
+
+#footer * {
+    /* Make it possible to click only the things inside the debug footer. */
+    pointer-events: auto;
 }
 
 #footer-debug-container {
@@ -20,4 +30,14 @@ body {
     height: 0.5em;
     background-color: gray;
     float: right;
+}
+
+#mainContent {
+    border: 0px none transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
 }
