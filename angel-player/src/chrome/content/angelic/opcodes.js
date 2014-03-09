@@ -331,21 +331,21 @@ var opcodes = [
     // TODO(kzentner): Implement integer arithmetic in the vm.
     } ),
 
-  make_opcode ( 0x2f, 'band', 1, 0,
+  make_opcode ( 0x2f, 'band', 1, -1,
   function band ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
     state.push ( left & right );
     } ),
 
-  make_opcode ( 0x30, 'bor', 1, 0,
+  make_opcode ( 0x30, 'bor', 1, -1,
   function band ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
     state.push ( left | right );
     } ),
 
-  make_opcode ( 0x31, 'bxor', 1, 0,
+  make_opcode ( 0x31, 'bxor', 1, -1,
   function bxor ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
@@ -357,21 +357,21 @@ var opcodes = [
     state.push ( ~state.pop ( ) );
     } ),
 
-  make_opcode ( 0x33, 'bsl', 1, 0,
+  make_opcode ( 0x33, 'bsl', 1, -1,
   function bsl ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
     state.push ( left << right );
     } ),
 
-  make_opcode ( 0x34, 'bsrl', 1, 0,
+  make_opcode ( 0x34, 'bsrl', 1, -1,
   function bsra ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
     state.push ( left >>> right );
     } ),
 
-  make_opcode ( 0x35, 'bsra', 1, 0,
+  make_opcode ( 0x35, 'bsra', 1, -1,
   function bsrl ( state ) {
     var right = state.pop ( );
     var left = state.pop ( );
@@ -388,6 +388,7 @@ function make_optables ( ops ) {
     name: [],
     argc: [],
     func: [],
+    stack: [],
     };
   for ( var i in ops ) {
     out.op[ops[i].name] = ops[i];
@@ -396,6 +397,7 @@ function make_optables ( ops ) {
     out.argc[ops[i].code] = ops[i].argc;
     out.func[ops[i].code] = ops[i].func;
     out.name[ops[i].code] = ops[i].name;
+    out.stack[ops[i].code] = ops[i].stack;
     }
   return out;
   }
@@ -408,6 +410,7 @@ var func = tables.func;
 var name = tables.name;
 var code_to_obj = tables.code_to_obj;
 var op = tables.op;
+var stack = tables.stack;
 
 exports.opcodes = opcodes;
 exports.op = op;
@@ -417,3 +420,4 @@ exports.argc = argc;
 exports.func = func;
 exports.name = name;
 exports.tables = tables;
+exports.stack = stack;
