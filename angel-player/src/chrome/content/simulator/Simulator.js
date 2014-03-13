@@ -40,6 +40,14 @@ Simulator.prototype.initScene = function(width, height, fov, drawDistance, camer
 {
     this.scene = new THREE.Scene();
 
+    this.ambientLight = new THREE.AmbientLight(0x090909, .1);
+        this.scene.add(this.ambientLight);
+
+    this.directionalLight = new THREE.DirectionalLight(0xffffff, .9);
+        this.directionalLight.position.set(1,1,1).normalize();
+        this.scene.add(this.directionalLight);
+        printOut(this.directionalLight.intensity);
+
     this.camera = new THREE.PerspectiveCamera(fov, width/height, 1, drawDistance);
 
     this.centralPosition = this.scene.position;
