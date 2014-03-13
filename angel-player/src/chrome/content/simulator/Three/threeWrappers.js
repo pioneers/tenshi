@@ -10,7 +10,7 @@ function createCylMesh(radius, height, mColor, scene)
     mColor = mColor === undefined ? 0xffffff : mColor;
 
     var geom = new THREE.CylinderGeometry(radius, radius, height, 30);
-    var material = new THREE.MeshBasicMaterial({ color: mColor });
+    var material = new THREE.MeshLambertMaterial({ color: mColor });
     var mesh = new THREE.Mesh(geom, material);
 
     mesh.receiveShadow = true;
@@ -31,7 +31,7 @@ function createBoxMesh(width, height, depth, mColor, scene)
     mColor = mColor === undefined ? 0xffffff : mColor;
 
     var geom = new THREE.CubeGeometry(width, height, depth);
-    var material = new THREE.MeshBasicMaterial({ color: mColor });
+    var material = new THREE.MeshLambertMaterial({ color: mColor });
     var mesh = new THREE.Mesh(geom, material);
 
     mesh.receiveShadow = true;

@@ -13,6 +13,13 @@ function printOut(string)
   console.log(string);
 }
 
+function applyToConstructor(constructor, argArray)
+{
+  var args = [null].concat(argArray);
+  var factoryFunction = constructor.bind.apply(constructor, args);
+  return new factoryFunction();
+}
+
 // TODO(ericnguyen): fix bug with saving wrong frame (right version, wrong frame)
 function saveFrame(simulator)
 {
