@@ -64,8 +64,6 @@ PovCamera.prototype.moveZ = function(speed)
         y = Math.sin(this.phi),
         z = Math.sin(this.theta);
 
-    printOut(x + ", " + y + ", " + z);
-
     this.camera.position.x += speed*x;
     this.camera.position.y += speed*y;
     this.camera.position.z += speed*z;
