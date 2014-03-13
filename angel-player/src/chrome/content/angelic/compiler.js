@@ -185,7 +185,7 @@ function compile_assignment ( compiler ) {
 function compile_number ( compiler ) {
   var cgen = compiler.cgen;
   cgen.emit ( ops.li_w );
-  cgen.emit_bunch ( parseInt ( this.text, 10 ) );
+  cgen.emit_bunch ( parseFloat ( this.text ) );
   cgen.add_temp ( 1 );
   }
 
