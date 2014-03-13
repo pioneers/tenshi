@@ -21,3 +21,6 @@ angel-player/node_modules/*
 
 # browserify output
 *bundle.js
+
+# XULRootActor.js (debugger)
+angel-player/src/chrome/content/XULRootActor.js
