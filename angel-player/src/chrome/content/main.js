@@ -34,10 +34,6 @@ function toggleDebug() {
     setDebugFooterVisibility();
 }
 
-function openInspector() {
-    window.open("chrome://inspector/content/inspector.xul", "", "chrome");
-}
-
 function mainContentGoBack() {
     var mainContent = document.getElementById(MAIN_CONTENT_ID);
     mainContent.contentWindow.history.back();
