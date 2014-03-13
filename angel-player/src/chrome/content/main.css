@@ -14,6 +14,9 @@ body {
     pointer-events: none;
 }
 
+/* If you have enough stuff in here to make this slowness noticable, your footer
+   has too much crap in it. */
+/*csslint universal-selector: false*/
 #footer * {
     /* Make it possible to click only the things inside the debug footer. */
     pointer-events: auto;
@@ -33,11 +36,11 @@ body {
 }
 
 #mainContent {
-    border: 0px none transparent;
+    border: 0 none transparent;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 0px;
+    padding: 0;
 }
