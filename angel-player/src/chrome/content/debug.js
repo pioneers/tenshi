@@ -17,6 +17,8 @@ debugModule.init = function() {
       DebuggerServer.init();
       DebuggerServer.addBrowserActors(MAIN_WINDOW_TYPE);
 
+      DebuggerServer.addActors("chrome://angel-player/content/XULRootActor.js");
+
       // In the current version of XULRunner, these actors are not registered
       // globally. TODO(rqou): Fix this when we update to XULRunner 28.
       // See https://bugzilla.mozilla.org/show_bug.cgi?id=928008,
