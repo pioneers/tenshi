@@ -4090,9 +4090,9 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <attribute name="NAME" x="37.592" y="176.022" size="1.778" layer="95"/>
 <attribute name="VALUE" x="11.176" y="167.132" size="1.778" layer="96"/>
 </instance>
-<instance part="D4" gate="G$1" x="47.498" y="173.99" smashed="yes" rot="R270">
-<attribute name="NAME" x="52.5526" y="174.244" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="45.1866" y="171.45" size="1.778" layer="96" rot="R270"/>
+<instance part="D4" gate="G$1" x="47.498" y="100.33" smashed="yes" rot="R270">
+<attribute name="NAME" x="52.5526" y="100.584" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="45.1866" y="97.79" size="1.778" layer="96" rot="R270"/>
 </instance>
 <instance part="JP1" gate="G$1" x="60.96" y="170.18" rot="R180"/>
 <instance part="SJ1" gate="1" x="27.432" y="178.562" smashed="yes">
@@ -4108,9 +4108,9 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <attribute name="NAME" x="37.592" y="150.622" size="1.778" layer="95"/>
 <attribute name="VALUE" x="11.176" y="141.732" size="1.778" layer="96"/>
 </instance>
-<instance part="D1" gate="G$1" x="47.498" y="148.844" smashed="yes" rot="R270">
-<attribute name="NAME" x="52.5526" y="149.098" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="45.1866" y="146.304" size="1.778" layer="96" rot="R270"/>
+<instance part="D1" gate="G$1" x="47.498" y="174.244" smashed="yes" rot="R270">
+<attribute name="NAME" x="52.5526" y="174.498" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="45.1866" y="171.704" size="1.778" layer="96" rot="R270"/>
 </instance>
 <instance part="JP2" gate="G$1" x="60.96" y="144.78" rot="R180"/>
 <instance part="SJ2" gate="1" x="27.432" y="153.162" smashed="yes">
@@ -4126,9 +4126,9 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <attribute name="NAME" x="37.592" y="127.762" size="1.778" layer="95"/>
 <attribute name="VALUE" x="11.176" y="118.872" size="1.778" layer="96"/>
 </instance>
-<instance part="D2" gate="G$1" x="47.498" y="125.73" smashed="yes" rot="R270">
-<attribute name="NAME" x="52.5526" y="125.984" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="45.1866" y="123.19" size="1.778" layer="96" rot="R270"/>
+<instance part="D2" gate="G$1" x="47.498" y="148.59" smashed="yes" rot="R270">
+<attribute name="NAME" x="52.5526" y="148.844" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="45.1866" y="146.05" size="1.778" layer="96" rot="R270"/>
 </instance>
 <instance part="JP3" gate="G$1" x="60.96" y="121.92" rot="R180"/>
 <instance part="SJ3" gate="1" x="27.432" y="130.302" smashed="yes">
@@ -4144,9 +4144,9 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <attribute name="NAME" x="37.592" y="102.362" size="1.778" layer="95"/>
 <attribute name="VALUE" x="11.176" y="93.472" size="1.778" layer="96"/>
 </instance>
-<instance part="D3" gate="G$1" x="47.498" y="100.33" smashed="yes" rot="R270">
-<attribute name="NAME" x="52.5526" y="100.584" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="45.1866" y="97.79" size="1.778" layer="96" rot="R270"/>
+<instance part="D3" gate="G$1" x="47.498" y="125.73" smashed="yes" rot="R270">
+<attribute name="NAME" x="52.5526" y="125.984" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="45.1866" y="123.19" size="1.778" layer="96" rot="R270"/>
 </instance>
 <instance part="JP4" gate="G$1" x="60.96" y="96.52" rot="R180"/>
 <instance part="SJ4" gate="1" x="27.432" y="104.902" smashed="yes">
@@ -4540,8 +4540,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <wire x1="47.498" y1="178.562" x2="53.34" y2="178.562" width="0.1524" layer="91"/>
 <wire x1="32.512" y1="178.562" x2="40.894" y2="178.562" width="0.1524" layer="91"/>
 <junction x="40.894" y="178.562"/>
-<pinref part="D4" gate="G$1" pin="A"/>
-<wire x1="47.498" y1="176.53" x2="47.498" y2="178.562" width="0.1524" layer="91"/>
+<pinref part="D1" gate="G$1" pin="A"/>
+<wire x1="47.498" y1="176.784" x2="47.498" y2="178.562" width="0.1524" layer="91"/>
 <junction x="47.498" y="178.562"/>
 </segment>
 </net>
@@ -4563,8 +4563,8 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <wire x1="47.498" y1="153.162" x2="53.34" y2="153.162" width="0.1524" layer="91"/>
 <wire x1="32.512" y1="153.162" x2="40.894" y2="153.162" width="0.1524" layer="91"/>
 <junction x="40.894" y="153.162"/>
-<pinref part="D1" gate="G$1" pin="A"/>
-<wire x1="47.498" y1="151.384" x2="47.498" y2="153.162" width="0.1524" layer="91"/>
+<pinref part="D2" gate="G$1" pin="A"/>
+<wire x1="47.498" y1="151.13" x2="47.498" y2="153.162" width="0.1524" layer="91"/>
 <junction x="47.498" y="153.162"/>
 </segment>
 </net>
@@ -4586,7 +4586,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <wire x1="47.498" y1="130.302" x2="53.34" y2="130.302" width="0.1524" layer="91"/>
 <wire x1="32.512" y1="130.302" x2="40.894" y2="130.302" width="0.1524" layer="91"/>
 <junction x="40.894" y="130.302"/>
-<pinref part="D2" gate="G$1" pin="A"/>
+<pinref part="D3" gate="G$1" pin="A"/>
 <wire x1="47.498" y1="128.27" x2="47.498" y2="130.302" width="0.1524" layer="91"/>
 <junction x="47.498" y="130.302"/>
 </segment>
@@ -4609,7 +4609,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <wire x1="47.498" y1="104.902" x2="53.34" y2="104.902" width="0.1524" layer="91"/>
 <wire x1="32.512" y1="104.902" x2="40.894" y2="104.902" width="0.1524" layer="91"/>
 <junction x="40.894" y="104.902"/>
-<pinref part="D3" gate="G$1" pin="A"/>
+<pinref part="D4" gate="G$1" pin="A"/>
 <wire x1="47.498" y1="102.87" x2="47.498" y2="104.902" width="0.1524" layer="91"/>
 <junction x="47.498" y="104.902"/>
 </segment>
@@ -4630,32 +4630,30 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <pinref part="JP1" gate="G$1" pin="2"/>
 <label x="53.086" y="169.926" size="1.778" layer="95" rot="R180"/>
-<pinref part="D4" gate="G$1" pin="C"/>
 <wire x1="53.34" y1="170.18" x2="47.498" y2="170.18" width="0.1524" layer="91"/>
-<wire x1="47.498" y1="170.18" x2="47.498" y2="171.45" width="0.1524" layer="91"/>
+<pinref part="D1" gate="G$1" pin="C"/>
+<wire x1="47.498" y1="171.704" x2="47.498" y2="170.18" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="JP2" gate="G$1" pin="2"/>
 <label x="53.086" y="144.526" size="1.778" layer="95" rot="R180"/>
-<pinref part="D1" gate="G$1" pin="C"/>
 <wire x1="53.34" y1="144.78" x2="47.498" y2="144.78" width="0.1524" layer="91"/>
-<wire x1="47.498" y1="144.78" x2="47.498" y2="146.304" width="0.1524" layer="91"/>
+<pinref part="D2" gate="G$1" pin="C"/>
+<wire x1="47.498" y1="146.05" x2="47.498" y2="144.78" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="JP3" gate="G$1" pin="2"/>
 <label x="53.086" y="121.666" size="1.778" layer="95" rot="R180"/>
-<pinref part="D2" gate="G$1" pin="C"/>
 <wire x1="53.34" y1="121.92" x2="47.498" y2="121.92" width="0.1524" layer="91"/>
-<wire x1="47.498" y1="121.92" x2="47.498" y2="123.19" width="0.1524" layer="91"/>
+<pinref part="D3" gate="G$1" pin="C"/>
+<wire x1="47.498" y1="123.19" x2="47.498" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="JP4" gate="G$1" pin="2"/>
-<wire x1="50.8" y1="96.52" x2="51.054" y2="96.52" width="0.1524" layer="91"/>
 <label x="53.086" y="96.266" size="1.778" layer="95" rot="R180"/>
-<pinref part="D3" gate="G$1" pin="C"/>
-<wire x1="51.054" y1="96.52" x2="53.34" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="50.8" y1="96.52" x2="47.498" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="47.498" y1="96.52" x2="47.498" y2="97.79" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="96.52" x2="47.498" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="D4" gate="G$1" pin="C"/>
+<wire x1="47.498" y1="97.79" x2="47.498" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
