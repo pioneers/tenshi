@@ -1,4 +1,7 @@
 # Vendor
+angel-player/src/chrome/content/vendor-js/*
+
+# More Vendor
 angel-player/src/chrome/content/tenshi-frontend/javascripts/vendor/*
 
 # Ace
