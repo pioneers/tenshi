@@ -2,10 +2,10 @@
 
 const { Cu } = require("chrome");
 
-Cu.import("chrome://angel-player/content/blockeditor/svgUtil.js");
-Cu.import("chrome://angel-player/content/blockeditor/blockscommon.js");
-Cu.import("chrome://angel-player/content/blockeditor/blockDragDrop.js");
-Cu.import("chrome://angel-player/content/blockeditor/blockProgram.js");
+var svgUtil = require("tenshi/blockeditor/svgUtil");
+var blocksCommon = require("tenshi/blockeditor/blockscommon");
+var blockDnD = require("tenshi/blockeditor/blockDragDrop");
+var blockProgram = require("tenshi/blockeditor/blockProgram");
 
 var myProg;
 

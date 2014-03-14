@@ -1,14 +1,10 @@
-Components.utils.import("chrome://angel-player/content/blockeditor/svgUtil.js");
-Components.utils.import("chrome://angel-player/content/blockeditor/blockscommon.js");
-
-var EXPORTED_SYMBOLS = ['blockProgram'];
+var svgUtil = require("tenshi/blockeditor/svgUtil");
+var blocksCommon = require("tenshi/blockeditor/blockscommon");
 
 var MAIN_SVG_ID = 'blocks-main';
 
 var document = null;
 var mainSvg = null;
-
-var blockProgram = {};
 
 function testAABBIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
     return !((x1 + w1) < x2 ||
@@ -44,7 +40,7 @@ function programGetBlocksInArea(x, y, w, h) {
     return foundBlocks;
 }
 
-blockProgram.createNewProgram = function(document) {
+exports.createNewProgram = function(document) {
     var newProg = {};
 
     newProg.document = document;
@@ -73,7 +69,7 @@ function blockMoveTo(x, y) {
     this.svgElem.transform.baseVal.initialize(transform);
 }
 
-blockProgram.createNewBlock = function(document, blockType, text, x, y) {
+exports.createNewBlock = function(document, blockType, text, x, y) {
     var newBlock = {};
 
     newBlock.blockType = blockType;
@@ -127,7 +123,7 @@ blockProgram.createNewBlock = function(document, blockType, text, x, y) {
     return newBlock;
 };
 
-blockProgram.init = function(document_) {
+exports.init = function(document_) {
     document = document_;
     // Main toplevel SVG object
     mainSvg = document.getElementById(MAIN_SVG_ID);

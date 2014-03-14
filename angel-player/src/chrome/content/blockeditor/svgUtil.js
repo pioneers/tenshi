@@ -1,8 +1,4 @@
-Components.utils.import("chrome://angel-player/content/blockeditor/blockscommon.js");
-
-var EXPORTED_SYMBOLS = ['svgUtil'];
-
-var svgUtil = {};
+var blocksCommon = require("tenshi/blockeditor/blockscommon");
 
 var SVG_NS = 'http://www.w3.org/2000/svg';
 var BLOCKS_HEIGHT = 1.75;
@@ -12,7 +8,7 @@ var document = null;
 var widthComputingGroup = null;
 
 // This function is required so that the JSM can get access to document.
-svgUtil.init = function(document_) {
+exports.init = function(document_) {
     document = document_;
     // This is used because we can't get the width of unrendered objects.
     widthComputingGroup = document.getElementById('width-computing-group');
@@ -20,7 +16,7 @@ svgUtil.init = function(document_) {
 
 // Return the width of an element by adding it to the DOM, measuring it,
 // and then removing it.
-svgUtil.measureElementDimensions = function(elem) {
+exports.measureElementDimensions = function(elem) {
     widthComputingGroup.appendChild(elem);
     var bbox = elem.getBBox();
     var width = bbox.width;
@@ -32,7 +28,7 @@ svgUtil.measureElementDimensions = function(elem) {
 // Create and return an element that contains the passed in text and an
 // enclosing rectangle. The rectangle exactly encloses the text in the x-axis.
 // The top left is at (0,0) in this object.
-svgUtil.createTextBlockPart = function(text) {
+exports.createTextBlockPart = function(text) {
     var textNode = document.createElementNS(SVG_NS, 'text');
     // SVG text is positioned by baseline, so we need to shift it down by 1 em.
     // The remaining offset is so center it in the bounding rectangle.
@@ -43,7 +39,7 @@ svgUtil.createTextBlockPart = function(text) {
     textNode.setAttributeNS(null, 'font-size', '1');
     textNode.setAttributeNS(null, 'class', 'blockText');
     textNode.appendChild(document.createTextNode(text));
-    var textLength = svgUtil.measureElementDimensions(textNode).w;
+    var textLength = exports.measureElementDimensions(textNode).w;
 
     var rectNode = document.createElementNS(SVG_NS, 'rect');
     rectNode.setAttributeNS(null, 'width', textLength);
@@ -75,8 +71,8 @@ function generateEndCapNode(path, flip) {
 }
 
 // Create a normal, single-row block with the given text and end caps.
-svgUtil.createBlock = function(text, leftCap, rightCap) {
-    var mainTextPart = svgUtil.createTextBlockPart(text);
+exports.createBlock = function(text, leftCap, rightCap) {
+    var mainTextPart = exports.createTextBlockPart(text);
 
     // TODO(rqou): make this end cap generation not hardcoded
     var facingOutCapPath = "M1 0 L0 0.875 L1 1.75 Z";
@@ -109,7 +105,7 @@ svgUtil.createBlock = function(text, leftCap, rightCap) {
         // TODO(rqou): Proximity thing
     }
 
-    var rightCapPosition = svgUtil.measureElementDimensions(mainTextPart).w;
+    var rightCapPosition = exports.measureElementDimensions(mainTextPart).w;
     if (leftCap) {
         rightCapPosition += BLOCKS_CAP_WIDTH;
     }
@@ -150,7 +146,7 @@ svgUtil.createBlock = function(text, leftCap, rightCap) {
     }
 
     // Get size of entire thing
-    var finalDimensions = svgUtil.measureElementDimensions(resultingGroup);
+    var finalDimensions = exports.measureElementDimensions(resultingGroup);
 
     return {'svg': resultingGroup,
             'w':   finalDimensions.w,
