@@ -2,6 +2,8 @@
 
 <html>
     <head>
+        <script type='application/javascript;version=1.7'
+            src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
         <script src="main.js"></script>
         <link rel="stylesheet" type="text/css" href="main.css">
     </head>
@@ -14,6 +16,7 @@
                 <a onclick="mainContentGoBack()">Back</a>
                 <a onclick="mainContentGoForward()">Forward</a>
                 <a onclick="mainContentReload()">Reload</a>
+                <a onclick="entirePageReload()">Super-reload</a>
                 <span id="version-data">VERSIONINFO</span>
             </div>
         </div>
