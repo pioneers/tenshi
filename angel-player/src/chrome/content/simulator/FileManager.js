@@ -4,9 +4,9 @@ function FileManager()
            getService(Components.interfaces.nsIProperties).
            get("CurProcD", Components.interfaces.nsIFile).path;
 
-    this.pathToSimulator = this.localFilePath + "\\chrome\\content\\simulator\\";
-    this.pathToMaps = this.pathToSimulator + "Data\\Maps\\";
-    this.pathToRobots = this.pathToSimulator + "Data\\Robots\\";
+    this.pathToSimulator = this.localFilePath + "/chrome/content/simulator/";
+    this.pathToMaps = this.pathToSimulator + "Data/Maps/";
+    this.pathToRobots = this.pathToSimulator + "Data/Robots/";
 }
 
 FileManager.prototype.getRobotJson = function(robotId)
