@@ -3,16 +3,10 @@
 
 const { Cu } = require("chrome");
 
-// The following lines confuse the heck out of jshint. They will be removed
-// in the immediate next commit when we fully move to require.
-/* global svgUtil:true */
-/* global blocksCommon:true */
-/* global blockDnD:true */
-/* global blockProgram:true */
-Cu.import("chrome://angel-player/content/blockeditor/svgUtil.js");
-Cu.import("chrome://angel-player/content/blockeditor/blockscommon.js");
-Cu.import("chrome://angel-player/content/blockeditor/blockDragDrop.js");
-Cu.import("chrome://angel-player/content/blockeditor/blockProgram.js");
+var svgUtil = require("tenshi/blockeditor/svgUtil");
+var blocksCommon = require("tenshi/blockeditor/blockscommon");
+var blockDnD = require("tenshi/blockeditor/blockDragDrop");
+var blockProgram = require("tenshi/blockeditor/blockProgram");
 
 var myProg;
 

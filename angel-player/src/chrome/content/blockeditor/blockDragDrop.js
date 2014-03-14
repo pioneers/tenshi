@@ -1,7 +1,3 @@
-var EXPORTED_SYMBOLS = ['blockDnD'];
-
-var blockDnD = {};
-
 // This radius is in em.
 var BLOCK_SNAP_RADIUS = 0.5;
 
@@ -349,7 +345,7 @@ function dragMouseMove(evt) {
     evt.stopPropagation();
 }
 
-blockDnD.init = function(document_) {
+exports.init = function(document_) {
     document = document_;
     // Main toplevel SVG object
     mainSvg = document.getElementById('blocks-main');
@@ -360,6 +356,6 @@ blockDnD.init = function(document_) {
     mainSvg.addEventListener('mousemove', dragMouseMove);
 };
 
-blockDnD.setProgram = function(program) {
+exports.setProgram = function(program) {
     mainProgram = program;
 };

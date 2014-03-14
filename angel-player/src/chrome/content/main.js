@@ -42,7 +42,7 @@ function onLoad() {
     document.tenshiGlobals.loader = loader.Loader({
         paths: {
             "": "resource://gre/modules/commonjs/",
-            "tenshi": "chrome://angel-player/content/",
+            "tenshi": "chrome://angel-player/content",
         },
     });
 }
