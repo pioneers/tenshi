@@ -9,6 +9,7 @@
   <script type="text/javascript" src="globalinit.js"/>
 
   <browser type="content-primary" src="chrome://angel-player/content/main.html"
-      id="mainXULBrowser" flex="1"/>
+      homepage="chrome://angel-player/content/main.html" id="mainXULBrowser"
+      flex="1"/>
 
 </window>

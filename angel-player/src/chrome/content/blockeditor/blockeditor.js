@@ -1,11 +1,22 @@
-Components.utils.import("chrome://angel-player/content/blockeditor/svgUtil.js");
-Components.utils.import("chrome://angel-player/content/blockeditor/blockscommon.js");
-Components.utils.import("chrome://angel-player/content/blockeditor/blockDragDrop.js");
-Components.utils.import("chrome://angel-player/content/blockeditor/blockProgram.js");
+/* jshint globalstrict: true */
+"use strict";
+
+const { Cu } = require("chrome");
+
+// The following lines confuse the heck out of jshint. They will be removed
+// in the immediate next commit when we fully move to require.
+/* global svgUtil:true */
+/* global blocksCommon:true */
+/* global blockDnD:true */
+/* global blockProgram:true */
+Cu.import("chrome://angel-player/content/blockeditor/svgUtil.js");
+Cu.import("chrome://angel-player/content/blockeditor/blockscommon.js");
+Cu.import("chrome://angel-player/content/blockeditor/blockDragDrop.js");
+Cu.import("chrome://angel-player/content/blockeditor/blockProgram.js");
 
 var myProg;
 
-function onLoad() {
+exports.onLoad = function(document) {
     svgUtil.init(document);
     blockDnD.init(document);
     blockProgram.init(document);
@@ -22,46 +33,4 @@ function onLoad() {
     herp = blockProgram.createNewBlock(document,
         blocksCommon.BLOCK_TYPE_LVALUE, 'test456', 0, 5);
     myProg.addRootBlock(herp);
-
-    /*
-    // <test123
-    herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_OUTER_ARROW_PERSISTENT, blocksCommon.BLOCK_END_FLAT);
-    herp.setAttributeNS(null, 'transform', 'translate(0,5)');
-    document.getElementById('blocks-main').appendChild(herp);
-
-    // >test123
-    herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_INNER_ARROW, blocksCommon.BLOCK_END_FLAT);
-    herp.setAttributeNS(null, 'transform', 'translate(0,10)');
-    document.getElementById('blocks-main').appendChild(herp);
-
-    // test123>
-    herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_FLAT, blocksCommon.BLOCK_END_OUTER_ARROW_PERSISTENT);
-    herp.setAttributeNS(null, 'transform', 'translate(0,15)');
-    document.getElementById('blocks-main').appendChild(herp);
-
-    // test123<
-    herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_FLAT, blocksCommon.BLOCK_END_INNER_ARROW);
-    herp.setAttributeNS(null, 'transform', 'translate(0,20)');
-    document.getElementById('blocks-main').appendChild(herp);
-
-    // <test123<
-    herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_OUTER_ARROW_PERSISTENT, blocksCommon.BLOCK_END_INNER_ARROW);
-    herp.setAttributeNS(null, 'transform', 'translate(0,25)');
-    document.getElementById('blocks-main').appendChild(herp);
-
-    // >test123<
-    herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_INNER_ARROW, blocksCommon.BLOCK_END_INNER_ARROW);
-    herp.setAttributeNS(null, 'transform', 'translate(0,30)');
-    document.getElementById('blocks-main').appendChild(herp);
-
-    // <test123>
-    herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_OUTER_ARROW_PERSISTENT, blocksCommon.BLOCK_END_OUTER_ARROW_PERSISTENT);
-    herp.setAttributeNS(null, 'transform', 'translate(0,35)');
-    document.getElementById('blocks-main').appendChild(herp);
-
-    // >test123>
-    herp = svgUtil.createBlock('test123', blocksCommon.BLOCK_END_INNER_ARROW, blocksCommon.BLOCK_END_OUTER_ARROW_PERSISTENT);
-    herp.setAttributeNS(null, 'transform', 'translate(0,40)');
-    document.getElementById('blocks-main').appendChild(herp);
-    */
-}
+};

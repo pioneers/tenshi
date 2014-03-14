@@ -94,6 +94,7 @@ def main():
                                 source_files))
         exit_code = subprocess.call([
             'jshint',
+            '-c', os.path.dirname(sys.argv[0]) + "/" + "jshintrc",
             '--reporter=jslint',
             ] + source_files)
         sys.exit(exit_code)
