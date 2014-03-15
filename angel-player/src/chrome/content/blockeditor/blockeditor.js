@@ -3,6 +3,7 @@
 
 const { Cu } = require("chrome");
 
+var $;
 var svgUtil = require("tenshi/blockeditor/svgUtil");
 var blocksCommon = require("tenshi/blockeditor/blockscommon");
 var blockDnD = require("tenshi/blockeditor/blockDragDrop");
@@ -10,7 +11,19 @@ var blockProgram = require("tenshi/blockeditor/blockProgram");
 
 var myProg;
 
-exports.onLoad = function(document) {
+var window;
+var document;
+
+exports.init = function(_window) {
+    window = _window;
+    document = window.document;
+    $ = require("jquery")(window);
+    $(function() {
+        onLoad();
+    });
+};
+
+function onLoad() {
     svgUtil.init(document);
     blockDnD.init(document);
     blockProgram.init(document);
@@ -27,4 +40,4 @@ exports.onLoad = function(document) {
     herp = blockProgram.createNewBlock(document,
         blocksCommon.BLOCK_TYPE_LVALUE, 'test456', 0, 5);
     myProg.addRootBlock(herp);
-};
+}

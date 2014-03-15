@@ -5,10 +5,13 @@
         <title>Block Editor</title>
         <script type='application/javascript;version=1.7'
             src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
-        <script src="blockeditor-stub.js"></script>
+        <script src="../common/require_stub.js"></script>
+        <script>
+            requireStub('blockeditor/blockeditor');
+        </script>
         <link rel="stylesheet" type="text/css" href="blockeditor.css">
     </head>
-    <body onload="onLoad()">
+    <body>
         <svg id="blocks-main" xmlns="http://www.w3.org/2000/svg" version="1.1"
                 width="10000em" height="10000em" viewBox="0 0 10000 10000">
             <g id="width-computing-group"/>
