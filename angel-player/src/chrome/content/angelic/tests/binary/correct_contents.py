@@ -13,8 +13,8 @@ node = subprocess.Popen(['node',
 
 node.communicate()
 
-with open('correct_contents.bin', 'br') as f:
-    buf = f.read()
+with open('correct_contents.bin', 'rb') as f:
+    buf = bytearray(f.read())
     assert len(buf) == 1024
     for index, byte in enumerate(buf):
         assert index & 0xff == byte
