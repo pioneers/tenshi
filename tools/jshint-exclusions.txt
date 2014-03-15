@@ -10,9 +10,6 @@ angel-player/src/chrome/content/tenshi-frontend/javascripts/ace/*
 # Foundation
 angel-player/src/chrome/content/tenshi-frontend/javascripts/foundation.min.js
 
-# XRegExp
-angel-player/src/chrome/content/angelic/xregexp/*
-
 # npm modules
 angel-player/node_modules/*
 
