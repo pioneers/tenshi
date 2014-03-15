@@ -4,17 +4,8 @@ angel-player/src/chrome/content/vendor-js/*
 # More Vendor
 angel-player/src/chrome/content/tenshi-frontend/javascripts/vendor/*
 
-# Ace
-angel-player/src/chrome/content/tenshi-frontend/javascripts/ace/*
-
 # Foundation
 angel-player/src/chrome/content/tenshi-frontend/javascripts/foundation.min.js
-
-# npm modules
-angel-player/node_modules/*
-
-# browserify output
-*bundle.js
 
 # XULRootActor.js (debugger)
 angel-player/src/chrome/content/XULRootActor.js
