@@ -5,7 +5,7 @@ import subprocess
 import sys
 import os
 
-node = subprocess.Popen(['node',
+node = subprocess.Popen(['node', '--harmony',
                          os.path.join(sys.argv[2],
                                       'correct_contents',
                                       'correct_contents.js'),
@@ -13,8 +13,8 @@ node = subprocess.Popen(['node',
 
 node.communicate()
 
-with open('correct_contents.bin', 'rb') as f:
-    buf = bytearray(f.read())
+with open('correct_contents.bin', 'br') as f:
+    buf = f.read()
     assert len(buf) == 1024
     for index, byte in enumerate(buf):
         assert index & 0xff == byte

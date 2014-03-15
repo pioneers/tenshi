@@ -6,7 +6,7 @@ import sys
 import os
 
 print(sys.argv)
-node = subprocess.Popen(['node',
+node = subprocess.Popen(['node', '--harmony',
                          os.path.join(sys.argv[2],
                                       'creates_file',
                                       'creates_file.js'),
