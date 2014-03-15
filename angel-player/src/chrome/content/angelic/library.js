@@ -44,7 +44,7 @@ var root_lib = {
         }
       code[lookup.index] = header;
       }
-    this.objs.push ( this.header );
+    this.objs.push ( header );
     }
   };
 
