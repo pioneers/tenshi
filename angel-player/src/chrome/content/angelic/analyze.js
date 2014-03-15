@@ -1,6 +1,6 @@
 var scope = require ( './scope.js' );
 var string_map = require ( './string_map.js' );
-var module = require ( './module.js' );
+var modul = require ( './modul.js' );
 var misc = require ( './misc.js' );
 var varb = require ( './varb.js' );
 var compiler = require ( './compiler.js' );
@@ -337,7 +337,7 @@ function make ( ) {
       this.root_module = root_module;
       },
     analyze : function ( tree, modules ) {
-      var root_module = module.make ( '' );
+      var root_module = modul.make ( '' );
       var core_module;
       // TODO(kzentner): Fix this hackery.
       if ( modules !== undefined ) {
@@ -349,7 +349,6 @@ function make ( ) {
       root_module.ast = tree;
       this.init ( root_module );
       this.recurse ( tree );
-      this.finalize_module ( );
       // TODO(kzentner): Add support for modules besides the core module.
       root_module.imports.each_text ( function ( key, imprts ) {
         var res = core_module.exports.get_text ( key );
@@ -362,10 +361,6 @@ function make ( ) {
       this.map = generate_canonical_map ( root_module );
       generate_enumerations ( this.map );
       this.all_objects = extract_all_objs ( root_module );
-      },
-    finalize_module : function ( ) {
-      // TODO(kzentner): Replace this hack.
-      module.exports = module.globals;
       },
     setupScopes : setupScopes,
     };
@@ -500,7 +495,7 @@ function make_external_obj ( name, value ) {
   }
 
 function make_core_module ( ) {
-  var core = module.make ( 'core' );
+  var core = modul.make ( 'core' );
   core.exports.load_text ( string_map.make ( {
     'print' : make_external_obj ( 'core.print', misc.print ),
     } ) );
@@ -524,7 +519,7 @@ function get_canonical_value ( node ) {
 // All other names, and the number of the object in its scope, will be added as
 // secondary names.
 //
-function generate_canonical_map ( module ) {
+function generate_canonical_map ( mod ) {
   var map = scope.make ( );
   function add_secondary_name ( obj, name ) {
     if ( obj.secondary_names !== undefined ) {
@@ -575,7 +570,7 @@ function generate_canonical_map ( module ) {
         }
       }
     }
-  module.globals.each_text ( function ( key, glob ) {
+  mod.globals.each_text ( function ( key, glob ) {
     gen_text ( map, key, get_canonical_value ( glob ) );
     } );
   return map;
@@ -617,7 +612,7 @@ function generate_enumerations ( canonical_map ) {
 // This is used to generate the set of objects which actually need to be output
 // by the compiler.
 //
-function extract_all_objs ( module ) {
+function extract_all_objs ( mod ) {
   var out = [];
   function extract ( obj ) {
     if ( obj.canonical_name === undefined ) {
@@ -630,7 +625,7 @@ function extract_all_objs ( module ) {
         } );
       }
     }
-  module.globals.each_text ( function ( key, glob ) {
+  mod.globals.each_text ( function ( key, glob ) {
     extract ( get_canonical_value ( glob ) );
     } );
   return out;

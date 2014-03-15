@@ -8,7 +8,7 @@ var inferencer = require ( './inferencer.js' );
 var library = require ( './library.js' );
 var analyzer = require ( './analyze.js' );
 var recurser = require ( './recurser.js' );
-var module = require ( './module.js' );
+var modul = require ( './modul.js' );
 var emitter = require ( './emitter.js' );
 var assemble = require ( './assemble.js' );
 var packager = require ( './packager.js' );
@@ -45,7 +45,7 @@ function make ( ) {
     // TODO(kzentner): Remove this restriction.
     misc.assert ( modname === 'core' );
 
-    var mod = module.make ( modname );
+    var mod = modul.make ( modname );
     var map = string_map.make ( );
     objs.forEach ( function ( o ) {
       map.set ( o.name, { canonical_value: o, location: 'external' } );
