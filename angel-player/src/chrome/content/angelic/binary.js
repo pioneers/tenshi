@@ -1,3 +1,4 @@
+'use strict';
 var misc = require ( './misc.js' );
 
 var is_xulrunner = false;
@@ -8,13 +9,13 @@ if ( typeof process === 'undefined' ) {
 }
 
 function write_buffer_xulrunner ( buf, filename ) {
-  let { Cc, Ci, Cu } = require('chrome');
-  Cu.import ( 'resource://gre/modules/FileUtils.jsm' );
+  var chrome = require('chrome');
+  chrome.Cu.import ( 'resource://gre/modules/FileUtils.jsm' );
 
   var ofile = new FileUtils.File ( filename );
   var ostream = FileUtils.openFileOutputStream ( ofile, FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE );
-  var binary_ostream = Cc[ '@mozilla.org/binaryoutputstream;1' ].
-                       createInstance ( Ci.nsIBinaryOutputStream );
+  var binary_ostream = chrome.Cc[ '@mozilla.org/binaryoutputstream;1' ].
+                       createInstance ( chrome.Ci.nsIBinaryOutputStream );
 
   binary_ostream.setOutputStream ( ostream );
 
