@@ -1,4 +1,4 @@
-var xregexp = require ( './xregexp/xregexp-all.js' );
+var xregexp = require ( '../vendor-js/xregexp-all.js' );
 var string_map = require ( './string_map.js' );
 var scope = require ( './scope.js' );
 var misc = require ( './misc.js' );
