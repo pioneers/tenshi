@@ -35,7 +35,7 @@ def get_test_base(root, path):
     return os.path.join(root, os.path.dirname(path))
 
 
-EXT_TO_CMD = {'py': 'python', 'js': 'node', 'sh': 'bash'}
+EXT_TO_CMD = {'py': ['python'], 'js': ['node', '--harmony'], 'sh': ['bash']}
 
 
 def get_tests():
@@ -60,11 +60,10 @@ def get_tests():
 def run_test(name, root, failed_tests, stdout_logs):
     _, ext = os.path.splitext(name)
     cmd = EXT_TO_CMD[ext[1:]]
-    p = subp.Popen([cmd,
-                    get_test(name),
-                    root,
-                    get_test_base(root, name)
-                    ],
+    args = cmd + [get_test(name),
+                  root,
+                  get_test_base(root, name)]
+    p = subp.Popen(args,
                    stdout=subp.PIPE,
                    stderr=subp.STDOUT)
     output = p.communicate()
