@@ -21,7 +21,8 @@
         <script type="text/javascript" src="SaveManager.js"></script>
         <script type="text/javascript" src="miscFuncs.js"></script>
         <script type="text/javascript" src="Simulator.js"></script>
-        <script type="text/javascript" src="../angelic/bundle.js"></script>
+        <script type='application/javascript;version=1.7'
+            src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
         <script src="../vendor-js/jquery.js"></script>
     </head>
     <link rel="stylesheet" type="text/css" href="main.css">
@@ -108,10 +109,16 @@
         </script>
         <script type="text/javascript">
             function gen_vm() {
-                var vm = angelic.make ( );
+                var globalLoader = parent.parent.document.tenshiGlobals.loader;
+                var module = loader.Module('tenshi/angelic/robot',
+                    'chrome://angel-player/content/angelic/robot.js');
+                loader.load(globalLoader, module);
+                var angelic = module.exports;
+                var vm = angelic.make();
                 var robot = simmy.robot.master;
 
                 function set_motor ( port, val ) {
+                    // TODO(ericnguyen/nikitakitaev): This function is borked.
                     robot.robotMotors[0] [ port ] = val;
                     robot.version += 1;
                 }
