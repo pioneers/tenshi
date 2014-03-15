@@ -44,20 +44,11 @@ var root_lib = {
         }
       code[lookup.index] = header;
       }
-    this.objs.push ( this.header );
     }
   };
 
 var make = function make ( ) {
-  return misc.obj_or ( Object.create ( root_lib ), {
-    next_type_idx: 0,
-    next_obj_idx: [],
-    types: [],
-    // Contains arrays of arrays of objs.
-    // Indexed by type, then object idx.
-    objs: [],
-    relocations: [],
-    } );
+  return Object.create ( root_lib );
   };
 
 exports.make = make;
