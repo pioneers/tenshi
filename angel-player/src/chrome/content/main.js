@@ -40,8 +40,18 @@ function onLoad() {
     // Set up main loader object. You must import the Add-on SDK loader.js first
     // in the HTML page.
     document.tenshiGlobals.loader = loader.Loader({
+        globals: {
+            // TODO(rqou): This is a tentative hack to make referencing Angelic
+            // work.
+            setTimeout: window.setTimeout,
+            clearTimeout: window.clearTimeout,
+        },
         paths: {
-            "": "resource://gre/modules/commonjs/",
+            // In order to make node.js and other modules happy, the "root"
+            // of the import paths is the vendor js directory. To get the
+            // Mozilla Jetpack SDK stuff, use jetpack/
+            "": "chrome://angel-player/content/vendor-js/",
+            "jetpack": "resource://gre/modules/commonjs",
             "tenshi": "chrome://angel-player/content",
         },
     });

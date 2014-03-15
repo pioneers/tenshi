@@ -2,29 +2,6 @@
 
 ANGEL_PLAYER_MAIN_DIR=$PROJECT_ROOT_DIR/angel-player
 
-pushd `pwd`
-cd $ANGEL_PLAYER_MAIN_DIR
-if [ ! -e node_modules ]
-then
-  mkdir node_modules
-fi
-
-export PATH="`npm bin`:$PATH"
-for module in browserify buffer
-do
-  echo "Checking for $module"
-  if [ ! -e node_modules/$module ]
-  then
-    npm install $module
-  fi
-done
-popd
-
-pushd `pwd`
-cd $ANGEL_PLAYER_MAIN_DIR/src/chrome/content/angelic
-. build.sh
-popd
-
 mkdir -p $PROJECT_ROOT_DIR/build/angel-player
 pushd $PROJECT_ROOT_DIR/build/angel-player
 

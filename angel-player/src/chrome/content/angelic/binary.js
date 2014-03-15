@@ -1,17 +1,20 @@
 var misc = require ( './misc.js' );
 
 var is_xulrunner = false;
-if ( typeof Components !== 'undefined' ) {
+if ( typeof process === 'undefined' ) {
+  // TODO(rqou): This is a stupid-ass hack to detect XULrunner. Try to find a
+  // better way.
   is_xulrunner = true;
-  }
+}
 
 function write_buffer_xulrunner ( buf, filename ) {
-  Components.utils.import ( 'resource://gre/modules/FileUtils.jsm' );
+  let { Cc, Ci, Cu } = require('chrome');
+  Cu.import ( 'resource://gre/modules/FileUtils.jsm' );
 
   var ofile = new FileUtils.File ( filename );
   var ostream = FileUtils.openFileOutputStream ( ofile, FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE );
-  var binary_ostream = Components.classes[ '@mozilla.org/binaryoutputstream;1' ].
-                       createInstance ( Components.interfaces.nsIBinaryOutputStream );
+  var binary_ostream = Cc[ '@mozilla.org/binaryoutputstream;1' ].
+                       createInstance ( Ci.nsIBinaryOutputStream );
 
   binary_ostream.setOutputStream ( ostream );
 
