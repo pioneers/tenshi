@@ -2,6 +2,9 @@
     "esnext": true,
     "predef": {
         "require": true,
-        "exports": true
+        "exports": true,
+        "dump": true,
+        "Uint8Array": true,
+        "ctypes": true
     }
 }
