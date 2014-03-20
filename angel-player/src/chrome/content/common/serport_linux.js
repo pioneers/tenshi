@@ -36,6 +36,14 @@ const struct_termios = new ctypes.StructType(
     ]
     );
 
+const struct_timeval = new ctypes.StructType(
+    'timeval',
+    [
+        { 'tv_sec': ctypes.long },
+        { 'tv_usec': ctypes.long },
+    ]
+    );
+
 const O_RDWR        = 0x0002;
 const O_NOCTTY      = 0x0400;
 const O_NONBLOCK    = 0x2000;
@@ -196,7 +204,7 @@ exports.init = function() {
         ctypes.uint8_t.ptr,     // These are supposed to be fd_set*, but on
         ctypes.uint8_t.ptr,     // Linux at least fd_set is just an array of
         ctypes.uint8_t.ptr,     // bitfields that we handle manually.
-        ctypes.uint8_t.ptr      // Not using the timeout feature
+        struct_timeval.ptr
         );
     cfsetispeed = libc.declare(
         'cfsetispeed',
@@ -330,8 +338,19 @@ function serRead(size) {
         }
         fd_set_set(fdset, this.fd);
 
-        // TODO(rqou): Timeouts not supported yet
-        let ret = +select(this.fd + 1, fdset, null, null, null);
+        let timeoutStruct;
+        if (this.timeout === null) {
+            timeoutStruct = null;
+        } else {
+            timeoutStruct = new struct_timeval();
+            // Note: not the full range of timeouts works due to limited range
+            // of double.
+            timeoutStruct.tv_sec = Math.floor(this.timeout);
+            timeoutStruct.tv_usec = Math.floor((this.timeout % 1) * 1000000);
+        }
+
+        let ret = +select(this.fd + 1, fdset, null, null,
+            timeoutStruct ? timeoutStruct.address() : null);
         if (ret === -1) {
             throw ("read failed, errno = " + ctypes.errno);
         }
@@ -371,7 +390,10 @@ function serRead(size) {
     return trimmed_ret;
 }
 
-exports.SerialPortOpen = function(port, baud) {
+exports.SerialPortOpen = function(port, baud, timeout) {
+
+    if (typeof(timeout) === 'undefined') timeout = null;
+
     let fd = open(port, O_RDWR | O_NOCTTY | O_NONBLOCK);
     if (fd == -1) {
         throw ("Error opening port " + port + ": errno = " + ctypes.errno);
@@ -427,6 +449,7 @@ exports.SerialPortOpen = function(port, baud) {
 
     let ret = {};
     ret.fd = fd;
+    ret.timeout = timeout;
     ret.write = serWrite;
     ret.read = serRead;
     ret.close = serClose;
