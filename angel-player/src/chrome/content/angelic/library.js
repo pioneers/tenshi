@@ -1,3 +1,6 @@
+/* jshint globalstrict: true */
+'use strict';
+
 var misc = require ( './misc.js' );
 var fn = require ( './fn.js' );
 var exfn = require ( './exfn.js' );
@@ -25,7 +28,6 @@ var root_lib = {
         throw 'Could not handle object.';
         }
       }
-    return this.objs;
     },
 
   process_fn: function process_fn ( obj ) {
