@@ -30,6 +30,13 @@ PhysicsObjectManager.prototype.push = function(obj)
     this.objects[obj.physicsId] = obj;
 };
 
+PhysicsObjectManager.prototype.remove = function(obj)
+{
+    var index = this.array.indexOf(obj);
+
+    this.array.splice(index, 1);
+};
+
 PhysicsObjectManager.prototype.iterator = function()
 {
     return Iterator(this.array);

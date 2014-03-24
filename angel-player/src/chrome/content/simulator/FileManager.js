@@ -4,9 +4,9 @@ function FileManager()
            getService(Components.interfaces.nsIProperties).
            get("CurProcD", Components.interfaces.nsIFile).path;
 
-    this.pathToSimulator = this.localFilePath + "/chrome/content/simulator/";
-    this.pathToMaps = this.pathToSimulator + "Data/Maps/";
-    this.pathToRobots = this.pathToSimulator + "Data/Robots/";
+    this.pathToSimulator = this.localFilePath + "\\chrome\\content\\simulator\\";
+    this.pathToMaps = this.pathToSimulator + "Data\\Maps\\";
+    this.pathToRobots = this.pathToSimulator + "Data\\Robots\\";
 }
 
 FileManager.prototype.getRobotJson = function(robotId)
@@ -107,7 +107,15 @@ FileManager.prototype.getFileData = function(filePath)
     var sstream = Components.classes["@mozilla.org/scriptableinputstream;1"]
     .createInstance(Components.interfaces.nsIScriptableInputStream);
 
-    file.initWithPath(filePath);
+    try
+    {
+        file.initWithPath(filePath);
+    }
+    catch(e)
+    {
+        printOut(e);
+        printOut(filePath);
+    }
     if ( file.exists() === false )
     {
         printOut("File doesn't exist.");
