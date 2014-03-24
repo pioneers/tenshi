@@ -66,6 +66,50 @@
                 }
             }
 
+            function compile_code() {
+                if (current_vm !== null) {
+                    return; // Do not run multiple simultaneous vms
+                }
+
+                var require = parent.require;
+                if (require === undefined) {
+                    return; // Cannot run as independent page
+                }
+
+                var texteditor = require("texteditor");
+                if (texteditor === undefined) {
+                    $("#status").text("ERROR: text editor not yet loaded");
+                    throw "ERROR: text editor not yet loaded";
+                }
+
+                var text = texteditor.get_text();
+                current_vm = exports.vm_generator();
+
+                if (current_vm === null) {
+                    $("#status").text("ERROR: no targets are open. Try opening Simulator or Console");
+                    throw "ERROR: no vm could be created. Try opening a valid VM target page"
+                }
+
+                try {
+                    current_vm.load_text(text);
+                    /*var pkg = current_vm.get_pkg('ARM');
+                    dump(pkg.length);
+                    dump('\n');
+                    dump(typeof(pkg));
+                    dump('\n');
+                    dump(pkg);
+                    dump('\n');*/
+                    current_vm.save_pkg('ARM', '/tmp/test.bin', null);
+                } catch(err) {
+                    var console = require("console");
+                    if (console === null) {
+                        return;
+                    }
+                    console.report_error(err);
+                    throw err;
+                }
+            }
+
             var exports = {};
             exports.vm_generator = function () {return null;};
         </script>
@@ -73,6 +117,7 @@
     <body>
         <p>
             <a href="#" id="toggle" onClick="toggle_running()">RUN</a> <a id="status"></a>
+            <a href="#" id="compile" onClick="compile_code()">Compile</a>
         </p>
     </body>
 </html>

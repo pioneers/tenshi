@@ -10,8 +10,9 @@ if ( typeof process === 'undefined' ) {
 function write_buffer_xulrunner ( buf, filename ) {
   'use strict';
   var chrome = require('chrome');
-  var FileUtils = {};
-  chrome.Cu.import ( 'resource://gre/modules/FileUtils.jsm', FileUtils );
+  var _FileUtils = {};
+  chrome.Cu.import ( 'resource://gre/modules/FileUtils.jsm', _FileUtils );
+  var FileUtils = _FileUtils.FileUtils;
 
   var ofile = new FileUtils.File ( filename );
   var ostream = FileUtils.openFileOutputStream ( ofile, FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE );
