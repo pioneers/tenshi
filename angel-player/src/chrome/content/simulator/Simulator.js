@@ -288,3 +288,10 @@ Simulator.prototype.createCylinder = function(radius, height, mass, color, iniX,
 
     return cyl;
 };
+
+Simulator.prototype.removeObject = function(object)
+{
+    this.physicsObjects.remove(object);
+    this.physicsWorld.removeRigidBody(object);
+    this.scene.remove(object.mesh);
+};

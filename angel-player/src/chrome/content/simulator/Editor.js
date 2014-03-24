@@ -31,7 +31,61 @@ function Editor(document, classSelectorElem, objSelectorElem,
     this.objSelectorElem = objSelectorElem;
     this.addingInfoElem = addingInfoElem;
     this.curSelectionElem = curSelectionElem;
+
+    this.curSelectionFuncs = [""];
 }
+
+Editor.prototype.setMode = function(mode)
+{
+    var editor = this;
+    var genTranslateFunc = function(vector)
+    {
+        return function() { translateObject(editor.curSelection, vector); };
+    };
+
+    var genRotateFunc = function(vector)
+    {
+        return function() { rotateObjectEuler(editor.curSelection, vector); };
+    };
+
+    switch(mode)
+    {
+        case "MOVE":
+            this.curSelectionFuncs =
+            [
+                genTranslateFunc(new Ammo.btVector3(0, 0, 1)),
+                genTranslateFunc(new Ammo.btVector3(0, 0, -1)),
+                genTranslateFunc(new Ammo.btVector3(1, 0, 0)),
+                genTranslateFunc(new Ammo.btVector3(-1, 0, 0)),
+                genTranslateFunc(new Ammo.btVector3(0, 1, 0)),
+                genTranslateFunc(new Ammo.btVector3(0, -1, 0))
+            ];
+            break;
+        case "ROTATE":
+            this.curSelectionFuncs =
+            [
+                genRotateFunc(new Ammo.btVector3(0, 0, 0.1)),
+                genRotateFunc(new Ammo.btVector3(0, 0, -0.1)),
+                genRotateFunc(new Ammo.btVector3(0.1, 0, 0)),
+                genRotateFunc(new Ammo.btVector3(-0.1, 0, 0)),
+                genRotateFunc(new Ammo.btVector3(0, 0.1, 0)),
+                genRotateFunc(new Ammo.btVector3(0, -0.1, 0))
+            ];
+            break;
+        default:
+            printOut("No such option.");
+    }
+};
+
+Editor.prototype.removeObj = function()
+{
+   this.simulator.removeObject(this.curSelection);
+};
+
+Editor.prototype.manipObj = function(id)
+{
+    this.curSelectionFuncs[id]();
+};
 
 Editor.prototype.addObj = function()
 {

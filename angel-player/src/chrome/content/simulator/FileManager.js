@@ -1,42 +1,71 @@
+function genBaseFile()
+{
+    return Components.classes["@mozilla.org/file/directory_service;1"].
+           getService(Components.interfaces.nsIProperties).
+           get("CurProcD", Components.interfaces.nsIFile);
+}
+
+// done because append modifies the object itself
+function copyFile(base)
+{
+    var file  = Components.classes["@mozilla.org/file/local;1"]
+            .createInstance(Components.interfaces.nsILocalFile);
+        file.initWithPath(base.path);
+    return file;
+}
+
+// returns the appended file instead of undefined
+function append(base, text)
+{
+    var file = copyFile(base);
+        file.append(text);
+    return file;
+}
+
 function FileManager()
 {
-    this.localFilePath  = Components.classes["@mozilla.org/file/directory_service;1"].
-           getService(Components.interfaces.nsIProperties).
-           get("CurProcD", Components.interfaces.nsIFile).path;
+    this.localFilePath  = genBaseFile();
 
-    this.pathToSimulator = this.localFilePath + "/chrome/content/simulator/";
-    this.pathToMaps = this.pathToSimulator + "Data/Maps/";
-    this.pathToRobots = this.pathToSimulator + "Data/Robots/";
+    this.pathToSimulator = genBaseFile();
+        this.pathToSimulator.append("chrome");
+        this.pathToSimulator.append("content");
+        this.pathToSimulator.append("simulator");
+    this.pathToMaps = copyFile(this.pathToSimulator);
+        this.pathToMaps.append("Data");
+        this.pathToMaps.append("Maps");
+    this.pathToRobots = copyFile(this.pathToSimulator);
+        this.pathToRobots.append("Data");
+        this.pathToRobots.append("Robots");
 }
 
 FileManager.prototype.getRobotJson = function(robotId)
 {
-    return JSON.parse(this.getFileData(this.pathToRobots + robotId));
+    return JSON.parse(this.getFileData(this.pathToRobots.append(robotId).path));
 };
 
 FileManager.prototype.getMapJson = function(mapId)
 {
-    return JSON.parse(this.getFileData(this.pathToMaps + mapId));
+    return JSON.parse(this.getFileData(append(this.pathToMaps, mapId).path));
 };
 
 FileManager.prototype.getMapIds = function()
 {
-    return this.getDirectoryFiles(this.pathToMaps);
+    return this.getDirectoryFiles(this.pathToMaps.path);
 };
 
 FileManager.prototype.getRobotIds = function()
 {
-    return this.getDirectoryFiles(this.pathToRobots);
+    return this.getDirectoryFiles(this.pathToRobots.path);
 };
 
 FileManager.prototype.saveRobot = function(robotObj, robotName)
 {
-    this.writeJsonObjToFile(this.pathToRobots + robotName, robotObj);
+    this.writeJsonObjToFile(append(this.pathToRobots,robotName).path, robotObj);
 };
 
 FileManager.prototype.saveMap = function(mapObj, mapName)
 {
-    this.writeJsonObjToFile(this.pathToMaps + mapName, mapObj);
+    this.writeJsonObjToFile(append(this.pathToMaps, mapName).path, mapObj);
 };
 
 FileManager.prototype.writeJsonObjToFile = function(fileName, data)
@@ -107,7 +136,15 @@ FileManager.prototype.getFileData = function(filePath)
     var sstream = Components.classes["@mozilla.org/scriptableinputstream;1"]
     .createInstance(Components.interfaces.nsIScriptableInputStream);
 
-    file.initWithPath(filePath);
+    try
+    {
+        file.initWithPath(filePath);
+    }
+    catch(e)
+    {
+        printOut(e);
+        printOut(filePath);
+    }
     if ( file.exists() === false )
     {
         printOut("File doesn't exist.");
