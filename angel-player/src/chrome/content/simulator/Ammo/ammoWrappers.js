@@ -55,3 +55,52 @@ function createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ, physicsWo
 
     return cylAmmo;
 }
+
+function translateObject(obj, vector)
+{
+    var objTransform = obj.getCenterOfMassTransform(),
+        newTransform = translateTransform(objTransform, vector);
+
+    obj.setActivationState(1);
+    obj.setWorldTransform(newTransform);
+}
+
+function setPositionObject(obj, vector)
+{
+    var objTransform = obj.getCenterOfMassTransform(),
+        newTransform = replacePositionOfTransform(objTransform, vector);
+
+    obj.setActivationState(1);
+    obj.setWorldTransform(newTransform);
+}
+
+function rotateObjectEuler(obj, vector)
+{
+    var objTransform = obj.getCenterOfMassTransform(),
+        newVector = addVector(vector, quatToEuler(objTransform.getRotation())),
+        newTransform = replaceQuaternionOfTransform(objTransform,
+                              eulerToQuat(newVector.x(), newVector.y(), newVector.z()));
+
+    obj.setActivationState(1);
+    obj.setWorldTransform(newTransform);
+}
+
+function rotateObject(obj, quat)
+{
+    var objTransform = obj.getCenterOfMassTransform(),
+        newTransform = rotateTransform(objTransform, quat);
+
+    obj.setActivationState(1);
+    obj.setWorldTransform(newTransform);
+
+    printOut(strQuat(newTransform.getRotation()));
+}
+
+function setRotationObject(obj, quat)
+{
+    var objTransform = obj.getCenterOfMassTransform(),
+        newTransform = replaceQuaternionOfTransform(objTransform, quat);
+
+    obj.setActivationState(1);
+    obj.setWorldTransform(newTransform);
+}
