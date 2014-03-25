@@ -35,6 +35,23 @@ function assert ( thing, reason ) {
     }
   }
 
+
+function determine_environment ( ) {
+  // TODO(rqou): This is a stupid-ass hack to detect XULrunner. Try to find a
+  // better way.
+
+  if ( typeof process === 'object' ) {
+    return 'node';
+    }
+
+  if ( typeof window === 'undefined' ) {
+    return 'xulrunner';
+    }
+
+  return 'browser';
+  }
+
+exports.environment = determine_environment ( );
 exports.obj_or = obj_or;
 exports.print = print;
 exports.assert = assert;
