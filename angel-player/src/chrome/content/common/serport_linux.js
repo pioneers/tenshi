@@ -3,8 +3,9 @@
 
 // Handles serial ports on Linux only. Very inspired by pySerial.
 
-const { Cu } = require("chrome");
-Cu.import('resource://gre/modules/ctypes.jsm');
+// This module requires a global ctypes object. It is intended to be used by the
+// scope-leaky require.js implementation used for ChromeWorkers. Importing this
+// module using the Jetpack require probably doesn't work.
 
 let _doneBasicInit = false;
 
