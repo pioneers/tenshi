@@ -1,0 +1,275 @@
+- name: size_t
+  repr: unsigned
+  size: native
+  kind: alien
+- name: uint32_t
+  repr: unsigned
+  kind: alien
+  size: 4
+- name: const char
+  repr: signed
+  kind: alien
+  size: 1
+
+- name: ngl_int
+  repr: signed
+  kind: base
+  size: native
+- name: ngl_uint
+  repr: unsigned
+  kind: base
+  size: native
+- name: ngl_float
+  repr: float
+  kind: base
+  size: native
+
+
+- name: ngl_val
+  kind: union
+  slots:
+    - name: integer
+      type: ngl_int
+    - name: uinteger
+      type: ngl_uint
+    - name: floating
+      type: ngl_float
+    - name: pointer
+      type: 'ngl_obj *'
+- name: ngl_func
+  kind: union
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: vm_func
+      type: ngl_vm_func
+    - name: ex_func
+      type: ngl_ex_func
+
+
+- name: ngl_array
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: ngl_array_elem_type
+      type: 'ngl_type *'
+    - name: space
+      type: size_t
+    - name: past_end
+      type: size_t
+    - name: start
+      type: size_t
+    - name: data
+      type: 'ngl_val *'
+- name: ngl_array_iter
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: type
+      type: 'ngl_type *'
+    - name: parent
+      type: 'ngl_array *'
+    - name: index
+      type: ngl_int
+- name: ngl_buffer
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: size
+      type: ngl_uint
+- name: ngl_builtin_alien
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+- name: ngl_package
+  kind: struct
+  slots:
+    - name: magic
+      type: uint32_t
+    - name: version
+      type: uint32_t
+    - name: fixup_table_offset
+      type: uint32_t
+    - name: patch_table_offset
+      type: uint32_t
+- name: ngl_package_fixup_table
+  kind: struct
+  slots:
+    - name: count
+      type: uint32_t
+    - name: fixups
+      type: 'ngl_package_fixup []'
+- name: ngl_package_fixup
+  kind: struct
+  slots:
+    - name: kind
+      type: uint32_t
+    - name: id
+      type: uint32_t
+    - name: offset
+      type: uint32_t
+- name: ngl_package_patch_table
+  kind: struct
+  slots:
+    - name: count
+      type: uint32_t
+    - name: patches
+      type: 'ngl_package_patch []'
+- name: ngl_package_patch
+  kind: struct
+  slots:
+    - name: kind
+      type: uint32_t
+    - name: id
+      type: uint32_t
+    - name: offset
+      type: uint32_t
+    - name: to_delete
+      type: uint32_t
+    - name: to_insert
+      type: uint32_t
+- name: ngl_call
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: args
+      type: 'ngl_val *'
+    - name: func
+      type: ngl_func
+    - name: num_args
+      type: ngl_uint
+    - name: filled_args
+      type: ngl_uint
+    - name: arg_types
+      type: 'ngl_type **'
+- name: ngl_type
+  kind: struct
+  slots:
+    - name: name
+      type: ngl_str
+    - name: ptr_of
+      type: 'ngl_type *'
+- name: ngl_obj
+  kind: struct
+  slots:
+    - name: refc
+      type: ngl_uint
+    - name: type
+      type: 'ngl_type *'
+- name: ngl_globals
+  kind: struct
+  slots:
+    - name: type_id_to_type_ptr
+      type: ngl_array
+    - name: obj_table
+      type: ngl_array
+- name: ngl_str
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: start
+      type: 'const char *'
+    - name: past_end
+      type: 'const char *'
+    - name: alloc_type
+      type: ngl_int
+- name: ngl_thread
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: stack
+      type: ngl_stack
+    - name: call_stack
+      type: ngl_stack
+- name: ngl_table_elem_interface
+  kind: struct
+  slots:
+    - name: hash
+      type: 'ngl_hash_func_t *'
+    - name: compare
+      type: 'ngl_hash_compare_func_t *'
+- name: ngl_table_bucket
+  kind: struct
+  slots:
+    - name: key
+      type: ngl_val
+    - name: value
+      type: ngl_val
+    - name: next
+      type: 'ngl_table_bucket *'
+    - name: hash
+      type: ngl_uint
+- name: ngl_table
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: key_type
+      type: 'ngl_type *'
+    - name: val_type
+      type: 'ngl_type *'
+    - name: interface
+      type: 'ngl_table_elem_interface *'
+    - name: mask
+      type: size_t
+    - name: num_elems
+      type: size_t
+    - name: space
+      type: size_t
+    - name: data
+      type: 'ngl_table_bucket *'
+- name: ngl_error
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: message
+      type: 'ngl_str *'
+- name: ngl_vm
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: globals
+      type: ngl_globals
+    - name: threads
+      type: ngl_array
+- name: ngl_vm_func
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: code
+      type: 'ngl_buffer *'
+    - name: stack_space
+      type: ngl_uint
+- name: ngl_ex_func
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: thunk
+      type: 'ngl_ex_thunk *'
+- name: ngl_stack
+  kind: struct
+  slots:
+    - name: top_bucket
+      type: 'ngl_stack_bucket *'
+- name: ngl_stack_bucket
+  kind: struct
+  slots:
+    - name: prev
+      type: 'ngl_stack_bucket *'
+    - name: size
+      type: ngl_uint
+    - name: top
+      type: ngl_uint
+    - name: data
+      type: ngl_val
