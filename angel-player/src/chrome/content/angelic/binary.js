@@ -1,12 +1,5 @@
 var misc = require ( './misc.js' );
 
-var is_xulrunner = false;
-if ( typeof process === 'undefined' ) {
-  // TODO(rqou): This is a stupid-ass hack to detect XULrunner. Try to find a
-  // better way.
-  is_xulrunner = true;
-}
-
 function write_buffer_xulrunner ( buf, filename ) {
   'use strict';
   var chrome = require('chrome');
@@ -54,7 +47,7 @@ function write_buffer_node ( buf, filename, ecallback ) {
   }
 
 function write_buffer ( buf, filename, ecallback ) {
-  if ( is_xulrunner ) {
+  if ( misc.environment === 'xulrunner' ) {
     write_buffer_xulrunner ( buf, filename );
     }
   else {
