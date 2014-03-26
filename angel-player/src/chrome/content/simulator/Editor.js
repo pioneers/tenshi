@@ -48,6 +48,11 @@ Editor.prototype.setMode = function(mode)
         return function() { rotateObjectEuler(editor.curSelection, vector); };
     };
 
+    var genResizeFunc = function(vector)
+    {
+        return function() { editor.resizeObj(vector); };
+    }
+
     switch(mode)
     {
         case "MOVE":
@@ -72,9 +77,56 @@ Editor.prototype.setMode = function(mode)
                 genRotateFunc(new Ammo.btVector3(0, -0.1, 0))
             ];
             break;
+        case "RESIZE":
+            this.curSelectionFuncs =
+            [
+                genResizeFunc(new Ammo.btVector3(0, 0, 0.1)),
+                genResizeFunc(new Ammo.btVector3(0, 0, -0.1)),
+                genResizeFunc(new Ammo.btVector3(0.1, 0, 0)),
+                genResizeFunc(new Ammo.btVector3(-0.1, 0, 0)),
+                genResizeFunc(new Ammo.btVector3(0, 0.1, 0)),
+                genResizeFunc(new Ammo.btVector3(0, -0.1, 0))
+            ];
+            break;
         default:
             printOut("No such option.");
     }
+};
+
+Editor.prototype.resizeObj = function(vector)
+{
+    var object = this.curSelection,
+        transformation = this.curSelection.getCenterOfMassTransform(),
+        args = this.curSelection.args,
+        type = this.curSelection.name;
+
+    switch(type)
+    {
+        case "Box":
+        {
+            args[0] += vector.x();
+            args[1] += vector.y();
+            args[2] += vector.z();
+
+            args[7] = -9999;
+            // moves object out of way so we can rotate it freely then move it back
+            // TODO(ericnguyen): feed rotation params into constructor
+            break;
+        }
+        case "Cylinder":
+        {
+            args[0] += vector.z();
+            args[1] += vector.x() + vector.y();
+            // TODO(ericnguyen): elongate cylinders instead of resize radius
+
+            args[6] = -9999;
+        }
+    }
+
+    this.removeObj();
+    this.createObj(args, type);
+
+    transformObject(this.curSelection, transformation);
 };
 
 Editor.prototype.removeObj = function()
@@ -90,7 +142,6 @@ Editor.prototype.manipObj = function(id)
 Editor.prototype.addObj = function()
 {
     var obj = this.objSelectorElem.value;
-    var constructr = this.constr[obj];
 
     var argArr = [];
     var temp = this.addingInfoElem.firstChild;
@@ -101,12 +152,18 @@ Editor.prototype.addObj = function()
         temp = temp.nextSibling;
     }
 
-    this.curSelection = constructr.apply(this.simulator, argArr);
-    this.curSelection.args = argArr;
-    this.curSelection.argNames = this.args[obj];
-    this.curSelection.name = obj;
-    this.updateCurSelection();
+    this.createObj(argArr, obj);
 };
+
+Editor.prototype.createObj = function(argsArray, name)
+{
+    printOut(name);
+    this.curSelection = this.constr[name].apply(this.simulator, argsArray);
+    this.curSelection.args = argsArray;
+    this.curSelection.argNames = this.args[name];
+    this.curSelection.name = name;
+    this.updateCurSelection();
+}
 
 Editor.prototype.updateCurSelection = function()
 {
