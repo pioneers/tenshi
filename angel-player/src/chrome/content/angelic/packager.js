@@ -1,4 +1,4 @@
-var buffer = require ( 'buffer' );
+var buffer = require ( './buffer.js' );
 var fixup_kinds = require ( './fixup_kinds.js' );
 var misc = require ( './misc.js' );
 var opcodes = require ( './opcodes.js' );
