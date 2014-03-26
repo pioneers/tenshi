@@ -122,18 +122,20 @@ class TyppoTypeNode(object):
         # Used for DAG linearization
         self.temp_mark = False
         self.perm_mark = False
-        # Extra data describing the type
-        self.attrs = {}
         # Fields in this type (used for struct/union)
         self.fields = []
         # Used for alien types
         self.no_emit = False
         # No padding between elements
         self.packed = False
+        # What is represented by this data? A combination of size and type such
+        # as float/int/etc. Only valid for base types
+        self.size = 0
+        self.represents = None
 
     def __str__(self):
         return ("<Typpo Type: \"{name}\" ({kind}), Flags: {tf}{pf}{ef}{kf}, "
-                "fields: {fields}, attrs: {attrs}>".format(
+                "fields: {fields}, c_type: ({size},{represents})>".format(
                     name=self.name,
                     kind=self.kind,
                     tf="T" if self.temp_mark else "",
@@ -141,7 +143,8 @@ class TyppoTypeNode(object):
                     ef="E" if self.no_emit else "",
                     kf="K" if self.packed else "",
                     fields=self.fields,
-                    attrs=self.attrs))
+                    size=self.size,
+                    represents=self.represents))
 
     def __repr__(self):
         return self.__str__()
@@ -163,9 +166,13 @@ class TyppoParser(object):
             new_type = TyppoTypeNode(name, kind)
             if kind == "alien":
                 new_type.no_emit = True
-                new_type.attrs['size'] = type_desc['size']
+                new_type.size = type_desc['size']
             elif kind == "base":
-                new_type.attrs['size'] = type_desc['size']
+                new_type.size = type_desc['size']
+                if 'repr' in type_desc:
+                    new_type.represents = type_desc['repr']
+                else:
+                    new_type.represents = 'unsigned'
             elif kind == "struct" or kind == "union":
                 if 'packed' in type_desc:
                     new_type.packed = type_desc['packed']
@@ -230,13 +237,22 @@ class TyppoParser(object):
             visit(a_node)
         self._sorted_types = sorted_types
 
-    SIZE_TO_C_TYPE = {
-        1:          'uint8_t',
-        2:          'uint16_t',
-        4:          'uint32_t',
-        8:          'uint64_t',
-        # TODO(rqou): Is this correct?
-        'native':   'uintptr_t',
+    C_TYPE_EQUIVALENT = {
+        (1, 'unsigned'):        'uint8_t',
+        (1, 'signed'):          'int8_t',
+        (2, 'unsigned'):        'uint16_t',
+        (2, 'signed'):          'int16_t',
+        (4, 'unsigned'):        'uint32_t',
+        (4, 'signed'):          'int32_t',
+        (8, 'unsigned'):        'uint64_t',
+        (8, 'signed'):          'int64_t',
+        # TODO(rqou): This is only valid for ARM (and x86) but not x86_64
+        (4, 'float'):           'float',
+
+        ('native', 'float'):    'float',
+        ('native', 'unsigned'): 'unsigned int',
+        ('native', 'signed'):   'signed int',
+        ('native', 'ptr'):      'void *',
     }
 
     def emit_typedefs_pass1(self, f):
@@ -245,8 +261,12 @@ class TyppoParser(object):
                 # Don't output these
                 pass
             elif type_obj.kind == "base":
-                # TODO(rqou): Base doesn't properly support signed-ness
-                c_type = self.SIZE_TO_C_TYPE[type_obj.attrs['size']]
+                type_representation = (type_obj.size, type_obj.represents)
+                if not type_representation in self.C_TYPE_EQUIVALENT:
+                    print("ERROR: No C equivalent for {}"
+                          .format(type_representation))
+                    assert False
+                c_type = self.C_TYPE_EQUIVALENT[type_representation]
                 f.write("typedef {ctype} {newtype};\n".format(
                     ctype=c_type, newtype=type_obj.name))
             elif type_obj.kind == "struct" or type_obj.kind == "union":
