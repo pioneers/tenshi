@@ -127,7 +127,6 @@ Robot.prototype.addMotor = function(port, object, physicsObject, chassiLoc, obje
                                                 objectLoc,
                                                 chassiAxis,
                                                 objectAxis);
-    constraint.setLimit(0, 0);
     this.simulator.physicsWorld.addConstraint(constraint);
 };
 

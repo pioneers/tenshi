@@ -171,16 +171,15 @@ Simulator.prototype.loadRobot = function(robotJson, position)
         }
     }
 
-        robot.finishChassi(position[0],position[1],position[2]);
+    robot.finishChassi(position[0],position[1],position[2]);
 
     for(i = 0; i < data.motors.length; i++)
     {
         temp = data.motors[i];
-        var motor = new Motor(this, temp.boxSize[0], temp.boxSize[1], temp.boxSize[2], temp.boxMass, parseInt(temp.boxColor, 16),
-                              temp.wheelRad, temp.wheelHeight, temp.wheelMass, parseInt(temp.wheelColor, 16),
+        var motor = new Motor(this, temp.wheelRad, temp.wheelHeight, temp.wheelMass, parseInt(temp.wheelColor, 16),
                               temp.offset[0] + position[0], temp.offset[1] + position[1], temp.offset[2] + position[2]);
 
-        robot.addMotor(i, motor, motor.motor,
+        robot.addMotor(i, motor, motor.wheel,
                        new Ammo.btVector3(temp.chassiLoc[0], temp.chassiLoc[1], temp.chassiLoc[2]),
                        new Ammo.btVector3(temp.objectLoc[0], temp.objectLoc[1], temp.objectLoc[2]),
                        new Ammo.btVector3(temp.chassiAxis[0], temp.chassiAxis[1], temp.chassiAxis[2]),

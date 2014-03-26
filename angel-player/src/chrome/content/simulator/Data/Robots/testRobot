@@ -120,60 +120,48 @@
     "motors":
     [
         {
-            "boxSize":[2,2,2],
-            "boxMass":100,
-            "boxColor":"0xff99ff",
             "wheelRad":3,
             "wheelHeight":2,
             "wheelMass":100,
             "wheelColor":"0xaabbff",
             "offset":[5,50,7],
             "chassiLoc":[5,0,7],
-            "objectLoc":[0,0,-1],
+            "objectLoc":[0,-1,0],
             "chassiAxis":[1,0,0],
-            "objectAxis":[0,0,1]
+            "objectAxis":[0,1,0]
         },
         {
-            "boxSize":[2,2,2],
-            "boxMass":100,
-            "boxColor":"0xff99ff",
             "wheelRad":3,
             "wheelHeight":2,
             "wheelMass":100,
             "wheelColor":"0xaabbff",
             "offset":[-5,50,7],
             "chassiLoc":[-5,0,7],
-            "objectLoc":[0,0,-1],
+            "objectLoc":[0,-1,0],
             "chassiAxis":[-1,0,0],
-            "objectAxis":[0,0,1]
+            "objectAxis":[0,1,0]
         },
         {
-            "boxSize":[2,2,2],
-            "boxMass":100,
-            "boxColor":"0xff99ff",
             "wheelRad":3,
             "wheelHeight":2,
             "wheelMass":100,
             "wheelColor":"0xaabbff",
             "offset":[5,50,-7],
             "chassiLoc":[5,0,-7],
-            "objectLoc":[0,0,-1],
+            "objectLoc":[0,-1,0],
             "chassiAxis":[1,0,0],
-            "objectAxis":[0,0,1]
+            "objectAxis":[0,1,0]
         },
         {
-            "boxSize":[2,2,2],
-            "boxMass":100,
-            "boxColor":"0xff99ff",
             "wheelRad":3,
             "wheelHeight":2,
             "wheelMass":100,
             "wheelColor":"0xaabbff",
             "offset":[-5,50,-7],
             "chassiLoc":[-5,0,-7],
-            "objectLoc":[0,0,-1],
+            "objectLoc":[0,-1,0],
             "chassiAxis":[-1,0,0],
-            "objectAxis":[0,0,1]
+            "objectAxis":[0,1,0]
         }
     ],
 
