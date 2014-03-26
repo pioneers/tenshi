@@ -56,6 +56,12 @@ function createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ, physicsWo
     return cylAmmo;
 }
 
+function transformObject(obj, transform)
+{
+    obj.setActivationState(1);
+    obj.setWorldTransform(transform);
+}
+
 function translateObject(obj, vector)
 {
     var objTransform = obj.getCenterOfMassTransform(),
