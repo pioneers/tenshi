@@ -128,15 +128,18 @@ class TyppoTypeNode(object):
         self.fields = []
         # Used for alien types
         self.no_emit = False
+        # No padding between elements
+        self.packed = False
 
     def __str__(self):
-        return ("<Typpo Type: \"{name}\" ({kind}), Flags: {tf}{pf}{ef}, "
+        return ("<Typpo Type: \"{name}\" ({kind}), Flags: {tf}{pf}{ef}{kf}, "
                 "fields: {fields}, attrs: {attrs}>".format(
                     name=self.name,
                     kind=self.kind,
                     tf="T" if self.temp_mark else "",
                     pf="P" if self.perm_mark else "",
                     ef="E" if self.no_emit else "",
+                    kf="K" if self.packed else "",
                     fields=self.fields,
                     attrs=self.attrs))
 
@@ -149,7 +152,8 @@ class TyppoParser(object):
     def __init__(self, input_objects):
         self._input_objects = input_objects
 
-    # First pass collects all the type names. Also marks alien types.
+    # First pass collects all the type names. Also marks alien types and
+    # packed structures.
     def do_initial_pass(self):
         self._types = {}
         for type_desc in self._input_objects:
@@ -163,6 +167,8 @@ class TyppoParser(object):
             elif kind == "base":
                 new_type.attrs['size'] = type_desc['size']
             elif kind == "struct" or kind == "union":
+                if 'packed' in type_desc:
+                    new_type.packed = type_desc['packed']
                 for field in type_desc['slots']:
                     field_name = field['name'].strip()
                     field_type = field['type'].strip()
@@ -171,6 +177,8 @@ class TyppoParser(object):
             else:
                 print("WARNING: Unknown kind {}".format(kind))
 
+            if name in self._types:
+                print("WARNING: Redefinition of type {}".format(name))
             self._types[name] = new_type
 
     def resolve_references(self):
@@ -259,10 +267,15 @@ class TyppoParser(object):
                 # These have already been emitted
                 pass
             elif type_obj.kind == "struct" or type_obj.kind == "union":
-                f.write("{struct_union} {name} {{\n"
+                # TODO(rqou): This is GCC specific, do we care?
+                packed_decorator = (
+                    "__attribute__((__packed__)) " if type_obj.packed else "")
+
+                f.write("{struct_union} {packed}{name} {{\n"
                         .format(
                             struct_union=type_obj.kind,
-                            name=type_obj.name))
+                            name=type_obj.name,
+                            packed=packed_decorator))
                 for field in type_obj.fields:
                     f.write("    {typeref};\n".format(
                         typeref=field.format_type_reference()))
