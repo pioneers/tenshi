@@ -64,6 +64,9 @@ class TyppoFieldRef(object):
         # a type known to Typpo. Used for DAG linearization
         self.typpo_type = None
 
+        # Used for in the future generating e.g. struct.unpack strings
+        self.big_endian = False
+
     def get_base_type(self):
         base_type = self.typestr
         while True:
@@ -105,10 +108,11 @@ class TyppoFieldRef(object):
             type=arr_type_part, name=self.name, arrpart=arr_size_part)
 
     def __str__(self):
-        return ("<Typpo Fieldref: {name} --> {type} ({typeobj})".format(
+        return ("<Typpo Fieldref: {name} --> {type} ({typeobj}){be}>".format(
             name=self.name,
             type=self.typestr,
-            typeobj=self.typpo_type))
+            typeobj=self.typpo_type,
+            be=", BE" if self.big_endian else ""))
 
     def __repr__(self):
         return self.__str__()
@@ -132,19 +136,27 @@ class TyppoTypeNode(object):
         # as float/int/etc. Only valid for base types
         self.size = 0
         self.represents = None
+        # Used for in the future generating e.g. struct.unpack strings
+        self.big_endian = False
+        # Used for defines
+        self.value = None
 
     def __str__(self):
-        return ("<Typpo Type: \"{name}\" ({kind}), Flags: {tf}{pf}{ef}{kf}, "
-                "fields: {fields}, c_type: ({size},{represents})>".format(
+        return ("<Typpo Type: \"{name}\" ({kind}), "
+                "Flags: {tf}{pf}{ef}{kf}{en}, "
+                "fields: {fields}, c_type: ({size},{represents}), "
+                "value: {value}>".format(
                     name=self.name,
                     kind=self.kind,
                     tf="T" if self.temp_mark else "",
                     pf="P" if self.perm_mark else "",
                     ef="E" if self.no_emit else "",
                     kf="K" if self.packed else "",
+                    en="B" if self.big_endian else "L",
                     fields=self.fields,
                     size=self.size,
-                    represents=self.represents))
+                    represents=self.represents,
+                    value=self.value))
 
     def __repr__(self):
         return self.__str__()
@@ -173,14 +185,22 @@ class TyppoParser(object):
                     new_type.represents = type_desc['repr']
                 else:
                     new_type.represents = 'unsigned'
+                if 'endian' in type_desc:
+                    if type_desc['endian'].strip().lower() == 'big':
+                        new_type.big_endian = True
             elif kind == "struct" or kind == "union":
                 if 'packed' in type_desc:
                     new_type.packed = type_desc['packed']
                 for field in type_desc['slots']:
                     field_name = field['name'].strip()
                     field_type = field['type'].strip()
-                    new_type.fields.append(
-                        TyppoFieldRef(field_name, field_type))
+                    field_ref = TyppoFieldRef(field_name, field_type)
+                    if 'endian' in field:
+                        if field['endian'].strip().lower() == 'big':
+                            field_ref.big_endian = True
+                    new_type.fields.append(field_ref)
+            elif kind == "const":
+                new_type.value = type_desc['value']
             else:
                 print("WARNING: Unknown kind {}".format(kind))
 
@@ -190,9 +210,7 @@ class TyppoParser(object):
 
     def resolve_references(self):
         for type_obj in self._types.values():
-            if type_obj.kind == "alien" or type_obj.kind == "base":
-                pass
-            elif type_obj.kind == "struct" or type_obj.kind == "union":
+            if type_obj.kind == "struct" or type_obj.kind == "union":
                 for field in type_obj.fields:
                     slot_type = field.get_base_type()
                     is_embedded = field.get_is_directly_embedded()
@@ -267,14 +285,20 @@ class TyppoParser(object):
                           .format(type_representation))
                     assert False
                 c_type = self.C_TYPE_EQUIVALENT[type_representation]
-                f.write("typedef {ctype} {newtype};\n".format(
-                    ctype=c_type, newtype=type_obj.name))
+                f.write("typedef {ctype} {newtype};{be}\n".format(
+                    ctype=c_type,
+                    newtype=type_obj.name,
+                    be="  // big endian" if type_obj.big_endian else ""))
             elif type_obj.kind == "struct" or type_obj.kind == "union":
                 f.write(
                     "{struct_union} {name};\n"
                     "typedef {struct_union} {name} {name};\n".format(
                         struct_union=type_obj.kind,
                         name=type_obj.name))
+            elif type_obj.kind == "const":
+                f.write("#define {name} {value}\n".format(
+                    name=type_obj.name,
+                    value=type_obj.value))
             else:
                 print("WARNING: Don't know how to emit for kind {} (pass1)"
                       .format(kind))
@@ -283,7 +307,8 @@ class TyppoParser(object):
 
     def emit_typedefs_pass2(self, f):
         for type_obj in self._sorted_types:
-            if type_obj.kind == "alien" or type_obj.kind == "base":
+            if (type_obj.kind == "alien" or type_obj.kind == "base" or
+                    type_obj.kind == "const"):
                 # These have already been emitted
                 pass
             elif type_obj.kind == "struct" or type_obj.kind == "union":
@@ -297,12 +322,13 @@ class TyppoParser(object):
                             name=type_obj.name,
                             packed=packed_decorator))
                 for field in type_obj.fields:
-                    f.write("    {typeref};\n".format(
-                        typeref=field.format_type_reference()))
+                    f.write("    {typeref};{be}\n".format(
+                        typeref=field.format_type_reference(),
+                        be="  // big endian" if field.big_endian else ""))
                 f.write("};\n")
             else:
                 print("WARNING: Don't know how to emit for kind {} (pass2)"
-                      .format(kind))
+                      .format(type_obj.kind))
 
 
 def main():
