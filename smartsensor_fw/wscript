@@ -87,6 +87,8 @@ def opt_configure(conf):
 
 
 def configure_opt(conf):
+    if not conf.env['root']:
+        conf.env['root'] = os.path.join(conf.path.abspath(), os.pardir)
     with sub_conf(conf, 'smartsensor_fw/opt'):
         common_configure(conf)
         opt_configure(conf)
@@ -123,8 +125,7 @@ def build(bld):
             bld.add_manual_dependency(tgt, src_node)
 
         bld(
-            rule=bld.path.abspath() +
-            '/../tools/inject-version-controller.py ${SRC} ${TGT}',
+            rule='${root}/tools/inject-version-controller.py ${SRC} ${TGT}',
             source='src/version.c.template',
             target='version.c',
             always=True,

@@ -7,6 +7,7 @@ import waflib.Task
 
 from waf_extensions import declare_variants, clone_env
 
+
 def file_exists(filename):
     try:
         with open(filename) as f:
@@ -14,10 +15,12 @@ def file_exists(filename):
     except IOError:
         return False
 
+
 class Strip(waflib.Task.Task):
 
     run_str = '${strip} --strip-unneeded ${SRC}'
-    color   = 'BLUE'
+    color = 'BLUE'
+
 
 @feature('strip')
 @after('apply_link')
@@ -25,8 +28,10 @@ def strip(self):
     libs = [task.outputs[0] for task in self.tasks]
     self.create_task('Strip', libs)
 
+
 def options(opt):
     pass
+
 
 def build(bld):
     if 'vm' not in bld.variant:
@@ -58,42 +63,42 @@ def build(bld):
 
     if 'micro' in bld.variant:
         to_remove = []
-        if bld.env['strip_micro']  == 'yes':
+        if bld.env['strip_micro'] == 'yes':
             lib_features.append('strip')
         for source in to_remove:
             sources.remove(source)
 
     bld.objects(
-        source   = 'ngl_vm_core.c',
-        target   = 'ngl_vm_core',
-        cflags   = bld.env['core_cflags'],
-        includes = '.',
+        source='ngl_vm_core.c',
+        target='ngl_vm_core',
+        cflags=bld.env['core_cflags'],
+        includes='.',
         )
-    
+
     bld.objects(
-        source = sources,
-        target = 'objects',
-        includes = '.',
-        use = 'math',
+        source=sources,
+        target='objects',
+        includes='.',
+        use='math',
     )
-    
+
     if 'native' in bld.variant:
         bld(
-            features = lib_features,
-            use    = 'objects ngl_vm_core',
-            target = 'angelic',
+            features=lib_features,
+            use='objects ngl_vm_core',
+            target='angelic',
         )
 
         bld.program(
-            source = 'main.c',
-            target = 'main',
-            includes = '.',
-            use = 'angelic',
-            rpath = '$ORIGIN',
+            source='main.c',
+            target='main',
+            includes='.',
+            use='angelic',
+            rpath='$ORIGIN',
         )
 
     bld(
-        features = ['c', 'cstlib'],
-        use = 'objects ngl_vm_core',
-        target = 'angelic',
+        features=['c', 'cstlib'],
+        use='objects ngl_vm_core',
+        target='angelic',
     )

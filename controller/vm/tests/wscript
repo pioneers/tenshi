@@ -10,11 +10,14 @@ from subprocess import Popen, PIPE
 
 all_tests = []
 
+
 def options(opt):
     pass
 
+
 def configure(conf):
     pass
+
 
 def build(bld):
     global all_tests
@@ -38,8 +41,10 @@ def build(bld):
                             #linkflags='-Wl,-R ' + join(rel_path, 'build',
                                 #bld.variant_dir, 'src'),
                             )
-                target_abspath = join(bld.variant_dir, 'tests', target_filename)
+                target_abspath = join(bld.variant_dir, 'tests',
+                                      target_filename)
                 all_tests.append(target_abspath)
+
 
 def test(ctxt):
     if not all_tests:
@@ -73,5 +78,5 @@ def test(ctxt):
             print(stdout_logs[failure][1].decode(), end='')
             print(' END TEST STDERR '.center(80, '*'))
             print()
-        print('TEST FAILED ({0}/{1} tests failed)'.format(len(failed_tests), total_tests))
-
+        print('TEST FAILED ({0}/{1} tests failed)'
+              .format(len(failed_tests), total_tests))

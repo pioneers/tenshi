@@ -120,14 +120,14 @@ def configure_common(conf):
     if conf.options.computed_gotos in ['yes', 'try']:
         need_computed_gotos = conf.options.computed_gotos == 'yes'
         have_computed_gotos = conf.check_cc(
-            msg = 'Checking for computed gotos',
-            fragment = 'int main() {'
+            msg='Checking for computed gotos',
+            fragment='int main() {'
             'void * target_val;'
             'target: target_val = &&target;'
             'goto *target_val;'
             'return 0;}',
-            define_name = 'HAVE_COMPUTED_GOTOS',
-            mandatory = need_computed_gotos
+            define_name='HAVE_COMPUTED_GOTOS',
+            mandatory=need_computed_gotos
         )
         if have_computed_gotos:
             conf.define('USE_COMPUTED_GOTOS', '')
