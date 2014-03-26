@@ -139,6 +139,17 @@ def configure(conf):
 # Build step
 
 
+from waflib import TaskGen
+TaskGen.declare_chain(
+    name='typpo',
+    rule='../../../tools/typpo_c_generator.py ${SRC} ${TGT}',
+    shell=False,
+    ext_in='.yaml',
+    ext_out='.h',
+    reentrant=False,
+)
+
+
 def build(bld):
     recurse(bld)
     if not bld.variant:
@@ -178,16 +189,24 @@ def build(bld):
             includes=". inc",
         )
 
+        bld(
+            name="typpo_includes",
+            source=bld.path.parent.ant_glob("common_defs/*.yaml"),
+            target="inc",
+        )
+
         bld.objects(
             source=bld.path.ant_glob("src/**/*.c"),
             target="c_objects",
-            includes=". inc",
+            includes=". inc ../common_defs",
+            use="typpo_includes"
         )
 
         bld.objects(
             source=bld.path.ant_glob("src/**/*.cpp"),
             target="cpp_objects",
-            includes=". inc",
+            includes=". inc ../common_defs",
+            use="typpo_includes"
         )
 
         bld.program(

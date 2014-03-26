@@ -126,19 +126,20 @@ static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
       continue;
     }
     xbee_api_packet *packetIn = buf2;
-    if (packetIn->xbee_api_type != XBEE_API_TYPE_RX64) {
+    if (packetIn->payload.xbee_api_type != XBEE_API_TYPE_RX64) {
       continue;
     }
     xbee_api_packet *packetOut = buf;
     packetOut->xbee_api_magic = XBEE_MAGIC;
     int lenThing = sizeof(xbee_tx64_header) + sizeof(pier_outgoingdata);
     packetOut->length = __REV16(lenThing);
-    packetOut->tx64.xbee_api_type = XBEE_API_TYPE_TX64;
-    packetOut->tx64.frameId = 0;
-    packetOut->tx64.xbee_dest_addr = packetIn->rx64.xbee_src_addr;
-    packetOut->tx64.options = 0;
-    pier_incomingdata *inData = &(packetIn->rx64.data);
-    pier_outgoingdata *outData = &(packetOut->tx64.data);
+    packetOut->payload.tx64.xbee_api_type = XBEE_API_TYPE_TX64;
+    packetOut->payload.tx64.frameId = 0;
+    packetOut->payload.tx64.xbee_dest_addr =
+      packetIn->payload.rx64.xbee_src_addr;
+    packetOut->payload.tx64.options = 0;
+    pier_incomingdata *inData = &(packetIn->payload.rx64.data);
+    pier_outgoingdata *outData = &(packetOut->payload.tx64.data);
 
     if (inData->ident != PIER_INCOMINGDATA_IDENT) {
       continue;
