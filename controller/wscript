@@ -132,6 +132,8 @@ def configure_rel(conf):
 
 
 def configure(conf):
+    if not conf.env['root']:
+        conf.env['root'] = os.path.join(conf.path.abspath(), os.pardir)
     recurse(conf)
     configure_deb(conf)
     configure_rel(conf)
@@ -142,11 +144,10 @@ def configure(conf):
 from waflib import TaskGen
 TaskGen.declare_chain(
     name='typpo',
-    rule='../../../tools/typpo_c_generator.py ${SRC} ${TGT}',
-    shell=False,
+    rule='${root}/tools/typpo_c_generator.py ${SRC} ${TGT}',
+    shell=True,
     ext_in='.yaml',
     ext_out='.h',
-    reentrant=False,
 )
 
 
@@ -174,8 +175,7 @@ def build(bld):
         )
 
         bld(
-            rule=bld.path.abspath() +
-            '/../tools/inject-version-controller.py ${SRC} ${TGT}',
+            rule='${root}/tools/inject-version-controller.py ${SRC} ${TGT}',
             source='src/version.c.template',
             target='version.c',
             always=True,
@@ -191,21 +191,20 @@ def build(bld):
 
         bld(
             name="typpo_includes",
-            source=bld.path.parent.ant_glob("common_defs/*.yaml"),
-            target="inc",
+            source=bld.path.ant_glob("common_defs/*.yaml")
         )
 
         bld.objects(
             source=bld.path.ant_glob("src/**/*.c"),
             target="c_objects",
-            includes=". inc ../common_defs",
+            includes=". inc common_defs",
             use="typpo_includes"
         )
 
         bld.objects(
             source=bld.path.ant_glob("src/**/*.cpp"),
             target="cpp_objects",
-            includes=". inc ../common_defs",
+            includes=". inc common_defs",
             use="typpo_includes"
         )
 
