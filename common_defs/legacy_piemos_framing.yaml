@@ -1,0 +1,52 @@
+- name: uint8_t
+  kind: alien
+  size: 1
+  repr: unsigned
+- name: uint16_t
+  kind: alien
+  size: 2
+  repr: unsigned
+- name: uint32_t
+  kind: alien
+  size: 4
+  repr: unsigned
+- name: uint64_t
+  kind: alien
+  size: 8
+  repr: unsigned
+
+- name: PIER_INCOMINGDATA_IDENT
+  kind: const
+  value: 254
+- name: PIER_OUTGOINGDATA_IDENT
+  kind: const
+  value: 253
+
+- name: pier_incomingdata
+  kind: struct
+  # No packing necessary, all bytes
+  slots:
+    - name: ident
+      type: uint8_t
+    - name: fieldtime
+      type: uint8_t
+    - name: flags
+      type: uint8_t
+    - name: analog
+      type: uint8_t[7]
+    - name: digital
+      type: uint8_t
+- name: pier_outgoingdata
+  kind: struct
+  # No packing necessary, all bytes
+  slots:
+    - name: ident
+      type: uint8_t
+    - name: rssi
+      type: uint8_t
+    - name: batteryStatus
+      type: uint8_t
+    - name: analog
+      type: uint8_t[7]
+    - name: digital
+      type: uint8_t

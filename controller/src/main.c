@@ -12,24 +12,7 @@
 #include "inc/task.h"
 #include "inc/xbee_framing.h"
 
-#define PIER_INCOMINGDATA_IDENT   254
-#define PIER_OUTGOINGDATA_IDENT   253
-
-typedef struct __attribute__((packed)) tag_pier_incomingdata {
-  uint8_t ident;
-  uint8_t fieldtime;
-  uint8_t flags;
-  uint8_t analog[7];
-  uint8_t digital;
-} pier_incomingdata;
-
-typedef struct __attribute__((packed)) tag_pier_outgoingdata {
-  uint8_t ident;
-  uint8_t rssi;
-  uint8_t batteryStatus;
-  uint8_t analog[7];
-  uint8_t digital;
-} pier_outgoingdata;
+#include "legacy_piemos_framing.h"   // NOLINT(build/include)
 
 static portTASK_FUNCTION_PROTO(blinkTask, pvParameters) {
   uint8_t buf[64];
