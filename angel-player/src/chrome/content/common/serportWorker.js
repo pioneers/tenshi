@@ -16,7 +16,10 @@ function readerWorkerPassthrough(e) {
 onmessage = function(e) {
     if (e.data.cmd === "open") {
         port = e.data.data;
-        serportObj = serport.SerialPortOpen(port, 57600, 0);
+        // We start with no timeout; The reader might adjust the timeout as
+        // appropriate while receiving packet parts.
+        // TODO(rqou): Don't hardcode baud
+        serportObj = serport.SerialPortOpen(port, 57600, null);
         readerWorker = new ChromeWorker('serportReaderWorker.js');
         readerWorker.onmessage = readerWorkerPassthrough;
         readerWorker.postMessage(
