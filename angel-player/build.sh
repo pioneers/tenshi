@@ -25,7 +25,7 @@ mkdir angel-player-linux-x86_64
 pushd angel-player-linux-x86_64
 tar xjf ../xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
 cp xulrunner/xulrunner-stub angel-player
-cp -r $ANGEL_PLAYER_MAIN_DIR/src/* .
+cp -r --dereference $ANGEL_PLAYER_MAIN_DIR/src/* .
 # Remove debug file
 rm defaults/preferences/debug.js
 popd
@@ -36,7 +36,7 @@ mkdir angel-player-win32
 pushd angel-player-win32
 unzip ../xulrunner-27.0.1.en-US.win32.zip
 cp xulrunner/xulrunner-stub.exe angel-player.exe
-cp -r $ANGEL_PLAYER_MAIN_DIR/src/* .
+cp -r --dereference $ANGEL_PLAYER_MAIN_DIR/src/* .
 # Remove debug file
 rm defaults/preferences/debug.js
 popd
@@ -52,7 +52,7 @@ mkdir -p Contents/MacOS
 pushd Contents/Frameworks
 tar xjf ../../../xulrunner-27.0.1.en-US.mac.tar.bz2
 popd
-cp -r $ANGEL_PLAYER_MAIN_DIR/src/* Contents/Resources
+cp -r --dereference $ANGEL_PLAYER_MAIN_DIR/src/* Contents/Resources
 # Remove debug file
 rm Contents/Resources/defaults/preferences/debug.js
 cp -r $ANGEL_PLAYER_MAIN_DIR/meta-mac/* Contents
