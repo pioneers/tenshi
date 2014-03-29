@@ -5,6 +5,12 @@
         "exports": true,
         "dump": true,
         "Uint8Array": true,
-        "ctypes": true
+        "ctypes": true,
+        // TODO(rqou): Really figure this shit out
+        "importScripts": true,
+        "postMessage": true,
+        "onmessage": true,
+        "ChromeWorker": true,
+        "close": true
     }
 }

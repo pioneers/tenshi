@@ -2,6 +2,15 @@
 
 <html>
     <head>
+        <script type='application/javascript;version=1.7'
+            src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+        <script src="../common/require_stub.js"></script>
+        <script>
+            // TODO(rqou): Stupid hack due to too many friggin iframes
+            parent.document.tenshiGlobals =
+                parent.parent.document.tenshiGlobals;
+            requireStub('controls/main');
+        </script>
         <script src="../vendor-js/jquery.js"></script>
         <script type="text/javascript">
             var current_vm = null;
@@ -92,14 +101,8 @@
 
                 try {
                     current_vm.load_text(text);
-                    /*var pkg = current_vm.get_pkg('ARM');
-                    dump(pkg.length);
-                    dump('\n');
-                    dump(typeof(pkg));
-                    dump('\n');
-                    dump(pkg);
-                    dump('\n');*/
-                    current_vm.save_pkg('ARM', '/tmp/test.bin', null);
+                    var pkg = current_vm.get_pkg('ARM');
+                    sendPacketizedData(pkg);
                 } catch(err) {
                     var console = require("console");
                     if (console === null) {

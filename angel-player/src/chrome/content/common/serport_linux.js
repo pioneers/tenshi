@@ -457,3 +457,18 @@ exports.SerialPortOpen = function(port, baud, timeout) {
 
     return ret;
 };
+
+// TODO(rqou): Hack to pass around the object through a worker
+exports.SerialPortClone = function(fd, timeout) {
+
+    if (typeof(timeout) === 'undefined') timeout = null;
+
+    let ret = {};
+    ret.fd = fd;
+    ret.timeout = timeout;
+    ret.write = serWrite;
+    ret.read = serRead;
+    ret.close = serClose;
+
+    return ret;
+};
