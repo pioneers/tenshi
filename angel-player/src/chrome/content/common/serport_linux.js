@@ -457,3 +457,21 @@ exports.SerialPortOpen = function(port, baud, timeout) {
 
     return ret;
 };
+
+// TODO(rqou): Hack to pass around the object through a worker. You can't send
+// a serial port object via postMessage because it contains functions, which
+// cannot be deep copied. However, you can pass integers like the fd just fine,
+// and the POSIX read/write/select API is perfectly threadsafe.
+exports.SerialPortClone = function(fd, timeout) {
+
+    if (typeof(timeout) === 'undefined') timeout = null;
+
+    let ret = {};
+    ret.fd = fd;
+    ret.timeout = timeout;
+    ret.write = serWrite;
+    ret.read = serRead;
+    ret.close = serClose;
+
+    return ret;
+};
