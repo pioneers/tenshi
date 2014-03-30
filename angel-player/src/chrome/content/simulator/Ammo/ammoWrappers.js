@@ -26,6 +26,7 @@ function createBoxPhysics(width, height, depth, mass, iniX, iniY, iniZ, physicsW
     if(physicsWorld)
         physicsWorld.addRigidBody(boxAmmo);
 
+    // getCollisionShape() is what raycaster returns, needs reference back to this object
     boxAmmo.getCollisionShape().parent = boxAmmo;
 
     return boxAmmo;
@@ -52,6 +53,9 @@ function createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ, physicsWo
 
     if(physicsWorld)
         physicsWorld.addRigidBody(cylAmmo);
+
+    // getCollisionShape() is what raycaster returns, needs reference back to this object
+    cylAmmo.getCollisionShape().parent = cylAmmo;
 
     return cylAmmo;
 }

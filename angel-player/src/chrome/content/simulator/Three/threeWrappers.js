@@ -15,6 +15,10 @@ function createCylMesh(radius, height, mColor, scene)
 
     mesh.receiveShadow = true;
     mesh.castShadow = true;
+    mesh.type = "CYLINDER";
+
+    mesh.radius = radius;
+    mesh.height = height;
 
     if(scene) 
         scene.add(mesh);
@@ -36,6 +40,11 @@ function createBoxMesh(width, height, depth, mColor, scene)
 
     mesh.receiveShadow = true;
     mesh.castShadow = true;
+    mesh.type = "BOX";
+
+    mesh.width = width;
+    mesh.height = height;
+    mesh.depth = depth;
 
     if(scene)
         scene.add(mesh);
