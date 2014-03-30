@@ -4,6 +4,9 @@ function Editor(document, classSelectorElem, objSelectorElem,
 {
     this.simulator = new Simulator(simElem, master, mapId);
 
+    this.selector = true; // raycast for selection flag
+    this.toggleSelection(); // initializes function for selection
+
     this.selections = {};
         this.selections[""] = [""];
         this.selections.Motors = ["Custom", "Motor 01"];
@@ -34,6 +37,102 @@ function Editor(document, classSelectorElem, objSelectorElem,
 
     this.curSelectionFuncs = [""];
 }
+
+// wrapped because needs reference to editor
+Editor.prototype.wrappedSelector = function()
+{
+    var self = this;
+
+    var func = function(x, y)
+    {
+        var point = self.simulator
+                    .cameraController
+                    .calculatePoint(x - self.simulator.width/2,
+                                    y - self.simulator.height/2);
+
+        // uncomment to check accuracy of clicking, near plane
+        /*
+        self.simulator.setTestSprite(point[0],
+                                     point[1],
+                                     point[2],
+                                     0,
+                                     0xff00ff,
+                                     "BOX",
+                                     .2, .2, .2);*/
+
+        var originVector = new Ammo.btVector3(self.simulator.camera.position.x,
+                                              self.simulator.camera.position.y,
+                                              self.simulator.camera.position.z);
+
+        var diffx = point[0] - self.simulator.camera.position.x,
+            diffy = point[1] - self.simulator.camera.position.y,
+            diffz = point[2] - self.simulator.camera.position.z;
+
+        // raycast tests line segment, 1000 is distance to check for selection
+        var posx = self.simulator.camera.position.x + 1000*diffx,
+            posy = self.simulator.camera.position.y + 1000*diffy,
+            posz = self.simulator.camera.position.z + 1000*diffz;
+
+        var posVector = new Ammo.btVector3(posx, posy, posz);
+
+        // uncomment to check accuracy of clicking, far plane
+        /*
+        self.simulator.setTestSprite(diffx*10 + self.simulator.camera.position.x,
+                                     diffy*10 + self.simulator.camera.position.y,
+                                     diffz*10 + self.simulator.camera.position.z,
+                                     1,
+                                     0xaa0000,
+                                     "BOX",
+                                     .2, .2, .2);*/
+
+        var raycast = new Ammo.ClosestRayResultCallback(originVector, posVector);
+
+        self.simulator.physicsWorld.rayTest(originVector, posVector, raycast);
+        if(raycast.hasHit)
+        {
+            self.curSelection = raycast.get_m_collisionObject().getCollisionShape().parent;
+            printOut(self.curSelection);
+            self.highlightSelection();
+        }
+    };
+    return func;
+};
+
+Editor.prototype.highlightSelection = function()
+{
+    if(this.curSelection !== undefined && this.curSelection !== null)
+    {
+        var mesh = this.curSelection.mesh;
+        this.simulator.setTestSprite(mesh.position.x,
+                                     mesh.position.y,
+                                     mesh.position.z,
+                                     3,
+                                     0x000088,
+                                     mesh.type,
+                                     (mesh.width ? mesh.width : mesh.radius) + 1,
+                                     mesh.height + 1,
+                                     (mesh.depth ? mesh.depth : 0) + 1,
+                                     mesh.quaternion);
+    }
+    else
+    {
+        this.simulator.removeTestSprite(3);
+    }
+};
+
+Editor.prototype.toggleSelection = function()
+{
+    if(this.selector)
+    {
+        this.simulator.mouseEvent = function(x,y) {};
+    }
+    else
+    {
+        this.simulator.mouseEvent = this.wrappedSelector();
+    }
+
+    this.selector = !this.selector;
+};
 
 Editor.prototype.setMode = function(mode)
 {
