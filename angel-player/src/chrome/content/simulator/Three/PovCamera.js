@@ -28,6 +28,73 @@ function PovCamera(centralPosition, camera, iniX, iniY, iniZ)
     // angle measure how much camera is tilted
 }
 
+PovCamera.prototype.calculatePlanes = function(near, fov, width, height)
+{
+    var vx = this.centralPosition.x - this.camera.position.x,
+        vy = this.centralPosition.y - this.camera.position.y,
+        vz = this.centralPosition.z - this.camera.position.z;
+
+    // scales vectors to be near plane
+        vx *= (near/100);
+        vy *= (near/100);
+        vz *= (near/100);
+
+    // [a, b, c, d] in form ax + by + cz = d
+    this.plane = [vx, vy, vz, (vx*(this.centralPosition.x - vx) +
+                               vy*(this.centralPosition.y - vy) +
+                               vz*(this.centralPosition.z - vz))];
+
+    // finds normal on xz plane
+    var tempx = vz,
+        tempz = -vx,
+        mag = Math.sqrt(tempz*tempz + tempx*tempx);
+
+    // normalizes the vector
+    this.xvector = [tempx/mag, 0, tempz/mag];
+
+    // cross perpendicular and horizontal vector yields vertical vector
+    this.yvector = [(this.plane[1]*this.xvector[2]),
+                    this.plane[2]*this.xvector[0] - this.plane[0]*this.xvector[2],
+                    -(this.plane[1]*this.xvector[0])];
+
+    // normalizes vector
+    mag = Math.sqrt(this.yvector[0]*this.yvector[0] +
+                    this.yvector[1]*this.yvector[1] +
+                    this.yvector[2]*this.yvector[2]);
+
+    this.yvector = [this.yvector[0]/mag,
+                    this.yvector[1]/mag,
+                    this.yvector[2]/mag];
+
+    // fov is y direction, calculates how much unit vector
+    // takes up half the near plane
+    // 0.83 is some random constant that makes it all accurate, discovered empirically
+    // TODO(ericnguyen): find out why 0.83 makes everything work right
+    this.heightFactor = 0.83*Math.tan(fov*Math.PI/180)/height;
+    this.widthFactor = this.heightFactor;
+};
+
+// returns point in real space of point on projected plane
+PovCamera.prototype.calculatePoint = function(width, height)
+{
+    this.calculatePlanes(1, this.camera.fov, this.camera.width, this.camera.height);
+
+    // takes focus point 1 unit away from camera in facing direction
+    // adds calculated xvector*width + yvector*height
+    // returns point in space, for raytracing
+    var  calculated =
+         [this.camera.position.x + this.plane[0] -
+            width*this.xvector[0]*this.widthFactor -
+            height*this.yvector[0]*this.heightFactor,
+          this.camera.position.y + this.plane[1] -
+            height*this.yvector[1]*this.heightFactor,
+          this.camera.position.z + this.plane[2] -
+            width*this.xvector[2]*this.widthFactor -
+            height*this.yvector[2]*this.heightFactor];
+
+    return calculated;
+};
+
 PovCamera.prototype.updatePosition = function()
 {
     this.centralPosition.y = this.radius*Math.sin(this.phi) + this.camera.position.y;
@@ -38,6 +105,8 @@ PovCamera.prototype.updatePosition = function()
 
     this.centralPosition.x = tempRadius*Math.cos(this.theta) + this.camera.position.x;
     this.centralPosition.z = tempRadius*Math.sin(this.theta) + this.camera.position.z;
+
+    this.calculatePlanes(1, this.camera.fov, this.camera.width, this.camera.height);
 };
 
 PovCamera.prototype.moveX = function(speed)

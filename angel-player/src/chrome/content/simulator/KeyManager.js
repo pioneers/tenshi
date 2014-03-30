@@ -1,6 +1,6 @@
-DOWN = 0;
-HOLD = 1;
-UP = 2;
+var DOWN = 0;
+var HOLD = 1;
+var UP = 2;
 
 function KeyManager(doc)
 {

@@ -80,7 +80,7 @@
 
             var readVal = function()
             {
-                val = simmy.robot.sensors[0].getVal();
+                var val = simmy.robot.sensors[0].getVal();
                 document.getElementById("RF number").innerHTML = val;
                 requestAnimationFrame(readVal);
             }
