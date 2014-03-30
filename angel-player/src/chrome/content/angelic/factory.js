@@ -83,6 +83,10 @@ function get_slot_type ( factory, type, slot_name ) {
   throw 'Slot ' + slot_name + ' does not exist in type ' + type.name;
   }
 
+function round_up ( input, to_round ) {
+  return input + ( to_round - ( input % to_round ) ) % to_round;
+  }
+
 kind_prototypes.struct = {
   init : function ( ) {
     this.slot_values = { };
@@ -113,14 +117,21 @@ kind_prototypes.struct = {
     },
   set_offset : function set_offset ( offset ) {
     this.offset = offset;
+    var relative = 0;
     for ( var s in this.type.slots ) {
       // Recalculate the offsets of all slots.
       var slot = this.type.slots [ s ];
       var val = this.slot_values [ slot.name ];
-      if ( val !== undefined ) {
-        val.set_offset ( offset );
+      var size = this.factory.get_size ( this.factory.get_type ( slot.type ) );
+      if ( ! this.type.packed ) {
+        // This assumes that types are self-aligned. Seems to be the case in GCC.
+        // TODO(kzentner): Confirm that this is the case in all relevant compilers.
+        relative = round_up ( relative, size );
         }
-      offset += this.factory.get_size ( this.factory.get_type ( slot.type ) );
+      if ( val !== undefined ) {
+        val.set_offset ( offset + relative );
+        }
+      relative += size;
       }
     },
   write : function ( buffer ) {
