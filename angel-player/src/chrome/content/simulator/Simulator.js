@@ -19,8 +19,12 @@ function Simulator(domElement, master, mapId)
     this.targetFrame = -1;
     this.currentFrame = 0;
 
+    this.mouseEvent = function() {};
+
     this.width = domElement.offsetWidth;
     this.height = domElement.offsetHeight;
+
+    this.sprite = [];
 
     this.loadMap(mapId||"testMap");
 
@@ -32,9 +36,50 @@ function Simulator(domElement, master, mapId)
         self.height = self.domElement.offsetHeight;
         self.renderer.setSize(self.width, self.height);
         self.camera.aspect = self.width/self.height;
+        self.camera.width = self.width;
+        self.camera.height = self.height;
         self.camera.updateProjectionMatrix();
     };
 }
+
+// creates a mesh at location, for testing purposes
+// if box, args are width, height, depth
+// if cylinder, arg3 is ignored, 1 is radius, 2 is height
+Simulator.prototype.setTestSprite = function(x, y, z, index, color, type, arg1, arg2, arg3, quat)
+{
+    if(this.sprite[index])
+    {
+        this.removeTestSprite(index);
+    }
+    this.sprite[index] = this.createTestSprite(color, type, arg1, arg2, arg3);
+    this.sprite[index].position.set(x, y, z);
+    if(quat)
+        this.sprite[index].quaternion.set(quat.x, quat.y, quat.z, quat.w);
+    this.sprite[index].opacity = 0.2;
+};
+
+Simulator.prototype.createTestSprite = function(color, type, arg1, arg2, arg3)
+{
+    printOut(type);
+    switch(type)
+    {
+        case "BOX":
+            return createBoxMesh(arg1, arg2, arg3, color, this.scene);
+        case "CYLINDER":
+            return createCylMesh(arg1, arg2, color, this.scene);
+        default:
+            printOut(type);
+    }
+};
+
+Simulator.prototype.removeTestSprite = function(index)
+{
+    if(this.sprite[index])
+    {
+        this.scene.remove(this.sprite[index]);
+        this.sprite[index] = null;
+    }
+};
 
 Simulator.prototype.initScene = function(width, height, fov, drawDistance, cameraPosition, backgroundColor)
 {
@@ -49,6 +94,8 @@ Simulator.prototype.initScene = function(width, height, fov, drawDistance, camer
         printOut(this.directionalLight.intensity);
 
     this.camera = new THREE.PerspectiveCamera(fov, width/height, 1, drawDistance);
+        this.camera.width = width;
+        this.camera.height = height;
 
     this.centralPosition = this.scene.position;
 
@@ -84,14 +131,18 @@ Simulator.prototype.initMouseCameraControls = function()
     var self = this;
     self.domElement.onmousedown = function(evt)
     {
-        mouseX = evt.pageX;
-        mouseY = evt.pageY;
+        var mouseX = evt.pageX;
+        var mouseY = evt.pageY;
+        self.mouseEvent(evt.pageX - self.domElement.offsetLeft, evt.pageY - self.domElement.offsetTop);
+
         self.domElement.onmousemove = function(evt)
         {
             self.cameraController.moveX((evt.pageX - mouseX)*0.001);
             self.cameraController.moveY((evt.pageY - mouseY)*0.001);
             mouseX = evt.pageX;
             mouseY = evt.pageY;
+
+            self.mouseEvent(evt.pageX - self.domElement.offsetLeft, evt.pageY - self.domElement.offsetTop);
         };
 
         self.domElement.onmouseout = function(evt)
@@ -278,7 +329,7 @@ Simulator.prototype.createBox = function(width, height, depth, mass, color, iniX
 Simulator.prototype.createCylinder = function(radius, height, mass, color, iniX, iniY, iniZ)
 {
     var cyl = createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ, this.physicsWorld);
-    var mesh = makeMappedMesh(createCylMesh(radius, height, color, this.scene), 15, iniX, iniY, iniZ, this.scene);
+    var mesh = createCylMesh(radius, height, color, this.scene);
 
     cyl.mesh = mesh;
     mesh.position.set(iniX, iniY, iniZ);
