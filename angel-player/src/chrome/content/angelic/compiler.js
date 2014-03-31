@@ -278,7 +278,7 @@ function make_lookup ( target, dest, index ) {
     dest: dest,
     index: index,
     };
-  } 
+  }
 
 function compile_identifier ( compiler ) {
   var cgen = compiler.cgen;
@@ -291,7 +291,7 @@ function compile_identifier ( compiler ) {
     cgen.emit ( ops.dup_1, idx );
     cgen.add_temp ( 1 );
     }
-  else if ( location === 'global' || 
+  else if ( location === 'global' ||
             location === 'external' ) {
     cgen.emit ( ops.li_w );
     cgen.add_temp ( 1 );
