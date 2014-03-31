@@ -1,34 +1,14 @@
 #ifndef NGL_ARRAY_NGL_VAL_H_
 #define NGL_ARRAY_NGL_VAL_H_
 
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include <ngl_types_wrapper.h>
 
-#include <ngl_type_h.h>
-#include <ngl_val.h>
-#include <ngl_macros.h>
-#include <ngl_obj.h>
-#include <ngl_error.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 /*
  * A looping, growing array.
  */
-
-def_struct(ngl_array, {
-  ngl_obj header;
-  ngl_type *ngl_array_elem_type;
-  size_t space;
-  size_t past_end;
-  size_t start;
-  ngl_val *data;
-})
-
-def_struct(ngl_array_iter, {
-  ngl_type *type;
-  ngl_array *parent;
-  ngl_int index;
-})
 
 ngl_declare_base(ngl_array);
 

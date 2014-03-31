@@ -16,7 +16,7 @@
     func = (ngl_vm_func *) f;
     pc = ngl_vm_func_get_code(func);
   } else {
-    ngl_ex_thunk thunk = ((ngl_ex_func *) f)->thunk;
+    ngl_ex_thunk * thunk = ((ngl_ex_func *) f)->thunk;
     /* TODO(kzentner): Make external errors into exceptions. */
     ngl_ret_on_err(thunk(ngl_stack_get_ptr(&stack, arg_count)));
     ngl_val res = ngl_stack_pop(&stack);

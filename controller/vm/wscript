@@ -16,6 +16,16 @@ declare_variants(['debug_native',
                  subdir='vm')
 
 
+from waflib import TaskGen
+TaskGen.declare_chain(
+    name='typpo',
+    rule='${root}/tools/typpo_c_generator.py ${SRC} ${TGT}',
+    shell=True,
+    ext_in='.yaml',
+    ext_out='.h',
+)
+
+
 def recurse(ctxt):
     ctxt.recurse('src', mandatory=False)
     ctxt.recurse('tests', mandatory=False)
@@ -46,6 +56,11 @@ def options(opt):
                    default='no',
                    choices=['yes', 'no', 'try'],
                    help='Whether to use computed gotos or not.')
+    opt.add_option('--build-tests',
+                   action='store',
+                   default='yes',
+                   choices=['yes', 'no', 'try'],
+                   help='Build the tests.')
     opt.load('compiler_c')
     opt.load('compiler_cxx')
     opt.load('gas')
@@ -53,7 +68,6 @@ def options(opt):
 
 
 profiling = False
-build_tests = True
 
 
 def configure_mingw(conf):
@@ -116,6 +130,8 @@ def configure_common(conf):
     add_cflags(conf, '-std=gnu99', ['-std=c99', '-std=gnu89', '-std=c89'])
     add_cflags(conf, warning_flags)
     add_cflags(conf, '-Wno-unused-function')
+
+    conf.env['build-tests'] = conf.options.build_tests in ['yes', 'try']
 
     if conf.options.computed_gotos in ['yes', 'try']:
         need_computed_gotos = conf.options.computed_gotos == 'yes'
@@ -182,12 +198,25 @@ def configure_release(conf):
 
 
 def configure(conf):
+    if not conf.env['root']:
+        conf.env['root'] = os.path.join(conf.path.abspath(), os.pardir,
+                                        os.pardir)
     conf.env['ANGELIC_ROOT'] = conf.path.abspath()
     configure_debug_native(conf)
     configure_release_native(conf)
     configure_debug_arm(conf)
     configure_release_arm(conf)
     recurse(conf)
+
+
+from waflib import TaskGen
+TaskGen.declare_chain(
+    name='typpo',
+    rule='${root}/tools/typpo_c_generator.py ${SRC} ${TGT}',
+    shell=True,
+    ext_in='.yaml',
+    ext_out='.h',
+)
 
 
 def build(bld):
@@ -199,10 +228,9 @@ def build(bld):
             return
         bld.recurse('src')
         if 'native' in bld.variant:
-            if build_tests:
+            if bld.env['build-tests']:
                 bld.recurse('tests')
 
 
 def test(context):
-    build_tests = True
     context.recurse('tests')
