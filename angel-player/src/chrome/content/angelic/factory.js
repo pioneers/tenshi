@@ -23,7 +23,7 @@ function get_buffer_method_base ( type, factory ) {
   else if ( type.repr === 'unsigned' ) {
     prefix = 'UInt' + ( size * 8 );
     }
-  else if ( type.repr === 'floating' ) {
+  else if ( type.repr === 'float' ) {
     if ( size === 4 ) {
       prefix = 'Float';
       }
@@ -45,6 +45,18 @@ function get_buffer_method_base ( type, factory ) {
       }
     }
   return prefix + postfix;
+  }
+
+function rshift_32 ( val ) {
+  // Javascript seems to ignore shifts >= 32 bits.
+  // More precisely, any value becomes 0 when shifted by 32.
+  return ( val / lshift_32 ( 1 ) );
+  }
+
+function lshift_32 ( val ) {
+  // Javascript seems to ignore shifts >= 32 bits.
+  // More precisely, any value becomes 0 when shifted by 32.
+  return val * ( 1 << 16 ) * ( 1 << 16 );
   }
 
 // Wrap a base type
@@ -72,17 +84,53 @@ kind_prototypes.base = {
     },
   get_write_method : function get_write_method ( buffer ) {
     if ( typeof this.type.write_method === 'undefined' ) {
-      var method_name = 'write' + get_buffer_method_base ( this.type, this.factory );
-      // Cache the method in the type for later use.
-      this.type.write_method = buffer [ method_name ];
+      if ( this.type.size === 8 && this.type.repr !== 'float' ) {
+        var endian = this.type.endian;
+        var mask = 0xffffffff;
+        this.type.write_method = function ( val, offset ) {
+          if ( endian === 'big' ) {
+            this.writeInt32BE ( rshift_32 ( val ) & mask, offset );
+            this.writeInt32BE ( val & mask, offset + 4 );
+            }
+          else {
+            this.writeInt32LE ( val & mask, offset );
+            this.writeInt32LE ( rshift_32 ( val ) & mask, offset + 4 );
+            }
+          };
+        }
+      else {
+        var method_name = 'write' + get_buffer_method_base ( this.type, this.factory );
+        // Cache the method in the type for later use.
+        this.type.write_method = buffer [ method_name ];
+        }
       }
     return this.type.write_method;
     },
   get_read_method : function get_read_method ( buffer ) {
     if ( typeof this.type.read_method === 'undefined' ) {
-      var method_name = 'read' + get_buffer_method_base ( this.type, this.factory );
-      // Cache the method in the type for later use.
-      this.type.read_method = buffer [ method_name ];
+      if ( this.type.size === 8 && this.type.repr !== 'float' ) {
+        var endian = this.type.endian;
+        misc.assert ( this.type.repr === 'unsigned',
+                      'Only int64_t not supported at this time.' );
+        // TODO(kzentner): Fix int64_t support.
+        this.type.read_method = function ( offset ) {
+          var pair = [];
+          if ( endian === 'big' ) {
+            pair [ 1 ] = this.readUInt32BE ( offset );
+            pair [ 0 ] = this.readUInt32BE ( offset + 4 );
+            }
+          else {
+            pair [ 0 ] = this.readUInt32LE ( offset );
+            pair [ 1 ] = this.readUInt32LE ( offset + 4 );
+            }
+          return lshift_32 ( pair [ 1 ] ) + pair [ 0 ];
+          };
+        }
+      else {
+        var method_name = 'read' + get_buffer_method_base ( this.type, this.factory );
+        // Cache the method in the type for later use.
+        this.type.read_method = buffer [ method_name ];
+        }
       }
     return this.type.read_method;
     },
