@@ -2,6 +2,7 @@ var misc = require('./misc.js');
 var yaml = require('../vendor-js/js-yaml/lib/js-yaml.js');
 var fs = require('./fs.js');
 var buffer = require ( './buffer.js' );
+var Int64 = require ( '../vendor-js/Int64.js' );
 
 //
 // This is the JavaScript side of the Typpo system.
@@ -61,11 +62,14 @@ function lshift_32 ( val ) {
 
 // Wrap a base type
 kind_prototypes.base = {
+  _is_64bit_int : function ( ) {
+    return this.type.size === 8 && this.type.repr !== 'float';
+    },
   init : function ( ) {
     this.val = null;
     },
   wrap : function wrap ( factory, type, val ) {
-    var out = factory.create ( type.name );
+    var out = factory.create ( type );
     out.set ( val );
     return out;
     },
@@ -74,27 +78,41 @@ kind_prototypes.base = {
     },
   set : function ( val ) {
     // Allow setting to a wrapped type or an unwrapped type.
-    if ( typeof val !== 'number' && val.type.kind === 'base' ) {
+    if ( typeof val.val !== 'undefined' ) {
       val = val.val;
       }
-    this.val = val;
+    if ( val === null ) {
+      val = 0;
+      }
+    if ( this._is_64bit_int ( ) ) {
+      if ( val instanceof Int64 ) {
+        this.val = new Int64 ( val.buffer );
+        }
+      else {
+        this.val = new Int64 ( val );
+        }
+      }
+    else {
+      this.val = val;
+      }
     },
   get : function ( ) {
     return this.val;
     },
   get_write_method : function get_write_method ( buffer ) {
     if ( typeof this.type.write_method === 'undefined' ) {
-      if ( this.type.size === 8 && this.type.repr !== 'float' ) {
+      if ( this._is_64bit_int ( ) ) {
         var endian = this.type.endian;
-        var mask = 0xffffffff;
         this.type.write_method = function ( val, offset ) {
+          var hi = val.buffer.readUInt32BE ( 0 );
+          var lo = val.buffer.readUInt32BE ( 4 );
           if ( endian === 'big' ) {
-            this.writeInt32BE ( rshift_32 ( val ) & mask, offset );
-            this.writeInt32BE ( val & mask, offset + 4 );
+            this.writeUInt32BE ( hi, offset );
+            this.writeUInt32BE ( lo, offset + 4 );
             }
           else {
-            this.writeInt32LE ( val & mask, offset );
-            this.writeInt32LE ( rshift_32 ( val ) & mask, offset + 4 );
+            this.writeUInt32LE ( lo, offset );
+            this.writeUInt32LE ( hi, offset + 4 );
             }
           };
         }
@@ -108,22 +126,20 @@ kind_prototypes.base = {
     },
   get_read_method : function get_read_method ( buffer ) {
     if ( typeof this.type.read_method === 'undefined' ) {
-      if ( this.type.size === 8 && this.type.repr !== 'float' ) {
+      if ( this._is_64bit_int ( ) ) {
         var endian = this.type.endian;
-        misc.assert ( this.type.repr === 'unsigned',
-                      'Only int64_t not supported at this time.' );
-        // TODO(kzentner): Fix int64_t support.
         this.type.read_method = function ( offset ) {
+          var lo, hi;
           var pair = [];
           if ( endian === 'big' ) {
-            pair [ 1 ] = this.readUInt32BE ( offset );
-            pair [ 0 ] = this.readUInt32BE ( offset + 4 );
+            hi = this.readUInt32BE ( offset );
+            lo = this.readUInt32BE ( offset + 4 );
             }
           else {
-            pair [ 0 ] = this.readUInt32LE ( offset );
-            pair [ 1 ] = this.readUInt32LE ( offset + 4 );
+            lo = this.readUInt32LE ( offset );
+            hi = this.readUInt32LE ( offset + 4 );
             }
-          return lshift_32 ( pair [ 1 ] ) + pair [ 0 ];
+          return new Int64 ( hi, lo );
           };
         }
       else {
@@ -157,7 +173,14 @@ function get_slot_type ( factory, type, slot_name ) {
   for ( var s in type.slots ) {
     var slot = type.slots [ s ];
     if ( slot.name === slot_name ) {
-      return factory.get_type ( slot.type );
+      var slot_type = factory.get_type ( slot.type );
+      if ( typeof slot.endian !== 'undefined' &&
+           typeof slot_type.endian === 'undefined' ) {
+        slot_type = misc.shallow_copy ( slot_type );
+        slot_type.endian = slot.endian;
+        slot_type.write_method = undefined;
+        }
+      return slot_type;
       }
     }
   throw 'Slot ' + slot_name + ' does not exist in type ' + type.name;
@@ -190,7 +213,7 @@ kind_prototypes.struct = {
       return obj;
       }
     else {
-      var out = factory.create ( type.name );
+      var out = factory.create ( type );
       for ( var k in obj ) {
         // Set all available fields.
         out.set_slot ( k, obj [ k ] );
@@ -204,6 +227,7 @@ kind_prototypes.struct = {
   set_slot : function ( slot_name, val ) {
     var type = get_slot_type ( this.factory, this.type, slot_name );
     this.slot_values [ slot_name ] = this.factory.wrap ( type, val );
+    misc.assert ( this.slot_values [ slot_name ].type.endian === type.endian );
     this.recalculate_offsets ( );
     },
   get_slot : function ( slot_name ) {
@@ -272,7 +296,7 @@ kind_prototypes.union = {
       return obj;
       }
     else {
-      var out = factory.create ( type.name );
+      var out = factory.create ( type );
       out.last_set_value = factory.wrap ( obj );
       return out;
       }
@@ -536,8 +560,10 @@ var factory_prototype = {
       throw 'Could not calculate size of kind ' + type.kind;
       }
     },
-  create : function create ( typename ) {
-    var type = this.get_type ( typename );
+  create : function create ( type ) {
+    if ( typeof type === 'string' ) {
+      type = this.get_type ( type );
+      }
     var prototype = get_proto ( type );
     return this.construct_object ( prototype, type );
     },
