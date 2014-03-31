@@ -28,8 +28,16 @@ join_token(target_, OP_NAME):
 #else
   break;
 case(OP_N):
-  /* The following line is very useful for debugging. */
-  /*printf("executing " string_of_macro(OP_NAME) "\n"); */
+  /* The following lines are very useful for debugging. */
+#if 0
+  printf("executing " string_of_macro(OP_NAME) "\n");
+  printf("bunch 0x%016x\n", op_bunch);
+  for (ngl_uint i = 0; i < ngl_stack_height(&stack); i++) {
+    printf("stack 0x%016lx % 16.16g\n",
+           0L + ngl_stack_get(&stack, i).uinteger,
+           (double) ngl_stack_get(&stack, i).floating);
+    }
+#endif
 #endif
 #endif
 

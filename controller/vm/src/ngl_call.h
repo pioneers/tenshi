@@ -1,9 +1,11 @@
 #ifndef NGL_CALL_H_
 #define NGL_CALL_H_
+
+#include <ngl_types_wrapper.h>
+
 #include <stdlib.h>
 
 #include <ngl_macros.h>
-#include <ngl_type_h.h>
 #include <ngl_val.h>
 #include <ngl_error.h>
 #include <ngl_obj.h>
@@ -54,15 +56,6 @@
 
 #define ngl_arg(type, kind, value) \
 ngl_type_to_ngl_type(type), ngl_check_to_ngl_val_##kind(type, value)
-
-def_struct(ngl_call, {
-  ngl_obj header;
-  ngl_val *args;
-  ngl_func func;
-  ngl_uint num_args;
-  ngl_uint filled_args;
-  ngl_type **arg_types;
-})
 
 ngl_declare_composite(ngl_call);
 
