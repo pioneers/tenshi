@@ -55,6 +55,25 @@ def typpo_emit_header_end(f, input_filename):
     f.write(HEADER_END_STR.format(include_guard=include_guard))
 
 
+def get_base_type(typestr):
+    while True:
+        if typestr.endswith("*"):
+            # Pointer
+            typestr = typestr[:-1].strip()
+        elif typestr.endswith("]"):
+            # Array
+            open_brace_idx = typestr.rfind("[")
+            if open_brace_idx == -1:
+                print("ERROR: Mismatched ] in field of type {}"
+                      .format(typestr))
+                assert False
+            typestr = typestr[:open_brace_idx].strip()
+        else:
+            # Neither, done
+            break
+    return typestr
+
+
 class TyppoFieldRef(object):
     def __init__(self, _name, _typestr):
         self.name = _name
@@ -68,23 +87,7 @@ class TyppoFieldRef(object):
         self.big_endian = False
 
     def get_base_type(self):
-        base_type = self.typestr
-        while True:
-            if base_type.endswith("*"):
-                # Pointer
-                base_type = base_type[:-1].strip()
-            elif base_type.endswith("]"):
-                # Array
-                open_brace_idx = base_type.rfind("[")
-                if open_brace_idx == -1:
-                    print("ERROR: Mismatched ] in field of type {}"
-                          .format(base_type))
-                    assert False
-                base_type = base_type[:open_brace_idx].strip()
-            else:
-                # Neither, done
-                break
-        return base_type
+        return get_base_type(self.typestr)
 
     def get_is_directly_embedded(self):
         # True if not pointer
@@ -140,6 +143,11 @@ class TyppoTypeNode(object):
         self.big_endian = False
         # Used for defines
         self.value = None
+        # Used for typedefs
+        self.base = None
+        # Used for function
+        self.inputs = None
+        self.output = None
 
     def __str__(self):
         return ("<Typpo Type: \"{name}\" ({kind}), "
@@ -162,10 +170,61 @@ class TyppoTypeNode(object):
         return self.__str__()
 
 
+def linearize_typedefs(type_map, embedded_only=True):
+    '''
+    Linearizes an implicity type DAG.
+    Args:
+        type_map: dictionary from type names to correspond TyppoTypeNode.
+        embedded_only: whether to follow field types that are embedded_only.
+    Returns:
+        A linearization
+    '''
+
+    # Uses second algorithm from
+    # http://en.wikipedia.org/wiki/Topological_sorting
+    sorted_types = []
+    nodes_unmarked = set(type_map.values())
+    temp_set = set()
+    perm_set = set()
+
+    def visit(n):
+        if n in temp_set and not embedded_only:
+            # TODO(kzentner): Also detect cyclic references in non-embedded
+            # parts.
+            print("ERROR: Types have cyclic references to {name}".format(
+                name=n.name))
+            assert False
+
+        if not n in temp_set and n in nodes_unmarked:
+            temp_set.add(n)
+            for m in n.fields:
+                if m.get_is_directly_embedded() or embedded_only:
+                    visit(m.typpo_type)
+            if n.base:
+                visit(type_map[get_base_type(n.base)])
+            if n.inputs:
+                for m in n.inputs:
+                    visit(type_map[get_base_type(m['type'])])
+            if n.output:
+                visit(type_map[get_base_type(n.output)])
+            # TODO(rqou): right?
+            temp_set.remove(n)
+            nodes_unmarked.remove(n)
+            sorted_types.append(n)
+    while len(nodes_unmarked) > 0:
+        a_node = nodes_unmarked.pop()
+        # TODO(rqou): Do I need to do this?
+        nodes_unmarked.add(a_node)
+        visit(a_node)
+    return sorted_types
+
+
 class TyppoParser(object):
     # Pass in the list of types loaded from the YAML file
     def __init__(self, input_objects):
         self._input_objects = input_objects
+        self._typedef_linearization = []
+        self._composite_linearization = []
 
     # First pass collects all the type names. Also marks alien types and
     # packed structures.
@@ -201,6 +260,11 @@ class TyppoParser(object):
                     new_type.fields.append(field_ref)
             elif kind == "const":
                 new_type.value = type_desc['value']
+            elif kind == 'typedef':
+                new_type.base = type_desc['base']
+            elif kind == 'function':
+                new_type.output = type_desc['output']
+                new_type.inputs = type_desc['inputs']
             else:
                 print("WARNING: Unknown kind {}".format(kind))
 
@@ -226,34 +290,13 @@ class TyppoParser(object):
                     if is_embedded:
                         field.typpo_type = self._types[slot_type]
 
-    def do_dag_linearization(self):
-        # Uses second algorithm from
-        # http://en.wikipedia.org/wiki/Topological_sorting
-        sorted_types = []
-        nodes_unmarked = set(self._types.values())
+    def generate_typedef_linearization(self):
+        self._typedef_linearization = linearize_typedefs(self._types,
+                                                         False)
 
-        def visit(n):
-            if n.temp_mark:
-                print("ERROR: Types have cyclic references to {name}".format(
-                    name=n.name))
-                assert False
-
-            if not n.temp_mark and not n.perm_mark:
-                n.temp_mark = True
-                for m in n.fields:
-                    if m.get_is_directly_embedded():
-                        visit(m.typpo_type)
-                n.perm_mark = True
-                # TODO(rqou): right?
-                n.temp_mark = False
-                nodes_unmarked.remove(n)
-                sorted_types.append(n)
-        while len(nodes_unmarked) > 0:
-            a_node = nodes_unmarked.pop()
-            # TODO(rqou): Do I need to do this?
-            nodes_unmarked.add(a_node)
-            visit(a_node)
-        self._sorted_types = sorted_types
+    def generate_composite_linearization(self, embedded_only=True):
+        self._composite_linearization = linearize_typedefs(self._types,
+                                                           True)
 
     C_TYPE_EQUIVALENT = {
         (1, 'unsigned'):        'uint8_t',
@@ -273,62 +316,97 @@ class TyppoParser(object):
         ('native', 'ptr'):      'void *',
     }
 
-    def emit_typedefs_pass1(self, f):
+    def emit_base_pass(self, f):
         for type_obj in self._types.values():
-            if type_obj.no_emit:
-                # Don't output these
-                pass
-            elif type_obj.kind == "base":
-                type_representation = (type_obj.size, type_obj.represents)
-                if not type_representation in self.C_TYPE_EQUIVALENT:
-                    print("ERROR: No C equivalent for {}"
-                          .format(type_representation))
-                    assert False
-                c_type = self.C_TYPE_EQUIVALENT[type_representation]
-                f.write("typedef {ctype} {newtype};{be}\n".format(
-                    ctype=c_type,
-                    newtype=type_obj.name,
-                    be="  // big endian" if type_obj.big_endian else ""))
-            elif type_obj.kind == "struct" or type_obj.kind == "union":
-                f.write(
-                    "{struct_union} {name};\n"
-                    "typedef {struct_union} {name} {name};\n".format(
-                        struct_union=type_obj.kind,
-                        name=type_obj.name))
-            elif type_obj.kind == "const":
-                f.write("#define {name} {value}\n".format(
-                    name=type_obj.name,
-                    value=type_obj.value))
-            else:
-                print("WARNING: Don't know how to emit for kind {} (pass1)"
-                      .format(kind))
-
+            try:
+                self.emit_base(f, type_obj)
+            except Exception as e:
+                print('Encountered exception {} while processing '
+                      ' {!r} (pass1)'.format(e, type_obj))
         f.write("\n")
 
-    def emit_typedefs_pass2(self, f):
-        for type_obj in self._sorted_types:
-            if (type_obj.kind == "alien" or type_obj.kind == "base" or
-                    type_obj.kind == "const"):
-                # These have already been emitted
-                pass
-            elif type_obj.kind == "struct" or type_obj.kind == "union":
-                # TODO(rqou): This is GCC specific, do we care?
-                packed_decorator = (
-                    "__attribute__((__packed__)) " if type_obj.packed else "")
+    def emit_base(self, f, type_obj):
+        if type_obj.no_emit:
+            # Don't output these
+            pass
+        elif type_obj.kind == "base":
+            type_representation = (type_obj.size, type_obj.represents)
+            if not type_representation in self.C_TYPE_EQUIVALENT:
+                print("ERROR: No C equivalent for {}"
+                      .format(type_representation))
+                assert False
+            c_type = self.C_TYPE_EQUIVALENT[type_representation]
+            f.write("typedef {ctype} {newtype};{be}\n".format(
+                ctype=c_type,
+                newtype=type_obj.name,
+                be="  // big endian" if type_obj.big_endian else ""))
+        elif type_obj.kind == "struct" or type_obj.kind == "union":
+            f.write(
+                "{struct_union} {name};\n"
+                "typedef {struct_union} {name} {name};\n".format(
+                    struct_union=type_obj.kind,
+                    name=type_obj.name))
+        elif type_obj.kind == "const":
+            f.write("#define {name} {value}\n".format(
+                name=type_obj.name,
+                value=type_obj.value))
+        elif type_obj.kind in ['typedef', 'function']:
+            # These will be output in the typedef pass
+            pass
+        else:
+            print("WARNING: Don't know how to emit for kind {} (pass1)"
+                  .format(type_obj.kind))
 
-                f.write("{struct_union} {packed}{name} {{\n"
-                        .format(
-                            struct_union=type_obj.kind,
-                            name=type_obj.name,
-                            packed=packed_decorator))
-                for field in type_obj.fields:
-                    f.write("    {typeref};{be}\n".format(
-                        typeref=field.format_type_reference(),
-                        be="  // big endian" if field.big_endian else ""))
-                f.write("};\n")
-            else:
-                print("WARNING: Don't know how to emit for kind {} (pass2)"
-                      .format(type_obj.kind))
+    def emit_typedef_pass(self, f):
+        for type_obj in self._typedef_linearization:
+            self.emit_typedef(f, type_obj)
+
+    def emit_typedef(self, f, type_obj):
+        if type_obj.kind in ['alien', 'base', 'const', 'struct', 'union']:
+            # These have already been emitted
+            pass
+        elif type_obj.kind == "typedef":
+            f.write("typedef {base} {name};\n".format(
+                base=type_obj.base,
+                name=type_obj.name))
+        elif type_obj.kind == "function":
+            f.write("typedef {out} {name}({inputs});\n".format(
+                out=type_obj.output,
+                name=type_obj.name,
+                inputs=', '.join([desc['type'] for desc in type_obj.inputs])))
+        else:
+            print("WARNING: Don't know how to emit for kind {} (typedef pass)"
+                  .format(type_obj.kind))
+
+    def emit_composite_pass(self, f):
+        for type_obj in self._composite_linearization:
+            try:
+                self.emit_composite(f, type_obj)
+            except Exception as e:
+                print('Encountered exception {} while processing '
+                      ' {!r} (composite pass)'.format(e, type_obj))
+
+    def emit_composite(self, f, type_obj):
+        if type_obj.kind in ['alien', 'base', 'const', 'typedef', 'function']:
+            # These have already been emitted
+            pass
+        elif type_obj.kind == "struct" or type_obj.kind == "union":
+            # TODO(rqou): This is GCC specific, do we care?
+            packed_decorator = (
+                "__attribute__((__packed__)) " if type_obj.packed else "")
+            f.write("{struct_union} {packed}{name} {{\n"
+                    .format(
+                        struct_union=type_obj.kind,
+                        name=type_obj.name,
+                        packed=packed_decorator))
+            for field in type_obj.fields:
+                f.write("    {typeref};{be}\n".format(
+                    typeref=field.format_type_reference(),
+                    be="  // big endian" if field.big_endian else ""))
+            f.write("};\n")
+        else:
+            print("WARNING: Don't know how to emit for kind {} (pass2)"
+                  .format(type_obj.kind))
 
 
 def main():
@@ -347,12 +425,14 @@ def main():
     typpo_parser = TyppoParser(inputObjects)
     typpo_parser.do_initial_pass()
     typpo_parser.resolve_references()
-    typpo_parser.do_dag_linearization()
+    typpo_parser.generate_typedef_linearization()
+    typpo_parser.generate_composite_linearization()
 
     with open(output_filename, 'w') as outf:
         typpo_emit_header_start(outf, input_filename)
-        typpo_parser.emit_typedefs_pass1(outf)
-        typpo_parser.emit_typedefs_pass2(outf)
+        typpo_parser.emit_base_pass(outf)
+        typpo_parser.emit_typedef_pass(outf)
+        typpo_parser.emit_composite_pass(outf)
         typpo_emit_header_end(outf, input_filename)
 
 

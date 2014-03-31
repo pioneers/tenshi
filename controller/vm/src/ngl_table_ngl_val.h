@@ -1,39 +1,17 @@
 #ifndef NGL_TABLE_NGL_VAL_H_
 #define NGL_TABLE_NGL_VAL_H_
+
+#include <ngl_types_wrapper.h>
+
 #include <stdbool.h>
 #include <stdlib.h>
+
 #include <ngl_call.h>
-#include <ngl_macros.h>
-#include <ngl_type_h.h>
-#include <ngl_hash.h>
-#include <ngl_val.h>
 #include <ngl_error.h>
+#include <ngl_hash.h>
+#include <ngl_macros.h>
 #include <ngl_obj.h>
-
-extern ngl_error ngl_table_not_found;
-
-def_struct(ngl_table_elem_interface, {
-  ngl_hash_func_t *hash;
-  ngl_hash_compare_func_t *compare;
-})
-
-def_struct(ngl_table_bucket, {
-  ngl_val key;
-  ngl_val value;
-  ngl_table_bucket *next;
-  ngl_hash hash;
-})
-
-def_struct(ngl_table, {
-  ngl_obj header;
-  ngl_table_elem_interface *interface;
-  ngl_type *key_type;
-  ngl_type *val_type;
-  size_t mask;
-  size_t num_elems;
-  size_t space;
-  ngl_table_bucket *data;
-})
+#include <ngl_val.h>
 
 ngl_table *ngl_table_new(ngl_type * key_type,
                          ngl_type * val_type,
@@ -79,5 +57,6 @@ ngl_error *ngl_table_set_hash(ngl_table * self,
 ngl_error *ngl_table_delete(ngl_table * self);
 
 extern ngl_table_elem_interface ngl_table_ngl_val_interface;
+extern ngl_error ngl_table_not_found;
 
 #endif  // NGL_TABLE_NGL_VAL_H_

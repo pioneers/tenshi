@@ -33,7 +33,7 @@ ngl_call ngl_null_call;
 
 ngl_error *
 ngl_print_float(ngl_float f) {
-  printf("%f\n", f);
+  printf("%f\n", (double) f);
   return ngl_ok;
 }
 

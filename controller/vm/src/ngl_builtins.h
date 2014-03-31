@@ -1,6 +1,8 @@
 #ifndef NGL_BUILTINS_H_
 #define NGL_BUILTINS_H_
-#include <ngl_type_h.h>
+
+#include <ngl_types_wrapper.h>
+
 #include <ngl_macros.h>
 #include <ngl_val.h>
 #include <ngl_error.h>
@@ -14,10 +16,6 @@ ngl_declare_base(ngl_float);
 
 ngl_declare_composite(ngl_obj);
 ngl_declare_composite(ngl_error);
-
-def_struct(ngl_builtin_alien, {
-  ngl_obj header;
-})
 
 ngl_declare_alien(ngl_builtin_alien);
 

@@ -1,7 +1,8 @@
 #include <ngl_func.h>
+#include <ngl_buffer.h>
 
 void
-ngl_ex_func_init(ngl_func * func, ngl_ex_thunk thunk) {
+ngl_ex_func_init(ngl_func * func, ngl_ex_thunk * thunk) {
   ngl_obj_init(&func->ex_func.header, ngl_type_ngl_ex_func);
   func->ex_func.thunk = thunk;
 }

@@ -3,9 +3,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-uint32_t ngl_package_magic = 0x32204157;
-uint32_t ngl_package_version = 1;
-
 ngl_error ngl_package_corrupt;
 ngl_error ngl_package_blocked;
 ngl_error ngl_package_inconsistent;
@@ -128,9 +125,9 @@ ngl_package_patch_apply(ngl_vm * vm,
 
 ngl_error *
 ngl_package_apply(ngl_package * pkg, ngl_vm * vm) {
-  if (pkg->magic != ngl_package_magic) {
+  if (pkg->magic != NGL_PACKAGE_MAGIC) {
     return &ngl_package_corrupt;
-  } else if (pkg->version != ngl_package_version) {
+  } else if (pkg->version != NGL_PACKAGE_VERSION) {
     return &ngl_package_corrupt;
   }
   ngl_package_fixup_table *fixups = OFFSET(pkg, pkg->fixup_table_offset);
@@ -148,7 +145,7 @@ ngl_package_apply(ngl_package * pkg, ngl_vm * vm) {
    *   Write data from patch.
    */
 
-  ngl_package_patch *patch = &patches->first_patch;
+  ngl_package_patch *patch = patches->patches;
   for (uint32_t p = 0; p < patches->count; p++) {
     if (!ngl_package_patch_appliable(patch, vm)) {
       return &ngl_package_blocked;
@@ -156,7 +153,7 @@ ngl_package_apply(ngl_package * pkg, ngl_vm * vm) {
     patch = NEXT_PATCH(patch);
   }
 
-  patch = &patches->first_patch;
+  patch = patches->patches;
   for (uint32_t p = 0; p < patches->count;) {
     ngl_package_patch *first_patch = patch;
     uint32_t id = patch->id;
@@ -174,7 +171,7 @@ ngl_package_apply(ngl_package * pkg, ngl_vm * vm) {
     ngl_package_relocate_obj(vm, first_patch, size_diff, count, to_insert);
   }
 
-  ngl_package_fixup *fixup = &fixups->first_fixup;
+  ngl_package_fixup *fixup = fixups->fixups;
 
   for (uint32_t f = 0; f < fixups->count; f++) {
     ngl_obj *to_write;
@@ -193,7 +190,7 @@ ngl_package_apply(ngl_package * pkg, ngl_vm * vm) {
     fixup += 1;
   }
 
-  patch = &patches->first_patch;
+  patch = patches->patches;
   uint32_t p = 0;
   while (p < patches->count) {
     ngl_package_patch *first_patch = patch;
