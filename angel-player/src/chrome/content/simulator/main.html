@@ -112,16 +112,16 @@
             function gen_vm() {
                 var angelic = require("tenshi/angelic/robot");
                 var vm = angelic.make();
-                var robot = simmy.robot.master;
 
                 function set_motor ( port, val ) {
-                    // TODO(ericnguyen/nikitakitaev): This function is borked.
-                    robot.robotMotors[0] [ port ] = val;
-                    robot.version += 1;
+                    // TODO(ericnguyen): use correct API here
+                    simmy.robot.setMotor(port, val);
+                    // TODO(ericnguyen): increment the version
                 }
 
                 function get_sensor ( port ) {
-                    return robot.robotSensors[0] [ port ];
+                    // TODO(ericnguyen): use correct API here
+                    return simmy.robot.sensors[port].getVal();
                 }
 
                 vm.add_library ( 'core', [
