@@ -12,6 +12,40 @@ var fs = require('./fs.js');
 
 var kind_prototypes = { };
 
+function get_buffer_method_base ( type, factory ) {
+  var size = factory.get_size ( type );
+  var prefix;
+  if ( type.repr === 'integer' ) {
+    // Calculate the number of bits from the number of bytes.
+    prefix = 'Int' + ( size * 8 );
+    }
+  else if ( type.repr === 'unsigned' ) {
+    prefix = 'UInt' + ( size * 8 );
+    }
+  else if ( type.repr === 'floating' ) {
+    if ( size === 4 ) {
+      prefix = 'Float';
+      }
+    else if ( size === 8 ) {
+      prefix = 'Double';
+      }
+    else {
+      throw 'Unsupported size for floating point value!';
+      }
+    }
+  var postfix = '';
+  // If the size is 1, there's no prefix.
+  if ( size !== 1 ) {
+    if ( type.endian === 'big' ) {
+      postfix = 'BE';
+      }
+    else {
+      postfix = 'LE';
+      }
+    }
+  return prefix + postfix;
+  }
+
 // Wrap a base type
 kind_prototypes.base = {
   init : function ( ) {
@@ -31,45 +65,26 @@ kind_prototypes.base = {
     },
   get_write_method : function get_write_method ( buffer ) {
     if ( typeof this.type.write_method === 'undefined' ) {
-      var size = this.factory.get_size ( this.type );
-      var prefix;
-      if ( this.type.repr === 'integer' ) {
-        // Calculate the number of bits from the number of bytes.
-        prefix = 'Int' + ( size * 8 );
-        }
-      else if ( this.type.repr === 'unsigned' ) {
-        prefix = 'UInt' + ( size * 8 );
-        }
-      else if ( this.type.repr === 'floating' ) {
-        if ( size === 4 ) {
-          prefix = 'Float';
-          }
-        else if ( size === 8 ) {
-          prefix = 'Double';
-          }
-        else {
-          throw 'Unsupported size for floating point value!';
-          }
-        }
-      var postfix = '';
-      // If the size is 1, there's no prefix.
-      if ( size !== 1 ) {
-        if ( this.type.endian === 'big' ) {
-          postfix = 'BE';
-          }
-        else {
-          postfix = 'LE';
-          }
-        }
-      var method_name = [ 'write' + prefix + postfix ];
-      // Cache the method name in the type for later use.
+      var method_name = 'write' + get_buffer_method_base ( this.type, this.factory );
+      // Cache the method in the type for later use.
       this.type.write_method = buffer [ method_name ];
       }
     return this.type.write_method;
     },
+  get_read_method : function get_read_method ( buffer ) {
+    if ( typeof this.type.read_method === 'undefined' ) {
+      var method_name = 'read' + get_buffer_method_base ( this.type, this.factory );
+      // Cache the method in the type for later use.
+      this.type.read_method = buffer [ method_name ];
+      }
+    return this.type.read_method;
+    },
   write : function ( buffer ) {
     // Call the appropriate write method on the buffer.
     this.get_write_method ( buffer ).apply ( buffer, [ this.val, this.offset ] );
+    },
+  read : function ( buffer ) {
+    this.val = this.get_read_method ( buffer ).apply ( buffer, [ this.offset ] );
     },
   set_offset : function set_offset ( offset ) {
     this.offset = offset;
@@ -158,6 +173,23 @@ kind_prototypes.struct = {
       val.write ( buffer );
       }
     },
+  read : function ( buffer ) {
+    var s;
+    var slot;
+    // Fill all the slots with new objects.
+    for ( s in this.type.slots ) {
+      slot = this.type.slots [ s ];
+      this.set_slot ( slot.name, this.factory.create ( slot.type ) );
+      }
+    this.recalculate_offsets ( );
+
+    // Recursively read all of the slots.
+    for ( s in this.type.slots ) {
+      slot = this.type.slots [ s ];
+      var val = this.slot_values [ slot.name ];
+      val.read ( buffer );
+      }
+    },
   };
 
 kind_prototypes.union = {
@@ -189,6 +221,18 @@ kind_prototypes.union = {
     if ( this.last_set_value ) {
       this.last_set_value.set_offset ( offset );
       }
+    },
+  read : function ( buffer ) {
+    if ( this.last_set_slot === null ) {
+      // Currently, this defaults to reading the type of the first slot of the
+      // union.
+      // It seems likely that a more useful behavior would be reading the
+      // largest type (but what if there are ties?).
+      // TODO(kzentner): Think about the semantics of this function.
+      this.last_set_slot = this.type.slots [ 0 ].name;
+      this.last_set_value = this.factory.create ( this.type.slots [ 0 ].type );
+      }
+    this.last_set_slot.read ( buffer );
     },
   };
 
@@ -228,10 +272,22 @@ kind_prototypes.array = {
   push : function ( val ) {
     this.vals.push ( this.factory.wrap ( this.type.base, val ) );
     },
+  get_length : function ( ) {
+    if ( this.length !== null ) {
+      return this.length;
+      }
+    else if ( typeof this.type.length !== 'undefined' ) {
+      return this.type.length;
+      }
+    else {
+      return undefined;
+      }
+    },
   write : function ( buffer ) {
     var offset = this.offset;
-    if ( typeof this.length !== 'undefined' &&
-         this.vals.length !== this.length ) {
+    var length = this.get_length ( );
+    if ( length !== undefined &&
+         length !== this.vals.length ) {
       throw 'Incorrect array length when writing ' + this.type.name;
       }
     for ( var k in this.vals ) {
@@ -248,6 +304,24 @@ kind_prototypes.array = {
     for ( var k in this.vals ) {
       var val = this.vals [ k ];
       val.set_offset ( offset );
+      offset += elem_size;
+      }
+    },
+  read : function ( buffer ) {
+    var length = this.get_length ( );
+    if ( length === 'undefined' ) {
+      // What should we do in these circumstances?
+      throw 'Cannot read array of unkown size!';
+      }
+    this.vals = [];
+
+    var offset = this.offset;
+    var elem_size = this.factory.get_size ( this.type.base );
+    for ( var i = 0; i < length; i++ ) {
+      var val = this.factory.create ( this.type.base );
+      val.set_offset ( offset );
+      val.read ( buffer );
+      this.push ( val );
       offset += elem_size;
       }
     },
@@ -397,7 +471,16 @@ var factory_prototype = {
     },
   get_const : function get_const ( name ) {
     return this.get_type ( name ).value;
-    }
+    },
+  read : function ( typename, buffer, offset ) {
+    if ( offset === undefined ) {
+      offset = 0;
+      }
+    var out = this.create ( typename );
+    out.set_offset ( offset );
+    out.read ( buffer );
+    return out;
+    },
   };
 
 // Create a new factory.
