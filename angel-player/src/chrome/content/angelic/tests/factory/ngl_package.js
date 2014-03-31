@@ -6,7 +6,7 @@ var factory = require ( root + '/factory.js' );
 
 var fact = factory.make ( );
 fact.set_target_type ( 'ARM' );
-fact.load_type_file ( '../../../../../../../common_defs/ngl_types.yaml' );
+fact.load_type_file ( root + '/common_defs/ngl_types.yaml' );
 
 var pkg_header = fact.create ( 'ngl_package' );
 var magic = 0x32204157;
