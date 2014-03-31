@@ -110,11 +110,7 @@
         </script>
         <script type="text/javascript">
             function gen_vm() {
-                var globalLoader = parent.parent.document.tenshiGlobals.loader;
-                var module = loader.Module('tenshi/angelic/robot',
-                    'chrome://angel-player/content/angelic/robot.js');
-                loader.load(globalLoader, module);
-                var angelic = module.exports;
+                var angelic = require("tenshi/angelic/robot");
                 var vm = angelic.make();
                 var robot = simmy.robot.master;
 
