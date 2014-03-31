@@ -16,8 +16,9 @@ var links_left = {
     url : "about:blank"
   },
   "maker" : {
-    text : "Robot Maker (TODO)",
-    url : "about:blank"
+    text : "Robot Maker",
+    url : "simulator/maker.html",
+    fullwidth : true
   }
 };
 
@@ -59,7 +60,7 @@ function load_subpage(container, links, link) {
   if (links[link] === undefined) {
     throw "ERROR";
   }
-  $(container).children("iframe").css("display", "none");
+  $(container).find("iframe").css("display", "none");
 
   if (subpages === undefined) {
     subpages = {};
@@ -75,7 +76,15 @@ function load_subpage(container, links, link) {
       "src": links[link].url,
       "width": "100%",
       "height": height
-    }).appendTo($(container));
+    });
+
+    if (links[link].hasOwnProperty("fullwidth") &&
+        links[link].fullwidth) {
+      var div = $("<div class='fullwidth'/>").appendTo($(container));
+      subpages[link].appendTo(div);
+    } else {
+      subpages[link].appendTo($(container));
+    }
   } else {
     // Call onResume() when resuming that page
     var onResume = subpages[link][0].contentWindow.onResume;
