@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <ngl_vm.h>
+#include <ngl_buffer.h>
+#include <ngl_package.h>
 #include "inc/FreeRTOS.h"
 #include "inc/button_driver.h"
 #include "inc/driver_glue.h"
@@ -16,6 +19,16 @@
 #include "legacy_piemos_framing.h"   // NOLINT(build/include)
 
 uint8_t *code_buffer;
+uint32_t code_buffer_len;
+
+static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
+  ngl_buffer *program = ngl_buffer_alloc(code_buffer_len);
+  // TODO(rqou): This is dumb.
+  memcpy(NGL_BUFFER_DATA(program), code_buffer, code_buffer_len);
+  // TODO(rqou): Dealloc code_buffer???
+  ngl_run_package((ngl_package *) NGL_BUFFER_DATA(program));
+  // TODO(rqou): Error handling?
+}
 
 // TODO(rqou): Move this elsewhere
 // TODO(rqou): This entire function is a hack
@@ -96,7 +109,7 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
         // TODO(rqou): Stream ID?
         code_buffer = pvPortMalloc(bulk_start->length);
         code_received_to = 0;
-        code_received_len = bulk_start->length;
+        code_buffer_len = code_received_len = bulk_start->length;
         got_a_packet = 1;
 
         // TODO(rqou): Refactor this logic
@@ -138,6 +151,9 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
               (uart_serial_send_status(radio_driver, txn) !=
                 UART_SERIAL_SEND_ERROR)) {}
           uart_serial_send_finish(radio_driver, txn);
+
+          xTaskCreate(
+            angelicTask, "Angelic", 256, NULL, tskIDLE_PRIORITY, NULL);
         }
       }
       break;
