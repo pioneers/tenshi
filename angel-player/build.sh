@@ -8,15 +8,30 @@ pushd $PROJECT_ROOT_DIR/build/angel-player
 # Download XULRunner if it isn't already
 if [ ! -e xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 ]
 then
-    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
+    if [ -e ~/tenshi-cache/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 ]
+    then
+        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 .
+    else
+        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
+    fi
 fi
 if [ ! -e xulrunner-27.0.1.en-US.win32.zip ]
 then
-    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.win32.zip
+    if [ -e ~/tenshi-cache/xulrunner-27.0.1.en-US.win32.zip ]
+    then
+        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.win32.zip .
+    else
+        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.win32.zip
+    fi
 fi
 if [ ! -e xulrunner-27.0.1.en-US.mac.tar.bz2 ]
 then
-    wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.mac.tar.bz2
+    if [ -e ~/tenshi-cache/xulrunner-27.0.1.en-US.mac.tar.bz2 ]
+    then
+        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.mac.tar.bz2 .
+    else
+        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.mac.tar.bz2
+    fi
 fi
 
 # Prepare linux version
