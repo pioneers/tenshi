@@ -46,7 +46,7 @@
   value: 3
 - name: NGL_PACKAGE_MAGIC
   kind: const
-  value: 0x32204157
+  value: 0x008fa5e5
 - name: NGL_PACKAGE_VERSION
   kind: const
   value: 1
