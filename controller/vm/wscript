@@ -226,7 +226,7 @@ def build(bld):
         print('Building all variants.')
         run_all('build')
     else:
-        if 'vm' not in bld.variant:
+        if 'vm' not in bld.variant and 'controller' not in bld.variant:
             return
         bld.recurse('src')
         if 'native' in bld.variant:
