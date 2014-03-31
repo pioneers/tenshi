@@ -35,6 +35,19 @@ function assert ( thing, reason ) {
     }
   }
 
+function shallow_copy ( obj ) {
+  if ( ! obj || typeof obj !== 'object' ) {
+    return obj;
+    }
+  var copy = obj.constructor ( );
+  for ( var a in obj ) {
+    if ( obj.hasOwnProperty ( a ) ) {
+      copy [ a ] = obj [ a ];
+      }
+    }
+  return copy;
+  }
+
 
 function determine_environment ( ) {
   // TODO(rqou): This is a stupid-ass hack to detect XULrunner. Try to find a
@@ -55,3 +68,4 @@ exports.environment = determine_environment ( );
 exports.obj_or = obj_or;
 exports.print = print;
 exports.assert = assert;
+exports.shallow_copy = shallow_copy;

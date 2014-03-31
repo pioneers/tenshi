@@ -3,6 +3,7 @@ var root = process.argv[2];
 var buffer = require ( root + '/buffer.js' );
 var misc = require ( root + '/misc.js' );
 var factory = require ( root + '/factory.js' );
+var Int64 = require ( root + '/../vendor-js/Int64.js' );
 
 var fact = factory.make ( );
 fact.set_target_type ( 'ARM' );
@@ -10,7 +11,7 @@ fact.load_type_file ( root + '/../common_defs/xbee_typpo.yaml' );
 
 var xbee_header = fact.create ( 'xbee_tx64_header' );
 
-var addr = 0xf000000000000000;
+var addr = new Int64('0xfedcba8987654321');
 
 xbee_header.set_slot ( 'xbee_api_type', 1 );
 xbee_header.set_slot ( 'frameId', 0xff );
@@ -33,7 +34,8 @@ misc.assert ( xb_h2.frameId === 0xff,
 
 misc.print ( buf );
 misc.print ( xb_h2.xbee_dest_addr );
-misc.assert ( xb_h2.xbee_dest_addr === addr,
+misc.print ( addr );
+misc.assert ( xb_h2.xbee_dest_addr.toString ( ) === addr.toString ( ),
               'dest addr should be set correctly' );
 
 misc.assert ( xb_h2.options === 10,
