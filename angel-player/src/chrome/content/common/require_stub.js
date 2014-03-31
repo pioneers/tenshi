@@ -9,11 +9,25 @@
 // with module id 'tenshi/<path>' and call the init() method in it, passing it
 // window.
 
+var require = (function(){
+    var frame = window;
+    while (!frame.document.hasOwnProperty("tenshiGlobals")) {
+        if (frame === frame.parent) {
+            throw "tenshiGlobals not found";
+        }
+        frame = frame.parent;
+    }
+
+    var globalLoader = frame.document.tenshiGlobals.loader;
+
+    var requirer = loader.Module("HTML_UI", "about:blank");
+
+    return loader.Require(globalLoader, requirer);
+})()
+
 
 function requireStub(moduleName) {
-    var globalLoader = parent.document.tenshiGlobals.loader;
-    var module = loader.Module('tenshi/' + moduleName,
-        'chrome://angel-player/content/' + moduleName + '.js');
-    loader.load(globalLoader, module);
-    module.exports.init(window);
+    module = require("tenshi/" + moduleName);
+    module.init(window);
+    return module;
 }
