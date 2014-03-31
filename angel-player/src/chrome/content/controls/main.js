@@ -81,7 +81,7 @@ function compile_code() {
         return; // Do not run multiple simultaneous vms
     }
 
-    if (!texteditor.initialized) {
+    if (!texteditor.initialized()) {
         $("#status").text("ERROR: text editor not yet loaded");
         throw "ERROR: text editor not yet loaded";
     }
