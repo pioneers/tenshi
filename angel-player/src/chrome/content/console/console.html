@@ -4,6 +4,7 @@
     <head>
         <script type='application/javascript;version=1.7'
             src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+        <script src="../common/require_stub.js"></script>
         <script src="../vendor-js/jquery.js"></script>
         <script src="../vendor-js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
         <style type="text/css">
@@ -12,78 +13,8 @@
                 height: 500px;
             }
         </style>
-        <script type="text/javascript">
-            var editor;
-
-            function gen_vm() {
-                var globalLoader = parent.parent.document.tenshiGlobals.loader;
-                var module = loader.Module('tenshi/angelic/robot',
-                    'chrome://angel-player/content/angelic/robot.js');
-                loader.load(globalLoader, module);
-                var angelic = module.exports;
-                var vm = angelic.make();
-
-                function set_motor() {}
-                function get_sensor(port) {
-                    return 0;
-                }
-                vm.add_library ( 'core', [
-                    vm.make_exfn ( 0, 'print', print_line),
-                    vm.make_exfn ( 1, 'set_motor', set_motor ),
-                    vm.make_exfn ( 2, 'get_sensor', get_sensor ),
-                ] );
-
-                print_line("====== RESTART ======");
-                vm.source = "Console";
-                return vm;
-            }
-
-            function report_error(what) {
-                print_line("ERROR: " + what);
-            }
-
-            function onResume() {
-                // Set console as default VM target when it is focused
-                var require = parent.require;
-                if (require === undefined) {
-                    return;
-                }
-
-                var controls = require("controls");
-
-                controls.vm_generator = gen_vm;
-            }
-
-            function print_line(text) {
-                editor.setValue(editor.getValue() + "\n" + text);
-                // HACK: for some reason, setting the value selects text
-                editor.getSelection().clearSelection();
-            }
-
-            $(function(){
-                editor = ace.edit("text");
-                editor.setTheme("ace/theme/terminal");
-                editor.getSession().setMode("ace/mode/text");
-                editor.setReadOnly(true);
-
-                editor.setHighlightActiveLine(false);
-                editor.setDisplayIndentGuides(false);
-                editor.getSession().setUseWrapMode(true);
-                editor.renderer.setShowGutter(false);
-                editor.renderer.setPrintMarginColumn(false);
-
-                $("#clear").click(function(){
-                    $("#text").text("");
-                    });
-
-                onResume();
-            });
-
-            var exports = {};
-            exports.report_error = report_error;
-        </script>
     </head>
-    <body>
+    <body onload="requireStub('console/console')">
         <div id="text"></div>
         <button id="clear">Clear</button>
     </body>

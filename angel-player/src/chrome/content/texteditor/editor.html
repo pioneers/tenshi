@@ -34,14 +34,12 @@ main = fn:
 </div>
 
 <script src="../vendor-js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-<script>
-    var editor = ace.edit("editor");
-    function get_text() {
-        return editor.getValue();
-    }
 
-    var exports = {};
-    exports.get_text = get_text;
+<script type='application/javascript;version=1.7'
+    src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+<script src="../common/require_stub.js"></script>
+<script>
+    requireStub('texteditor/editor');
 </script>
 </body>
 </html>

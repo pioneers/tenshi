@@ -62,12 +62,11 @@
                 border: none;
             }
         </style>
-        <script src="vendor-js/jquery.js">
-        </script>
-        <script src="ui.js">
-        </script>
+        <script type='application/javascript;version=1.7'
+            src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+        <script src="common/require_stub.js"></script>
     </head>
-    <body>
+    <body onload="requireStub('ui')">
         <header>
             <p>Project Tenshi</p>
         </header>

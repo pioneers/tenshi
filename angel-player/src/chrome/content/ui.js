@@ -1,3 +1,6 @@
+var window,
+    $;
+
 // Subpages for the left and right panes
 var links_left = {
   "welcome" : {
@@ -47,26 +50,6 @@ var links_footer = {
     url: "controls/main.html"
   }
 };
-
-function require( pkg ) {
-  // A system for sharing data between iframes
-  // Each frame defines an exports object in its global scope, which can be
-  // loaded from other frames using the frame name (the frame's key in the
-  // links_* objects above)
-  var containers = ["#pages-left", "#pages-right", "footer"];
-
-  for (var i in containers) {
-    var subpages = $(containers[i]).data("subpages");
-
-    if (subpages === undefined ||
-        subpages[pkg] === undefined ||
-        subpages[pkg][0].contentWindow.exports === undefined) {
-      continue;
-    }
-    return subpages[pkg][0].contentWindow.exports;
-  }
-  return undefined;
-}
 
 function load_subpage(container, links, link) {
   // Loads the subpage in an iframe
@@ -119,7 +102,10 @@ function populate_right(key) {
   }).appendTo('#tabs-right');
 }
 
-$(function(){
+exports.init = function(_window) {
+  window = _window;
+  $ = require("jquery")(window);
+
   // Initialize the left pane to an empty page.
   // Add and pre-select an empty option for the drop-down, which will be
   // removed once a different page is chosen
@@ -135,5 +121,5 @@ $(function(){
   // Initialize the bottom page to the controls.
   // There are no other tabs for the bottom page
   load_subpage("footer", links_footer, "controls", "auto");
-});
+};
 
