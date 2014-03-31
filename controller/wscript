@@ -72,6 +72,7 @@ def common_configure(conf, root=None):
         '-mcpu=cortex-m4',            # Compile for Cortex-M4
         '-mfpu=fpv4-sp-d16',          # Enable FPU opcodes
         '-mfloat-abi=hard',           # Pass arguments via FPU registers
+        '-fshort-double',           # sizeof(double) == sizeof(float)
         '-Wl,--gc-sections',          # Discard unused sections
         '-Wl,-uVERSION_INFORMATION',  # Force retain VERSION_INFORMATION
         '-B' + root,                  # For finding .ld file
@@ -198,14 +199,14 @@ def build(bld):
         bld.objects(
             source=bld.path.ant_glob("src/**/*.c"),
             target="c_objects",
-            includes=". inc common_defs",
+            includes=". inc common_defs vm/src",
             use="typpo_includes"
         )
 
         bld.objects(
             source=bld.path.ant_glob("src/**/*.cpp"),
             target="cpp_objects",
-            includes=". inc common_defs",
+            includes=". inc common_defs vm/src",
             use="typpo_includes"
         )
 
