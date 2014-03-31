@@ -154,6 +154,8 @@ Simulator.prototype.loadRobot = function(robotJson, position)
     var robot = new Robot(this, this.master);
         robot.initChassi();
         // TODO(ericnguyen): modify master objects to allow working different robots
+        // TODO(ericnguyen): the robot constructor takes 3 arguments, so this
+        //                   implicitly sets the "id" argument to undefined
     var temp = null;
 
     for(var i = 0; i < data.chassi.length; i++)
