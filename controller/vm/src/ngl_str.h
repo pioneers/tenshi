@@ -1,10 +1,13 @@
 #ifndef NGL_STR_H_
 #define NGL_STR_H_
+
+#include <ngl_types_wrapper.h>
+
 #include <stdio.h>
 #include <stdint.h>
-#include <ngl_macros.h>
-#include <ngl_type_h.h>
+
 #include <ngl_hash.h>
+#include <ngl_macros.h>
 #include <ngl_table_ngl_val.h>
 
 enum ngl_str_alloc_type {
@@ -12,13 +15,6 @@ enum ngl_str_alloc_type {
   ngl_str_static = 2,
   ngl_str_gc = 3
 } END
-
-def_struct(ngl_str, {
-  ngl_obj header;
-  const char *start;
-  const char *past_end;
-  enum ngl_str_alloc_type alloc_type;
-})
 
 ngl_declare_composite(ngl_str);
 

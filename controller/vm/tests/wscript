@@ -34,7 +34,9 @@ def build(bld):
                 target_filename = join(rel_path, filename[:-2])
                 bld.program(source=join(rel_path, filename),
                             target=target_filename,
-                            includes=join(bld.env['ANGELIC_ROOT'], 'src'),
+                            includes=[join(os.pardir, 'src'),
+                                      join(os.pardir, 'src',
+                                           'common_defs')],
                             use='angelic',
                             # TODO(kzentner): Make this work so that tests are
                             # dynamically linked. Very low priority.
