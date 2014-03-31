@@ -12,8 +12,8 @@ var links_left = {
     url : "texteditor/editor.html"
   },
   "blockeditor" : {
-    text : "Block Editor (TODO)",
-    url : "about:blank"
+    text : "Block Editor",
+    url : "blockeditor/blockeditor.html"
   },
   "maker" : {
     text : "Robot Maker",
