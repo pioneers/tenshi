@@ -1,5 +1,7 @@
 #include <ngl_hash.h>
 
+// This struct is internal to this file, so it's not desribed in
+// ngl_types.yaml.
 def_struct(sip_hash_state, {
   uint64_t v[4];
 })

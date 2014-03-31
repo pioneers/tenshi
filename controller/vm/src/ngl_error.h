@@ -1,14 +1,9 @@
 #ifndef NGL_ERROR_H_
 #define NGL_ERROR_H_
+
+#include <ngl_types_wrapper.h>
+
 #include <ngl_macros.h>
-#include <ngl_type_h.h>
-
-struct ngl_str;
-
-def_struct(ngl_error, {
-  ngl_type *type;
-  struct ngl_str *message;
-})
 
 extern ngl_error *ngl_ok;
 extern ngl_error ngl_cast_error;

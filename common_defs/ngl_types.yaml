@@ -2,10 +2,18 @@
   repr: unsigned
   size: native
   kind: alien
+- name: uint8_t
+  repr: unsigned
+  kind: alien
+  size: 1
 - name: uint32_t
   repr: unsigned
   kind: alien
   size: 4
+- name: uint64_t
+  repr: unsigned
+  kind: alien
+  size: 8
 - name: const char
   repr: signed
   kind: alien
@@ -13,16 +21,35 @@
 
 - name: ngl_int
   repr: signed
-  kind: base
+  kind: alien
   size: native
 - name: ngl_uint
   repr: unsigned
-  kind: base
+  kind: alien
   size: native
 - name: ngl_float
   repr: float
-  kind: base
+  kind: alien
   size: native
+
+- name: NGL_PATCH_KIND_EXTERNAL
+  kind: const
+  value: 0
+- name: NGL_PATCH_KIND_FUNCTION
+  kind: const
+  value: 1
+- name: NGL_PATCH_KIND_BYTECODE
+  kind: const
+  value: 2
+- name: NGL_PATCH_KIND_OBJ
+  kind: const
+  value: 3
+- name: NGL_PACKAGE_MAGIC
+  kind: const
+  value: 0x32204157
+- name: NGL_PACKAGE_VERSION
+  kind: const
+  value: 1
 
 
 - name: ngl_val
@@ -45,6 +72,37 @@
       type: ngl_vm_func
     - name: ex_func
       type: ngl_ex_func
+
+
+- name: hash_t
+  kind: typedef
+  base: uint64_t
+- name: ngl_opbunch
+  kind: typedef
+  base: uint32_t
+
+- name: ngl_hash
+  kind: typedef
+  base: ngl_uint
+
+- name: ngl_hash_func_t
+  kind: function
+  inputs:
+    - type: ngl_val
+  output: ngl_hash
+
+- name: ngl_hash_compare_func_t
+  kind: function
+  inputs:
+    - type: ngl_val
+    - type: ngl_val
+  output: ngl_int
+
+- name: ngl_ex_thunk
+  kind: function
+  inputs:
+    - type: 'ngl_val *'
+  output: 'ngl_error *'
 
 
 - name: ngl_array
@@ -80,6 +138,8 @@
       type: ngl_obj
     - name: size
       type: ngl_uint
+    - name: bytes
+      type: uint8_t []
 - name: ngl_builtin_alien
   kind: struct
   slots:
@@ -150,9 +210,63 @@
 - name: ngl_type
   kind: struct
   slots:
+    - name: header
+      type: ngl_obj
+    - name: ptr_of
+      type: 'ngl_type *'
     - name: name
       type: ngl_str
+    - name: size
+      type: ngl_uint
+- name: ngl_type_alien
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
     - name: ptr_of
+      type: 'ngl_type *'
+    - name: name
+      type: ngl_str
+    - name: size
+      type: ngl_uint
+- name: ngl_type_base
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: ptr_of
+      type: 'ngl_type *'
+    - name: name
+      type: ngl_str
+    - name: size
+      type: ngl_uint
+- name: ngl_type_composite
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: ptr_of
+      type: 'ngl_type *'
+    - name: name
+      type: ngl_str
+    - name: size
+      type: ngl_uint
+    - name: names_to_types
+      type: 'ngl_table *'
+    - name: names_to_offsets
+      type: 'ngl_table *'
+- name: ngl_type_pointer
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: ptr_of
+      type: 'ngl_type *'
+    - name: name
+      type: ngl_str
+    - name: size
+      type: ngl_uint
+    - name: subtype
       type: 'ngl_type *'
 - name: ngl_obj
   kind: struct
@@ -167,7 +281,7 @@
     - name: type_id_to_type_ptr
       type: ngl_array
     - name: obj_table
-      type: ngl_array
+      type: ngl_table
 - name: ngl_str
   kind: struct
   slots:
@@ -273,3 +387,8 @@
       type: ngl_uint
     - name: data
       type: ngl_val
+- name: ngl_siphash_key
+  kind: struct
+  slots:
+    - name: k
+      type: uint64_t[2]

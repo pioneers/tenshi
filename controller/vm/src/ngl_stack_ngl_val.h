@@ -1,18 +1,10 @@
 #ifndef NGL_STACK_NGL_VAL_H_
 #define NGL_STACK_NGL_VAL_H_
+
+#include <ngl_types_wrapper.h>
+
 #include <ngl_val.h>
 #include <ngl_error.h>
-
-def_struct(ngl_stack_bucket, {
-  ngl_stack_bucket *prev;
-  ngl_uint size;
-  ngl_uint top;
-  ngl_val data;
-})
-
-def_struct(ngl_stack, {
-  ngl_stack_bucket *top_bucket;
-})
 
 ngl_error *ngl_stack_init(ngl_stack * self);
 ngl_error *ngl_stack_grow(ngl_stack * self, ngl_uint to_copy, ngl_uint size);

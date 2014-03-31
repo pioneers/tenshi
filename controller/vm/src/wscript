@@ -61,6 +61,13 @@ def build(bld):
         'ngl_vm.c',
     ]
 
+    bld(
+        name="typpo_includes",
+        source=bld.path.ant_glob("common_defs/*.yaml")
+    )
+
+    includes = '. common_defs'
+
     if 'micro' in bld.variant:
         to_remove = []
         if bld.env['strip_micro'] == 'yes':
@@ -72,13 +79,13 @@ def build(bld):
         source='ngl_vm_core.c',
         target='ngl_vm_core',
         cflags=bld.env['core_cflags'],
-        includes='.',
+        includes=includes,
         )
 
     bld.objects(
         source=sources,
         target='objects',
-        includes='.',
+        includes=includes,
         use='math',
     )
 
@@ -92,7 +99,7 @@ def build(bld):
         bld.program(
             source='main.c',
             target='main',
-            includes='.',
+            includes=includes,
             use='angelic',
             rpath='$ORIGIN',
         )
