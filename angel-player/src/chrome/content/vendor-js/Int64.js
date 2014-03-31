@@ -27,6 +27,11 @@
  * http://en.wikipedia.org/wiki/Double_precision_floating-point_format
  */
 
+// TODO(rqou): Fix this hack?
+if (typeof(Buffer) === "undefined") {
+  const { Buffer } = require('jetpack/sdk/io/buffer');
+}
+
 // Useful masks and values for bit twiddling
 var MASK31 =  0x7fffffff, VAL31 = 0x80000000;
 var MASK32 =  0xffffffff, VAL32 = 0x100000000;
