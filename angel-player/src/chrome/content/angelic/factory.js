@@ -54,9 +54,13 @@ kind_prototypes.base = {
       var postfix = '';
       // If the size is 1, there's no prefix.
       if ( size !== 1 ) {
-        postfix = 'LE';
+        if ( this.type.endian === 'big' ) {
+          postfix = 'BE';
+          }
+        else {
+          postfix = 'LE';
+          }
         }
-      // TODO(kzentner): Add little endian support.
       var method_name = [ 'write' + prefix + postfix ];
       // Cache the method name in the type for later use.
       this.type.write_method = buffer [ method_name ];
@@ -284,8 +288,11 @@ var factory_prototype = {
     out.init ( );
     return out;
     },
-  load_types : function load_types ( type_list ) {
-    var type_map = {};
+  load_types : function load_types ( type_list, discard_old ) {
+    var type_map = this.types || {};
+    if ( discard_old ) {
+      type_map = {};
+      }
     for ( var t in type_list ) {
       var type = type_list[t];
       type_map[type.name] = type;
