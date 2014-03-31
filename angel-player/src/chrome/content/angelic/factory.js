@@ -234,6 +234,9 @@ var factory_prototype = {
     var proto = get_proto ( type );
     return proto.wrap ( this, type, val );
     },
+  get_const : function get_const ( name ) {
+    return this.get_type ( name ).value;
+    }
   };
 
 // Create a new factory.
