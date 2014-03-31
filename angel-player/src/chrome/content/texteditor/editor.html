@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>ACE in Action</title>
-<style type="text/css" media="screen">
-    #editor {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-    }
-</style>
-</head>
-<body>
+    <head>
+        <title>Text Editor</title>
+        <style type="text/css" media="screen">
+            #editor {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+        </style>
+        <script src="../vendor-js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script type='application/javascript;version=1.7'
+                src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+        <script src="../common/require_stub.js"></script>
 
-<div id="editor">fib = fn (n):
+    </head>
+
+    <body onload="requireStub('texteditor/editor')">
+        <div id="editor">fib = fn (n):
     n = n - 1
     a = 0
     b = 1
@@ -32,14 +37,5 @@ main = fn:
     fib50 = fib (x)
     print (fib50)
 </div>
-
-<script src="../vendor-js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-
-<script type='application/javascript;version=1.7'
-    src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
-<script src="../common/require_stub.js"></script>
-<script>
-    requireStub('texteditor/editor');
-</script>
-</body>
+    </body>
 </html>
