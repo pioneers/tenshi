@@ -23,6 +23,7 @@
         <script type="text/javascript" src="Simulator.js"></script>
         <script type='application/javascript;version=1.7'
             src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+        <script src="../common/require_stub.js"></script>
         <script src="../vendor-js/jquery.js"></script>
     </head>
     <link rel="stylesheet" type="text/css" href="main.css">
@@ -139,14 +140,9 @@
 
             function onResume() {
                 // Set simulator as default VM target when it is focused
-                var require = parent.require;
-                if (require === undefined) {
-                    return;
-                }
+                var controls = require("tenshi/controls/main");
 
-                var controls = require("controls");
-
-                controls.vm_generator = gen_vm;
+                controls.set_vm_generator(gen_vm);
             }
 
             $(onResume); // also call on load
