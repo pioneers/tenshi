@@ -1,13 +1,15 @@
-// This file defines a requireStub function that is used to bootstrap a page's
-// use of the Mozilla Jetpack require framework. The way this file is used is
-// to first add
+// This file defines require and requireStub functions that are used to
+// bootstrap a page's use Mozilla Jetpack require framework. The way this file
+// is used is to first add
 // <script type='application/javascript;version=1.7'
 //     src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
 // <script src="../common/require_stub.js"></script>
-// to the head section of a page. Then, inside another script section, call
-// requireStub(<path>). This will load 'chrome://angel-player/content/<path>.js'
-// with module id 'tenshi/<path>' and call the init() method in it, passing it
-// window.
+// to the head section of a page. This will make the require and requireStub
+// functions available for later use. Given an argument 'tenshi/<path>', they
+// will load 'chrome://angel-player/content/<path>.js' with module id
+// 'tenshi/<path>'.
+// The requireStub function will additionally call the init() method on it,
+// passing the window as an argument.
 
 var require = (function(){
     var frame = window;
@@ -27,7 +29,7 @@ var require = (function(){
 
 
 function requireStub(moduleName) {
-    var module = require("tenshi/" + moduleName);
+    var module = require(moduleName);
     module.init(window);
     return module;
 }
