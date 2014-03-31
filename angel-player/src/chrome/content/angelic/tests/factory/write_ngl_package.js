@@ -9,7 +9,7 @@ fact.set_target_type ( 'ARM' );
 fact.load_type_file ( root + '/../common_defs/ngl_types.yaml' );
 
 var pkg_header = fact.create ( 'ngl_package' );
-var magic = 0x32204157;
+var magic = 0x008fa5e5;
 
 pkg_header.set_slot ( 'version', 1 );
 pkg_header.set_slot ( 'fixup_table_offset', 0 );

@@ -604,7 +604,7 @@ var root = {
     },
   write_header : function write_header ( ) {
     // Magic number found in ngl_vm/src/ngl_package.c
-    this.write_uint32 ( 0x32204157 );
+    this.write_uint32 ( 0x008fa5e5 );
     // Version
     this.write_uint32 ( 1 );
     // Location of fixup table
