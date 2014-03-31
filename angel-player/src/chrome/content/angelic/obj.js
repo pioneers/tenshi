@@ -107,14 +107,14 @@ function rows_to_asm ( rows, indent, mindent ) {
     else if ( row.type === 'li' ) {
       out += indent + cmd_to_asm ( [ 'li.w' ] ) + '\n';
       if ( typeof row.val[1] === 'string' ) {
-        out += indent + lookup_to_asm ( row.val[1] ) + '\n'; 
+        out += indent + lookup_to_asm ( row.val[1] ) + '\n';
         }
       else {
         out += indent + literal_to_asm ( row.val ) + '\n';
         }
       }
     else if ( row.type === 'lookup' ) {
-      out += indent + lookup_to_asm ( row.val[1] ) + '\n'; 
+      out += indent + lookup_to_asm ( row.val[1] ) + '\n';
       }
     else if ( row.type === 'j' ) {
       out += indent + cmd_to_asm ( [ 'j.w' ] ) + '\n';

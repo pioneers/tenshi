@@ -254,7 +254,7 @@ function infer_paren ( env ) {
 
     if ( func_type.kind === 'var' &&
          func_type.instance === null ) {
-      func_type.instance = env.make_type_op ( 'fn', 
+      func_type.instance = env.make_type_op ( 'fn',
           [ env.make_type_var ( ),
             env.make_type_var ( ) ] );
       func_type = func_type.instance;
@@ -358,7 +358,7 @@ function setupScopes ( scopes ) {
         this.instance = fn_type;
 
         env.push_function ( this );
-  
+
         // Type check the body of the function.
         env.infer ( this.body );
 

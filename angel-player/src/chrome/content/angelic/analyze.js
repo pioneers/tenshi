@@ -31,7 +31,7 @@ var executor = require ( './executor.js' );
 //
 // First, we check all variables to see if that variable is only assigned to a
 // single value, in which case we record the right hand side of that assignment
-// as it's canonical value. 
+// as it's canonical value.
 //
 // Canaonical values are useful for multiple things, but are particularly
 // useful because they're the only way for functions to call each other.
@@ -181,7 +181,7 @@ var executor = require ( './executor.js' );
 // How to deal with this is not terribly clear. Presumably we would end up
 // creating an infinitely long linked-list from these two functions. However, I
 // would prefer to avoid having to figure out what the sematics of this program
-// should be. 
+// should be.
 //
 // Instead, the compiler imposes some more restrictions, and performs some
 // simple analysis.
@@ -202,7 +202,7 @@ function make ( ) {
     //
     // Most of these fields and methods are involved in the variable
     // identification algorithm.
-    // 
+    //
     //
     // The basic way this algorithm works is that as a scope is walked,
     // variables are collected into an 'unknown' array.
@@ -216,7 +216,7 @@ function make ( ) {
     // Otherwise, if the variable's assignment is not found, the unkown is
     // bubbled up to the scope above.
     // This continues upward until we hit the global scope, where we then store
-    // the remaining unknowns as imports. 
+    // the remaining unknowns as imports.
     //
     // TODO(kzentner): Improve imports and exports, possible using an entirely
     // seperate module.
@@ -265,7 +265,7 @@ function make ( ) {
       },
     push_scope : function ( new_scope ) {
       misc.assert ( new_scope.above ( ) === this.current_scope,
-                    "New scope should be child of current scope." ); 
+                    "New scope should be child of current scope." );
       if ( this.current_scope.children === undefined ) {
         this.current_scope.children = [];
         }
