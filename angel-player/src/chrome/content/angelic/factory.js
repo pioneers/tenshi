@@ -192,12 +192,77 @@ kind_prototypes.union = {
     },
   };
 
+function get_array_elem_type ( typename ) {
+  var subtype = typename.split ( '[' ) [ 0 ].trim ( );
+  return subtype;
+  }
+
+function get_array_length ( typename ) {
+  var match = typename.match ( /\[([0-9]+)\]/ );
+  if ( ! match ) {
+    return undefined;
+    }
+  return parseInt ( match [ 1 ], 10 );
+  }
+
+kind_prototypes.array = {
+  init : function ( ) {
+    this.vals = [];
+    },
+  wrap : function ( factory, type, obj ) {
+    if ( obj.type === type ) {
+      return obj;
+      }
+    else {
+      var out = factory.construct_object ( kind_prototypes.array, {
+        type : type,
+        base : factory.get_type ( get_array_elem_type ( type.name ) ),
+        length : get_array_length ( type.name ),
+        } );
+      for ( var i = 0; i < obj.length; i++ ) {
+        out.push ( obj [ i ] );
+        }
+      return out;
+      }
+    },
+  push : function ( val ) {
+    this.vals.push ( this.factory.wrap ( this.type.base, val ) );
+    },
+  write : function ( buffer ) {
+    var offset = this.offset;
+    if ( typeof this.length !== 'undefined' &&
+         this.vals.length !== this.length ) {
+      throw 'Incorrect array length when writing ' + this.type.name;
+      }
+    for ( var k in this.vals ) {
+      this.vals [ k ].write ( buffer );
+      }
+    },
+  recalculate_offsets : function recalculate_offsets ( ) {
+    // Cause all offsets of slots to be recalculated.
+    this.set_offset ( this.offset );
+    },
+  set_offset : function set_offset ( offset ) {
+    var elem_size = this.factory.get_size ( this.type.base );
+    this.offset = offset;
+    for ( var k in this.vals ) {
+      var val = this.vals [ k ];
+      val.set_offset ( offset );
+      offset += elem_size;
+      }
+    },
+  };
+
 function get_proto ( type ) {
   return kind_prototypes [ type.kind ];
   }
 
 function is_pointer ( typename ) {
   return typename.trim().substr ( -1 ) === '*';
+  }
+
+function is_array ( typename ) {
+  return typename.indexOf ( '[' ) !== -1;
   }
 
 // This is the main interface to this module.
@@ -220,10 +285,16 @@ var factory_prototype = {
     if ( type === undefined ) {
       if ( is_pointer ( typename ) ) {
         return {
-          name: typename,
-          kind: 'base',
-          size: 'native',
-          repr: 'unsigned',
+          name : typename,
+          kind : 'base',
+          size : 'native',
+          repr : 'unsigned',
+          };
+        }
+      else if ( is_array ( typename ) ) {
+        return {
+          name : typename,
+          kind : 'array',
           };
         }
       }
@@ -254,8 +325,7 @@ var factory_prototype = {
       else if ( type.match ( /\[([0-9]+)\]/ ) ) {
         // Handle arrays.
         // Extract size in "base [size]".
-        var match = type.match ( /\[([0-9]+)\]/ );
-        return parseInt ( match [ 1 ], 10 ) * this.get_size ( type.substr ( 0, match.index ).trim ( ) );
+        return get_array_length ( type ) * this.get_size ( get_array_elem_type ( type ) );
         }
       actual_type = this.get_type ( type );
       }
