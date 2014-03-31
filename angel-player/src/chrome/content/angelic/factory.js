@@ -196,14 +196,38 @@ function get_proto ( type ) {
   return kind_prototypes [ type.kind ];
   }
 
+function is_pointer ( typename ) {
+  return typename.trim().substr ( -1 ) === '*';
+  }
+
 // This is the main interface to this module.
 var factory_prototype = {
+  construct_object : function construct_object ( proto, type ) {
+    var out = misc.obj_or ( Object.create ( proto ), {
+      factory : this,
+      type : type,
+      offset : 0,
+      } );
+    out.init ( );
+    return out;
+    },
   load_type_file : function ( filename ) {
     var types = yaml.safeLoad ( fs.readFileSync ( filename ).toString ( ) );
     this.load_types ( types );
     },
   get_type : function get_type ( typename ) {
-    return this.types [ typename ];
+    var type = this.types [ typename ];
+    if ( type === undefined ) {
+      if ( is_pointer ( typename ) ) {
+        return {
+          name: typename,
+          kind: 'base',
+          size: 'native',
+          repr: 'unsigned',
+          };
+        }
+      }
+    return type;
     },
   get_native_size : function get_native_size ( ) {
       if ( this.target_type === 'ARM' || this.target_type ===  'js' ) {
@@ -221,7 +245,7 @@ var factory_prototype = {
     var s;
     var actual_type = type;
     if ( typeof type === 'string' ) {
-      if ( type.substr ( -1 ) === '*' ) {
+      if ( is_pointer ( type ) ) {
         return this.get_native_size ( );
         }
       else if ( type.substr ( -2 ) === '[]' ) {
@@ -280,13 +304,7 @@ var factory_prototype = {
   create : function create ( typename ) {
     var type = this.get_type ( typename );
     var prototype = get_proto ( type );
-    var out = misc.obj_or ( Object.create ( prototype ), {
-      factory : this,
-      type : type,
-      offset : 0,
-      } );
-    out.init ( );
-    return out;
+    return this.construct_object ( prototype, type );
     },
   load_types : function load_types ( type_list, discard_old ) {
     var type_map = this.types || {};
@@ -303,6 +321,7 @@ var factory_prototype = {
     this.target_type = target_type;
     },
   wrap : function wrap ( type, val ) {
+    misc.assert ( typeof type === 'object', 'type should be an object.' );
     var proto = get_proto ( type );
     return proto.wrap ( this, type, val );
     },
