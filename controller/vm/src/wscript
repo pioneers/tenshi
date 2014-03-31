@@ -34,8 +34,6 @@ def options(opt):
 
 
 def build(bld):
-    if 'vm' not in bld.variant:
-        return
     lib_features = ['c', 'cshlib']
 
     sources = [
