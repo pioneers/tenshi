@@ -1,6 +1,7 @@
 var misc = require('./misc.js');
 var yaml = require('../vendor-js/js-yaml/lib/js-yaml.js');
 var fs = require('./fs.js');
+var buffer = require ( './buffer.js' );
 
 //
 // This is the JavaScript side of the Typpo system.
@@ -51,10 +52,13 @@ kind_prototypes.base = {
   init : function ( ) {
     this.val = null;
     },
-  wrap : function ( factory, type, val ) {
+  wrap : function wrap ( factory, type, val ) {
     var out = factory.create ( type.name );
     out.set ( val );
     return out;
+    },
+  unwrap : function unwrap ( ) {
+    return this.val;
     },
   set : function ( val ) {
     // Allow setting to a wrapped type or an unwrapped type.
@@ -62,6 +66,9 @@ kind_prototypes.base = {
       val = val.val;
       }
     this.val = val;
+    },
+  get : function ( ) {
+    return this.val;
     },
   get_write_method : function get_write_method ( buffer ) {
     if ( typeof this.type.write_method === 'undefined' ) {
@@ -115,6 +122,15 @@ function round_up ( input, to_round ) {
   return input + ( to_round - ( input % to_round ) ) % to_round;
   }
 
+function unwrap_composite ( comp ) {
+  var out = {};
+  for ( var s in comp.type.slots ) {
+    var slot = comp.type.slots [ s ];
+    out [ slot.name ] = comp.get_slot ( slot.name ).unwrap ( );
+    }
+  return out;
+  }
+
 kind_prototypes.struct = {
   init : function ( ) {
     this.slot_values = { };
@@ -134,10 +150,16 @@ kind_prototypes.struct = {
       return out;
       }
     },
+  unwrap : function ( ) {
+    return unwrap_composite ( this );
+    },
   set_slot : function ( slot_name, val ) {
     var type = get_slot_type ( this.factory, this.type, slot_name );
     this.slot_values [ slot_name ] = this.factory.wrap ( type, val );
     this.recalculate_offsets ( );
+    },
+  get_slot : function ( slot_name ) {
+    return this.slot_values [ slot_name ];
     },
   recalculate_offsets : function recalculate_offsets ( ) {
     // Cause all offsets of slots to be recalculated.
@@ -207,11 +229,29 @@ kind_prototypes.union = {
       return out;
       }
     },
+  unwrap : function ( ) {
+    return unwrap_composite ( this );
+    },
   set_slot : function ( slot_name, val ) {
     // Record only the most recent assignment.
     var type = get_slot_type ( this.factory, this.type, slot_name );
     this.last_set_slot = slot_name;
     this.last_set_value = this.factory.wrap ( type, val );
+    },
+  get_slot : function ( slot_name ) {
+    if ( slot_name === this.last_set_slot ) {
+      return this.last_set_value;
+      }
+    else {
+      var buf = buffer.Buffer ( this.get_size ( ) );
+      // Temporarily  set offset of slot.
+      this.last_set_slot.set_offset ( 0 );
+      this.last_set_slot.write ( buf );
+      // Reset offset.
+      this.set_offset ( this.offset );
+      return this.factory.read ( buf, this.slots [ slot_name ].type );
+      }
+    return this.slot_values [ slot_name ];
     },
   write : function ( buffer ) {
     this.last_set_value.write ( buffer );
@@ -268,6 +308,9 @@ kind_prototypes.array = {
         }
       return out;
       }
+    },
+  unwrap : function ( ) {
+    return this.vals.slice ( 0 );
     },
   push : function ( val ) {
     this.vals.push ( this.factory.wrap ( this.type.base, val ) );
