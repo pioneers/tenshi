@@ -81,6 +81,7 @@ def common_configure(conf, root=None):
     conf.load('compiler_c')
     conf.load('compiler_cxx')
     conf.load('gas')
+    conf.env.append_value('CFLAGS', '-DNGL_32_BIT')
 
 
 def debug_configure(conf):
@@ -212,7 +213,7 @@ def build(bld):
             source="",
             target=bld_path("tenshi.elf"),
             features="cxx cxxprogram",
-            use="crt0 c_objects cpp_objects version_obj",
+            use="crt0 c_objects cpp_objects version_obj angelic",
         )
 
         bld(
