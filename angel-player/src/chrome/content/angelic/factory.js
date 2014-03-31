@@ -30,7 +30,7 @@ kind_prototypes.base = {
     this.val = val;
     },
   get_write_method : function get_write_method ( buffer ) {
-    if ( this.type.write_method !== 'undefined' ) {
+    if ( typeof this.type.write_method === 'undefined' ) {
       var size = this.factory.get_size ( this.type );
       var prefix;
       if ( this.type.repr === 'integer' ) {
@@ -51,7 +51,13 @@ kind_prototypes.base = {
           throw 'Unsupported size for floating point value!';
           }
         }
-      var method_name = [ 'write' + prefix + 'LE' ];
+      var postfix = '';
+      // If the size is 1, there's no prefix.
+      if ( size !== 1 ) {
+        postfix = 'LE';
+        }
+      // TODO(kzentner): Add little endian support.
+      var method_name = [ 'write' + prefix + postfix ];
       // Cache the method name in the type for later use.
       this.type.write_method = buffer [ method_name ];
       }
@@ -84,6 +90,9 @@ function get_slot_type ( factory, type, slot_name ) {
   }
 
 function round_up ( input, to_round ) {
+  if ( to_round === 0 ) {
+    return input;
+    }
   return input + ( to_round - ( input % to_round ) ) % to_round;
   }
 
@@ -122,7 +131,7 @@ kind_prototypes.struct = {
       // Recalculate the offsets of all slots.
       var slot = this.type.slots [ s ];
       var val = this.slot_values [ slot.name ];
-      var size = this.factory.get_size ( this.factory.get_type ( slot.type ) );
+      var size = this.factory.get_size ( slot.type );
       if ( ! this.type.packed ) {
         // This assumes that types are self-aligned. Seems to be the case in GCC.
         // TODO(kzentner): Confirm that this is the case in all relevant compilers.
@@ -186,14 +195,13 @@ function get_proto ( type ) {
 // This is the main interface to this module.
 var factory_prototype = {
   load_type_file : function ( filename ) {
-    var types = yaml.safeLoad ( fs.readFileSync ( filename, 'utf-8' ) );
+    var types = yaml.safeLoad ( fs.readFileSync ( filename ).toString ( ) );
     this.load_types ( types );
     },
   get_type : function get_type ( typename ) {
     return this.types [ typename ];
     },
-  get_size : function get_size ( type ) {
-    if ( type.size === 'native' ) {
+  get_native_size : function get_native_size ( ) {
       if ( this.target_type === 'ARM' || this.target_type ===  'js' ) {
         return 4;
         }
@@ -203,9 +211,66 @@ var factory_prototype = {
       else {
         throw 'Unknown platform!';
         }
+    },
+  get_size : function get_size ( type ) {
+    var size;
+    var s;
+    var actual_type = type;
+    if ( typeof type === 'string' ) {
+      if ( type.substr ( -1 ) === '*' ) {
+        return this.get_native_size ( );
+        }
+      else if ( type.substr ( -2 ) === '[]' ) {
+        return 0;
+        }
+      else if ( type.match ( /\[([0-9]+)\]/ ) ) {
+        // Handle arrays.
+        // Extract size in "base [size]".
+        var match = type.match ( /\[([0-9]+)\]/ );
+        return parseInt ( match [ 1 ], 10 ) * this.get_size ( type.substr ( 0, match.index ).trim ( ) );
+        }
+      actual_type = this.get_type ( type );
+      }
+    if ( actual_type === undefined ) {
+      throw 'Could not get size of type ' + type;
       }
     else {
-      return type.size;
+      type = actual_type;
+      }
+    if ( typeof type.size !== 'undefined' ) {
+      size = type.size;
+      if ( size === 'native' ) {
+        return this.get_native_size ( );
+        }
+      else {
+        return size;
+        }
+      }
+    else if ( type.kind === 'struct' ) {
+      var total = 0;
+      for ( s in type.slots ) {
+        size = this.get_size ( type.slots [ s ].type );
+        if ( ! type.packed ) {
+          // This assumes that types are self-aligned. Seems to be the case in
+          // GCC.
+          // TODO(kzentner): Confirm that this is the case in all relevant
+          // compilers.
+          total = round_up ( total, size );
+          }
+        total += size;
+        }
+      return total;
+      }
+    else if ( type.kind === 'union' ) {
+      var max = 0;
+      for ( s in type.slots ) {
+        var slot = type.slots [ s ];
+        max = Math.max ( max, this.get_size ( slot.type ) );
+        }
+      return max;
+      }
+    else {
+      throw 'Could not calculate size of kind ' + type.kind;
       }
     },
   create : function create ( typename ) {
