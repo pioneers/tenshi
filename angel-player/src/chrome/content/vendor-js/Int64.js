@@ -28,8 +28,11 @@
  */
 
 // TODO(rqou): Fix this hack?
-if (typeof(Buffer) === "undefined") {
-  const { Buffer } = require('jetpack/sdk/io/buffer');
+try {
+  var Buffer = require('jetpack/sdk/io/buffer').Buffer;
+}
+catch (_) {
+  var Buffer = require('buffer').Buffer;
 }
 
 // Useful masks and values for bit twiddling
