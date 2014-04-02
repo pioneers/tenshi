@@ -26,6 +26,8 @@ function computeXbeeChecksum(buf, start, len) {
         sum += buf[i];
     }
 
+    sum = sum & 0xFF;
+
     return 0xFF - sum;
 }
 
@@ -43,6 +45,34 @@ exports.sendPacketizedData = function(data) {
         }
 
         dump("\n\n\n");
+        let rx_packet =
+            typpo.read('xbee_api_packet', buffer.Buffer(rxbuf)).unwrap();
+        let checksum = computeXbeeChecksum(
+            rx_packet.payload.bytes, 0, rx_packet.length);
+        if (rx_packet.payload.bytes[rx_packet.length] !== checksum) {
+            dump("Bad checksum!\n");
+            return;
+        }
+        if (rx_packet.xbee_api_magic != typpo.get_const('XBEE_MAGIC')) {
+            dump("Bad XBee magic!\n");
+            return;
+        }
+        if (rx_packet.payload.xbee_api_type !=
+            typpo.get_const('XBEE_API_TYPE_RX64')) {
+            dump("Ignoring unknown packet back: " +
+                rx_packet.payload.xbee_api_type.toString(16) + "\n");
+            return;
+        }
+
+        if (rx_packet.payload.rx64.data[0] === 
+            typpo.get_const('TENSHI_NAIVE_BULK_CHUNKREQ_IDENT')) {
+            let chunkreq = typpo.read('tenshi_bulk_chunkreq',
+                buffer.Buffer(rx_packet.payload.rx64.data)).unwrap();
+            // TODO(rqou): Stream id?
+
+            // Create reply packet
+            dump("ZOMG!\n");
+        }
     };
 
     // Create initial packet
