@@ -210,6 +210,9 @@ kind_prototypes.struct = {
     // Wrap around an object which has fields names which are the same as the
     // struct.
     if ( obj.type === type ) {
+      // If already wrapped, re-use the existing object.
+      // TODO(kzentner): This has unusual semantics if the object modified. Do
+      // we want this behavior?
       return obj;
       }
     else {
@@ -288,6 +291,7 @@ kind_prototypes.struct = {
 
 kind_prototypes.union = {
   init : function ( ) {
+    this.slot_values = { };
     this.last_set_slot = null;
     this.last_set_value = null;
     },
@@ -309,10 +313,14 @@ kind_prototypes.union = {
     var type = get_slot_type ( this.factory, this.type, slot_name );
     this.last_set_slot = slot_name;
     this.last_set_value = this.factory.wrap ( type, val );
+    this.slot_values [ slot_name ] = this.last_set_value;
     },
   get_slot : function ( slot_name ) {
     if ( slot_name === this.last_set_slot ) {
       return this.last_set_value;
+      }
+    else if ( typeof this.slot_values [ slot_name ] !== 'undefined' ) {
+      return this.slot_values [ slot_name ];
       }
     else {
       var buf = buffer.Buffer ( this.get_size ( ) );
@@ -321,7 +329,7 @@ kind_prototypes.union = {
       this.last_set_slot.write ( buf );
       // Reset offset.
       this.set_offset ( this.offset );
-      return this.factory.read ( buf, this.slots [ slot_name ].type );
+      return this.factory.read ( buf, this.type.slots [ slot_name ].type );
       }
     return this.slot_values [ slot_name ];
     },
@@ -335,16 +343,14 @@ kind_prototypes.union = {
       }
     },
   read : function ( buffer ) {
-    if ( this.last_set_slot === null ) {
-      // Currently, this defaults to reading the type of the first slot of the
-      // union.
-      // It seems likely that a more useful behavior would be reading the
-      // largest type (but what if there are ties?).
-      // TODO(kzentner): Think about the semantics of this function.
-      this.last_set_slot = this.type.slots [ 0 ].name;
-      this.last_set_value = this.factory.create ( this.type.slots [ 0 ].type );
+    for ( var s in this.type.slots ) {
+      var slot = this.type.slots [ s ];
+      var type = get_slot_type ( this.factory, this.type, slot.name );
+      var val = this.factory.create ( type );
+      val.set_offset ( this.offset );
+      val.read ( buffer );
+      this.set_slot ( slot.name, val );
       }
-    this.last_set_slot.read ( buffer );
     },
   };
 
@@ -364,17 +370,21 @@ function get_array_length ( typename ) {
 kind_prototypes.array = {
   init : function ( ) {
     this.vals = [];
+    this.base = this.factory.get_type ( get_array_elem_type ( this.type.name ) );
     },
   wrap : function ( factory, type, obj ) {
+    // If already wrapped, re-use the existing object.
+    // TODO(kzentner): This has unusual semantics if the object modified. Do
+    // we want this behavior?
     if ( obj.type === type ) {
       return obj;
       }
     else {
-      var out = factory.construct_object ( kind_prototypes.array, {
-        type : type,
-        base : factory.get_type ( get_array_elem_type ( type.name ) ),
-        length : get_array_length ( type.name ),
-        } );
+      var out = factory.construct_object ( kind_prototypes.array, type );
+      // If we can unwrap the object, unwrap it to get an array to work with.
+      if ( typeof obj.unwrap !== 'undefined' ) {
+        obj = obj.unwrap ( );
+        }
       for ( var i = 0; i < obj.length; i++ ) {
         out.push ( obj [ i ] );
         }
@@ -382,10 +392,10 @@ kind_prototypes.array = {
       }
     },
   unwrap : function ( ) {
-    return this.vals.slice ( 0 );
+    return this.vals.map ( function ( x ) { return x.unwrap ( ); } );
     },
   push : function ( val ) {
-    this.vals.push ( this.factory.wrap ( this.type.base, val ) );
+    this.vals.push ( this.factory.wrap ( this.base, val ) );
     },
   get_length : function ( ) {
     if ( this.length !== null ) {
@@ -397,6 +407,9 @@ kind_prototypes.array = {
     else {
       return undefined;
       }
+    },
+  set_length : function ( length ) {
+    this.length = length;
     },
   write : function ( buffer ) {
     var offset = this.offset;
@@ -414,7 +427,7 @@ kind_prototypes.array = {
     this.set_offset ( this.offset );
     },
   set_offset : function set_offset ( offset ) {
-    var elem_size = this.factory.get_size ( this.type.base );
+    var elem_size = this.factory.get_size ( this.base );
     this.offset = offset;
     for ( var k in this.vals ) {
       var val = this.vals [ k ];
@@ -423,17 +436,10 @@ kind_prototypes.array = {
       }
     },
   read : function ( buffer ) {
-    var length = this.get_length ( );
-    if ( length === 'undefined' ) {
-      // What should we do in these circumstances?
-      throw 'Cannot read array of unkown size!';
-      }
-    this.vals = [];
-
     var offset = this.offset;
-    var elem_size = this.factory.get_size ( this.type.base );
-    for ( var i = 0; i < length; i++ ) {
-      var val = this.factory.create ( this.type.base );
+    var elem_size = this.factory.get_size ( this.base );
+    while ( offset + elem_size <= buffer.length ) {
+      var val = this.factory.create ( this.base );
       val.set_offset ( offset );
       val.read ( buffer );
       this.push ( val );
@@ -501,6 +507,9 @@ var factory_prototype = {
         }
     },
   get_size : function get_size ( type ) {
+    // TODO(kzentner): Correct alignment in all cases requires finding
+    // the strictest aligned type in any embedded struct slot and then
+    // rounding the struct size up to that amount.
     var size;
     var s;
     var actual_type = type;
@@ -538,8 +547,9 @@ var factory_prototype = {
       for ( s in type.slots ) {
         size = this.get_size ( type.slots [ s ].type );
         if ( ! type.packed ) {
-          // This assumes that types are self-aligned. Seems to be the case in
-          // GCC.
+          // TODO(kzentner): Make this not assume that all slots are self-aligned.
+          // In particular, structs are not aligned to their size, but to the
+          // most strictly aligned base type among their slots. 
           // TODO(kzentner): Confirm that this is the case in all relevant
           // compilers.
           total = round_up ( total, size );
