@@ -20,6 +20,7 @@ function Simulator(domElement, master, mapId)
     this.currentFrame = 0;
 
     this.mouseEvent = function() {};
+    this.loopEvent = function() {};
 
     this.width = domElement.offsetWidth;
     this.height = domElement.offsetHeight;
@@ -54,8 +55,9 @@ Simulator.prototype.setTestSprite = function(x, y, z, index, color, type, arg1, 
     this.sprite[index] = this.createTestSprite(color, type, arg1, arg2, arg3);
     this.sprite[index].position.set(x, y, z);
     if(quat)
+    {
         this.sprite[index].quaternion.set(quat.x, quat.y, quat.z, quat.w);
-    this.sprite[index].opacity = 0.2;
+    }
 };
 
 Simulator.prototype.createTestSprite = function(color, type, arg1, arg2, arg3)
@@ -64,9 +66,9 @@ Simulator.prototype.createTestSprite = function(color, type, arg1, arg2, arg3)
     switch(type)
     {
         case "BOX":
-            return createBoxMesh(arg1, arg2, arg3, color, this.scene);
+            return createBoxMesh(arg1, arg2, arg3, color, this.scene, 0.5);
         case "CYLINDER":
-            return createCylMesh(arg1, arg2, color, this.scene);
+            return createCylMesh(arg1, arg2, color, this.scene, 0.5);
         default:
             printOut(type);
     }
@@ -264,6 +266,8 @@ Simulator.prototype.loadRobot = function(robotJson, position)
 
 Simulator.prototype.render = function()
 {
+    this.loopEvent();
+
     if(this.saveMan.shouldSave(this.currentFrame))
         this.saveMan.storeState(this.physicsObjects.getState(this)); // deals with saving
 

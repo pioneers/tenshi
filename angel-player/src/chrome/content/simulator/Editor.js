@@ -92,32 +92,39 @@ Editor.prototype.wrappedSelector = function()
         {
             self.curSelection = raycast.get_m_collisionObject().getCollisionShape().parent;
             printOut(self.curSelection);
-            self.highlightSelection();
+            self.simulator.loopEvent = self.wrappedHighlightSelection();
         }
     };
     return func;
 };
 
-Editor.prototype.highlightSelection = function()
+Editor.prototype.wrappedHighlightSelection = function()
 {
-    if(this.curSelection !== undefined && this.curSelection !== null)
+    var self = this;
+
+    var func = function()
     {
-        var mesh = this.curSelection.mesh;
-        this.simulator.setTestSprite(mesh.position.x,
-                                     mesh.position.y,
-                                     mesh.position.z,
-                                     3,
-                                     0x000088,
-                                     mesh.type,
-                                     (mesh.width ? mesh.width : mesh.radius) + 1,
-                                     mesh.height + 1,
-                                     (mesh.depth ? mesh.depth : 0) + 1,
-                                     mesh.quaternion);
-    }
-    else
-    {
-        this.simulator.removeTestSprite(3);
-    }
+        if(self.curSelection !== undefined && self.curSelection !== null)
+        {
+            var mesh = self.curSelection.mesh;
+            self.simulator.setTestSprite(mesh.position.x,
+                                         mesh.position.y,
+                                         mesh.position.z,
+                                         3,
+                                         0x000088,
+                                         mesh.type,
+                                         (mesh.width ? mesh.width : mesh.radius) + 1,
+                                         mesh.height + 1,
+                                         (mesh.depth ? mesh.depth : 0) + 1,
+                                         mesh.quaternion);
+        }
+        else
+        {
+            self.simulator.removeTestSprite(3);
+        }
+    };
+
+    return func;
 };
 
 Editor.prototype.toggleSelection = function()
