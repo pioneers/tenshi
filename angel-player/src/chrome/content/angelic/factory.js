@@ -378,14 +378,21 @@ kind_prototypes.array = {
         base : factory.get_type ( get_array_elem_type ( type.name ) ),
         length : get_array_length ( type.name ),
         } );
+      // TODO(rqou,kzentner): WTF?!
+      if (typeof(obj.length) === 'undefined') {
+        for ( var i = 0; i < obj.vals.length; i++ ) {
+          out.push ( obj.vals [ i ] );
+          }
+      } else {
       for ( var i = 0; i < obj.length; i++ ) {
         out.push ( obj [ i ] );
         }
+      }
       return out;
       }
     },
   unwrap : function ( ) {
-    return this.vals.slice ( 0 );
+    return this.vals.map(function(x) {return x.unwrap();});
     },
   push : function ( val ) {
     this.vals.push ( this.factory.wrap ( this.type.base, val ) );
@@ -431,7 +438,8 @@ kind_prototypes.array = {
   read : function ( buffer ) {
     var offset = this.offset;
     var elem_size = this.factory.get_size ( this.type.base );
-    while ( offset + elem_size < buffer.length ) {
+    // TODO(rqou,kzentner): WAT?
+    while ( offset /*+ elem_size*/ < buffer.length ) {
       var val = this.factory.create ( this.type.base );
       val.set_offset ( offset );
       val.read ( buffer );
@@ -564,7 +572,12 @@ var factory_prototype = {
       type = this.get_type ( type );
       }
     var prototype = get_proto ( type );
-    return this.construct_object ( prototype, type );
+    // TODO(kzentner): Fix this thing
+    var obj = this.construct_object ( prototype, type );
+    if (type.kind === 'array') {
+      type.base = this.get_type ( get_array_elem_type ( type.name ) );
+    }
+    return obj;
     },
   load_types : function load_types ( type_list, discard_old ) {
     var type_map = this.types || {};
