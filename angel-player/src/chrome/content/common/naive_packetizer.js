@@ -37,14 +37,10 @@ exports.sendPacketizedData = function(data) {
     // TODO(rqou): Don't hardcode
     serportWorker.postMessage({cmd: "open", data: "/dev/ttyUSB0"});
 
+    const ROBOT = "0x0013A20040A580C4";
+
     serportWorker.onmessage = function(e) {
         let rxbuf = e.data;
-        for (let i = 0; i < rxbuf.length; i++) {
-            dump(rxbuf[i]);
-            dump("\n");
-        }
-
-        dump("\n\n\n");
         let rx_packet =
             typpo.read('xbee_api_packet', buffer.Buffer(rxbuf)).unwrap();
         let checksum = computeXbeeChecksum(
@@ -71,7 +67,64 @@ exports.sendPacketizedData = function(data) {
             // TODO(rqou): Stream id?
 
             // Create reply packet
-            dump("ZOMG!\n");
+            let initial_packet = typpo.create('tenshi_bulk_chunk');
+            initial_packet.set_slot('ident',
+                typpo.get_const('TENSHI_NAIVE_BULK_CHUNK_IDENT'));
+            // TODO(rqou): Meaningful stream IDs
+            initial_packet.set_slot('stream_id', 0);
+            initial_packet.set_slot('start_addr', chunkreq.start_addr);
+            initial_packet.set_slot('end_addr', chunkreq.end_addr);
+            let chunklen = chunkreq.end_addr - chunkreq.start_addr;
+            // TODO(rqou): This isn't efficient?
+            let replyChunk = buffer.Buffer(chunklen);
+            for (let i = chunkreq.start_addr; i < chunkreq.end_addr; i++) {
+                replyChunk[i - chunkreq.start_addr] = data[i];
+            }
+            initial_packet.set_slot('data', replyChunk);
+            // The +1 allows the checksum to be crammed in the end
+            let payloadbuf =
+                buffer.Buffer(
+                    typpo.get_size('tenshi_bulk_chunk') + chunklen + 1);
+            payloadbuf.fill(0x00);
+            initial_packet.write(payloadbuf);
+            // Add XBee framing
+            let xbee_tx_frame = typpo.create('xbee_tx64_header');
+            xbee_tx_frame.set_slot('xbee_api_type',
+                typpo.get_const('XBEE_API_TYPE_TX64'));
+            // TODO(rqou): Use frameId?
+            xbee_tx_frame.set_slot('frameId', 0);
+            // TODO(rqou): Don't hardcode!!!
+            xbee_tx_frame.set_slot('xbee_dest_addr', new Int64(ROBOT));
+            xbee_tx_frame.set_slot('options', 0);
+            xbee_tx_frame.set_slot('data', payloadbuf);
+            let xbee_payload = typpo.create('xbee_payload');
+            xbee_payload.set_slot('tx64', xbee_tx_frame);
+            let initial_packet_xbee = typpo.create('xbee_api_packet');
+            initial_packet_xbee.set_slot('xbee_api_magic',
+                typpo.get_const('XBEE_MAGIC'));
+            initial_packet_xbee.set_slot('length',
+                typpo.get_size('tenshi_bulk_chunk') +
+                typpo.get_size('xbee_tx64_header') +
+                chunklen);
+            initial_packet_xbee.set_slot('payload', xbee_payload);
+            // TODO(rqou): Jank jank jank
+            let buf = buffer.Buffer(
+                typpo.get_size('xbee_api_packet') + payloadbuf.length);
+            initial_packet_xbee.write(buf);
+            // Note, this is kinda jank. Checksum is last byte. Getting the
+            // length is also kinda borked due to the union.
+            // TODO(rqou): Don't hardcode 3 here!
+            buf[buf.length - 1] = computeXbeeChecksum(buf,
+                3,
+                buf.length - 1 - (3));
+            dump("Sent bytes " + chunkreq.start_addr + " to " +
+                chunkreq.end_addr + "\n");
+            serportWorker.postMessage({cmd: "write", data: buf});
+        }
+        else if (rx_packet.payload.rx64.data[0] ===
+            typpo.get_const('TENSHI_NAIVE_BULK_STOP_IDENT')) {
+            dump("DONE DONE DONE!\n");
+            serportWorker.postMessage({cmd: "close"});
         }
     };
 
@@ -94,7 +147,7 @@ exports.sendPacketizedData = function(data) {
     // TODO(rqou): Use frameId?
     xbee_tx_frame.set_slot('frameId', 0);
     // TODO(rqou): Don't hardcode!!!
-    xbee_tx_frame.set_slot('xbee_dest_addr', new Int64("0x0013A20040A580C4"));
+    xbee_tx_frame.set_slot('xbee_dest_addr', new Int64(ROBOT));
     xbee_tx_frame.set_slot('options', 0);
     xbee_tx_frame.set_slot('data', payloadbuf);
     let xbee_payload = typpo.create('xbee_payload');
@@ -117,6 +170,4 @@ exports.sendPacketizedData = function(data) {
         3,
         buf.length - 1 - (3));
     serportWorker.postMessage({cmd: "write", data: buf});
-
-    // TODO(rqou): Figure out when to close!
 };

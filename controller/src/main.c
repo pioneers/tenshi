@@ -155,7 +155,8 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
           // TODO(rqou): Asynchronous?
           // TODO(rqou): Abstract away the +4 properly
           // TODO(rqou): Error handling
-          void *txn = uart_serial_send_data(radio_driver, buf, payloadLen + 4);
+          void *txn =
+            uart_serial_send_data(radio_driver, txbuf, payloadLen + 4);
           while ((uart_serial_send_status(radio_driver, txn) !=
               UART_SERIAL_SEND_DONE) &&
               (uart_serial_send_status(radio_driver, txn) !=
