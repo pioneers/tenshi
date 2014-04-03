@@ -13,16 +13,6 @@ declare_variants(['debug_native'],
                  subdir='vm')
 
 
-from waflib import TaskGen
-TaskGen.declare_chain(
-    name='typpo',
-    rule='${root}/tools/typpo_c_generator.py ${SRC} ${TGT}',
-    shell=True,
-    ext_in='.yaml',
-    ext_out='.h',
-)
-
-
 def recurse(ctxt):
     ctxt.recurse('src', mandatory=False)
     ctxt.recurse('tests', mandatory=False)
@@ -104,7 +94,7 @@ def configure_native(conf):
 
 def configure_arm(conf):
     namespace = {}
-    here = conf.env['ANGELIC_ROOT']
+    here = conf.env['ngl_root']
     exec(open(os.path.join(here, os.pardir, 'wscript')).read(), namespace)
     namespace['common_configure'](conf, os.path.join(here, os.pardir))
     conf.load('compiler_c')
@@ -201,7 +191,7 @@ def configure(conf):
     if not conf.env['root']:
         conf.env['root'] = os.path.join(conf.path.abspath(), os.pardir,
                                         os.pardir)
-    conf.env['ANGELIC_ROOT'] = conf.path.abspath()
+    conf.env['ngl_root'] = conf.path.abspath()
     configure_debug_native(conf)
     recurse(conf)
 
