@@ -3,14 +3,14 @@ Three.js wrappers
 ============================/*/
 
 // creates a cylinder mesh
-function createCylMesh(radius, height, mColor, scene)
+function createCylMesh(radius, height, mColor, scene, op)
 {
     height = height||1;
     radius = radius||1;
     mColor = mColor === undefined ? 0xffffff : mColor;
 
     var geom = new THREE.CylinderGeometry(radius, radius, height, 30);
-    var material = new THREE.MeshLambertMaterial({ color: mColor });
+    var material = new THREE.MeshLambertMaterial({ color: mColor, transparent: true, opacity: op||1});
     var mesh = new THREE.Mesh(geom, material);
 
     mesh.receiveShadow = true;
@@ -27,7 +27,7 @@ function createCylMesh(radius, height, mColor, scene)
 }
 
 // creates a box mesh
-function createBoxMesh(width, height, depth, mColor, scene)
+function createBoxMesh(width, height, depth, mColor, scene, op)
 {
     width = width||1;
     height = height||1;
@@ -35,7 +35,7 @@ function createBoxMesh(width, height, depth, mColor, scene)
     mColor = mColor === undefined ? 0xffffff : mColor;
 
     var geom = new THREE.CubeGeometry(width, height, depth);
-    var material = new THREE.MeshLambertMaterial({ color: mColor });
+    var material = new THREE.MeshLambertMaterial({ color: mColor, transparent: true, opacity: op||1});
     var mesh = new THREE.Mesh(geom, material);
 
     mesh.receiveShadow = true;
