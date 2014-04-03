@@ -37,6 +37,7 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
   uint32_t code_received_to = 0;
   uint32_t code_received_len = 0;
   int got_a_packet = 0;
+  int should_harass = 0;
   const uint32_t CHUNK_SIZE = 64;
   // TODO(rqou): Hack
   uint8_t txbuf[64];
@@ -47,7 +48,7 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
     uint8_t *buf;
     size_t len;
 
-    if (!got_a_packet) {
+    if (!got_a_packet && should_harass) {
       // Harass host
       xbee_api_packet *packetOut = (xbee_api_packet *)(txbuf);
       packetOut->xbee_api_magic = XBEE_MAGIC;
@@ -72,7 +73,7 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
       // TODO(rqou): Asynchronous?
       // TODO(rqou): Abstract away the +4 properly
       // TODO(rqou): Error handling
-      void *txn = uart_serial_send_data(radio_driver, buf, payloadLen + 4);
+      void *txn = uart_serial_send_data(radio_driver, txbuf, payloadLen + 4);
       while ((uart_serial_send_status(radio_driver, txn) !=
           UART_SERIAL_SEND_DONE) &&
           (uart_serial_send_status(radio_driver, txn) !=
@@ -83,15 +84,21 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
 
     buf = uart_serial_receive_packet(radio_driver, &len, 0);
     if (!buf) {
+      // TODO(rqou): Proper timer, why the f*ck do I need to copy this here?
+      vTaskDelay(20 / portTICK_RATE_MS);
       continue;
     }
     if (!xbee_verify_checksum(buf)) {
       vPortFree(buf);
+      // TODO(rqou): Proper timer, why the f*ck do I need to copy this here?
+      vTaskDelay(20 / portTICK_RATE_MS);
       continue;
     }
     xbee_api_packet *packetIn = (xbee_api_packet *)buf;
     if (packetIn->payload.xbee_api_type != XBEE_API_TYPE_RX64) {
       vPortFree(buf);
+      // TODO(rqou): Proper timer, why the f*ck do I need to copy this here?
+      vTaskDelay(20 / portTICK_RATE_MS);
       continue;
     }
     // ident byte for PiEMOS framing
@@ -111,6 +118,7 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
         code_received_to = 0;
         code_buffer_len = code_received_len = bulk_start->length;
         got_a_packet = 1;
+        should_harass = 1;
 
         // TODO(rqou): Refactor this logic
         host_addr = packetIn->payload.rx64.xbee_src_addr;
@@ -141,6 +149,8 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
           bulk_stop->ident = TENSHI_NAIVE_BULK_STOP_IDENT;
           bulk_stop->stream_id = 0;
           xbee_fill_checksum(packetOut);
+
+          should_harass = 0;
 
           // TODO(rqou): Asynchronous?
           // TODO(rqou): Abstract away the +4 properly

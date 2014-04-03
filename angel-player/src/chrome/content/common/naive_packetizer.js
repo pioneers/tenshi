@@ -36,9 +36,9 @@ exports.sendPacketizedData = function(data) {
     serportWorker.postMessage({cmd: "open", data: "/dev/ttyUSB0"});
 
     serportWorker.onmessage = function(e) {
-        let asdfbuf = e.data;
-        for (let i = 0; i < asdfbuf.length; i++) {
-            dump(asdfbuf[i]);
+        let rxbuf = e.data;
+        for (let i = 0; i < rxbuf.length; i++) {
+            dump(rxbuf[i]);
             dump("\n");
         }
 
@@ -64,7 +64,7 @@ exports.sendPacketizedData = function(data) {
     // TODO(rqou): Use frameId?
     xbee_tx_frame.set_slot('frameId', 0);
     // TODO(rqou): Don't hardcode!!!
-    xbee_tx_frame.set_slot('xbee_dest_addr', new Int64("0x0123456789ABCDEF"));
+    xbee_tx_frame.set_slot('xbee_dest_addr', new Int64("0x0013A20040A580C4"));
     xbee_tx_frame.set_slot('options', 0);
     xbee_tx_frame.set_slot('data', payloadbuf);
     let xbee_payload = typpo.create('xbee_payload');

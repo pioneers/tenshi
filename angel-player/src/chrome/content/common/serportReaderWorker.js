@@ -46,6 +46,8 @@ onmessage = function(e) {
             combinedBuf.set(stubBuf, 0);
             combinedBuf.set(mainData, stubBuf.length);
             postMessage(combinedBuf);
+
+            current_packet_state = PACKET_STATE_IDLE;
         }
     }
 };
