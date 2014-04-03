@@ -8,14 +8,6 @@ import waflib.Task
 from waf_extensions import declare_variants, clone_env
 
 
-def file_exists(filename):
-    try:
-        with open(filename) as f:
-            return True
-    except IOError:
-        return False
-
-
 class Strip(waflib.Task.Task):
 
     run_str = '${strip} --strip-unneeded ${SRC}'
@@ -59,10 +51,19 @@ def build(bld):
         'ngl_vm.c',
     ]
 
-    bld(
-        name="typpo_includes",
-        source=bld.path.ant_glob("common_defs/*.yaml")
-    )
+    for src in bld.path.ant_glob('common_defs/*.yaml'):
+        bld(
+            rule='${root}/tools/typpo_c_generator.py ${SRC} ${TGT}',
+            source=src,
+            target=src.change_ext('.h')
+        )
+
+    for src in bld.path.ant_glob('common_defs/modules/*.yaml'):
+        bld(
+            rule='${ngl_root}/src/generate_module.py ${SRC} ${TGT}',
+            source=src,
+            target=src.change_ext('.c')
+        )
 
     includes = '. common_defs'
 
