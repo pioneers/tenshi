@@ -288,6 +288,7 @@ kind_prototypes.struct = {
 
 kind_prototypes.union = {
   init : function ( ) {
+    this.slot_values = { };
     this.last_set_slot = null;
     this.last_set_value = null;
     },
@@ -309,10 +310,14 @@ kind_prototypes.union = {
     var type = get_slot_type ( this.factory, this.type, slot_name );
     this.last_set_slot = slot_name;
     this.last_set_value = this.factory.wrap ( type, val );
+    this.slot_values [ slot_name ] = this.last_set_value;
     },
   get_slot : function ( slot_name ) {
     if ( slot_name === this.last_set_slot ) {
       return this.last_set_value;
+      }
+    else if ( typeof this.slot_values [ slot_name ] !== 'undefined' ) {
+      return this.slot_values [ slot_name ];
       }
     else {
       var buf = buffer.Buffer ( this.get_size ( ) );
@@ -321,7 +326,7 @@ kind_prototypes.union = {
       this.last_set_slot.write ( buf );
       // Reset offset.
       this.set_offset ( this.offset );
-      return this.factory.read ( buf, this.slots [ slot_name ].type );
+      return this.factory.read ( buf, this.type.slots [ slot_name ].type );
       }
     return this.slot_values [ slot_name ];
     },
@@ -335,16 +340,14 @@ kind_prototypes.union = {
       }
     },
   read : function ( buffer ) {
-    if ( this.last_set_slot === null ) {
-      // Currently, this defaults to reading the type of the first slot of the
-      // union.
-      // It seems likely that a more useful behavior would be reading the
-      // largest type (but what if there are ties?).
-      // TODO(kzentner): Think about the semantics of this function.
-      this.last_set_slot = this.type.slots [ 0 ].name;
-      this.last_set_value = this.factory.create ( this.type.slots [ 0 ].type );
+    for ( var s in this.type.slots ) {
+      var slot = this.type.slots [ s ];
+      var type = get_slot_type ( this.factory, this.type, slot.name );
+      var val = this.factory.create ( type );
+      val.set_offset ( this.offset );
+      val.read ( buffer );
+      this.set_slot ( slot.name, val );
       }
-    this.last_set_slot.read ( buffer );
     },
   };
 
@@ -398,6 +401,9 @@ kind_prototypes.array = {
       return undefined;
       }
     },
+  set_length : function ( length ) {
+    this.length = length;
+    },
   write : function ( buffer ) {
     var offset = this.offset;
     var length = this.get_length ( );
@@ -423,16 +429,9 @@ kind_prototypes.array = {
       }
     },
   read : function ( buffer ) {
-    var length = this.get_length ( );
-    if ( length === 'undefined' ) {
-      // What should we do in these circumstances?
-      throw 'Cannot read array of unkown size!';
-      }
-    this.vals = [];
-
     var offset = this.offset;
     var elem_size = this.factory.get_size ( this.type.base );
-    for ( var i = 0; i < length; i++ ) {
+    while ( offset + elem_size < buffer.length ) {
       var val = this.factory.create ( this.type.base );
       val.set_offset ( offset );
       val.read ( buffer );
