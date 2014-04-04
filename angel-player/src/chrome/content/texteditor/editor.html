@@ -19,26 +19,8 @@
     </head>
 
     <body onload="requireStub('tenshi/texteditor/editor')">
-        <div id="editor">fib = fn (n):
-    n = n - 1
-    a = 0
-    b = 1
-    while n != 0:
-        temp = a + b
-        a = b
-        b = temp
-        n = n - 1
-    return b
-main = fn:
-    speed = 100
-    set_motor (0, speed)
-    set_motor (1, 0-speed)
-    set_motor (2, speed)
-    set_motor (3, 0-speed)
-    x = 50
-    print (x)
-    fib50 = fib (x)
-    print (fib50)
+        <div id="editor">main = fn:
+    print (42)
 </div>
     </body>
 </html>
