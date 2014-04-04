@@ -642,7 +642,7 @@ var root = {
       this.offset += size_uint32_t * this.literal_size;
 
       patch.offset = this.offset;
-      patch.buf.copy ( this.buffer, this.offset );
+      patch.buf.copy ( this.buffer, this.offset, 0, patch.buf.length );
       this.offset += patch.buf.length;
       }
     },
