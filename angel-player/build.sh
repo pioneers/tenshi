@@ -10,38 +10,41 @@ if [ ! -e xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 ]
 then
     if [ -e ~/tenshi-cache/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 ]
     then
-        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 .
+        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 . &
     else
-        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
+        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 &
     fi
 fi
 if [ ! -e xulrunner-27.0.1.en-US.win32.zip ]
 then
     if [ -e ~/tenshi-cache/xulrunner-27.0.1.en-US.win32.zip ]
     then
-        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.win32.zip .
+        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.win32.zip . &
     else
-        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.win32.zip
+        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.win32.zip &
     fi
 fi
 if [ ! -e xulrunner-27.0.1.en-US.mac.tar.bz2 ]
 then
     if [ -e ~/tenshi-cache/xulrunner-27.0.1.en-US.mac.tar.bz2 ]
     then
-        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.mac.tar.bz2 .
+        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.mac.tar.bz2 . &
     else
-        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.mac.tar.bz2
+        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.mac.tar.bz2 &
     fi
 fi
+wait
 
 # Prepare Mac/Linux/Windows version. Use an awful hack to combine them.
 rm -rf angel-player.app
 mkdir angel-player.app
 pushd angel-player.app
-unzip ../xulrunner-27.0.1.en-US.win32.zip
-mv xulrunner xul-win32
-tar xjf ../xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
-mv xulrunner xul-lin64
+unzip ../xulrunner-27.0.1.en-US.win32.zip -d xulrunner-win32 &
+mkdir xulrunner-lin64
+tar xjf ../xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 -C xulrunner-lin64
+wait
+mv xulrunner-win32/xulrunner xul-win32
+mv xulrunner-lin64/xulrunner xul-lin64
 cp xul-lin64/xulrunner-stub angel-player
 cp xul-win32/xulrunner-stub.exe angel-player.exe
 # This is a god-awful hack to change the XULrunner directory. This essentially
