@@ -34,10 +34,10 @@ then
     fi
 fi
 
-# Prepare linux version and windows version. Use an awful hack to combine them.
-rm -rf angel-player-win32-lin64
-mkdir angel-player-win32-lin64
-pushd angel-player-win32-lin64
+# Prepare Mac/Linux/Windows version. Use an awful hack to combine them.
+rm -rf angel-player.app
+mkdir angel-player.app
+pushd angel-player.app
 unzip ../xulrunner-27.0.1.en-US.win32.zip
 mv xulrunner xul-win32
 tar xjf ../xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
@@ -52,32 +52,22 @@ sed -i 's/%sxulrunner/%sxul-win32/g' angel-player.exe
 cp -r --dereference $ANGEL_PLAYER_MAIN_DIR/src/* .
 # Remove debug file
 rm defaults/preferences/debug.js
-popd
-
-# Prepare mac version
-rm -rf angel-player-mac.app
-mkdir angel-player-mac.app
-pushd angel-player-mac.app
-# Mac OS requires a bunch of random futzing with stuff
+# Do Mac stuff
+# Mac OS requires a bunch of random futzing with stuff, but it's all in its
+# own directory.
 mkdir -p Contents/Frameworks
-mkdir -p Contents/Resources
-mkdir -p Contents/MacOS
 pushd Contents/Frameworks
 tar xjf ../../../xulrunner-27.0.1.en-US.mac.tar.bz2
 popd
-cp -r --dereference $ANGEL_PLAYER_MAIN_DIR/src/* Contents/Resources
-# Remove debug file
-rm Contents/Resources/defaults/preferences/debug.js
+# Symlink the source code. Breaks on Windows. Whatever.
+ln -s .. Contents/Resources
+# Random plists and stub and things.
 cp -r $ANGEL_PLAYER_MAIN_DIR/meta-mac/* Contents
 popd
 
-$PROJECT_ROOT_DIR/tools/inject-version-angel-player.py $ANGEL_PLAYER_MAIN_DIR/src/application.ini angel-player-win32-lin64/application.ini angel-player-mac.app/Contents/Resources/application.ini
+$PROJECT_ROOT_DIR/tools/inject-version-angel-player.py $ANGEL_PLAYER_MAIN_DIR/src/application.ini angel-player.app/application.ini
 
-# Archive the outputs
-tar cjf angel-player-win32-lin64.tar.bz2 angel-player-win32-lin64 &
-tar cjf angel-player-mac.tar.bz2 angel-player-mac.app &
-
-# Make sure archiving finishes
-wait
+# Archive the output
+tar cjf angel-player.tar.bz2 angel-player.app
 
 popd
