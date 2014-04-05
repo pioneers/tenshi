@@ -9,10 +9,7 @@ from waf_extensions import declare_variants, run_all, sub_conf
 import os
 import os.path
 
-declare_variants(['debug_native',
-                  'release_native',
-                  'debug_arm',
-                  'release_arm'],
+declare_variants(['debug_native'],
                  subdir='vm')
 
 
@@ -205,9 +202,6 @@ def configure(conf):
                                         os.pardir)
     conf.env['ANGELIC_ROOT'] = conf.path.abspath()
     configure_debug_native(conf)
-    configure_release_native(conf)
-    configure_debug_arm(conf)
-    configure_release_arm(conf)
     recurse(conf)
 
 
