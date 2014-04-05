@@ -210,6 +210,9 @@ kind_prototypes.struct = {
     // Wrap around an object which has fields names which are the same as the
     // struct.
     if ( obj.type === type ) {
+      // If already wrapped, re-use the existing object.
+      // TODO(kzentner): This has unusual semantics if the object modified. Do
+      // we want this behavior?
       return obj;
       }
     else {
@@ -367,17 +370,21 @@ function get_array_length ( typename ) {
 kind_prototypes.array = {
   init : function ( ) {
     this.vals = [];
+    this.base = this.factory.get_type ( get_array_elem_type ( this.type.name ) );
     },
   wrap : function ( factory, type, obj ) {
+    // If already wrapped, re-use the existing object.
+    // TODO(kzentner): This has unusual semantics if the object modified. Do
+    // we want this behavior?
     if ( obj.type === type ) {
       return obj;
       }
     else {
-      var out = factory.construct_object ( kind_prototypes.array, {
-        type : type,
-        base : factory.get_type ( get_array_elem_type ( type.name ) ),
-        length : get_array_length ( type.name ),
-        } );
+      var out = factory.construct_object ( kind_prototypes.array, type );
+      // If we can unwrap the object, unwrap it to get an array to work with.
+      if ( typeof obj.unwrap !== 'undefined' ) {
+        obj = obj.unwrap ( );
+        }
       for ( var i = 0; i < obj.length; i++ ) {
         out.push ( obj [ i ] );
         }
@@ -385,10 +392,10 @@ kind_prototypes.array = {
       }
     },
   unwrap : function ( ) {
-    return this.vals.slice ( 0 );
+    return this.vals.map ( function ( x ) { return x.unwrap ( ); } );
     },
   push : function ( val ) {
-    this.vals.push ( this.factory.wrap ( this.type.base, val ) );
+    this.vals.push ( this.factory.wrap ( this.base, val ) );
     },
   get_length : function ( ) {
     if ( this.length !== null ) {
@@ -420,7 +427,7 @@ kind_prototypes.array = {
     this.set_offset ( this.offset );
     },
   set_offset : function set_offset ( offset ) {
-    var elem_size = this.factory.get_size ( this.type.base );
+    var elem_size = this.factory.get_size ( this.base );
     this.offset = offset;
     for ( var k in this.vals ) {
       var val = this.vals [ k ];
@@ -430,9 +437,9 @@ kind_prototypes.array = {
     },
   read : function ( buffer ) {
     var offset = this.offset;
-    var elem_size = this.factory.get_size ( this.type.base );
-    while ( offset + elem_size < buffer.length ) {
-      var val = this.factory.create ( this.type.base );
+    var elem_size = this.factory.get_size ( this.base );
+    while ( offset + elem_size <= buffer.length ) {
+      var val = this.factory.create ( this.base );
       val.set_offset ( offset );
       val.read ( buffer );
       this.push ( val );
@@ -500,6 +507,9 @@ var factory_prototype = {
         }
     },
   get_size : function get_size ( type ) {
+    // TODO(kzentner): Correct alignment in all cases requires finding
+    // the strictest aligned type in any embedded struct slot and then
+    // rounding the struct size up to that amount.
     var size;
     var s;
     var actual_type = type;
@@ -537,8 +547,9 @@ var factory_prototype = {
       for ( s in type.slots ) {
         size = this.get_size ( type.slots [ s ].type );
         if ( ! type.packed ) {
-          // This assumes that types are self-aligned. Seems to be the case in
-          // GCC.
+          // TODO(kzentner): Make this not assume that all slots are self-aligned.
+          // In particular, structs are not aligned to their size, but to the
+          // most strictly aligned base type among their slots. 
           // TODO(kzentner): Confirm that this is the case in all relevant
           // compilers.
           total = round_up ( total, size );
