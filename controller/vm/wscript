@@ -206,16 +206,6 @@ def configure(conf):
     recurse(conf)
 
 
-from waflib import TaskGen
-TaskGen.declare_chain(
-    name='typpo',
-    rule='${root}/tools/typpo_c_generator.py ${SRC} ${TGT}',
-    shell=True,
-    ext_in='.yaml',
-    ext_out='.h',
-)
-
-
 def build(bld):
     if not bld.variant:
         print('Building all variants.')
