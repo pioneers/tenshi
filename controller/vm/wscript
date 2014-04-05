@@ -129,6 +129,7 @@ def configure_common(conf):
     add_cflags(conf, '-std=gnu99', ['-std=c99', '-std=gnu89', '-std=c89'])
     add_cflags(conf, warning_flags)
     add_cflags(conf, '-Wno-unused-function')
+    add_cflags(conf, '-Wno-unused-label')
 
     conf.env['build-tests'] = conf.options.build_tests in ['yes', 'try']
 

@@ -19,7 +19,8 @@
 #include <ngl_call.h>
 
 /* Declare the associated variables and thunk. */
-ngl_error *ngl_func_to_thunk_name(ngl_call_name) (ngl_val * arg);
+ngl_error *ngl_func_to_thunk_name(ngl_call_name) (
+    ngl_call_interface *inter, ngl_uint argc, ngl_val * arg);
 extern int ngl_func_to_thunk_argc(ngl_call_name);
 extern ngl_call ngl_func_to_thunk(ngl_call_name);
 extern ngl_val

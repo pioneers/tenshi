@@ -101,7 +101,12 @@
 - name: ngl_ex_thunk
   kind: function
   inputs:
-    - type: 'ngl_val *'
+    - name: interface
+      type: 'ngl_call_interface *'
+    - name: argc
+      type: ngl_uint
+    - name: args
+      type: 'ngl_val *'
   output: 'ngl_error *'
 
 
@@ -207,6 +212,11 @@
       type: ngl_uint
     - name: arg_types
       type: 'ngl_type **'
+- name: ngl_call_interface
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
 - name: ngl_type
   kind: struct
   slots:
