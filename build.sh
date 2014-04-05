@@ -10,14 +10,6 @@ export PATH=$PATH:$PROJECT_ROOT_DIR/tools/arm-toolchain/bin
 
 mkdir -p build
 
-./waf configure build
-
-# Main build
-for dir in angel-player
-do
-	./$dir/build.sh
-done
-
 # Run linters
 linter_status=0
 for tool in cpplint pep8 jshint csslint
@@ -26,4 +18,14 @@ do
   linter_status=$[${linter_status} || ${PIPESTATUS[0]}]
 done
 
-exit $linter_status
+if [ $linter_status != 0 ] ; then
+  exit $linter_status
+fi
+
+./waf configure build
+
+# Main build
+for dir in angel-player
+do
+	./$dir/build.sh
+done
