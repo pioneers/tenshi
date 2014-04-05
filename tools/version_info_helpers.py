@@ -31,7 +31,7 @@ def get_working_dir_clean():
 
 # Returns True iff this is a Jenkins CI build that ends with "-committed"
 def get_building_from_jenkins():
-    if not 'JOB_NAME' in os.environ:
+    if 'JOB_NAME' not in os.environ:
         return False
     if not os.environ['JOB_NAME'].endswith("-committed"):
         return False

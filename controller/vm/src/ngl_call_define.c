@@ -25,7 +25,7 @@
 /* Define the associated variables and thunk. */
 
 ngl_error *ngl_func_to_thunk_name(ngl_call_name) (ngl_val * arg) {
-  /* 
+  /*
    * ngl_call_args expands to multiple arguments of the form
    * NGL_ARG_INT(0, int), NGL_ARG_FLOAT(1, double), etc. This causes the C
    * compiler to output appropriate conversion code.

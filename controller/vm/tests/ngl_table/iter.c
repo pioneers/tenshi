@@ -22,9 +22,9 @@ int main() {
     ngl_str * value = NULL;
     ngl_table_ngl_str_ptr_to_ngl_str_ptr_get(&table, str, &value);
     if (0 != ngl_str_compare(
-        *str, 
+        *str,
         *value)) {
-      printf("ngl_rong = ");
+      printf("wrong = ");
       ngl_str_println(*value);
       return 1;
       }

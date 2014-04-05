@@ -195,7 +195,7 @@ def linearize_typedefs(type_map, embedded_only=True):
                 name=n.name))
             assert False
 
-        if not n in temp_set and n in nodes_unmarked:
+        if n not in temp_set and n in nodes_unmarked:
             temp_set.add(n)
             for m in n.fields:
                 if m.get_is_directly_embedded() or embedded_only:
@@ -279,7 +279,7 @@ class TyppoParser(object):
                     slot_type = field.get_base_type()
                     is_embedded = field.get_is_directly_embedded()
 
-                    if not slot_type in self._types:
+                    if slot_type not in self._types:
                         print("WARNING: Type {parent} references "
                               "unknown type {child}".format(
                                   parent=type_obj.name, child=slot_type))
@@ -331,7 +331,7 @@ class TyppoParser(object):
             pass
         elif type_obj.kind == "base":
             type_representation = (type_obj.size, type_obj.represents)
-            if not type_representation in self.C_TYPE_EQUIVALENT:
+            if type_representation not in self.C_TYPE_EQUIVALENT:
                 print("ERROR: No C equivalent for {}"
                       .format(type_representation))
                 assert False

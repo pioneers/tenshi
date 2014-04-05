@@ -88,7 +88,7 @@ static ngl_table_elem_interface ngl_table_interface = {
 #error pointer should not be defined
 #endif
 
-/* 
+/*
  * Define pointer so that we can check if ngl_array_elem_kind is defined to be
  * pointer.
  */

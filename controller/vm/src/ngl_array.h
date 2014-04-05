@@ -43,7 +43,7 @@ join_token(join_token(ngl_array_, ngl_array_name), _iter)
 #error pointer should not be defined
 #endif
 
-/* 
+/*
  * Define pointer so that we can check if ngl_array_elem_kind is defined to be
  * pointer.
  */
@@ -110,7 +110,7 @@ static bool method(empty) (ngl_array_struct * self) {
   return ngl_array_empty(&self->array);
 }
 
-/* 
+/*
  * Check if the array is full.
  * Note that the array will still resize on insert.
  */
