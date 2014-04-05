@@ -383,8 +383,12 @@
       type: 'ngl_stack_bucket *'
     - name: size
       type: ngl_uint
+
+    # Initially set to -1 to indicate no values in bucket.
+    # Otherwise, it is the index into data where the top value of the stack is
+    # located.
     - name: top
-      type: ngl_uint
+      type: ngl_int
     - name: data
       type: ngl_val
 - name: ngl_siphash_key
