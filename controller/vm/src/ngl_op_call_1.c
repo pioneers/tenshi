@@ -18,7 +18,14 @@
   } else {
     ngl_ex_thunk * thunk = ((ngl_ex_func *) f)->thunk;
     /* TODO(kzentner): Make external errors into exceptions. */
-    ngl_ret_on_err(thunk(ngl_stack_get_ptr(&stack, arg_count)));
+
+
+    /*
+     * -1 is because index arg_count contains the function, not the arguments.
+     */
+    ngl_ret_on_err(thunk(ngl_stack_get_ptr(&stack, arg_count - 1)));
+
+    /* TODO(kzentner): Rework external function call interface. */
     ngl_val res = ngl_stack_pop(&stack);
     ngl_stack_move(&stack, -arg_count);
     ngl_stack_push(&stack, res);

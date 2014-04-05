@@ -21,7 +21,8 @@ ngl_stack_bucket_alloc(ngl_uint size, ngl_stack_bucket * prev) {
   if (new_bucket != NULL) {
     new_bucket->prev = prev;
     new_bucket->size = size;
-    new_bucket->top = 0;
+    /* Top is the last value written, so it's initially -1. */
+    new_bucket->top = -1;
   }
   return new_bucket;
 }
@@ -95,13 +96,13 @@ ngl_stack_get_size(ngl_stack * self, ngl_uint bucket) {
 
 ngl_error *
 ngl_stack_set(ngl_stack * self, ngl_uint idx, ngl_val val) {
-  (&self->top_bucket->data)[self->top_bucket->top - idx] = val;
+  *ngl_stack_get_ptr(self, idx) = val;
   return ngl_ok;
 }
 
 ngl_val
 ngl_stack_get(ngl_stack * self, ngl_uint idx) {
-  return (&self->top_bucket->data)[self->top_bucket->top - idx];
+  return *ngl_stack_get_ptr(self, idx);
 }
 
 ngl_error *
@@ -112,8 +113,9 @@ ngl_stack_push(ngl_stack * self, ngl_val val) {
 
 ngl_val
 ngl_stack_pop(ngl_stack * self) {
+  ngl_val ret = ngl_stack_get(self, 0);
   self->top_bucket->top -= 1;
-  return (&self->top_bucket->data)[self->top_bucket->top + 1];
+  return ret;
 }
 
 void
@@ -123,10 +125,10 @@ ngl_stack_move(ngl_stack * self, ngl_int diff) {
 
 ngl_uint
 ngl_stack_height(ngl_stack * self) {
-  ngl_uint out = 0;
+  ngl_int out = 0;
   ngl_stack_bucket *b = self->top_bucket;
   while (b != NULL) {
-    out += b->top;
+    out += b->top + 1;
     b = b->prev;
   }
   return out;
@@ -134,5 +136,5 @@ ngl_stack_height(ngl_stack * self) {
 
 ngl_val *
 ngl_stack_get_ptr(ngl_stack * self, ngl_uint idx) {
-  return &self->top_bucket->data + self->top_bucket->top - (ngl_int) idx - 1;
+  return &self->top_bucket->data + self->top_bucket->top - (ngl_int) idx;
 }
