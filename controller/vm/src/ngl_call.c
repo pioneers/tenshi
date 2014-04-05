@@ -65,7 +65,8 @@ ngl_invoke(ngl_call * c) {
     if (c->num_args != c->filled_args) {
       return &ngl_error_generic;
     } else {
-      return c->func.ex_func.thunk(c->args);
+      return c->func.ex_func.thunk(NULL, c->num_args,
+                                   c->args);
     }
   } else {
     return &ngl_error_generic;

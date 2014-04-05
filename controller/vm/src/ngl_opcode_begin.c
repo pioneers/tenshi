@@ -23,9 +23,8 @@ OP_NUM_ARGS
 #endif
 
 #ifdef OPCODE_LABEL
-#ifdef USE_COMPUTED_GOTOS
 join_token(target_, OP_NAME):
-#else
+#ifndef USE_COMPUTED_GOTOS
   break;
 case(OP_N):
   /* The following lines are very useful for debugging. */
