@@ -4,6 +4,7 @@ from __future__ import print_function
 import os
 import subprocess as subp
 import shutil
+import argparse
 
 
 def is_subpath_of_set(path, pathset):
@@ -17,7 +18,10 @@ def is_subpath_of_set(path, pathset):
 
 def setup():
     os.chdir('tests')
-    os.mkdir('tmp')
+    try:
+        os.mkdir('tmp')
+    except IOError as e:
+        pass
     os.chdir('tmp')
 
 
@@ -76,7 +80,11 @@ def run_test(name, root, failed_tests, stdout_logs):
         print('x', end='')
 
 
-def run_all():
+def main():
+    parser = argparse.ArgumentParser(description='Run angelic tests.')
+    parser.add_argument('--no-cleanup', action='store_true')
+    args = parser.parse_args()
+
     tests = get_tests()
     failed_tests = []
     stdout_logs = dict()
@@ -90,7 +98,8 @@ def run_all():
     except Exception as e:
         print('Encountered exception while running tests', e)
     finally:
-        cleanup()
+        if not args.no_cleanup:
+            cleanup()
 
     if not failed_tests:
         print()
@@ -108,4 +117,4 @@ def run_all():
 
 
 if __name__ == '__main__':
-    run_all()
+    main()
