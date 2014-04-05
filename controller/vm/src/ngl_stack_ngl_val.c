@@ -134,5 +134,5 @@ ngl_stack_height(ngl_stack * self) {
 
 ngl_val *
 ngl_stack_get_ptr(ngl_stack * self, ngl_uint idx) {
-  return &self->top_bucket->data + self->top_bucket->top - (ngl_int) idx - 1;
+  return &self->top_bucket->data + self->top_bucket->top - (ngl_int) idx;
 }

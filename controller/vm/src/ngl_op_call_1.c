@@ -18,10 +18,8 @@
   } else {
     ngl_ex_thunk * thunk = ((ngl_ex_func *) f)->thunk;
     /* TODO(kzentner): Make external errors into exceptions. */
-    ngl_ret_on_err(thunk(ngl_stack_get_ptr(&stack, arg_count)));
-    ngl_val res = ngl_stack_pop(&stack);
+    ngl_ret_on_err(thunk(ngl_stack_get_ptr(&stack, 0)));
     ngl_stack_move(&stack, -arg_count);
-    ngl_stack_push(&stack, res);
   }
 }
 #endif
