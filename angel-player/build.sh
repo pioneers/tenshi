@@ -34,23 +34,21 @@ then
     fi
 fi
 
-# Prepare linux version
-rm -rf angel-player-linux-x86_64
-mkdir angel-player-linux-x86_64
-pushd angel-player-linux-x86_64
-tar xjf ../xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
-cp xulrunner/xulrunner-stub angel-player
-cp -r --dereference $ANGEL_PLAYER_MAIN_DIR/src/* .
-# Remove debug file
-rm defaults/preferences/debug.js
-popd
-
-# Prepare windows version
-rm -rf angel-player-win32
-mkdir angel-player-win32
-pushd angel-player-win32
+# Prepare linux version and windows version. Use an awful hack to combine them.
+rm -rf angel-player-win32-lin64
+mkdir angel-player-win32-lin64
+pushd angel-player-win32-lin64
 unzip ../xulrunner-27.0.1.en-US.win32.zip
-cp xulrunner/xulrunner-stub.exe angel-player.exe
+mv xulrunner xul-win32
+tar xjf ../xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
+mv xulrunner xul-lin64
+cp xul-lin64/xulrunner-stub angel-player
+cp xul-win32/xulrunner-stub.exe angel-player.exe
+# This is a god-awful hack to change the XULrunner directory. This essentially
+# patches line 261 of nsXULStub.cpp
+sed -i 's/%sxulrunner/%sxul-lin64/g' angel-player
+sed -i 's/%sxulrunner/%sxul-win32/g' angel-player.exe
+# Copy in angel-player code
 cp -r --dereference $ANGEL_PLAYER_MAIN_DIR/src/* .
 # Remove debug file
 rm defaults/preferences/debug.js
@@ -73,11 +71,10 @@ rm Contents/Resources/defaults/preferences/debug.js
 cp -r $ANGEL_PLAYER_MAIN_DIR/meta-mac/* Contents
 popd
 
-$PROJECT_ROOT_DIR/tools/inject-version-angel-player.py $ANGEL_PLAYER_MAIN_DIR/src/application.ini angel-player-linux-x86_64/application.ini angel-player-win32/application.ini angel-player-mac.app/Contents/Resources/application.ini
+$PROJECT_ROOT_DIR/tools/inject-version-angel-player.py $ANGEL_PLAYER_MAIN_DIR/src/application.ini angel-player-win32-lin64/application.ini angel-player-mac.app/Contents/Resources/application.ini
 
 # Archive the outputs
-tar cjf angel-player-linux-x86_64.tar.bz2 angel-player-linux-x86_64 &
-tar cjf angel-player-win32.tar.bz2 angel-player-win32 &
+tar cjf angel-player-win32-lin64.tar.bz2 angel-player-win32-lin64 &
 tar cjf angel-player-mac.tar.bz2 angel-player-mac.app &
 
 # Make sure archiving finishes
