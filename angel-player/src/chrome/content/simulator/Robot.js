@@ -113,7 +113,7 @@ Robot.prototype.finishChassi = function(iniX, iniY, iniZ)
 
     this.simulator.physicsObjects.push(this.physicsChassi);
 
-    this.physicsChassi.mesh = this.mesh; 
+    this.physicsChassi.mesh = this.mesh;
     this.simulator.scene.add(this.mesh);
 };
 

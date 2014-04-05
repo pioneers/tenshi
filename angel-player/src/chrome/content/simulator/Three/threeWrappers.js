@@ -20,7 +20,7 @@ function createCylMesh(radius, height, mColor, scene, op)
     mesh.radius = radius;
     mesh.height = height;
 
-    if(scene) 
+    if(scene)
         scene.add(mesh);
     return mesh;
 

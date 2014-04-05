@@ -25,7 +25,7 @@ def start_xvfb():
         ])
     time.sleep(2)
     print("Spawned Xvfb, display %d, pid %d" %
-         (display_num, xvfb_process.pid))
+          (display_num, xvfb_process.pid))
     os.environ["DISPLAY"] = ":%d" % display_num
     return (xvfb_process, display_num)
 
@@ -100,7 +100,7 @@ def fill_bom_with_db_info(infile, outfile, partDb):
         distpn = ""
         notes = ""
 
-        if not intPartNumber in partDb:
+        if intPartNumber not in partDb:
             print("WARNING: Part %s has unknown internal part number '%s'" % (
                 refDes, intPartNumber))
         else:

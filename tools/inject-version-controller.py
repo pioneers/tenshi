@@ -21,7 +21,7 @@ def get_version_info():
     ver_ints[3] = int(ver[3])
     # Special handling for build number
     if ver[2] == 'X':
-        if not 'BUILD_NUMBER' in os.environ:
+        if 'BUILD_NUMBER' not in os.environ:
             ver_ints[2] = 0
         else:
             ver_ints[2] = int(os.environ['BUILD_NUMBER'])

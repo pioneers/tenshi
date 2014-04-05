@@ -15,7 +15,7 @@
  * An ngl_call is basically a delegate. It holds a reference to a (possibly
  * native) function, and array of types that the arguments to this function
  * should match, and an (possibly incomplete) array of arguments.
- * 
+ *
  * There is also an api for (relatively) easily wrapping external functions
  * with ngl_call's so that they can be used from inside the vm.
  */

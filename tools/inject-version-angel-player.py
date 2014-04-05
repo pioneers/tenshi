@@ -23,7 +23,7 @@ def get_version_info(orig_file):
 
     # Special handling for build number
     if ver[2] == 'X':
-        if not 'BUILD_NUMBER' in os.environ:
+        if 'BUILD_NUMBER' not in os.environ:
             ver[2] = '0'
         else:
             ver[2] = os.environ['BUILD_NUMBER']

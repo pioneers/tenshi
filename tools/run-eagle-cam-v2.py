@@ -104,8 +104,8 @@ def main():
     for configSection in configData:
         print("Running section %s..." % configSection['description'])
         sectionOutputFilePath = ("%s/%s.%s" %
-                                (tempdir, inputBaseName,
-                                 configSection['output_extension']))
+                                 (tempdir, inputBaseName,
+                                  configSection['output_extension']))
 
         layers = configSection['layers']
         if type(layers) == int:

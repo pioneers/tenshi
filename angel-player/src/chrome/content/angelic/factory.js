@@ -549,7 +549,7 @@ var factory_prototype = {
         if ( ! type.packed ) {
           // TODO(kzentner): Make this not assume that all slots are self-aligned.
           // In particular, structs are not aligned to their size, but to the
-          // most strictly aligned base type among their slots. 
+          // most strictly aligned base type among their slots.
           // TODO(kzentner): Confirm that this is the case in all relevant
           // compilers.
           total = round_up ( total, size );
