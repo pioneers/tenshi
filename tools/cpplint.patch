@@ -1,5 +1,11 @@
 --- cpplint.py.orig	2013-12-16 14:48:54.000000000 -0800
-+++ cpplint.py	2014-03-04 19:36:48.759693133 -0800
++++ cpplint.py	2014-04-05 10:00:32.446936210 -0700
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ #
+ # Copyright (c) 2009 Google Inc. All rights reserved.
+ #
 @@ -899,16 +899,20 @@
  
        # Not SVN <= 1.6? Try to find a git, hg, or svn top level directory by
