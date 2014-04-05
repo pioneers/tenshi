@@ -23,10 +23,10 @@ exports.init = function(_window) {
     });
 };
 
-function onKeyPress() {
-    window.openDialog("chrome://angel-player/content/hackTextDialog.xul",
-        "textdlg", "modal", addNewTestBlock);
-}
+// function onKeyPress() {
+//     window.openDialog("chrome://angel-player/content/hackTextDialog.xul",
+//         "textdlg", "modal", addNewTestBlock);
+// }
 
 function onLoad() {
     svgUtil.init(document);
