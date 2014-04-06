@@ -595,7 +595,8 @@ var root = {
     size += size_fixup * this.fixup_count ( );
     return size;
     },
-  create_pkg : function create_pkg ( map, modules, target_type ) {
+  create_pkg : function create_pkg ( map, modules, target_type,
+                                     common_defs_path ) {
     var self = this;
     this.target_type = target_type;
     if ( target_type === 'js' ) {
@@ -609,7 +610,7 @@ var root = {
       }
 
     this.factory.set_target_type ( target_type );
-    this.factory.load_type_file ( '../common_defs/ngl_types.yaml' );
+    this.factory.load_type_file ( common_defs_path + '/ngl_types.yaml' );
 
     map.each ( function ( name, obj ) {
       self.process_obj ( name, obj );
