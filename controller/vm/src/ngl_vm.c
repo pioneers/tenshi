@@ -21,15 +21,16 @@ ngl_add_type(ngl_globals * globals, ngl_type * type) {
 
 static ngl_error *
 ngl_init_core(ngl_vm * vm) {
+  #include <modules/ngl_core.c>
+
   ngl_globals *globals = &vm->globals;
   ngl_ret_on_err(ngl_add_type(globals, ngl_type_ngl_builtin_alien));
   ngl_ret_on_err(ngl_add_type(globals, ngl_type_ngl_vm_func));
   ngl_ret_on_err(ngl_add_type(globals, ngl_type_ngl_buffer));
-  ngl_ex_func *ngl_print_float_func = ngl_alloc_simple(ngl_ex_func, 1);
-  ngl_ex_func_init((ngl_func *) ngl_print_float_func,
-                   &ngl_func_to_thunk_name(ngl_print_float));
-  ngl_ret_on_err(ngl_globals_set_obj_from_ids(globals, 0, 0, (ngl_obj *)
-                                              ngl_print_float_func));
+  for (ngl_uint i = 0; i < ngl_core_length; i++) {
+    ngl_ret_on_err(ngl_globals_set_obj_from_ids(globals, 0, i,
+                                                ngl_core[i]));
+  }
   return ngl_ok;
 }
 
