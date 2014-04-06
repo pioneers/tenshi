@@ -5,6 +5,8 @@ import os
 import subprocess as subp
 import shutil
 import argparse
+import re
+import traceback
 
 
 def is_subpath_of_set(path, pathset):
@@ -21,7 +23,10 @@ def setup():
     try:
         os.mkdir('tmp')
     except IOError as e:
-        pass
+        # One reason we would get here is that the tmp directory was not
+        # cleaned up. Delete the directory and try again.
+        shutil.rmtree('tmp')
+        os.mkdir('tmp')
     os.chdir('tmp')
 
 
@@ -48,7 +53,7 @@ def get_tests():
     tests files with the same name.
     '''
     tests = set()
-    dirs_to_skip = set()
+    dirs_to_skip = set(['tests/tmp'])
     for dirpath, dirnames, filenames in os.walk('tests', topdown=True):
         if not is_subpath_of_set(dirpath, dirs_to_skip):
             for filename in filenames:
@@ -70,40 +75,51 @@ def run_test(name, root, failed_tests, stdout_logs):
     p = subp.Popen(args,
                    stdout=subp.PIPE,
                    stderr=subp.STDOUT)
-    output = p.communicate()
+    stdout_logs[name] = p.communicate()
     ret = p.returncode
     if ret == 0:
         print('.', end='')
     else:
         failed_tests.append(name)
-        stdout_logs[name] = output
         print('x', end='')
 
 
 def main():
     parser = argparse.ArgumentParser(description='Run angelic tests.')
     parser.add_argument('--no-cleanup', action='store_true')
+    parser.add_argument('--verbose', action='store_true')
+    parser.add_argument('--matching', action='store', default='')
     args = parser.parse_args()
+    pattern = None
+    if args.matching:
+        pattern = re.compile(args.matching)
 
     tests = get_tests()
     failed_tests = []
     stdout_logs = dict()
     root = os.getcwd()
 
+    tests_run = 0
+
     setup()
 
     try:
         for test in sorted(tests):
-            run_test(test, root, failed_tests, stdout_logs)
+            if not pattern or pattern.search(test):
+                tests_run += 1
+                run_test(test, root, failed_tests, stdout_logs)
+                if args.verbose:
+                    print(stdout_logs[test][0].decode())
     except Exception as e:
-        print('Encountered exception while running tests', e)
+        print('Encountered exception while running tests:')
+        traceback.print_exc()
     finally:
         if not args.no_cleanup:
             cleanup()
 
     if not failed_tests:
         print()
-        print('OK (Ran {0} test)'.format(len(tests)))
+        print('OK (Ran {0} test)'.format(tests_run))
     else:
         print()
         for failure in failed_tests:
@@ -113,7 +129,7 @@ def main():
             print(' END TEST OUTPUT '.center(80, '*'))
             print()
         print('TEST FAILED ({0}/{1} tests failed)'
-              .format(len(failed_tests), len(tests)))
+              .format(len(failed_tests), tests_run))
 
 
 if __name__ == '__main__':
