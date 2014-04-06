@@ -2,6 +2,7 @@ var buffer = require ( './buffer.js' );
 var fixup_kinds = require ( './fixup_kinds.js' );
 var misc = require ( './misc.js' );
 var opcodes = require ( './opcodes.js' );
+var factory = require ( './factory.js' );
 
 // These values are from ngl_package.h
 var size_uint32_t = 4;
@@ -480,7 +481,7 @@ var root = {
         }
       }
     },
-  patch_size : function patch_size ( rows ) {
+  bytecode_size : function bytecode_size ( rows ) {
     var size = 0;
     for ( var r in rows ) {
       var row = rows[r];
@@ -497,11 +498,12 @@ var root = {
     return size;
     },
   make_patch : function make_patch ( obj, rows ) {
-    var buf = new buffer.Buffer ( this.patch_size ( rows ) );
+    var header_size = this.factory.get_size ( 'ngl_buffer' );
+    var buf = new buffer.Buffer ( header_size + this.bytecode_size ( rows ) );
     // This makes binary diffs cleaner.
     buf.fill ( 0 );
     var fixups = [];
-    var offset = 0;
+    var offset = header_size;
     for ( var r in rows ) {
       var row = rows[r];
       if ( row.type === 'bunch' ) {
@@ -517,6 +519,35 @@ var root = {
         }
       }
     return {
+      kind : fixup_kinds.bytecode,
+      buf : buf,
+      fixups : fixups,
+      offset : 0,
+      id : obj.id,
+      };
+    },
+  make_fn_header : function make_fn_header ( obj ) {
+    var buf = new buffer.Buffer ( this.factory.get_size ( 'ngl_vm_func' ) );
+    buf.fill ( 0 );
+    var func = this.factory.wrap ( this.factory.get_type ( 'ngl_vm_func' ), {
+        header : { refc : 0, type : 0xdeadbeef },
+        code : 0,
+        stack_space : 0
+      } );
+    func.set_offset ( 0 );
+    func.write ( buf );
+    var fixups = [];
+    fixups.push ( {
+      offset : func.get_slot ( 'header' ).get_slot ( 'type' ).offset,
+      // TODO(kzentner): Don't hardcode 0, 3!
+      val : { fixup_kind : 0, id : 3 },
+      } );
+    fixups.push ( {
+      offset : func.get_slot ( 'code' ).offset,
+      val : { fixup_kind : fixup_kinds.bytecode, id : obj.id },
+      } );
+    return {
+      kind : fixup_kinds.vm_func,
       buf : buf,
       fixups : fixups,
       offset : 0,
@@ -535,16 +566,14 @@ var root = {
 
     var patch = this.make_patch ( obj, data );
     this.patches.push ( patch );
+    var fn_header = this.make_fn_header ( obj );
+    this.patches.push ( fn_header );
     },
   size_of_patches : function size_of_patches ( ) {
     size = 0;
     for ( var i in this.patches ) {
       var patch = this.patches[i];
       size += size_patch_header;
-      // ngl_buffer.type
-      size += size_uint32_t * this.literal_size;
-      // ngl_buffer.length
-      size += size_uint32_t * this.literal_size;
       size += patch.buf.length;
       }
     return size;
@@ -579,9 +608,13 @@ var root = {
       this.literal_size = 1;
       }
 
+    this.factory.set_target_type ( target_type );
+    this.factory.load_type_file ( '../common_defs/ngl_types.yaml' );
+
     map.each ( function ( name, obj ) {
       self.process_obj ( name, obj );
       } );
+
 
     var out_size = this.output_size ( );
 
@@ -620,7 +653,7 @@ var root = {
 
       // Kind
       // TODO(kzentner): Make the compiler output objects besides bytecode.
-      this.write_uint32 ( fixup_kinds.bytecode );
+      this.write_uint32 ( patch.kind );
       // ID
       this.write_uint32 ( patch.id );
       // TODO(kzentner): Make the compiler actually output patches, not just
@@ -628,18 +661,11 @@ var root = {
       // Offset
       this.write_uint32 ( 0 );
 
-      var size = patch.buf.length + size_uint32_t * this.literal_size + size_uint32_t * this.literal_size;
+      var size = patch.buf.length;
       // to_delete
       this.write_uint32 ( size );
       // to_insert
       this.write_uint32 ( size );
-
-      // ngl_buffer.header
-      this.offset += size_uint32_t * this.literal_size;
-
-      // ngl_buffer.size
-      this.write_literal ( this.buffer, this.offset, [ 'uinteger', patch.buf.length ] );
-      this.offset += size_uint32_t * this.literal_size;
 
       patch.offset = this.offset;
       patch.buf.copy ( this.buffer, this.offset, 0, patch.buf.length );
@@ -654,6 +680,7 @@ var root = {
       var patch = this.patches[i];
       for ( var j in patch.fixups ) {
         var fix = patch.fixups[j];
+
         // Kind
         this.write_uint32 ( fix.val.fixup_kind );
         // ID
@@ -671,6 +698,7 @@ var root = {
   };
 
 function make ( ) {
+  var fact = factory.make ( );
   return misc.obj_or ( {
     patches: [],
     fixups: [],
@@ -678,6 +706,7 @@ function make ( ) {
     buffer_idx: 0,
     offset: 0,
     literal_size: 1,
+    factory: fact,
     },
     root );
   }
