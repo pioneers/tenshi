@@ -34,6 +34,7 @@ function make ( ) {
   var text = '';
   var modules = string_map.make ( );
   var pkg = null;
+  var common_defs_path = '../common_defs';
 
   var evaluation_steps = 0;
   var evaluation_period = 0;
@@ -53,6 +54,9 @@ function make ( ) {
     //misc.print ( map );
     mod.exports.load_text ( map );
     modules.set ( modname, mod );
+    };
+  vm.set_common_defs_path = function ( path ) {
+    common_defs_path = path;
     };
   vm.load_text = function ( t ) {
     text = t;
@@ -77,7 +81,8 @@ function make ( ) {
     a_library.build_all_objects ( a_analyzer.all_objects );
     };
   vm.save_pkg = function ( target_type, filename, ecallback ) {
-    var pkg = a_packager.create_pkg ( a_emitter.objs, modules, target_type );
+    var pkg = a_packager.create_pkg ( a_emitter.objs, modules,
+                                      target_type, common_defs_path );
     binary.write_buffer ( pkg, filename, ecallback );
     };
   vm.get_pkg = function ( target_type ) {
