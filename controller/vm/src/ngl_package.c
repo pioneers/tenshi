@@ -46,6 +46,8 @@ ngl_package_relocate_obj(ngl_vm * vm,
     obj = (ngl_obj *) ngl_alloc_simple(uint8_t, to_insert + OBJ_HEADER_SIZE);
     if (obj == NULL) {
       return &ngl_out_of_memory;
+    } else {
+      obj->refc = 1;
     }
     ngl_ret_on_err(ngl_globals_set_obj_from_ids(&vm->globals, kind, id, obj));
   }
