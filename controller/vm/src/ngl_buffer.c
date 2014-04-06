@@ -15,7 +15,7 @@ ngl_get_file_size(FILE * file) {
 ngl_buffer *
 ngl_buffer_alloc(ngl_uint bytes) {
   return (ngl_buffer *) ngl_alloc_simple(uint8_t,
-                                         bytes + sizeof(ngl_buffer) - 1);
+                                         bytes + sizeof(ngl_buffer));
 }
 
 ngl_buffer *
