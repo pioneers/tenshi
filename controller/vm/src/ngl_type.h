@@ -14,6 +14,9 @@
 #define ngl_type_upcast(ptr_to_subtype) ((ngl_type *)(ptr_to_subtype))
 
 ngl_declare_composite(ngl_type);
+ngl_declare_composite(ngl_type_base);
+ngl_declare_composite(ngl_type_composite);
+ngl_declare_composite(ngl_type_pointer);
 
 void ngl_type_init_header(ngl_type * t);
 
