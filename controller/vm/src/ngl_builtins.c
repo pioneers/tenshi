@@ -37,10 +37,36 @@ ngl_print_float(ngl_float f) {
   return ngl_ok;
 }
 
+/* 
+ * TODO(kzentner): Replace these functions with functions to actually interact
+ * with hardware.
+ */
+ngl_error *ngl_set_motor(ngl_uint motor, ngl_float val) {
+  (void) motor;
+  (void) val;
+  return ngl_ok;
+}
+
+ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val) {
+  (void) sensor;
+  (void) val;
+  return ngl_ok;
+}
+
 #define ngl_call_name ngl_print_float
 #define ngl_call_args NGL_ARG_FLOAT(0, ngl_float)
 #define ngl_call_argc 1
-#include <ngl_call_define.c>
+#include <ngl_call_define.c> /* NOLINT(build/include) */
+
+#define ngl_call_name ngl_set_motor
+#define ngl_call_args NGL_ARG_UINT(0, ngl_uint), NGL_ARG_FLOAT(1, ngl_float)
+#define ngl_call_argc 2
+#include <ngl_call_define.c> /* NOLINT(build/include) */
+
+#define ngl_call_name ngl_get_sensor
+#define ngl_call_args NGL_ARG_UINT(0, ngl_uint), NGL_ARG_PTR(1, ngl_float*)
+#define ngl_call_argc 2
+#include <ngl_call_define.c> /* NOLINT(build/include) */
 
 ngl_error *
 ngl_builtins_init() {
@@ -76,8 +102,13 @@ ngl_builtins_init() {
   ngl_init_null_call(&ngl_null_call);
 
 #define ngl_call_name ngl_print_float
-#define ngl_call_ngl_types ngl_type_ngl_float
-#include <ngl_call_init.c>
+#include <ngl_call_init.c> /* NOLINT(build/include) */
+
+#define ngl_call_name ngl_set_motor
+#include <ngl_call_init.c> /* NOLINT(build/include) */
+
+#define ngl_call_name ngl_get_sensor
+#include <ngl_call_init.c> /* NOLINT(build/include) */
   return ngl_ok;
 }
 

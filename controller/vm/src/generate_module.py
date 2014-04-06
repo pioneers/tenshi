@@ -30,18 +30,20 @@ def main():
         '{body}'
         '\n')
 
-    line = '  (ngl_obj *) {val};'
+    line = '  (ngl_obj *) {val},'
 
     lines = '\n'.join(line.format(val=v['cname']) for v in module)
 
     body = (
-        'ngl_obj * const {module_name}[] = {{\n'
+        'ngl_uint {module_name}_length = {length};\n'
+        'ngl_obj * {module_name}[] = {{\n'
         '{lines}\n'
         '}};\n')
     module_name = os.path.splitext(os.path.split(input_file)[-1])[0]
 
     output = form.format(infile=repr(input_file),
                          body=body.format(lines=lines,
+                                          length=len(module),
                                           module_name=module_name))
 
     with open(output_file, 'w') as f:

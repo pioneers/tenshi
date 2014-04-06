@@ -20,9 +20,19 @@ ngl_declare_composite(ngl_error);
 ngl_declare_alien(ngl_builtin_alien);
 
 ngl_error *ngl_print_float(ngl_float);
+ngl_error *ngl_set_motor(ngl_uint motor, ngl_float val);
+ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val);
 
 #define ngl_call_name ngl_print_float
 #define ngl_call_argc 1
-#include <ngl_call_declare.h>
+#include <ngl_call_declare.h> /* NOLINT(build/include) */
+
+#define ngl_call_name ngl_set_motor
+#define ngl_call_argc 2
+#include <ngl_call_declare.h> /* NOLINT(build/include) */
+
+#define ngl_call_name ngl_get_sensor
+#define ngl_call_argc 2
+#include <ngl_call_declare.h> /* NOLINT(build/include) */
 
 #endif  // NGL_BUILTINS_H_
