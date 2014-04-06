@@ -21,12 +21,6 @@ ngl_package_patch_appliable(ngl_package_patch * patch, ngl_vm * vm) {
 #define PATCH_DIFF_SIZE(patch) \
 ((ngl_int)(patch)->to_insert -(ngl_int)(patch)->to_delete)
 
-#define OBJ_HEADER_SIZE (sizeof(ngl_obj) - sizeof(ngl_type *))
-
-#define OBJ_FIELDS_START(obj) \
-((void *)((uint8_t *)(obj) + \
-                 OBJ_HEADER_SIZE))
-
 #define OFFSET(base, amount) \
 ((void *)((uint8_t *)(base) +(amount)))
 
@@ -43,7 +37,7 @@ ngl_package_relocate_obj(ngl_vm * vm,
 
   if (obj == NULL) {
     /* This is a new object. */
-    obj = (ngl_obj *) ngl_alloc_simple(uint8_t, to_insert + OBJ_HEADER_SIZE);
+    obj = (ngl_obj *) ngl_alloc_simple(uint8_t, to_insert);
     if (obj == NULL) {
       return &ngl_out_of_memory;
     } else {
@@ -115,7 +109,7 @@ ngl_package_patch_apply(ngl_vm * vm,
 
   ngl_uint out_offset = 0;
   for (uint32_t i = 0; i < count; i++) {
-    memcpy(OFFSET(OBJ_FIELDS_START(obj),
+    memcpy(OFFSET(obj,
                   out_offset + patch->offset),
            OFFSET(patch, sizeof(ngl_package_patch)), patch->to_insert);
     out_offset += PATCH_DIFF_SIZE(patch);

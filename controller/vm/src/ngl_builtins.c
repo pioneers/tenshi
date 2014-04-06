@@ -80,6 +80,11 @@ ngl_builtins_init() {
   ngl_init_base(ngl_float);
   ngl_init_base(ngl_val);
 
+  ngl_init_composite(ngl_type);
+  ngl_init_composite(ngl_type_base);
+  ngl_init_composite(ngl_type_composite);
+  ngl_init_composite(ngl_type_pointer);
+
   ngl_init_composite(ngl_str);
   ngl_init_composite(ngl_type);
   ngl_init_composite(ngl_call);
