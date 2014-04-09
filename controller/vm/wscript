@@ -202,6 +202,8 @@ def configure(conf):
                                         os.pardir)
     conf.env['ngl_root'] = conf.path.abspath()
     conf.env['check_compiler_options'] = conf.options.check_compiler_options
+    add_cflags(conf, '-Wno-unused-function')
+    add_cflags(conf, '-Wno-unused-label')
     configure_debug_native(conf)
     recurse(conf)
 
