@@ -65,7 +65,7 @@ def build(bld):
             target=src.change_ext('.c')
         )
 
-    includes = '. common_defs'
+    includes = '. common_defs ../.. ../../inc'
 
     if 'micro' in bld.variant:
         to_remove = []
