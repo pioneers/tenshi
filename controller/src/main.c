@@ -21,6 +21,10 @@
 uint8_t *code_buffer;
 uint32_t code_buffer_len;
 
+// TODO(rqou): This really doesn't go here.
+uint8_t PiEMOSAnalogVals[7];
+uint8_t PiEMOSDigitalVals[8];
+
 static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
   ngl_buffer *program = ngl_buffer_alloc(code_buffer_len);
   // TODO(rqou): This is dumb.
@@ -104,7 +108,15 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
     // ident byte for PiEMOS framing
     switch (packetIn->payload.rx64.data[0]) {
     case PIER_INCOMINGDATA_IDENT:
-      // TODO(rqou): do something useful!
+      {
+        pier_incomingdata *incomingData =
+          (pier_incomingdata *)(packetIn->payload.rx64.data);
+        // TODO(rqou): This code is terribly hardcoded.
+        memcpy(PiEMOSAnalogVals, incomingData->analog, 7);
+        for (int i = 0; i < 8; i++) {
+          PiEMOSDigitalVals[i] = !!(incomingData->digital & (1 << i));
+        }
+      }
       break;
 
     // Naive bulk protocol
