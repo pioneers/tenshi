@@ -51,6 +51,9 @@ def options(opt):
                    default='yes',
                    choices=['yes', 'no', 'try'],
                    help='Build the tests.')
+    opt.add_option('--check-compiler-options',
+                   action='store_true',
+                   help='Check compiler options before using them.')
     opt.load('compiler_c')
     opt.load('compiler_cxx')
     opt.load('gas')
@@ -73,6 +76,9 @@ def has_cflag(conf, flag):
 
 
 def add_cflags(conf, flags, alternatives=tuple()):
+    if not conf.env['check_compiler_options']:
+        conf.env.append_value('CFLAGS', flags)
+        return
     try:
         conf.check(feature='cc cprogram cstdlib', cflags=flags)
     except Exception as e:
@@ -195,6 +201,7 @@ def configure(conf):
         conf.env['root'] = os.path.join(conf.path.abspath(), os.pardir,
                                         os.pardir)
     conf.env['ngl_root'] = conf.path.abspath()
+    conf.env['check_compiler_options'] = conf.options.check_compiler_options
     configure_debug_native(conf)
     recurse(conf)
 
