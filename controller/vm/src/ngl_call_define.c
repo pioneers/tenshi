@@ -71,3 +71,16 @@ ngl_type *ngl_func_to_thunk_types(ngl_call_name)[ngl_call_argc];
 #undef ngl_call_name
 #undef ngl_call_args
 #undef ngl_call_argc
+#undef NGL_ARGC
+#undef NGL_ARG_INTERFACE
+#undef NGL_RET
+#undef NGL_ERROR
+#undef NGL_ARG_PTR
+#undef ngl_call_return
+#undef ngl_call_pre
+#undef NGL_ARG_UINT
+#undef ngl_call_post
+#undef NGL_ARG_INT
+#undef NGL_RET_IDX
+#undef NGL_ARG_FLOAT
+
