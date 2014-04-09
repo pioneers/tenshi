@@ -81,13 +81,17 @@ ngl_error *ngl_set_motor(ngl_uint motor, ngl_float val) {
   return &ngl_error_generic;
 }
 
-/* 
- * TODO(kzentner): Replace this function with function to actually interact
- * with hardware.
- */
+// TODO(rqou): Refactor this shit
+extern uint8_t PiEMOSAnalogVals[7];
+extern uint8_t PiEMOSDigitalVals[8];
 ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val) {
-  (void) sensor;
-  (void) val;
+  if (sensor <= 7) {
+    *val = PiEMOSAnalogVals[sensor];
+  } else if (sensor > 7 && sensor <= 15) {
+    *val = PiEMOSDigitalVals[sensor - 8];
+  } else {
+    *val = 0;
+  }
   return ngl_ok;
 }
 
@@ -103,8 +107,9 @@ ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val) {
 #include <ngl_call_define.c> /* NOLINT(build/include) */
 
 #define ngl_call_name ngl_get_sensor
-#define ngl_call_args NGL_ARG_UINT(0, ngl_uint), NGL_ARG_PTR(1, ngl_float*)
+#define ngl_call_args NGL_ARG_UINT(0, ngl_uint), NGL_RET(ngl_float)
 #define ngl_call_argc 2
+#define ngl_call_return(x) (error = (x));
 #include <ngl_call_define.c> /* NOLINT(build/include) */
 
 ngl_error *
