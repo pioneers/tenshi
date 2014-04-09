@@ -11,6 +11,10 @@
 #include <ngl_func.h>
 #include <ngl_obj.h>
 
+// TODO(rqou): If you don't use angle brackets, cpplint gets really confused
+#include <inc/driver_glue.h>
+#include <inc/i2c_master.h>
+
 bool ngl_builtins_initialized = false;
 
 ngl_define_base(ngl_val);
@@ -37,16 +41,40 @@ ngl_print_float(ngl_float f) {
   return ngl_ok;
 }
 
-/* 
- * TODO(kzentner): Replace these functions with functions to actually interact
- * with hardware.
- */
 ngl_error *ngl_set_motor(ngl_uint motor, ngl_float val) {
-  (void) motor;
-  (void) val;
-  return ngl_ok;
+  // TODO(rqou): Don't hardcode this. This is awful. Registers 0x01 to 0x08
+  // inclusive.
+  uint8_t out_buf[] = {0x01, 0b00010011, 0, 0, 0, 0, 0, 0, 0};
+  int32_t out_val = (int32_t)(val * 65536);
+  out_buf[4] = (out_val >>  0) & 0xFF;
+  out_buf[5] = (out_val >>  8) & 0xFF;
+  out_buf[6] = (out_val >> 16) & 0xFF;
+  out_buf[7] = (out_val >> 24) & 0xFF;
+
+  // TODO(rqou): Don't hardcode this!
+  uint8_t addr = (0x0f - motor) << 1;
+
+  void *i2c_txn = i2c_issue_transaction(i2c1_driver, addr,
+    out_buf, sizeof(out_buf), NULL, 0);
+  // TODO(rqou): Make this not synchronous!
+  int status;
+  do {
+    status = i2c_transaction_status(i2c1_driver, i2c_txn);
+  } while (status != I2C_TRANSACTION_STATUS_DONE &&
+           status != I2C_TRANSACTION_STATUS_ERROR);
+  i2c_transaction_finish(i2c1_driver, i2c_txn);
+
+  if (status == I2C_TRANSACTION_STATUS_DONE) {
+    return ngl_ok;
+  }
+  // TODO(rqou): Better error!
+  return &ngl_error_generic;
 }
 
+/* 
+ * TODO(kzentner): Replace this function with function to actually interact
+ * with hardware.
+ */
 ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val) {
   (void) sensor;
   (void) val;
@@ -61,6 +89,7 @@ ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val) {
 #define ngl_call_name ngl_set_motor
 #define ngl_call_args NGL_ARG_UINT(0, ngl_uint), NGL_ARG_FLOAT(1, ngl_float)
 #define ngl_call_argc 2
+#define ngl_call_return(x) (error = (x));
 #include <ngl_call_define.c> /* NOLINT(build/include) */
 
 #define ngl_call_name ngl_get_sensor

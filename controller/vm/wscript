@@ -9,8 +9,11 @@ from waf_extensions import declare_variants, run_all, sub_conf
 import os
 import os.path
 
-declare_variants(['debug_native'],
-                 subdir='vm')
+# TODO(kzentner): Fix the linking so that it is actually possible to build
+# this. It is currently broken because adding useful code to ngl_builtins makes
+# it impossible to build the native version.
+# declare_variants(['debug_native'],
+#                  subdir='vm')
 
 
 def recurse(ctxt):
