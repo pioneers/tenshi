@@ -77,9 +77,9 @@ extern uint8_t PiEMOSDigitalVals[8];
 // TODO(rqou): This should read actual sensors, not PiEMOS data. Add another
 // function for PiEMOS data.
 ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val) {
-  if (sensor <= 7) {
+  if (sensor < 7) {
     *val = PiEMOSAnalogVals[sensor];
-  } else if (sensor > 7 && sensor <= 15) {
+  } else if (sensor >= 7 && sensor <= 15) {
     *val = PiEMOSDigitalVals[sensor - 8];
   } else {
     *val = 0;
