@@ -149,7 +149,7 @@ kind_prototypes.base = {
         var method_name = 'read' + get_buffer_method_base ( this.type, this.factory );
         // Cache the method in the type for later use.
         this.type.read_method = buffer [ method_name ];
-        if ( this.type.write_method === undefined ) {
+        if ( this.type.read_method === undefined ) {
           throw 'Could not get method ' + method_name + ' to read type ' + this.type;
           }
         }
