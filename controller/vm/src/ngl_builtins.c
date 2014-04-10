@@ -11,9 +11,11 @@
 #include <ngl_func.h>
 #include <ngl_obj.h>
 
+#ifndef NGL_NATIVE
 // TODO(rqou): If you don't use angle brackets, cpplint gets really confused
 #include <inc/driver_glue.h>
 #include <inc/i2c_master.h>
+#endif
 
 bool ngl_builtins_initialized = false;
 
@@ -41,6 +43,13 @@ ngl_print_float(ngl_float f) {
   return ngl_ok;
 }
 
+#ifdef NGL_NATIVE
+ngl_error *ngl_set_motor(ngl_uint motor, ngl_float val) {
+  (void) motor;
+  (void) val;
+  return ngl_ok;
+}
+#else
 ngl_error *ngl_set_motor(ngl_uint motor, ngl_float val) {
   // TODO(rqou): Don't hardcode this. This is awful. Registers 0x01 to 0x08
   // inclusive.
@@ -70,7 +79,15 @@ ngl_error *ngl_set_motor(ngl_uint motor, ngl_float val) {
   // TODO(rqou): Better error!
   return &ngl_error_generic;
 }
+#endif
 
+#ifdef NGL_NATIVE
+ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val) {
+  (void) sensor;
+  *val = 0;
+  return ngl_ok;
+}
+#else
 // TODO(rqou): Refactor this shit
 extern uint8_t PiEMOSAnalogVals[7];
 extern uint8_t PiEMOSDigitalVals[8];
@@ -86,6 +103,7 @@ ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val) {
   }
   return ngl_ok;
 }
+#endif
 
 #define ngl_call_name ngl_print_float
 #define ngl_call_args NGL_ARG_FLOAT(0, ngl_float)
