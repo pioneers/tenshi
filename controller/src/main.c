@@ -22,7 +22,7 @@ uint8_t *code_buffer;
 uint32_t code_buffer_len;
 
 // TODO(rqou): This really doesn't go here.
-uint8_t PiEMOSAnalogVals[7];
+int8_t PiEMOSAnalogVals[7];
 uint8_t PiEMOSDigitalVals[8];
 
 static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
@@ -32,6 +32,8 @@ static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
   // TODO(rqou): Dealloc code_buffer???
   ngl_run_package((ngl_package *) NGL_BUFFER_DATA(program));
   // TODO(rqou): Error handling?
+  // TODO(rqou): What to do here?
+  while (1) {}
 }
 
 // TODO(rqou): Move this elsewhere
@@ -112,7 +114,10 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
         pier_incomingdata *incomingData =
           (pier_incomingdata *)(packetIn->payload.rx64.data);
         // TODO(rqou): This code is terribly hardcoded.
-        memcpy(PiEMOSAnalogVals, incomingData->analog, 7);
+        for (int i = 0; i < 7; i++) {
+          PiEMOSAnalogVals[i] =
+            (float)((int)incomingData->analog[i] - 127) / 127.0f * 100.0f;
+        }
         for (int i = 0; i < 8; i++) {
           PiEMOSDigitalVals[i] = !!(incomingData->digital & (1 << i));
         }
