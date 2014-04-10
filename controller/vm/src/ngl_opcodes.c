@@ -145,26 +145,26 @@
 /*#define OP_N 0x2e*/
 /* TODO(kzentner): i2f */
 
-/*#define OP_N 0x2f*/
-/* TODO(kzentner): band */
+#define OP_N 0x2f
+#include <ngl_op_band.c>
 
-/*#define OP_N 0x30*/
-/* TODO(kzentner): bor */
+#define OP_N 0x30
+#include <ngl_op_bor.c>
 
-/*#define OP_N 0x31*/
-/* TODO(kzentner): bxor */
+#define OP_N 0x31
+#include <ngl_op_bxor.c>
 
-/*#define OP_N 0x32*/
-/* TODO(kzentner): bnot */
+#define OP_N 0x32
+#include <ngl_op_bnot.c>
 
-/*#define OP_N 0x33*/
-/* TODO(kzentner): bsl */
+#define OP_N 0x33
+#include <ngl_op_bsl.c>
 
-/*#define OP_N 0x34*/
-/* TODO(kzentner): bsrl */
+#define OP_N 0x34
+#include <ngl_op_bsrl.c>
 
-/*#define OP_N 0x35*/
-/* TODO(kzentner): bsra */
+#define OP_N 0x35
+#include <ngl_op_bsra.c>
 
 /*#define OP_N 0x36*/
 /* TODO(kzentner): catch_w */
