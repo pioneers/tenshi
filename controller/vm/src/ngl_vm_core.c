@@ -3,6 +3,9 @@
 #include <stdbool.h>
 #include <ngl_opcodes.h>
 #include <ngl_stack_ngl_val.h>
+#ifndef NGL_NATIVE
+#include <inc/stm32f4xx.h>
+#endif
 
 #if !defined(HAVE_COMPUTED_GOTOS) && defined(USE_COMPUTED_GOTOS)
 #error "Cannot use computed goto with this compiler."
