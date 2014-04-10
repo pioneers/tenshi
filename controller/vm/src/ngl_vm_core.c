@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <ngl_opcodes.h>
-#include <ngl_stack_ngl_val.h>
 
 #if !defined(HAVE_COMPUTED_GOTOS) && defined(USE_COMPUTED_GOTOS)
 #error "Cannot use computed goto with this compiler."

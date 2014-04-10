@@ -73,17 +73,20 @@
   "This is because the array generated here must be dense."
 #endif
 
-/* TODO(kzentner): Change these to iadd, etc. */
-/*#define OP_N 0x16*/
+#define OP_N 0x16
+#include <ngl_op_iadd.c>
 
-/*#define OP_N 0x17*/
+#define OP_N 0x17
+#include <ngl_op_isub.c>
 
-/*#define OP_N 0x18*/
+#define OP_N 0x18
+#include <ngl_op_imul.c>
 
-/*#define OP_N 0x19*/
+#define OP_N 0x19
+#include <ngl_op_idiv.c>
 
-/*#define OP_N 0x1a*/
-
+#define OP_N 0x1a
+#include <ngl_op_imod.c>
 
 #define OP_N 0x1b
 #include <ngl_op_uadd.c>
