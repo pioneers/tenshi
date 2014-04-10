@@ -30,11 +30,18 @@
      * -1 is because index arg_count contains the function, not the
      *  arguments.
      */
-    error = thunk(NULL, arg_count,
-                  ngl_stack_get_ptr(&stack, arg_count - 1));
+
+    ngl_val * fn_args = ngl_stack_get_ptr(&stack, arg_count - 1);
+
+    /* Push a spot onto the stack for the return value of the function. */
+    ngl_stack_push(&stack, ngl_val_uint(0));
+
+    error = thunk(NULL, arg_count, fn_args);
 
     ngl_val res = ngl_stack_pop(&stack);
-    ngl_stack_move(&stack, -arg_count);
+
+    /* The -1 is to remove the arguments *and* the function from the stack. */
+    ngl_stack_move(&stack, -arg_count - 1);
     if (error == ngl_ok) {
       ngl_stack_push(&stack, res);
     } else {
