@@ -63,7 +63,7 @@ function lshift_32 ( val ) {
 // Wrap a base type
 kind_prototypes.base = {
   _is_64bit_int : function ( ) {
-    return this.factory.get_size ( this.type ) === 8 && this.type.repr !== 'float';
+    return this.type.size === 8 && this.type.repr !== 'float';
     },
   init : function ( ) {
     this.val = null;
@@ -78,7 +78,7 @@ kind_prototypes.base = {
     },
   set : function ( val ) {
     // Allow setting to a wrapped type or an unwrapped type.
-    if ( val.val !== undefined ) {
+    if ( typeof val.val !== 'undefined' ) {
       val = val.val;
       }
     if ( val === null ) {
@@ -100,7 +100,7 @@ kind_prototypes.base = {
     return this.val;
     },
   get_write_method : function get_write_method ( buffer ) {
-    if ( this.type.write_method === undefined ) {
+    if ( typeof this.type.write_method === 'undefined' ) {
       if ( this._is_64bit_int ( ) ) {
         var endian = this.type.endian;
         this.type.write_method = function ( val, offset ) {
@@ -120,15 +120,12 @@ kind_prototypes.base = {
         var method_name = 'write' + get_buffer_method_base ( this.type, this.factory );
         // Cache the method in the type for later use.
         this.type.write_method = buffer [ method_name ];
-        if ( this.type.write_method === undefined ) {
-          throw 'Could not get method ' + method_name + ' to write type ' + this.type;
-          }
         }
       }
     return this.type.write_method;
     },
   get_read_method : function get_read_method ( buffer ) {
-    if ( this.type.read_method === undefined ) {
+    if ( typeof this.type.read_method === 'undefined' ) {
       if ( this._is_64bit_int ( ) ) {
         var endian = this.type.endian;
         this.type.read_method = function ( offset ) {
@@ -149,9 +146,6 @@ kind_prototypes.base = {
         var method_name = 'read' + get_buffer_method_base ( this.type, this.factory );
         // Cache the method in the type for later use.
         this.type.read_method = buffer [ method_name ];
-        if ( this.type.write_method === undefined ) {
-          throw 'Could not get method ' + method_name + ' to read type ' + this.type;
-          }
         }
       }
     return this.type.read_method;
@@ -180,8 +174,8 @@ function get_slot_type ( factory, type, slot_name ) {
     var slot = type.slots [ s ];
     if ( slot.name === slot_name ) {
       var slot_type = factory.get_type ( slot.type );
-      if ( slot.endian !== undefined &&
-           slot_type.endian === undefined ) {
+      if ( typeof slot.endian !== 'undefined' &&
+           typeof slot_type.endian === 'undefined' ) {
         slot_type = misc.shallow_copy ( slot_type );
         slot_type.endian = slot.endian;
         slot_type.write_method = undefined;
@@ -325,7 +319,7 @@ kind_prototypes.union = {
     if ( slot_name === this.last_set_slot ) {
       return this.last_set_value;
       }
-    else if ( this.slot_values [ slot_name ] !== undefined ) {
+    else if ( typeof this.slot_values [ slot_name ] !== 'undefined' ) {
       return this.slot_values [ slot_name ];
       }
     else {
@@ -388,7 +382,7 @@ kind_prototypes.array = {
     else {
       var out = factory.construct_object ( kind_prototypes.array, type );
       // If we can unwrap the object, unwrap it to get an array to work with.
-      if ( obj.unwrap !== undefined ) {
+      if ( typeof obj.unwrap !== 'undefined' ) {
         obj = obj.unwrap ( );
         }
       for ( var i = 0; i < obj.length; i++ ) {
@@ -407,7 +401,7 @@ kind_prototypes.array = {
     if ( this.length !== null ) {
       return this.length;
       }
-    else if ( this.type.length !== undefined ) {
+    else if ( typeof this.type.length !== 'undefined' ) {
       return this.type.length;
       }
     else {
@@ -539,7 +533,7 @@ var factory_prototype = {
     else {
       type = actual_type;
       }
-    if ( type.size !== undefined ) {
+    if ( typeof type.size !== 'undefined' ) {
       size = type.size;
       if ( size === 'native' ) {
         return this.get_native_size ( );
@@ -598,8 +592,7 @@ var factory_prototype = {
     this.target_type = target_type;
     },
   wrap : function wrap ( type, val ) {
-    misc.assert ( typeof type === 'object',
-                  'type should be an object not ' + type );
+    misc.assert ( typeof type === 'object', 'type should be an object.' );
     var proto = get_proto ( type );
     return proto.wrap ( this, type, val );
     },
