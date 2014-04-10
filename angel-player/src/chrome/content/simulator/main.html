@@ -113,6 +113,8 @@
                 var angelic = require("tenshi/angelic/robot");
                 var vm = angelic.make();
 
+                vm.set_common_defs_path('chrome://angel-player/content/common_defs');
+
                 function set_motor ( port, val ) {
                     // TODO(ericnguyen): use correct API here
                     simmy.robot.setMotor(port, val);

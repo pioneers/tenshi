@@ -477,7 +477,8 @@ var factory_prototype = {
     out.init ( );
     return out;
     },
-  load_type_file : function ( filename ) {
+  load_type_file : function ( path ) {
+    var filename = misc.to_filename ( path );
     var types = yaml.safeLoad ( fs.readFileSync ( filename ).toString ( ) );
     this.load_types ( types );
     },

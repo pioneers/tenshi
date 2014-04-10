@@ -86,7 +86,8 @@ function make ( ) {
     binary.write_buffer ( pkg, filename, ecallback );
     };
   vm.get_pkg = function ( target_type ) {
-    return a_packager.create_pkg ( a_emitter.objs, modules, target_type );
+    return a_packager.create_pkg ( a_emitter.objs, modules, target_type,
+                                   common_defs_path );
     };
   vm.start_main = function ( ) {
 
