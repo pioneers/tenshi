@@ -12,7 +12,7 @@ var obj_or = function obj_or ( a, b ) {
   };
 
 var print = function print () {
-  var a;
+  /*var a;
 
   if ( console === undefined ) {
     for ( a in arguments ) {
@@ -25,7 +25,7 @@ var print = function print () {
       //console.log ( JSON.stringify ( arguments[a], null, '  ' ) );
       console.log ( util.inspect ( arguments[a], { colors: true, depth: null } ) );
       }
-    }
+    }*/
   };
 
 // This exists because there is no built in assert in JavaScript.

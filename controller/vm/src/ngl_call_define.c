@@ -35,7 +35,8 @@
 #define NGL_ARG_PTR(idx, type) ((type) arg[(idx)].pointer)
 
 #define NGL_RET(type) (NGL_RET_IDX(0, type))
-#define NGL_RET_IDX(idx, type) ((type *) &arg[(idx)])
+// TODO(kzentner): Figure out the -1
+#define NGL_RET_IDX(idx, type) ((type *) &arg[(idx) + (ngl_call_argc - 1)])
 
 #define NGL_ERROR() (&error)
 

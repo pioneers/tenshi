@@ -41,7 +41,7 @@ ngl_print_float(ngl_float f) {
   return ngl_ok;
 }
 
-ngl_error *ngl_set_motor(ngl_uint motor, ngl_float val) {
+ngl_error *ngl_set_motor(ngl_float motor, ngl_float val) {
   // TODO(rqou): Don't hardcode this. This is awful. Registers 0x01 to 0x08
   // inclusive.
   uint8_t out_buf[] = {0x01, 0b00010011, 0, 0, 0, 0, 0, 0, 0};
@@ -52,7 +52,7 @@ ngl_error *ngl_set_motor(ngl_uint motor, ngl_float val) {
   out_buf[7] = (out_val >> 24) & 0xFF;
 
   // TODO(rqou): Don't hardcode this!
-  uint8_t addr = (0x0f - motor) << 1;
+  uint8_t addr = (0x0f - (int)motor) << 1;
 
   void *i2c_txn = i2c_issue_transaction(i2c1_driver, addr,
     out_buf, sizeof(out_buf), NULL, 0);
@@ -72,15 +72,16 @@ ngl_error *ngl_set_motor(ngl_uint motor, ngl_float val) {
 }
 
 // TODO(rqou): Refactor this shit
-extern uint8_t PiEMOSAnalogVals[7];
+extern int8_t PiEMOSAnalogVals[7];
 extern uint8_t PiEMOSDigitalVals[8];
 // TODO(rqou): This should read actual sensors, not PiEMOS data. Add another
 // function for PiEMOS data.
-ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val) {
-  if (sensor <= 7) {
+ngl_error *ngl_get_sensor(ngl_float _sensor, ngl_float *val) {
+  int sensor = (int)_sensor;
+  if (sensor <= 6) {
     *val = PiEMOSAnalogVals[sensor];
-  } else if (sensor > 7 && sensor <= 15) {
-    *val = PiEMOSDigitalVals[sensor - 8];
+  } else if (sensor > 6 && sensor <= 14) {
+    *val = PiEMOSDigitalVals[sensor - 7];
   } else {
     *val = 0;
   }
@@ -93,14 +94,14 @@ ngl_error *ngl_get_sensor(ngl_uint sensor, ngl_float *val) {
 #include <ngl_call_define.c> /* NOLINT(build/include) */
 
 #define ngl_call_name ngl_set_motor
-#define ngl_call_args NGL_ARG_UINT(0, ngl_uint), NGL_ARG_FLOAT(1, ngl_float)
+#define ngl_call_args NGL_ARG_FLOAT(0, ngl_float), NGL_ARG_FLOAT(1, ngl_float)
 #define ngl_call_argc 2
 #define ngl_call_return(x) (error = (x));
 #include <ngl_call_define.c> /* NOLINT(build/include) */
 
 #define ngl_call_name ngl_get_sensor
-#define ngl_call_args NGL_ARG_UINT(0, ngl_uint), NGL_RET(ngl_float)
-#define ngl_call_argc 2
+#define ngl_call_args NGL_ARG_FLOAT(0, ngl_float), NGL_RET(ngl_float)
+#define ngl_call_argc 1
 #define ngl_call_return(x) (error = (x));
 #include <ngl_call_define.c> /* NOLINT(build/include) */
 
