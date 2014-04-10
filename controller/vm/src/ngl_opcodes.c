@@ -85,17 +85,20 @@
 /*#define OP_N 0x1a*/
 
 
-/* TODO(kzentner): Change these to uadd, etc. */
-/*#define OP_N 0x1b*/
+#define OP_N 0x1b
+#include <ngl_op_uadd.c>
 
-/*#define OP_N 0x1c*/
+#define OP_N 0x1c
+#include <ngl_op_usub.c>
 
-/*#define OP_N 0x1d*/
+#define OP_N 0x1d
+#include <ngl_op_umul.c>
 
-/*#define OP_N 0x1e*/
+#define OP_N 0x1e
+#include <ngl_op_udiv.c>
 
-/*#define OP_N 0x1f*/
-
+#define OP_N 0x1f
+#include <ngl_op_umod.c>
 
 #define OP_N 0x20
 #include <ngl_op_refi.c>
@@ -172,7 +175,7 @@
 /* Must be before last opcode. */
 #undef OPCODE_LIST
 
-#define OP_N 0x1e
+#define OP_N 0x38
 #include <ngl_op_last.c>
 
 #if defined(OPCODE_LABEL) && !defined(USE_COMPUTED_GOTOS)
