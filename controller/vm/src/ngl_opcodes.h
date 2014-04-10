@@ -5,6 +5,11 @@
 #include <ngl_macros.h>
 #include <ngl_func.h>
 #include <assert.h>
+#include <limits.h>
+#include <ngl_stack_ngl_val.h>
+#ifndef NGL_NATIVE
+#include <inc/stm32f4xx.h>
+#endif
 
 def_union(ngl_asm_arg, {
   int8_t integer;
