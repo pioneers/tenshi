@@ -1,0 +1,8 @@
+================================== 0.1 Series ==================================
+* Robot drives.
+* Has ability to read data from PiEMOS, upload a simple program from the IDE.
+* Has basic infrastructure for compiler and VM.
+* Has basic simulator with robot driving in empty field.
+* Has basic robot builder to create custom simulator robots.
+* Needs work: block editor, graphing utilities, types other than floating point,
+  smart sensors
