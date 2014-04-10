@@ -15,6 +15,8 @@ function gen_vm() {
         return 0;
     }
 
+    vm.set_common_defs_path('chrome://angel-player/content/common_defs');
+
     vm.add_library ( 'core', [
         vm.make_exfn ( 0, 'print', print_line),
         vm.make_exfn ( 1, 'set_motor', set_motor ),

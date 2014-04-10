@@ -14,7 +14,7 @@ var obj_or = function obj_or ( a, b ) {
 var print = function print () {
   var a;
 
-  if ( console === undefined ) {
+  if ( typeof console === 'undefined' ) {
     for ( a in arguments ) {
       dump ( JSON.stringify ( arguments[a], null, '  ' ) );
       }
@@ -64,8 +64,29 @@ function determine_environment ( ) {
   return 'browser';
   }
 
-exports.environment = determine_environment ( );
+var environment = determine_environment ( );
+
+function to_filename ( path ) {
+  if ( environment === 'node' ) {
+    return path;
+    }
+  else if ( environment === 'xulrunner' ) {
+    var url = require ( 'jetpack/sdk/url' );
+    if ( url.isValidURI ( path ) ) {
+      return url.toFilename ( path );
+      }
+    else {
+      return path;
+      }
+    }
+  else {
+    throw 'to_filename not supported on environment ' + environment;
+    }
+  }
+
+exports.environment = environment;
 exports.obj_or = obj_or;
 exports.print = print;
 exports.assert = assert;
 exports.shallow_copy = shallow_copy;
+exports.to_filename = to_filename;
