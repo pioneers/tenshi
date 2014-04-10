@@ -12,8 +12,8 @@ import os.path
 # TODO(kzentner): Fix the linking so that it is actually possible to build
 # this. It is currently broken because adding useful code to ngl_builtins makes
 # it impossible to build the native version.
-# declare_variants(['debug_native'],
-#                  subdir='vm')
+declare_variants(['debug_native'],
+                 subdir='vm')
 
 
 def recurse(ctxt):
@@ -99,6 +99,7 @@ def configure_native(conf):
         pass
     conf.load('compiler_c')
     add_cflags(conf, '-DNGL_64_BIT')
+    add_cflags(conf, '-DNGL_NATIVE')
 
 
 def configure_arm(conf):
