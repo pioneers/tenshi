@@ -139,11 +139,11 @@
 #define OP_N 0x2c
 #include <ngl_op_debug.c>
 
-/*#define OP_N 0x2d*/
-/* TODO(kzentner): f2i */
+#define OP_N 0x2d
+#include <ngl_op_f2i.c>
 
-/*#define OP_N 0x2e*/
-/* TODO(kzentner): i2f */
+#define OP_N 0x2e
+#include <ngl_op_i2f.c>
 
 #define OP_N 0x2f
 #include <ngl_op_band.c>
