@@ -339,3 +339,38 @@ void DMA1_Stream1_IRQHandler(void) {
   uart_serial_handle_rx_dma_interrupt(radio_driver);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+debug_uart_module *debug_uart;
+
+void global_debug_uart_init(void) {
+  // Set up the debug UART/SPI
+  // Enable appropriate GPIO banks
+  RCC->AHB1ENR |= GPIO_BANK_AHB1ENR(PINDEF_SPI_CLK);
+  RCC->AHB1ENR |= GPIO_BANK_AHB1ENR(PINDEF_SPI_MOSI);
+  RCC->AHB1ENR |= GPIO_BANK_AHB1ENR(PINDEF_SPI_MISO);
+
+  // Configure the I/O
+  CONFIGURE_IO(SPI_CLK);
+  CONFIGURE_IO(SPI_MOSI);
+  CONFIGURE_IO(SPI_MISO);
+
+  // Enable SPI2 clock
+  RCC->APB1ENR |= RCC_APB1ENR_SPI2EN;
+
+  // Initialize the actual driver
+  debug_uart = debug_uart_init(SPI2);
+
+  // Enable the interrupt at priority 15 (lowest)
+  // TODO(rqou): Better place to put things like 15 being lowest priority
+  NVIC_SetPriority(SPI2_IRQn, 15);
+  NVIC_EnableIRQ(SPI2_IRQn);
+}
+
+void SPI2_IRQHandler(void) {
+  debug_uart_irq(debug_uart);
+}
+
+void global_debug_uart_shutdown(void) {
+  NVIC_DisableIRQ(SPI2_IRQn);
+}
