@@ -55,6 +55,11 @@ function onLoad() {
             "tenshi": "chrome://angel-player/content",
         },
     });
+
+    // TODO(rqou): This loading is inefficient. However, if we don't do this,
+    // we get a race condition where ui.html tries to load tenshiGlobals before
+    // we even create it.
+    document.getElementById('mainContent').src = "main-ui/ui.html";
 }
 
 function toggleDebug() {

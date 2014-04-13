@@ -9,6 +9,7 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 #mainContent {
@@ -42,4 +43,13 @@ body {
 
 #centerDiv {
     background-color: blue;
+}
+
+/* TODO(rqou): This is duplicated in a bunch of places */
+.absolutelyNoSpace {
+    border: 0 none transparent;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
 }

@@ -28,6 +28,14 @@ const LAYOUTS = {
         left: "0",
         centerPane: "1",
         right: "0",
+    },
+    "split-view-header-footer": {
+        top: "1",
+        centerGroup: "8",
+        bottom: "1",
+        left: "1",
+        centerPane: "0",
+        right: "1",
     }
 };
 
@@ -37,18 +45,38 @@ const ENVIRONMENTS = [
         text: "Home",
         image: 'chrome://angel-player/content/main-ui/assets/home.png',
         activate: function() {
-            switchLayout("center-with-all-sidebars");
+            switchLayout("center-only");
+            loadPageIntoDiv("centerDiv", "../welcome/welcome.html");
         },
-        deactivate: function() {},
+        deactivate: function() {
+            $("#centerDiv").empty();
+        },
     }, {
         text: "Code",
         image: 'chrome://angel-player/content/main-ui/assets/code.png',
         activate: function() {
-            switchLayout("center-only");
+            switchLayout("split-view-header-footer");
         },
         deactivate: function() {},
-    }
+    }, {
+        // TODO(rqou): Delete this when we don't need it anymore.
+        text: "Stargate Network",
+        image: 'chrome://angel-player/content/main-ui/assets/stargate.png',
+        activate: function() {
+            switchLayout("center-only");
+            loadPageIntoDiv("centerDiv", "../actualMain.html");
+        },
+        deactivate: function() {
+            $("#centerDiv").empty();
+        },
+    }, 
 ];
+
+function loadPageIntoDiv(div, page) {
+    // TODO(rqou): Refactor paths
+    $("<iframe class=\"absolutelyNoSpace\" " + 
+        "src=\"" + page + "\"></iframe>").appendTo($("#" + div));
+}
 
 function switchLayout(newLayout) {
     let layout = LAYOUTS[newLayout];
