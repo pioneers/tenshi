@@ -67,6 +67,32 @@ const ENVIRONMENTS = [
             $("#bottomDiv").empty();
         },
     }, {
+        text: "Simulator",
+        image: 'chrome://angel-player/content/main-ui/assets/simulator.png',
+        activate: function() {
+            switchLayout("split-view-header-footer");
+            loadPageIntoDiv("topDiv", "../controls/main.html");
+            loadPageIntoDiv("leftDiv", "../texteditor/editor.html");
+            loadPageIntoDiv("rightDiv", "../simulator/main.html");
+            loadPageIntoDiv("bottomDiv", "../console/console.html");
+        },
+        deactivate: function() {
+            $("#topDiv").empty();
+            $("#leftDiv").empty();
+            $("#rightDiv").empty();
+            $("#bottomDiv").empty();
+        },
+    }, {
+        text: "Robot Builder",
+        image: 'chrome://angel-player/content/main-ui/assets/builder.png',
+        activate: function() {
+            switchLayout("center-only");
+            loadPageIntoDiv("centerDiv", "../simulator/maker.html");
+        },
+        deactivate: function() {
+            $("#centerDiv").empty();
+        },
+    }, {
         // TODO(rqou): Delete this when we don't need it anymore.
         text: "Stargate Network",
         image: 'chrome://angel-player/content/main-ui/assets/stargate.png',
