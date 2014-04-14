@@ -67,9 +67,26 @@ const ENVIRONMENTS = [
             $("#bottomDiv").empty();
         },
     }, {
+        text: "Block Editor",
+        image: 'chrome://angel-player/content/main-ui/assets/blockeditor.png',
+        activate: function() {
+            switchLayout("split-view-header-footer");
+            loadPageIntoDiv("topDiv", "../controls/main.html");
+            loadPageIntoDiv("leftDiv", "../blockeditor/blockeditor.html");
+            // TODO(rqou): API help page
+            loadPageIntoDiv("bottomDiv", "../console/console.html");
+        },
+        deactivate: function() {
+            $("#topDiv").empty();
+            $("#leftDiv").empty();
+            $("#bottomDiv").empty();
+        },
+    }, {
         text: "Simulator",
         image: 'chrome://angel-player/content/main-ui/assets/simulator.png',
         activate: function() {
+            // TODO(rqou): Handle sim + blockeditor as well as sim + text
+            // (note that sim + blockeditor doesn't even work yet)
             switchLayout("split-view-header-footer");
             loadPageIntoDiv("topDiv", "../controls/main.html");
             loadPageIntoDiv("leftDiv", "../texteditor/editor.html");
