@@ -31,8 +31,8 @@ const LAYOUTS = {
     },
     "split-view-header-footer": {
         top: "1",
-        centerGroup: "8",
-        bottom: "1",
+        centerGroup: "7",
+        bottom: "2",
         left: "1",
         centerPane: "0",
         right: "1",
@@ -56,8 +56,16 @@ const ENVIRONMENTS = [
         image: 'chrome://angel-player/content/main-ui/assets/code.png',
         activate: function() {
             switchLayout("split-view-header-footer");
+            loadPageIntoDiv("topDiv", "../controls/main.html");
+            loadPageIntoDiv("leftDiv", "../texteditor/editor.html");
+            // TODO(rqou): API help page
+            loadPageIntoDiv("bottomDiv", "../console/console.html");
         },
-        deactivate: function() {},
+        deactivate: function() {
+            $("#topDiv").empty();
+            $("#leftDiv").empty();
+            $("#bottomDiv").empty();
+        },
     }, {
         // TODO(rqou): Delete this when we don't need it anymore.
         text: "Stargate Network",
@@ -69,12 +77,12 @@ const ENVIRONMENTS = [
         deactivate: function() {
             $("#centerDiv").empty();
         },
-    }, 
+    },
 ];
 
 function loadPageIntoDiv(div, page) {
     // TODO(rqou): Refactor paths
-    $("<iframe class=\"absolutelyNoSpace\" " + 
+    $("<iframe class=\"absolutelyNoSpace\" " +
         "src=\"" + page + "\"></iframe>").appendTo($("#" + div));
 }
 
