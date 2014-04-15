@@ -3,10 +3,22 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="welcome.css">
+        <script type='application/javascript;version=1.7'
+            src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+        <script src="../common/require_stub.js"></script>
+        <script>
+            var welcomeJS = requireStub('tenshi/welcome/welcome.js');
+        </script>
     </head>
     <body>
         <p>
-        	Hello world! To get started, click on one of the above tabs.
+            Hello world! To get started, click on one of the above tabs.
         </p>
+        <button type="button" onclick="welcomeJS.onOpenClicked()">
+            Open
+        </button>
+        <button type="button" onclick="welcomeJS.onSaveClicked()">
+            Save
+        </button>
     </body>
 </html>
