@@ -44,24 +44,24 @@ const ENVIRONMENTS = [
     {
         text: "Home",
         image: 'chrome://angel-player/content/main-ui/assets/home.png',
-        activate: function() {
+        activate: function(prev) {
             switchLayout("center-only");
             loadPageIntoDiv("centerDiv", "../welcome/welcome.html");
         },
-        deactivate: function() {
+        deactivate: function(next) {
             $("#centerDiv").empty();
         },
     }, {
         text: "Code",
         image: 'chrome://angel-player/content/main-ui/assets/code.png',
-        activate: function() {
+        activate: function(prev) {
             switchLayout("split-view-header-footer");
             loadPageIntoDiv("topDiv", "../controls/main.html");
             loadPageIntoDiv("leftDiv", "../texteditor/editor.html");
             // TODO(rqou): API help page
             loadPageIntoDiv("bottomDiv", "../console/console.html");
         },
-        deactivate: function() {
+        deactivate: function(next) {
             $("#topDiv").empty();
             $("#leftDiv").empty();
             $("#bottomDiv").empty();
@@ -69,14 +69,14 @@ const ENVIRONMENTS = [
     }, {
         text: "Block Editor",
         image: 'chrome://angel-player/content/main-ui/assets/blockeditor.png',
-        activate: function() {
+        activate: function(prev) {
             switchLayout("split-view-header-footer");
             loadPageIntoDiv("topDiv", "../controls/main.html");
             loadPageIntoDiv("leftDiv", "../blockeditor/blockeditor.html");
             // TODO(rqou): API help page
             loadPageIntoDiv("bottomDiv", "../console/console.html");
         },
-        deactivate: function() {
+        deactivate: function(next) {
             $("#topDiv").empty();
             $("#leftDiv").empty();
             $("#bottomDiv").empty();
@@ -84,16 +84,21 @@ const ENVIRONMENTS = [
     }, {
         text: "Simulator",
         image: 'chrome://angel-player/content/main-ui/assets/simulator.png',
-        activate: function() {
-            // TODO(rqou): Handle sim + blockeditor as well as sim + text
-            // (note that sim + blockeditor doesn't even work yet)
+        activate: function(prev) {
+            // TODO(rqou): Don't unload a page just to reload it again!
+            // TODO(rqou): A way to map names back to indices.
             switchLayout("split-view-header-footer");
             loadPageIntoDiv("topDiv", "../controls/main.html");
-            loadPageIntoDiv("leftDiv", "../texteditor/editor.html");
+            if (prev == 2) {
+                // Block editor was previous
+                loadPageIntoDiv("leftDiv", "../blockeditor/blockeditor.html");
+            } else {
+                loadPageIntoDiv("leftDiv", "../texteditor/editor.html");
+            }
             loadPageIntoDiv("rightDiv", "../simulator/main.html");
             loadPageIntoDiv("bottomDiv", "../console/console.html");
         },
-        deactivate: function() {
+        deactivate: function(next) {
             $("#topDiv").empty();
             $("#leftDiv").empty();
             $("#rightDiv").empty();
@@ -102,22 +107,22 @@ const ENVIRONMENTS = [
     }, {
         text: "Robot Builder",
         image: 'chrome://angel-player/content/main-ui/assets/builder.png',
-        activate: function() {
+        activate: function(prev) {
             switchLayout("center-only");
             loadPageIntoDiv("centerDiv", "../simulator/maker.html");
         },
-        deactivate: function() {
+        deactivate: function(next) {
             $("#centerDiv").empty();
         },
     }, {
         // TODO(rqou): Delete this when we don't need it anymore.
         text: "Stargate Network",
         image: 'chrome://angel-player/content/main-ui/assets/stargate.png',
-        activate: function() {
+        activate: function(prev) {
             switchLayout("center-only");
             loadPageIntoDiv("centerDiv", "../actualMain.html");
         },
-        deactivate: function() {
+        deactivate: function(next) {
             $("#centerDiv").empty();
         },
     },
@@ -142,12 +147,14 @@ function switchLayout(newLayout) {
 function newTabSelected() {
     /* jshint validthis: true */
 
-    if (currentSelectedTab != -1) {
-        ENVIRONMENTS[currentSelectedTab].deactivate();
+    let prevSelectedTab = currentSelectedTab;
+
+    if (prevSelectedTab != -1) {
+        ENVIRONMENTS[prevSelectedTab].deactivate(this.selectedIndex);
     }
 
     currentSelectedTab = this.selectedIndex;
-    ENVIRONMENTS[currentSelectedTab].activate();
+    ENVIRONMENTS[currentSelectedTab].activate(prevSelectedTab);
 }
 
 // Creates the (XUL) tabs for the different environments
