@@ -20,29 +20,9 @@ body {
     flex-direction: column;
 }
 
-#topDiv {
-    background-color: red;
-}
-
-#bottomDiv {
-    background-color: orange;
-}
-
 #mainCenter {
     display: flex;
     flex-direction: row;
-}
-
-#leftDiv {
-    background-color: yellow;
-}
-
-#rightDiv {
-    background-color: green;
-}
-
-#centerDiv {
-    background-color: blue;
 }
 
 /* TODO(rqou): This is duplicated in a bunch of places */
