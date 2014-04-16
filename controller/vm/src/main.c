@@ -2,9 +2,17 @@
 #include <ngl_vm.h>
 #include <ngl_buffer.h>
 #include <ngl_package.h>
+#ifdef NGL_EMCC
+#include <emscripten.h>
+#endif
 
 int
 main(int argc, char *argv[]) {
+#ifdef NGL_EMCC
+  EM_ASM(
+      FS.mkdir('/real');
+      FS.mount(NODEFS, { root : '/' }, '/real'););
+#endif
   if (argc != 2) {
     printf("%s: Usage '%s <package>'\n", argv[0], argv[0]);
     return 1;

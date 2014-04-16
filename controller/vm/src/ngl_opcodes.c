@@ -1,3 +1,12 @@
+#ifdef OPCODE_LABEL
+/* 
+ * All of the opcodes below will generate a label so that opcodes can jump to
+ * each other. This significantly simplifies some of the opcodes, but results
+ * in unused labels. Therefore, disable the unused labels warning.
+ */
+#pragma GCC diagnostic ignored "-Wunused-label"
+#endif
+
 #ifdef OPCODE_TARGET
 #define OPCODE_LIST
 #endif

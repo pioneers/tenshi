@@ -12,7 +12,7 @@ import os.path
 # TODO(kzentner): Fix the linking so that it is actually possible to build
 # this. It is currently broken because adding useful code to ngl_builtins makes
 # it impossible to build the native version.
-declare_variants(['debug_native'],
+declare_variants(['debug_native', 'release_emscripten'],
                  subdir='vm')
 
 
@@ -55,8 +55,6 @@ def options(opt):
                    action='store_true',
                    help='Check compiler options before using them.')
     opt.load('compiler_c')
-    opt.load('compiler_cxx')
-    opt.load('gas')
     recurse(opt)
 
 
@@ -97,7 +95,6 @@ def configure_native(conf):
             conf.env['LINK_CC'] = conf.options.cc
     except Exception:
         pass
-    conf.load('compiler_c')
     add_cflags(conf, '-DNGL_64_BIT')
     add_cflags(conf, '-DNGL_NATIVE')
 
@@ -107,13 +104,36 @@ def configure_arm(conf):
     here = conf.env['ngl_root']
     exec(open(os.path.join(here, os.pardir, 'wscript')).read(), namespace)
     namespace['common_configure'](conf, os.path.join(here, os.pardir))
-    conf.load('compiler_c')
     add_cflags(conf, '-DNGL_32_BIT')
 
 
+def configure_emscripten(conf):
+    conf.env['CC'] = 'emcc'
+    conf.env['CC_NAME'] = 'emcc'
+    conf.env['COMPILER_CC'] = 'emcc'
+    conf.env['LINK_CC'] = 'emcc'
+    add_cflags(conf, '-DNGL_32_BIT')
+    add_cflags(conf, '-DNGL_NATIVE')
+
+
+def configure_emcc(conf):
+    v = conf.env
+    v['cprogram_PATTERN'] = '%s.js'
+    v.append_value('CFLAGS', '-Wno-warn-absolute-paths')
+    v.append_value('DEFINES', 'NGL_EMCC')
+
+
 def configure_common(conf):
-    conf.check_cc(lib='m', uselib_store='math', mandatory=False)
-    if 'mingw' in conf.env['CC'][0]:
+    conf.load('compiler_c')
+    cc = conf.env['CC'][0]
+    if 'emcc' in cc:
+        configure_emcc(conf)
+    else:
+        conf.check_cc(lib='m', uselib_store='math', mandatory=False)
+    if 'emcc' in cc or 'clang' in cc:
+        conf.env['AR'] = 'llvm-ar'
+    conf.load('ar')
+    if 'mingw' in cc:
         configure_mingw(conf)
     else:
         add_cflags(conf, '-fPIC')
@@ -128,8 +148,6 @@ def configure_common(conf):
     ]
     add_cflags(conf, '-std=gnu99', ['-std=c99', '-std=gnu89', '-std=c89'])
     add_cflags(conf, warning_flags)
-    add_cflags(conf, '-Wno-unused-function')
-    add_cflags(conf, '-Wno-unused-label')
 
     conf.env['build-tests'] = conf.options.build_tests in ['yes', 'try']
 
@@ -156,6 +174,13 @@ def configure_common(conf):
         else:
             conf.env.append_value('LINKFLAGS', ['-pg'])
             conf.env.append_value('CFLAGS', ['-pg'])
+
+
+def configure_release_emscripten(conf):
+    with sub_conf(conf, 'vm/release_emscripten'):
+        configure_emscripten(conf)
+        configure_common(conf)
+        configure_release(conf)
 
 
 def configure_debug_native(conf):
@@ -203,7 +228,9 @@ def configure(conf):
                                         os.pardir)
     conf.env['ngl_root'] = conf.path.abspath()
     conf.env['check_compiler_options'] = conf.options.check_compiler_options
+    configure_release_emscripten(conf)
     configure_debug_native(conf)
+    configure_common(conf)
     recurse(conf)
 
 

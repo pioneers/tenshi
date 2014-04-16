@@ -38,10 +38,9 @@ def build(bld):
                                       join(os.pardir, 'src',
                                            'common_defs')],
                             use='angelic',
-                            # TODO(kzentner): Make this work so that tests are
-                            # dynamically linked. Very low priority.
-                            # linkflags='-Wl,-R ' + join(rel_path, 'build',
-                            # bld.variant_dir, 'src'),
+                            rpath='$ORIGIN/../../src',
+                            linkflags='-Wl,-R ' + join(bld.path.bldpath(),
+                                                       '..', 'src')
                             )
                 target_abspath = join(bld.variant_dir, 'tests',
                                       target_filename)
