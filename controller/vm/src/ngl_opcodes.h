@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <limits.h>
 #include <ngl_stack_ngl_val.h>
-#ifndef NGL_NATIVE
+#ifdef NGL_ARM
 #include <inc/stm32f4xx.h>
 #endif
 

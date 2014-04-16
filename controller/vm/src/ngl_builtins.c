@@ -11,7 +11,7 @@
 #include <ngl_func.h>
 #include <ngl_obj.h>
 
-#ifndef NGL_NATIVE
+#ifdef NGL_ARM
 // TODO(rqou): If you don't use angle brackets, cpplint gets really confused
 #include <inc/driver_glue.h>
 #include <inc/i2c_master.h>
@@ -43,7 +43,7 @@ ngl_print_float(ngl_float f) {
   return ngl_ok;
 }
 
-#ifdef NGL_NATIVE
+#ifndef NGL_ARM
 ngl_error *ngl_set_motor(ngl_float motor, ngl_float val) {
   (void) motor;
   (void) val;
@@ -81,7 +81,7 @@ ngl_error *ngl_set_motor(ngl_float motor, ngl_float val) {
 }
 #endif
 
-#ifdef NGL_NATIVE
+#ifndef NGL_ARM
 ngl_error *ngl_get_sensor(ngl_float sensor, ngl_float *val) {
   (void) sensor;
   *val = 0;
