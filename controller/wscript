@@ -215,7 +215,7 @@ def build(bld):
             source="",
             target=bld_path("tenshi.elf"),
             features="cxx cxxprogram",
-            use="crt0 c_objects cpp_objects version_obj angelic",
+            use="crt0 c_objects cpp_objects version_obj angelic_static",
         )
 
         bld(
