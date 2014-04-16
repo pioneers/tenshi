@@ -4,6 +4,12 @@
 #undef NGL_ARRAY_H_
 
 /*
+ * Because this file generates a lot of functions, it is normal for
+ * not all of them to be used. Disable the unused function warning.
+ */
+#pragma GCC diagnostic ignored "-Wunused-function"
+
+/*
  * This generates an api which is abi compatible with the data structure
  * described in ngl_array_ngl_val.{h, c}. All methods here forward to functions
  * there.
