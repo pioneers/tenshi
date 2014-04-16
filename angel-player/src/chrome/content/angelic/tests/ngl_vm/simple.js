@@ -9,7 +9,8 @@ function compile_and_run ( text ) {
     vm.make_exfn ( 0, 'print_float', misc.print ),
     ] );
   vm.load_text ( text );
-  vm.save_pkg ( 'x86_64', 'simple.ngl_pkg', misc.print );
+  vm.save_pkg ( 'x86_64', 'simple64.ngl_pkg', misc.print );
+  vm.save_pkg ( 'ARM', 'simple32.ngl_pkg', misc.print );
   return vm;
   }
 var code = '' +

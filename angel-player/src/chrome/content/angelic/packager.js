@@ -439,10 +439,10 @@ var root = {
     },
   write_literal : function write_literal ( buf, offset, val ) {
     if ( val[0] === 'float' ) {
-      if ( this.target_type === 'x86_64' ) {
+      if ( this.literal_size === 2 ) {
         buf.writeDoubleLE ( val[1], offset );
         }
-      else if ( this.target_type === 'ARM' ) {
+      else if ( this.literal_size === 1 ) {
         buf.writeFloatLE ( val[1], offset );
         }
       else {
@@ -450,12 +450,12 @@ var root = {
         }
       }
     else if ( val[0] === 'integer' ) {
-      if ( this.target_type === 'x86_64' ) {
+      if ( this.literal_size === 2 ) {
         buf.writeInt32LE ( val[1] & 0xffffffff, offset );
         // Javascript seems to ignore shifts >= 32 bits.
         buf.writeInt32LE ( ( val[1] >>> 16 ) >> 16, offset + size_uint32_t );
         }
-      else if ( this.target_type === 'ARM' ) {
+      else if ( this.literal_size === 1 ) {
         buf.writeInt32LE ( val[1], offset );
         }
       else {
@@ -463,12 +463,12 @@ var root = {
         }
       }
     else if ( val[0] === 'uinteger' ) {
-      if ( this.target_type === 'x86_64' ) {
+      if ( this.literal_size === 2 ) {
         buf.writeUInt32LE ( val[1] & 0xffffffff, offset );
         // Javascript seems to ignore shifts >= 32 bits.
         buf.writeUInt32LE ( ( val[1] >>> 16 ) >> 16, offset + size_uint32_t );
         }
-      else if ( this.target_type === 'ARM' ) {
+      else if ( this.literal_size === 1 ) {
         buf.writeUInt32LE ( val[1], offset );
         }
       else {
@@ -597,6 +597,7 @@ var root = {
     },
   create_pkg : function create_pkg ( map, modules, target_type,
                                      common_defs_path ) {
+    this.init ( this.factory );
     var self = this;
     this.target_type = target_type;
     if ( target_type === 'js' ) {
@@ -696,20 +697,21 @@ var root = {
     this.write_patches ( );
     this.write_fixups ( );
     },
+  init : function init ( fact ) {
+    this.patches = [];
+    this.fixups = [];
+    this.buffer = null;
+    this.buffer_idx = 0;
+    this.offset = 0;
+    this.literal_size = 1;
+    this.factory = fact;
+    },
   };
 
 function make ( ) {
-  var fact = factory.make ( );
-  return misc.obj_or ( {
-    patches: [],
-    fixups: [],
-    buffer: null,
-    buffer_idx: 0,
-    offset: 0,
-    literal_size: 1,
-    factory: fact,
-    },
-    root );
+  var out = Object.create ( root );
+  out.init ( factory.make ( ) );
+  return out;
   }
 
 exports.make = make;
