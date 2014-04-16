@@ -53,6 +53,7 @@ def build(bld):
 
     for src in bld.path.ant_glob('common_defs/*.yaml'):
         bld(
+            name='typpo',
             rule='${root}/tools/typpo_c_generator.py ${SRC} ${TGT}',
             source=src,
             target=src.change_ext('.h')
@@ -60,6 +61,7 @@ def build(bld):
 
     for src in bld.path.ant_glob('common_defs/modules/*.yaml'):
         bld(
+            name='module gen',
             rule='${ngl_root}/src/generate_module.py ${SRC} ${TGT}',
             source=src,
             target=src.change_ext('.c')
@@ -79,7 +81,7 @@ def build(bld):
         target='ngl_vm_core',
         cflags=bld.env['core_cflags'],
         includes=includes,
-        )
+    )
 
     bld.objects(
         source=sources,
@@ -88,7 +90,7 @@ def build(bld):
         use='math',
     )
 
-    if 'native' in bld.variant:
+    if 'native' in bld.variant or 'emscripten' in bld.variant:
         bld(
             features=lib_features,
             use='objects ngl_vm_core',
@@ -102,9 +104,18 @@ def build(bld):
             use='angelic',
             rpath='$ORIGIN',
         )
+        if 'emscripten' in bld.variant:
+            bld(
+                name='emcc library',
+                rule='''emcc ${SRC} -o ${TGT} ${CFLAGS} -s '''
+                     '''EXPORTED_FUNCTIONS="['_ngl_vm_run_package','''
+                     ''''_ngl_run_package']" --closure 1 --llvm-lto 3 ''',
+                source='libangelic.so',
+                target='ngl_vm.js',
+            )
 
     bld(
         features=['c', 'cstlib'],
         use='objects ngl_vm_core',
-        target='angelic',
+        target='angelic_static'
     )

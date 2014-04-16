@@ -12,7 +12,7 @@ import os.path
 # TODO(kzentner): Fix the linking so that it is actually possible to build
 # this. It is currently broken because adding useful code to ngl_builtins makes
 # it impossible to build the native version.
-declare_variants(['debug_native'],
+declare_variants(['debug_native', 'release_emscripten'],
                  subdir='vm')
 
 
@@ -55,8 +55,6 @@ def options(opt):
                    action='store_true',
                    help='Check compiler options before using them.')
     opt.load('compiler_c')
-    opt.load('compiler_cxx')
-    opt.load('gas')
     recurse(opt)
 
 
@@ -97,9 +95,9 @@ def configure_native(conf):
             conf.env['LINK_CC'] = conf.options.cc
     except Exception:
         pass
-    conf.load('compiler_c')
-    add_cflags(conf, '-DNGL_64_BIT')
-    add_cflags(conf, '-DNGL_NATIVE')
+    conf.env.append_value('DEFINES', 'NGL_64_BIT')
+    conf.env.append_value('DEFINES', 'NGL_NATIVE')
+    conf.env.append_value('DEFINES', 'NGL_X86_64')
 
 
 def configure_arm(conf):
@@ -107,13 +105,31 @@ def configure_arm(conf):
     here = conf.env['ngl_root']
     exec(open(os.path.join(here, os.pardir, 'wscript')).read(), namespace)
     namespace['common_configure'](conf, os.path.join(here, os.pardir))
-    conf.load('compiler_c')
-    add_cflags(conf, '-DNGL_32_BIT')
+    conf.env.append_value('DEFINES', 'NGL_32_BIT')
+    conf.env.append_value('DEFINES', 'NGL_ARM')
+
+
+def configure_emscripten(conf):
+    conf.env['CC'] = 'emcc'
+    conf.env['CC_NAME'] = 'emcc'
+    conf.env['COMPILER_CC'] = 'emcc'
+    conf.env['LINK_CC'] = 'emcc'
+    conf.env.append_value('DEFINES', 'NGL_32_BIT')
+    conf.env.append_value('DEFINES', 'NGL_EMCC')
+    conf.env.append_value('CFLAGS', '-Wno-warn-absolute-paths')
 
 
 def configure_common(conf):
-    conf.check_cc(lib='m', uselib_store='math', mandatory=False)
-    if 'mingw' in conf.env['CC'][0]:
+    conf.load('compiler_c')
+    cc = conf.env['CC'][0]
+    if 'emcc' in cc:
+        conf.env['cprogram_PATTERN'] = '%s.js'
+    else:
+        conf.check_cc(lib='m', uselib_store='math', mandatory=False)
+    if 'emcc' in cc or 'clang' in cc:
+        conf.env['AR'] = 'llvm-ar'
+    conf.load('ar')
+    if 'mingw' in cc:
         configure_mingw(conf)
     else:
         add_cflags(conf, '-fPIC')
@@ -128,8 +144,6 @@ def configure_common(conf):
     ]
     add_cflags(conf, '-std=gnu99', ['-std=c99', '-std=gnu89', '-std=c89'])
     add_cflags(conf, warning_flags)
-    add_cflags(conf, '-Wno-unused-function')
-    add_cflags(conf, '-Wno-unused-label')
 
     conf.env['build-tests'] = conf.options.build_tests in ['yes', 'try']
 
@@ -158,6 +172,13 @@ def configure_common(conf):
             conf.env.append_value('CFLAGS', ['-pg'])
 
 
+def configure_release_emscripten(conf):
+    with sub_conf(conf, 'vm/release_emscripten'):
+        configure_emscripten(conf)
+        configure_common(conf)
+        configure_release(conf)
+
+
 def configure_debug_native(conf):
     with sub_conf(conf, 'vm/debug_native'):
         configure_native(conf)
@@ -173,7 +194,7 @@ def configure_debug_arm(conf):
 
 
 def configure_debug(conf):
-    add_cflags(conf, '-DANGELIC_DEBUG')
+    conf.env.append_value('DEFINES', 'ANGELIC_DEBUG')
     add_cflags(conf, '-g')
 
 
@@ -192,8 +213,8 @@ def configure_release_arm(conf):
 
 
 def configure_release(conf):
-    add_cflags(conf, '-DNDEBUG')
-    add_cflags(conf, '-DANGELIC_RELEASE')
+    conf.env.append_value('DEFINES', 'NDEBUG')
+    conf.env.append_value('DEFINES', 'ANGELIC_RELEASE')
     add_cflags(conf, '-O3')
 
 
@@ -203,7 +224,9 @@ def configure(conf):
                                         os.pardir)
     conf.env['ngl_root'] = conf.path.abspath()
     conf.env['check_compiler_options'] = conf.options.check_compiler_options
+    configure_release_emscripten(conf)
     configure_debug_native(conf)
+    configure_common(conf)
     recurse(conf)
 
 
