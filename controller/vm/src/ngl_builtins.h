@@ -17,6 +17,11 @@ ngl_declare_base(ngl_float);
 ngl_declare_composite(ngl_obj);
 ngl_declare_composite(ngl_error);
 
+ngl_declare_composite(ngl_table);
+ngl_declare_composite(ngl_table_iter);
+
+ngl_declare_composite(ngl_module);
+
 ngl_declare_alien(ngl_builtin_alien);
 
 ngl_error *ngl_print_float(ngl_float);

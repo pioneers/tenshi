@@ -312,6 +312,18 @@
       type: ngl_stack
     - name: call_stack
       type: ngl_stack
+    - name: current_func
+      type: 'ngl_vm_func *'
+    - name: pc_offset
+      type: ngl_uint
+- name: ngl_module_entry
+  kind: struct
+  slots:
+    - name: name
+      type: 'const char *'
+    - name: cobj
+      type: 'ngl_obj *'
+
 - name: ngl_table_elem_interface
   kind: struct
   slots:
@@ -349,6 +361,17 @@
       type: size_t
     - name: data
       type: 'ngl_table_bucket *'
+- name: ngl_table_iter
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: parent
+      type: 'ngl_table *'
+    - name: this_bucket
+      type: 'ngl_table_bucket *'
+    - name: index
+      type: ngl_uint
 - name: ngl_error
   kind: struct
   slots:
@@ -365,6 +388,15 @@
       type: ngl_globals
     - name: threads
       type: ngl_array
+- name: ngl_module
+  kind: struct
+  slots:
+    - name: header
+      type: ngl_obj
+    - name: name
+      type: ngl_str
+    - name: elems
+      type: ngl_table
 - name: ngl_vm_func
   kind: struct
   slots:

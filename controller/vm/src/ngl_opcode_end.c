@@ -9,6 +9,13 @@ for (ngl_uint i = 0; i < ngl_stack_height(&stack); i++) {
 
 op_bunch >>= 8 * OP_NUM_ARGS;
 if (!op_bunch) {
+  if (--ticks_remaining < 0) {
+    if (ticks == -1) {
+      ticks_remaining = NGL_INT_MAX;
+    } else {
+      goto exit;
+    }
+  }
   op_bunch = *pc;
   pc += 1;
 }

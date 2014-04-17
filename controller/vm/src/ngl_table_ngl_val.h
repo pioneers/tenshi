@@ -56,7 +56,16 @@ ngl_error *ngl_table_set_hash(ngl_table * self,
 
 ngl_error *ngl_table_delete(ngl_table * self);
 
+ngl_error *ngl_table_iter_init(ngl_table_iter *self, ngl_table *parent);
+ngl_table_iter *ngl_table_iter_new(ngl_table *parent);
+
+ngl_error *ngl_table_iter_next(ngl_table_iter *self);
+bool ngl_table_iter_done(ngl_table_iter *self);
+ngl_error *ngl_table_iter_deref(ngl_table_iter *self, ngl_val *key,
+                                ngl_val *val);
+
 extern ngl_table_elem_interface ngl_table_ngl_val_interface;
 extern ngl_error ngl_table_not_found;
+extern ngl_error ngl_iter_done;
 
 #endif  // NGL_TABLE_NGL_VAL_H_
