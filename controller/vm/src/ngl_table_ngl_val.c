@@ -6,8 +6,10 @@
 #include <ngl_str.h>
 #include <ngl_val.h>
 #include <ngl_type.h>
+#include <ngl_builtins.h>
 
 ngl_error ngl_table_not_found;
+ngl_error ngl_iter_done;
 
 bool ngl_table_needs_grow(ngl_table * self);
 
@@ -353,3 +355,53 @@ ngl_table_elem_interface ngl_table_ngl_val_interface = {
   &ngl_compare_ngl_val
 } END
 
+ngl_error *ngl_table_iter_init(ngl_table_iter *self, ngl_table *parent) {
+  ngl_obj_init(&self->header, ngl_type_ngl_table_iter);
+  self->parent = parent;
+  self->index = 0;
+  self->this_bucket = parent->data;
+  return ngl_ok;
+}
+
+ngl_table_iter *ngl_table_iter_new(ngl_table *parent) {
+  ngl_table_iter *iter = ngl_alloc_simple(ngl_table_iter, 1);
+  if (iter == NULL) {
+    return NULL;
+  }
+  ngl_error *e = ngl_table_iter_init(iter, parent);
+  if (e != ngl_ok) {
+    ngl_free(iter);
+    return NULL;
+  }
+  return iter;
+}
+
+ngl_error *ngl_table_iter_next(ngl_table_iter *self) {
+  while (self->this_bucket != NULL && self->this_bucket->hash == 0) {
+    self->this_bucket = self->this_bucket->next;
+  }
+  if (self->this_bucket == NULL) {
+    while (self->this_bucket->hash == 0) {
+      ++self->index;
+      self->this_bucket = &self->parent->data[self->index];
+      if (ngl_table_iter_done(self)) {
+        return ngl_ok;
+      }
+    }
+  }
+  return ngl_ok;
+}
+
+bool ngl_table_iter_done(ngl_table_iter *self) {
+  return (self->index & self->parent->mask) != self->index;
+}
+
+ngl_error *ngl_table_iter_deref(ngl_table_iter *self, ngl_val *key,
+                                ngl_val *val) {
+  if (ngl_table_iter_done(self)) {
+    return &ngl_iter_done;
+  }
+  *key = self->this_bucket->key;
+  *val = self->this_bucket->value;
+  return ngl_ok;
+}

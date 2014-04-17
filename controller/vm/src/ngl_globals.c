@@ -1,5 +1,8 @@
 #include <ngl_globals.h>
 #include <ngl_macros.h>
+#include <assert.h>
+#include <ngl_vm.h>
+#include <string.h>
 
 ngl_error *
 ngl_globals_init(ngl_globals * self) {
@@ -70,4 +73,24 @@ ngl_globals_set_obj(ngl_globals * self,
     ngl_array_push_back(array, ngl_val_pointer(NULL));
   }
   return ngl_array_set(array, id, ngl_val_pointer(to_store));
+}
+
+ngl_error *ngl_globals_get_ids(ngl_globals *self,
+                               ngl_str *module_name,
+                               ngl_str *name,
+                               uint32_t *type_id,
+                               uint32_t *id) {
+  (void) self;
+  /* TODO(kzentner): Remove this limitation. */
+  assert(strcmp(module_name->start, "core") == 0);
+  (void) module_name;
+
+  for (uint32_t i = 0; i < ngl_vm_core_length; i++) {
+    if (strcmp(ngl_vm_core[i].name, name->start) == 0) {
+      *type_id = 0;
+      *id = i;
+      return ngl_ok;
+    }
+  }
+  return &ngl_error_generic;
 }

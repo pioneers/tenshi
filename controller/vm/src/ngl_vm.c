@@ -4,6 +4,7 @@
 #include <ngl_builtins.h>
 #include <ngl_package.h>
 #include <ngl_buffer.h>
+#include <string.h>
 
 static ngl_error *
 ngl_add_type(ngl_globals * globals, ngl_type * type) {
@@ -19,9 +20,21 @@ ngl_add_type(ngl_globals * globals, ngl_type * type) {
   return ngl_ok;
 }
 
+ngl_module_entry * ngl_vm_core;
+ngl_uint ngl_vm_core_length;
+
+
 static ngl_error *
 ngl_init_core(ngl_vm * vm) {
   #include <modules/ngl_core.c>
+  ngl_vm_core = ngl_alloc_simple(ngl_module_entry,
+                                 ngl_core_length);
+  if (ngl_vm_core == NULL) {
+    return &ngl_out_of_memory;
+  }
+  memcpy((void *) ngl_vm_core, (void *) ngl_vm_core,
+         sizeof(ngl_module_entry) * ngl_core_length);
+  ngl_vm_core_length = ngl_core_length;
 
   ngl_globals *globals = &vm->globals;
   ngl_ret_on_err(ngl_add_type(globals, ngl_type_ngl_builtin_alien));
@@ -29,7 +42,7 @@ ngl_init_core(ngl_vm * vm) {
   ngl_ret_on_err(ngl_add_type(globals, ngl_type_ngl_buffer));
   for (ngl_uint i = 0; i < ngl_core_length; i++) {
     ngl_ret_on_err(ngl_globals_set_obj_from_ids(globals, 0, i,
-                                                ngl_core[i]));
+                                                ngl_core[i].cobj));
   }
   return ngl_ok;
 }

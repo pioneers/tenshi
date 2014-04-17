@@ -1,5 +1,14 @@
-- cname: '&ngl_call_ngl_print_float.func'
-- cname: '&ngl_call_ngl_set_motor.func'
-- cname: '&ngl_call_ngl_get_sensor.func'
-- cname: ngl_type_ngl_vm_func
-- cname: ngl_type_ngl_buffer
+- cobj: '&ngl_call_ngl_print_float.func'
+  name: print_float
+
+- cobj: '&ngl_call_ngl_set_motor.func'
+  name: set_motor
+
+- cobj: '&ngl_call_ngl_get_sensor.func'
+  name: get_sensor
+
+- cobj: ngl_type_ngl_vm_func
+  name: 'ngl_type_ngl_vm_func'
+
+- cobj: ngl_type_ngl_buffer
+  name: 'ngl_type_ngl_buffer'

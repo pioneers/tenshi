@@ -219,7 +219,8 @@ ngl_vm_run_package(ngl_vm * vm, ngl_package * pkg) {
   ngl_vm_func_init((ngl_func *) main_func, code, 8);
   ngl_thread *main_thread;
   ngl_ret_on_err(ngl_array_get(&vm->threads, 0, ngl_val_addr(&main_thread)));
-  ngl_ret_on_err(ngl_vm_exec(vm, main_thread, main_func));
+  main_thread->current_func = main_func;
+  ngl_ret_on_err(ngl_vm_exec(vm, main_thread, -1));
   /* TODO(kzentner): Free allocated memory. */
   return ngl_ok;
 }
