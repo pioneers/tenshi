@@ -14,9 +14,15 @@
 #endif
 
 ngl_error *
-ngl_vm_exec(ngl_vm * vm, ngl_thread * restrict thread, ngl_vm_func * func) {
+ngl_vm_exec(ngl_vm * vm, ngl_thread * restrict thread, ngl_int ticks) {
   (void) vm;
+  ngl_int ticks_remaining = ticks;
+  ngl_vm_func * func = thread->current_func;
+  if (func == NULL) {
+    return &ngl_error_generic;
+  }
   ngl_opbunch *pc = ngl_vm_func_get_code(func);
+  pc += thread->pc_offset;
   ngl_opbunch op_bunch = *pc++;
 #define args ((ngl_asm_arg *) &op_bunch)
   ngl_stack stack = thread->stack;
@@ -43,5 +49,6 @@ ngl_vm_exec(ngl_vm * vm, ngl_thread * restrict thread, ngl_vm_func * func) {
 exit:
   thread->stack = stack;
   thread->call_stack = call_stack;
+  thread->current_func = func;
   return ngl_ok;
 }

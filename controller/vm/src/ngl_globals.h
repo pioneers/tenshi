@@ -23,4 +23,10 @@ ngl_error *ngl_globals_set_obj(ngl_globals * self,
                                ngl_type * type,
                                uint32_t id, ngl_obj * to_store);
 
+ngl_error *ngl_globals_get_ids(ngl_globals *self,
+                               ngl_str *module_name,
+                               ngl_str *name,
+                               uint32_t *type_id,
+                               uint32_t *id);
+
 #endif  // NGL_GLOBALS_H_

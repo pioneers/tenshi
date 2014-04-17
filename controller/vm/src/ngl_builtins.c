@@ -33,6 +33,11 @@ ngl_define_composite(ngl_error);
 ngl_define_composite(ngl_str);
 ngl_define_composite(ngl_buffer);
 
+ngl_define_composite(ngl_table);
+ngl_define_composite(ngl_table_iter);
+
+  ngl_define_composite(ngl_module);
+
 ngl_define_alien(ngl_builtin_alien);
 
 ngl_call ngl_null_call;
@@ -151,6 +156,11 @@ ngl_builtins_init() {
   ngl_init_composite(ngl_thread);
   ngl_init_composite(ngl_vm);
   ngl_init_composite(ngl_buffer);
+
+  ngl_init_composite(ngl_table);
+  ngl_init_composite(ngl_table_iter);
+
+  ngl_init_composite(ngl_module);
 
   ngl_init_alien(ngl_builtin_alien);
 

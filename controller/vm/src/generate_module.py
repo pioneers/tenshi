@@ -30,13 +30,13 @@ def main():
         '{body}'
         '\n')
 
-    line = '  (ngl_obj *) {val},'
+    line = '  (ngl_module_entry) {{ "{name}", (ngl_obj *) {cobj} }},'
 
-    lines = '\n'.join(line.format(val=v['cname']) for v in module)
+    lines = '\n'.join(line.format(**v) for v in module)
 
     body = (
         'ngl_uint {module_name}_length = {length};\n'
-        'ngl_obj * {module_name}[] = {{\n'
+        'ngl_module_entry {module_name}[{length}] = {{\n'
         '{lines}\n'
         '}};\n')
     module_name = os.path.splitext(os.path.split(input_file)[-1])[0]
