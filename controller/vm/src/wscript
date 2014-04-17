@@ -49,6 +49,7 @@ def build(bld):
         'ngl_type.c',
         'ngl_utf8.c',
         'ngl_vm.c',
+        'ngl_api.c',
     ]
 
     for src in bld.path.ant_glob('common_defs/*.yaml'):
