@@ -2,6 +2,8 @@
 
 export PROJECT_ROOT_DIR=`pwd`
 
+emcc hello_world.cpp
+
 # Set up or download tools
 ./tools/extract-tools.sh
 
