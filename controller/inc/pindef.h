@@ -29,18 +29,20 @@
 #define __SET_GPIO_PULLUP(b, p, m, t, s, pu, af)  \
   { GPIO##b->PUPDR = (GPIO##b->PUPDR & ~(0b11 << (p * 2))) | (pu << (p * 2)); }
 // Set the proper alternate function for the particular pin.
+// Note: The redundant ternaries makes GCC stop issuing shift warnings.
 #define __SET_GPIO_AF(b, p, m, t, s, pu, af)  \
   { \
     if (p < 8)  \
     { \
       GPIO##b->AFR[0] = \
-          (GPIO##b->AFR[0] & ~(0b1111 << (p * 4))) | (af << (p * 4)); \
+          (GPIO##b->AFR[0] & ~(0b1111 << ((p < 8 ? p : 0) * 4)))  \
+          | (af << ((p < 8 ? p : 0) * 4)); \
     } \
     else  \
     { \
       GPIO##b->AFR[1] = \
-          (GPIO##b->AFR[1] & ~(0b1111 << ((p - 8) * 4)))  \
-          | (af << ((p - 8) * 4)); \
+          (GPIO##b->AFR[1] & ~(0b1111 << ((p < 8 ? 0 : p - 8) * 4)))  \
+          | (af << ((p < 8 ? 0 : p - 8) * 4)); \
     } \
   }
 
