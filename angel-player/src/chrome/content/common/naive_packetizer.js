@@ -6,6 +6,8 @@ let typpo_module = require('tenshi/angelic/factory');
 let url = require('jetpack/sdk/url');
 let buffer = require('jetpack/sdk/io/buffer');
 let Int64 = require('Int64.js');
+const global_state = require('tenshi/common/global_state');
+const robot_application = require('tenshi/common/robot_application');
 
 const XBEE_FRAMING_YAML_FILE =
     'chrome://angel-player/content/common_defs/xbee_typpo.yaml';
@@ -37,7 +39,11 @@ exports.sendPacketizedData = function(data) {
     // TODO(rqou): Don't hardcode
     serportWorker.postMessage({cmd: "open", data: "/dev/ttyUSB0"});
 
-    const ROBOT = "0x0013A20040A580C4";
+    let robotApp = global_state.get('robot_application');
+    if (!robotApp.radio_pairing_info) {
+        throw "No radio address set!";
+    }
+    let ROBOT = "0x" + robotApp.radio_pairing_info;
 
     serportWorker.onmessage = function(e) {
         let rxbuf = e.data;
