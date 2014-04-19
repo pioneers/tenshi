@@ -44,6 +44,8 @@ exports.init = function(_window) {
   editor.getSelection().clearSelection();
 
   editor.getSession().on('change', onEditorChanged);
+  // TODO(rqou): JQuery? Is it loaded in this page?
+  window.addEventListener('unload', saveEditorText);
 
   initialized = true;
 };
