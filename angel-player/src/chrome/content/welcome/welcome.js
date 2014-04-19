@@ -8,6 +8,23 @@ let window;
 let document;
 let $;
 
+function xbeeAddrKeyup(e) {
+    /* jshint validthis: true */
+
+    if (this.validity.valid) {
+        global_state.get('robot_application').radio_pairing_info =
+            this.value;
+    }
+}
+
+function updateFromSavedRobotApp() {
+    let robotApp = global_state.get('robot_application');
+
+    if (robotApp.radio_pairing_info) {
+        $("#xbeeAddrInput").val(robotApp.radio_pairing_info);
+    }
+}
+
 function onLoad() {
     if (!global_state.get('robot_application')) {
         let emptyApp = robot_application.CreateEmptyRobotApplication();
@@ -15,9 +32,15 @@ function onLoad() {
         // a fine assumption for now.
         global_state.set('robot_application', emptyApp);
     }
+
+    updateFromSavedRobotApp();
+
+    $("#xbeeAddrInput").keyup(xbeeAddrKeyup);
+    $("#openButton").click(onOpenClicked);
+    $("#saveButton").click(onSaveClicked);
 }
 
-exports.onOpenClicked = function() {
+function onOpenClicked(e) {
     let fp = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker);
     fp.init(window, "Open program", Ci.nsIFilePicker.modeOpen);
     fp.defaultExtension = "yaml";
@@ -31,12 +54,14 @@ exports.onOpenClicked = function() {
 
         global_state.set('robot_application',
             robot_application.LoadRobotApplication(fp.file.path));
+
+        updateFromSavedRobotApp();
     }
 
     fp.open({done: openCallback});
 };
 
-exports.onSaveClicked = function() {
+function onSaveClicked(e) {
     let fp = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker);
     fp.init(window, "Save program", Ci.nsIFilePicker.modeSave);
     fp.defaultExtension = "yaml";
