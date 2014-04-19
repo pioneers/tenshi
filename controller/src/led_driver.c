@@ -103,6 +103,8 @@ void led_driver_panic(void) {
 }
 
 static portTASK_FUNCTION_PROTO(led_driver_task, pvParameters) {
+  (void) pvParameters;
+
   uint8_t current_led_pattern = 0;
   uint8_t prev_led_pattern = 0;
   uint8_t pattern_step_index = 0;
@@ -169,7 +171,8 @@ static portTASK_FUNCTION_PROTO(led_driver_task, pvParameters) {
 void led_driver_init(void) {
   led_driver_init_hw();
 
-  xTaskCreate(led_driver_task, "LEDs", 256, NULL, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(led_driver_task, (const signed char *)"LEDs", 256, NULL,
+    tskIDLE_PRIORITY, NULL);
 }
 
 void led_driver_set_mode(uint8_t mode) {

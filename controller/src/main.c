@@ -26,6 +26,8 @@ int8_t PiEMOSAnalogVals[7];
 uint8_t PiEMOSDigitalVals[8];
 
 static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
+  (void) pvParameters;
+
   ngl_buffer *program = ngl_buffer_alloc(code_buffer_len);
   // TODO(rqou): This is dumb.
   memcpy(NGL_BUFFER_DATA(program), code_buffer, code_buffer_len);
@@ -39,6 +41,8 @@ static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
 // TODO(rqou): Move this elsewhere
 // TODO(rqou): This entire function is a hack
 static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
+  (void) pvParameters;
+
   // TODO(rqou): More intelligent interleaved
   uint32_t code_received_to = 0;
   uint32_t code_received_len = 0;
@@ -94,13 +98,13 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
       vTaskDelay(20 / portTICK_RATE_MS);
       continue;
     }
-    if (!xbee_verify_checksum(buf)) {
+    xbee_api_packet *packetIn = (xbee_api_packet *)buf;
+    if (!xbee_verify_checksum(packetIn)) {
       vPortFree(buf);
       // TODO(rqou): Proper timer, why the f*ck do I need to copy this here?
       vTaskDelay(20 / portTICK_RATE_MS);
       continue;
     }
-    xbee_api_packet *packetIn = (xbee_api_packet *)buf;
     if (packetIn->payload.xbee_api_type != XBEE_API_TYPE_RX64) {
       vPortFree(buf);
       // TODO(rqou): Proper timer, why the f*ck do I need to copy this here?
@@ -180,8 +184,8 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
                 UART_SERIAL_SEND_ERROR)) {}
           uart_serial_send_finish(radio_driver, txn);
 
-          xTaskCreate(
-            angelicTask, "Angelic", 256, NULL, tskIDLE_PRIORITY, NULL);
+          xTaskCreate(angelicTask, (const signed char *)"Angelic", 256, NULL,
+            tskIDLE_PRIORITY, NULL);
         }
       }
       break;
@@ -199,6 +203,10 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
 }
 
 int main(int argc, char **argv) {
+  // Not useful
+  (void) argc;
+  (void) argv;
+
   led_driver_init();
   button_driver_init();
 
@@ -217,6 +225,7 @@ int main(int argc, char **argv) {
   // Setup radio
   radio_driver_init();
 
-  xTaskCreate(radioTask, "Radio", 256, NULL, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(radioTask, (const signed char *)"Radio", 256, NULL,
+    tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();
 }
