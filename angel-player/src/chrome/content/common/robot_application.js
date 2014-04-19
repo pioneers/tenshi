@@ -30,6 +30,7 @@ exports.CreateEmptyRobotApplication = function() {
                     "        y = get_sensor(3)\n" +
                     "        set_motor(0, x)\n" +
                     "        set_motor(1, y)\n";
+    ret.radio_pairing_info = "0013A20040A580C4";
 
     setExports(ret);
     return ret;

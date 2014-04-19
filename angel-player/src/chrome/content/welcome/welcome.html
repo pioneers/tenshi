@@ -7,18 +7,25 @@
             src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
         <script src="../common/require_stub.js"></script>
         <script>
-            var welcomeJS = requireStub('tenshi/welcome/welcome.js');
+            requireStub('tenshi/welcome/welcome.js');
         </script>
     </head>
     <body>
         <p>
             Hello world! To get started, click on one of the above tabs.
         </p>
-        <button type="button" onclick="welcomeJS.onOpenClicked()">
-            Open
-        </button>
-        <button type="button" onclick="welcomeJS.onSaveClicked()">
-            Save
-        </button>
+        <div>
+            <button type="button" id="openButton">
+                Open
+            </button>
+            <button type="button" id="saveButton">
+                Save
+            </button>
+        </div>
+        <div>
+            XBee address:
+            <input type="text" id="xbeeAddrInput" pattern="[0-9a-fA-F]{16}" required>
+            </input>
+        </div>
     </body>
 </html>
