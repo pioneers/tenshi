@@ -295,6 +295,7 @@ uart_serial_module *radio_driver;
 static void radio_txen(int enable) {
   // We aren't currently using SPI or anything, so we don't need to do anything
   // here.
+  (void) enable;
 }
 
 void radio_driver_init(void) {

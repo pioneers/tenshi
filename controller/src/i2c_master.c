@@ -76,7 +76,8 @@ i2c_master_module *i2c_master_init_module(void *periph_base) {
   module_obj->currentTxn = NULL;
 
   // Start the task
-  xTaskCreate(i2c_master_task, "I2C", 256, module_obj, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(i2c_master_task, (const signed char *)"I2C", 256, module_obj,
+    tskIDLE_PRIORITY, NULL);
 
   return (i2c_master_module *)module_obj;
 }
@@ -100,6 +101,8 @@ void *i2c_issue_transaction(i2c_master_module *module, uint8_t addr,
 
 int i2c_transaction_status(i2c_master_module *module,
   void *transaction) {
+  (void) module;
+
   return ((i2c_transaction_obj *)transaction)->status;
 }
 
@@ -110,7 +113,9 @@ void i2c_handle_interrupt(i2c_master_module *_module) {
   i2c_transaction_obj *txn = module->currentTxn;
 
   sr1_reg = module->periph_base->SR1;
+  // TODO(rqou): Do I actually need to read SR2?
   sr2_reg = module->periph_base->SR2;
+  (void) sr2_reg;
 
   // Transmitting data
   if (txn->status == I2C_TRANSACTION_STATUS_SENDING) {
@@ -179,7 +184,9 @@ void i2c_handle_interrupt_error(i2c_master_module *_module) {
   uint32_t sr1_reg, sr2_reg;
 
   sr1_reg = module->periph_base->SR1;
+  // TODO(rqou): Do I actually need to read SR2?
   sr2_reg = module->periph_base->SR2;
+  (void) sr2_reg;
 
   if (txn) {
     txn->status = I2C_TRANSACTION_STATUS_ERROR;
@@ -199,6 +206,8 @@ void i2c_handle_interrupt_error(i2c_master_module *_module) {
 
 int i2c_transaction_finish(i2c_master_module *module,
   void *_transaction) {
+  (void) module;
+
   i2c_transaction_obj *transaction = (i2c_transaction_obj *)_transaction;
   // Ignore non-finished transactions
   if ((transaction->status != I2C_TRANSACTION_STATUS_DONE) &&

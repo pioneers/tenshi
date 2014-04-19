@@ -41,7 +41,7 @@ int xbee_verify_checksum(xbee_api_packet *packet) {
   }
 
   uint8_t sum = 0;
-  for (int i = 0; i < __REV16(packet->length) + 1; i++) {
+  for (unsigned int i = 0; i < __REV16(packet->length) + 1; i++) {
     sum += packet->payload.bytes[i];
   }
 
@@ -50,7 +50,7 @@ int xbee_verify_checksum(xbee_api_packet *packet) {
 
 void xbee_fill_checksum(xbee_api_packet *packet) {
   uint8_t sum = 0;
-  for (int i = 0; i < __REV16(packet->length); i++) {
+  for (unsigned int i = 0; i < __REV16(packet->length); i++) {
     sum += packet->payload.bytes[i];
   }
 

@@ -79,7 +79,7 @@ extern debug_uart_module *debug_uart_init(SPI_TypeDef *periph_base) {
   module->rx_next_is_escaped = 0;
   module->tx_next_send = 0;
 
-  return module;
+  return (debug_uart_module *)module;
 }
 
 extern void debug_uart_tx(debug_uart_module *_module,

@@ -131,7 +131,7 @@ static portTASK_FUNCTION_PROTO(uart_tx_task, pvParameters) {
     USART_TypeDef *periph_base = periph_info[module->uart_num - 1].periph;
     DMA_Stream_TypeDef *dma_stream_tx =
       periph_info[module->uart_num - 1].dma_stream_tx;
-    dma_stream_tx->M0AR = txn->data;
+    dma_stream_tx->M0AR = (uint32_t)(txn->data);
     dma_stream_tx->NDTR = txn->len;
     // Turn on the TXEN pin
     module->txen_fn(1);
@@ -207,7 +207,7 @@ uart_serial_module *uart_serial_init_module(int uart_num,
   // Disable FIFO error interrupt
   dma_stream_tx->FCR = 0;
   // Read from UART DR
-  dma_stream_tx->PAR = &(periph_base->DR);
+  dma_stream_tx->PAR = (uint32_t)(&(periph_base->DR));
   // TX selected channel, increment memory address, memory to peripheral,
   // enable interrupt on done and error
   dma_stream_tx->CR =
@@ -225,7 +225,7 @@ uart_serial_module *uart_serial_init_module(int uart_num,
   // Disable FIFO error interrupt
   dma_stream_rx->FCR = 0;
   // Write to UART DR
-  dma_stream_rx->PAR = &(periph_base->DR);
+  dma_stream_rx->PAR = (uint32_t)(&(periph_base->DR));
   // RX selected channel, increment memory address, peripheral to memory,
   // enable interrupt on done and error
   dma_stream_rx->CR =
@@ -248,8 +248,10 @@ uart_serial_module *uart_serial_init_module(int uart_num,
   module->currentTxTxn = NULL;
 
   // Start tasks
-  xTaskCreate(uart_rx_task, "UART_RX", 256, module, tskIDLE_PRIORITY, NULL);
-  xTaskCreate(uart_tx_task, "UART_TX", 256, module, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(uart_rx_task, (const signed char *)"UART_RX", 256, module,
+    tskIDLE_PRIORITY, NULL);
+  xTaskCreate(uart_tx_task, (const signed char *)"UART_TX", 256, module,
+    tskIDLE_PRIORITY, NULL);
 
   return (uart_serial_module *)module;
 }
@@ -269,10 +271,14 @@ void *uart_serial_send_data(uart_serial_module *module, uint8_t *data,
 }
 
 int uart_serial_send_status(uart_serial_module *module, void *transaction) {
+  (void) module;
+
   return ((uart_txn *)transaction)->status;
 }
 
 int uart_serial_send_finish(uart_serial_module *module, void *_transaction) {
+  (void) module;
+
   uart_txn *transaction = (uart_txn *)_transaction;
   // Ignore non-finished transactions
   if ((transaction->status != UART_SERIAL_SEND_DONE) &&
@@ -423,6 +429,7 @@ void uart_serial_handle_uart_interrupt(uart_serial_module *_module) {
 
     // Clear the error by reading DR
     uint32_t dummy_dr = periph_base->DR;
+    (void) dummy_dr;
   } else if (sr & USART_SR_TC) {
     // Transfer complete, turn off TXE
     module->txen_fn(0);
@@ -435,7 +442,7 @@ void uart_serial_handle_uart_interrupt(uart_serial_module *_module) {
     if (module->currentRxTxn) {
       uint32_t dr = periph_base->DR;
       module->currentRxTxn->data[module->currentRxTxn->len++] = dr;
-      ssize_t possible_len = module->length_finder_fn(module, dr);
+      ssize_t possible_len = module->length_finder_fn(_module, dr);
       if (possible_len != -1) {
         // We know how much more we want to get
 
@@ -445,7 +452,7 @@ void uart_serial_handle_uart_interrupt(uart_serial_module *_module) {
         periph_base->CR3 |= USART_CR3_DMAR;
         // Do the DMA
         dma_stream_rx->M0AR =
-          module->currentRxTxn->data + module->currentRxTxn->len;
+          (uint32_t)(module->currentRxTxn->data + module->currentRxTxn->len);
         module->currentRxTxn->len += possible_len;
         dma_stream_rx->NDTR = possible_len;
         dma_stream_rx->CR |= DMA_SxCR_EN;
