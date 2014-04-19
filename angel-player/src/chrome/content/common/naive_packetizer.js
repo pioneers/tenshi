@@ -36,8 +36,12 @@ function computeXbeeChecksum(buf, start, len) {
 exports.sendPacketizedData = function(data) {
     // TODO(rqou): Proper lifecycle management for serial port interface
     let serportWorker = new ChromeWorker("common/serportWorker.js");
-    // TODO(rqou): Don't hardcode
-    serportWorker.postMessage({cmd: "open", data: "/dev/ttyUSB0"});
+
+    let serPortName = global_state.get('serial_port');
+    if (!serPortName) {
+        throw "No serial port set!";
+    }
+    serportWorker.postMessage({cmd: "open", data: serPortName});
 
     let robotApp = global_state.get('robot_application');
     if (!robotApp.radio_pairing_info) {

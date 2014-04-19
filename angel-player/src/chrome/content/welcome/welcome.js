@@ -17,11 +17,25 @@ function xbeeAddrKeyup(e) {
     }
 }
 
-function updateFromSavedRobotApp() {
+function serialPortKeyup(e) {
+    /* jshint validthis: true */
+
+    if (this.validity.valid) {
+        global_state.set('serial_port', this.value);
+        // TODO(rqou): Persist this somewhere?
+    }
+}
+
+function updateFromSavedState() {
     let robotApp = global_state.get('robot_application');
 
     if (robotApp.radio_pairing_info) {
         $("#xbeeAddrInput").val(robotApp.radio_pairing_info);
+    }
+
+    let serportName = global_state.get('serial_port');
+    if (serportName) {
+        $("#serialPort").val(serportName);
     }
 }
 
@@ -33,11 +47,12 @@ function onLoad() {
         global_state.set('robot_application', emptyApp);
     }
 
-    updateFromSavedRobotApp();
+    updateFromSavedState();
 
     $("#xbeeAddrInput").keyup(xbeeAddrKeyup);
     $("#openButton").click(onOpenClicked);
     $("#saveButton").click(onSaveClicked);
+    $("#serialPort").keyup(serialPortKeyup);
 }
 
 function onOpenClicked(e) {
@@ -55,7 +70,7 @@ function onOpenClicked(e) {
         global_state.set('robot_application',
             robot_application.LoadRobotApplication(fp.file.path));
 
-        updateFromSavedRobotApp();
+        updateFromSavedState();
     }
 
     fp.open({done: openCallback});
