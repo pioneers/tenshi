@@ -10,3 +10,8 @@ pref("middlemouse.openNewWindow", false);
 pref("middlemouse.paste", false);
 pref("middlemouse.scrollbarPosition", false);
 pref("general.autoScroll", false);
+
+pref("dom.gamepad.enabled", true);
+// This allows us to use events to handle buttons/axes, rather than polling
+// for them. This is Mozilla-only!
+pref("dom.gamepad.non_standard_events.enabled", true);
