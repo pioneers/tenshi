@@ -128,14 +128,15 @@ def configure_common(conf):
         conf.check_cc(lib='m', uselib_store='math', mandatory=False)
     if 'emcc' in cc or 'clang' in cc:
         conf.env['AR'] = 'llvm-ar'
+    else:
+        if has_cflag(conf, '-fno-gcse'):
+            conf.env.append_value('core_cflags', ['-fno-gcse'])
     conf.load('ar')
     if 'mingw' in cc:
         configure_mingw(conf)
     else:
         add_cflags(conf, '-fPIC')
     conf.env['core_cflags'] = ''
-    if has_cflag(conf, '-fno-gcse'):
-        conf.env.append_value('core_cflags', ['-fno-gcse'])
     for flag in conf.options.cflags.split(' '):
         add_cflags(conf, flag)
     warning_flags = [

@@ -105,12 +105,20 @@ def build(bld):
             use='angelic',
             rpath='$ORIGIN',
         )
+
+        ngl_api_fns = ['ngl_api_vm_new', 'ngl_api_module_new',
+                       'ngl_api_add_symbol', 'ngl_api_vm_load_module',
+                       'ngl_api_vm_load_pkg', 'ngl_api_vm_run',
+                       'ngl_api_vm_run_ticks', 'ngl_api_start_main']
+
+        export_str = ','.join("'_{}'".format(fn) for fn in ngl_api_fns)
+
         if 'emscripten' in bld.variant:
             bld(
                 name='emcc library',
                 rule='''emcc ${SRC} -o ${TGT} ${CFLAGS} -s '''
-                     '''EXPORTED_FUNCTIONS="['_ngl_vm_run_package','''
-                     ''''_ngl_run_package']" --closure 1 --llvm-lto 3 ''',
+                     '''EXPORTED_FUNCTIONS="[''' + export_str + ''']"'''
+                     ''' --closure 1 --llvm-lto 3 ''',
                 source='libangelic.so',
                 target='ngl_vm.js',
             )
