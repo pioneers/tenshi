@@ -67,7 +67,7 @@ def configure_mingw(conf):
 
 def has_cflag(conf, flag):
     try:
-        conf.check(feature='cc cprogram cstdlib', cflags=flag)
+        conf.check(feature='cc cprogram cstdlib', cflags=flag + ' -Werror')
         return True
     except Exception as e:
         return False
