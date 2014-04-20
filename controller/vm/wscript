@@ -67,7 +67,11 @@ def configure_mingw(conf):
 
 def has_cflag(conf, flag):
     try:
-        conf.check(feature='cc cprogram cstdlib', cflags=flag)
+        # Check that the flag works without producing warnings.
+        # This prevents using flags which are not implemented by e.g. clang
+        # and emcc, would thus produce warnings without any beneficial
+        # effects.
+        conf.check(feature='cc cprogram cstdlib', cflags=flag + ' -Werror')
         return True
     except Exception as e:
         return False

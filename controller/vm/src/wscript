@@ -4,6 +4,8 @@
 from pprint import pprint
 from waflib.TaskGen import feature, after
 import waflib.Task
+import re
+import os.path
 
 from waf_extensions import declare_variants, clone_env
 
@@ -105,12 +107,26 @@ def build(bld):
             use='angelic',
             rpath='$ORIGIN',
         )
+
+        # Matching all the arguments can be tricky, because it can span
+        # multiple lines and contain comments.
+        # So we don't look at anything past the first (.
+        # Note that matching the beginning is important to avoid matching
+        # macro definitions.
+        ngl_api_re = re.compile(r'^[A-z0-9_* ]+ [*]?([A-z0-9_]+)\(',
+                                flags=re.MULTILINE)
+        ngl_api_fns = []
+        with open(os.path.join(bld.env['ngl_root'], 'src', 'ngl_api.h')) as f:
+            ngl_api_fns = ngl_api_re.findall(f.read())
+
+        export_str = ','.join("'_{}'".format(fn) for fn in ngl_api_fns)
+
         if 'emscripten' in bld.variant:
             bld(
                 name='emcc library',
                 rule='''emcc ${SRC} -o ${TGT} ${CFLAGS} -s '''
-                     '''EXPORTED_FUNCTIONS="['_ngl_vm_run_package','''
-                     ''''_ngl_run_package']" --closure 1 --llvm-lto 3 ''',
+                     '''EXPORTED_FUNCTIONS="[''' + export_str + ''']"'''
+                     ''' --closure 1 --llvm-lto 3 ''',
                 source='libangelic.so',
                 target='ngl_vm.js',
             )
