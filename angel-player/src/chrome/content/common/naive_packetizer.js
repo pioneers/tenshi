@@ -100,7 +100,6 @@ exports.sendPacketizedData = function(data) {
                 typpo.get_const('XBEE_API_TYPE_TX64'));
             // TODO(rqou): Use frameId?
             xbee_tx_frame.set_slot('frameId', 0);
-            // TODO(rqou): Don't hardcode!!!
             xbee_tx_frame.set_slot('xbee_dest_addr', new Int64(ROBOT));
             xbee_tx_frame.set_slot('options', 0);
             xbee_tx_frame.set_slot('data', payloadbuf);
