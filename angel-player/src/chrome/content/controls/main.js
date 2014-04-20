@@ -6,7 +6,8 @@ let window,
 
 let naive_packetizer = require('tenshi/common/naive_packetizer'),
     texteditor = require('tenshi/texteditor/editor'),
-    console = require('tenshi/console/console');
+    console = require('tenshi/console/console'),
+    pieles = require('tenshi/pieles/pieles');
 
 let current_vm = null,
     vm_generator = function () {return null;};
@@ -21,6 +22,8 @@ exports.init = function(_window) {
 
     $("#toggle").click(toggle_running);
     $("#compile").click(compile_code);
+
+    pieles.attachToPage(window);
 };
 
 function run() {
