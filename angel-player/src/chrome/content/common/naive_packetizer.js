@@ -34,14 +34,10 @@ function computeXbeeChecksum(buf, start, len) {
 }
 
 exports.sendPacketizedData = function(data) {
-    // TODO(rqou): Proper lifecycle management for serial port interface
-    let serportWorker = new ChromeWorker("common/serportWorker.js");
-
-    let serPortName = global_state.get('serial_port');
-    if (!serPortName) {
-        throw "No serial port set!";
+    let serportWorker = global_state.get('serial_port_object');
+    if (!serportWorker) {
+        throw "Serial port not open!";
     }
-    serportWorker.postMessage({cmd: "open", data: serPortName});
 
     let robotApp = global_state.get('robot_application');
     if (!robotApp.radio_pairing_info) {
@@ -49,6 +45,7 @@ exports.sendPacketizedData = function(data) {
     }
     let ROBOT = "0x" + robotApp.radio_pairing_info;
 
+    // TODO(rqou): Refactor this
     serportWorker.onmessage = function(e) {
         let rxbuf = e.data;
         let rx_packet =
@@ -134,7 +131,8 @@ exports.sendPacketizedData = function(data) {
         else if (rx_packet.payload.rx64.data[0] ===
             typpo.get_const('TENSHI_NAIVE_BULK_STOP_IDENT')) {
             dump("DONE DONE DONE!\n");
-            serportWorker.postMessage({cmd: "close"});
+
+            // TODO(rqou): Do something here? Waiting for done?
         }
     };
 
