@@ -26,6 +26,10 @@ onmessage = function(e) {
         switch(current_packet_state) {
         case PACKET_STATE_IDLE:
             buf = serportObj.read(1);
+            if (buf.length === 0) {
+                // Timed out, just try again
+                break;
+            }
             if (buf[0] == XBEE_MAGIC) {
                 stubBuf[0] = buf[0];
                 current_packet_state = PACKET_STATE_LEN;
@@ -41,7 +45,7 @@ onmessage = function(e) {
             serportObj.timeout = 0.1;
             // Length does not include checksum -- add 1 byte
             let mainData = serportObj.read(length + 1);
-            serportObj.timeout = null;
+            serportObj.timeout = 1;
             let combinedBuf = new Uint8Array(mainData.length + stubBuf.length);
             combinedBuf.set(stubBuf, 0);
             combinedBuf.set(mainData, stubBuf.length);

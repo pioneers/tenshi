@@ -1,12 +1,34 @@
 /* jshint globalstrict: true */
 "use strict";
 
-const { Cc, Ci } = require('chrome');
+const { Cc, Ci, ChromeWorker } = require('chrome');
 const global_state = require('tenshi/common/global_state');
 const robot_application = require('tenshi/common/robot_application');
 let window;
 let document;
 let $;
+
+function connectRadio(e) {
+    disconnectRadio(e);
+
+    let serportWorker = new ChromeWorker("common/serportWorker.js");
+
+    let serPortName = global_state.get('serial_port');
+    if (!serPortName) {
+        throw "No serial port set!";
+    }
+    serportWorker.postMessage({cmd: "open", data: serPortName});
+
+    global_state.set('serial_port_object', serportWorker);
+}
+
+function disconnectRadio(e) {
+    let serportWorker = global_state.get('serial_port_object');
+    if (serportWorker) {
+        serportWorker.postMessage({cmd: "close"});
+        global_state.set('serial_port_object', undefined);
+    }
+}
 
 function xbeeAddrKeyup(e) {
     /* jshint validthis: true */
@@ -53,6 +75,8 @@ function onLoad() {
     $("#openButton").click(onOpenClicked);
     $("#saveButton").click(onSaveClicked);
     $("#serialPort").keyup(serialPortKeyup);
+    $("#connectButton").click(connectRadio);
+    $("#disconnectButton").click(disconnectRadio);
 }
 
 function onOpenClicked(e) {
