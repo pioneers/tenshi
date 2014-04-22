@@ -11,6 +11,7 @@
  */
 
 ngl_declare_base(ngl_array);
+extern ngl_error ngl_array_no_elem;
 
 ngl_error *ngl_array_init(ngl_array * self, ngl_type * ngl_array_elem_type);
 ngl_error *ngl_array_init_to_size(ngl_array * self,

@@ -2,14 +2,17 @@ var root = process.argv[2];
 var misc = require ( root + '/misc.js' );
 var angelic = require ( root + '/main.js' );
 
-var fib50 = 0;
+// This used to be fib50
+// Turns out that doesn't fit in 32 bits.
+var fib25 = 0;
 
 function compile_and_run ( text ) {
   var vm = angelic.make ( );
+  vm.set_common_defs_path(root + '/../common_defs');
   vm.add_library ( 'core', [
     vm.make_exfn ( 0, 'print', misc.print ),
-    vm.make_exfn ( 1, 'setFib50', function ( val ) {
-      fib50 = val;
+    vm.make_exfn ( 1, 'setFib25', function ( val ) {
+      fib25 = val;
       } ),
     ] );
   vm.load_text ( text );
@@ -30,20 +33,22 @@ var code = '' +
 '        n = n - 1\n' +
 '    return b\n' +
 'main = fn:\n' +
-'    x = 50\n' +
+'    x = 25\n' +
 '    print (x)\n' +
-'    fib50 = fib (x)\n' +
-'    print (fib50)\n' +
-'    setFib50 (fib50)\n' +
+'    fib25 = fib (x)\n' +
+'    print (fib25)\n' +
+'    setFib25 (fib25)\n' +
 '';
 
 compile_and_run ( code );
 
 setTimeout ( function ( ) {
-  if ( fib50 == 12586269025 ) {
+  if ( fib25 == 75025 ) {
     process.exit ( 0 );
     }
   else {
+    misc.print('fib25 set incorrectly!');
+    misc.print('fib25 = ' + fib25);
     process.exit ( 1 );
     }
   }, 1 );

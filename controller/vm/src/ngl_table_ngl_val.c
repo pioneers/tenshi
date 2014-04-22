@@ -34,9 +34,11 @@ ngl_error *ngl_table_grow(ngl_table * restrict self);
     macro_when_missing_first, \
     macro_when_missing_not_first) \
   do { \
+    check_mask(self->mask); \
     const ngl_hash hashed = hashed_expr; \
     ngl_table_bucket * bucket = \
         (buckets) + ((hashed) & (self)->mask); \
+    fflush(stdout);\
     if (!bucket->hash) { \
       macro_when_missing_first(bucket); \
     } else if (self->interface->compare(bucket->key, \
@@ -83,6 +85,7 @@ ngl_table_init_to_size(ngl_table * self,
   self->val_type = val_type;
   self->interface = hash_interface;
   self->mask = ngl_mask_of_pow2(predicted_elems);
+  check_mask(self->mask);
   self->space = predicted_elems;
   self->num_elems = 0;
   self->data = ngl_alloc_simple(ngl_table_bucket, predicted_elems);
@@ -360,7 +363,7 @@ ngl_error *ngl_table_iter_init(ngl_table_iter *self, ngl_table *parent) {
   self->parent = parent;
   self->index = 0;
   self->this_bucket = parent->data;
-  return ngl_ok;
+  return ngl_table_iter_next(self);
 }
 
 ngl_table_iter *ngl_table_iter_new(ngl_table *parent) {
@@ -377,23 +380,21 @@ ngl_table_iter *ngl_table_iter_new(ngl_table *parent) {
 }
 
 ngl_error *ngl_table_iter_next(ngl_table_iter *self) {
+  self->this_bucket = self->this_bucket->next;
   while (self->this_bucket != NULL && self->this_bucket->hash == 0) {
     self->this_bucket = self->this_bucket->next;
   }
   if (self->this_bucket == NULL) {
-    while (self->this_bucket->hash == 0) {
-      ++self->index;
-      self->this_bucket = &self->parent->data[self->index];
-      if (ngl_table_iter_done(self)) {
-        return ngl_ok;
-      }
-    }
+    do {
+      self->this_bucket = &self->parent->data[++self->index];
+    } while (!ngl_table_iter_done(self) && self->this_bucket->hash == 0);
   }
   return ngl_ok;
 }
 
 bool ngl_table_iter_done(ngl_table_iter *self) {
-  return (self->index & self->parent->mask) != self->index;
+  assert(check_mask(self->parent->mask));
+  return self->index > self->parent->mask;
 }
 
 ngl_error *ngl_table_iter_deref(ngl_table_iter *self, ngl_val *key,

@@ -169,7 +169,8 @@ ngl_int
 ngl_compare_ngl_str_ptr(ngl_val v_str_a, ngl_val v_str_b) {
   ngl_str str_a = *(ngl_str *) v_str_a.pointer;
   ngl_str str_b = *(ngl_str *) v_str_b.pointer;
-  return ngl_str_compare(str_a, str_b);
+  ngl_int res = ngl_str_compare(str_a, str_b);
+  return res;
 }
 
 ngl_table_elem_interface ngl_str_table_i = {

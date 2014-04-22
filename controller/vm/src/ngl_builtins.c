@@ -10,6 +10,10 @@
 #include <ngl_error.h>
 #include <ngl_func.h>
 #include <ngl_obj.h>
+#include <ngl_package.h>
+#include <ngl_utf8.h>
+#include <ngl_array_ngl_val.h>
+#include <ngl_table_ngl_val.h>
 
 #ifdef NGL_ARM
 // TODO(rqou): If you don't use angle brackets, cpplint gets really confused
@@ -36,7 +40,7 @@ ngl_define_composite(ngl_buffer);
 ngl_define_composite(ngl_table);
 ngl_define_composite(ngl_table_iter);
 
-  ngl_define_composite(ngl_module);
+ngl_define_composite(ngl_module);
 
 ngl_define_alien(ngl_builtin_alien);
 
@@ -132,6 +136,8 @@ ngl_error *
 ngl_builtins_init() {
   if (ngl_builtins_initialized) {
     return ngl_ok;
+  } else {
+    ngl_builtins_initialized = true;
   }
 #define ngl_alloc_error() \
     return &ngl_out_of_memory;
@@ -165,6 +171,23 @@ ngl_builtins_init() {
   ngl_init_alien(ngl_builtin_alien);
 
   ngl_init_null_call(&ngl_null_call);
+  ngl_error_init(&ngl_cast_error, "Type cast failed.");
+  ngl_error_init(&ngl_error_generic, "An unknown error occured.");
+  ngl_error_init(&ngl_error_internal, "An internal error occured.");
+  ngl_error_init(&ngl_error_not_implemented,
+                 "An unplimented function was called.");
+  ngl_error_init(&ngl_out_of_memory, "Could not allocated needed memory.");
+  ngl_error_init(&ngl_table_not_found, "Could not find table element.");
+  ngl_error_init(&ngl_iter_done, "An iterator could not produce more output.");
+  ngl_error_init(&ngl_invalid_utf8,
+                 "Attempted to parse an invalid UTF-8 sequence.");
+  ngl_error_init(&ngl_package_corrupt,
+                 "Integrity checks prevented package from being applied");
+  ngl_error_init(&ngl_package_blocked,
+                 "Did not apply package due to program state.");
+  ngl_error_init(&ngl_package_inconsistent,
+                 "Package application failed, vm state is corrupted.");
+  ngl_error_init(&ngl_array_no_elem, "Index of array contained no element.");
 
 #define ngl_call_name ngl_print_float
 #include <ngl_call_init.c> /* NOLINT(build/include) */
