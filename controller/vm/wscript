@@ -9,9 +9,6 @@ from waf_extensions import declare_variants, run_all, sub_conf
 import os
 import os.path
 
-# TODO(kzentner): Fix the linking so that it is actually possible to build
-# this. It is currently broken because adding useful code to ngl_builtins makes
-# it impossible to build the native version.
 declare_variants(['debug_native', 'release_emscripten'],
                  subdir='vm')
 
@@ -54,6 +51,11 @@ def options(opt):
     opt.add_option('--check-compiler-options',
                    action='store_true',
                    help='Check compiler options before using them.')
+    opt.add_option('--build-emcc',
+                   action='store',
+                   default='yes',
+                   choices=['yes', 'no', 'try'],
+                   help='Build a variant using emscripten.')
     opt.load('compiler_c')
     recurse(opt)
 
@@ -239,6 +241,9 @@ def build(bld):
         run_all('build')
     else:
         if 'vm' not in bld.variant and 'controller' not in bld.variant:
+            return
+        if (bld.options.build_emcc == 'no' and
+                'emscripten' in bld.variant):
             return
         bld.recurse('src')
         if 'native' in bld.variant:

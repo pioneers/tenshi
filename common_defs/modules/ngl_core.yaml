@@ -12,3 +12,7 @@
 
 - cobj: ngl_type_ngl_buffer
   name: 'ngl_type_ngl_buffer'
+
+- cobj: ngl_type_ngl_ex_func
+  name: 'ngl_type_ngl_ex_func'
+

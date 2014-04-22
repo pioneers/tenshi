@@ -6,6 +6,7 @@ var worked = 0;
 
 function compile_and_run ( text ) {
   var vm = angelic.make ( );
+  vm.set_common_defs_path(root + '/../common_defs');
   vm.add_library ( 'core', [
     vm.make_exfn ( 0, 'print', misc.print ),
     vm.make_exfn ( 1, 'set_worked', function ( val ) {
