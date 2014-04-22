@@ -1,4 +1,6 @@
 #include <ngl_bits.h>
+#include <stdio.h>
+#include <assert.h>
 
 const void *ngl_end_args = (void *) ~(intptr_t) 0;
 
@@ -25,8 +27,20 @@ ngl_uint
 ngl_mask_of_pow2(ngl_uint val) {
   ngl_uint result = 1;
   while (val > 2) {
-    result = result << 1 | result;
+    result = (result << 1) | result;
     val = val / 2;
   }
   return result;
+}
+
+bool
+check_mask(ngl_uint mask) {
+  ngl_uint d = mask;
+  while (d > 0) {
+    if ((d & mask) != d) {
+      return false;
+      }
+    d >>= 1;
+  }
+  return true;
 }

@@ -14,5 +14,7 @@ bool ngl_is_power_2(ngl_int input);
 
 ngl_uint ngl_mask_of_pow2(ngl_uint val);
 
+bool check_mask(ngl_uint mask);
+
 
 #endif  // NGL_BITS_H_

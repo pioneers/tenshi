@@ -280,6 +280,7 @@
       type: 'ngl_type *'
 - name: ngl_obj
   kind: struct
+  packed: true
   slots:
     - name: refc
       type: ngl_uint
@@ -291,6 +292,8 @@
     - name: type_id_to_type_ptr
       type: ngl_array
     - name: obj_table
+      type: ngl_table
+    - name: module_table
       type: ngl_table
 - name: ngl_str
   kind: struct
@@ -397,6 +400,8 @@
       type: ngl_str
     - name: elems
       type: ngl_table
+    - name: elems_ids
+      type: ngl_table
 - name: ngl_vm_func
   kind: struct
   slots:
@@ -408,6 +413,7 @@
       type: ngl_uint
 - name: ngl_ex_func
   kind: struct
+  packed: true
   slots:
     - name: header
       type: ngl_obj
