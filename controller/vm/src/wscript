@@ -41,6 +41,7 @@ def build(bld):
         'ngl_func.c',
         'ngl_globals.c',
         'ngl_hash.c',
+        'ngl_module.c',
         'ngl_obj.c',
         'ngl_package.c',
         'ngl_refc.c',
@@ -124,9 +125,14 @@ def build(bld):
         if 'emscripten' in bld.variant:
             bld(
                 name='emcc library',
-                rule='''emcc ${SRC} -o ${TGT} ${CFLAGS} -s '''
-                     '''EXPORTED_FUNCTIONS="[''' + export_str + ''']"'''
-                     ''' --closure 1 --llvm-lto 3 ''',
+                rule=' '.join([
+                    'emcc ${SRC} -o ${TGT} ${CFLAGS}',
+                    '-s EXPORTED_FUNCTIONS="[' + export_str + ']"',
+                    '--llvm-lto 3',
+                    '-s RESERVED_FUNCTION_POINTERS=1024',
+                    '-s ASSERTIONS=2',
+                    '-s TOTAL_STACK=1600000',
+                    ]),
                 source='libangelic.so',
                 target='ngl_vm.js',
             )

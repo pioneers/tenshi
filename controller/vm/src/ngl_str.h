@@ -21,8 +21,6 @@ ngl_declare_composite(ngl_str);
 #define ngl_str_lit(literal) \
   ngl_str_from_static(literal)
 
-ngl_str *ngl_str_new(const char *start, const char *past_end);
-
 ngl_str ngl_str_from_static(const char *literal);
 
 ngl_str ngl_str_from_dynamic(const char *dynamic);

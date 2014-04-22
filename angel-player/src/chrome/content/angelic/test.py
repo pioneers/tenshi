@@ -107,7 +107,12 @@ def main():
         for test in sorted(tests):
             if not pattern or pattern.search(test):
                 tests_run += 1
-                run_test(test, root, failed_tests, stdout_logs)
+                try:
+                    run_test(test, root, failed_tests, stdout_logs)
+                except KeyboardInterrupt as e:
+                    print('Encountered exception while running test{}:'
+                          .format(test))
+                    traceback.print_exc()
                 if args.verbose:
                     print(stdout_logs[test][0].decode())
     except Exception as e:
