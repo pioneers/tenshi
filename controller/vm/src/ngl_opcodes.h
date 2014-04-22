@@ -3,12 +3,14 @@
 #include <stdint.h>
 #include <math.h>
 #include <ngl_macros.h>
-#include <ngl_func.h>
 #include <assert.h>
 #include <limits.h>
 #include <ngl_stack_ngl_val.h>
 #ifdef NGL_ARM
 #include <inc/stm32f4xx.h>
+#endif
+#ifdef NGL_EMCC
+#include <emscripten.h>
 #endif
 
 def_union(ngl_asm_arg, {

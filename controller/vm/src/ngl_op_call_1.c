@@ -23,7 +23,7 @@
     op_bunch = 0;
     func = (ngl_vm_func *) f;
     pc = ngl_vm_func_get_code(func);
-  } else {
+  } else if (f->type == ngl_type_ngl_ex_func) {
     ngl_ex_thunk * thunk = ((ngl_ex_func *) f)->thunk;
 
     /*
@@ -36,7 +36,42 @@
     /* Push a spot onto the stack for the return value of the function. */
     ngl_stack_push(&stack, ngl_val_uint(0));
 
+#ifdef NGL_EMCC
+    /*
+     * If we're on emscripten, retrieve the actual javascript function,
+     * Then apply it to an array ripped out of the stack.
+     */
+    EM_ASM_INT({
+        /*
+         * Function "pointers" referring to external functions are indices in
+         * an array, which are desnsely packed in functionPointers, starting at
+         * index 0.  However, the function pointer values are 2, 4, 6, 8, etc.
+         * This implies the following mapping.
+         */
+        var func_num = ($0 / 2) - 1;
+        var the_function = Module.Runtime.functionPointers[func_num];
+        /*
+         * Read the emscripten heap directly. Please see,
+         * https://github.com/kripken/emscripten/wiki/Code-Generation-Modes
+         * Basically, this is dependent on emscripten using
+         * "Typed Arrays Mode 2".
+         */
+        var stack = Module.HEAPF32.buffer.slice($1 >> 2, ($1 + $2) >> 2);
+        var args = [];
+        for (var i = 0; i < $2; i++) {
+          /*
+           * TODO(kzentner): This assumes all arguments are floats.
+           * Unfortunately, fixing this involves changing the api, since there
+           * is no way of passing the argument types here.
+           */
+          args.push(Module.HEAPF32[i + ($1 >> 2)]);
+          }
+        /* Save the return value (must be a float for the time being). */
+        Module.HEAPF32[$1 >> 2] = the_function.apply(null, args);
+      }, thunk, fn_args, arg_count);
+#else
     error = thunk(NULL, arg_count, fn_args);
+#endif
 
     ngl_val res = ngl_stack_pop(&stack);
 
@@ -49,6 +84,8 @@
       /* TODO(kzentner): Implement exceptions. */
       /* goto target_throw; */
     }
+  } else {
+    assert(0);
   }
 }
 #endif

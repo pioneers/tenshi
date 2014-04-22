@@ -5,6 +5,7 @@
 #include <ngl_package.h>
 #include <ngl_buffer.h>
 #include <string.h>
+#include <ngl_func.h>
 
 static ngl_error *
 ngl_add_type(ngl_globals * globals, ngl_type * type) {
@@ -26,20 +27,34 @@ ngl_uint ngl_vm_core_length;
 
 static ngl_error *
 ngl_init_core(ngl_vm * vm) {
+  /* TODO(kzentner): Refactor modules. */
+  /*
+   * Currently, module related code is in ngl_api, ngl_globals, ngl_vm, and
+   * ngl_module.
+   * This should be consolidated.
+   */
+
+  /* Include the generated core file. */
   #include <modules/ngl_core.c>
+
+
+  /* Copy the core array to a global variable. */
   ngl_vm_core = ngl_alloc_simple(ngl_module_entry,
                                  ngl_core_length);
   if (ngl_vm_core == NULL) {
     return &ngl_out_of_memory;
   }
-  memcpy((void *) ngl_vm_core, (void *) ngl_vm_core,
+  memcpy((void *) ngl_vm_core, (void *) ngl_core,
          sizeof(ngl_module_entry) * ngl_core_length);
   ngl_vm_core_length = ngl_core_length;
 
+  /* Add some type ids. Note that the order here determines the id numbers. */
   ngl_globals *globals = &vm->globals;
   ngl_ret_on_err(ngl_add_type(globals, ngl_type_ngl_builtin_alien));
   ngl_ret_on_err(ngl_add_type(globals, ngl_type_ngl_vm_func));
   ngl_ret_on_err(ngl_add_type(globals, ngl_type_ngl_buffer));
+
+  /* Load the objects from the core into the globals. */
   for (ngl_uint i = 0; i < ngl_core_length; i++) {
     ngl_ret_on_err(ngl_globals_set_obj_from_ids(globals, 0, i,
                                                 ngl_core[i].cobj));
@@ -52,11 +67,13 @@ ngl_vm_init(ngl_vm * vm) {
   ngl_builtins_init();
   ngl_obj_init(&vm->header, ngl_type_ngl_vm);
   ngl_ret_on_err(ngl_globals_init(&vm->globals));
+  ngl_ret_on_err(ngl_init_core(vm));
+  ngl_ret_on_err(ngl_globals_init_core(&vm->globals));
+
   ngl_ret_on_err(ngl_array_init(&vm->threads, ngl_type_ngl_thread_ptr));
   ngl_thread *thread = ngl_alloc_simple(ngl_thread, 1);
   ngl_ret_on_err(ngl_thread_init(thread));
   ngl_ret_on_err(ngl_array_push_back(&vm->threads, ngl_val_pointer(thread)));
-  ngl_ret_on_err(ngl_init_core(vm));
   return ngl_ok;
 }
 

@@ -7,6 +7,7 @@
 #include <ngl_type.h>
 
 ngl_error *ngl_globals_init(ngl_globals * self);
+ngl_error *ngl_globals_init_core(ngl_globals *self);
 
 ngl_error *ngl_globals_get_obj_from_ids(ngl_globals * self,
                                         uint32_t type_id,
