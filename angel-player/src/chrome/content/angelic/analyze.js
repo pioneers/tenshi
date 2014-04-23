@@ -3,9 +3,6 @@ var string_map = require ( './string_map.js' );
 var modul = require ( './modul.js' );
 var misc = require ( './misc.js' );
 var varb = require ( './varb.js' );
-var compiler = require ( './compiler.js' );
-var library = require ( './library.js' );
-var executor = require ( './executor.js' );
 
 //
 // This module is responsible for finding all identifiers, and determining
