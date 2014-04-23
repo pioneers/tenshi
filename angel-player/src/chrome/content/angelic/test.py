@@ -7,6 +7,7 @@ import shutil
 import argparse
 import re
 import traceback
+import sys
 
 
 def is_subpath_of_set(path, pathset):
@@ -82,6 +83,9 @@ def run_test(name, root, failed_tests, stdout_logs):
     else:
         failed_tests.append(name)
         print('x', end='')
+    # Flush out the . or x we just printed, instead of waiting for a
+    # newline to flush them.
+    sys.stdout.flush()
 
 
 def main():
