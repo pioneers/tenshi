@@ -7,6 +7,7 @@ from fnmatch import fnmatch
 from os.path import relpath, split, join
 from functools import reduce
 from subprocess import Popen, PIPE
+import sys
 
 all_tests = []
 
@@ -65,6 +66,7 @@ def test(ctxt):
             failed_tests.append(filename)
             stdout_logs[filename] = output
             print('x', end='')
+        sys.stdout.flush()
     if not failed_tests:
         print()
         print('OK (Ran {0} test)'.format(total_tests))
