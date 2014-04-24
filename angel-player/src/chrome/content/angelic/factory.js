@@ -254,10 +254,9 @@ kind_prototypes.struct = {
       var slot = this.type.slots [ s ];
       var val = this.slot_values [ slot.name ];
       var size = this.factory.get_size ( slot.type );
+      var alignment = this.factory.get_alignment ( slot.type );
       if ( ! this.type.packed ) {
-        // This assumes that types are self-aligned. Seems to be the case in GCC.
-        // TODO(kzentner): Confirm that this is the case in all relevant compilers.
-        relative = round_up ( relative, size );
+        relative = round_up ( relative, alignment );
         }
       if ( val !== undefined ) {
         val.set_offset ( offset + relative );
@@ -513,10 +512,55 @@ var factory_prototype = {
         throw 'Unknown platform!';
         }
     },
+  get_alignment : function get_alignment ( type ) {
+    var actual_type = type;
+    var self = this;
+    // First, handle the type being a string.
+    // There may not be a corresponding type object.
+    if ( typeof type === 'string' ) {
+      if ( is_pointer ( type ) ) {
+        return this.get_native_size ( );
+        }
+      else if ( type.match ( /\[([0-9]*)\]/ ) ) {
+        // Handle arrays.
+        return this.get_alignment ( get_array_elem_type ( type ) );
+        }
+      actual_type = this.get_type ( type );
+      }
+
+    if ( actual_type === undefined ) {
+      throw 'Could not get size of type ' + type;
+      }
+    else {
+      type = actual_type;
+      }
+    if ( type.kind === 'base' || type.kind === 'alien' ) {
+      if ( type.size === 'native' ) {
+        return this.get_native_size ( );
+        }
+      else {
+        return type.size;
+        }
+      }
+    else if ( type.kind === 'struct' || type.kind === 'union' ) {
+      // Both structs and unions are aligned to the alignment of the strictest
+      // aligned slot among their slots.
+      var res = Math.max.apply(null, type.slots.map (function ( slot ) {
+          return self.get_alignment ( slot.type );
+          }));
+      if ( res > 0 ) {
+        return res;
+        }
+      else {
+        // Handles, among other things, structs with not slots.
+        return 1;
+        }
+      }
+    else {
+      throw 'Could not calculate alignment of kind ' + type.kind;
+      }
+    },
   get_size : function get_size ( type ) {
-    // TODO(kzentner): Correct alignment in all cases requires finding
-    // the strictest aligned type in any embedded struct slot and then
-    // rounding the struct size up to that amount.
     var size;
     var s;
     var actual_type = type;
@@ -551,15 +595,12 @@ var factory_prototype = {
       }
     else if ( type.kind === 'struct' ) {
       var total = 0;
+      var align;
       for ( s in type.slots ) {
         size = this.get_size ( type.slots [ s ].type );
+        align = this.get_alignment ( type.slots [ s ].type );
         if ( ! type.packed ) {
-          // TODO(kzentner): Make this not assume that all slots are self-aligned.
-          // In particular, structs are not aligned to their size, but to the
-          // most strictly aligned base type among their slots.
-          // TODO(kzentner): Confirm that this is the case in all relevant
-          // compilers.
-          total = round_up ( total, size );
+          total = round_up ( total, align );
           }
         total += size;
         }
