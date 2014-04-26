@@ -113,9 +113,11 @@ void i2c_handle_interrupt(i2c_master_module *_module) {
   i2c_transaction_obj *txn = module->currentTxn;
 
   sr1_reg = module->periph_base->SR1;
-  // TODO(rqou): Do I actually need to read SR2?
-  sr2_reg = module->periph_base->SR2;
-  (void) sr2_reg;
+
+  if (!txn) {
+    // TODO(rqou): How did this happen?
+    return;
+  }
 
   // Transmitting data
   if (txn->status == I2C_TRANSACTION_STATUS_SENDING) {
@@ -123,6 +125,9 @@ void i2c_handle_interrupt(i2c_master_module *_module) {
       // Send the address for a write
       module->periph_base->DR = txn->addr;
     } else if (sr1_reg & I2C_SR1_ADDR) {
+      // TODO(rqou): Do I actually need to read SR2?
+      sr2_reg = module->periph_base->SR2;
+      (void) sr2_reg;
       // Ignore this, we will get a TxE later
     } else if (sr1_reg & I2C_SR1_TXE) {
       // Write some data
@@ -150,6 +155,10 @@ void i2c_handle_interrupt(i2c_master_module *_module) {
       // Send the address for a read
       module->periph_base->DR = txn->addr | 1;
     } else if (sr1_reg & I2C_SR1_ADDR) {
+      // TODO(rqou): Do I actually need to read SR2?
+      sr2_reg = module->periph_base->SR2;
+      (void) sr2_reg;
+
       // If we are getting only one byte, we need to NACK and stop
       if (txn->len_in == 1) {
         module->periph_base->CR1 =
@@ -188,13 +197,6 @@ void i2c_handle_interrupt_error(i2c_master_module *_module) {
   sr2_reg = module->periph_base->SR2;
   (void) sr2_reg;
 
-  if (txn) {
-    txn->status = I2C_TRANSACTION_STATUS_ERROR;
-    module->currentTxn = NULL;
-    xSemaphoreGiveFromISR(module->inUse, NULL);
-    module->periph_base->CR1 |= I2C_CR1_STOP;
-  }
-
   if ((sr1_reg & I2C_SR1_AF) || (sr1_reg & I2C_SR1_BERR)) {
     // Send a stop to abort
     module->periph_base->CR1 |= I2C_CR1_STOP;
@@ -202,6 +204,12 @@ void i2c_handle_interrupt_error(i2c_master_module *_module) {
 
   // Clear all three error flags
   module->periph_base->SR1 &= ~(I2C_SR1_BERR | I2C_SR1_AF | I2C_SR1_ARLO);
+
+  if (txn) {
+    txn->status = I2C_TRANSACTION_STATUS_ERROR;
+    module->currentTxn = NULL;
+    xSemaphoreGiveFromISR(module->inUse, NULL);
+  }
 }
 
 int i2c_transaction_finish(i2c_master_module *module,
