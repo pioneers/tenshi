@@ -227,7 +227,7 @@ int main(int argc, char **argv) {
   // Setup radio
   radio_driver_init();
 
-  xTaskCreate(radioTask, (const signed char *)"Radio", 256, NULL,
+  xTaskCreate(radioTask, (const signed char *)"Radio", 2048, NULL,
     tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();
 }
