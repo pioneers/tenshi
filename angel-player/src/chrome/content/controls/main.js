@@ -80,32 +80,15 @@ function toggle_running() {
 }
 
 function compile_code() {
-    if (current_vm !== null) {
-        return; // Do not run multiple simultaneous vms
-    }
-
     if (!texteditor.initialized()) {
         $("#status").text("ERROR: text editor not yet loaded");
         throw "ERROR: text editor not yet loaded";
     }
 
     var text = texteditor.get_text();
-    current_vm = vm_generator();
+    var compiler_vm = vm_generator();
 
-    if (current_vm === null) {
-        $("#status").text("ERROR: no targets are open. Try opening Simulator or Console");
-        throw "ERROR: no vm could be created. Try opening a valid VM target page";
-    }
-
-    try {
-        current_vm.load_text(text);
-        var pkg = current_vm.get_pkg('ARM');
-        naive_packetizer.sendPacketizedData(pkg);
-    } catch(err) {
-        if (!console.initialized()) {
-            return;
-        }
-        console.report_error(err);
-        throw err;
-    }
+    compiler_vm.load_text(text);
+    var pkg = compiler_vm.get_pkg('ARM');
+    naive_packetizer.sendPacketizedData(pkg);
 }
