@@ -80,10 +80,6 @@ function toggle_running() {
 }
 
 function compile_code() {
-    if (current_vm !== null) {
-        return; // Do not run multiple simultaneous vms
-    }
-
     if (!texteditor.initialized()) {
         $("#status").text("ERROR: text editor not yet loaded");
         throw "ERROR: text editor not yet loaded";
