@@ -53,6 +53,8 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
   uint8_t txbuf[64];
   // TODO(rqou): Ugly uglly
   uint64_t host_addr = 0;
+  // TODO(rqou): Remove this (why does this crash anyways?)
+  int started_angelic = 0;
 
   while (1) {
     uint8_t *buf;
@@ -184,8 +186,11 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
                 UART_SERIAL_SEND_ERROR)) {}
           uart_serial_send_finish(radio_driver, txn);
 
-          xTaskCreate(angelicTask, (const signed char *)"Angelic", 256, NULL,
-            tskIDLE_PRIORITY, NULL);
+          if (!started_angelic) {
+            started_angelic = 1;
+            xTaskCreate(angelicTask, (const signed char *)"Angelic", 2048, NULL,
+              tskIDLE_PRIORITY, NULL);
+          }
         }
       }
       break;
