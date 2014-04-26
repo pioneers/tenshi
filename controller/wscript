@@ -83,6 +83,7 @@ def common_configure(conf, root=None):
     conf.load('compiler_cxx')
     conf.load('gas')
     conf.env.append_value('CFLAGS', '-DNGL_32_BIT')
+    conf.env.append_value('CFLAGS', '-DNGL_ARM')
 
 
 def debug_configure(conf):
