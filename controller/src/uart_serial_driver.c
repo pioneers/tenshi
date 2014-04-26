@@ -41,7 +41,7 @@ typedef struct tag_uart_periph_info {
   int pclk;
 } uart_periph_info;
 
-uart_periph_info periph_info[6] = {
+const uart_periph_info periph_info[6] = {
   {
     .periph = USART1,
     .dma = DMA2,
@@ -105,7 +105,7 @@ uart_periph_info periph_info[6] = {
   },
 };
 
-int dma_interrupt_flag_shift[] = {
+const int dma_interrupt_flag_shift[] = {
   0,
   6,
   16,
@@ -333,6 +333,7 @@ void uart_serial_handle_tx_dma_interrupt(uart_serial_module *_module) {
   if (isr & (DMA_LISR_TEIF0 << shift)) {
     // If error
     if (module->currentTxTxn) {
+      // TODO(rqou): Wat, can this be null?
       module->currentTxTxn->status = UART_SERIAL_SEND_ERROR;
     }
 
@@ -377,7 +378,9 @@ void uart_serial_handle_rx_dma_interrupt(uart_serial_module *_module) {
     // If error
     // TODO(rqou): Somehow report this error
     // Clear out the current transaction
-    module->currentRxTxn->len = 0;
+    if (module->currentRxTxn) {
+      module->currentRxTxn->len = 0;
+    }
 
     if (dma_stream_num_rx < 4) {
       dma_base->LIFCR = DMA_LIFCR_CTEIF0 << shift;
@@ -392,8 +395,8 @@ void uart_serial_handle_rx_dma_interrupt(uart_serial_module *_module) {
 
   } else if (isr & (DMA_LISR_TCIF0 << shift)) {
     // If done
-    xQueueSendToBackFromISR(module->rxQueue, &(module->currentRxTxn), NULL);
-    module->currentRxTxn = NULL;
+    portBASE_TYPE ret =
+      xQueueSendToBackFromISR(module->rxQueue, &(module->currentRxTxn), NULL);
 
     if (dma_stream_num_rx < 4) {
       dma_base->LIFCR = DMA_LIFCR_CTCIF0 << shift;
@@ -406,7 +409,14 @@ void uart_serial_handle_rx_dma_interrupt(uart_serial_module *_module) {
     // Turn off the RX DMA
     periph_base->CR3 &= ~USART_CR3_DMAR;
 
-    xSemaphoreGiveFromISR(module->rxSignal, NULL);
+    if (ret != pdPASS) {
+      // Did not put into queue properly.
+      // TODO(rqou): Error handling?!
+      module->currentRxTxn->len = 0;
+    } else {
+      module->currentRxTxn = NULL;
+      xSemaphoreGiveFromISR(module->rxSignal, NULL);
+    }
   }
 }
 
@@ -423,9 +433,11 @@ void uart_serial_handle_uart_interrupt(uart_serial_module *_module) {
     // An error
     // TODO(rqou): Somehow report this error
     // Turn off the RX DMA
-    dma_stream_rx->CR = 0;
-    // Clear out the current transaction
-    module->currentRxTxn->len = 0;
+    dma_stream_rx->CR &= ~DMA_SxCR_EN;
+    if (module->currentRxTxn) {
+      // Clear out the current transaction
+      module->currentRxTxn->len = 0;
+    }
 
     // Clear the error by reading DR
     uint32_t dummy_dr = periph_base->DR;
@@ -437,14 +449,21 @@ void uart_serial_handle_uart_interrupt(uart_serial_module *_module) {
     periph_base->SR &= ~USART_SR_TC;
   } else if (sr & USART_SR_RXNE) {
     // Got a byte
+    uint32_t dr = periph_base->DR;
     // NOTE: Watch concurrency issues here. There may be issues unless the
     // DMA and this interrupt are at the same priority.
     if (module->currentRxTxn) {
-      uint32_t dr = periph_base->DR;
       module->currentRxTxn->data[module->currentRxTxn->len++] = dr;
       ssize_t possible_len = module->length_finder_fn(_module, dr);
       if (possible_len != -1) {
         // We know how much more we want to get
+
+        if (possible_len + module->currentRxTxn->len > UART_RX_BUFFER_SIZE) {
+          // TODO(rqou): Report this error!
+          // TODO(rqou): Can this break length finders?
+          module->currentRxTxn->len = 0;
+          return;
+        }
 
         // Turn off the RXNE IRQ
         periph_base->CR1 &= ~USART_CR1_RXNEIE;
