@@ -210,9 +210,6 @@ int main(int argc, char **argv) {
   led_driver_init();
   button_driver_init();
 
-  // Setup debug UART/SPI
-  global_debug_uart_init();
-
   // Setup I2C
   i2c1_init();
 
