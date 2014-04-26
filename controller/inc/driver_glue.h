@@ -1,7 +1,6 @@
 #ifndef INC_DRIVER_GLUE_H_
 #define INC_DRIVER_GLUE_H_
 
-#include "inc/debug_uart.h"
 #include "inc/i2c_master.h"
 #include "inc/uart_serial_driver.h"
 
@@ -27,11 +26,5 @@ extern void smartsensor4_init(void);
 // UART3
 extern uart_serial_module *radio_driver;
 extern void radio_driver_init(void);
-
-// Debug SPI/UART
-extern debug_uart_module *debug_uart;
-extern void global_debug_uart_init(void);
-// Shuts off the debug UART channel (so that only the dumb mode can be used)
-extern void global_debug_uart_shutdown(void);
 
 #endif  // INC_DRIVER_GLUE_H_
