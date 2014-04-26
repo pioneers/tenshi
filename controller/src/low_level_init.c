@@ -102,4 +102,17 @@ void __ll_init(void) {
 
   // Fix heap end for sbrk inside a FreeRTOS task
   fake_heap_end = (void*)(&__sp_main) - MAIN_TASK_MAX_STACK;
+
+  // Enable the memory protection unit.
+  // The memory protection unit is configured with the background region
+  // enabled (which is used most of the time). It has one region spanning
+  // [0x00000000 - 0x08000000) with permissions set to "no access at all"
+  // for any of reading, writing or executing. This is used to trap NULL pointer
+  // access.
+  MPU->RNR = 0;
+  MPU->RBAR = 0x00000000;
+  MPU->RASR = 0b00010000000000100000000000110101;
+  MPU->CTRL = 0b111;
+  __DSB();
+  __ISB();
 }
