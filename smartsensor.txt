@@ -1,0 +1,244 @@
+========================= Tenshi Smart Sensor Protocol =========================
+
+Layer 1 - Physical layer
+########################
+
+The Tenshi Smart Sensor Protocol is arranged as a shared multi-drop bus. The
+standard connector used for the bus is a 4 row x 2 column 0.1" x 0.1" pitch
+IDC ribbon cable connector with a notch, and the standard cabling is 8 pin flat
+0.05" pitch 28 AWG ribbon cable. The impedance of the cable should be
+reasonably around 120 ohms, but the exact value is not critical (most ribbon
+cable of these dimensions is suitable). The pinout of the connector is as
+follows:
+
+    Top view looking down at PCB:
+     ___________
+    |¯¯¯¯¯¯¯¯¯¯¯|
+    | +5    GND |
+    | A+    A-  ¯¯|
+    | B-    B+  |¯¯
+    | GND   +5  |
+    |___________|
+     ¯¯¯¯¯¯¯¯¯¯¯
+
+The two +5 and GND lines are connected together. They are capable of supplying
+an estimated maximum of 1.5A combined. Voltage output may vary by an estimated
++-10%. The A+/A- and B+/B- lines are RS-485 differential pairs with an output
+swing of 5V under no load. The "A" differential pair is always an output from
+the master controller to the smart sensors. The "B" differential pair is always
+an input from the smart sensors to the main controller. The RS-485 lines do not
+have the standard biasing resistors and therefore idle at 0V/0V. This requires
+"failsafe" capable transceivers. 120 ohm terminators are present on the main
+controller board. It is currently TBD whether bus terminators must be attached
+to the far end of the cable.
+
+Cables must originate at the main controller board and terminate at either a
+smart sensor or a (TBD if required) bus terminator. The main controller board
+should not be connected in the middle of a multidrop cable. Cables must have
+all connectors crimped with the notch facing the same direction (left/right)
+and the same side (top/bottom).
+
+At this point, there is no support for crossover cables to allow smart sensors
+to talk to each other independently of the main controller or for robots to
+talk to each other. There is also currently no provision for active repeaters
+or hubs.
+
+The maximum number of devices on each bus is nominally 32, but a safe maximum
+limit is 8. The RS-485 transceivers should theoretically support cable lengths
+of at least 100', but a safe maximum limit is 40'.
+
+The signalling above the RS-485 layer is asynchronous serial at 1 Mbaud
+(1000000 bits per second) 8n1 LSB first. Therefore, each bit time is 1 us and
+the total time for a byte is 10 us. RS-485 transceivers are enabled only when
+bytes are actively being transmitted.
+
+Layer 2 - Link Layer
+####################
+
+The Tenshi protocol link layer consists of a stream of packets or frames.
+Frames are delimited with 0x00 bytes. All multi-byte values are transmitted
+in little-endian byte order (LSB first). bit0 is used to refer to the LSB and
+bit7/bit15/bit31/bit63 are used to refer to the MSB.
+
+The Tenshi protocol bus has the following possible states:
+* Inactive
+* Maintainance
+* Enumeration
+* Active
+Each of these states will be described in detail below.
+
+
+Inactive state: The master controller is not connected, crashed, booting, or
+otherwise not driving the bus. The bus idles at 0V/0V (logic level high).
+
+
+Maintainance state: The master controller is performing some type of
+maintainance operation using the bus. The protocol used in this state is
+half-duplex and controlled by the main controller. The main controller can send
+request frames to the bus and one particular device may optionally transmit a
+response. Devices cannot transmit data to the master without the master
+initiating the request for data. Responses will time out after TBD milliseconds.
+Both TX (from controller) and RX (to controller) frames are encoded using
+Consistent Overhead Byte Stuffing (COBS). The frame format is as follows:
+
+    Maintainance state frame format:
+    |---------------------------------------|
+    | 0x00 | type | length | <COBS payload> |
+    |---------------------------------------|
+
+Every frame contains a leading 0x00 byte, a type byte (cannot be 0x00), a
+length of the entire frame, and an optional COBS-encoded payload. type is
+1 byte and must have its MSB set for maintainance frames. len is 1 byte and
+may range from [3,255].
+
+The following range of type bytes are allocated:
+* [0xD0-0xDF] - high-level identification and configuration
+* [0xE0-0xEF] - debug
+* [0xF0-0xFD] - enumeration
+* 0xFE - ping/pong
+* 0xFF - reset all devices
+
+Several examples of maintainance frames follow:
+
+Type 0xAA, no payload:
+0x00 0xAA 0x03
+
+Type 0xAA, payload of length 1 containing "0xDD":
+0x00 0xAA 0x05 0x01 0xDD
+
+Type 0xAA, payload of length 2 containng "0x00 0xEE":
+0x00 0xAA 0x06 0x01 0x01 0xEE
+
+Maintainance frames do not contain link layer CRCs, but CRCs may (will likely)
+be implemented by higher layers of the protocol.
+
+The master may choose to send maintainance frames during any bus state. The
+format of maintainance frames is designed to be recognizable in active mode.
+Note that sending maintainance frames disrupts active mode and the bus is
+considered to have transitioned to maintainance mode if any maintainance frames
+are sent during active mode. The master must perform the appropriate actions
+to reestablish active mode (if desired).
+
+Upon reception of a 0xFF-type maintainance packet, slave devices should flush
+their internal state and return to an unconfigured state ready to receive
+commands. Slave devices must shut off their transceivers.
+
+Upon reception of a 0xFE-type maintainance packet, the addressed slave device
+should reply with the same payload data. The structure of a ping request is
+8 bytes of device unique ID followed by an arbitrary amount of data (can be 0).
+Devices should respond with a 0xFE packet with the same data without the 8
+bytes of unique ID.
+
+
+Enumeration state: The master controller is trying to identify all the
+connected devices. All devices on the bus must be assigned a unique 64-bit
+serial number during manufacturing. The purpose of enumeration is to discover
+the serial numbers of all attached smart sensor devices. Note that enumeration
+must be explicitly requested. At this time, there is no ability to dynamically
+detect new devices on the bus without trying to enumerate them.
+
+Enumeration state uses maintainance frames to perform various enumeration
+operations. The following type IDs are defined:
+* 0xF0 - enter enumeration
+* 0xF1 - exit enumeration, return to normal operation
+* 0xF2 - enumeration select
+
+Enumeration state is entered when the master sends a maintainance frame of
+type 0xF0. The payload must contain a COBS-encoded version of the magic bytes
+"0xE6 0xAD 0xBB 0xE3 0x82 0x93 0xE3 0x81 0xA0 0xE4 0xB8 0x96 0xE7 0x95 0x8C
+0xE6 0x88 0xA6 0xE7 0xB7 0x9A." The purpose of a magic string is to ensure that
+enumeration mode is not accidentally entered because enumeration mode operates
+the bus in a different manner.
+
+Upon receiving the command to enter enumeration mode, a slave device must
+turn on its transmitter and drive a logic level 0 onto the bus. The device
+should only respond to enumeration select, enumeration exit, and bus reset type
+packets until it leaves enumeration mode. The slave device should reset
+internal protocol-related state. This command must have its payload set to
+"0xE6 0xAD 0xBB 0xE3 0x82 0x93 0xE3 0x81 0xA0 0xE4 0xB8 0x96 0xE7 0x95 0x8C
+0xE6 0x88 0xA6 0xE7 0xB7 0x9A."
+
+Upon receiving the command to exit enumeration mode, a slave device must turn
+off its transmitter and return to an idle state ready to receive commands. This
+command does not have a payload.
+
+Upon receiving the enumeration select command, a slave device must turn off its
+transmitter iff its unique 64-bit ID bitwise-anded with the transmitted mask is
+equal to the transmitted value. The structure of the payload is 8 bytes of
+unique ID mask followd by 8 bytes of unique ID value. The slave device should
+perform the test "<my ID> & <mask> == <value>" and disable its transmitter iff
+this test is true. Note that once all slaves have their transmitters off,
+the bus is no longer driven and returns to an idle logic high. This allows
+binary searching through the address space.
+
+Enumeration protocol:
+The main controller may use the enumeration commands to discover slave devices
+using any algorithm it chooses. The preferred algorithm is a radix tree/binary
+search algorithm. This section requires expansion.
+
+
+Active state: The master controller is actively receiving samples from slave
+devices. In active state, time is divided into intervals of 1 ms that are
+referred to as "samples." Each sample is divided into 16-byte segments referred
+to as "subchunks." Because each byte requires 10 us to send, 100 bytes may be
+sent in each sample. Therefore, each sample is divided into 6 subchunks of 16
+bytes (96 bytes) and 4 bytes (40 us) of timing slop and/or reserved for future
+expansion.
+
+At the beginning of each subchunk, the master sends the following header:
+    |---------------------------------------------------------------|
+    | 0x00 | has payload  sample#  subchunk# | <length> | <payload> |
+    |---------------------------------------------------------------|
+
+Note that most of this header is not COBS-encoded. The second byte contains a
+flag that is set to 1 iff there is a payload present after the
+subchunk header, the current sample number (mod 8) in bits 4-6 (0-indexed),
+and the current frame number in bits 0-3 (1-indexed). Note that this can never
+result in a value of 0. Iff the "has payload" flag is set to 1, the length
+byte contains a single byte in the range [1,13] containing the length of the
+in-band signalling payload. The payload (if present) is COBS-encoded.
+
+The optional payload attached to a subchunk can be either some type of
+in-band signalling or commands to an actuator. The first byte of the payload
+must have its MSB set if it is an in-band signalling command and must have its
+MSB clear if it is an actuator command. The list of commands is TBD.
+
+Each slave device is assigned a set of (sample#, subchunk#) blocks that it is
+allowed to transmit in. These blocks are allocated using a TBD bandwidth
+allocation algorithm. A slave device may transmit only after receiving the
+second byte of the subchunk header of the beginning of its allocated block up
+to but not including the second byte of the subchunk header of the end of its
+allocated block. If a slave device has multiple contiguous blocks, it may
+continue to transmit during the subchunk header of all the blocks it owns and
+it only needs to send 1 slave reply header. If a slave device has multiple
+noncontiguous blocks, it must stop transmitting after each block and must send
+a new slave reply header each time.
+
+The structure of the slave reply header is as follows:
+    |---------------------------------------------|
+    | 0x00 | in-band signalling  length | payload |
+    |---------------------------------------------|
+
+The second byte contains an in-band signalling bit in bit7 and a length of the
+entire reply packet in bits 0-6. If the in-band signalling bit is set, the
+payload is interpreted as some in-band signalling command defined later.
+Otherwise, the payload is interpreted as normal sample data. The payload is
+COBS-encoded.
+
+Slave configuration:
+Slave (sample#, subchunk#) blocks are configured using the 0xD0 command.
+The payload of the 0xD0 command contains 8 bytes of slave unique ID followed by
+zero or more pairs of bytes containing first the sample number and then the
+subchunk number. A sample number or subchunk number of 0xFF means "any."
+The 0xD0 command is idempotent (not cumulative) so a slave must stop using its
+previous allocation of subchunks upon receiving a new 0xD0 command.
+
+Slave descriptor data can be retrieved using the 0xD1 command. The payload
+consists of an 8-byte slave unique ID, a 16-bit start address, and a 16-bit
+length. The slave reply payload consists of only the descriptor data. The
+format of the descriptor data is TBD.
+
+Layer 3 - Higher-level Protocol
+#################################
+
+TODO
