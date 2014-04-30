@@ -186,22 +186,22 @@ bytes (96 bytes) and 4 bytes (40 us) of timing slop and/or reserved for future
 expansion.
 
 At the beginning of each subchunk, the master sends the following header:
-    |---------------------------------------------------------------|
-    | 0x00 | has payload  sample#  subchunk# | <length> | <payload> |
-    |---------------------------------------------------------------|
+    |-------------------------------------------------------------------------------------|
+    | 0x00 | has payload  sample#  subchunk# | <in-band signalling>  <length> | <payload> |
+    |-------------------------------------------------------------------------------------|
 
 Note that most of this header is not COBS-encoded. The second byte contains a
 flag that is set to 1 iff there is a payload present after the
 subchunk header, the current sample number (mod 8) in bits 4-6 (0-indexed),
 and the current frame number in bits 0-3 (1-indexed). Note that this can never
-result in a value of 0. Iff the "has payload" flag is set to 1, the length
-byte contains a single byte in the range [1,13] containing the length of the
-in-band signalling payload. The payload (if present) is COBS-encoded.
+result in a value of 0. Iff the "has payload" flag is set to 1, bit0-6 of the
+length byte contains a single byte in the range [1,13] containing the length of
+the in-band signalling payload. The payload (if present) is COBS-encoded.
 
 The optional payload attached to a subchunk can be either some type of
-in-band signalling or commands to an actuator. The first byte of the payload
-must have its MSB set if it is an in-band signalling command and must have its
-MSB clear if it is an actuator command. The list of commands is TBD.
+in-band signalling or commands to an actuator. The bit7 of the length must be
+set if it is an in-band signalling command and must be clear if it is an
+actuator command. The list of in-band signalling commands is TBD.
 
 Each slave device is assigned a set of (sample#, subchunk#) blocks that it is
 allowed to transmit in. These blocks are allocated using a TBD bandwidth
@@ -241,4 +241,221 @@ format of the descriptor data is TBD.
 Layer 3 - Higher-level Protocol
 #################################
 
-TODO
+Slave descriptor:
+This section describes the structure of the data returned by the 0xD1 command.
+The 0xD1 command is used to retrieve a block of data that describes the
+function of the slave device and the format of its payloads. Strings in the
+descriptor are null-terminated UTF-8 English. There is currently no support for
+true i18n. The structure of the data is as follows:
+
+            ----------------------------------------------------
+            | length (4 bytes)                                 |
+            ----------------------------------------------------
+            | length of human-readable description (1 byte)    |
+            ----------------------------------------------------
+            | human-readable description (n bytes)             |
+            ----------------------------------------------------
+            | chunks requested per sample numerator (1 byte)   |
+            ----------------------------------------------------
+            | chunks requested per sample denominator (1 byte) |
+            ----------------------------------------------------
+            | number of channels (1 byte)                      |
+            ----------------------------------------------------
+            | channel descriptor (repeated n times)            |
+            ----------------------------------------------------
+            | crc8 (1 byte)                                    |
+            ----------------------------------------------------
+
+The CRC8 polynomial is x^8 + x^7 + x^6 + x^4 + x^2 + 1.
+
+The structure of a channel descriptor is as follows:
+            ----------------------------------------------------
+            | length of descriptor (1 byte)                    |
+            ----------------------------------------------------
+            | length of human-readable description (1 byte)    |
+            ----------------------------------------------------
+            | human-readable description (n bytes)             |
+            ----------------------------------------------------
+            | type (1 byte)                                    |
+            ----------------------------------------------------
+            | additional information (n bytes)                 |
+            ----------------------------------------------------
+
+The following types of channels are currently defined:
+    * 0x00 -- digital in/out
+    * 0x01 -- analog input
+    * 0x02 -- analog output
+    * 0x03 -- hobby servo
+    * 0x40 -- generic I2C
+    * 0x41 -- generic SPI
+    * 0x42 -- generic UART
+    * 0x80 -- Grizzly Bear v3
+    * 0xFF -- debugger
+
+The structure of the additional information block varies according to the type.
+The following structures are currently defined:
+
+Type 0x00 -- digital in/out
+            ----------------------------------------------------
+            | flags (1 byte)                                   |
+            ----------------------------------------------------
+            | sample rate in samples/second (2 byte)           |
+            ----------------------------------------------------
+
+bit0 of flags -- can input
+bit1 of flags -- input is active low
+bit2 of flags -- can output push-pull
+bit3 of flags -- can output open-drain
+bit4 of flags -- output is active low
+
+Type 0x01 -- analog input
+            ----------------------------------------------------
+            | sample rate in samples/second (2 byte)           |
+            ----------------------------------------------------
+            | bits per sample (1 byte)                         |
+            ----------------------------------------------------
+            | calibration/scaling type (1 byte)                |
+            ----------------------------------------------------
+            | calibration data (n bytes)                       |
+            ----------------------------------------------------
+
+Type 0x02 -- analog output
+            ----------------------------------------------------
+            | sample rate in samples/second (2 byte)           |
+            ----------------------------------------------------
+            | bits per sample (1 byte)                         |
+            ----------------------------------------------------
+            | calibration/scaling type (1 byte)                |
+            ----------------------------------------------------
+            | calibration data (n bytes)                       |
+            ----------------------------------------------------
+
+The calibration/scaling types/data are shared by analog inputs and outputs.
+The following types are supported:
+* 0x00 - no scaling
+* 0x01 - linear/affine scaling
+* 0x02 - exponential scaling
+* 0x03 - logarithmic scaling
+* 0x04 - LUT scaling
+
+Scaling is currently expected to be performed by the master device, not the
+smart sensor device. The data to/from the smart sensor device is always in
+units of ADC/DAC LSBs. It is currently not possible to offload the scaling
+computation.
+
+The calibration data format is as follows:
+    Type 0x00 -- no calibration data. Data sent to/from sensor is in LSBs.
+    Type 0x01 -- calibration data contains two IEEE 754 floats, a and b. The
+        following operation is performed on the input: y = a * x + b.
+    Type 0x02 -- calibration data contains two IEEE 754 floats, a and b. The
+        following operation is performed on the input: y = a * e^x + b
+    Type 0x03 -- calibration data contains two IEEE 754 floats, a and b. The
+        following operation is performed on the input: y = a * ln(x) + b
+    Type 0x04 -- calibration data contains a 4 byte count of entries followed
+        by <count> pairs of two IEEE 754 floats, x_i and y_i. The output y is
+        found by linearly interpolating between the two y_i values nearest
+        the input x value.
+
+Type 0x03 -- hobby servo
+            ----------------------------------------------------
+            | bits per sample (1 byte)                         |
+            ----------------------------------------------------
+            | internal timer tick frequency (4 byte)           |
+            ----------------------------------------------------
+            | internal cycle time in ticks (4 byte)            |
+            ----------------------------------------------------
+            | calibration/scaling type (1 byte)                |
+            ----------------------------------------------------
+            | calibration data (n bytes)                       |
+            ----------------------------------------------------
+
+The calibration/scaling types/data are supported:
+* 0x00 - no scaling
+* 0x01 - no scaling, custom minimum pulse width
+* 0x02 - [0-n] scaling, custom minimum/maximum pulse width
+
+Data is always sent to the actuator in units of timer ticks.
+
+The calibration data format is as follows:
+    Type 0x00 -- no calibration data. Data sent to the actuator is in timer
+        ticks. Data specifies the amount of time high.
+    Type 0x01 -- calibration data contains one 4-byte integer, l. The operation
+        performed on the input is y = x + l
+    Type 0x02 -- calibration data contains two 4-byte integers, l and h, and 1
+        2-byte integer n. The following operation is performed on the input
+        (assuming true division): y = x / n * (h - l) + l
+
+Type 0x40 -- generic I2C
+            TODO
+
+Type 0x41 -- generic SPI
+            TODO
+
+Type 0x42 -- generic UART
+            TODO
+
+Type 0x80 -- Grizzly Bear v3
+            TODO
+
+Type 0xFF -- debugger
+            No calibration data is present
+
+Payload formats:
+The structure of payloads to send to/from each smart sensor device is derived
+by parsing its descriptors. The exact number of bytes that will be allocated
+depends on each channel type. Bytes in payloads are allocated to each channel
+sequentially (so that channel 0 in the descriptor appears first in the payload).
+If the channel descriptors end up defining more data than is requested in the
+chunks per sample field, the behavior is undefined.
+
+Type 0x00 -- digital in/out
+    First, the number of samples per subchunk is calculated given the samples
+    per second, frames per second (1000), and subchunks per frame (6). The
+    number of samples is rounded up to the nearest multiple of 8. Let this
+    number be x. If the "can input" flag is set, x/8 bytes are allocated in the
+    RX payload. If one "can output" flag is set, x/8 bytes are allocated in the
+    TX payload. If both "can output" flags are set, x/4 bytes are allocated in
+    the TX payload.
+
+    If the "can input" flag is set or only one "can output" flag is set, the
+    format of the bytes in the payload is that 1 bit is used per sample. bit0
+    contains earlier samples than bit7, and the the earlier bytes contain
+    earlier samples. If both "can output" flags are set, the format of the bytes
+    in the TX payload changes. Each sample now consists of two bits. The lowest
+    bit continues to be the sample value, but the higher bit now contains
+    0 if the output should be driven push-pull and 1 if the output should be
+    driven open-drain.
+
+Type 0x01 -- analog input and Type 0x02 - analog output
+    First, the number of samples per subchunk is calculated given the samples
+    per second, frames per second (1000), and subchunks per frame (6). The
+    number of samples is rounded up to the nearest integer. Let this number
+    be x. The number of bits per sample is then rounded up to the nearest
+    multiple of 8. Let this number be y. x * y / 8 bytes are allocated in the
+    payload.
+
+    Each ADC sample occupies y / 8 bytes in the payload. Bits are used starting
+    from the LSB up to the number of bits. Unused bits are ignored. Earlier
+    samples appear first in the payload.
+
+Type 0x03 -- hobby servo
+    Because hobby servos are refreshed relatively infrequently, only one sample
+    per subchunk is currently supported. This one sample is a 4-byte counter
+    value encoding the pulse width of the servo in arbitrary units.
+
+Type 0x40 -- generic I2C
+            TODO
+
+Type 0x41 -- generic SPI
+            TODO
+
+Type 0x42 -- generic UART
+            TODO
+
+Type 0x80 -- Grizzly Bear v3
+            TODO
+
+Type 0xFF -- debugger
+    The TX payload contains a length followed by <len> bytes to output to the
+    PC. The RX payload contains a length followed by <len> bytes that were
+    received from the PC since the previous sample.
