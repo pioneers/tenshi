@@ -10,12 +10,19 @@ STUFF
 Things needed for compiling:
 * coreutils, build-essentials, etc.
 * tar, bz2, etc.
-* python
-* nodejs
+* python (2.7 recommended)
+* nodejs (currently using v0.10.26, from the chris-lea/node.js PPA)
 * wget
 * pep8
-* jshint
-* csslint
+* jshint (currently using 2.1.11)
+* csslint (currently using 0.10.0)
+* project-tenshi-tools (get from Jenkins)
+* emscripten (get from http://rqou.com/emscripten-bin-18apr2014.tar.bz2)
+* avr-gcc (currently using the nonolith/avr-toolchain PPA)
+* libX11, Xvfb
+* EAGLE (currently using v6.5.0)
+* Java JRE
+* PyYAML
 
 Running Angel Player: It is recommended to have a separate copy of xulrunner
 located somewhere such as your home directory. The command you would need to use
