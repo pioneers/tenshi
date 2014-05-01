@@ -10,6 +10,7 @@ declare_variants(['deb', 'rel', 'debopt', 'relopt'], subdir='controller')
 
 def recurse(ctxt):
     ctxt.recurse('vm', mandatory=False)
+    ctxt.recurse('lua', mandatory=False)
 
 
 def options(opt):
@@ -216,7 +217,12 @@ def build(bld):
             source="",
             target=bld_path("tenshi.elf"),
             features="cxx cxxprogram",
-            use="crt0 c_objects cpp_objects version_obj angelic_static",
+            use=["crt0",
+                 "c_objects",
+                 "cpp_objects",
+                 "version_obj",
+                 "angelic_static",
+                 "lua_objects"]
         )
 
         bld(
