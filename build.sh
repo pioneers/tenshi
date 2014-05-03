@@ -26,6 +26,14 @@ fi
 
 # TODO(kzentner): Fix this hack?
 cp build/vm/release_emscripten/controller/vm/src/ngl_vm.js angel-player/src/chrome/content/vendor-js/
+# TODO(rqou): Really fix this hack
+sed -i 's#typeof process === '"'"'object'"'"' && ##g' angel-player/src/chrome/content/vendor-js/ngl_vm.js
+sed -i 's#require('"'"'fs'"'"')#require('"'"'jetpack/sdk/io/fs'"'"')#g' angel-player/src/chrome/content/vendor-js/ngl_vm.js
+sed -i 's#require('"'"'path'"'"')#require('"'"'jetpack/sdk/fs/path'"'"')#g' angel-player/src/chrome/content/vendor-js/ngl_vm.js
+sed -i 's#Module\['"'"'arguments'"'"'\] = process\['"'"'argv'"'"'\].slice(2);##g' angel-player/src/chrome/content/vendor-js/ngl_vm.js
+sed -i 's#var fs = require("fs");#var fs = require("jetpack/sdk/io/fs");#g' angel-player/src/chrome/content/vendor-js/ngl_vm.js
+# TODO(rqou): This is really bad
+sed -i 's#!!process.platform.match(/^win/);#false;#g' angel-player/src/chrome/content/vendor-js/ngl_vm.js
 
 # Main build
 for dir in angel-player
