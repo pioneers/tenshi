@@ -35,6 +35,17 @@ sed -i 's#var fs = require("fs");#var fs = require("jetpack/sdk/io/fs");#g' ange
 # TODO(rqou): This is really bad
 sed -i 's#!!process.platform.match(/^win/);#false;#g' angel-player/src/chrome/content/vendor-js/ngl_vm.js
 
+# TODO(kzentner): Fix this hack?
+cp build/lua/release_emscripten/controller/lua/lua.js angel-player/src/chrome/content/vendor-js/
+# TODO(rqou): Really fix this hack
+sed -i 's#typeof process === '"'"'object'"'"' && ##g' angel-player/src/chrome/content/vendor-js/lua.js
+sed -i 's#require('"'"'fs'"'"')#require('"'"'jetpack/sdk/io/fs'"'"')#g' angel-player/src/chrome/content/vendor-js/lua.js
+sed -i 's#require('"'"'path'"'"')#require('"'"'jetpack/sdk/fs/path'"'"')#g' angel-player/src/chrome/content/vendor-js/lua.js
+sed -i 's#Module\['"'"'arguments'"'"'\] = process\['"'"'argv'"'"'\].slice(2);##g' angel-player/src/chrome/content/vendor-js/lua.js
+sed -i 's#var fs = require("fs");#var fs = require("jetpack/sdk/io/fs");#g' angel-player/src/chrome/content/vendor-js/lua.js
+# TODO(rqou): This is really bad
+sed -i 's#!!process.platform.match(/^win/);#false;#g' angel-player/src/chrome/content/vendor-js/lua.js
+
 # Main build
 for dir in angel-player
 do
