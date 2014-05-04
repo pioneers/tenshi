@@ -123,6 +123,7 @@ def build(bld):
         export_str = ','.join("'_{}'".format(fn) for fn in ngl_api_fns)
 
         if 'emscripten' in bld.variant:
+            fake_node_js = bld.path.find_resource('fake_node.js')
             bld(
                 name='emcc library',
                 rule=' '.join([
@@ -131,10 +132,13 @@ def build(bld):
                     '--llvm-lto 3',
                     '-s RESERVED_FUNCTION_POINTERS=1024',
                     '-s TOTAL_STACK=1600000',
+                    '--pre-js ' + fake_node_js.abspath(),
                     ]),
                 source='libangelic.so',
                 target='ngl_vm.js',
             )
+            bld.add_manual_dependency('ngl_vm.js',
+                                      fake_node_js)
 
     bld(
         features=['c', 'cstlib'],
