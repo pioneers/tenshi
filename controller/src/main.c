@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
 #include <ngl_vm.h>
 #include <ngl_buffer.h>
 #include <ngl_package.h>
@@ -17,6 +20,7 @@
 #include "inc/xbee_framing.h"
 
 #include "legacy_piemos_framing.h"   // NOLINT(build/include)
+#include "ngl_types.h"   // NOLINT(build/include)
 
 uint8_t *code_buffer;
 uint32_t code_buffer_len;
@@ -25,17 +29,66 @@ uint32_t code_buffer_len;
 int8_t PiEMOSAnalogVals[7];
 uint8_t PiEMOSDigitalVals[8];
 
+// TODO(rqou): Wat r abstraction?
+// TODO(rqou): My macro-fu is not up to par
+extern ngl_error *ngl_set_motor(ngl_float motor, ngl_float val);
+static int ngl_set_motor_lua(lua_State *L) {
+  ngl_error *ret = ngl_set_motor(lua_tonumber(L, 1), lua_tonumber(L, 2));
+  // TODO(rqou): Um, I don't think this is how it's supposed to work?
+  lua_pushnumber(L, ret == ngl_ok);
+  return 1;
+}
+extern ngl_error *ngl_get_sensor(ngl_float sensor, ngl_float *val);
+static int ngl_get_sensor_lua(lua_State *L) {
+  ngl_float out;
+  ngl_error *ret = ngl_get_sensor(lua_tonumber(L, 1), &out);
+  // TODO(rqou): Um, I don't think this is how it's supposed to work?
+  lua_pushnumber(L, ret == ngl_ok);
+  lua_pushnumber(L, out);
+  return 2;
+}
+
 static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
   (void) pvParameters;
 
-  ngl_buffer *program = ngl_buffer_alloc(code_buffer_len);
-  // TODO(rqou): This is dumb.
-  memcpy(NGL_BUFFER_DATA(program), code_buffer, code_buffer_len);
-  // TODO(rqou): Dealloc code_buffer???
-  ngl_run_package((ngl_package *) NGL_BUFFER_DATA(program));
-  // TODO(rqou): Error handling?
-  // TODO(rqou): What to do here?
-  while (1) {}
+  if (*(uint32_t *)(code_buffer) == NGL_PACKAGE_MAGIC) {
+    // Load Angelic blob
+    ngl_buffer *program = ngl_buffer_alloc(code_buffer_len);
+    // TODO(rqou): This is dumb.
+    memcpy(NGL_BUFFER_DATA(program), code_buffer, code_buffer_len);
+    // TODO(rqou): Dealloc code_buffer???
+    ngl_run_package((ngl_package *) NGL_BUFFER_DATA(program));
+    // TODO(rqou): Error handling?
+    // TODO(rqou): What to do here?
+    while (1) {}
+  } else {
+    // Load Lua blob
+
+    lua_State *L = luaL_newstate();
+    luaL_openlibs(L);
+
+    // Register builtins
+    lua_register(L, "ngl_set_motor", ngl_set_motor_lua);
+    lua_register(L, "ngl_get_sensor", ngl_get_sensor_lua);
+
+    // Load the code blob into the Lua state
+    const char *read_from_code_buffer(lua_State *L, void *data, size_t *size) {
+      int *data_int = (int*)data;
+      if (*data_int) {
+        return NULL;
+      } else {
+        *data_int = 1;
+        *size = code_buffer_len;
+        return (const char *)code_buffer;
+      }
+    }
+    int reader_state = 0;
+    lua_load(L, read_from_code_buffer, &reader_state, "<tenshi>", "b");
+    // TODO(rqou): Error handling?
+    lua_pcall(L, 0, LUA_MULTRET, 0);
+    // TODO(rqou): What to do here?
+    while (1) {}
+  }
 }
 
 // TODO(rqou): Move this elsewhere
