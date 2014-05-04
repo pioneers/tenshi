@@ -71,6 +71,7 @@ def build(bld):
 
         export_str = ','.join("'_{}'".format(fn) for fn in api_fns)
 
+        fake_node_js = bld.path.parent.find_resource('vm/src/fake_node.js')
         bld(
             name='emcc library',
             rule=' '.join([
@@ -79,7 +80,10 @@ def build(bld):
                 '--llvm-lto 3',
                 '-s RESERVED_FUNCTION_POINTERS=1024',
                 '-s TOTAL_STACK=1600000',
+                '--pre-js ' + fake_node_js.abspath(),
                 ]),
             source='liblua.so',
             target='lua.js',
         )
+        bld.add_manual_dependency('lua.js',
+                                  fake_node_js)
