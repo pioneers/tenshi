@@ -60,8 +60,8 @@ def build(bld):
         )
 
         # Find the functions to export. All exported functions are marked with
-        # LUA_API and their names are wrapped in parentheses (at least in Lua
-        # version 5.x).
+        # LUA_API or LUALIB_API (lauxlib) and their names are wrapped in
+        # parentheses (at least in Lua version 5.x).
         func_decl = re.compile(r'^LUA_API [A-z0-9_ *]*\(([A-z0-9_]+)\) *\(',
                                flags=re.MULTILINE)
         with open(os.path.join(bld.env['root'], 'controller', 'lua', 'src',
@@ -69,7 +69,15 @@ def build(bld):
             contents = f.read()
             api_fns = func_decl.findall(contents)
 
-        export_str = ','.join("'_{}'".format(fn) for fn in api_fns)
+        func_decl = re.compile(r'^LUALIB_API [A-z0-9_ *]*\(([A-z0-9_]+)\) *\(',
+                               flags=re.MULTILINE)
+        with open(os.path.join(bld.env['root'], 'controller', 'lua', 'src',
+                               'lauxlib.h')) as f:
+            contents = f.read()
+            api_aux_fns = func_decl.findall(contents)
+
+        export_str = ','.join(
+            "'_{}'".format(fn) for fn in api_fns + api_aux_fns)
 
         bld(
             name='emcc library',

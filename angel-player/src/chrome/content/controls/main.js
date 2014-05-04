@@ -21,7 +21,8 @@ exports.init = function(_window) {
     $ = window.$;
 
     $("#toggle").click(toggle_running);
-    $("#compile").click(compile_code);
+    $("#compile_ngl").click(compile_ngl);
+    $("#compile_lua").click(compile_lua);
 
     pieles.attachToPage(window);
 };
@@ -79,7 +80,7 @@ function toggle_running() {
     }
 }
 
-function compile_code() {
+function compile_ngl() {
     if (!texteditor.initialized()) {
         $("#status").text("ERROR: text editor not yet loaded");
         throw "ERROR: text editor not yet loaded";
@@ -99,4 +100,39 @@ function compile_code() {
         console.report_error(err);
         throw err;
     }
+}
+
+function compile_lua() {
+    if (!texteditor.initialized()) {
+        $("#status").text("ERROR: text editor not yet loaded");
+        throw "ERROR: text editor not yet loaded";
+    }
+
+    var text = texteditor.get_text();
+
+    let lua = require('tenshi/vendor-js/lua');
+    let lua_state = lua.ccall('luaL_newstate', 'number');
+    if (lua.ccall('luaL_loadstring', 'number',
+        ['number', 'string'], [lua_state, text]) !== 0) {
+        // TODO(rqou): Report the actual error
+        throw "Didn't load properly!";
+    }
+
+    let lua_bytecode = new Uint8Array(0);
+    function lua_dump_callback(L, p, sz, ud) {
+        let lua_bytecode_new = new Uint8Array(lua_bytecode.length + sz);
+        lua_bytecode_new.set(lua_bytecode);
+        lua_bytecode_new.set(
+            lua.HEAPU8.subarray(p, p + sz), lua_bytecode.length);
+        lua_bytecode = lua_bytecode_new;
+    }
+    let lua_dump_callback_ptr = lua.Runtime.addFunction(lua_dump_callback);
+    if (lua.ccall('lua_dump', 'number',
+        ['number', 'number', 'number'],
+        [lua_state, lua_dump_callback_ptr, 0]) !== 0) {
+        throw "Didn't dump properly!";
+    }
+    lua.ccall('lua_close', null, ['number'], [lua_state]);
+
+    naive_packetizer.sendPacketizedData(lua_bytecode);
 }
