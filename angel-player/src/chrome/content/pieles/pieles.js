@@ -202,8 +202,8 @@ function sendPiELESData(e) {
 
     // TODO(rqou): Massive massive code duplication alert! Clean me up!
 
-    let serportWorker = global_state.get('serial_port_object');
-    if (!serportWorker) {
+    let serportObj = global_state.get('serial_port_object');
+    if (!serportObj) {
         throw "Serial port not open!";
     }
 
@@ -256,7 +256,7 @@ function sendPiELESData(e) {
         3,
         buf.length - 1 - (3));
 
-    serportWorker.postMessage({cmd: "write", data: buf});
+    serportObj.write(buf);
 }
 
 exports.attachToPage = function(_window) {
