@@ -121,7 +121,10 @@ to reestablish active mode (if desired).
 
 Upon reception of a 0xFF-type maintainance packet, slave devices should flush
 their internal state and return to an unconfigured state ready to receive
-commands. Slave devices must shut off their transceivers.
+commands. Slave devices must shut off their transceivers. In order to prevent
+accidentally triggering bus resets, the payload of 0xFF-type packets must be
+"0xE6 0xAD 0xBB 0xE3 0x82 0x93 0xE3 0x81 0xA0 0xE4 0xB8 0x96 0xE7 0x95 0x8C
+0xE6 0x88 0xA6 0xE7 0xB7 0x9A."
 
 Upon reception of a 0xFE-type maintainance packet, the addressed slave device
 should reply with the same payload data. The structure of a ping request is
@@ -463,3 +466,11 @@ Type 0xFF -- debugger
     The TX payload contains a length followed by <len> bytes to output to the
     PC. The RX payload contains a length followed by <len> bytes that were
     received from the PC since the previous sample.
+
+Debug commands:
+The 0xE0-type maintainance packet is used for "low level panic" outputting.
+The structure of the payload is simply a (COBS-encoded) string to output to the
+debug host computer. This packet will be used instead of normal active-mode
+packets to a type-0xFF channel only when the master controller has crashed.
+At this time, it is not possible to send any data back to the master controller
+using debug commands - this 0xE0 packet is output-only.
