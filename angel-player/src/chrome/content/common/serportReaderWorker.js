@@ -2,7 +2,11 @@
 "use strict";
 
 importScripts("resource://gre/modules/workers/require.js");
-let serport = require('chrome://angel-player/content/common/serport_posix');
+/* global navigator */
+let is_win = navigator.platform.search(/win/i) > -1;
+let serport = is_win ?
+    require('chrome://angel-player/content/common/serport_win') :
+    require('chrome://angel-player/content/common/serport_posix');
 
 // TODO(rqou): I think this needs to be done again???
 serport.init();
