@@ -5,8 +5,14 @@
 // thread and b) wraps the serial port code for different platforms.
 
 const { ChromeWorker } = require('chrome');
-// TODO(rqou): Non-Linux support
-const serport = require('tenshi/common/serport_posix');
+const system = require('jetpack/sdk/system');
+// Note: According to Mozilla Windows can only be winnt.
+// (https://developer.mozilla.org/en-US/docs/OS_TARGET)
+// Also, we can't just do "win" because that would match darwin as well.
+let is_win = system.platform.search(/winnt/i) > -1;
+const serport = is_win ?
+    require('tenshi/common/serport_win') :
+    require('tenshi/common/serport_posix');
 
 serport.init();
 
