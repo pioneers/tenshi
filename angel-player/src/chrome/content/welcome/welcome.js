@@ -4,6 +4,7 @@
 const { Cc, Ci, ChromeWorker } = require('chrome');
 const global_state = require('tenshi/common/global_state');
 const robot_application = require('tenshi/common/robot_application');
+const serport = require('tenshi/common/serport');
 let window;
 let document;
 let $;
@@ -11,21 +12,20 @@ let $;
 function connectRadio(e) {
     disconnectRadio(e);
 
-    let serportWorker = new ChromeWorker("common/serportWorker.js");
-
     let serPortName = global_state.get('serial_port');
     if (!serPortName) {
         throw "No serial port set!";
     }
-    serportWorker.postMessage({cmd: "open", data: serPortName});
 
-    global_state.set('serial_port_object', serportWorker);
+    let serportObj = serport.open(serPortName);
+
+    global_state.set('serial_port_object', serportObj);
 }
 
 function disconnectRadio(e) {
-    let serportWorker = global_state.get('serial_port_object');
-    if (serportWorker) {
-        serportWorker.postMessage({cmd: "close"});
+    let serportObj = global_state.get('serial_port_object');
+    if (serportObj) {
+        serportObj.close();
         global_state.set('serial_port_object', undefined);
     }
 }

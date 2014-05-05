@@ -34,8 +34,8 @@ function computeXbeeChecksum(buf, start, len) {
 }
 
 exports.sendPacketizedData = function(data) {
-    let serportWorker = global_state.get('serial_port_object');
-    if (!serportWorker) {
+    let serportObj = global_state.get('serial_port_object');
+    if (!serportObj) {
         throw "Serial port not open!";
     }
 
@@ -46,7 +46,7 @@ exports.sendPacketizedData = function(data) {
     let ROBOT = "0x" + robotApp.radio_pairing_info;
 
     // TODO(rqou): Refactor this
-    serportWorker.onmessage = function(e) {
+    serportObj.setReadHandler(function(e) {
         let rxbuf = e.data;
         let rx_packet =
             typpo.read('xbee_api_packet', buffer.Buffer(rxbuf)).unwrap();
@@ -125,7 +125,7 @@ exports.sendPacketizedData = function(data) {
                 buf.length - 1 - (3));
             dump("Sent bytes " + chunkreq.start_addr + " to " +
                 chunkreq.end_addr + "\n");
-            serportWorker.postMessage({cmd: "write", data: buf});
+            serportObj.write(buf);
         }
         else if (rx_packet.payload.rx64.data[0] ===
             typpo.get_const('TENSHI_NAIVE_BULK_STOP_IDENT')) {
@@ -133,7 +133,7 @@ exports.sendPacketizedData = function(data) {
 
             // TODO(rqou): Do something here? Waiting for done?
         }
-    };
+    });
 
     // Create initial packet
     let initial_packet = typpo.create('tenshi_bulk_start');
@@ -176,5 +176,5 @@ exports.sendPacketizedData = function(data) {
     buf[buf.length - 1] = computeXbeeChecksum(buf,
         3,
         buf.length - 1 - (3));
-    serportWorker.postMessage({cmd: "write", data: buf});
+    serportObj.write(buf);
 };
