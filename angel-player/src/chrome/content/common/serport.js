@@ -6,7 +6,7 @@
 
 const { ChromeWorker } = require('chrome');
 // TODO(rqou): Non-Linux support
-const serport = require('tenshi/common/serport_linux');
+const serport = require('tenshi/common/serport_posix');
 
 serport.init();
 
