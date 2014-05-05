@@ -1,7 +1,7 @@
 /* jshint globalstrict: true */
 "use strict";
 
-// Handles serial ports on Linux only. Very inspired by pySerial.
+// Handles serial ports on Linux/Mac only. Very inspired by pySerial.
 
 // Load ctypes if we're not in a ChromeWorker
 if (typeof ctypes === 'undefined') {
@@ -9,9 +9,30 @@ if (typeof ctypes === 'undefined') {
     Cu.import('resource://gre/modules/ctypes.jsm');
 }
 
-let _doneBasicInit = false;
+// Figure out what platform we're running on
+let is_linux = false;
+let is_mac = false;
+if (typeof navigator !== 'undefined') {
+    // ChromeWorker context
+    /* global navigator */
+    is_linux = navigator.platform.search(/linux/i) > -1;
+    is_mac = navigator.platform.search(/mac/i) > -1;
+} else {
+    // Normal module
+    const system = require('jetpack/sdk/system');
+    is_linux = system.platform.search(/linux/i) > -1;
+    is_mac = system.platform.search(/darwin/i) > -1;
+}
 
-const LIBC_PATH = 'libc.so.6';
+if (!is_linux && !is_mac) {
+    throw "This serport_posix module only works on Linux/Mac!";
+}
+
+if (is_linux && is_mac) {
+    throw "Both Linux and Mac?!";
+}
+
+let _doneBasicInit = false;
 
 let libc;
 let open;
@@ -25,110 +46,267 @@ let cfsetispeed;
 let cfsetospeed;
 let select;
 
-const struct_termios = new ctypes.StructType(
-    'termios',
-    [
-        { 'c_iflag': ctypes.unsigned_int },
-        { 'c_oflag': ctypes.unsigned_int },
-        { 'c_cflag': ctypes.unsigned_int },
-        { 'c_lflag': ctypes.unsigned_int },
-        { 'c_line': ctypes.unsigned_char },
-        { 'c_cc': new ctypes.ArrayType(ctypes.unsigned_char, 32) },
-        { 'c_ispeed': ctypes.unsigned_int },
-        { 'c_ospeed': ctypes.unsigned_int },
-    ]
-    );
+let LIBC_PATH;
 
-const struct_timeval = new ctypes.StructType(
-    'timeval',
-    [
-        { 'tv_sec': ctypes.long },
-        { 'tv_usec': ctypes.long },
-    ]
-    );
+let struct_termios;
+let struct_timeval;
 
-const O_RDWR        = 0x0002;
-const O_NOCTTY      = 0x0400;
-const O_NONBLOCK    = 0x2000;
+let O_RDWR;
+let O_NOCTTY;
+let O_NONBLOCK;
 
-const CREAD         = 128;
-const CLOCAL        = 2048;
+let CREAD;
+let CLOCAL;
 
-const ISIG          = 1;
-const ICANON        = 2;
-const ECHO          = 8;
-const ECHOE         = 16;
-const ECHOK         = 32;
-const ECHONL        = 64;
-const IEXTEN        = 32768;
+let ISIG;
+let ICANON;
+let ECHO;
+let ECHOE;
+let ECHOK;
+let ECHONL;
+let IEXTEN;
 
-const OPOST         = 1;
+let OPOST;
 
-const IGNBRK        = 1;
-const PARMRK        = 8;
-const INLCR         = 64;
-const IGNCR         = 128;
-const ICRNL         = 256;
-const IUCLC         = 512;
+let IGNBRK;
+let PARMRK;
+let INLCR;
+let IGNCR;
+let ICRNL;
+let IUCLC;
 
-const CSIZE         = 48;
-const   CS5         = 0;
-const   CS6         = 16;
-const   CS7         = 32;
-const   CS8         = 48;
-const CSTOPB        = 64;
+let CSIZE;
+let   CS5;
+let   CS6;
+let   CS7;
+let   CS8;
+let CSTOPB;
 
-const INPCK         = 16;
-const ISTRIP        = 32;
-const PARENB        = 256;
-const PARODD        = 512;
+let INPCK;
+let ISTRIP;
+let PARENB;
+let PARODD;
 
-const IXON          = 1024;
-const IXANY         = 2048;
-const IXOFF         = 4096;
+let IXON;
+let IXANY;
+let IXOFF;
 
-const CRTSCTS       = 2147483648;
+let CRTSCTS;
 
-const VTIME         = 5;
-const VMIN          = 6;
+let VTIME;
+let VMIN;
 
-const TCSANOW       = 0;
+let TCSANOW;
 
-const EAGAIN        = 11;
+let EAGAIN;
 
-const baudrate_constants = {
-    0:          0, // hang up
-    50:         1,
-    75:         2,
-    110:        3,
-    134:        4,
-    150:        5,
-    200:        6,
-    300:        7,
-    600:        8,
-    1200:       9,
-    1800:       10,
-    2400:       11,
-    4800:       12,
-    9600:       13,
-    19200:      14,
-    38400:      15,
-    57600:      4097,
-    115200:     4098,
-    230400:     4099,
-    460800:     4100,
-    500000:     4101,
-    576000:     4102,
-    921600:     4103,
-    1000000:    4104,
-    1152000:    4105,
-    1500000:    4106,
-    2000000:    4107,
-    2500000:    4108,
-    3000000:    4109,
-    3500000:    4110,
-    4000000:    4111
-};
+let baudrate_constants;
+
+if (is_linux) {
+    LIBC_PATH = 'libc.so.6';
+
+    struct_termios = new ctypes.StructType(
+        'termios',
+        [
+            { 'c_iflag': ctypes.unsigned_int },
+            { 'c_oflag': ctypes.unsigned_int },
+            { 'c_cflag': ctypes.unsigned_int },
+            { 'c_lflag': ctypes.unsigned_int },
+            { 'c_line': ctypes.unsigned_char },
+            { 'c_cc': new ctypes.ArrayType(ctypes.unsigned_char, 32) },
+            { 'c_ispeed': ctypes.unsigned_int },
+            { 'c_ospeed': ctypes.unsigned_int },
+        ]
+        );
+
+    struct_timeval = new ctypes.StructType(
+        'timeval',
+        [
+            { 'tv_sec': ctypes.long },
+            { 'tv_usec': ctypes.long },
+        ]
+        );
+
+    O_RDWR        = 0x0002;
+    O_NOCTTY      = 0x0400;
+    O_NONBLOCK    = 0x2000;
+
+    CREAD         = 128;
+    CLOCAL        = 2048;
+
+    ISIG          = 1;
+    ICANON        = 2;
+    ECHO          = 8;
+    ECHOE         = 16;
+    ECHOK         = 32;
+    ECHONL        = 64;
+    IEXTEN        = 32768;
+
+    OPOST         = 1;
+
+    IGNBRK        = 1;
+    PARMRK        = 8;
+    INLCR         = 64;
+    IGNCR         = 128;
+    ICRNL         = 256;
+    IUCLC         = 512;
+
+    CSIZE         = 48;
+      CS5         = 0;
+      CS6         = 16;
+      CS7         = 32;
+      CS8         = 48;
+    CSTOPB        = 64;
+
+    INPCK         = 16;
+    ISTRIP        = 32;
+    PARENB        = 256;
+    PARODD        = 512;
+
+    IXON          = 1024;
+    IXANY         = 2048;
+    IXOFF         = 4096;
+
+    CRTSCTS       = 2147483648;
+
+    VTIME         = 5;
+    VMIN          = 6;
+
+    TCSANOW       = 0;
+
+    EAGAIN        = 11;
+
+    baudrate_constants = {
+        0:          0, // hang up
+        50:         1,
+        75:         2,
+        110:        3,
+        134:        4,
+        150:        5,
+        200:        6,
+        300:        7,
+        600:        8,
+        1200:       9,
+        1800:       10,
+        2400:       11,
+        4800:       12,
+        9600:       13,
+        19200:      14,
+        38400:      15,
+        57600:      4097,
+        115200:     4098,
+        230400:     4099,
+        460800:     4100,
+        500000:     4101,
+        576000:     4102,
+        921600:     4103,
+        1000000:    4104,
+        1152000:    4105,
+        1500000:    4106,
+        2000000:    4107,
+        2500000:    4108,
+        3000000:    4109,
+        3500000:    4110,
+        4000000:    4111
+    };
+} else if (is_mac) {
+    LIBC_PATH = 'libc.dylib';
+
+    struct_termios = new ctypes.StructType(
+        'termios',
+        [
+            { 'c_iflag': ctypes.unsigned_long },
+            { 'c_oflag': ctypes.unsigned_long },
+            { 'c_cflag': ctypes.unsigned_long },
+            { 'c_lflag': ctypes.unsigned_long },
+            { 'c_cc': new ctypes.ArrayType(ctypes.unsigned_char, 20) },
+            { 'c_ispeed': ctypes.unsigned_long },
+            { 'c_ospeed': ctypes.unsigned_long },
+        ]
+        );
+
+    struct_timeval = new ctypes.StructType(
+        'timeval',
+        [
+            { 'tv_sec': ctypes.long },
+            { 'tv_usec': ctypes.int32_t },
+        ]
+        );
+
+    O_RDWR        = 0x0002;
+    O_NOCTTY      = 0x20000;
+    O_NONBLOCK    = 0x0004;
+
+    CREAD         = 0x00000800;
+    CLOCAL        = 0x00008000;
+
+    ISIG          = 0x00000080;
+    ICANON        = 0x00000100;
+    ECHO          = 0x00000008;
+    ECHOE         = 0x00000002;
+    ECHOK         = 0x00000004;
+    ECHONL        = 0x00000010;
+    IEXTEN        = 0x00000400;
+
+    OPOST         = 0x00000001;
+
+    IGNBRK        = 0x00000001;
+    PARMRK        = 0x00000008;
+    INLCR         = 0x00000040;
+    IGNCR         = 0x00000080;
+    ICRNL         = 0x00000100;
+
+    CSIZE         = 0x00000300;
+      CS5         = 0x00000000;
+      CS6         = 0x00000100;
+      CS7         = 0x00000200;
+      CS8         = 0x00000300;
+    CSTOPB        = 0x00000400;
+
+    INPCK         = 0x00000010;
+    ISTRIP        = 0x00000020;
+    PARENB        = 0x00001000;
+    PARODD        = 0x00002000;
+
+    IXON          = 0x00000200;
+    IXANY         = 0x00000400;
+    IXOFF         = 0x00000800;
+
+    CRTSCTS       = 0x00010000 | 0x00020000;
+
+    VTIME         = 16;
+    VMIN          = 17;
+
+    TCSANOW       = 0;
+
+    EAGAIN        = 35;
+
+    baudrate_constants = {
+        0:          0,
+        50:         50,
+        75:         75,
+        110:        110,
+        134:        134,
+        150:        150,
+        200:        200,
+        300:        300,
+        600:        600,
+        1200:       1200,
+        1800:       1800,
+        2400:       2400,
+        4800:       4800,
+        9600:       9600,
+        19200:      19200,
+        38400:      38400,
+        7200:       7200,
+        14400:      14400,
+        28800:      28800,
+        57600:      57600,
+        76800:      76800,
+        115200:     115200,
+        230400:     230400,
+    };
+}
 
 exports.init = function() {
     if (_doneBasicInit) {
@@ -236,44 +414,67 @@ function serClose() {
 }
 
 function fd_set_get_idx(fd) {
-    // Unfortunately, we actually have an array of long ints, which is
-    // a) platform dependent and b) not handled by typed arrays. We manually
-    // figure out which byte we should be in. We assume a 64-bit platform
-    // that is little endian (aka x86_64 linux).
-    let elem64 = Math.floor(fd / 64);
-    let bitpos64 = fd % 64;
-    let elem8 = elem64 * 8;
-    let bitpos8 = bitpos64;
-    if (bitpos8 >= 8) {     // 8
-        bitpos8 -= 8;
-        elem8++;
-    }
-    if (bitpos8 >= 8) {     // 16
-        bitpos8 -= 8;
-        elem8++;
-    }
-    if (bitpos8 >= 8) {     // 24
-        bitpos8 -= 8;
-        elem8++;
-    }
-    if (bitpos8 >= 8) {     // 32
-        bitpos8 -= 8;
-        elem8++;
-    }
-    if (bitpos8 >= 8) {     // 40
-        bitpos8 -= 8;
-        elem8++;
-    }
-    if (bitpos8 >= 8) {     // 48
-        bitpos8 -= 8;
-        elem8++;
-    }
-    if (bitpos8 >= 8) {     // 56
-        bitpos8 -= 8;
-        elem8++;
-    }
+    if (is_linux) {
+        // Unfortunately, we actually have an array of long ints, which is
+        // a) platform dependent and b) not handled by typed arrays. We manually
+        // figure out which byte we should be in. We assume a 64-bit platform
+        // that is little endian (aka x86_64 linux).
+        let elem64 = Math.floor(fd / 64);
+        let bitpos64 = fd % 64;
+        let elem8 = elem64 * 8;
+        let bitpos8 = bitpos64;
+        if (bitpos8 >= 8) {     // 8
+            bitpos8 -= 8;
+            elem8++;
+        }
+        if (bitpos8 >= 8) {     // 16
+            bitpos8 -= 8;
+            elem8++;
+        }
+        if (bitpos8 >= 8) {     // 24
+            bitpos8 -= 8;
+            elem8++;
+        }
+        if (bitpos8 >= 8) {     // 32
+            bitpos8 -= 8;
+            elem8++;
+        }
+        if (bitpos8 >= 8) {     // 40
+            bitpos8 -= 8;
+            elem8++;
+        }
+        if (bitpos8 >= 8) {     // 48
+            bitpos8 -= 8;
+            elem8++;
+        }
+        if (bitpos8 >= 8) {     // 56
+            bitpos8 -= 8;
+            elem8++;
+        }
 
-    return {'elem8': elem8, 'bitpos8': bitpos8};
+        return {'elem8': elem8, 'bitpos8': bitpos8};
+    } else if (is_mac) {
+        // We have an array of int32. This should hopefully work on Darwin
+        // 32 and 64 bit.
+        let elem32 = Math.floor(fd / 32);
+        let bitpos32 = fd % 32;
+        let elem8 = elem32 * 8;
+        let bitpos8 = bitpos32;
+        if (bitpos8 >= 8) {     // 8
+            bitpos8 -= 8;
+            elem8++;
+        }
+        if (bitpos8 >= 8) {     // 16
+            bitpos8 -= 8;
+            elem8++;
+        }
+        if (bitpos8 >= 8) {     // 24
+            bitpos8 -= 8;
+            elem8++;
+        }
+
+        return {'elem8': elem8, 'bitpos8': bitpos8};
+    }
 }
 
 function fd_set_set(fdset, fd) {
@@ -345,6 +546,7 @@ function serRead(size) {
         if (this.timeout === null) {
             timeoutStruct = null;
         } else {
+            /*jshint newcap: false */
             timeoutStruct = new struct_timeval();
             // Note: not the full range of timeouts works due to limited range
             // of double.
@@ -402,6 +604,7 @@ exports.SerialPortOpen = function(port, baud, timeout) {
         throw ("Error opening port " + port + ": errno = " + ctypes.errno);
     }
 
+    /*jshint newcap: false */
     let termios_data = new struct_termios();
     if (+tcgetattr(fd, termios_data.address()) !== 0) {
         throw ("Error configuring port " + port + ": errno = " + ctypes.errno);
@@ -412,7 +615,10 @@ exports.SerialPortOpen = function(port, baud, timeout) {
     termios_data.c_lflag &= ~(ICANON|ECHO|ECHOE|ECHOK|ECHONL|ISIG|IEXTEN);
     // TODO(rqou): Do we need the ECHOCTL/ECHOKE? Comment says for NetBSD.
     termios_data.c_oflag &= ~(OPOST);
-    termios_data.c_iflag &= ~(INLCR|IGNCR|ICRNL|IGNBRK|IUCLC|PARMRK);
+    termios_data.c_iflag &= ~(INLCR|IGNCR|ICRNL|IGNBRK|PARMRK);
+    if (is_linux) {
+        termios_data.c_iflag &= ~(IUCLC);
+    }
 
     // setup baud rate
     cfsetispeed(termios_data.address(), baudrate_constants[baud]);

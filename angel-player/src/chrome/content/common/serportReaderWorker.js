@@ -2,7 +2,7 @@
 "use strict";
 
 importScripts("resource://gre/modules/workers/require.js");
-let serport = require('chrome://angel-player/content/common/serport_linux');
+let serport = require('chrome://angel-player/content/common/serport_posix');
 
 // TODO(rqou): I think this needs to be done again???
 serport.init();
