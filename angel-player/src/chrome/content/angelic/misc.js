@@ -73,7 +73,16 @@ function to_filename ( path ) {
   else if ( environment === 'xulrunner' ) {
     var url = require ( 'jetpack/sdk/url' );
     if ( url.isValidURI ( path ) ) {
-      return url.toFilename ( path );
+      // url.isValidURI returns true for Windows paths.
+      // Hopefully, this will be fixed at some point.
+      // For the time being, we catch the exception from trying to convert that 
+      // path to a filename.
+      try {
+        return url.toFilename ( path );
+        }
+      catch ( _ ) {
+        return path;
+        }
       }
     else {
       return path;
