@@ -1,4 +1,6 @@
 # We don't care about any of this GCC stuff
 tools/arm-toolchain/*
+# Or about emscripten
+tools/emscripten-bin/*
 # This is Google's own problem
 tools/cpplint.py

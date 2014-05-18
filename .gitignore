@@ -1,5 +1,6 @@
 tools/*.tar.bz2
 tools/arm-toolchain
+tools/emscripten-bin
 
 eda/*.?#?
 
