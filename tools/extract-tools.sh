@@ -18,4 +18,16 @@ then
 	tar xjf project-tenshi-openocd.tar.bz2
 fi
 
+which emcc >/dev/null || {
+	# Extract emscripten
+	if [ ! -e emscripten-bin ]
+	then
+		if [ ! -e emscripten-bin-18apr2014.tar.bz2 ]
+		then
+			wget http://rqou.com/emscripten-bin-18apr2014.tar.bz2
+		fi
+		tar xjf emscripten-bin-18apr2014.tar.bz2
+	fi
+}
+
 cd ..
