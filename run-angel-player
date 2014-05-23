@@ -1,0 +1,11 @@
+#!/bin/bash -xe
+#
+# Runs a development version of angel-player using a copy of xulrunner from the
+# build directory
+#
+
+[ -x "./build/angel-player/angel-player.app/xul-lin64/xulrunner" ] || {
+	./build.sh
+}
+
+./build/angel-player/angel-player.app/xul-lin64/xulrunner angel-player/src/application.ini -jsconsole -purgecaches
