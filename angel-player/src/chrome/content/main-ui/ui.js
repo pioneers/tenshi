@@ -40,7 +40,7 @@ const LAYOUTS = {
 };
 
 // Different "environments" such as coding, driving, home page, etc.
-const ENVIRONMENTS = [
+var ENVIRONMENTS = [
     {
         text: "Home",
         image: 'chrome://angel-player/content/main-ui/assets/home.png',
@@ -114,19 +114,27 @@ const ENVIRONMENTS = [
         deactivate: function(next) {
             $("#centerDiv").empty();
         },
-    }, {
-        // TODO(rqou): Delete this when we don't need it anymore.
+    },
+];
+
+// Special page for debug mode only.
+// Useful for prototyping components on their own page, since this can't be done
+// in a browser
+// TODO(nikita): actually make this debug mode only. This is tricky because the
+// debug mode setting is outside the commonjs environment
+if (true) {
+  ENVIRONMENTS.push({
         text: "Stargate Network",
         image: 'chrome://angel-player/content/main-ui/assets/stargate.png',
         activate: function(prev) {
             switchLayout("center-only");
-            loadPageIntoDiv("centerDiv", "../actualMain.html");
+            loadPageIntoDiv("centerDiv", "../debug-main.html");
         },
         deactivate: function(next) {
             $("#centerDiv").empty();
         },
-    },
-];
+  });
+}
 
 function loadPageIntoDiv(div, page) {
     // TODO(rqou): Refactor paths
