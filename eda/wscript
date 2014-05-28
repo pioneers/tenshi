@@ -13,7 +13,8 @@ def build(bld):
         return
     for board in glob.glob('eda/*.brd'):
         base_name = os.path.split(board)[-1]
-        outfile = '../' + os.path.splitext(base_name)[0] + '.zip'
+        outfile = ('../../artifacts/boards/' +
+                   os.path.splitext(base_name)[0] + '.zip')
         bld(rule='${root}/tools/run-eagle-cam-v2.py '
                  '${root}/tools/gerber_rules.yaml '
                  '${SRC} ${TGT}',
@@ -22,7 +23,8 @@ def build(bld):
 
     for schematic in glob.glob('eda/*.sch'):
         base_name = os.path.split(schematic)[-1]
-        outfile = '../' + os.path.splitext(base_name)[0] + '.csv'
+        outfile = ('../../artifacts/boards/' +
+                   os.path.splitext(base_name)[0] + '.csv')
         bld(rule='${root}/tools/generate_bom.py ${SRC} ${TGT} '
                  '${root}/tools/parts-db.yaml',
             source=base_name,

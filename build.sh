@@ -14,7 +14,7 @@ if [[ -z "LLVM" ]] ; then
 	export PATH="$PATH:$PROJECT_ROOT_DIR/emscripten-bin:$LLVM"
 fi
 
-mkdir -p build
+mkdir -p build/artifacts
 
 # Run linters
 linter_status=0

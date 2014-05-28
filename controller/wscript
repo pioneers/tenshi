@@ -166,7 +166,8 @@ def build(bld):
             return
 
         def bld_path(path):
-            return bld.root.make_node(bld.variant_dir).make_node(path)
+            output_dir = os.path.join(bld.out_dir + "/artifacts/", bld.variant)
+            return bld.root.make_node(output_dir).make_node(path)
 
         def add_dependency(tgt, src):
             src_node = bld.path.find_resource(src)
