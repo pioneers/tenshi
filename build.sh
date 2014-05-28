@@ -31,8 +31,8 @@ fi
 ./waf configure build
 
 # TODO(kzentner): Fix this hack?
-cp build/vm/release_emscripten/controller/vm/src/ngl_vm.js angel-player/src/chrome/content/vendor-js/
-cp build/lua/release_emscripten/controller/lua/lua.js angel-player/src/chrome/content/vendor-js/
+cp build/vm/release_emscripten/vm/angelic/src/ngl_vm.js angel-player/src/chrome/content/vendor-js/
+cp build/lua/release_emscripten/vm/lua/lua.js angel-player/src/chrome/content/vendor-js/
 
 # Main build
 for dir in angel-player

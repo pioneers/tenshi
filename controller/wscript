@@ -9,8 +9,8 @@ declare_variants(['deb', 'rel', 'debopt', 'relopt'], subdir='controller')
 
 
 def recurse(ctxt):
-    ctxt.recurse('vm', mandatory=False)
-    ctxt.recurse('lua', mandatory=False)
+    ctxt.recurse('../vm/angelic', mandatory=False)
+    ctxt.recurse('../vm/lua', mandatory=False)
 
 
 def options(opt):
@@ -203,14 +203,14 @@ def build(bld):
         bld.objects(
             source=bld.path.ant_glob("src/**/*.c"),
             target="c_objects",
-            includes=". inc common_defs vm/src lua/src",
+            includes=". inc common_defs ../vm/angelic/src ../vm/lua/src",
             use="typpo_includes"
         )
 
         bld.objects(
             source=bld.path.ant_glob("src/**/*.cpp"),
             target="cpp_objects",
-            includes=". inc common_defs vm/src lua/src",
+            includes=". inc common_defs ../vm/angelic/src ../vm/lua/src",
             use="typpo_includes"
         )
 

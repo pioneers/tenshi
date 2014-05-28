@@ -64,14 +64,14 @@ def build(bld):
         # parentheses (at least in Lua version 5.x).
         func_decl = re.compile(r'^LUA_API [A-z0-9_ *]*\(([A-z0-9_]+)\) *\(',
                                flags=re.MULTILINE)
-        with open(os.path.join(bld.env['root'], 'controller', 'lua', 'src',
+        with open(os.path.join(bld.env['root'], 'vm', 'lua', 'src',
                                'lua.h')) as f:
             contents = f.read()
             api_fns = func_decl.findall(contents)
 
         func_decl = re.compile(r'^LUALIB_API [A-z0-9_ *]*\(([A-z0-9_]+)\) *\(',
                                flags=re.MULTILINE)
-        with open(os.path.join(bld.env['root'], 'controller', 'lua', 'src',
+        with open(os.path.join(bld.env['root'], 'vm', 'lua', 'src',
                                'lauxlib.h')) as f:
             contents = f.read()
             api_aux_fns = func_decl.findall(contents)
@@ -79,7 +79,8 @@ def build(bld):
         export_str = ','.join(
             "'_{}'".format(fn) for fn in api_fns + api_aux_fns)
 
-        fake_node_js = bld.path.parent.find_resource('vm/src/fake_node.js')
+        fake_node_js = bld.path.parent.find_resource(
+            'angelic/src/fake_node.js')
         bld(
             name='emcc library',
             rule=' '.join([
