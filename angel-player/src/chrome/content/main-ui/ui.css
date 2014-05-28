@@ -25,6 +25,35 @@ body {
     flex-direction: row;
 }
 
+#title {
+	float: left;
+	left: 0;
+}
+
+.emphasize {
+	color: #ff00ff;
+}
+
+#appTitle {
+}
+
+#currentEnvironment {
+}
+
+#tabsDiv {
+	float: right;
+	right: 0;
+}
+
+a {
+	margin: 5px 5px 5px 5px;
+}
+
+a.tabActive {
+	color: #ff00ff;
+}
+
+
 /* TODO(rqou): This is duplicated in a bunch of places */
 .absolutelyNoSpace {
     border: 0 none transparent;
