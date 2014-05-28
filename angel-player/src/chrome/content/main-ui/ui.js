@@ -7,9 +7,6 @@ let $;
 
 let currentSelectedTab = -1;
 
-const XUL_XMLNS =
-    'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul';
-
 // Different ways to arrange the divs to suit different environments. Contains
 // relative flexbox sizes for each element.
 const LAYOUTS = {
@@ -156,36 +153,41 @@ function newTabSelected() {
     /* jshint validthis: true */
 
     let prevSelectedTab = currentSelectedTab;
+    let newSelectedTab = $(this).data().index;
 
+    // Adjust the header bar
+    $("#appTitle").text("AP").removeClass("emphasize");
+    $("#currentEnvironment").text(ENVIRONMENTS[newSelectedTab].text).addClass("emphasize");
+
+    // Adjust the tabs bar
+    $("a.tabActive").removeClass('tabActive');
+    $(this).addClass('tabActive');
+
+    // Activate/deactivate the environments
     if (prevSelectedTab != -1) {
-        ENVIRONMENTS[prevSelectedTab].deactivate(this.selectedIndex);
+        ENVIRONMENTS[prevSelectedTab].deactivate(newSelectedTab);
     }
 
-    currentSelectedTab = this.selectedIndex;
-    ENVIRONMENTS[currentSelectedTab].activate(prevSelectedTab);
+    ENVIRONMENTS[newSelectedTab].activate(prevSelectedTab);
+
+    // Set data structures
+    currentSelectedTab = newSelectedTab;
 }
 
-// Creates the (XUL) tabs for the different environments
+// Creates the tabs for the different environments
 function createTabs() {
-    let tabsXULElem = document.createElementNS(XUL_XMLNS, "tabs");
-    // This does not work in a HTML content document; we probably don't need
-    // this functionality anyways.
-    tabsXULElem.setAttributeNS(null, 'setfocus', false);
-
-    for (let environment of ENVIRONMENTS) {
-        let envTab = document.createElementNS(XUL_XMLNS, "tab");
-        envTab.setAttributeNS(null, 'label', environment.text);
-        if (environment.image) {
-            envTab.setAttributeNS(null, 'image', environment.image);
-        }
-        tabsXULElem.appendChild(envTab);
-    }
-
-    tabsXULElem.addEventListener('select', newTabSelected);
-    $("#tabsDiv").append(tabsXULElem);
+  let tabsDiv = $("#tabsDiv");
+  for (let i = 0; i < ENVIRONMENTS.length; i++) {
+	let environment = ENVIRONMENTS[i];
+	let link = $("<a href='#'>" + environment.text + "</a>");
+	link.data({"index": i});
+	link.on('click', newTabSelected);
+	tabsDiv.append(link);
+  }
 }
 
 function onLoad() {
+    $("#appTitle").addClass("emphasize");
     createTabs();
 }
 
