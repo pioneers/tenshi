@@ -1,0 +1,26 @@
+This code is the firmware for the Pioneers in Engineering Grizzly Bear Motor
+Controller. This code compiles for the AVR architecture, specifially the
+ATmega32u4. Written by Robert Ou in PiE KitDev Electrical. For further
+documentation, consult the wiki page.
+
+=== Configuring AVR ===
+The AVR on the Grizzly Bear controller should be configured with lfuse=0xff,
+hfuse=0xd9, and efuse=0xfb. This configures the AVR to run with the external
+16MHz crystal.
+
+Using avrdude, the AVR can be configured using the command:
+$ avrdude -c <prog> -P <port> -p atmega32u4 -U lfuse:w:0xff:m -U hfuse:w:0xD9:m
+  -U efuse:w:0xFB:m
+where <prog> is the type of AVR programmer and <port> is the port the
+programmer is connected on.
+
+=== Compiling ===
+This code requires avr-gcc and avr-libc. On Ubuntu, install the packages
+avr-libc, avrdude, and gcc-avr. On Windows, install <TODO> WinAVR and MSYS.
+Compile the code by running "make" in this directory. Use "make clean" to clean
+the built files. The resulting hex file is in build/programs/firmware.hex .
+
+=== Running ===
+Flash the AVR using the following command:
+$ avrdude -c <prog> -P <port> -p atmega32u4
+  -U flash:w:build/programs/firmware.hex:i
