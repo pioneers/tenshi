@@ -46,6 +46,7 @@ cp xul-lin64/xulrunner-stub angel-player
 cp xul-win32/xulrunner-stub.exe angel-player.exe
 # This is a god-awful hack to change the XULrunner directory. This essentially
 # patches line 261 of nsXULStub.cpp
+### WHAT IS LIFEEEE?????
 sed -i 's/%sxulrunner/%sxul-lin64/g' angel-player
 sed -i 's/%sxulrunner/%sxul-win32/g' angel-player.exe
 # Copy in angel-player code
