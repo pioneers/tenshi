@@ -1,3 +1,5 @@
+@import url(chrome://angel-player/content/common/assets/common.css);
+
 html {
     height: 100%;
     width: 100%;
@@ -12,6 +14,62 @@ body {
     overflow: hidden;
 }
 
+#header {
+    background-color: #1b1464;
+}
+
+#logo {
+    float: left;
+}
+
+#appLogo {
+    padding: 5px 5px 0 5px;
+    height: 1.5em;
+}
+
+#title {
+    float: left;
+    left: 0;
+    font-family: 'Open Sans';
+    font-weight: 300;
+}
+
+
+#appTitle {
+    font-size: 1.3em;
+    font-weight: 300;
+    color: #dbdbdb;
+}
+
+#currentEnvironment {
+    font-size: 1.3em;
+}
+
+.emphasize {
+    color: white !important;
+    font-weight: 400 !important;
+}
+
+
+#tabsDiv {
+    float: right;
+    right: 0;
+    padding: 5px 0 0 0;
+}
+
+a {
+    margin: 5px 5px 5px 5px;
+    color: #dbdbdb;
+    font-family: 'Open Sans';
+    font-weight: 300;
+    text-decoration: none;
+}
+
+a.tabActive {
+    color: white;
+    font-weight: 400;
+}
+
 #mainContent {
     /* Note: this flex makes the main content take up all the remaining space
        but is aware of the tabs above it. */
@@ -24,35 +82,6 @@ body {
     display: flex;
     flex-direction: row;
 }
-
-#title {
-	float: left;
-	left: 0;
-}
-
-.emphasize {
-	color: #ff00ff;
-}
-
-#appTitle {
-}
-
-#currentEnvironment {
-}
-
-#tabsDiv {
-	float: right;
-	right: 0;
-}
-
-a {
-	margin: 5px 5px 5px 5px;
-}
-
-a.tabActive {
-	color: #ff00ff;
-}
-
 
 /* TODO(rqou): This is duplicated in a bunch of places */
 .absolutelyNoSpace {
