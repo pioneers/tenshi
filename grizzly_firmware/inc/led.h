@@ -15,8 +15,8 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef LED_H_
-#define LED_H_
+#ifndef INC_LED_H_
+#define INC_LED_H_
 
 // Initializes the led's.
 void init_led();
@@ -35,4 +35,4 @@ void set_all_leds(unsigned char on);
 #define LED_OFF 0
 
 
-#endif /* LED_H_ */
+#endif  // INC_LED_H_

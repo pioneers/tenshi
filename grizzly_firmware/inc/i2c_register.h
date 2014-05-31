@@ -15,13 +15,13 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef I2C_REGISTER_H_
-#define I2C_REGISTER_H_
+#ifndef INC_I2C_REGISTER_H_
+#define INC_I2C_REGISTER_H_
 // This file contains code for the I2C registers.
 
 #include <stdint.h>
 
-#include "avr-fixed.h"
+#include "inc/avr-fixed.h"
 
 // Gives the value for a particular I2C register.
 // Register is passed as an argument and this function returns a byte.
@@ -93,4 +93,4 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val);
 // This value is returned when reading a register that is not defined.
 #define UNUSED_REG_VAL  0xFF
 
-#endif  // I2C_REGISTER_H_
+#endif  // INC_I2C_REGISTER_H_

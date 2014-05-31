@@ -15,8 +15,8 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef USB_H_
-#define USB_H_
+#ifndef INC_USB_H_
+#define INC_USB_H_
 
 #include <stdint.h>
 
@@ -37,4 +37,4 @@ extern uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
 
 void EVENT_USB_Device_ControlRequest(void);
 
-#endif
+#endif  // INC_USB_H_

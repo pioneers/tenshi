@@ -15,12 +15,12 @@
 // specific language governing permissions and limitations
 // under the License
 
-#include "encoder.h"
+#include "inc/encoder.h"
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
 
-#include "pindef.h"
+#include "inc/pindef.h"
 
 DECLARE_I2C_REGISTER_C(int32_t, encoder_count);
 

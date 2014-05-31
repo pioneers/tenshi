@@ -15,8 +15,8 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef LUFACONFIG_H_
-#define LUFACONFIG_H_
+#ifndef INC_LUFACONFIG_H_
+#define INC_LUFACONFIG_H_
 
 #define F_USB F_CPU
 #define ARCH ARCH_AVR8
@@ -33,4 +33,4 @@
 #define FIXED_CONTROL_ENDPOINT_SIZE   16
 #define FIXED_NUM_CONFIGURATIONS      1
 
-#endif
+#endif  // INC_LUFACONFIG_H_

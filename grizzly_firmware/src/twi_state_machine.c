@@ -15,16 +15,16 @@
 // specific language governing permissions and limitations
 // under the License
 
-#include "twi_state_machine.h"
+#include "inc/twi_state_machine.h"
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <util/twi.h>
 
-#include "i2c_register.h"
-#include "control_loop.h"
+#include "inc/i2c_register.h"
+#include "inc/control_loop.h"
 
-unsigned long last_i2c_update = 0;
+uint32_t last_i2c_update = 0;
 
 ISR(TWI_vect) {
   // Prevent gcc from generating inefficient 16-bit compare.
@@ -56,9 +56,9 @@ ISR(TWI_vect) {
       if (!got_register) {
         selected_register = TWDR;
         got_register = 1;
-      }
-      else
+      } else {
         set_i2c_reg(selected_register++, TWDR);
+      }
 
       // Always ack further bytes.
       TWCR = (TWCR | _BV(TWINT) | _BV(TWEA)) & (~(_BV(TWSTO)));

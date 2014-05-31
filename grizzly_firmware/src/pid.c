@@ -1,5 +1,5 @@
-#include "pid.h"
-#include "encoder.h"
+#include "inc/pid.h"
+#include "inc/encoder.h"
 
 DECLARE_I2C_REGISTER_C(FIXED1616, kp);
 DECLARE_I2C_REGISTER_C(FIXED1616, ki);
@@ -30,25 +30,25 @@ int do_pid_speed(FIXED1616 target) {
   FIXED1616 dterm = old_speed - speed;
   old_speed = speed;
   FIXED1616 iterm = fixed_mult(get_ki(), error_f);
-  
+
   // Use Brett Beuregard's trick of integrating ki*e instead of
   // integrating e and multiplying by ki
   // Also makes it easier to clamp integral windup
   iaccum += iterm;
   // Clamp integral now
-  if(iaccum > int_to_fixed(0x7ff))
+  if (iaccum > int_to_fixed(0x7ff))
     iaccum = int_to_fixed(0x7ff);
-  else if(iaccum < int_to_fixed(-0x7ff))
+  else if (iaccum < int_to_fixed(-0x7ff))
     iaccum = int_to_fixed(-0x7ff);
 
-  FIXED1616 outval_f = fixed_mult(get_kp(), error_f) + fixed_mult(get_kd(), dterm)
-    + iaccum;
+  FIXED1616 outval_f =
+    fixed_mult(get_kp(), error_f) + fixed_mult(get_kd(), dterm) + iaccum;
 
   int outval = fixed_to_int(outval_f);
   // Clamp outval
-  if(outval > 0x7ff)
+  if (outval > 0x7ff)
     outval = 0x7ff;
-  else if(outval < -0x7ff)
+  else if (outval < -0x7ff)
     outval = -0x7ff;
 
   return outval;
@@ -78,19 +78,19 @@ int do_pid_positional(FIXED1616 target) {
   // Also makes it easier to clamp integral windup
   iaccum += iterm;
   // Clamp integral now
-  if(iaccum > int_to_fixed(0x7ff))
+  if (iaccum > int_to_fixed(0x7ff))
     iaccum = int_to_fixed(0x7ff);
-  else if(iaccum < int_to_fixed(-0x7ff))
+  else if (iaccum < int_to_fixed(-0x7ff))
     iaccum = int_to_fixed(-0x7ff);
 
-  FIXED1616 outval_f = fixed_mult(get_kp(), error_f) + fixed_mult(get_kd(), dterm)
-    + iaccum;
+  FIXED1616 outval_f =
+    fixed_mult(get_kp(), error_f) + fixed_mult(get_kd(), dterm) + iaccum;
 
   int outval = fixed_to_int(outval_f);
   // Clamp outval
-  if(outval > 0x7ff)
+  if (outval > 0x7ff)
     outval = 0x7ff;
-  else if(outval < -0x7ff)
+  else if (outval < -0x7ff)
     outval = -0x7ff;
 
   return outval;

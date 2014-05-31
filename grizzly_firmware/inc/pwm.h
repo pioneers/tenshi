@@ -15,8 +15,8 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef PWM_H_
-#define PWM_H_
+#ifndef INC_PWM_H_
+#define INC_PWM_H_
 // This file contains code for the pwm generation.
 
 // Called to configure PWM hardware on startup.
@@ -36,4 +36,4 @@ extern void set_sign_magnitude_go_coast_bck(void);
 extern void set_locked_antiphase(void);
 extern void set_controlled_brake(void);
 
-#endif  // PWM_H_
+#endif  // INC_PWM_H_

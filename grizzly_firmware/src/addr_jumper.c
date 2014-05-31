@@ -15,11 +15,11 @@
 // specific language governing permissions and limitations
 // under the License
 
-#include "addr_jumper.h"
+#include "inc/addr_jumper.h"
 
 #include <avr/io.h>
 
-#include "pindef.h"
+#include "inc/pindef.h"
 
 static void all_off(void) {
   // Enable all the pull ups, all set as inputs.
@@ -44,7 +44,7 @@ static void all_off(void) {
 // without this.)
 static inline void short_delay(void) {
   for (unsigned char i = 0; i < 100; i++)
-    asm volatile(""); // Prevent optimizing loop away.
+    asm volatile("");  // Prevent optimizing loop away.
 }
 
 // This function scans the pin headers and determines what address should be

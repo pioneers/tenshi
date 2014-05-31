@@ -15,13 +15,15 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef TWI_STATE_MACHINE_H_
-#define TWI_STATE_MACHINE_H_
+#ifndef INC_TWI_STATE_MACHINE_H_
+#define INC_TWI_STATE_MACHINE_H_
 // This file contains code for the I2C hardware.
 
-extern unsigned long last_i2c_update;
+#include <stdint.h>
+
+extern uint32_t last_i2c_update;
 
 // Called to configure I2C hardware on startup.
 extern void init_i2c(unsigned char addr);
 
-#endif  // TWI_STATE_MACHINE_H_
+#endif  // INC_TWI_STATE_MACHINE_H_

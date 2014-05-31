@@ -15,12 +15,12 @@
 // specific language governing permissions and limitations
 // under the License
 
-#include "usb.h"
+#include "inc/usb.h"
 
 #include <avr/pgmspace.h>
 #include <util/atomic.h>
 
-#include "i2c_register.h"
+#include "inc/i2c_register.h"
 
 const USB_Descriptor_Device_t PROGMEM DeviceDescriptor = {
   .Header = {.Size = sizeof(USB_Descriptor_Device_t), .Type = DTYPE_Device},
@@ -61,8 +61,7 @@ const USB_Descriptor_HIDReport_Datatype_t PROGMEM GenericReport[] = {
 };
 
 const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor = {
-  .Config =
-  {
+  .Config = {
     .Header = {
       .Size = sizeof(USB_Descriptor_Configuration_Header_t),
       .Type = DTYPE_Configuration
@@ -80,8 +79,7 @@ const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor = {
     .MaxPowerConsumption    = USB_CONFIG_POWER_MA(0)
   },
 
-  .HID_Interface =
-  {
+  .HID_Interface = {
     .Header = {
       .Size = sizeof(USB_Descriptor_Interface_t),
       .Type = DTYPE_Interface
@@ -99,8 +97,7 @@ const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor = {
     .InterfaceStrIndex      = NO_DESCRIPTOR
   },
 
-  .HID_GenericHID =
-  {
+  .HID_GenericHID = {
     .Header = {
       .Size = sizeof(USB_HID_Descriptor_HID_t),
       .Type = HID_DTYPE_HID
@@ -113,8 +110,7 @@ const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor = {
     .HIDReportLength        = sizeof(GenericReport)
   },
 
-  .HID_ReportINEndpoint =
-  {
+  .HID_ReportINEndpoint = {
     .Header = {
       .Size = sizeof(USB_Descriptor_Endpoint_t),
       .Type = DTYPE_Endpoint
@@ -231,8 +227,7 @@ void handleUsbRequest(uint8_t *buf) {
           set_i2c_reg(reg + i, buf[i + 2]);
         }
       }
-  }
-  else {
+  } else {
     // Read request
     if (len > GENERIC_REPORT_SIZE - 1)
       len = GENERIC_REPORT_SIZE - 1;

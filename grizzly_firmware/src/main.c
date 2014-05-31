@@ -15,23 +15,25 @@
 // specific language governing permissions and limitations
 // under the License
 
-#include "control_loop.h"
+#include "inc/control_loop.h"
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/atomic.h>
+// TODO(rqou): Naming the main.c foward-declaration file control_loop.h
+// really confuses cpplint
+#include <avr/io.h>           // NOLINT(build/include_order)
+#include <avr/interrupt.h>    // NOLINT(build/include_order)
+#include <util/atomic.h>      // NOLINT(build/include_order)
 
-#include "avr-fixed.h"
+#include "inc/avr-fixed.h"
 #include "LUFA/Drivers/USB/USB.h"
 
-#include "adc.h"
-#include "addr_jumper.h"
-#include "encoder.h"
-#include "led.h"
-#include "pindef.h"
-#include "pid.h"
-#include "pwm.h"
-#include "twi_state_machine.h"
+#include "inc/adc.h"
+#include "inc/addr_jumper.h"
+#include "inc/encoder.h"
+#include "inc/led.h"
+#include "inc/pindef.h"
+#include "inc/pid.h"
+#include "inc/pwm.h"
+#include "inc/twi_state_machine.h"
 
 // Registers
 unsigned char pwm_mode;
@@ -46,7 +48,7 @@ DECLARE_I2C_REGISTER_C(unsigned char, current_limit_ratio_numerator);
 DECLARE_I2C_REGISTER_C(unsigned char, current_limit_ratio_denominator);
 DECLARE_I2C_REGISTER_C(unsigned int, current_limit_ratio_max_use);
 
-DECLARE_I2C_REGISTER_C(unsigned long, uptime);
+DECLARE_I2C_REGISTER_C(uint32_t, uptime);
 
 DECLARE_I2C_REGISTER_C(uint16_t, timeout_period);
 DECLARE_I2C_REGISTER_C(uint16_t, min_switch_delta);
@@ -61,7 +63,7 @@ static unsigned char current_limit_is_clamping;
 
 static unsigned char force_error_led;
 
-static unsigned long last_switch_time = 0;
+static uint32_t last_switch_time = 0;
 static unsigned char last_pwm_mode = 0;
 
 // Clamp the input i to be within the interval [a,b]
@@ -76,8 +78,7 @@ static inline int clamp_within(int i, int a, int b) {
 static inline unsigned int u16min(unsigned int a, unsigned int b) {
   if (a < b) {
     return a;
-  }
-  else {
+  } else {
     return b;
   }
 }
@@ -99,8 +100,7 @@ static inline void current_limit_check_for_overspike(void) {
       get_current_limit_ratio_denominator();
     current_limit_spike_use = u16min(0xFF00,
         current_limit_ratio_denominator + current_limit_spike_use);
-  }
-  else {
+  } else {
     // Record a lack of overspike.
     // This is basically saturating subtraction.
     // It subtracts, but stops at zero.
@@ -108,8 +108,7 @@ static inline void current_limit_check_for_overspike(void) {
       get_current_limit_ratio_numerator();
     if (current_limit_spike_use <= current_limit_ratio_numerator) {
       current_limit_spike_use = 0;
-    }
-    else {
+    } else {
       current_limit_spike_use = (current_limit_spike_use -
           current_limit_ratio_numerator);
     }
@@ -128,8 +127,7 @@ static inline int current_limit_clip_speed(int input) {
       current_limit_is_clamping = 0;
       powered_down_counter = 0;
       force_error_led = 0;
-    }
-    else {
+    } else {
       // We're powered down, and will stay that way (for now).
       ++powered_down_counter;
     }
@@ -155,7 +153,6 @@ static inline int current_limit_clip_speed(int input) {
 static uint16_t accel_limit_last_speed = 0;
 
 static inline int accel_limit_speed(int speed) {
-
   int diff = 0;
   int clamped_diff;
   int target_speed;
@@ -197,25 +194,21 @@ static inline int abs(int in) {
   }
 }
 
-static inline void update_leds(unsigned char pwm_mode, 
+static inline void update_leds(unsigned char pwm_mode,
     unsigned char fwd, int pwm_val) {
   if (force_error_led) {
     set_all_leds(LED_ON);
-  }
-  else if (!(pwm_mode & MODE_ENABLE_MASK)) {
+  } else if (!(pwm_mode & MODE_ENABLE_MASK)) {
     // Disabled mode
     set_all_leds(LED_OFF);
-  }
-  else if (abs(pwm_val) < 2) {
+  } else if (abs(pwm_val) < 2) {
     // Turn the LEDs off if the motors are being moved so slowly they are "off"
     set_all_leds(LED_OFF);
-  }
-  else {
+  } else {
     if (fwd) {
       set_red_led(LED_OFF);
       set_green_led(LED_ON);
-    }
-    else {
+    } else {
       set_green_led(LED_OFF);
       set_red_led(LED_ON);
     }
@@ -228,21 +221,18 @@ static inline void set_pwm_mode(unsigned char pwm_mode, unsigned char fwd) {
   if ((pwm_mode & MODE_SIGN_MAG_LOCKED_ANTIPHASE) ==
       MODE_LOCKED_ANTIPHASE) {
     set_locked_antiphase();
-  }
-  else {
+  } else {
     if ((pwm_mode & MODE_SM_SWITCH_MODE) == MODE_SM_GO_BRAKE) {
       if (fwd)
         set_sign_magnitude_go_brake_fwd();
       else
         set_sign_magnitude_go_brake_bck();
-    }
-    else if ((pwm_mode & MODE_SM_SWITCH_MODE) == MODE_SM_GO_COAST) {
+    } else if ((pwm_mode & MODE_SM_SWITCH_MODE) == MODE_SM_GO_COAST) {
       if (fwd)
         set_sign_magnitude_go_coast_fwd();
       else
         set_sign_magnitude_go_coast_bck();
-    }
-    else {
+    } else {
       // Direction doesn't make much sense for controlled brake
       set_controlled_brake();
     }
@@ -265,8 +255,7 @@ static inline int stress_mode_logic(int pwm_val, unsigned char pwm_mode,
     stress_counter++;
     if (stress_counter == stress_period * 2)
       stress_counter = 0;
-  }
-  else {
+  } else {
     // switch out
     stress_counter = 0;
   }
@@ -308,7 +297,7 @@ static inline void check_fault() {
   // detect a fault when we switch from disabled to enabled.
   static unsigned char faults = 0;
 
-  //if (!(PIN(PINDEF_HIGHSIDEFAULT) & _BV(IO(PINDEF_HIGHSIDEFAULT)))) {
+  // if (!(PIN(PINDEF_HIGHSIDEFAULT) & _BV(IO(PINDEF_HIGHSIDEFAULT)))) {
   if ((PIND & _BV(PD7)) == 0) {
     // The fault pin has been raised
     faults++;
@@ -318,14 +307,12 @@ static inline void check_fault() {
       // There is no problem with this increment because this is the only writer
       error_count++;
     }
-  }
-  else {
+  } else {
     faults = 0;
   }
 }
 
 void run_control_loop(void) {
-
   FIXED1616 target_speed_copy;
   unsigned char pwm_mode_copy;
 
@@ -364,8 +351,7 @@ void run_control_loop(void) {
     set_pwm_val(0);
     accel_limit_last_speed = 0;
     update_leds(pwm_mode_copy, 0, 0);
-  }
-  else {
+  } else {
     // Signed, 12 bits [-0x7ff, 0x7ff]
     int pwm_val = 0;
 
@@ -382,7 +368,7 @@ void run_control_loop(void) {
       case MODE_SPEED_PID:
         pwm_val = do_pid_speed(target_speed_copy);
         break;
-        
+
       case MODE_POS_PID:
         pwm_val = do_pid_positional(target_speed_copy);
         break;
@@ -411,8 +397,7 @@ void run_control_loop(void) {
         MODE_LOCKED_ANTIPHASE) {
       // Adjustment for locked-antiphase mode
       pwm_val = (pwm_val + 0x800) / 2;
-    }
-    else {
+    } else {
       // Adjustment for sign-magnitude mode
       pwm_val = pwm_val < 0 ? -pwm_val : pwm_val;
     }

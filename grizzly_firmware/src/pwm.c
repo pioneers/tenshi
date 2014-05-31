@@ -15,11 +15,11 @@
 // specific language governing permissions and limitations
 // under the License
 
-#include "pwm.h"
+#include "inc/pwm.h"
 
 #include <avr/io.h>
 
-#include "pindef.h"
+#include "inc/pindef.h"
 
 // WARNING: THIS FILE IS WIP!
 
@@ -52,9 +52,9 @@ void init_pwm(void) {
 }
 
 void driver_enable(unsigned char enable) {
-  if (enable)
+  if (enable) {
     PORT(PINDEF_HIGHSIDEENABLE) |= _BV(IO(PINDEF_HIGHSIDEENABLE));
-  else {
+  } else {
     // Reset high side driver.
     PORT(PINDEF_HIGHSIDEENABLE) &= ~(_BV(IO(PINDEF_HIGHSIDEENABLE)));
 
@@ -110,12 +110,12 @@ void set_sign_magnitude_go_coast_fwd(void) {
   // Clear all outputs
   PORTC &= ~(_BV(PC7) | _BV(PC6));
   PORTB &= ~(_BV(PB5) | _BV(PB6));
-  
+
   // Make only Low B side output. Let High side be pulled down.
   DDRC = ((DDRC & ~(_BV(PC7))) | _BV(PC6));
   // Make only High A side output. Let Low side be pulled down.
   DDRB = ((DDRB & ~(_BV(PB6))) | _BV(PB5));
-  
+
   // Invert output
   TCCR4B |= _BV(PWM4X);
   // Connect High A and Low B side to pwm.
@@ -126,12 +126,12 @@ void set_sign_magnitude_go_coast_bck(void) {
   // Clear all ouptuts.
   PORTB &= ~(_BV(PB5) | _BV(PB6));
   PORTC &= ~(_BV(PC6) | _BV(PC7));
-  
+
   // Make only Low A side output. Let High side be pulled down.
   DDRB = ((DDRB & ~(_BV(PB5))) | _BV(PB6));
   // Make only High B side output. Let Low side be pulled down.
   DDRC = ((DDRC & ~(_BV(PC6))) | _BV(PC7));
-  
+
   // Do not invert output
   TCCR4B &= ~(_BV(PWM4X));
   // Connect side b HIGH ONLY to pwm.
@@ -152,12 +152,12 @@ void set_controlled_brake(void) {
   // Clear all outputs
   PORTC &= ~(_BV(PC7) | _BV(PC6));
   PORTB &= ~(_BV(PB5) | _BV(PB6));
-  
+
   // Make Low B side output.
   DDRC = ((DDRC & ~(_BV(PC7))) | _BV(PC6));
   // Make Low A side output.
   DDRB = ((DDRB & ~(_BV(PB5))) | _BV(PB6));
-  
+
   // Invert output
   TCCR4B |= _BV(PWM4X);
   // Connect Low side A as inverted pwm. Connect Low side B as inverted pwm.

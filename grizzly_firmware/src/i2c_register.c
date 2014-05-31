@@ -15,15 +15,15 @@
 // specific language governing permissions and limitations
 // under the License
 
-#include "i2c_register.h"
+#include "inc/i2c_register.h"
 
 #include <avr/pgmspace.h>
 
-#include "adc.h"
-#include "control_loop.h"
-#include "encoder.h"
-#include "pid.h"
-#include "version.h"
+#include "inc/adc.h"
+#include "inc/control_loop.h"
+#include "inc/encoder.h"
+#include "inc/pid.h"
+#include "inc/version.h"
 
 // This is a temp so that it can be changed all at once (not byte at a time).
 static FIXED1616 target_speed_new;
@@ -108,7 +108,7 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val) {
   AUTO_SET_REG(REG_PWM_MODE, REG_PWM_MODE_TYPE, &pwm_mode_new);
   AUTO_SET_REG(REG_TARGET_SPEED_NEW, REG_TARGET_SPEED_NEW_TYPE,
       &target_speed_new);
- 
+
   AUTO_SET_REG(REG_ENCODER_COUNT, REG_ENCODER_COUNT_TYPE,
       get_encoder_count_addr());
 

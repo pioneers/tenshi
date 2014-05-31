@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License
 
-#include "adc.h"
+#include "inc/adc.h"
 
 #include <avr/io.h>
 #include <util/atomic.h>
@@ -35,11 +35,11 @@ void init_adc() {
 void read_adc() {
   // Select AVcc and ADC channel 0.
   ADMUX = _BV(REFS0);
-  ADCSRB = 0; // Free running mode.
+  ADCSRB = 0;  // Free running mode.
   ADCSRA = _BV(ADEN) | _BV(ADIF) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0) |
-      _BV(ADSC); // Enable adc, clear any interrupt, div = 128, start ADC
+      _BV(ADSC);  // Enable adc, clear any interrupt, div = 128, start ADC
 
-  while (ADCSRA & _BV(ADSC)) {} // wait for finish
+  while (ADCSRA & _BV(ADSC)) {}  // wait for finish
 
   uint16_t tmp = ADCL;
   tmp |= ((uint16_t)(ADCH) << 8);

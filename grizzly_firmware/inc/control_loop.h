@@ -15,14 +15,14 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef CONTROL_LOOP_H_
-#define CONTROL_LOOP_H_
+#ifndef INC_CONTROL_LOOP_H_
+#define INC_CONTROL_LOOP_H_
 // This file contains code for the main control loop.
 // PID, etc. code is in here.
 
-#include "avr-fixed.h"
+#include "inc/avr-fixed.h"
 
-#include "util_macro.h"
+#include "inc/util_macro.h"
 
 // Motor controller modes
 #define MODE_ENABLE_MASK                0x01
@@ -43,7 +43,7 @@
 #define MODE_SM_SWITCH_MODE             0x30
 #define MODE_SM_GO_COAST                0x00
 #define MODE_SM_GO_BRAKE                0x10
-#define MODE_SM_CONTROLLED_BRAKE		0x20
+#define MODE_SM_CONTROLLED_BRAKE        0x20
 
 #define MODE_SPECIAL_STRESS             0x80
 
@@ -67,7 +67,7 @@ DECLARE_I2C_REGISTER(unsigned char, current_limit_ratio_numerator);
 DECLARE_I2C_REGISTER(unsigned char, current_limit_ratio_denominator);
 DECLARE_I2C_REGISTER(unsigned int, current_limit_ratio_max_use);
 
-DECLARE_I2C_REGISTER(unsigned long, uptime);
+DECLARE_I2C_REGISTER(uint32_t, uptime);
 
 DECLARE_I2C_REGISTER(uint16_t, timeout_period);
 DECLARE_I2C_REGISTER(uint16_t, min_switch_delta);
@@ -83,4 +83,4 @@ extern void init_control_loop(void);
 // Called to update control loop.
 extern void run_control_loop(void);
 
-#endif  // CONTROL_LOOP_H_
+#endif  // INC_CONTROL_LOOP_H_

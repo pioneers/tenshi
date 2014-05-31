@@ -15,11 +15,11 @@
 // specific language governing permissions and limitations
 // under the License
 
-#include "led.h"
+#include "inc/led.h"
 
 #include <avr/io.h>
 
-#include "pindef.h"
+#include "inc/pindef.h"
 
 void init_led() {
   // Set the the green and red led pins to output.
@@ -30,8 +30,7 @@ void init_led() {
 void set_green_led(unsigned char on) {
   if (on) {
     PORT(PINDEF_LEDGRN) |= _BV(IO(PINDEF_LEDGRN));
-  }
-  else {
+  } else {
     PORT(PINDEF_LEDRED) &= ~(_BV(IO(PINDEF_LEDGRN)));
   }
 }
@@ -39,8 +38,7 @@ void set_green_led(unsigned char on) {
 void set_red_led(unsigned char on) {
   if (on) {
     PORT(PINDEF_LEDGRN) |= _BV(IO(PINDEF_LEDRED));
-  }
-  else {
+  } else {
     PORT(PINDEF_LEDRED) &= ~(_BV(IO(PINDEF_LEDRED)));
   }
 }

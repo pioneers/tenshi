@@ -15,8 +15,8 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef PINDEF_H
-#define PINDEF_H
+#ifndef INC_PINDEF_H_
+#define INC_PINDEF_H_
 
 #define BOARD_REVISION          'D'
 
@@ -57,9 +57,9 @@
 // high side driver endable
 #define PINDEF_HIGHSIDEENABLE   E, 2
 // high side driver fault (active low)
-#define PINDEF_HIGHSIDEFAULT		D, 7
+#define PINDEF_HIGHSIDEFAULT    D, 7
 
 #define PINDEF_LEDGRN           D, 6
 #define PINDEF_LEDRED           D, 4
 
-#endif
+#endif  // INC_PINDEF_H_

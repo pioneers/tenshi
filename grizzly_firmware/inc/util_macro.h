@@ -15,8 +15,8 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef UTIL_MACRO_H_
-#define UTIL_MACRO_H_
+#ifndef INC_UTIL_MACRO_H_
+#define INC_UTIL_MACRO_H_
 // This file contains various macros that are used repeatedly.
 #include <util/atomic.h>
 
@@ -61,4 +61,4 @@
 // This following macro is used in the .c file. Use it along with the above.
 #define DECLARE_I2C_REGISTER_C(type, name) type __##name;
 
-#endif
+#endif  // INC_UTIL_MACRO_H_

@@ -1,8 +1,8 @@
-#ifndef PID_H_
-#define PID_H_
+#ifndef INC_PID_H_
+#define INC_PID_H_
 
-#include "avr-fixed.h"
-#include "util_macro.h"
+#include "inc/avr-fixed.h"
+#include "inc/util_macro.h"
 
 // PID constants
 
@@ -15,4 +15,4 @@ DECLARE_I2C_REGISTER(FIXED1616, kd);
 extern int do_pid_speed(FIXED1616 target_speed);
 extern int do_pid_positional(FIXED1616 target_speed);
 
-#endif
+#endif  // INC_PID_H_

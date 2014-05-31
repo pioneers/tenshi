@@ -15,11 +15,11 @@
 // specific language governing permissions and limitations
 // under the License
 
-#include "avr-fixed.h"
+#include "inc/avr-fixed.h"
 
 FIXED1616 fixed_mult(FIXED1616 inArg0, FIXED1616 inArg1) {
-  register unsigned long _a = (inArg0 >= 0) ? inArg0 : (-inArg0);
-  register unsigned long _b = (inArg1 >= 0) ? inArg1 : (-inArg1);
+  register uint32_t _a = (inArg0 >= 0) ? inArg0 : (-inArg0);
+  register uint32_t _b = (inArg1 >= 0) ? inArg1 : (-inArg1);
   unsigned char needsflipsign = (inArg0 >= 0) != (inArg1 >= 0);
 
   register FIXED1616 result;
