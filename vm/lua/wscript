@@ -6,6 +6,9 @@ import os.path
 declare_variants(['release_emscripten'],
                  subdir='lua')
 
+def options(opt):
+    opt.load('compiler_c')
+
 
 def configure_emscripten(conf):
     conf.env['CC'] = 'emcc'
@@ -20,12 +23,19 @@ def configure_emscripten(conf):
 
 
 def configure(conf):
+    if not conf.env['root']:
+        conf.env['root'] = os.path.join(conf.path.abspath(), os.pardir,
+                                        os.pardir)
     with sub_conf(conf, 'lua/release_emscripten'):
         configure_emscripten(conf)
     # The default build for the controller is handled by the controller
 
 
 def build(bld):
+    if not bld.variant:
+        print('Building all variants.')
+        run_all('build')
+        return
     # Build for the controller and lua itself.
     # Currently, lua is only built on its own using emscripten.
     if 'controller' not in bld.variant and 'lua' not in bld.variant:
