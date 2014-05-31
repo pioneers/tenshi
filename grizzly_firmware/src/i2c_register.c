@@ -16,11 +16,14 @@
 // under the License
 
 #include "i2c_register.h"
+
+#include <avr/pgmspace.h>
+
 #include "adc.h"
 #include "control_loop.h"
 #include "encoder.h"
 #include "pid.h"
-#include "gitrevision.h"
+#include "version.h"
 
 // This is a temp so that it can be changed all at once (not byte at a time).
 static FIXED1616 target_speed_new;
@@ -67,7 +70,7 @@ extern unsigned char provide_i2c_reg(unsigned char reg) {
   AUTO_PROVIDE_REG(REG_PID_KD, REG_PID_KD_TYPE, get_kd_dangerous());
   // special
   if (reg >= REG_REVISION && reg < (REG_REVISION + REG_REVISION_LEN))
-    return ((unsigned char *)REVISION)[reg - REG_REVISION];
+    return pgm_read_byte(&(VERSION_INFORMATION[reg - REG_REVISION]));
   AUTO_PROVIDE_REG(REG_ILIMIT_ADC_THRESH, REG_ILIMIT_ADC_THRESH_TYPE,
       get_current_limit_adc_threshold_dangerous());
   AUTO_PROVIDE_REG(REG_ILIMIT_CLAMP_PWM, REG_ILIMIT_CLAMP_PWM_TYPE,

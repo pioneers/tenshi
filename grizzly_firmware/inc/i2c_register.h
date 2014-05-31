@@ -64,7 +64,7 @@ extern void set_i2c_reg(unsigned char reg, unsigned char val);
 #define REG_PID_KD                    0x38
 #define REG_PID_KD_TYPE               FIXED1616
 #define REG_REVISION                  0x60
-#define REG_REVISION_LEN                21
+#define REG_REVISION_LEN                32
 #define REG_TIMEOUT_PERIOD            0x80
 #define REG_TIMEOUT_PERIOD_TYPE       uint16_t
 #define REG_ILIMIT_ADC_THRESH         0x82

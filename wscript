@@ -6,6 +6,7 @@ def recurse(ctx):
     ctx.recurse('eda', mandatory=False)
     ctx.recurse('controller', mandatory=False)
     ctx.recurse('smartsensor_fw', mandatory=False)
+    ctx.recurse('grizzly_firmware', mandatory=False)
 
 
 def options(ctx):
