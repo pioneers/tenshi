@@ -1,3 +1,6 @@
+angel-player/src/chrome/content/vendor-js/lua.js
+angel-player/src/chrome/content/vendor-js/ngl_vm.js
+
 tools/*.tar.bz2
 tools/arm-toolchain
 tools/emscripten-bin
