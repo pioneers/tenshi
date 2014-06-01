@@ -1,0 +1,4 @@
+# Generate a documentation packet schematic pdf
+
+PRINT - 1 FILE '%PATH%/schematic.pdf' BLACK SOLID SHEETS all;
+quit
