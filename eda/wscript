@@ -8,9 +8,21 @@ from waf_extensions import declare_variants
 declare_variants(subdir='boards')
 
 
+def have_pdftk():
+    import subprocess
+    if subprocess.call(['which', 'pdftk']) != 0:
+        return False
+    return True
+
+
 def build(bld):
     if 'boards' not in bld.variant:
         return
+
+    # HACK: If pdftk is not installed, don't generate documentation
+    # packets (instead of failing the build)
+    build_docu_packets = have_pdftk()
+
     for board in glob.glob('eda/*.brd'):
         base_name = os.path.split(board)[-1]
         outfile = ('../../artifacts/boards/' +
@@ -29,3 +41,9 @@ def build(bld):
                  '${root}/tools/parts-db.yaml',
             source=base_name,
             target=outfile)
+        if build_docu_packets:
+            pdffile = ('../../artifacts/boards/' +
+                       os.path.splitext(base_name)[0] + '.pdf')
+            bld(rule='${root}/tools/docu-packet-gen.py ${SRC} ${TGT} ',
+                source=base_name,
+                target=pdffile)
