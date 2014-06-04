@@ -34,6 +34,41 @@ then
     fi
 fi
 
+# Check if any changes were made to the code
+find -L $ANGEL_PLAYER_MAIN_DIR/src -type f -exec md5sum {} \; > new-src-hash
+find -L $ANGEL_PLAYER_MAIN_DIR/meta-mac -type f -exec md5sum {} \; >> new-src-hash
+
+if [ ! -e src-hash ]
+then
+    should_rearchive=1
+else
+    # We need to use diff rather than md5sum -c or similar in order to find
+    # new/deleted files
+    set +e
+    diff -a new-src-hash src-hash >/dev/null
+    if [ $? -eq 0 ]
+    then
+        # No difference
+        should_rearchive=0
+    elif [ $? -eq 1 ]
+    then
+        # Difference
+        should_rearchive=1
+    else
+        echo "Diff failed!"
+        exit $?
+    fi
+    set -e
+fi
+
+if [ $should_rearchive -eq 0 ]
+then
+    echo "Skipping build due to no files changed..."
+    exit 0
+fi
+
+cp new-src-hash src-hash
+
 # Prepare Mac/Linux/Windows version. Use an awful hack to combine them.
 rm -rf angel-player.app
 mkdir angel-player.app
