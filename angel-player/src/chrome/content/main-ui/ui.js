@@ -7,6 +7,10 @@ let $;
 
 let currentSelectedTab = -1;
 
+const { Cu } = require("chrome");
+let debugModule =
+    Cu.import("chrome://angel-player/content/debug.js").debugModule;
+
 // Different ways to arrange the divs to suit different environments. Contains
 // relative flexbox sizes for each element.
 const LAYOUTS = {
@@ -117,9 +121,8 @@ var ENVIRONMENTS = [
 // Special page for debug mode only.
 // Useful for prototyping components on their own page, since this can't be done
 // in a browser
-// TODO(nikita): actually make this debug mode only. This is tricky because the
-// debug mode setting is outside the commonjs environment
-if (true) {
+// TODO(rqou): Toggling doesn't update the menu; you need to reload.
+if (debugModule.isDebugEnabled()) {
   ENVIRONMENTS.push({
         text: "Stargate Network",
         image: 'chrome://angel-player/content/main-ui/assets/stargate.png',
