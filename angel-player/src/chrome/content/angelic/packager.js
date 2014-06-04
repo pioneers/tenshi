@@ -2,7 +2,7 @@ var buffer = require ( './buffer.js' );
 var fixup_kinds = require ( './fixup_kinds.js' );
 var misc = require ( './misc.js' );
 var opcodes = require ( './opcodes.js' );
-var factory = require ( './factory.js' );
+var factory = require ( '../common/factory.js' );
 
 // These values are from ngl_package.h
 var size_uint32_t = 4;

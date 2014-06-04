@@ -2,7 +2,7 @@
 "use strict";
 
 const { ChromeWorker } = require('chrome');
-let typpo_module = require('tenshi/angelic/factory');
+let typpo_module = require('tenshi/common/factory');
 let url = require('jetpack/sdk/url');
 let buffer = require('jetpack/sdk/io/buffer');
 let Int64 = require('Int64.js');

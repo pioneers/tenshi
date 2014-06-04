@@ -10,7 +10,7 @@ var emitter = require ( './emitter.js' );
 var assemble = require ( './assemble.js' );
 var packager = require ( './packager.js' );
 var binary = require ( './binary.js' );
-var factory = require ( './factory' );
+var factory = require ( '../common/factory' );
 var ngl_api = require ( './ngl_api' );
 var buffer = require ( './buffer' );
 

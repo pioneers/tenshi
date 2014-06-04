@@ -1,7 +1,7 @@
-var misc = require('./misc.js');
+var misc = require('../angelic/misc.js');
 var yaml = require('../vendor-js/js-yaml/lib/js-yaml.js');
-var fs = require('./fs.js');
-var buffer = require ( './buffer.js' );
+var fs = require('../angelic/fs.js');
+var buffer = require ( 'buffer' );
 var Int64 = require ( '../vendor-js/Int64.js' );
 
 //
