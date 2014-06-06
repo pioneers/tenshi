@@ -1,4 +1,4 @@
 # Generate a documentation packet schematic pdf
 
-PRINT - 1 FILE '%PATH%/schematic.pdf' BLACK SOLID SHEETS all;
+PRINT - 1 FILE '%PATH%/schematic.pdf' BLACK SOLID LANDSCAPE SHEETS all;
 quit
