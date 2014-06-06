@@ -2,10 +2,10 @@
 
 display none
 display unrouted Pads Dimension tPlace tNames tValues tDocu
-PRINT - 100 -1 FILE '%PATH%/top.pdf' BLACK SOLID;
+PRINT - 100 -1 FILE '%PATH%/top.pdf' BLACK SOLID LANDSCAPE;
 
 display none
 display unrouted Pads Dimension bPlace bNames bValues bDocu
-PRINT - 100 -1 FILE '%PATH%/bottom.pdf' BLACK SOLID MIRROR;
+PRINT - 100 -1 FILE '%PATH%/bottom.pdf' BLACK SOLID MIRROR LANDSCAPE;
 
 quit
