@@ -29,15 +29,11 @@ def copy_and_replace(src, dst, pattern, replacement):
             dst_file.write(src_file.read().replace(pattern, replacement))
 
 
-def compile_pdf(sch_img, top_img, bottom_img, pdf):
-    ret = subprocess.call([
-        "pdftk",
-        sch_img,
-        top_img,
-        bottom_img,
+def compile_pdf(inputs, output):
+    ret = subprocess.call(["pdftk"] + inputs + [
         "cat",
         "output",
-        pdf
+        output
         ]
         )
 
@@ -59,6 +55,9 @@ def main():
     sch_name = os.path.join(os.getcwd(), base_name + ".sch")
     brd_name = os.path.join(os.getcwd(), base_name + ".brd")
 
+    have_sch = os.path.isfile(sch_name)
+    have_brd = os.path.isfile(brd_name)
+
     # Start xvfb
     xvfb, display_num = start_xvfb()
 
@@ -78,23 +77,27 @@ def main():
                      "%PATH%",
                      tmp_dir)
 
+    inputs = []
+
     # Generate schematic image
-    dst_sch_name = os.path.join(tmp_dir, "file.sch")
-    shutil.copy(sch_name, dst_sch_name)
-    run_script(dst_sch_name, "schematic.scr")
-    os.remove(dst_sch_name)
+    if have_sch:
+        dst_sch_name = os.path.join(tmp_dir, "file.sch")
+        shutil.copy(sch_name, dst_sch_name)
+        run_script(dst_sch_name, "schematic.scr")
+        os.remove(dst_sch_name)
+        inputs.append(os.path.join(tmp_dir, "schematic.pdf"))
 
     # Generate board images
-    dst_brd_name = os.path.join(tmp_dir, "file.brd")
-    shutil.copy(brd_name, dst_brd_name)
-    run_script(dst_brd_name, "board.scr")
-    os.remove(dst_brd_name)
+    if have_brd:
+        dst_brd_name = os.path.join(tmp_dir, "file.brd")
+        shutil.copy(brd_name, dst_brd_name)
+        run_script(dst_brd_name, "board.scr")
+        os.remove(dst_brd_name)
+        inputs.append(os.path.join(tmp_dir, "top.pdf"))
+        inputs.append(os.path.join(tmp_dir, "bottom.pdf"))
 
     # Compile final pdf
-    compile_pdf(os.path.join(tmp_dir, "schematic.pdf"),
-                os.path.join(tmp_dir, "top.pdf"),
-                os.path.join(tmp_dir, "bottom.pdf"),
-                out_name)
+    compile_pdf(inputs, out_name)
 
     # Clean up
     remove_tmp_dir(tmp_dir)
