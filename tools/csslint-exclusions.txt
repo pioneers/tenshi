@@ -1,3 +1,6 @@
+# Vendor
+angel-player/src/chrome/content/vendor-js/*
+
 # XRegExp
 angel-player/src/chrome/content/angelic/xregexp/*
 
