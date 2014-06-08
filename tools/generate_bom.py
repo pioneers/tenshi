@@ -2,13 +2,11 @@
 from __future__ import print_function
 
 import csv
+import eagle_util_funcs
 import os
 import os.path
 import shutil
-import subprocess
 import sys
-import tempfile
-import time
 try:
     import yaml
 except ImportError:
@@ -16,58 +14,8 @@ except ImportError:
     sys.exit(1)
 
 
-def start_xvfb():
-    display_num = os.getpid()
-    xvfb_process = subprocess.Popen([
-        'Xvfb',
-        ':%d' % display_num,
-        '-screen', '0', '1024x768x24',
-        ])
-    time.sleep(2)
-    print("Spawned Xvfb, display %d, pid %d" %
-          (display_num, xvfb_process.pid))
-    os.environ["DISPLAY"] = ":%d" % display_num
-    return (xvfb_process, display_num)
-
-
-def kill_xvfb(xvfb_process):
-    xvfb_process.kill()
-    print("Killed Xvfb")
-
-
-def setup_tmp_dir():
-    tmpdir = tempfile.mkdtemp()
-    print("Files in %s" % tmpdir)
-    os.chdir(tmpdir)
-    return tmpdir
-
-
-def remove_tmp_dir(tmpdir):
-    shutil.rmtree(tmpdir)
-
-
-_eagle_binary_path = '/opt/eagle-6.5.0/bin/eagle'
-
-
-def get_eagle_path():
-    global _eagle_binary_path
-    if not os.path.exists(_eagle_binary_path):
-        which_eagle = subprocess.Popen(['which', 'eagle'],
-                                       stdout=subprocess.PIPE)
-        which_eagle.wait()
-        status = which_eagle.returncode
-        if status != 0:
-            print("Could not find eagle!")
-            sys.exit(1)
-        else:
-            # Remove newline from which ouput.
-            _eagle_binary_path = which_eagle.stdout.read().strip()
-    return _eagle_binary_path
-
-
 def run_eagle_bom_ulp(infile, outfile, ulpfile):
-    subprocess.call([
-        get_eagle_path(),
+    eagle_util_funcs.run_eagle([
         '-C', 'run %s %s; quit' % (ulpfile, outfile),
         infile,
         ])
@@ -155,7 +103,7 @@ def main():
         print("Usage: %s schematic.sch bom.csv partdb.yaml" % sys.argv[0])
         sys.exit(1)
 
-    ulpFile = os.path.abspath(os.path.dirname(sys.argv[0]) + "/tenshi-bom.ulp")
+    ulpFile = os.path.abspath(os.path.dirname(__file__) + "/tenshi-bom.ulp")
     schematicPath = os.path.abspath(sys.argv[1])
     outfilePath = os.path.abspath(sys.argv[2])
     partDbFileName = os.path.abspath(sys.argv[3])
@@ -166,11 +114,11 @@ def main():
     partDbFile.close()
 
     # Start up Xvfb
-    xvfb, display_num = start_xvfb()
+    xvfb, display_num = eagle_util_funcs.start_xvfb()
 
     # Create temp directory (work around EAGLE running the ULP in BRD instead
     # of in the SCH). Also will chdir into it.
-    tmpdir = setup_tmp_dir()
+    tmpdir = eagle_util_funcs.setup_tmp_dir()
     shutil.copyfile(schematicPath, "input.sch")
 
     # Run the BOM-generating ULP
@@ -182,8 +130,8 @@ def main():
     fill_bom_with_db_info('bom-temp.csv', outfilePath, partDb)
 
     # Cleanup
-    remove_tmp_dir(tmpdir)
-    kill_xvfb(xvfb)
+    eagle_util_funcs.remove_tmp_dir(tmpdir)
+    eagle_util_funcs.kill_xvfb(xvfb)
 
 if __name__ == '__main__':
     main()

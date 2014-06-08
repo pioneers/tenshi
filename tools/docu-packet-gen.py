@@ -1,18 +1,16 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
+import eagle_util_funcs
 import os
 import os.path
 import subprocess
 import sys
 import shutil
-from generate_bom import start_xvfb, kill_xvfb
-from generate_bom import get_eagle_path, setup_tmp_dir, remove_tmp_dir
 
 
 def run_script(file_name, script_name):
-    ret = subprocess.call([
-        get_eagle_path(),
+    ret = eagle_util_funcs.run_eagle([
         file_name,
         '-S' + script_name,
         ]
@@ -38,7 +36,7 @@ def compile_pdf(inputs, output):
         )
 
     if ret != 0:
-        print("Eagle returned error!")
+        print("pdftk returned error!")
         sys.exit(ret)
 
 
@@ -59,10 +57,10 @@ def main():
     have_brd = os.path.isfile(brd_name)
 
     # Start xvfb
-    xvfb, display_num = start_xvfb()
+    xvfb, display_num = eagle_util_funcs.start_xvfb()
 
     # Create temporary directory
-    tmp_dir = setup_tmp_dir()
+    tmp_dir = eagle_util_funcs.setup_tmp_dir()
 
     # Copy scripts to the temporary directory
     # Eagle's default location for saving exported images is unrelated to the
@@ -100,8 +98,8 @@ def main():
     compile_pdf(inputs, out_name)
 
     # Clean up
-    remove_tmp_dir(tmp_dir)
-    kill_xvfb(xvfb)
+    eagle_util_funcs.remove_tmp_dir(tmp_dir)
+    eagle_util_funcs.kill_xvfb(xvfb)
 
 if __name__ == '__main__':
     main()
