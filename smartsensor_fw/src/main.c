@@ -28,6 +28,12 @@
 #include "inc/smartsensor/cobs.h"
 
 
+// **** MACROS ****
+#define TOGGLE_IN0 PORTC = PORTC ^ (1 << PC1);  // toggle IN0
+#define TOGGLE_IN1 PORTB = PORTB ^ (1 << PB3);  // toggle IN1
+#define TOGGLE_IN2 PORTB = PORTB ^ (1 << PB1);  // toggle IN2
+#define TOGGLE_IN3 PORTB = PORTB ^ (1 << PB2);  // toggle IN3
+
 
 // ****Forward declaration of functions****
 void uart_init (long BUADRATE);
@@ -37,11 +43,16 @@ void LF();
 void CR();
 void init_sensor_io();
 int compare_ID();
-void receive_and_echo(); // TODO(tobinsarah): implement working r&e code in this fn
+uint8_t make_flags(int canIn, int pushPull, int openDr, int outAL);
+void receive_and_echo();  // TODO(tobinsarah): implement working r&e
+
+// ****Sensor Personal Data*** // to be a struct later.
+uint8_t smartID[8] = {0, 1, 2, 3, 4, 5, 0x42, 7};
+uint8_t my_frame = 0x11;  // TODO(tobinsarah): allow for multiple frames
+uint16_t sample_rate = 0x0100;  //hardcoded for now;
 
 
 // ****Global vars****
-uint8_t smartID[8] = {0, 1, 2, 3, 4, 5, 0x42, 7};
 uint8_t volatile receivedByte;
 uint8_t rxBuffer[255];
 uint8_t decodedBuffer[255];
@@ -50,6 +61,7 @@ uint8_t encodedBuffer[255];  // TODO(tobinsarah): don't run out of SRAM!!
 // rxBufferFlag = n: n = [0,255] means expecting to read nth byte of packet
 // n = 0: main is done, 0xFF: main is processing, 0xFE: rx is done
 int volatile rxBufferFlag;
+uint8_t in_band_sigFlag;
 int volatile rxBufferIndex;
 int volatile packetType;
 uint8_t volatile dataLen;
@@ -76,6 +88,14 @@ int main() {
           cobs_encode(encodedBuffer+3, decodedBuffer + 8, dataLen - 9);
           serialPrint(encodedBuffer, (dataLen - 5));
         }
+      } else if (packetType < 0x80 && packetType == my_frame) {
+        encodedBuffer[0] = 0x00;
+        encodedBuffer[1] = 0x06;  // reply len: hardcoded for DIO
+        decodedBuffer[0] = make_flags(1, 0, 0, 0);
+        decodedBuffer[1] = (uint8_t) (sample_rate);
+        decodedBuffer[2] = (uint8_t) (sample_rate >> 8);
+        cobs_encode(encodedBuffer + 2, decodedBuffer, 3);
+        serialPrint(encodedBuffer, 6);
       }
       rxBufferFlag = 0;  // should be below if statemt
     }
@@ -128,6 +148,7 @@ void serialPrint(uint8_t *StringOfCharacters, size_t len) {
 void LF() {USART_Transmit(0x0A);}
 void CR() {USART_Transmit(0x0D);}
 
+// TODO(tobinsarah): allow configuration as input/output for each relevant pin
 void init_sensor_io() {
   // portA not used by board, so this should do nothing.
   PORTA = (0 << PA0) | (0 << PA1) | (0 << PA2);
@@ -139,7 +160,7 @@ void init_sensor_io() {
 
   // C1 sould be IN0
   PORTC = (0 << PC0) | (0 << PC1) | (0 << PC2);
-  DDRC = (1 << DDRC0) | (1 << DDRC1) | (1 << DDRC2);
+  DDRC = (1 << DDRC0) | (1 << DDRC2);
 
   uart_init(SMART_BAUD);
 }
@@ -153,38 +174,64 @@ int compare_ID() {
   return val;
 }
 
+// assemble flags byte for DIO
+//   bit0 of flags -- can input
+//   bit1 of flags -- input is active low
+//   bit2 of flags -- can output push-pull
+//   bit3 of flags -- can output open-drain
+//   bit4 of flags -- output is active low
+uint8_t make_flags(int canIn, int pushPull, int openDr, int outAL) {
+  uint8_t flagbyte = 0;
+  flagbyte |= (uint8_t) ((canIn & 1)
+           | ((PORTC & (1 << PINC1)) >> PINC1)
+           | ((pushPull & 1) << 2)
+           | ((openDr & 1) << 3)
+           | ((outAL & 1) << 4));
+  return flagbyte;
+}
+
 // interrupt for recieve and echo one byte.
 ISR(USART0__RX_vect) {
   // Fetch the received byte value into the variable "ByteReceived"
   receivedByte = UDR0;
   if (rxBufferFlag == 0xFE || rxBufferFlag == 0xFF) {
-    PORTC = PORTC ^ (1 << PC1); // toggle IN0
+    TOGGLE_IN0;
     return;
-  }
-  if (receivedByte == 0x00) { // if see zerobyte (any time when receinving)
-      rxBufferFlag = 0x01;
-  } else if (rxBufferFlag == 0x01 ) { // looking for type
+  } else if (receivedByte == 0x00) {  // if r 0x00 (whenever in Rmode)
+    rxBufferFlag = 0x01;
+  } else if (rxBufferFlag == 0x01) {  // looking for type
     packetType = receivedByte;
     rxBufferFlag++;
+    // TODO(tobinsarah): proper logic for checking if its my frame
+    if (packetType < 0x80) {  // if active packet
+      // If not allowed frame and subchunk #s ???????
+      if (!((packetType & 0x3F) ^ my_frame)) {
+        rxBufferFlag = 0;
+      }
+    }
   } else if (rxBufferFlag == 0x02) {  // looking for len
-    PORTB = PORTB ^ (1 << PB2); // toggle IN3
-    dataLen = receivedByte - 3;
-    if (dataLen < 0); // TODO(tobinsarah): deal with too short packets;
-    if (dataLen == 0) {
-      rxBufferFlag = 0xFE;
+    TOGGLE_IN3;
+    dataLen = receivedByte;
+    if (rxBufferFlag < 0x80 && !(receivedByte & 0x80)) {
+
+    } else if (dataLen < 3) {
+      // TODO(tobinsarah): deal with too short packets;
+    } else if (dataLen == 3) {
+      rxBufferFlag = 0xFE;  // set to "done receiving" mode
     } else {
+      dataLen -= 3;
       rxBufferIndex = 0;
       rxBufferFlag++;
     }
   } else if (rxBufferIndex < dataLen - 1) {
     // TODO(tobinsarah): deal with dataLen <= 3
     // TODO(tobinsarah): cobs encode in place so you can use one less buffer
-    PORTB = PORTB ^ (1 << PB1); // toggle IN2
+    TOGGLE_IN2;
     rxBuffer[rxBufferIndex] = receivedByte;
     rxBufferFlag++;
     rxBufferIndex++;
   } else {
-    PORTB = PORTB ^ (1 << PB3); // toggle IN1
+    TOGGLE_IN1;
     rxBuffer[rxBufferIndex] = receivedByte;
     rxBufferFlag = 0xFE;
   }
