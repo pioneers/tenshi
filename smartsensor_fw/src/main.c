@@ -17,36 +17,45 @@
 
 #define F_CPU 8000000UL  // AVR clock frequency in Hz, used by util/delay.h
 #define SMART_BAUD 9600UL  // Smartsensor baud rate
+#define SMART_ID_LEN 8  // Length of smartsensor personal ID
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/atomic.h>
 #include <stdlib.h>
+#include <stdint.h>
+
+#include "inc/smartsensor/cobs.h"
+
+
 
 // ****Forward declaration of functions****
 void uart_init (long BUADRATE);
-void USART_Transmit( unsigned char data );
-void serialPrint(char *StringOfCharacters, size_t len);
+void USART_Transmit( uint8_t data );
+void serialPrint(uint8_t *StringOfCharacters, size_t len);
 void LF();
 void CR();
 void init_sensor_io();
+int compare_ID();
 void receive_and_echo(); // TODO(tobinsarah): implement working r&e code in this fn
 
-// ****Global vars
-int volatile a;
-// receivedByte
-char volatile receivedByte;
-char rxBuffer[255];
+
+// ****Global vars****
+uint8_t smartID[8] = {0, 1, 2, 3, 4, 5, 0x42, 7};
+uint8_t volatile receivedByte;
+uint8_t rxBuffer[255];
+uint8_t decodedBuffer[255];
+uint8_t encodedBuffer[255];  // TODO(tobinsarah): don't run out of SRAM!!
+
 // rxBufferFlag = n: n = [0,255] means expecting to read nth byte of packet
 // n = 0: main is done, 0xFF: main is processing, 0xFE: rx is done
 int volatile rxBufferFlag;
 int volatile rxBufferIndex;
 int volatile packetType;
-int volatile dataLen;
+uint8_t volatile dataLen;
 
 // Main
 int main() {
-  a = 0;
   rxBufferFlag = 0;
   rxBufferIndex = 0;
   dataLen = 0;
@@ -59,7 +68,14 @@ int main() {
     if (rxBufferFlag == 0xFE) {  // if done receiving
       rxBufferFlag++;
       if (packetType == 0xFE) {  // if pingpong type
-        serialPrint(rxBuffer, (size_t) (dataLen));
+        cobs_decode(decodedBuffer, rxBuffer, dataLen);
+        if (compare_ID()) {
+          encodedBuffer[0] = 0x00;
+          encodedBuffer[1] = 0xFE;
+          encodedBuffer[2] = dataLen - 5;
+          cobs_encode(encodedBuffer+3, decodedBuffer + 8, dataLen - 9);
+          serialPrint(encodedBuffer, (dataLen - 5));
+        }
       }
       rxBufferFlag = 0;  // should be below if statemt
     }
@@ -69,8 +85,7 @@ int main() {
 
 
 // function to initialize UART
-void uart_init (long Desired_Baudrate)
-{
+void uart_init (long Desired_Baudrate) {
   // If its not already set, calculate the baud rate dynamically,
   // based on current microcontroller speed and user specified
   // desired baudrate.
@@ -80,10 +95,19 @@ void uart_init (long Desired_Baudrate)
 
   // Set to double speed mode.
   UCSR0A = UCSR0A | (1 << U2X0);
+
+  // Set baud rate.
+  UBRR0H = (uint8_t)(UBBR >> 8);
+  UBRR0L = (uint8_t)UBBR;
+  // Enable receiver, transmitter, and RxComplete interrupt
+  UCSR0B = (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);
+  // Set frame format: 8data, 1 stop bit
+  UCSR0C = (1 << USBS0) | (1 << UCSZ00) | (1 << UCSZ01);
+  // Enable the Global Interrupt Enbl flag to process interrupts
+  sei();
 }
 
-void USART_Transmit( unsigned char data ) // and toggle
-{
+void USART_Transmit(uint8_t data) {  // and toggle
   // Wait for empty transmit buffer
   while (!(UCSR0A & (1 << UDRE0))) {}  // TODO(tobinsarah): interruptTx
 
@@ -93,9 +117,8 @@ void USART_Transmit( unsigned char data ) // and toggle
 
 
 // Print an array of chars instead of just one char.
-void serialPrint(char *StringOfCharacters, size_t len)
-{
-  for (size_t i = 0; i < len; i++){
+void serialPrint(uint8_t *StringOfCharacters, size_t len) {
+  for (size_t i = 0; i < len; i++) {
     USART_Transmit(*StringOfCharacters++);
   }
 }
@@ -122,6 +145,14 @@ void init_sensor_io() {
 }
 
 
+int compare_ID() {
+  int val = 1;
+  for (int i = 0; i < SMART_ID_LEN; i ++) {
+      val &= (smartID[i] == decodedBuffer[i]);
+  }
+  return val;
+}
+
 // interrupt for recieve and echo one byte.
 ISR(USART0__RX_vect) {
   // Fetch the received byte value into the variable "ByteReceived"
@@ -145,7 +176,9 @@ ISR(USART0__RX_vect) {
       rxBufferIndex = 0;
       rxBufferFlag++;
     }
-  } else if (rxBufferIndex < dataLen - 1) { // TODO(tobinsarah): deal with dataLen <= 3
+  } else if (rxBufferIndex < dataLen - 1) {
+    // TODO(tobinsarah): deal with dataLen <= 3
+    // TODO(tobinsarah): cobs encode in place so you can use one less buffer
     PORTB = PORTB ^ (1 << PB1); // toggle IN2
     rxBuffer[rxBufferIndex] = receivedByte;
     rxBufferFlag++;
