@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
+import eagle_util_funcs
 import os.path
-import shutil
 import subprocess
 import sys
-import tempfile
 try:
     import yaml
 except ImportError:
@@ -13,28 +12,8 @@ except ImportError:
     sys.exit(1)
 
 
-_eagle_binary_path = '/opt/eagle-6.5.0/bin/eagle'
-
-
-def get_eagle_path():
-    global _eagle_binary_path
-    if not os.path.exists(_eagle_binary_path):
-        which_eagle = subprocess.Popen(['which', 'eagle'],
-                                       stdout=subprocess.PIPE)
-        which_eagle.wait()
-        status = which_eagle.returncode
-        if status != 0:
-            print("Could not find eagle!")
-            sys.exit(1)
-        else:
-            # Remove newline from which ouput.
-            _eagle_binary_path = which_eagle.stdout.read().strip()
-    return _eagle_binary_path
-
-
 def generate_gerber(brdFile, outFile, layers):
-    ret = subprocess.call([
-        get_eagle_path(),
+    ret = eagle_util_funcs.run_eagle([
         '-X',               # Run the command line CAM processor
         '-N',               # No output messages
         '-dGERBER_RS274X',  # Output in gerber format
@@ -49,8 +28,7 @@ def generate_gerber(brdFile, outFile, layers):
 
 
 def generate_drill(brdFile, outFile, layers):
-    ret = subprocess.call([
-        get_eagle_path(),
+    ret = eagle_util_funcs.run_eagle([
         '-X',               # Run the command line CAM processor
         '-N',               # No output messages
         '-dEXCELLON',       # Output in gerber format
@@ -62,17 +40,6 @@ def generate_drill(brdFile, outFile, layers):
     if ret != 0:
         print("Eagle returned error!")
         sys.exit(ret)
-
-
-def setup_tmp_dir():
-    tmpdir = tempfile.mkdtemp()
-    print("Files temporarily saved in in %s" % tmpdir)
-    os.chdir(tmpdir)
-    return tmpdir
-
-
-def remove_tmp_dir(tmpdir):
-    shutil.rmtree(tmpdir)
 
 
 def zip_up_results(outfile):
@@ -98,7 +65,7 @@ def main():
     configFile.close()
 
     # Create temporary directory
-    tempdir = setup_tmp_dir()
+    tempdir = eagle_util_funcs.setup_tmp_dir()
 
     # Process each section
     for configSection in configData:
@@ -123,7 +90,7 @@ def main():
     zip_up_results(outputFileName)
 
     # Clean up
-    remove_tmp_dir(tempdir)
+    eagle_util_funcs.remove_tmp_dir(tempdir)
 
 
 if __name__ == '__main__':
