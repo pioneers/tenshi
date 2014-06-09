@@ -7,6 +7,7 @@ controller/inc/FreeRTOS.h
 controller/inc/FreeRTOSConfig.h
 controller/inc/StackMacros.h
 controller/inc/croutine.h
+controller/inc/event_groups.h
 controller/inc/list.h
 controller/inc/mpu_wrappers.h
 controller/inc/portable.h

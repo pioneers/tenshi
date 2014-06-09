@@ -241,7 +241,7 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
 
           if (!started_angelic) {
             started_angelic = 1;
-            xTaskCreate(angelicTask, (const signed char *)"Angelic", 2048, NULL,
+            xTaskCreate(angelicTask, "Angelic", 2048, NULL,
               tskIDLE_PRIORITY, NULL);
           }
         }
@@ -280,7 +280,6 @@ int main(int argc, char **argv) {
   // Setup radio
   radio_driver_init();
 
-  xTaskCreate(radioTask, (const signed char *)"Radio", 2048, NULL,
-    tskIDLE_PRIORITY, NULL);
+  xTaskCreate(radioTask, "Radio", 2048, NULL, tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();
 }

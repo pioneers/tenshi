@@ -76,8 +76,7 @@ i2c_master_module *i2c_master_init_module(void *periph_base) {
   module_obj->currentTxn = NULL;
 
   // Start the task
-  xTaskCreate(i2c_master_task, (const signed char *)"I2C", 256, module_obj,
-    tskIDLE_PRIORITY, NULL);
+  xTaskCreate(i2c_master_task, "I2C", 256, module_obj, tskIDLE_PRIORITY, NULL);
 
   return (i2c_master_module *)module_obj;
 }
