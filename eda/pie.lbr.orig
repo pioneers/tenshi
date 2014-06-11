@@ -58,7 +58,7 @@
 <layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="14" fill="1" visible="yes" active="yes"/>
+<layer number="51" name="tDocu" color="14" fill="1" visible="no" active="yes"/>
 <layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
@@ -7826,6 +7826,7 @@ Vertical</description>
 <text x="-6.35" y="3.81" size="1.27" layer="25">&gt;NAME</text>
 <text x="-6.35" y="-4.445" size="1.27" layer="27">&gt;VALUE</text>
 </package>
+<<<<<<< HEAD
 <package name="LED5MM-NOFLAT">
 <wire x1="2.54" y1="-1.905" x2="2.54" y2="1.905" width="0.254" layer="21" curve="-286.260205" cap="flat"/>
 <wire x1="-1.143" y1="0" x2="0" y2="1.143" width="0.1524" layer="51" curve="-90" cap="flat"/>
@@ -7841,7 +7842,7 @@ Vertical</description>
 <text x="3.2004" y="-1.8034" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 <wire x1="2.54" y1="1.905" x2="2.54" y2="-1.905" width="0.254" layer="21" curve="-73.739795"/>
 <text x="-5.842" y="-1.016" size="2.54" layer="21">+</text>
-</package>
+=======
 <package name="BUZZER_MAGNETIC_5V_12MM_RADIAL">
 <description>&lt;b&gt; Buzzer&lt;/b&gt;
 
@@ -7861,6 +7862,7 @@ Vertical</description>
 <rectangle x1="-0.3048" y1="-3.556" x2="0.3302" y2="-2.921" layer="51"/>
 <text x="-6.35" y="6.35" size="1.27" layer="21" font="vector">&gt;NAME</text>
 <text x="-6.35" y="-7.62" size="1.27" layer="21" font="vector">&gt;VALUE</text>
+>>>>>>> Added BUZZER device to pie library.
 </package>
 </packages>
 <symbols>
