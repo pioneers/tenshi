@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -1033,17 +1033,17 @@ This is the "EZ" version, which has limited top masking for improved ease of ass
 <rectangle x1="-2.54" y1="-1.27" x2="2.54" y2="1.27" layer="40"/>
 </package>
 <package name="R0603">
-<description>&lt;b&gt;RESISTOR&lt;/b&gt;</description>
+<description>&lt;b&gt;Resistor&lt;/b&gt;, 0603 SMD package</description>
 <wire x1="-0.432" y1="-0.356" x2="0.432" y2="-0.356" width="0.1524" layer="51"/>
 <wire x1="0.432" y1="0.356" x2="-0.432" y2="0.356" width="0.1524" layer="51"/>
-<wire x1="-1.473" y1="0.983" x2="1.473" y2="0.983" width="0.0508" layer="39"/>
-<wire x1="1.473" y1="0.983" x2="1.473" y2="-0.983" width="0.0508" layer="39"/>
-<wire x1="1.473" y1="-0.983" x2="-1.473" y2="-0.983" width="0.0508" layer="39"/>
-<wire x1="-1.473" y1="-0.983" x2="-1.473" y2="0.983" width="0.0508" layer="39"/>
+<wire x1="-1.473" y1="0.729" x2="1.473" y2="0.729" width="0.0508" layer="39"/>
+<wire x1="1.473" y1="0.729" x2="1.473" y2="-0.729" width="0.0508" layer="39"/>
+<wire x1="1.473" y1="-0.729" x2="-1.473" y2="-0.729" width="0.0508" layer="39"/>
+<wire x1="-1.473" y1="-0.729" x2="-1.473" y2="0.729" width="0.0508" layer="39"/>
 <smd name="1" x="-0.85" y="0" dx="1" dy="1.1" layer="1"/>
 <smd name="2" x="0.85" y="0" dx="1" dy="1.1" layer="1"/>
-<text x="-0.635" y="0.635" size="1.27" layer="25">&gt;NAME</text>
-<text x="-0.635" y="-1.905" size="1.27" layer="27">&gt;VALUE</text>
+<text x="-1.27" y="1.27" size="0.889" layer="25" font="vector" ratio="20">&gt;NAME</text>
+<text x="-1.27" y="-1.905" size="0.889" layer="27" font="vector" ratio="20">&gt;VALUE</text>
 <rectangle x1="0.4318" y1="-0.4318" x2="0.8382" y2="0.4318" layer="51"/>
 <rectangle x1="-0.8382" y1="-0.4318" x2="-0.4318" y2="0.4318" layer="51"/>
 <rectangle x1="-0.1999" y1="-0.4001" x2="0.1999" y2="0.4001" layer="35"/>
@@ -3397,27 +3397,6 @@ Source: http://www.nxp.com/acrobat_download/datasheets/PH7030L_4.pdf</descriptio
 <rectangle x1="-5.08" y1="-1.27" x2="5.08" y2="1.27" layer="39"/>
 <rectangle x1="-5.08" y1="-1.27" x2="5.08" y2="1.27" layer="40"/>
 </package>
-<package name="ANDERSON_HORIZONTAL">
-<description>2-pin 25A Anderson Connector
-Horizontal</description>
-<pad name="PIN1" x="0" y="3.937" drill="1.778" diameter="3.175" rot="R270"/>
-<pad name="PIN2" x="0" y="-3.937" drill="1.778" diameter="3.175" rot="R270"/>
-<rectangle x1="-25.4" y1="-17.272" x2="-9.144" y2="17.272" layer="39" rot="R270"/>
-<wire x1="-34.544" y1="8.128" x2="-34.544" y2="0" width="0.127" layer="51"/>
-<wire x1="-34.544" y1="0" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
-<wire x1="-9.906" y1="8.128" x2="-9.906" y2="3.937" width="0.127" layer="51"/>
-<wire x1="-9.906" y1="3.937" x2="-9.906" y2="0" width="0.127" layer="51"/>
-<wire x1="-9.906" y1="0" x2="-9.906" y2="-3.937" width="0.127" layer="51"/>
-<wire x1="-9.906" y1="-3.937" x2="-9.906" y2="-8.128" width="0.127" layer="51"/>
-<wire x1="-9.906" y1="0" x2="-34.544" y2="0" width="0.127" layer="51"/>
-<text x="-4.572" y="8.255" size="1.27" layer="25" font="vector">&gt;NAME</text>
-<wire x1="0" y1="3.937" x2="-9.906" y2="3.937" width="0.127" layer="51"/>
-<wire x1="0" y1="-3.937" x2="-9.906" y2="-3.937" width="0.127" layer="51"/>
-<wire x1="-9.906" y1="8.128" x2="-34.544" y2="8.128" width="0.127" layer="51"/>
-<wire x1="-9.906" y1="-8.128" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
-<smd name="P$1" x="-5.334" y="3.937" dx="8.89" dy="1.27" layer="1"/>
-<smd name="P$3" x="-5.334" y="-3.937" dx="8.89" dy="1.27" layer="1"/>
-</package>
 <package name="ANDERSON_VERTICAL">
 <description>2-pin 25A Anderson Connector
 Vertical</description>
@@ -3457,6 +3436,45 @@ Vertical</description>
 <smd name="12" x="2.8" y="1.27" dx="1.75" dy="0.65" layer="1"/>
 <smd name="13" x="2.8" y="2.54" dx="1.75" dy="0.65" layer="1"/>
 <smd name="14" x="2.8" y="3.81" dx="1.75" dy="0.65" layer="1"/>
+</package>
+<package name="ANDERSON_HORIZONTAL">
+<description>2-pin 25A Anderson Connector
+Horizontal</description>
+<pad name="PIN1" x="0" y="3.937" drill="1.778" diameter="3.175" rot="R270"/>
+<pad name="PIN2" x="0" y="-3.937" drill="1.778" diameter="3.175" rot="R270"/>
+<wire x1="-34.544" y1="8.128" x2="-34.544" y2="0" width="0.127" layer="51"/>
+<wire x1="-34.544" y1="0" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="8.128" x2="-9.906" y2="3.937" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="3.937" x2="-9.906" y2="0" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="0" x2="-9.906" y2="-3.937" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="-3.937" x2="-9.906" y2="-8.128" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="0" x2="-34.544" y2="0" width="0.127" layer="51"/>
+<text x="-4.572" y="8.255" size="1.27" layer="25" font="vector">&gt;NAME</text>
+<wire x1="0" y1="3.937" x2="-9.906" y2="3.937" width="0.127" layer="51"/>
+<wire x1="0" y1="-3.937" x2="-9.906" y2="-3.937" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="8.128" x2="-34.544" y2="8.128" width="0.127" layer="51"/>
+<wire x1="-9.906" y1="-8.128" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
+<smd name="P$1" x="-5.334" y="3.937" dx="8.89" dy="1.27" layer="1"/>
+<smd name="P$3" x="-5.334" y="-3.937" dx="8.89" dy="1.27" layer="1"/>
+<rectangle x1="-34.544" y1="-8.128" x2="-9.906" y2="8.128" layer="39"/>
+<rectangle x1="-10.16" y1="1.27" x2="2.54" y2="6.35" layer="39"/>
+<rectangle x1="-10.16" y1="-6.35" x2="2.54" y2="-1.27" layer="39"/>
+</package>
+<package name="LED5MM-NOFLAT">
+<wire x1="2.54" y1="-1.905" x2="2.54" y2="1.905" width="0.254" layer="21" curve="-286.260205" cap="flat"/>
+<wire x1="-1.143" y1="0" x2="0" y2="1.143" width="0.1524" layer="51" curve="-90" cap="flat"/>
+<wire x1="0" y1="-1.143" x2="1.143" y2="0" width="0.1524" layer="51" curve="90" cap="flat"/>
+<wire x1="-1.651" y1="0" x2="0" y2="1.651" width="0.1524" layer="51" curve="-90" cap="flat"/>
+<wire x1="0" y1="-1.651" x2="1.651" y2="0" width="0.1524" layer="51" curve="90" cap="flat"/>
+<wire x1="-2.159" y1="0" x2="0" y2="2.159" width="0.1524" layer="51" curve="-90" cap="flat"/>
+<wire x1="0" y1="-2.159" x2="2.159" y2="0" width="0.1524" layer="51" curve="90" cap="flat"/>
+<circle x="0" y="0" radius="2.54" width="0.1524" layer="21"/>
+<pad name="A" x="-1.27" y="0" drill="0.8128" diameter="1.8796"/>
+<pad name="K" x="1.27" y="0" drill="0.8128" diameter="1.8796"/>
+<text x="3.175" y="0.5334" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="3.2004" y="-1.8034" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+<wire x1="2.54" y1="1.905" x2="2.54" y2="-1.905" width="0.254" layer="21" curve="-73.739795"/>
+<text x="-5.842" y="-1.016" size="2.54" layer="21">+</text>
 </package>
 </packages>
 <symbols>
@@ -3634,16 +3652,16 @@ Vertical</description>
 <pin name="6" x="-7.62" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1"/>
 </symbol>
 <symbol name="M02">
-<wire x1="3.81" y1="-2.54" x2="-2.54" y2="-2.54" width="0.4064" layer="94"/>
-<wire x1="1.27" y1="2.54" x2="2.54" y2="2.54" width="0.6096" layer="94"/>
+<wire x1="3.81" y1="-5.08" x2="-2.54" y2="-5.08" width="0.4064" layer="94"/>
 <wire x1="1.27" y1="0" x2="2.54" y2="0" width="0.6096" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="-2.54" y2="-2.54" width="0.4064" layer="94"/>
-<wire x1="3.81" y1="-2.54" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
-<text x="-2.54" y="-5.08" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-2.54" y="5.842" size="1.778" layer="95">&gt;NAME</text>
-<pin name="1" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="2" x="7.62" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<wire x1="1.27" y1="-2.54" x2="2.54" y2="-2.54" width="0.6096" layer="94"/>
+<wire x1="-2.54" y1="2.54" x2="-2.54" y2="-5.08" width="0.4064" layer="94"/>
+<wire x1="3.81" y1="-5.08" x2="3.81" y2="2.54" width="0.4064" layer="94"/>
+<wire x1="-2.54" y1="2.54" x2="3.81" y2="2.54" width="0.4064" layer="94"/>
+<text x="-2.54" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
+<text x="-2.54" y="3.302" size="1.778" layer="95">&gt;NAME</text>
+<pin name="1" x="7.62" y="-2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="2" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 </symbol>
 <symbol name="M03">
 <wire x1="3.81" y1="-5.08" x2="-2.54" y2="-5.08" width="0.4064" layer="94"/>
@@ -3660,20 +3678,20 @@ Vertical</description>
 <pin name="3" x="7.62" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 </symbol>
 <symbol name="M04">
-<wire x1="3.81" y1="-5.08" x2="-2.54" y2="-5.08" width="0.4064" layer="94"/>
-<wire x1="1.27" y1="2.54" x2="2.54" y2="2.54" width="0.6096" layer="94"/>
+<wire x1="3.81" y1="-7.62" x2="-2.54" y2="-7.62" width="0.4064" layer="94"/>
 <wire x1="1.27" y1="0" x2="2.54" y2="0" width="0.6096" layer="94"/>
 <wire x1="1.27" y1="-2.54" x2="2.54" y2="-2.54" width="0.6096" layer="94"/>
-<wire x1="-2.54" y1="7.62" x2="-2.54" y2="-5.08" width="0.4064" layer="94"/>
-<wire x1="3.81" y1="-5.08" x2="3.81" y2="7.62" width="0.4064" layer="94"/>
-<wire x1="-2.54" y1="7.62" x2="3.81" y2="7.62" width="0.4064" layer="94"/>
-<wire x1="1.27" y1="5.08" x2="2.54" y2="5.08" width="0.6096" layer="94"/>
-<text x="-2.54" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-2.54" y="8.382" size="1.778" layer="95">&gt;NAME</text>
-<pin name="1" x="7.62" y="-2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="2" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="3" x="7.62" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="4" x="7.62" y="5.08" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<wire x1="1.27" y1="-5.08" x2="2.54" y2="-5.08" width="0.6096" layer="94"/>
+<wire x1="-2.54" y1="5.08" x2="-2.54" y2="-7.62" width="0.4064" layer="94"/>
+<wire x1="3.81" y1="-7.62" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
+<wire x1="-2.54" y1="5.08" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
+<wire x1="1.27" y1="2.54" x2="2.54" y2="2.54" width="0.6096" layer="94"/>
+<text x="-2.54" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
+<text x="-2.54" y="5.842" size="1.778" layer="95">&gt;NAME</text>
+<pin name="1" x="7.62" y="-5.08" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="2" x="7.62" y="-2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="3" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="4" x="7.62" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 </symbol>
 <symbol name="5V">
 <wire x1="0.762" y1="1.27" x2="0" y2="2.54" width="0.254" layer="94"/>
@@ -3758,14 +3776,14 @@ Vertical</description>
 <pin name="C" x="0" y="-2.54" visible="off" length="short" direction="pas" rot="R90"/>
 <pin name="A" x="0" y="5.08" visible="off" length="short" direction="pas" rot="R270"/>
 <polygon width="0.1524" layer="94">
-<vertex x="-3.429" y="-0.889"/>
-<vertex x="-3.048" y="0"/>
-<vertex x="-2.54" y="-0.508"/>
+<vertex x="-3.429" y="0.381"/>
+<vertex x="-3.048" y="1.27"/>
+<vertex x="-2.54" y="0.762"/>
 </polygon>
 <polygon width="0.1524" layer="94">
-<vertex x="-3.302" y="-2.032"/>
-<vertex x="-2.921" y="-1.143"/>
-<vertex x="-2.413" y="-1.651"/>
+<vertex x="-3.302" y="-0.762"/>
+<vertex x="-2.921" y="0.127"/>
+<vertex x="-2.413" y="-0.381"/>
 </polygon>
 </symbol>
 <symbol name="AVR_SPI_PROGRAMMER_6">
@@ -4282,7 +4300,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="TC38H" package="TC38H">
@@ -4291,7 +4311,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="TC26H" package="TC26H">
@@ -4300,7 +4322,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="SMD" package="HC49UP">
@@ -4309,7 +4333,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="HC49US" package="HC49US">
@@ -4318,7 +4344,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="32-SMD" package="CRYSTAL-32KHZ-SMD">
@@ -4327,7 +4355,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="X2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="5X3" package="CRYSTAL-SMD-5X3">
@@ -4336,7 +4366,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="3"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="EPSONMC146" package="CRYSTAL-32KHZ-SMD_EPSON_MC146">
@@ -4345,7 +4377,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="P$1"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="10.5X4.8" package="CRYSTAL-SMD-10.5X4.8-2PIN">
@@ -4354,7 +4388,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="P$2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="TC26H_EZ" package="TC26HEZ">
@@ -4363,7 +4399,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 <device name="TXC-7A" package="CRYSTAL-TXC-7A">
@@ -4372,7 +4410,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="P$2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -4415,7 +4455,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
+</technology>
 </technologies>
 </device>
 <device name="1X02-MTA" package="1X02-MTA">
@@ -4425,7 +4467,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="A1921-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA"/>
 </technology>
 </technologies>
 </device>
@@ -4444,7 +4486,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="3" pad="3"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
+</technology>
 </technologies>
 </device>
 <device name="1X03-MTA" package="1X03-MTA">
@@ -4455,7 +4499,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="A19470-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA"/>
 </technology>
 </technologies>
 </device>
@@ -4475,7 +4519,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="4" pad="4"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
+</technology>
 </technologies>
 </device>
 <device name="1X04-MTA" package="1X04-MTA">
@@ -4487,7 +4533,7 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="A1922-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA"/>
 </technology>
 </technologies>
 </device>
@@ -4517,7 +4563,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0603" package="R0603">
@@ -4526,7 +4574,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0805" package="R0805">
@@ -4535,7 +4585,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0805W" package="R0805W">
@@ -4544,7 +4596,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1005" package="R1005">
@@ -4553,7 +4607,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1206" package="R1206">
@@ -4562,7 +4618,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1206W" package="R1206W">
@@ -4571,7 +4629,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1210" package="R1210">
@@ -4580,7 +4640,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1210W" package="R1210W">
@@ -4589,7 +4651,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2010" package="R2010">
@@ -4598,7 +4662,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2010W" package="R2010W">
@@ -4607,7 +4673,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2012" package="R2012">
@@ -4616,7 +4684,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2012W" package="R2012W">
@@ -4625,7 +4695,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2512" package="R2512">
@@ -4634,7 +4706,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2512W" package="R2512W">
@@ -4643,7 +4717,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3216" package="R3216">
@@ -4652,7 +4728,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3216W" package="R3216W">
@@ -4661,7 +4739,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3225" package="R3225">
@@ -4670,7 +4750,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3225W" package="R3225W">
@@ -4679,7 +4761,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R5025" package="R5025">
@@ -4688,7 +4772,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R5025W" package="R5025W">
@@ -4697,7 +4783,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R6332" package="R6332">
@@ -4706,7 +4794,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R6332W" package="R6332W">
@@ -4715,7 +4805,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M0805" package="M0805">
@@ -4724,7 +4816,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M1206" package="M1206">
@@ -4733,7 +4827,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M1406" package="M1406">
@@ -4742,7 +4838,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M2012" package="M2012">
@@ -4751,7 +4849,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M2309" package="M2309">
@@ -4760,7 +4860,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M3216" package="M3216">
@@ -4769,7 +4871,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M3516" package="M3516">
@@ -4778,7 +4882,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M5923" package="M5923">
@@ -4787,7 +4893,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0204/5" package="0204/5">
@@ -4796,7 +4904,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0204/7" package="0204/7">
@@ -4805,7 +4915,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/10" package="0207/10">
@@ -4814,7 +4926,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/12" package="0207/12">
@@ -4823,7 +4937,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/15" package="0207/15">
@@ -4832,7 +4948,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/2V" package="0207/2V">
@@ -4841,7 +4959,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/5V" package="0207/5V">
@@ -4850,7 +4970,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/7" package="0207/7">
@@ -4859,7 +4981,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0309/10" package="0309/10">
@@ -4868,7 +4992,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0309/12" package="0309/12">
@@ -4877,7 +5003,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0411/12" package="0411/12">
@@ -4886,7 +5014,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0411/15" package="0411/15">
@@ -4895,7 +5025,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0411/3V" package="0411V">
@@ -4904,7 +5036,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0414/15" package="0414/15">
@@ -4913,7 +5047,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0414/5V" package="0414V">
@@ -4922,7 +5058,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0617/17" package="0617/17">
@@ -4931,7 +5069,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0617/22" package="0617/22">
@@ -4940,7 +5080,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0617/5V" package="0617V">
@@ -4949,7 +5091,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0922/22" package="0922/22">
@@ -4958,7 +5102,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0613/5V" package="P0613V">
@@ -4967,7 +5113,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0613/15" package="P0613/15">
@@ -4976,7 +5124,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0817/22" package="P0817/22">
@@ -4985,7 +5135,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0817/7V" package="P0817V">
@@ -4994,7 +5146,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="V234/12" package="V234/12">
@@ -5003,7 +5157,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="V235/17" package="V235/17">
@@ -5012,7 +5168,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="V526-0" package="V526-0">
@@ -5021,7 +5179,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0102AX" package="MINI_MELF-0102AX">
@@ -5030,7 +5190,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0922V" package="0922V">
@@ -5039,7 +5201,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0102R" package="MINI_MELF-0102R">
@@ -5048,7 +5212,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0102W" package="MINI_MELF-0102W">
@@ -5057,7 +5223,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0204R" package="MINI_MELF-0204R">
@@ -5066,7 +5234,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0204W" package="MINI_MELF-0204W">
@@ -5075,7 +5245,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0207R" package="MINI_MELF-0207R">
@@ -5084,7 +5256,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0207W" package="MINI_MELF-0207W">
@@ -5093,7 +5267,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="RDH/15" package="RDH/15">
@@ -5102,7 +5278,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0204/2V" package="0204V">
@@ -5111,7 +5289,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0309/V" package="0309V">
@@ -5120,7 +5300,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0201" package="R0201">
@@ -5129,7 +5311,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VMTA55" package="VMTA55">
@@ -5138,7 +5322,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VMTB60" package="VMTB60">
@@ -5147,7 +5333,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA52" package="VTA52">
@@ -5156,7 +5344,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA53" package="VTA53">
@@ -5165,7 +5355,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA54" package="VTA54">
@@ -5174,7 +5366,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA55" package="VTA55">
@@ -5183,7 +5377,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA56" package="VTA56">
@@ -5192,7 +5388,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R4527" package="R4527">
@@ -5201,7 +5399,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC0001" package="WSC0001">
@@ -5210,7 +5410,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC0002" package="WSC0002">
@@ -5219,7 +5421,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC01/2" package="WSC01/2">
@@ -5228,7 +5432,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC2515" package="WSC2515">
@@ -5237,7 +5443,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC4527" package="WSC4527">
@@ -5246,7 +5454,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC6927" package="WSC6927">
@@ -5255,7 +5465,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1218" package="R1218">
@@ -5264,7 +5476,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="1812X7R" package="1812X7R">
@@ -5273,7 +5487,9 @@ These are standard SMD and PTH capacitors. Normally 10uF, 47uF, and 100uF in ele
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5291,7 +5507,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="PTH2" package="CAP-PTH-SMALL2">
@@ -5300,7 +5518,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0805" package="0805">
@@ -5309,7 +5529,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="PTH3" package="CAP-PTH-LARGE">
@@ -5318,7 +5540,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="SMD" package="GRM43D">
@@ -5327,7 +5551,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0603-CAP" package="0603-CAP">
@@ -5336,7 +5562,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0402-CAP" package="0402-CAP">
@@ -5345,7 +5573,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="PTH1" package="CAP-PTH-5MM">
@@ -5354,7 +5584,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="_" package="AXIAL-5MM">
@@ -5363,7 +5595,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="P$2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="1210" package="1210">
@@ -5372,7 +5606,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="1206" package="1206">
@@ -5381,7 +5617,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="ASMD" package="CTZ3">
@@ -5390,7 +5628,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="-"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="KIT" package="CAP-PTH-SMALL-KIT">
@@ -5399,7 +5639,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="EZ" package="CAP-PTH-SMALLEZ">
@@ -5408,7 +5650,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5426,7 +5670,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="3MM" package="LED3MM">
@@ -5435,7 +5681,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="1206" package="LED-1206">
@@ -5444,7 +5692,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="0603" package="LED-0603">
@@ -5453,7 +5703,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="10MM" package="LED10MM">
@@ -5462,7 +5714,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="-FKIT-1206" package="FKIT-LED-1206">
@@ -5471,7 +5725,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="-3MM-NO_SILK" package="LED3MM-NS">
@@ -5480,7 +5736,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="5MM-KIT" package="LED5MM-KIT">
@@ -5489,13 +5747,26 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="0805" package="LED-0805">
 <connects>
 <connect gate="G$1" pin="A" pad="A"/>
 <connect gate="G$1" pin="C" pad="C"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
+</technologies>
+</device>
+<device name="LED5MM-NOFLAT" package="LED5MM-NOFLAT">
+<connects>
+<connect gate="G$1" pin="A" pad="A"/>
+<connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -5632,7 +5903,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 <device name="TRACE" package="SJ_2S-TRACE">
@@ -5641,7 +5914,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 <device name="NC2" package="SJ_2S-NOTRACE">
@@ -5650,7 +5925,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 <device name="NO" package="SJ_2S-NO">
@@ -5659,7 +5936,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <connect gate="1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DNL"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -5692,7 +5971,7 @@ Standard 8.5x11 US Letter frame</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="ANDERSON">
+<deviceset name="ANDERSON" prefix="CONN">
 <description>2-pin 25A Anderson Connector
 http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/70162018.pdf</description>
 <gates>
@@ -5706,7 +5985,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="1377G1" constant="no"/>
+<attribute name="PIE-INT-REF-NUM" value="Anderson"/>
 </technology>
 </technologies>
 </device>
@@ -5717,7 +5996,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="1377G3" constant="no"/>
+<attribute name="PIE-INT-REF-NUM" value="Anderson"/>
 </technology>
 </technologies>
 </device>
@@ -6451,7 +6730,7 @@ for future additions.</text>
 </segment>
 <segment>
 <pinref part="U$8" gate="G$1" pin="5V"/>
-<wire x1="119.634" y1="8.89" x2="132.08" y2="8.89" width="0.1524" layer="91"/>
+<wire x1="119.634" y1="11.43" x2="132.08" y2="8.89" width="0.1524" layer="91"/>
 <wire x1="132.08" y1="8.89" x2="132.08" y2="11.43" width="0.1524" layer="91"/>
 <pinref part="JP3" gate="G$1" pin="4"/>
 </segment>
@@ -6516,7 +6795,7 @@ for future additions.</text>
 <pinref part="U2" gate="G$1" pin="(SS/PCINT0)PB0"/>
 </segment>
 <segment>
-<wire x1="119.634" y1="13.97" x2="121.92" y2="13.97" width="0.1524" layer="91"/>
+<wire x1="119.634" y1="16.51" x2="121.92" y2="13.97" width="0.1524" layer="91"/>
 <label x="121.92" y="14.478" size="1.778" layer="95"/>
 <pinref part="JP3" gate="G$1" pin="2"/>
 </segment>
@@ -6528,7 +6807,7 @@ for future additions.</text>
 <pinref part="U2" gate="G$1" pin="(PCINT4/ADC11)PB4"/>
 </segment>
 <segment>
-<wire x1="119.634" y1="16.51" x2="121.92" y2="16.51" width="0.1524" layer="91"/>
+<wire x1="119.634" y1="19.05" x2="121.92" y2="16.51" width="0.1524" layer="91"/>
 <label x="121.92" y="17.018" size="1.778" layer="95"/>
 <pinref part="JP3" gate="G$1" pin="1"/>
 </segment>
@@ -7179,10 +7458,10 @@ for future additions.</text>
 <segment>
 <pinref part="JP1" gate="G$1" pin="2"/>
 <pinref part="SUPPLY18" gate="GND" pin="GND"/>
-<wire x1="15.24" y1="12.7" x2="15.24" y2="8.89" width="0.2032" layer="91"/>
+<wire x1="15.24" y1="10.16" x2="15.24" y2="8.89" width="0.2032" layer="91"/>
 <junction x="15.24" y="8.89"/>
 <pinref part="JP1" gate="G$1" pin="1"/>
-<wire x1="15.24" y1="10.16" x2="15.24" y2="8.89" width="0.2032" layer="91"/>
+<wire x1="15.24" y1="7.62" x2="15.24" y2="8.89" width="0.2032" layer="91"/>
 </segment>
 <segment>
 <wire x1="96.52" y1="10.16" x2="99.06" y2="10.16" width="0.1524" layer="91"/>
@@ -7194,7 +7473,7 @@ for future additions.</text>
 <pinref part="SUPPLY7" gate="GND" pin="GND"/>
 <wire x1="129.54" y1="11.43" x2="129.54" y2="7.62" width="0.1524" layer="91"/>
 <pinref part="JP3" gate="G$1" pin="3"/>
-<wire x1="119.634" y1="11.43" x2="129.54" y2="11.43" width="0.1524" layer="91"/>
+<wire x1="119.634" y1="13.97" x2="129.54" y2="11.43" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>

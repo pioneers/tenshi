@@ -6,12 +6,12 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.01" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
-<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
-<layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
+<layer number="3" name="Route3" color="20" fill="3" visible="no" active="no"/>
+<layer number="4" name="Route4" color="21" fill="4" visible="no" active="no"/>
 <layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
 <layer number="6" name="Route6" color="1" fill="8" visible="no" active="no"/>
 <layer number="7" name="Route7" color="4" fill="8" visible="no" active="no"/>
@@ -29,37 +29,37 @@
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="yes"/>
-<layer number="22" name="bPlace" color="14" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="17" fill="1" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="26" name="bNames" color="12" fill="1" visible="yes" active="yes"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="28" name="bValues" color="12" fill="1" visible="yes" active="yes"/>
-<layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
-<layer number="30" name="bStop" color="7" fill="6" visible="yes" active="yes"/>
-<layer number="31" name="tCream" color="7" fill="4" visible="yes" active="yes"/>
-<layer number="32" name="bCream" color="7" fill="5" visible="yes" active="yes"/>
-<layer number="33" name="tFinish" color="6" fill="3" visible="yes" active="yes"/>
-<layer number="34" name="bFinish" color="6" fill="6" visible="yes" active="yes"/>
-<layer number="35" name="tGlue" color="7" fill="4" visible="yes" active="yes"/>
-<layer number="36" name="bGlue" color="7" fill="5" visible="yes" active="yes"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
-<layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
-<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
-<layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
-<layer number="43" name="vRestrict" color="2" fill="10" visible="yes" active="yes"/>
-<layer number="44" name="Drills" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="18" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="19" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="18" fill="1" visible="yes" active="yes"/>
+<layer number="28" name="bValues" color="19" fill="1" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
+<layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
+<layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
+<layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
+<layer number="34" name="bFinish" color="6" fill="6" visible="no" active="yes"/>
+<layer number="35" name="tGlue" color="7" fill="4" visible="no" active="yes"/>
+<layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="yes"/>
+<layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="yes"/>
+<layer number="42" name="bRestrict" color="1" fill="10" visible="no" active="yes"/>
+<layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="yes"/>
+<layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="yes"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
 <layer number="51" name="tDocu" color="6" fill="1" visible="yes" active="yes"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
 <layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
@@ -73,44 +73,44 @@
 <layer number="98" name="Guide" color="6" fill="1" visible="no" active="no"/>
 <layer number="99" name="SpiceOrder" color="5" fill="1" visible="no" active="no"/>
 <layer number="100" name="Muster" color="7" fill="1" visible="no" active="no"/>
-<layer number="101" name="Patch_Top" color="12" fill="4" visible="yes" active="yes"/>
-<layer number="102" name="Vscore" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="103" name="tMap" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="104" name="Name" color="16" fill="1" visible="yes" active="yes"/>
-<layer number="105" name="tPlate" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="106" name="bPlate" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="107" name="Crop" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="108" name="fp8" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="109" name="fp9" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="110" name="fp0" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="116" name="Patch_BOT" color="9" fill="4" visible="yes" active="yes"/>
-<layer number="121" name="_tsilk" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="122" name="_bsilk" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="123" name="tTestmark" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="124" name="bTestmark" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="125" name="_tNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="131" name="tAdjust" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="132" name="bAdjust" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="144" name="Drill_legend" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="151" name="HeatSink" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="199" name="Contour" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="200" name="200bmp" color="1" fill="10" visible="yes" active="yes"/>
-<layer number="201" name="201bmp" color="2" fill="10" visible="yes" active="yes"/>
-<layer number="202" name="202bmp" color="3" fill="10" visible="yes" active="yes"/>
-<layer number="203" name="203bmp" color="4" fill="10" visible="yes" active="yes"/>
-<layer number="204" name="204bmp" color="5" fill="10" visible="yes" active="yes"/>
-<layer number="205" name="205bmp" color="6" fill="10" visible="yes" active="yes"/>
-<layer number="206" name="206bmp" color="7" fill="10" visible="yes" active="yes"/>
-<layer number="207" name="207bmp" color="8" fill="10" visible="yes" active="yes"/>
-<layer number="208" name="208bmp" color="9" fill="10" visible="yes" active="yes"/>
-<layer number="209" name="209bmp" color="10" fill="1" visible="yes" active="yes"/>
-<layer number="210" name="210bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="211" name="211bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="212" name="212bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="213" name="213bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="214" name="214bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="215" name="215bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="216" name="216bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="101" name="Patch_Top" color="12" fill="4" visible="no" active="yes"/>
+<layer number="102" name="Vscore" color="7" fill="1" visible="no" active="yes"/>
+<layer number="103" name="tMap" color="7" fill="1" visible="no" active="yes"/>
+<layer number="104" name="Name" color="16" fill="1" visible="no" active="yes"/>
+<layer number="105" name="tPlate" color="7" fill="1" visible="no" active="yes"/>
+<layer number="106" name="bPlate" color="7" fill="1" visible="no" active="yes"/>
+<layer number="107" name="Crop" color="7" fill="1" visible="no" active="yes"/>
+<layer number="108" name="fp8" color="7" fill="1" visible="no" active="yes"/>
+<layer number="109" name="fp9" color="7" fill="1" visible="no" active="yes"/>
+<layer number="110" name="fp0" color="7" fill="1" visible="no" active="yes"/>
+<layer number="116" name="Patch_BOT" color="9" fill="4" visible="no" active="yes"/>
+<layer number="121" name="_tsilk" color="7" fill="1" visible="no" active="yes"/>
+<layer number="122" name="_bsilk" color="7" fill="1" visible="no" active="yes"/>
+<layer number="123" name="tTestmark" color="7" fill="1" visible="no" active="yes"/>
+<layer number="124" name="bTestmark" color="7" fill="1" visible="no" active="yes"/>
+<layer number="125" name="_tNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="131" name="tAdjust" color="7" fill="1" visible="no" active="yes"/>
+<layer number="132" name="bAdjust" color="7" fill="1" visible="no" active="yes"/>
+<layer number="144" name="Drill_legend" color="7" fill="1" visible="no" active="yes"/>
+<layer number="151" name="HeatSink" color="7" fill="1" visible="no" active="yes"/>
+<layer number="199" name="Contour" color="7" fill="1" visible="no" active="yes"/>
+<layer number="200" name="200bmp" color="1" fill="10" visible="no" active="yes"/>
+<layer number="201" name="201bmp" color="2" fill="10" visible="no" active="yes"/>
+<layer number="202" name="202bmp" color="3" fill="10" visible="no" active="yes"/>
+<layer number="203" name="203bmp" color="4" fill="10" visible="no" active="yes"/>
+<layer number="204" name="204bmp" color="5" fill="10" visible="no" active="yes"/>
+<layer number="205" name="205bmp" color="6" fill="10" visible="no" active="yes"/>
+<layer number="206" name="206bmp" color="7" fill="10" visible="no" active="yes"/>
+<layer number="207" name="207bmp" color="8" fill="10" visible="no" active="yes"/>
+<layer number="208" name="208bmp" color="9" fill="10" visible="no" active="yes"/>
+<layer number="209" name="209bmp" color="10" fill="1" visible="no" active="yes"/>
+<layer number="210" name="210bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="211" name="211bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="212" name="212bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="213" name="213bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="214" name="214bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="215" name="215bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="216" name="216bmp" color="7" fill="1" visible="no" active="yes"/>
 <layer number="217" name="217bmp" color="18" fill="1" visible="no" active="no"/>
 <layer number="218" name="218bmp" color="19" fill="1" visible="no" active="no"/>
 <layer number="219" name="219bmp" color="20" fill="1" visible="no" active="no"/>
@@ -121,7 +121,7 @@
 <layer number="224" name="224bmp" color="25" fill="1" visible="no" active="no"/>
 <layer number="250" name="Descript" color="3" fill="1" visible="no" active="no"/>
 <layer number="251" name="SMDround" color="12" fill="11" visible="no" active="no"/>
-<layer number="254" name="cooling" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="254" name="cooling" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
 <plain>
@@ -1126,17 +1126,17 @@ Source: http://www.nxp.com/acrobat_download/datasheets/PH7030L_4.pdf</descriptio
 <rectangle x1="-5.08" y1="-2.54" x2="5.08" y2="3.302" layer="39"/>
 </package>
 <package name="R0603">
-<description>&lt;b&gt;RESISTOR&lt;/b&gt;</description>
+<description>&lt;b&gt;Resistor&lt;/b&gt;, 0603 SMD package</description>
 <wire x1="-0.432" y1="-0.356" x2="0.432" y2="-0.356" width="0.1524" layer="51"/>
 <wire x1="0.432" y1="0.356" x2="-0.432" y2="0.356" width="0.1524" layer="51"/>
-<wire x1="-1.473" y1="0.983" x2="1.473" y2="0.983" width="0.0508" layer="39"/>
-<wire x1="1.473" y1="0.983" x2="1.473" y2="-0.983" width="0.0508" layer="39"/>
-<wire x1="1.473" y1="-0.983" x2="-1.473" y2="-0.983" width="0.0508" layer="39"/>
-<wire x1="-1.473" y1="-0.983" x2="-1.473" y2="0.983" width="0.0508" layer="39"/>
+<wire x1="-1.473" y1="0.729" x2="1.473" y2="0.729" width="0.0508" layer="39"/>
+<wire x1="1.473" y1="0.729" x2="1.473" y2="-0.729" width="0.0508" layer="39"/>
+<wire x1="1.473" y1="-0.729" x2="-1.473" y2="-0.729" width="0.0508" layer="39"/>
+<wire x1="-1.473" y1="-0.729" x2="-1.473" y2="0.729" width="0.0508" layer="39"/>
 <smd name="1" x="-0.85" y="0" dx="1" dy="1.1" layer="1"/>
 <smd name="2" x="0.85" y="0" dx="1" dy="1.1" layer="1"/>
-<text x="-0.635" y="0.635" size="1.27" layer="25">&gt;NAME</text>
-<text x="-0.635" y="-1.905" size="1.27" layer="27">&gt;VALUE</text>
+<text x="-1.27" y="1.27" size="0.889" layer="25" font="vector" ratio="20">&gt;NAME</text>
+<text x="-1.27" y="-1.905" size="0.889" layer="27" font="vector" ratio="20">&gt;VALUE</text>
 <rectangle x1="0.4318" y1="-0.4318" x2="0.8382" y2="0.4318" layer="51"/>
 <rectangle x1="-0.8382" y1="-0.4318" x2="-0.4318" y2="0.4318" layer="51"/>
 <rectangle x1="-0.1999" y1="-0.4001" x2="0.1999" y2="0.4001" layer="35"/>
@@ -1399,7 +1399,7 @@ design rules under a new name.</description>
 <param name="mtCopper" value="2mil 2mil 2mil 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 0.0356mm 2mil"/>
 <param name="mtIsolate" value="9mil 40mil 9mil 0.1499mm 0.2007mm 0.1499mm 0.2007mm 0.1499mm 0.2007mm 0.1499mm 0.2007mm 0.1499mm 0.2007mm 0.1499mm 0.2007mm"/>
 <param name="mdWireWire" value="6mil"/>
-<param name="mdWirePad" value="10mil"/>
+<param name="mdWirePad" value="6mil"/>
 <param name="mdWireVia" value="6mil"/>
 <param name="mdPadPad" value="6mil"/>
 <param name="mdPadVia" value="6mil"/>
@@ -1448,7 +1448,7 @@ design rules under a new name.</description>
 <param name="mlMaxStopFrame" value="5mil"/>
 <param name="mlMinCreamFrame" value="3mil"/>
 <param name="mlMaxCreamFrame" value="5mil"/>
-<param name="mlViaStopLimit" value="0mil"/>
+<param name="mlViaStopLimit" value="21mil"/>
 <param name="srRoundness" value="0"/>
 <param name="srMinRoundness" value="0mil"/>
 <param name="srMaxRoundness" value="0mil"/>
@@ -1560,83 +1560,102 @@ design rules under a new name.</description>
 <element name="R16" library="pie" package="R0603" value="47k" x="54.229" y="26.162" smashed="yes">
 <attribute name="NAME" x="56.007" y="26.289" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="56.007" y="25.273" size="0.889" layer="27" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="54.229" y="26.162" size="1.778" layer="27" display="off"/>
 </element>
 <element name="R17" library="pie" package="R0603" value="10k" x="49.53" y="27.94" smashed="yes">
 <attribute name="NAME" x="47.625" y="30.226" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="47.625" y="29.21" size="0.889" layer="27" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="49.53" y="27.94" size="1.778" layer="27" display="off"/>
 </element>
 <element name="R15" library="pie" package="R0603" value="10k" x="69.342" y="36.9062" smashed="yes" rot="R270">
 <attribute name="NAME" x="70.9676" y="40.6146" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="67.5894" y="38.227" size="0.889" layer="27" font="vector" ratio="20" rot="R270"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="69.342" y="36.9062" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
 <element name="C16" library="pie" package="0603-CAP" value="0.1uF" x="56.31" y="23.859" smashed="yes">
 <attribute name="NAME" x="52.451" y="22.352" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="57.912" y="23.368" size="0.381" layer="27" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="56.31" y="23.859" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C8" library="pie" package="0603-CAP" value="470nF" x="48.084" y="16.997" smashed="yes">
 <attribute name="NAME" x="50.292" y="17.272" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="46.373" y="17.9065" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="48.084" y="16.997" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C6" library="pie" package="0603-CAP" value="1uF" x="38.608" y="22.098" smashed="yes" rot="R180">
 <attribute name="NAME" x="36.068" y="22.479" size="0.889" layer="25" font="vector" ratio="20" align="top-right"/>
 <attribute name="VALUE" x="34.036" y="22.479" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="38.608" y="22.098" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="C7" library="pie" package="0603-CAP" value="33nF" x="38.608" y="20.193" smashed="yes" rot="R180">
 <attribute name="NAME" x="36.068" y="20.574" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="33.655" y="20.574" size="0.889" layer="27" font="vector" ratio="20" align="top-right"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="38.608" y="20.193" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="C5" library="pie" package="0603-CAP" value="33nF" x="38.608" y="24.003" smashed="yes">
 <attribute name="NAME" x="36.068" y="24.384" size="0.889" layer="25" font="vector" ratio="20" align="top-right"/>
 <attribute name="VALUE" x="34.036" y="24.384" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="38.608" y="24.003" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C15" library="pie" package="0603-CAP" value="18pF" x="62.484" y="25.908" smashed="yes">
 <attribute name="NAME" x="60.96" y="27.686" size="0.635" layer="25" font="vector" ratio="20" rot="R180" align="bottom-right"/>
 <attribute name="VALUE" x="62.738" y="27.305" size="0.381" layer="27" font="vector" ratio="20" rot="R180" align="bottom-right"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="62.484" y="25.908" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C14" library="pie" package="0603-CAP" value="18pF" x="65.786" y="25.908" smashed="yes" rot="R180">
 <attribute name="NAME" x="64.262" y="27.051" size="0.635" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="66.04" y="26.924" size="0.381" layer="27" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="65.786" y="25.908" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="JP4" library="pie" package="1X03-MTA" value="" x="63.627" y="37.719" smashed="yes" rot="R180">
-<attribute name="PARTNUMBER" value="A19470-ND" x="63.627" y="37.719" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="VALUE" x="64.897" y="42.164" size="1.27" layer="27" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA" x="63.627" y="37.719" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="JP3" library="pie" package="1X04-MTA" value="encoder" x="53.467" y="37.719" smashed="yes" rot="R180">
-<attribute name="PARTNUMBER" value="A1922-ND" x="53.467" y="37.719" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA" x="53.467" y="37.719" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="JP6" library="pie" package="MA03-2" value="AVR_SPI_PRG_6MA03-2" x="71.628" y="32.639" smashed="yes"/>
 <element name="C2" library="pie" package="0603-CAP" value="0.33uF" x="11.460996875" y="34.211" smashed="yes">
 <attribute name="NAME" x="11.938" y="36.195" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="11.938" y="37.338" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="11.460996875" y="34.211" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C3" library="pie" package="0603-CAP" value="0.1uF" x="21.669" y="37.9" smashed="yes">
 <attribute name="NAME" x="20.955" y="39.37" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="23.495" y="36.83" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="21.669" y="37.9" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C9" library="pie" package="0603-CAP" value="0.1uF" x="40.987" y="11.77" smashed="yes">
 <attribute name="NAME" x="39.624" y="9.652" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="42.418" y="6.985" size="0.889" layer="27" font="vector" ratio="20" rot="R90"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="40.987" y="11.77" size="1.778" layer="27" display="off"/>
 </element>
 <element name="LED2" library="pie" package="LED-0805" value="RED" x="46.228" y="12.7" smashed="yes" rot="R180">
 <attribute name="NAME" x="46.146003125" y="8.439" size="0.889" layer="25" font="vector" ratio="20" align="top-center"/>
 <attribute name="VALUE" x="43.053" y="14.224" size="0.889" layer="27" font="vector" ratio="20" rot="R270"/>
+<attribute name="PIE-INT-REF-NUM" value="LED" x="46.228" y="12.7" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="LED3" library="pie" package="LED-0805" value="GRN" x="46.228" y="10.795" smashed="yes" rot="R180">
 <attribute name="NAME" x="46.146003125" y="7.363" size="0.889" layer="25" font="vector" ratio="20" align="top-center"/>
 <attribute name="VALUE" x="43.053" y="11.43" size="0.889" layer="27" font="vector" ratio="20" rot="R270"/>
+<attribute name="PIE-INT-REF-NUM" value="LED" x="46.228" y="10.795" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R8" library="pie" package="R0603" value="330" x="50.315003125" y="10.919" smashed="yes" rot="R180">
 <attribute name="NAME" x="52.578" y="10.541" size="0.889" layer="25" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="50.315003125" y="10.919" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R7" library="pie" package="R0603" value="330" x="50.315003125" y="12.757" smashed="yes" rot="R180">
 <attribute name="NAME" x="52.578" y="11.684" size="0.889" layer="25" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="50.315003125" y="12.757" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="LED1" library="pie" package="LED-0805" value="YEL" x="46.228" y="14.605" smashed="yes" rot="R180">
 <attribute name="NAME" x="46.146003125" y="9.515" size="0.889" layer="25" font="vector" ratio="20" align="top-center"/>
 <attribute name="VALUE" x="43.007996875" y="17.028" size="0.889" layer="27" font="vector" ratio="20" rot="R270"/>
+<attribute name="PIE-INT-REF-NUM" value="LED" x="46.228" y="14.605" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R6" library="pie" package="R0603" value="330" x="50.315003125" y="14.595" smashed="yes">
 <attribute name="NAME" x="52.578" y="12.827" size="0.889" layer="25" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="50.315003125" y="14.595" size="1.778" layer="27" display="off"/>
 </element>
 <element name="U3" library="pie" package="8-PIN_SOIC" value="ACS714" x="35.025" y="10.37" smashed="yes">
 <attribute name="NAME" x="32.175" y="13.545" size="1.016" layer="25" font="vector" ratio="15"/>
@@ -1646,10 +1665,12 @@ design rules under a new name.</description>
 <element name="C10" library="pie" package="0603-CAP" value="1nF" x="39.113" y="6.518" smashed="yes">
 <attribute name="NAME" x="40.132" y="5.588" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="40.135" y="4.486" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="39.113" y="6.518" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C11" library="pie" package="0603-CAP" value="0.1 uF" x="57.834" y="10.027" smashed="yes">
 <attribute name="NAME" x="56.261" y="11.049" size="0.635" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="55.9365" y="11.2005" size="0.381" layer="27" font="vector" ratio="20" rot="R270"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="57.834" y="10.027" size="1.778" layer="27" display="off"/>
 </element>
 <element name="U1" library="pie" package="24-PIN_TSSOP" value="A4940" x="48.04" y="22.395" smashed="yes">
 <attribute name="NAME" x="45.847" y="26.416" size="1.27" layer="25" font="vector" ratio="15"/>
@@ -1659,55 +1680,69 @@ design rules under a new name.</description>
 <element name="R4" library="pie" package="R0603" value="10k" x="38.608" y="18.161" smashed="yes" rot="R180">
 <attribute name="NAME" x="36.068" y="18.542" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="34.036" y="18.542" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="38.608" y="18.161" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R5" library="pie" package="R0603" value="10k" x="38.608" y="16.002" smashed="yes" rot="R180">
 <attribute name="NAME" x="36.068" y="16.383" size="0.889" layer="25" font="vector" ratio="20" align="top-right"/>
 <attribute name="VALUE" x="34.036" y="16.256" size="0.889" layer="27" font="vector" ratio="20" align="top-right"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="38.608" y="16.002" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R2" library="pie" package="R0603" value="10k" x="38.608" y="27.94" smashed="yes" rot="R180">
 <attribute name="NAME" x="36.068" y="28.321" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="34.036" y="28.321" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="38.608" y="27.94" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R3" library="pie" package="R0603" value="10k" x="38.608" y="25.908" smashed="yes" rot="R180">
 <attribute name="NAME" x="36.068" y="26.289" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="34.036" y="26.289" size="0.889" layer="27" font="vector" ratio="20" align="top-right"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="38.608" y="25.908" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R12" library="pie" package="R0603" value="10k" x="54.737" y="6.35" smashed="yes">
 <attribute name="NAME" x="51.562" y="4.064" size="0.889" layer="25" font="vector" ratio="20" align="top-left"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="54.737" y="6.35" size="1.778" layer="27" display="off"/>
 </element>
 <element name="R10" library="pie" package="R0603" value="10k" x="49.911" y="6.35" smashed="yes" rot="R180">
 <attribute name="NAME" x="51.054" y="4.064" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="49.911" y="6.35" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R9" library="pie" package="R0603" value="10k" x="49.911" y="8.001" smashed="yes" rot="R180">
 <attribute name="NAME" x="51.054" y="5.08" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="49.911" y="8.001" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R11" library="pie" package="R0603" value="10k" x="54.737" y="8.001" smashed="yes">
 <attribute name="NAME" x="51.562" y="5.08" size="0.889" layer="25" font="vector" ratio="20" align="top-left"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="54.737" y="8.001" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C4" library="pie" package="0603-CAP" value="10uF" x="18.923" y="25.273" smashed="yes" rot="R180">
 <attribute name="NAME" x="19.05" y="27.178" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="20.701" y="24.384" size="0.381" layer="27" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="18.923" y="25.273" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R1" library="pie" package="R0603" value="10k" x="25.575" y="37.956" smashed="yes" rot="R180">
 <attribute name="NAME" x="25.019" y="39.37" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="26.67" y="36.83" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="25.575" y="37.956" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="U$2" library="pie" package="USB-M26FTR" value="USB-M26FTR" x="62.611" y="7.62"/>
 <element name="C13" library="pie" package="0603-CAP" value="1uF" x="74.676" y="16.129" smashed="yes" rot="R270">
 <attribute name="NAME" x="73.231" y="13.4625" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="73.264" y="12.3285" size="0.889" layer="27" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="74.676" y="16.129" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
 <element name="R14" library="pie" package="R0603" value="22" x="70.612" y="8.636" smashed="yes">
 <attribute name="NAME" x="74.704" y="9.179996875" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="73.942" y="8.163996875" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="70.612" y="8.636" size="1.778" layer="27" display="off"/>
 </element>
 <element name="R13" library="pie" package="R0603" value="22" x="70.612" y="6.477" smashed="yes">
 <attribute name="NAME" x="74.704" y="6.897996875" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="73.942" y="5.881996875" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="70.612" y="6.477" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C1" library="pie" package="0603-CAP" value="0.1uF" x="14.5542" y="6.477" smashed="yes" rot="R270">
 <attribute name="NAME" x="11.3792" y="8.3312" size="0.889" layer="25" font="vector" ratio="20" rot="R270"/>
 <attribute name="VALUE" x="12.4714" y="9.2456" size="0.889" layer="27" font="vector" ratio="20" rot="R270"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="14.5542" y="6.477" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
 <element name="U2" library="pie" package="TQFP44" value="ATMEGA32U4-AU" x="64.42800625" y="18.05" smashed="yes" rot="R180">
 <attribute name="NAME" x="63.373" y="17.018" size="1.27" layer="25" font="vector" ratio="15" rot="SR0"/>
@@ -1726,6 +1761,7 @@ design rules under a new name.</description>
 <element name="Y1" library="pie" package="HC49UP" value="16MHz" x="59.7154" y="30.1498" smashed="yes" rot="R180">
 <attribute name="VALUE" x="61.5188" y="32.2072" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
 <attribute name="NAME" x="59.7634" y="28.046803125" size="1.27" layer="25" font="vector" ratio="15" align="bottom-center"/>
+<attribute name="PIE-INT-REF-NUM" value="CRYSTAL" x="59.7154" y="30.1498" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="SV1" library="pie" package="MA03-2" value="" x="71.628" y="27.432" smashed="yes" rot="R180">
 <attribute name="OC_NEWARK" value="unknown" x="71.628" y="27.432" size="0.762" layer="27" font="vector" ratio="20" rot="R180" display="off"/>
@@ -1758,25 +1794,30 @@ design rules under a new name.</description>
 </element>
 <element name="JP1" library="pie" package="1X02" value="GND" x="42.799" y="2.159" smashed="yes" rot="R180">
 <attribute name="VALUE" x="38.862" y="3.429" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK" x="42.799" y="2.159" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="SJ1" library="pie" package="SJ_2S-NO" value="SOLDERJUMPERNO" x="60.579" y="9.906" smashed="yes" rot="R270"/>
+<element name="SJ1" library="pie" package="SJ_2S-NO" value="SOLDERJUMPERNO" x="60.579" y="9.906" smashed="yes" rot="R270">
+<attribute name="PIE-INT-REF-NUM" value="DNL" x="60.579" y="9.906" size="1.778" layer="27" rot="R270" display="off"/>
+</element>
 <element name="C12" library="pie" package="0603-CAP" value="0.1uF" x="70.612" y="10.795" smashed="yes">
 <attribute name="NAME" x="73.406" y="10.795" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="72.263" y="9.779" size="0.889" layer="27" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="70.612" y="10.795" size="1.778" layer="27" display="off"/>
 </element>
 <element name="STANDOFF1" library="pie" package="STAND-OFF" value="STAND-OFF" x="3.048" y="38.1"/>
 <element name="STANDOFF2" library="pie" package="STAND-OFF" value="STAND-OFF" x="73.406" y="2.794"/>
 <element name="R18" library="pie" package="R0603" value="10k" x="44.196" y="27.94" smashed="yes" rot="R180">
 <attribute name="NAME" x="42.672" y="28.956" size="0.635" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="44.577" y="28.956" size="0.381" layer="27" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="44.196" y="27.94" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="U$1" library="pie" package="OSHW-LOGO-L" value="" x="10.16" y="36.83" rot="MR0"/>
 <element name="STANDOFF3" library="pie" package="STAND-OFF" value="STAND-OFF" x="73.406" y="38.1"/>
 <element name="U$19" library="pie" package="ANDERSON_VERTICAL" value="ANDERSONVERTICAL" x="4.5212" y="8.2296" smashed="yes">
-<attribute name="PARTNUMBER" value="1377G3" x="4.5212" y="8.2296" size="1.778" layer="27" display="off"/>
+<attribute name="PIE-INT-REF-NUM" value="Anderson" x="4.5212" y="8.2296" size="1.778" layer="27" display="off"/>
 </element>
 <element name="U$18" library="pie" package="ANDERSON_VERTICAL" value="ANDERSONVERTICAL" x="4.572" y="24.7142" smashed="yes">
-<attribute name="PARTNUMBER" value="1377G3" x="4.572" y="24.7142" size="1.778" layer="27" display="off"/>
+<attribute name="PIE-INT-REF-NUM" value="Anderson" x="4.572" y="24.7142" size="1.778" layer="27" display="off"/>
 </element>
 <element name="U5" library="pie" package="SOIC14" value="ISL83491SOIC" x="42.3926" y="35.433" smashed="yes" rot="R180">
 <attribute name="PIE-INT-REF-NUM" value="rs485_491" x="42.3926" y="35.433" size="1.778" layer="27" rot="R180" display="off"/>
@@ -1793,6 +1834,7 @@ design rules under a new name.</description>
 <element name="C17" library="pie" package="0603-CAP" value="0.1uF" x="38.608" y="29.972" smashed="yes" rot="R180">
 <attribute name="NAME" x="42.037" y="30.48" size="0.635" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="41.91" y="29.591" size="0.381" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="38.608" y="29.972" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 </elements>
 <signals>
@@ -1938,10 +1980,11 @@ design rules under a new name.</description>
 <wire x1="30.099" y1="16.002" x2="31.516" y2="16.002" width="0.254" layer="1"/>
 <wire x1="32.369" y1="16.855" x2="32.369" y2="20.558" width="0.254" layer="16"/>
 <wire x1="31.516" y1="16.002" x2="32.369" y2="16.855" width="0.254" layer="1"/>
-<wire x1="41.908" y1="23.37" x2="41.148" y2="24.13" width="0.254" layer="1"/>
+<wire x1="41.908" y1="23.37" x2="41.529" y2="23.749" width="0.254" layer="1"/>
 <contactref element="Q2" pad="4"/>
-<wire x1="39.458" y1="25.908" x2="40.894" y2="24.472" width="0.254" layer="1"/>
-<wire x1="40.894" y1="24.472" x2="41.148" y2="24.13" width="0.254" layer="1"/>
+<wire x1="41.529" y1="23.749" x2="41.148" y2="24.13" width="0.254" layer="1"/>
+<wire x1="39.458" y1="25.908" x2="39.458" y2="25.82" width="0.254" layer="1"/>
+<wire x1="39.458" y1="25.82" x2="41.148" y2="24.13" width="0.254" layer="1"/>
 </signal>
 <signal name="CB">
 <contactref element="C5" pad="2"/>
@@ -2149,7 +2192,7 @@ design rules under a new name.</description>
 <wire x1="69.088" y1="38.862" x2="69.088" y2="33.909" width="0.4064" layer="16"/>
 <wire x1="69.342" y1="37.7562" x2="69.342" y2="38.608" width="0.4064" layer="1"/>
 <wire x1="69.342" y1="38.608" x2="68.834" y2="39.116" width="0.4064" layer="1"/>
-<via x="68.834" y="39.116" extent="1-16" drill="0.6"/>
+<via x="68.834" y="39.116" extent="1-16" drill="0.508"/>
 <wire x1="68.834" y1="39.116" x2="67.7418" y2="40.2082" width="0.4064" layer="16"/>
 <wire x1="49.657" y1="37.719" x2="49.657" y2="30.353" width="0.4064" layer="16"/>
 <wire x1="49.657" y1="30.353" x2="51.689" y2="28.321" width="0.4064" layer="16"/>
@@ -2200,12 +2243,12 @@ design rules under a new name.</description>
 <contactref element="U2" pad="19"/>
 <via x="64.135" y="20.193" extent="1-16" drill="0.508"/>
 <contactref element="JP4" pad="2"/>
-<wire x1="62.82800625" y1="23.85" x2="62.82800625" y2="21.37299375" width="0.3048" layer="1"/>
-<wire x1="62.82800625" y1="21.37299375" x2="64.135" y2="20.193" width="0.3048" layer="1"/>
+<wire x1="62.82800625" y1="23.85" x2="62.82800625" y2="21.49999375" width="0.3048" layer="1"/>
 <wire x1="66.4464" y1="34.8996" x2="66.4464" y2="21.2344" width="0.3048" layer="16"/>
 <wire x1="66.4464" y1="21.2344" x2="65.405" y2="20.193" width="0.3048" layer="16"/>
 <wire x1="65.405" y1="20.193" x2="64.135" y2="20.193" width="0.3048" layer="16"/>
 <wire x1="63.627" y1="37.719" x2="66.4464" y2="34.8996" width="0.3048" layer="16"/>
+<wire x1="62.82800625" y1="21.49999375" x2="64.135" y2="20.193" width="0.3048" layer="1"/>
 </signal>
 <signal name="SCL">
 <contactref element="U2" pad="18"/>
@@ -2267,7 +2310,7 @@ design rules under a new name.</description>
 <signal name="SCK">
 <contactref element="JP6" pad="3"/>
 <contactref element="U2" pad="9"/>
-<via x="67.056" y="20.701" extent="1-16" drill="0.6"/>
+<via x="67.056" y="20.701" extent="1-16" drill="0.508"/>
 <wire x1="67.056" y1="20.701" x2="67.056" y2="31.242" width="0.3048" layer="16"/>
 <wire x1="67.056" y1="31.242" x2="68.453" y2="32.639" width="0.3048" layer="16"/>
 <wire x1="68.453" y1="32.639" x2="70.358" y2="32.639" width="0.3048" layer="16"/>
@@ -2452,7 +2495,7 @@ design rules under a new name.</description>
 <wire x1="52.254" y1="12.757" x2="52.959" y2="13.462" width="0.254" layer="1"/>
 <wire x1="52.959" y1="18.161" x2="52.959" y2="19.939" width="0.254" layer="16"/>
 <wire x1="52.959" y1="18.161" x2="52.959" y2="13.462" width="0.254" layer="1"/>
-<via x="55.626" y="22.606" extent="1-16" drill="0.6"/>
+<via x="55.626" y="22.606" extent="1-16" drill="0.508"/>
 <wire x1="55.626" y1="22.606" x2="57.782" y2="20.45" width="0.254" layer="1"/>
 <wire x1="57.782" y1="20.45" x2="58.62800625" y2="20.45" width="0.254" layer="1"/>
 </signal>
@@ -2516,13 +2559,13 @@ design rules under a new name.</description>
 <wire x1="61.011" y1="8.966" x2="61.011" y2="7.62" width="0.4064" layer="1"/>
 <wire x1="61.011" y1="8.966" x2="60.579" y2="9.398" width="0.4064" layer="1"/>
 <wire x1="60.579" y1="9.398" x2="60.579" y2="9.456" width="0.4064" layer="1"/>
-<wire x1="68.707" y1="16.002" x2="68.707" y2="12.573" width="0.3048" layer="16"/>
-<wire x1="68.707" y1="12.573" x2="61.7855" y2="5.6515" width="0.3048" layer="16"/>
-<via x="61.7855" y="5.6515" extent="1-16" drill="0.6"/>
+<wire x1="68.707" y1="16.002" x2="68.707" y2="12.7" width="0.3048" layer="16"/>
+<wire x1="68.707" y1="12.7" x2="61.7855" y2="5.7785" width="0.3048" layer="16"/>
+<via x="61.7855" y="5.7785" extent="1-16" drill="0.508"/>
 <wire x1="68.707" y1="16.002" x2="68.707" y2="18.415" width="0.254" layer="1"/>
 <wire x1="61.011" y1="6.299" x2="61.011" y2="7.62" width="0.3048" layer="1"/>
-<wire x1="61.011" y1="6.299" x2="61.6585" y2="5.6515" width="0.3048" layer="1"/>
-<wire x1="61.6585" y1="5.6515" x2="61.7855" y2="5.6515" width="0.3048" layer="1"/>
+<wire x1="61.011" y1="6.299" x2="61.5315" y2="5.7785" width="0.3048" layer="1"/>
+<wire x1="61.5315" y1="5.7785" x2="61.7855" y2="5.7785" width="0.3048" layer="1"/>
 </signal>
 <signal name="DRIVER-RESET">
 <contactref element="U2" pad="33"/>
@@ -2548,8 +2591,8 @@ design rules under a new name.</description>
 <polygon width="0.254" layer="1" isolate="0.381" thermals="no">
 <vertex x="24.892" y="9.017"/>
 <vertex x="24.892" y="17.907"/>
-<vertex x="30.353" y="17.907"/>
-<vertex x="30.353" y="16.891"/>
+<vertex x="30.226" y="17.907"/>
+<vertex x="30.226" y="17.018"/>
 <vertex x="34.036" y="13.208"/>
 <vertex x="34.036" y="10.795"/>
 <vertex x="29.972" y="10.795"/>
@@ -2724,9 +2767,9 @@ design rules under a new name.</description>
 <contactref element="U5" pad="3"/>
 <contactref element="U2" pad="22"/>
 <wire x1="60.42800625" y1="23.85" x2="58.87800625" y2="25.4" width="0.3048" layer="1"/>
-<via x="53.34" y="32.004" extent="1-16" drill="0.6"/>
+<via x="53.34" y="32.004" extent="1-16" drill="0.508"/>
 <wire x1="53.34" y1="32.004" x2="53.34" y2="30.93800625" width="0.3048" layer="16"/>
-<via x="58.87800625" y="25.4" extent="1-16" drill="0.6"/>
+<via x="58.87800625" y="25.4" extent="1-16" drill="0.508"/>
 <wire x1="58.87800625" y1="25.4" x2="53.34" y2="30.93800625" width="0.3048" layer="16"/>
 <wire x1="53.34" y1="32.004" x2="51.181" y2="34.163" width="0.3048" layer="1"/>
 <wire x1="51.181" y1="34.163" x2="45.1926" y2="34.163" width="0.3048" layer="1"/>
@@ -2736,7 +2779,7 @@ design rules under a new name.</description>
 <contactref element="U2" pad="1"/>
 <wire x1="53.213" y1="35.433" x2="56.642" y2="32.004" width="0.3048" layer="1"/>
 <wire x1="56.642" y1="32.004" x2="64.516" y2="32.004" width="0.3048" layer="1"/>
-<via x="64.516" y="32.004" extent="1-16" drill="0.6"/>
+<via x="64.516" y="32.004" extent="1-16" drill="0.508"/>
 <wire x1="64.643" y1="21.717" x2="64.008" y2="21.082" width="0.3048" layer="16"/>
 <wire x1="64.008" y1="21.082" x2="63.246" y2="21.082" width="0.3048" layer="16"/>
 <wire x1="63.246" y1="21.082" x2="62.738" y2="20.574" width="0.3048" layer="16"/>
@@ -2744,7 +2787,7 @@ design rules under a new name.</description>
 <wire x1="62.738" y1="19.558" x2="63.5" y2="18.796" width="0.3048" layer="16"/>
 <wire x1="63.5" y1="18.796" x2="64.262" y2="18.796" width="0.3048" layer="16"/>
 <wire x1="64.262" y1="18.796" x2="65.024" y2="19.558" width="0.3048" layer="16"/>
-<via x="66.421" y="18.923" extent="1-16" drill="0.6"/>
+<via x="66.421" y="18.923" extent="1-16" drill="0.508"/>
 <wire x1="67.31" y1="18.034" x2="67.31" y2="15.494" width="0.254" layer="1"/>
 <wire x1="67.31" y1="15.494" x2="68.754" y2="14.05" width="0.254" layer="1"/>
 <wire x1="68.754" y1="14.05" x2="70.22800625" y2="14.05" width="0.254" layer="1"/>
@@ -2780,7 +2823,7 @@ design rules under a new name.</description>
 <contactref element="SV2" pad="3"/>
 <wire x1="35.3314" y1="33.9852" x2="37.719" y2="36.3728" width="0.3048" layer="16"/>
 <wire x1="37.719" y1="36.3728" x2="37.719" y2="37.973" width="0.3048" layer="16"/>
-<via x="37.719" y="37.973" extent="1-16" drill="0.6"/>
+<via x="37.719" y="37.973" extent="1-16" drill="0.508"/>
 <wire x1="37.719" y1="37.973" x2="39.5926" y2="37.973" width="0.3048" layer="1"/>
 </signal>
 <signal name="GND">
@@ -2961,17 +3004,17 @@ design rules under a new name.</description>
 <via x="43.053" y="6.604" extent="1-16" drill="0.508"/>
 <wire x1="47.879" y1="32.5882" x2="47.879" y2="30.353" width="1.4224" layer="16"/>
 <via x="35.687" y="11.176" extent="1-16" drill="0.508"/>
-<via x="50.038" y="39.878" extent="1-16" drill="0.6"/>
-<via x="42.672" y="38.862" extent="1-16" drill="0.6"/>
-<via x="64.77" y="35.052" extent="1-16" drill="0.6"/>
-<via x="59.182" y="38.608" extent="1-16" drill="0.6"/>
+<via x="50.038" y="39.878" extent="1-16" drill="0.508"/>
+<via x="42.672" y="38.862" extent="1-16" drill="0.508"/>
+<via x="64.77" y="35.052" extent="1-16" drill="0.508"/>
+<via x="59.182" y="38.608" extent="1-16" drill="0.508"/>
 <contactref element="C17" pad="2"/>
 </signal>
 <signal name="RXD1">
 <contactref element="U2" pad="20"/>
 <contactref element="U5" pad="2"/>
-<via x="50.673" y="31.242" extent="1-16" drill="0.6"/>
-<via x="60.325" y="22.098" extent="1-16" drill="0.6"/>
+<via x="50.673" y="31.242" extent="1-16" drill="0.508"/>
+<via x="60.325" y="22.098" extent="1-16" drill="0.508"/>
 <wire x1="61.976" y1="22.86" x2="61.976" y2="23.79799375" width="0.3048" layer="1"/>
 <wire x1="61.976" y1="23.79799375" x2="62.02800625" y2="23.85" width="0.3048" layer="1"/>
 <wire x1="61.976" y1="22.86" x2="61.214" y2="22.098" width="0.3048" layer="1"/>
@@ -2989,10 +3032,10 @@ design rules under a new name.</description>
 <wire x1="61.22800625" y1="23.85" x2="61.214" y2="23.86400625" width="0.3048" layer="1"/>
 <wire x1="61.214" y1="23.86400625" x2="61.214" y2="24.638" width="0.3048" layer="1"/>
 <wire x1="61.214" y1="24.638" x2="60.198" y2="25.654" width="0.3048" layer="1"/>
-<via x="60.198" y="25.654" extent="1-16" drill="0.6"/>
+<via x="60.198" y="25.654" extent="1-16" drill="0.508"/>
 <wire x1="60.198" y1="25.654" x2="54.864" y2="30.988" width="0.3048" layer="16"/>
 <wire x1="54.864" y1="30.988" x2="54.864" y2="35.56" width="0.3048" layer="16"/>
-<via x="54.864" y="35.56" extent="1-16" drill="0.6"/>
+<via x="54.864" y="35.56" extent="1-16" drill="0.508"/>
 <wire x1="54.864" y1="35.56" x2="54.356" y2="36.068" width="0.3048" layer="1"/>
 <wire x1="54.356" y1="36.068" x2="46.99" y2="36.068" width="0.3048" layer="1"/>
 <wire x1="46.99" y1="36.068" x2="46.355" y2="36.703" width="0.3048" layer="1"/>
@@ -3062,34 +3105,53 @@ design rules under a new name.</description>
 <approved hash="18,30,e6e1eb57bd57b0e1"/>
 <approved hash="18,30,abef7485807353e6"/>
 <approved hash="18,30,747c7443a443a47c"/>
-<approved hash="19,1,d83b24babd8b17a5"/>
+<approved hash="5,1,749c19871cffe1a9"/>
+<approved hash="5,1,efc09c8d99a268b6"/>
+<approved hash="5,1,74ac19b71ce5e1d1"/>
+<approved hash="5,1,efd09c9d99ce68dc"/>
+<approved hash="5,1,c9607268b2a471ad"/>
+<approved hash="5,1,b9ec64a789c67cc0"/>
+<approved hash="5,1,60b409a9e48bb7cf"/>
 <approved hash="19,1,7389cf1142070cea"/>
+<approved hash="19,1,d83b24babd8b17a5"/>
 <approved hash="19,1,cf30bb88b814ccac"/>
 <approved hash="19,1,d030a488b88ecc36"/>
-<approved hash="19,1,71d52ead2da372db"/>
-<approved hash="19,1,7617296f2a57752f"/>
-<approved hash="19,1,4813176b15974aef"/>
-<approved hash="19,1,a6151b6d19aea4d6"/>
-<approved hash="19,1,98112569266e9b16"/>
-<approved hash="19,1,9fd322ab219a9ce2"/>
-<approved hash="19,1,2a11b969ba512929"/>
-<approved hash="19,1,2dd3beabbda52edd"/>
-<approved hash="19,1,1415876d859116e9"/>
-<approved hash="19,1,56101368118954f1"/>
-<approved hash="19,1,6fd62aae29bd6cc5"/>
-<approved hash="19,1,68142d6c2e496b31"/>
-<approved hash="19,1,71172e6f2a57752f"/>
 <approved hash="19,1,6e35314d2fc370bb"/>
 <approved hash="19,1,73d52cad2b2b7453"/>
-<approved hash="19,1,9dd320ab27129a6a"/>
+<approved hash="19,1,71172e6f2a57752f"/>
 <approved hash="19,1,9f112269266e9b16"/>
+<approved hash="19,1,9dd320ab27129a6a"/>
 <approved hash="19,1,80333d4b23fa9e82"/>
 <approved hash="19,1,2d11be69ba512929"/>
-<approved hash="19,1,2fd3bcabbb2d2855"/>
 <approved hash="19,1,3233a14bbfc52cbd"/>
+<approved hash="19,1,2fd3bcabbb2d2855"/>
 <approved hash="19,1,6dd628ae2f356a4d"/>
 <approved hash="19,1,7036354e2bdd6ea5"/>
 <approved hash="19,1,6f142a6c2e496b31"/>
+<approved hash="19,1,7617296f2a57752f"/>
+<approved hash="19,1,4813176b15974aef"/>
+<approved hash="19,1,71d52ead2da372db"/>
+<approved hash="19,1,a6151b6d19aea4d6"/>
+<approved hash="19,1,9fd322ab219a9ce2"/>
+<approved hash="19,1,98112569266e9b16"/>
+<approved hash="19,1,2dd3beabbda52edd"/>
+<approved hash="19,1,1415876d859116e9"/>
+<approved hash="19,1,2a11b969ba512929"/>
+<approved hash="19,1,56101368118954f1"/>
+<approved hash="19,1,6fd62aae29bd6cc5"/>
+<approved hash="19,1,68142d6c2e496b31"/>
+<approved hash="19,1,b333cdcbd3bdad45"/>
+<approved hash="19,1,ac11d2e9d629a8d1"/>
+<approved hash="19,1,aed3d02bd755a9ad"/>
+<approved hash="19,1,4ed7282f2fa94951"/>
+<approved hash="19,1,533735cf2b414db9"/>
+<approved hash="19,1,4c152aed2ed5482d"/>
+<approved hash="19,1,52dc402447a3555b"/>
+<approved hash="19,1,501e42e646df5427"/>
+<approved hash="19,1,4f3c5dc4434b51b3"/>
+<approved hash="19,1,101142e946ce1436"/>
+<approved hash="19,1,12d3402b47b2154a"/>
+<approved hash="19,1,0f335dcb435a11a2"/>
 <approved hash="19,1,ab11d5e9d629a8d1"/>
 <approved hash="19,1,acd3d22bd1ddaf25"/>
 <approved hash="19,1,9515ebede9e99711"/>
@@ -3102,25 +3164,13 @@ design rules under a new name.</description>
 <approved hash="19,1,29157bed790e2bf6"/>
 <approved hash="19,1,10d3422b413a13c2"/>
 <approved hash="19,1,171145e946ce1436"/>
-<approved hash="19,1,b333cdcbd3bdad45"/>
-<approved hash="19,1,aed3d02bd755a9ad"/>
-<approved hash="19,1,ac11d2e9d629a8d1"/>
-<approved hash="19,1,4ed7282f2fa94951"/>
-<approved hash="19,1,533735cf2b414db9"/>
-<approved hash="19,1,4c152aed2ed5482d"/>
-<approved hash="19,1,52dc402447a3555b"/>
-<approved hash="19,1,4f3c5dc4434b51b3"/>
-<approved hash="19,1,501e42e646df5427"/>
-<approved hash="19,1,101142e946ce1436"/>
-<approved hash="19,1,12d3402b47b2154a"/>
-<approved hash="19,1,0f335dcb435a11a2"/>
-<approved hash="5,1,efc09c8d99a268b6"/>
-<approved hash="5,1,749c19871cffe1a9"/>
-<approved hash="5,1,efd09c9d99ce68dc"/>
-<approved hash="5,1,74ac19b71ce5e1d1"/>
-<approved hash="5,1,c9607268b2a471ad"/>
-<approved hash="5,1,60b409a9e48bb7cf"/>
-<approved hash="5,1,b9ec64a789c67cc0"/>
+<approved hash="5,1,8e11b57ff77fcc11"/>
+<approved hash="5,1,1a572b36cf36fe57"/>
+<approved hash="5,1,bdd0b208f008ffd0"/>
+<approved hash="5,1,9d5cac36b636875c"/>
+<approved hash="5,1,69453c487b215aa1"/>
+<approved hash="5,1,8bd38f88f188f5d3"/>
+<approved hash="5,1,557953a4c3a4c579"/>
 </errors>
 </board>
 </drawing>
