@@ -11989,7 +11989,9 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DIODE"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -12007,7 +12009,9 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <connect gate="G$1" pin="S" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="NMOS"/>
+</technology>
 </technologies>
 </device>
 </devices>

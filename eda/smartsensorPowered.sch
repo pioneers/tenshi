@@ -4057,7 +4057,9 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DIODE"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -4075,7 +4077,9 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <connect gate="G$1" pin="S" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="NMOS"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -4353,26 +4357,26 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="SUPPLY6" library="pie" deviceset="GND" device=""/>
 <part name="TP1" library="pie" deviceset="TEST-POINT" device="2"/>
 <part name="SUPPLY10" library="pie" deviceset="GND" device=""/>
-<part name="Q1" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD"/>
-<part name="D4" library="pie" deviceset="DIODE" device="SMA-ALT"/>
+<part name="Q1" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
+<part name="D4" library="pie" deviceset="DIODE" device="SMA-ALT" value="SS16"/>
 <part name="JP1" library="pie" deviceset="M03" device="1X03-MTA"/>
 <part name="SJ1" library="pie" deviceset="SOLDERJUMPER" device="NO"/>
 <part name="R2" library="pie" deviceset="R-US_" device="R0603" value="1k"/>
 <part name="SUPPLY7" library="pie" deviceset="GND" device=""/>
-<part name="Q2" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD"/>
-<part name="D1" library="pie" deviceset="DIODE" device="SMA-ALT"/>
+<part name="Q2" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
+<part name="D1" library="pie" deviceset="DIODE" device="SMA-ALT" value="SS16"/>
 <part name="JP2" library="pie" deviceset="M03" device="1X03-MTA"/>
 <part name="SJ2" library="pie" deviceset="SOLDERJUMPER" device="NO"/>
 <part name="R3" library="pie" deviceset="R-US_" device="R0603" value="1k"/>
 <part name="SUPPLY8" library="pie" deviceset="GND" device=""/>
-<part name="Q3" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD"/>
-<part name="D2" library="pie" deviceset="DIODE" device="SMA-ALT"/>
+<part name="Q3" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
+<part name="D2" library="pie" deviceset="DIODE" device="SMA-ALT" value="SS16"/>
 <part name="JP3" library="pie" deviceset="M03" device="1X03-MTA"/>
 <part name="SJ3" library="pie" deviceset="SOLDERJUMPER" device="NO"/>
 <part name="R4" library="pie" deviceset="R-US_" device="R0603" value="1k"/>
 <part name="SUPPLY9" library="pie" deviceset="GND" device=""/>
-<part name="Q4" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD"/>
-<part name="D3" library="pie" deviceset="DIODE" device="SMA-ALT"/>
+<part name="Q4" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
+<part name="D3" library="pie" deviceset="DIODE" device="SMA-ALT" value="SS16"/>
 <part name="JP4" library="pie" deviceset="M03" device="1X03-MTA"/>
 <part name="SJ4" library="pie" deviceset="SOLDERJUMPER" device="NO"/>
 <part name="R5" library="pie" deviceset="R-US_" device="R0603" value="1k"/>

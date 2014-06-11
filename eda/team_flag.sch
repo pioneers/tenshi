@@ -3526,10 +3526,8 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 A collection of parts and footprints made for the PiE Robotics Competition.&lt;br/&gt;&lt;br/&gt;
 (c) Pioneers in Engineering and Tau Beta Pi CA-A, UC Berkeley.</description>
 <packages>
-<package name="SOT23-3-LOGIC">
-<description>SOT23-3 Package, Logic-level MOSFET
-
-&lt;p&gt;Source: http://www.diodes.com/datasheets/DMN65D8L.pdf</description>
+<package name="SOT23-3">
+<description>SOT23-3 Package</description>
 <wire x1="1.4224" y1="0.6604" x2="1.4224" y2="-0.6604" width="0.1524" layer="51"/>
 <wire x1="1.4224" y1="-0.6604" x2="-1.4224" y2="-0.6604" width="0.1524" layer="51"/>
 <wire x1="-1.4224" y1="-0.6604" x2="-1.4224" y2="0.6604" width="0.1524" layer="51"/>
@@ -3541,10 +3539,9 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <smd name="3" x="0" y="1.1" dx="0.8" dy="0.9" layer="1"/>
 <smd name="2" x="0.95" y="-1" dx="0.8" dy="0.9" layer="1"/>
 <smd name="1" x="-0.95" y="-1" dx="0.8" dy="0.9" layer="1"/>
-<text x="-1.3335" y="1.778" size="0.4064" layer="25" font="vector">&gt;NAME</text>
+<text x="-0.8255" y="1.778" size="0.4064" layer="25" font="vector">&gt;NAME</text>
 <text x="-1.016" y="-0.1905" size="0.4064" layer="27" font="vector">&gt;VALUE</text>
 <rectangle x1="-1.524" y1="-1.778" x2="1.524" y2="1.778" layer="39"/>
-<text x="0.889" y="0.9525" size="0.8128" layer="51" font="vector" ratio="12">L</text>
 </package>
 <package name="LED5MM-NOFLAT">
 <wire x1="2.54" y1="-1.905" x2="2.54" y2="1.905" width="0.254" layer="21" curve="-286.260205" cap="flat"/>
@@ -5901,15 +5898,13 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="MOSFET-LOGIC-NCHANNEL" prefix="QL">
-<description>&lt;b&gt;N-Type Logic-Level MOSFET, SOT23-3 Package&lt;/b&gt;
-
-&lt;p&gt;Logic-level MOSFET with low threshold voltage, used on Team Flag.</description>
+<deviceset name="MOSFET-NCHANNEL" prefix="Q">
+<description>N-Type MOSFET, SOT23-3 Package</description>
 <gates>
 <gate name="G$1" symbol="MOSFET-NCHANNEL" x="0" y="0"/>
 </gates>
 <devices>
-<device name="SMD" package="SOT23-3-LOGIC">
+<device name="SMD" package="SOT23-3">
 <connects>
 <connect gate="G$1" pin="D" pad="3"/>
 <connect gate="G$1" pin="G" pad="1"/>
@@ -5917,7 +5912,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PIE_DIGIKEY-PN" value="DMN65D8L-7DICT-ND" constant="no"/>
+<attribute name="PIE-INT-REF-NUM" value="NMOS"/>
 </technology>
 </technologies>
 </device>
@@ -7343,15 +7338,15 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <part name="LED2" library="pie" deviceset="LED" device="LED5MM-NOFLAT"/>
 <part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="200"/>
 <part name="R2" library="rcl" deviceset="R-US_" device="R0603" value="200"/>
-<part name="Q1" library="pie" deviceset="MOSFET-LOGIC-NCHANNEL" device="SMD"/>
-<part name="Q2" library="pie" deviceset="MOSFET-LOGIC-NCHANNEL" device="SMD"/>
+<part name="Q1" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
+<part name="Q2" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
 <part name="SUPPLY1" library="pie" deviceset="GND" device=""/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Jared P., Aravind K., Sumita G."/>
 <attribute name="REVISION" value="C"/>
 </part>
-<part name="R3" library="rcl" deviceset="R-US_" device="R0603" value="10K"/>
-<part name="R4" library="rcl" deviceset="R-US_" device="R0603" value="10K"/>
+<part name="R3" library="rcl" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="R4" library="rcl" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="U1" library="pie" deviceset="ISL83491" device="SOIC"/>
 <part name="U2" library="pie" deviceset="ATTINY1634" device=""/>
 <part name="U$3" library="pie" deviceset="5V" device=""/>

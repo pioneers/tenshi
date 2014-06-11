@@ -341,4 +341,21 @@
                 distributor:    DigiKey
                 distributor_pn: ATTINY1634-SU-ND
                 notes:          Substituting 1634R is OK; MU vs. MUR is irrelevant
-
+"NMOS":
+    "SOT23-3":
+        "IRFML8244":
+            primary_part:
+                mfg:            International Rectifier
+                mfg_pn:         IRFML8244TRPBF
+                distributor:    DigiKey
+                distributor_pn: IRFML8244TRPBFCT-ND
+                notes:          Substituting with equal or higher-rated part OK.
+"DIODE":
+    "SMA-DIODE_ALT":
+        "SS16":
+            primary_part:
+                mfg:            Vishay Semiconductor Diodes Division
+                mfg_pn:         SS16-E3/61T
+                distributor:    DigiKey
+                distributor_pn: SS16-E3/61TGICT-ND
+                notes:          Substituting with equal or higher-rated part OK.
