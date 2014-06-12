@@ -6,11 +6,16 @@
 #include "inc/task.h"
 
 static volatile uint8_t led_driver_current_mode = 0;
+static volatile uint8_t led_driver_fixed_pattern = 0;  // The states of the
+                                                       // LEDs that don't flash
+static volatile uint8_t led_driver_fixed_mask = 0;  // The LEDs that don't flash
 
 #define LED_YELLOW    0b0001
 #define LED_BLUE      0b0010
 #define LED_GREEN     0b0100
 #define LED_RED       0b1000
+
+#define LED_TICK_TIME 100  // 250
 
 typedef struct tag_led_driver_pattern_entry {
   uint8_t led_states;
@@ -70,6 +75,20 @@ static led_driver_pattern driver_patterns[] = {
         .num_ticks = 1,
       },
     },
+  }, {
+    // PATTERN_JUST_RED
+    // Just red flashes
+    .len = 2,
+    .entries =
+    (led_driver_pattern_entry[]) {
+      {
+        .led_states = LED_RED,
+        .num_ticks = 1,
+      }, {
+        .led_states = 0,
+        .num_ticks = 1,
+      },
+    },
   },
 };
 
@@ -123,6 +142,10 @@ static portTASK_FUNCTION_PROTO(led_driver_task, pvParameters) {
     // Set/clear the appropriate LEDs
     uint8_t led_states = driver_patterns[current_led_pattern]
       .entries[pattern_step_index].led_states;
+    led_states &= ~led_driver_fixed_mask;
+    led_states |= led_driver_fixed_pattern;
+    if (button_driver_get_button_state(1)) led_states = ~led_states;
+
     if (led_states & LED_YELLOW) {
       GPIO_BANK(PINDEF_YELLOW_LED)->BSRRL =
         (1 << GPIO_PIN(PINDEF_YELLOW_LED));
@@ -164,7 +187,7 @@ static portTASK_FUNCTION_PROTO(led_driver_task, pvParameters) {
     }
 
     // Sleep for 1/4 second (tick time for LED patterns)
-    vTaskDelay(250 / portTICK_RATE_MS);
+    vTaskDelay(LED_TICK_TIME / portTICK_RATE_MS);
   }
 }
 
@@ -180,4 +203,16 @@ void led_driver_set_mode(uint8_t mode) {
 
 uint8_t led_driver_get_mode(void) {
   return led_driver_current_mode;
+}
+
+// TODO(cduck): Make thread safe
+void led_driver_set_fixed(uint8_t pattern, uint8_t mask) {
+  led_driver_fixed_pattern = pattern & mask;
+  led_driver_fixed_mask = mask;
+}
+uint8_t led_driver_get_fixed_pattern() {
+  return led_driver_fixed_pattern;
+}
+uint8_t led_driver_get_fixed_mask() {
+  return led_driver_fixed_mask;
 }
