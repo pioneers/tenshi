@@ -23,6 +23,9 @@ extern int uart_serial_send_status(uart_serial_module *module,
   void *transaction);
 extern int uart_serial_send_finish(uart_serial_module *module,
   void *transaction);
+
+extern int uart_serial_send_and_finish_data(uart_serial_module *module,
+  uint8_t *data, size_t len);
 extern uint8_t *uart_serial_receive_packet(uart_serial_module *module,
   size_t *len_out, int shouldBlock);
 

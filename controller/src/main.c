@@ -18,6 +18,7 @@
 #include "inc/core_cmInstr.h"
 #include "inc/task.h"
 #include "inc/xbee_framing.h"
+#include "inc/smartsensor/smartsensor.h"
 
 #include "legacy_piemos_framing.h"   // NOLINT(build/include)
 #include "ngl_types.h"   // NOLINT(build/include)
@@ -276,6 +277,11 @@ int main(int argc, char **argv) {
   smartsensor2_init();
   smartsensor3_init();
   smartsensor4_init();
+
+  xTaskCreate(smartSensorTX, (const signed char *)"SensorTX", 2048, NULL,
+    tskIDLE_PRIORITY, NULL);
+  xTaskCreate(smartSensorRX, (const signed char *)"SensorRX", 2048, NULL,
+    tskIDLE_PRIORITY, NULL);
 
   // Setup radio
   radio_driver_init();

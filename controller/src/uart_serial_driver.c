@@ -116,6 +116,13 @@ const int dma_interrupt_flag_shift[] = {
   22,
 };
 
+void uart_serial_set_length_finder(uart_serial_module *_module,
+  ssize_t (*length_finder_fn)(uart_serial_module *, uint8_t)) {
+  uart_serial_module_private *module = (uart_serial_module_private *)_module;
+
+  module->length_finder_fn = length_finder_fn;
+}
+
 static portTASK_FUNCTION_PROTO(uart_tx_task, pvParameters) {
   uart_serial_module_private *module =
     (uart_serial_module_private *)pvParameters;
@@ -289,6 +296,20 @@ int uart_serial_send_finish(uart_serial_module *module, void *_transaction) {
   return 1;
 }
 
+// TODO(cduck): This function stays in an infinite loop.
+// Copy the function code to use.
+int uart_serial_send_and_finish_data(uart_serial_module *module, uint8_t *data,
+  size_t len) {
+  // TODO(rqou): Asynchronous?
+  // TODO(rqou): Error handling
+  void *txn = uart_serial_send_data(module, data, len);
+  while ((uart_serial_send_status(module, txn) !=
+      UART_SERIAL_SEND_DONE) &&
+      (uart_serial_send_status(module, txn) !=
+        UART_SERIAL_SEND_ERROR)) {}
+  return uart_serial_send_finish(module, txn);
+}
+
 uint8_t *uart_serial_receive_packet(uart_serial_module *module,
   size_t *len_out, int shouldBlock) {
   uart_txn *txn;
@@ -451,28 +472,42 @@ void uart_serial_handle_uart_interrupt(uart_serial_module *_module) {
     // NOTE: Watch concurrency issues here. There may be issues unless the
     // DMA and this interrupt are at the same priority.
     if (module->currentRxTxn) {
-      module->currentRxTxn->data[module->currentRxTxn->len++] = dr;
       ssize_t possible_len = module->length_finder_fn(_module, dr);
-      if (possible_len != -1) {
-        // We know how much more we want to get
+      switch (possible_len) {
+        case  0:
+        case -1:
+          // Don't know the length
+          module->currentRxTxn->data[module->currentRxTxn->len++] = dr;
+          break;
+        case -2:
+          // Just recieved the start byte of the packet
+          module->currentRxTxn->len = 1;
+          module->currentRxTxn->data[0] = dr;
+          break;
+        default:
+          module->currentRxTxn->data[module->currentRxTxn->len++] = dr;
+          if (possible_len < 0)break;  // Shouldn't happen.
 
-        if (possible_len + module->currentRxTxn->len > UART_RX_BUFFER_SIZE) {
-          // TODO(rqou): Report this error!
-          // TODO(rqou): Can this break length finders?
-          module->currentRxTxn->len = 0;
-          return;
-        }
+          // We know how much more we want to get
+          if (possible_len + module->currentRxTxn->len
+               > UART_RX_BUFFER_SIZE) {
+            // TODO(rqou): Report this error!
+            // TODO(rqou): Can this break length finders?
+            module->currentRxTxn->len = 0;
+            return;
+          }
 
-        // Turn off the RXNE IRQ
-        periph_base->CR1 &= ~USART_CR1_RXNEIE;
-        // Turn on the RX DMA
-        periph_base->CR3 |= USART_CR3_DMAR;
-        // Do the DMA
-        dma_stream_rx->M0AR =
-          (uint32_t)(module->currentRxTxn->data + module->currentRxTxn->len);
-        module->currentRxTxn->len += possible_len;
-        dma_stream_rx->NDTR = possible_len;
-        dma_stream_rx->CR |= DMA_SxCR_EN;
+          // Turn off the RXNE IRQ
+          periph_base->CR1 &= ~USART_CR1_RXNEIE;
+          // Turn on the RX DMA
+          periph_base->CR3 |= USART_CR3_DMAR;
+          // Do the DMA
+          dma_stream_rx->M0AR =
+            (uint32_t)(module->currentRxTxn->data + module->currentRxTxn->len);
+          module->currentRxTxn->len += possible_len;
+          dma_stream_rx->NDTR = possible_len;
+          dma_stream_rx->CR |= DMA_SxCR_EN;
+          break;
       }
     }
   }

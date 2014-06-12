@@ -4,8 +4,13 @@
 #include "inc/i2c_master.h"
 #include "inc/uart_serial_driver.h"
 
+#define SMART_SENSOR_BAUD 9600  // 1000000
+
 extern i2c_master_module *i2c1_driver;
 extern void i2c1_init(void);
+
+
+extern uart_serial_module *ssBusses[4];
 
 // UART4
 extern uart_serial_module *smartsensor_1;
