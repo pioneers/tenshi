@@ -15,9 +15,9 @@
 // specific language governing permissions and limitations
 // under the License
 
-#define F_CPU 8000000UL  // AVR clock frequency in Hz, used by util/delay.h
-#define SMART_BAUD 9600UL  // Smartsensor baud rate
-#define SMART_ID_LEN 8  // Length of smartsensor personal ID
+#define F_CPU 8000000  // AVR clock frequency in Hz, used by util/delay.h
+#define SMART_BAUD 9600  // Smartsensor baud rate
+#define SMART_ID_LEN 8   // Length of smartsensor personal ID
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -36,20 +36,21 @@
 
 
 // ****Forward declaration of functions****
-void uart_init (long BUADRATE);
-void USART_Transmit( uint8_t data );
+void uart_init(uint32_t BUADRATE);
+void USART_Transmit(uint8_t data);
 void serialPrint(uint8_t *StringOfCharacters, size_t len);
 void LF();
 void CR();
 void init_sensor_io();
-int compare_ID();
+uint8_t compare_ID();
 uint8_t make_flags(int canIn, int pushPull, int openDr, int outAL);
+void decode_active_packet(uint8_t data, size_t len);
 void receive_and_echo();  // TODO(tobinsarah): implement working r&e
 
 // ****Sensor Personal Data*** // to be a struct later.
 uint8_t smartID[8] = {0, 1, 2, 3, 4, 5, 0x42, 7};
 uint8_t my_frame = 0x11;  // TODO(tobinsarah): allow for multiple frames
-uint16_t sample_rate = 0x0100;  //hardcoded for now;
+uint32_t sample_rate = 0x0100;  // hardcoded for now;
 
 
 // ****Global vars****
@@ -88,7 +89,11 @@ int main() {
           cobs_encode(encodedBuffer+3, decodedBuffer + 8, dataLen - 9);
           serialPrint(encodedBuffer, (dataLen - 5));
         }
-      } else if (packetType < 0x80 && packetType == my_frame) {
+      } else if (packetType < 0x80 && packetType == my_frame) {  // if active
+        // read from controller (Digital Out)
+        decode_active_packet(rxBuffer, dataLen);
+
+        // reply to controller
         encodedBuffer[0] = 0x00;
         encodedBuffer[1] = 0x06;  // reply len: hardcoded for DIO
         decodedBuffer[0] = make_flags(1, 0, 0, 0);
@@ -105,7 +110,7 @@ int main() {
 
 
 // function to initialize UART
-void uart_init (long Desired_Baudrate) {
+void uart_init(uint32_t Desired_Baudrate) {
   // If its not already set, calculate the baud rate dynamically,
   // based on current microcontroller speed and user specified
   // desired baudrate.
@@ -165,11 +170,11 @@ void init_sensor_io() {
   uart_init(SMART_BAUD);
 }
 
-
-int compare_ID() {
-  int val = 1;
-  for (int i = 0; i < SMART_ID_LEN; i ++) {
-      val &= (smartID[i] == decodedBuffer[i]);
+// For ping-pong packet, check if its my ID.
+uint8_t compare_ID() {
+  uint8_t val = 1;
+  for (uint8_t i; i < SMART_ID_LEN; i ++) {
+    val &= (smartID[i] == decodedBuffer[i]);
   }
   return val;
 }
@@ -181,13 +186,26 @@ int compare_ID() {
 //   bit3 of flags -- can output open-drain
 //   bit4 of flags -- output is active low
 uint8_t make_flags(int canIn, int pushPull, int openDr, int outAL) {
-  uint8_t flagbyte = 0;
-  flagbyte |= (uint8_t) ((canIn & 1)
-           | ((PORTC & (1 << PINC1)) >> PINC1)
-           | ((pushPull & 1) << 2)
-           | ((openDr & 1) << 3)
-           | ((outAL & 1) << 4));
+  uint8_t flagbyte = (uint8_t) (canIn & 1);
+  flagbyte |= ((!!(PINC & (1 << PINC1))) << 1);
+  flagbyte |= ((pushPull & 1) << 2);
+  flagbyte |= ((openDr & 1) << 3);
+  flagbyte |= ((outAL & 1) << 4);
   return flagbyte;
+}
+
+// assemble flags byte for DIO
+//   bit0 of flags -- can input
+//   bit1 of flags -- input is active low
+//   bit2 of flags -- can output push-pull
+//   bit3 of flags -- can output open-drain
+//   bit4 of flags -- output is active low
+void decode_active_packet(uint8_t data, size_t len) {
+  // currently assuming digital
+    PORTC |= (!!(data & 0x01)) << PC1; // UPDATE IN0
+    PORTB |= (!!(data & 0x01)) << PB3; // UPDATE IN1
+    PORTB |= (!!(data & 0x01)) << PB1; // UPDATE IN2
+    PORTB |= (!!(data & 0x01)) << PB2; // UPDATE IN3
 }
 
 // interrupt for recieve and echo one byte.
@@ -210,10 +228,9 @@ ISR(USART0__RX_vect) {
       }
     }
   } else if (rxBufferFlag == 0x02) {  // looking for len
-    TOGGLE_IN3;
     dataLen = receivedByte;
-    if (rxBufferFlag < 0x80 && !(receivedByte & 0x80)) {
-
+    if (rxBufferFlag < 0x80) {  // if active packet
+      dataLen |= 0x7F;  // remove in-band signalling from packet len
     } else if (dataLen < 3) {
       // TODO(tobinsarah): deal with too short packets;
     } else if (dataLen == 3) {
@@ -226,7 +243,6 @@ ISR(USART0__RX_vect) {
   } else if (rxBufferIndex < dataLen - 1) {
     // TODO(tobinsarah): deal with dataLen <= 3
     // TODO(tobinsarah): cobs encode in place so you can use one less buffer
-    TOGGLE_IN2;
     rxBuffer[rxBufferIndex] = receivedByte;
     rxBufferFlag++;
     rxBufferIndex++;
