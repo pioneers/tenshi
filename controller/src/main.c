@@ -23,6 +23,15 @@
 #include "legacy_piemos_framing.h"   // NOLINT(build/include)
 #include "ngl_types.h"   // NOLINT(build/include)
 
+#include "inc/lua_interface.h"
+
+
+// #define TEST_STATIC_LUA  "while 1 do\n"\
+                         "   set_led(1)\n"\
+                         "   set_led(2)\n"\
+                         "end"  /* NOLINT(*) */
+
+
 uint8_t *code_buffer;
 uint32_t code_buffer_len;
 
@@ -52,7 +61,18 @@ static int lua_get_sensor(lua_State *L) {
 static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
   (void) pvParameters;
 
+  vTaskDelay(500 / portTICK_RATE_MS);
+
+  led_driver_set_mode(PATTERN_JUST_RED);
+  led_driver_set_fixed(0b100, 0b111);
+
+  #ifndef TEST_STATIC_LUA
   if (*(uint32_t *)(code_buffer) == NGL_PACKAGE_MAGIC) {
+  #else
+  if (0) {
+  #endif
+    led_driver_set_mode(PATTERN_JUST_RED);
+    led_driver_set_fixed(0b110, 0b111);
     // Load Angelic blob
     ngl_buffer *program = ngl_buffer_alloc(code_buffer_len);
     // TODO(rqou): This is dumb.
@@ -64,13 +84,13 @@ static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
     while (1) {}
   } else {
     // Load Lua blob
-
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
 
     // Register builtins
     lua_register(L, "set_motor", lua_set_motor);
     lua_register(L, "get_sensor", lua_get_sensor);
+    lua_register(L, "set_led", lua_set_led);
 
     // Load the code blob into the Lua state
     const char *read_from_code_buffer(lua_State *L, void *data, size_t *size) {
@@ -84,7 +104,11 @@ static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
       }
     }
     int reader_state = 0;
-    lua_load(L, read_from_code_buffer, &reader_state, "<tenshi>", "b");
+    #ifndef TEST_STATIC_LUA
+      lua_load(L, read_from_code_buffer, &reader_state, "<tenshi>", "b");
+    #else
+      luaL_loadstring(L, TEST_STATIC_LUA);
+    #endif
     // TODO(rqou): Error handling?
     lua_pcall(L, 0, LUA_MULTRET, 0);
     // TODO(rqou): What to do here?
@@ -285,6 +309,13 @@ int main(int argc, char **argv) {
 
   // Setup radio
   radio_driver_init();
+
+  #ifdef TEST_STATIC_LUA
+  led_driver_set_mode(PATTERN_JUST_RED);
+  led_driver_set_fixed(0b000, 0b111);
+  xTaskCreate(angelicTask, "Angelic", 2048, NULL,
+              tskIDLE_PRIORITY, NULL);
+  #endif
 
   xTaskCreate(radioTask, "Radio", 2048, NULL, tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();
