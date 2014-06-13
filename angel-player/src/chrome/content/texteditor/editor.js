@@ -37,6 +37,7 @@ exports.init = function(_window) {
   ace = window.ace;
 
   editor = ace.edit("editor");
+  editor.getSession().setMode('ace/mode/lua');
 
   let robotApp = global_state.get('robot_application');
   editor.setValue(robotApp.text_code);
