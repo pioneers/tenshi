@@ -1,0 +1,9 @@
+#!/bin/bash -xe
+#
+# Runs a development version of angel-player using a copy of xulrunner from the
+# build directory
+#
+
+cd "$(dirname "$0")"/..
+
+./build/angel-player/angel-player.app/Contents/MacOS/xulrunner angel-player/src/application.ini -jsconsole -purgecaches
