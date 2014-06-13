@@ -1,11 +1,32 @@
 "RESISTOR-GENERIC":
     "R0603":
+        "1k":
+            primary_part:
+                mfg:            Rohm Semiconductor
+                mfg_pn:         MCR03ERTJ102
+                distributor:    DigiKey
+                distributor_pn: RHM1.0KCGTR-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
         "10k":
             primary_part:
                 mfg:            Yageo
                 mfg_pn:         RC0603JR-0710KL
                 distributor:    DigiKey
                 distributor_pn: 311-10KGRTR-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
+        "20k":
+            primary_part:
+                mfg:            Yageo
+                mfg_pn:         RC0603JR-0720KL
+                distributor:    DigiKey
+                distributor_pn: 311-20KGRTR-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
+        "39k":
+            primary_part:
+                mfg:            Yageo
+                mfg_pn:         RC0603JR-0739KL
+                distributor:    DigiKey
+                distributor_pn: 311-39KGRTR-ND
                 notes:          5% or better, power dissipation and temp. coeff. not critical
         "120":
             primary_part:

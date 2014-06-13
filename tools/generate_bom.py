@@ -7,6 +7,7 @@ import os
 import os.path
 import shutil
 import sys
+import re
 try:
     import yaml
 except ImportError:
@@ -19,6 +20,16 @@ def run_eagle_bom_ulp(infile, outfile, ulpfile):
         '-C', 'run %s %s; quit' % (ulpfile, outfile),
         infile,
         ])
+
+
+# Make values such as '2.2uF' generate both '2.2uF' and '2.2 uF' so that
+# we are not as dumb at matching values.
+def value_variant_heuristic(value):
+    matches = re.match('^([0-9.]+) ?([A-Za-z]+)$', value)
+    if matches is None:
+        return [value]
+    return [matches.group(1) + matches.group(2),
+            matches.group(1) + ' ' + matches.group(2)]
 
 
 def fill_bom_with_db_info(infile, outfile, partDb):
@@ -64,13 +75,18 @@ def fill_bom_with_db_info(infile, outfile, partDb):
 
             if packageInfo:
                 valueInfo = None
-                if value in packageInfo:
-                    valueInfo = packageInfo[value]
-                elif '*' in packageInfo:
+                if '*' in packageInfo:
                     valueInfo = packageInfo['*']
                 else:
-                    print("WARNING: Part %s does not have value '%s'" % (
-                        refDes, value))
+                    found_value = False
+                    for value_variant in value_variant_heuristic(value):
+                        if value_variant in packageInfo:
+                            valueInfo = packageInfo[value_variant]
+                            found_value = True
+                            break
+                    if not found_value:
+                        print("WARNING: Part %s does not have value '%s'" % (
+                            refDes, value))
 
                 if valueInfo:
                     # TODO(rqou): Alternates

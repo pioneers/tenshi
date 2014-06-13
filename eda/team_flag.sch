@@ -7345,8 +7345,8 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <attribute name="AUTHOR" value="Jared P., Aravind K., Sumita G."/>
 <attribute name="REVISION" value="C"/>
 </part>
-<part name="R3" library="rcl" deviceset="R-US_" device="R0603" value="10k"/>
-<part name="R4" library="rcl" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="R3" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="R4" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="U1" library="pie" deviceset="ISL83491" device="SOIC"/>
 <part name="U2" library="pie" deviceset="ATTINY1634" device=""/>
 <part name="U$3" library="pie" deviceset="5V" device=""/>
