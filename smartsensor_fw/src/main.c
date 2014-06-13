@@ -42,9 +42,12 @@ void serialPrint(uint8_t *StringOfCharacters, size_t len);
 void LF();
 void CR();
 void init_sensor_io();
-uint8_t compare_ID();
-uint8_t make_flags(int canIn, int pushPull, int openDr, int outAL);
-void decode_active_packet(uint8_t data, size_t len);
+uint8_t compare_ID(uint8_t *buffer);
+uint8_t make_flags(uint8_t canIn,
+                   uint8_t pushPull,
+                   uint8_t openDr,
+                   uint8_t outAL);
+void decode_active_packet(uint8_t *data, size_t len);
 void receive_and_echo();  // TODO(tobinsarah): implement working r&e
 
 // ****Sensor Personal Data*** // to be a struct later.
@@ -80,9 +83,11 @@ int main() {
   while (1) {
     if (rxBufferFlag == 0xFE) {  // if done receiving
       rxBufferFlag++;
-      if (packetType == 0xFE) {  // if pingpong type
+      if (dataLen >= 1) {
         cobs_decode(decodedBuffer, rxBuffer, dataLen);
-        if (compare_ID()) {
+      }
+      if (packetType == 0xFE) {  // if pingpong type
+        if (compare_ID(decodedBuffer)) {
           encodedBuffer[0] = 0x00;
           encodedBuffer[1] = 0xFE;
           encodedBuffer[2] = dataLen - 5;
@@ -91,16 +96,17 @@ int main() {
         }
       } else if (packetType < 0x80 && packetType == my_frame) {  // if active
         // read from controller (Digital Out)
-        decode_active_packet(rxBuffer, dataLen);
+        if (dataLen >= 2) decode_active_packet(decodedBuffer, dataLen-1);
 
         // reply to controller
         encodedBuffer[0] = 0x00;
-        encodedBuffer[1] = 0x06;  // reply len: hardcoded for DIO
-        decodedBuffer[0] = make_flags(1, 0, 0, 0);
-        decodedBuffer[1] = (uint8_t) (sample_rate);
-        decodedBuffer[2] = (uint8_t) (sample_rate >> 8);
-        cobs_encode(encodedBuffer + 2, decodedBuffer, 3);
-        serialPrint(encodedBuffer, 6);
+        encodedBuffer[1] = 4;  // reply len: hardcoded for DIO
+        decodedBuffer[0] = ((!!(PINC & (1 << PINC1))) << 0);
+        // make_flags(1, 0, 0, 0);
+        // decodedBuffer[1] = (uint8_t) (sample_rate);
+        // decodedBuffer[2] = (uint8_t) (sample_rate >> 8);
+        cobs_encode(encodedBuffer + 2, decodedBuffer, 1);
+        serialPrint(encodedBuffer, encodedBuffer[1]);
       }
       rxBufferFlag = 0;  // should be below if statemt
     }
@@ -154,6 +160,7 @@ void LF() {USART_Transmit(0x0A);}
 void CR() {USART_Transmit(0x0D);}
 
 // TODO(tobinsarah): allow configuration as input/output for each relevant pin
+// DDRxn: 1 --> output, 0 --> input
 void init_sensor_io() {
   // portA not used by board, so this should do nothing.
   PORTA = (0 << PA0) | (0 << PA1) | (0 << PA2);
@@ -165,16 +172,16 @@ void init_sensor_io() {
 
   // C1 sould be IN0
   PORTC = (0 << PC0) | (0 << PC1) | (0 << PC2);
-  DDRC = (1 << DDRC0) | (1 << DDRC2);
+  DDRC = (0 << DDRC0) | (0 << DDRC1) | (0 << DDRC2);
 
   uart_init(SMART_BAUD);
 }
 
 // For ping-pong packet, check if its my ID.
-uint8_t compare_ID() {
+uint8_t compare_ID(uint8_t *buffer) {
   uint8_t val = 1;
-  for (uint8_t i; i < SMART_ID_LEN; i ++) {
-    val &= (smartID[i] == decodedBuffer[i]);
+  for (uint8_t i = 0; i < SMART_ID_LEN; i++) {
+    val &= (smartID[i] == buffer[i]);
   }
   return val;
 }
@@ -185,7 +192,10 @@ uint8_t compare_ID() {
 //   bit2 of flags -- can output push-pull
 //   bit3 of flags -- can output open-drain
 //   bit4 of flags -- output is active low
-uint8_t make_flags(int canIn, int pushPull, int openDr, int outAL) {
+uint8_t make_flags(uint8_t canIn,
+                   uint8_t pushPull,
+                   uint8_t openDr,
+                   uint8_t outAL) {
   uint8_t flagbyte = (uint8_t) (canIn & 1);
   flagbyte |= ((!!(PINC & (1 << PINC1))) << 1);
   flagbyte |= ((pushPull & 1) << 2);
@@ -200,12 +210,14 @@ uint8_t make_flags(int canIn, int pushPull, int openDr, int outAL) {
 //   bit2 of flags -- can output push-pull
 //   bit3 of flags -- can output open-drain
 //   bit4 of flags -- output is active low
-void decode_active_packet(uint8_t data, size_t len) {
+void decode_active_packet(uint8_t *data, size_t len) {
+  if (data[0]) TOGGLE_IN1
+  if (len < 1) return;
   // currently assuming digital
-    PORTC |= (!!(data & 0x01)) << PC1; // UPDATE IN0
-    PORTB |= (!!(data & 0x01)) << PB3; // UPDATE IN1
-    PORTB |= (!!(data & 0x01)) << PB1; // UPDATE IN2
-    PORTB |= (!!(data & 0x01)) << PB2; // UPDATE IN3
+    PORTC = (PORTC & ~(1 << PC1)) | ((!!(data[0] & 1)) << PC1);  // UPDATE IN0
+    PORTB = (PORTB & ~(1 << PB3)) | ((!!(data[0] & 2)) << PB3);  // UPDATE IN1
+    PORTB = (PORTB & ~(1 << PB1)) | ((!!(data[0] & 4)) << PB1);  // UPDATE IN2
+    PORTB = (PORTB & ~(1 << PB2)) | ((!!(data[0] & 8)) << PB2);  // UPDATE IN3
 }
 
 // interrupt for recieve and echo one byte.
@@ -213,42 +225,46 @@ ISR(USART0__RX_vect) {
   // Fetch the received byte value into the variable "ByteReceived"
   receivedByte = UDR0;
   if (rxBufferFlag == 0xFE || rxBufferFlag == 0xFF) {
-    TOGGLE_IN0;
     return;
   } else if (receivedByte == 0x00) {  // if r 0x00 (whenever in Rmode)
     rxBufferFlag = 0x01;
+  } else if (rxBufferFlag == 0x00) {
+    // Nothing
   } else if (rxBufferFlag == 0x01) {  // looking for type
     packetType = receivedByte;
     rxBufferFlag++;
     // TODO(tobinsarah): proper logic for checking if its my frame
     if (packetType < 0x80) {  // if active packet
       // If not allowed frame and subchunk #s ???????
-      if (!((packetType & 0x3F) ^ my_frame)) {
+      if (((packetType & 0x3F) ^ my_frame)) {
         rxBufferFlag = 0;
       }
     }
   } else if (rxBufferFlag == 0x02) {  // looking for len
     dataLen = receivedByte;
-    if (rxBufferFlag < 0x80) {  // if active packet
-      dataLen |= 0x7F;  // remove in-band signalling from packet len
-    } else if (dataLen < 3) {
+    if (receivedByte < 0x80) {  // if active packet
+      dataLen &= 0x7F;  // remove in-band signalling from packet len
+    }
+    if (dataLen < 3) {
       // TODO(tobinsarah): deal with too short packets;
+      rxBufferFlag = 0;
     } else if (dataLen == 3) {
+      dataLen -= 3;
       rxBufferFlag = 0xFE;  // set to "done receiving" mode
     } else {
       dataLen -= 3;
       rxBufferIndex = 0;
       rxBufferFlag++;
     }
-  } else if (rxBufferIndex < dataLen - 1) {
-    // TODO(tobinsarah): deal with dataLen <= 3
-    // TODO(tobinsarah): cobs encode in place so you can use one less buffer
+  } else if (rxBufferFlag == 0x03) {
     rxBuffer[rxBufferIndex] = receivedByte;
-    rxBufferFlag++;
     rxBufferIndex++;
-  } else {
-    TOGGLE_IN1;
-    rxBuffer[rxBufferIndex] = receivedByte;
-    rxBufferFlag = 0xFE;
+    // TOGGLE_IN2
+    if (rxBufferIndex >= dataLen) {
+      // TODO(tobinsarah): deal with dataLen <= 3
+      // TODO(tobinsarah): cobs encode in place so you can use one less buffer
+      // TOGGLE_IN1;
+      rxBufferFlag = 0xFE;
+    }
   }
 }
