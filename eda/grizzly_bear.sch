@@ -6184,10 +6184,10 @@ W = angled&lt;p&gt;
 <part name="SUPPLY11" library="pie" deviceset="GND" device=""/>
 <part name="C9" library="pie" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 <part name="LED2" library="pie" deviceset="LED" device="0805" value="RED"/>
-<part name="LED3" library="pie" deviceset="LED" device="0805" value="GRN"/>
+<part name="LED3" library="pie" deviceset="LED" device="0805" value="GREEN"/>
 <part name="R8" library="pie" deviceset="R-US_" device="R0603" value="330"/>
 <part name="R7" library="pie" deviceset="R-US_" device="R0603" value="330"/>
-<part name="LED1" library="pie" deviceset="LED" device="0805" value="YEL"/>
+<part name="LED1" library="pie" deviceset="LED" device="0805" value="YELLOW"/>
 <part name="R6" library="pie" deviceset="R-US_" device="R0603" value="330"/>
 <part name="U$13" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY14" library="pie" deviceset="GND" device=""/>

@@ -4140,7 +4140,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="U3" library="pie" deviceset="LM1117" device="" value="3.3V"/>
 <part name="SUPPLY11" library="pie" deviceset="GND" device=""/>
 <part name="R6" library="pie" deviceset="R-US_" device="R0603" value="130"/>
-<part name="LED1" library="pie" deviceset="LED" device="0805"/>
+<part name="LED1" library="pie" deviceset="LED" device="0805" value="RED"/>
 <part name="SUPPLY12" library="pie" deviceset="GND" device=""/>
 <part name="3.3V" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
 <part name="U$13" library="pie" deviceset="3.3V" device=""/>
