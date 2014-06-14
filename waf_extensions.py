@@ -2,6 +2,8 @@ from collections import defaultdict
 from waflib.Build import BuildContext, CleanContext, \
     InstallContext, UninstallContext
 
+from waflib import Utils
+
 variants = defaultdict(set)
 cmds = defaultdict(set)
 
@@ -55,3 +57,18 @@ class sub_conf(object):
 
     def __exit__(self, *args):
         self.conf.setenv(self.old_env)
+
+
+def add_dependency(bld, tgt, src):
+    # Expand configuration variables (e.g.
+    # "${root}/tools" -> "/home/.../tenshi/tools")
+    tgt = Utils.subst_vars(tgt, bld.env)
+    src = Utils.subst_vars(src, bld.env)
+    # Handle paths relative the current wscript
+    src_node = bld.path.find_resource(src)
+    if src_node is None:
+        # Handle paths relative to the root and absolute paths.
+        src_node = bld.root.find_resource(src)
+    if src_node is None:
+        bld.fatal("Could not find manual dependency '{}'".format(src))
+    bld.add_manual_dependency(tgt, src_node)

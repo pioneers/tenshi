@@ -4,7 +4,7 @@ AVR_CROSS_COMPILER_C = 'avr-gcc'
 AVR_CROSS_COMPILER_CXX = 'avr-g++'
 
 import os.path
-from waf_extensions import declare_variants, sub_conf, run_all
+from waf_extensions import declare_variants, sub_conf, run_all, add_dependency
 declare_variants(['opt', 'noopt'], subdir='smartsensor_fw')
 
 
@@ -119,12 +119,6 @@ def build(bld):
             output_dir = os.path.join(bld.out_dir + "/artifacts/", bld.variant)
             return bld.root.make_node(output_dir).make_node(path)
 
-        def add_dependency(tgt, src):
-            src_node = bld.path.find_resource(src)
-            if src_node is None:
-                bld.fatal("Could not find manual dependency '{}'".format(src))
-            bld.add_manual_dependency(tgt, src_node)
-
         bld(
             rule='${root}/tools/inject-version-controller.py ${SRC} ${TGT}',
             source='src/version.c.template',
@@ -132,7 +126,7 @@ def build(bld):
             always=True,
             update_outputs=True,
         )
-        add_dependency('version.c', 'version.txt')
+        add_dependency(bld, 'version.c', 'version.txt')
 
         bld.objects(
             source='version.c',
