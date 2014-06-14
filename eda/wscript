@@ -3,7 +3,7 @@ from __future__ import print_function
 
 import glob
 import os.path
-from waf_extensions import declare_variants
+from waf_extensions import declare_variants, add_dependency
 
 declare_variants(subdir='boards')
 
