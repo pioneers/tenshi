@@ -163,6 +163,20 @@
                 distributor:    DigiKey
                 distributor_pn: 1276-2034-2-ND
                 notes:          at least 16V, prefer X5R/X7R (avoid Y5V)
+        "4.7 nF":
+            primary_part:
+                mfg:            Samsung Electro-Mechanics America, Inc
+                mfg_pn:         CL10B472KB8SFNC
+                distributor:    DigiKey
+                distributor_pn: 1276-2066-2-ND
+                notes:          at least 16V, prefer X5R/X7R (avoid Y5V)
+        ".47 uF":
+            primary_part:
+                mfg:            Samsung Electro-Mechanics America, Inc
+                mfg_pn:         CL10B474KO8NNNC
+                distributor:    DigiKey
+                distributor_pn: 1276-1062-2-ND
+                notes:          at least 16V, prefer X5R/X7R (avoid Y5V)
     "0805":
         "4.7 uF":
             primary_part:
@@ -186,6 +200,22 @@
                 distributor:    DigiKey
                 distributor_pn: 1276-3047-1-ND
                 notes:          at least 25V, prefer X5R/X7R (avoid Y5V)
+        "47 uF":
+            primary_part:
+                mfg:            TDK Corporation
+                mfg_pn:         C3216X5R1C476M160AB
+                distributor:    DigiKey
+                distributor_pn: 445-6003-2-ND
+                notes:          at least 16V, prefer X5R/X7R (avoid Y5V)
+"CAPACITOR-TANTALUM":
+    "TANT_CASE_E":
+        "470 uF":
+            primary_part:
+                mfg:            Kemet
+                mfg_pn:         T495X477K010ATE100
+                distributor:    DigiKey
+                distributor_pn: 399-10524-1-ND
+                notes:          at least 10V, check ESR, prefer not substituting
 "DNL":
     "*":
         "*":
@@ -444,6 +474,14 @@
                 distributor:    DigiKey
                 distributor_pn: SS16-E3/61TGICT-ND
                 notes:          Substituting with equal or higher-rated part OK.
+    "SOD-323":
+        "5.1V":
+            primary_part:
+                mfg:            Panasonic Electronic Components - Semiconductor Products
+                mfg_pn:         DZ2J051M0L
+                distributor:    DigiKey
+                distributor_pn: DZ2J051M0LCT-ND
+                notes:          Substituting ok.
 "POGO-PIN":
     "*":
         "*":
@@ -453,3 +491,12 @@
                 distributor:    Adafruit
                 distributor_pn: "394"
                 notes:          Check mechanical dimensions if substituting
+"LMZ12010":
+    "*":
+        "*":
+            primary_part:
+                mfg:            Texas Instruments
+                mfg_pn:         LMZ12010
+                distributor:    Donated
+                distributor_pn: N/A
+                notes:          Watch supply chain on this part!
