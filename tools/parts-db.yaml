@@ -63,6 +63,55 @@
                 distributor:    DigiKey
                 distributor_pn: 311-124KHRTR-ND
                 notes:          1% or better, power dissipation not critical, prefer low temp. coeff.
+        "200":
+            primary_part:
+                mfg:            Samsung Electro-Mechanics America, Inc
+                mfg_pn:         RC1608J201CS
+                distributor:    DigiKey
+                distributor_pn: 1276-5045-2-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
+        "100":
+            primary_part:
+                mfg:            Rohm Semiconductor
+                mfg_pn:         MCR03ERTJ101
+                distributor:    DigiKey
+                distributor_pn: RHM100CGTR-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
+        "330":
+            primary_part:
+                mfg:            Rohm Semiconductor
+                mfg_pn:         MCR03ERTJ331
+                distributor:    DigiKey
+                distributor_pn: RHM330CGTR-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
+        "30k":
+            primary_part:
+                mfg:            Rohm Semiconductor
+                mfg_pn:         MCR03ERTJ303
+                distributor:    DigiKey
+                distributor_pn: RHM30KCGTR-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
+        "62k":
+            primary_part:
+                mfg:            Rohm Semiconductor
+                mfg_pn:         MCR03ERTJ623
+                distributor:    DigiKey
+                distributor_pn: RHM62KCGTR-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
+        "15.4k":
+            primary_part:
+                mfg:            Samsung Electro-Mechanics America, Inc
+                mfg_pn:         RC1608F1542CS
+                distributor:    DigiKey
+                distributor_pn: 1276-4759-2-ND
+                notes:          1% or better, power dissipation not critical, prefer low temp. coeff.
+        "2.37k":
+            primary_part:
+                mfg:            Rohm Semiconductor
+                mfg_pn:         MCR03ERTF2371
+                distributor:    DigiKey
+                distributor_pn: RHM2.37KCFTR-ND
+                notes:          1% or better, power dissipation not critical, prefer low temp. coeff.
 "CAPACITOR-GENERIC":
     "0603-CAP":
         "0.1 uF":
@@ -290,6 +339,21 @@
                 distributor:    DigiKey
                 distributor_pn: 1080-1410-1-ND
                 notes:          Check polarity and polarity markings
+    "LED5MM-NOFLAT":
+        "YELLOW":
+            primary_part:
+                mfg:            Unknown
+                mfg_pn:         Unknown
+                distributor:    superbrightleds.com
+                distributor_pn: RL5-Y12120
+                notes:          Do not substitute
+        "BLUE":
+            primary_part:
+                mfg:            Unknown
+                mfg_pn:         Unknown
+                distributor:    superbrightleds.com
+                distributor_pn: RL5-B12120
+                notes:          Do not substitute
 "stm32f405":
     "QFP64":
         "*":
@@ -380,3 +444,12 @@
                 distributor:    DigiKey
                 distributor_pn: SS16-E3/61TGICT-ND
                 notes:          Substituting with equal or higher-rated part OK.
+"POGO-PIN":
+    "*":
+        "*":
+            primary_part:
+                mfg:            Unknown
+                mfg_pn:         Unknown
+                distributor:    Adafruit
+                distributor_pn: "394"
+                notes:          Check mechanical dimensions if substituting
