@@ -6,9 +6,23 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
+<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
+<layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
+<layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
+<layer number="6" name="Route6" color="1" fill="8" visible="no" active="no"/>
+<layer number="7" name="Route7" color="4" fill="8" visible="no" active="no"/>
+<layer number="8" name="Route8" color="1" fill="2" visible="no" active="no"/>
+<layer number="9" name="Route9" color="4" fill="2" visible="no" active="no"/>
+<layer number="10" name="Route10" color="1" fill="7" visible="no" active="no"/>
+<layer number="11" name="Route11" color="4" fill="7" visible="no" active="no"/>
+<layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
+<layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
+<layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
+<layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
@@ -1059,17 +1073,17 @@ It has reduced top mask to make it harder to put the component on the wrong side
 <circle x="2.54" y="0" radius="0.40160625" width="0" layer="29"/>
 </package>
 <package name="R0603">
-<description>&lt;b&gt;RESISTOR&lt;/b&gt;</description>
+<description>&lt;b&gt;Resistor&lt;/b&gt;, 0603 SMD package</description>
 <wire x1="-0.432" y1="-0.356" x2="0.432" y2="-0.356" width="0.1524" layer="51"/>
 <wire x1="0.432" y1="0.356" x2="-0.432" y2="0.356" width="0.1524" layer="51"/>
-<wire x1="-1.473" y1="0.983" x2="1.473" y2="0.983" width="0.0508" layer="39"/>
-<wire x1="1.473" y1="0.983" x2="1.473" y2="-0.983" width="0.0508" layer="39"/>
-<wire x1="1.473" y1="-0.983" x2="-1.473" y2="-0.983" width="0.0508" layer="39"/>
-<wire x1="-1.473" y1="-0.983" x2="-1.473" y2="0.983" width="0.0508" layer="39"/>
+<wire x1="-1.473" y1="0.729" x2="1.473" y2="0.729" width="0.0508" layer="39"/>
+<wire x1="1.473" y1="0.729" x2="1.473" y2="-0.729" width="0.0508" layer="39"/>
+<wire x1="1.473" y1="-0.729" x2="-1.473" y2="-0.729" width="0.0508" layer="39"/>
+<wire x1="-1.473" y1="-0.729" x2="-1.473" y2="0.729" width="0.0508" layer="39"/>
 <smd name="1" x="-0.85" y="0" dx="1" dy="1.1" layer="1"/>
 <smd name="2" x="0.85" y="0" dx="1" dy="1.1" layer="1"/>
-<text x="-0.635" y="0.635" size="1.27" layer="25">&gt;NAME</text>
-<text x="-0.635" y="-1.905" size="1.27" layer="27">&gt;VALUE</text>
+<text x="-1.27" y="1.27" size="0.889" layer="25" font="vector" ratio="20">&gt;NAME</text>
+<text x="-1.27" y="-1.905" size="0.889" layer="27" font="vector" ratio="20">&gt;VALUE</text>
 <rectangle x1="0.4318" y1="-0.4318" x2="0.8382" y2="0.4318" layer="51"/>
 <rectangle x1="-0.8382" y1="-0.4318" x2="-0.4318" y2="0.4318" layer="51"/>
 <rectangle x1="-0.1999" y1="-0.4001" x2="0.1999" y2="0.4001" layer="35"/>
@@ -2846,12 +2860,27 @@ Vertical</description>
 <wire x1="3.937" y1="0" x2="-3.937" y2="0" width="0.127" layer="21"/>
 <text x="-3.175" y="8.255" size="1.27" layer="25" font="vector">&gt;NAME</text>
 </package>
+<package name="LED5MM-NOFLAT">
+<wire x1="2.54" y1="-1.905" x2="2.54" y2="1.905" width="0.254" layer="21" curve="-286.260205" cap="flat"/>
+<wire x1="-1.143" y1="0" x2="0" y2="1.143" width="0.1524" layer="51" curve="-90" cap="flat"/>
+<wire x1="0" y1="-1.143" x2="1.143" y2="0" width="0.1524" layer="51" curve="90" cap="flat"/>
+<wire x1="-1.651" y1="0" x2="0" y2="1.651" width="0.1524" layer="51" curve="-90" cap="flat"/>
+<wire x1="0" y1="-1.651" x2="1.651" y2="0" width="0.1524" layer="51" curve="90" cap="flat"/>
+<wire x1="-2.159" y1="0" x2="0" y2="2.159" width="0.1524" layer="51" curve="-90" cap="flat"/>
+<wire x1="0" y1="-2.159" x2="2.159" y2="0" width="0.1524" layer="51" curve="90" cap="flat"/>
+<circle x="0" y="0" radius="2.54" width="0.1524" layer="21"/>
+<pad name="A" x="-1.27" y="0" drill="0.8128" diameter="1.8796"/>
+<pad name="K" x="1.27" y="0" drill="0.8128" diameter="1.8796"/>
+<text x="3.175" y="0.5334" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="3.2004" y="-1.8034" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+<wire x1="2.54" y1="1.905" x2="2.54" y2="-1.905" width="0.254" layer="21" curve="-73.739795"/>
+<text x="-5.842" y="-1.016" size="2.54" layer="21">+</text>
+</package>
 <package name="ANDERSON_HORIZONTAL">
 <description>2-pin 25A Anderson Connector
 Horizontal</description>
 <pad name="PIN1" x="0" y="3.937" drill="1.778" diameter="3.175" rot="R270"/>
 <pad name="PIN2" x="0" y="-3.937" drill="1.778" diameter="3.175" rot="R270"/>
-<rectangle x1="-25.4" y1="-17.272" x2="-9.144" y2="17.272" layer="39" rot="R270"/>
 <wire x1="-34.544" y1="8.128" x2="-34.544" y2="0" width="0.127" layer="51"/>
 <wire x1="-34.544" y1="0" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
 <wire x1="-9.906" y1="8.128" x2="-9.906" y2="3.937" width="0.127" layer="51"/>
@@ -2866,6 +2895,9 @@ Horizontal</description>
 <wire x1="-9.906" y1="-8.128" x2="-34.544" y2="-8.128" width="0.127" layer="51"/>
 <smd name="P$1" x="-5.334" y="3.937" dx="8.89" dy="1.27" layer="1"/>
 <smd name="P$3" x="-5.334" y="-3.937" dx="8.89" dy="1.27" layer="1"/>
+<rectangle x1="-34.544" y1="-8.128" x2="-9.906" y2="8.128" layer="39"/>
+<rectangle x1="-10.16" y1="1.27" x2="2.54" y2="6.35" layer="39"/>
+<rectangle x1="-10.16" y1="-6.35" x2="2.54" y2="-1.27" layer="39"/>
 </package>
 </packages>
 <symbols>
@@ -2895,16 +2927,16 @@ Horizontal</description>
 <pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
 </symbol>
 <symbol name="M02">
-<wire x1="3.81" y1="-2.54" x2="-2.54" y2="-2.54" width="0.4064" layer="94"/>
-<wire x1="1.27" y1="2.54" x2="2.54" y2="2.54" width="0.6096" layer="94"/>
+<wire x1="3.81" y1="-5.08" x2="-2.54" y2="-5.08" width="0.4064" layer="94"/>
 <wire x1="1.27" y1="0" x2="2.54" y2="0" width="0.6096" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="-2.54" y2="-2.54" width="0.4064" layer="94"/>
-<wire x1="3.81" y1="-2.54" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
-<text x="-2.54" y="-5.08" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-2.54" y="5.842" size="1.778" layer="95">&gt;NAME</text>
-<pin name="1" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="2" x="7.62" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<wire x1="1.27" y1="-2.54" x2="2.54" y2="-2.54" width="0.6096" layer="94"/>
+<wire x1="-2.54" y1="2.54" x2="-2.54" y2="-5.08" width="0.4064" layer="94"/>
+<wire x1="3.81" y1="-5.08" x2="3.81" y2="2.54" width="0.4064" layer="94"/>
+<wire x1="-2.54" y1="2.54" x2="3.81" y2="2.54" width="0.4064" layer="94"/>
+<text x="-2.54" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
+<text x="-2.54" y="3.302" size="1.778" layer="95">&gt;NAME</text>
+<pin name="1" x="7.62" y="-2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="2" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 </symbol>
 <symbol name="LETTER_L">
 <wire x1="0" y1="185.42" x2="248.92" y2="185.42" width="0.4064" layer="94"/>
@@ -2959,14 +2991,14 @@ Horizontal</description>
 <pin name="C" x="0" y="-2.54" visible="off" length="short" direction="pas" rot="R90"/>
 <pin name="A" x="0" y="5.08" visible="off" length="short" direction="pas" rot="R270"/>
 <polygon width="0.1524" layer="94">
-<vertex x="-3.429" y="-0.889"/>
-<vertex x="-3.048" y="0"/>
-<vertex x="-2.54" y="-0.508"/>
+<vertex x="-3.429" y="0.381"/>
+<vertex x="-3.048" y="1.27"/>
+<vertex x="-2.54" y="0.762"/>
 </polygon>
 <polygon width="0.1524" layer="94">
-<vertex x="-3.302" y="-2.032"/>
-<vertex x="-2.921" y="-1.143"/>
-<vertex x="-2.413" y="-1.651"/>
+<vertex x="-3.302" y="-0.762"/>
+<vertex x="-2.921" y="0.127"/>
+<vertex x="-2.413" y="-0.381"/>
 </polygon>
 </symbol>
 <symbol name="ANDERSON">
@@ -2995,7 +3027,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="PTH2" package="CAP-PTH-SMALL2">
@@ -3004,7 +3038,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0805" package="0805">
@@ -3013,7 +3049,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="PTH3" package="CAP-PTH-LARGE">
@@ -3022,7 +3060,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="SMD" package="GRM43D">
@@ -3031,7 +3071,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0603-CAP" package="0603-CAP">
@@ -3040,7 +3082,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0402-CAP" package="0402-CAP">
@@ -3049,7 +3093,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="PTH1" package="CAP-PTH-5MM">
@@ -3058,7 +3104,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="_" package="AXIAL-5MM">
@@ -3067,7 +3115,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="P$2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="1210" package="1210">
@@ -3076,7 +3126,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="1206" package="1206">
@@ -3085,7 +3137,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="ASMD" package="CTZ3">
@@ -3094,7 +3148,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="-"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="KIT" package="CAP-PTH-SMALL-KIT">
@@ -3103,7 +3159,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="EZ" package="CAP-PTH-SMALLEZ">
@@ -3112,7 +3170,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -3129,7 +3189,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0603" package="R0603">
@@ -3138,7 +3200,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0805" package="R0805">
@@ -3147,7 +3211,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0805W" package="R0805W">
@@ -3156,7 +3222,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1005" package="R1005">
@@ -3165,7 +3233,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1206" package="R1206">
@@ -3174,7 +3244,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1206W" package="R1206W">
@@ -3183,7 +3255,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1210" package="R1210">
@@ -3192,7 +3266,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1210W" package="R1210W">
@@ -3201,7 +3277,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2010" package="R2010">
@@ -3210,7 +3288,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2010W" package="R2010W">
@@ -3219,7 +3299,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2012" package="R2012">
@@ -3228,7 +3310,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2012W" package="R2012W">
@@ -3237,7 +3321,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2512" package="R2512">
@@ -3246,7 +3332,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R2512W" package="R2512W">
@@ -3255,7 +3343,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3216" package="R3216">
@@ -3264,7 +3354,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3216W" package="R3216W">
@@ -3273,7 +3365,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3225" package="R3225">
@@ -3282,7 +3376,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R3225W" package="R3225W">
@@ -3291,7 +3387,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R5025" package="R5025">
@@ -3300,7 +3398,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R5025W" package="R5025W">
@@ -3309,7 +3409,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R6332" package="R6332">
@@ -3318,7 +3420,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R6332W" package="R6332W">
@@ -3327,7 +3431,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M0805" package="M0805">
@@ -3336,7 +3442,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M1206" package="M1206">
@@ -3345,7 +3453,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M1406" package="M1406">
@@ -3354,7 +3464,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M2012" package="M2012">
@@ -3363,7 +3475,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M2309" package="M2309">
@@ -3372,7 +3486,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M3216" package="M3216">
@@ -3381,7 +3497,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M3516" package="M3516">
@@ -3390,7 +3508,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="M5923" package="M5923">
@@ -3399,7 +3519,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0204/5" package="0204/5">
@@ -3408,7 +3530,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0204/7" package="0204/7">
@@ -3417,7 +3541,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/10" package="0207/10">
@@ -3426,7 +3552,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/12" package="0207/12">
@@ -3435,7 +3563,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/15" package="0207/15">
@@ -3444,7 +3574,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/2V" package="0207/2V">
@@ -3453,7 +3585,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/5V" package="0207/5V">
@@ -3462,7 +3596,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0207/7" package="0207/7">
@@ -3471,7 +3607,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0309/10" package="0309/10">
@@ -3480,7 +3618,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0309/12" package="0309/12">
@@ -3489,7 +3629,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0411/12" package="0411/12">
@@ -3498,7 +3640,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0411/15" package="0411/15">
@@ -3507,7 +3651,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0411/3V" package="0411V">
@@ -3516,7 +3662,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0414/15" package="0414/15">
@@ -3525,7 +3673,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0414/5V" package="0414V">
@@ -3534,7 +3684,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0617/17" package="0617/17">
@@ -3543,7 +3695,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0617/22" package="0617/22">
@@ -3552,7 +3706,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0617/5V" package="0617V">
@@ -3561,7 +3717,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0922/22" package="0922/22">
@@ -3570,7 +3728,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0613/5V" package="P0613V">
@@ -3579,7 +3739,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0613/15" package="P0613/15">
@@ -3588,7 +3750,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0817/22" package="P0817/22">
@@ -3597,7 +3761,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0817/7V" package="P0817V">
@@ -3606,7 +3772,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="V234/12" package="V234/12">
@@ -3615,7 +3783,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="V235/17" package="V235/17">
@@ -3624,7 +3794,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="V526-0" package="V526-0">
@@ -3633,7 +3805,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0102AX" package="MINI_MELF-0102AX">
@@ -3642,7 +3816,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0922V" package="0922V">
@@ -3651,7 +3827,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0102R" package="MINI_MELF-0102R">
@@ -3660,7 +3838,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0102W" package="MINI_MELF-0102W">
@@ -3669,7 +3849,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0204R" package="MINI_MELF-0204R">
@@ -3678,7 +3860,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0204W" package="MINI_MELF-0204W">
@@ -3687,7 +3871,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0207R" package="MINI_MELF-0207R">
@@ -3696,7 +3882,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="MELF0207W" package="MINI_MELF-0207W">
@@ -3705,7 +3893,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="RDH/15" package="RDH/15">
@@ -3714,7 +3904,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0204/2V" package="0204V">
@@ -3723,7 +3915,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="0309/V" package="0309V">
@@ -3732,7 +3926,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R0201" package="R0201">
@@ -3741,7 +3937,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VMTA55" package="VMTA55">
@@ -3750,7 +3948,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VMTB60" package="VMTB60">
@@ -3759,7 +3959,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA52" package="VTA52">
@@ -3768,7 +3970,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA53" package="VTA53">
@@ -3777,7 +3981,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA54" package="VTA54">
@@ -3786,7 +3992,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA55" package="VTA55">
@@ -3795,7 +4003,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="VTA56" package="VTA56">
@@ -3804,7 +4014,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R4527" package="R4527">
@@ -3813,7 +4025,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC0001" package="WSC0001">
@@ -3822,7 +4036,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC0002" package="WSC0002">
@@ -3831,7 +4047,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC01/2" package="WSC01/2">
@@ -3840,7 +4058,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC2515" package="WSC2515">
@@ -3849,7 +4069,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC4527" package="WSC4527">
@@ -3858,7 +4080,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="WSC6927" package="WSC6927">
@@ -3867,7 +4091,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="R1218" package="R1218">
@@ -3876,7 +4102,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 <device name="1812X7R" package="1812X7R">
@@ -3885,7 +4113,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -3902,7 +4132,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
+</technology>
 </technologies>
 </device>
 <device name="1X02-MTA" package="1X02-MTA">
@@ -3912,7 +4144,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="A1921-ND"/>
+<attribute name="PIE-INT-REF-NUM" value="MTA"/>
 </technology>
 </technologies>
 </device>
@@ -3946,7 +4178,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="3MM" package="LED3MM">
@@ -3955,7 +4189,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="1206" package="LED-1206">
@@ -3964,7 +4200,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="0603" package="LED-0603">
@@ -3973,7 +4211,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="10MM" package="LED10MM">
@@ -3982,7 +4222,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="-FKIT-1206" package="FKIT-LED-1206">
@@ -3991,7 +4233,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="-3MM-NO_SILK" package="LED3MM-NS">
@@ -4000,7 +4244,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="5MM-KIT" package="LED5MM-KIT">
@@ -4009,7 +4255,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 <device name="0805" package="LED-0805">
@@ -4018,12 +4266,25 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
+</technologies>
+</device>
+<device name="LED5MM-NOFLAT" package="LED5MM-NOFLAT">
+<connects>
+<connect gate="G$1" pin="A" pad="A"/>
+<connect gate="G$1" pin="C" pad="K"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 </devices>
 </deviceset>
-<deviceset name="ANDERSON">
+<deviceset name="ANDERSON" prefix="CONN">
 <description>2-pin 25A Anderson Connector
 http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/70162018.pdf</description>
 <gates>
@@ -4037,7 +4298,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="1377G1" constant="no"/>
+<attribute name="PIE-INT-REF-NUM" value="Anderson"/>
 </technology>
 </technologies>
 </device>
@@ -4048,7 +4309,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </connects>
 <technologies>
 <technology name="">
-<attribute name="PARTNUMBER" value="1377G3" constant="no"/>
+<attribute name="PIE-INT-REF-NUM" value="Anderson"/>
 </technology>
 </technologies>
 </device>
@@ -4073,13 +4334,13 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <part name="U$1" library="LMZ12010" deviceset="LMZ12010" device=""/>
 <part name="SUPPLY9" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY2" library="supply2" deviceset="GND" device=""/>
-<part name="R1" library="pie" deviceset="R-US_" device="R0603" value="60k"/>
+<part name="R1" library="pie" deviceset="R-US_" device="R0603" value="62k"/>
 <part name="R2" library="pie" deviceset="R-US_" device="R0603" value="30k"/>
 <part name="RFBT" library="pie" deviceset="R-US_" device="R0603" value="15.4k"/>
 <part name="RFBB" library="pie" deviceset="R-US_" device="R0603" value="2.37k"/>
 <part name="CFF" library="pie" deviceset="CAP" device="0603-CAP" value="4.7nf"/>
 <part name="CSS" library="pie" deviceset="CAP" device="0603-CAP" value=".47uF"/>
-<part name="CIN" library="pie" deviceset="CAP" device="0603-CAP" value="10uF"/>
+<part name="CIN" library="pie" deviceset="CAP" device="1206" value="10uF"/>
 <part name="COUT1" library="SparkFun" deviceset="CAP" device="1206" value="47uF"/>
 <part name="D1" library="SparkFun" deviceset="DIODE" device="SOD" value="5.1V"/>
 <part name="COUT2" library="TANT_CASE_E" deviceset="TANT_CASE_E" device="" value="470uF"/>
@@ -4090,7 +4351,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <attribute name="REVISION" value="7A"/>
 </part>
 <part name="R5" library="pie" deviceset="R-US_" device="R0603" value="330"/>
-<part name="LED2" library="pie" deviceset="LED" device="0805" value="YEL"/>
+<part name="LED2" library="pie" deviceset="LED" device="0805" value="YELLOW"/>
 <part name="SUPPLY4" library="supply2" deviceset="GND" device=""/>
 <part name="PWR" library="pie" deviceset="ANDERSON" device="VERTICAL"/>
 <part name="PWR1" library="pie" deviceset="ANDERSON" device="VERTICAL"/>
@@ -4230,7 +4491,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </segment>
 <segment>
 <pinref part="SERVO_PWR_12" gate="G$1" pin="1"/>
-<wire x1="-17.78" y1="-20.32" x2="-20.32" y2="-20.32" width="0.1524" layer="91"/>
+<wire x1="-17.78" y1="-17.78" x2="-20.32" y2="-20.32" width="0.1524" layer="91"/>
 <label x="-20.32" y="-20.32" size="1.27" layer="95" font="vector"/>
 </segment>
 <segment>
@@ -4312,7 +4573,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </segment>
 <segment>
 <pinref part="SERVO_PWR_12" gate="G$1" pin="2"/>
-<wire x1="-17.78" y1="-22.86" x2="-20.32" y2="-22.86" width="0.1524" layer="91"/>
+<wire x1="-17.78" y1="-20.32" x2="-20.32" y2="-22.86" width="0.1524" layer="91"/>
 <label x="-20.32" y="-22.86" size="1.27" layer="95" font="vector"/>
 </segment>
 <segment>
