@@ -12824,6 +12824,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </connects>
 <technologies>
 <technology name="">
+<attribute name="PIE-INT-REF-NUM" value="XH-4POS"/>
 <attribute name="PIE_DIGIKEY-PN" value="455-2249-ND"/>
 </technology>
 </technologies>
@@ -12843,6 +12844,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </connects>
 <technologies>
 <technology name="">
+<attribute name="PIE-INT-REF-NUM" value="BUZZER"/>
 <attribute name="PIE_DIGIKEY-PN" value="102-1269-ND"/>
 </technology>
 </technologies>

@@ -126,6 +126,13 @@
                 distributor:    DigiKey
                 distributor_pn: 311-47KGRTR-ND
                 notes:          5% or better, power dissipation and temp. coeff. not critical
+        "51k":
+            primary_part:
+                mfg:            Rohm Semiconductor
+                mfg_pn:         MCR03ERTJ513
+                distributor:    DigiKey
+                distributor_pn: RHM51KCGTR-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
 "CAPACITOR-GENERIC":
     "0603-CAP":
         "0.1 uF":
@@ -618,3 +625,21 @@
                 distributor:    DigiKey
                 distributor_pn: IPD90P03P4L-04INCT-ND
                 notes:          Substituting with equal or higher-rated part OK. Check carefully.
+"XH-4POS":
+    "*":
+        "*":
+            primary_part:
+                mfg:            JST (Japan Solderless Terminal)
+                mfg_pn:         B4B-XH-A(LF)(SN)
+                distributor:    DigiKey
+                distributor_pn: 455-2249-ND
+                notes:          Do not substitute.
+"BUZZER":
+    "BUZZER_MAGNETIC_5V_12MM_RADIAL":
+        "*":
+            primary_part:
+                mfg:            CUI Inc
+                mfg_pn:         CCG-1206
+                distributor:    DigiKey
+                distributor_pn: CCG-1206
+                notes:          Ok to substitute equivalent part. Check mechanical dimensions carefully.
