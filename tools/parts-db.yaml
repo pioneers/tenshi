@@ -112,6 +112,20 @@
                 distributor:    DigiKey
                 distributor_pn: RHM2.37KCFTR-ND
                 notes:          1% or better, power dissipation not critical, prefer low temp. coeff.
+        "22":
+            primary_part:
+                mfg:            Rohm Semiconductor
+                mfg_pn:         MCR03ERTJ220
+                distributor:    DigiKey
+                distributor_pn: RHM22CGTR-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
+        "47k":
+            primary_part:
+                mfg:            Yageo
+                mfg_pn:         RC0603JR-0747KL
+                distributor:    DigiKey
+                distributor_pn: 311-47KGRTR-ND
+                notes:          5% or better, power dissipation and temp. coeff. not critical
 "CAPACITOR-GENERIC":
     "0603-CAP":
         "0.1 uF":
@@ -149,6 +163,13 @@
                 distributor:    DigiKey
                 distributor_pn: 1276-1187-2-ND
                 notes:          most likely crystal loading cap, usually NP0
+        "18 pF":
+            primary_part:
+                mfg:            Samsung Electro-Mechanics America, Inc
+                mfg_pn:         CL10C180JC8NNNC
+                distributor:    DigiKey
+                distributor_pn: 1276-2210-2-ND
+                notes:          most likely crystal loading cap, usually NP0
         "0.01 uF":
             primary_part:
                 mfg:            Samsung Electro-Mechanics America, Inc
@@ -176,6 +197,27 @@
                 mfg_pn:         CL10B474KO8NNNC
                 distributor:    DigiKey
                 distributor_pn: 1276-1062-2-ND
+                notes:          at least 16V, prefer X5R/X7R (avoid Y5V)
+        "1 nF":
+            primary_part:
+                mfg:            Samsung Electro-Mechanics America, Inc
+                mfg_pn:         CL10B102KB8SFNC
+                distributor:    DigiKey
+                distributor_pn: 1276-1916-2-ND
+                notes:          at least 16V, prefer X5R/X7R (avoid Y5V)
+        "33 nF":
+            primary_part:
+                mfg:            Samsung Electro-Mechanics America, Inc
+                mfg_pn:         CL10B333KB8SFNC
+                distributor:    DigiKey
+                distributor_pn: 1276-2042-2-ND
+                notes:          at least 16V, prefer X5R/X7R (avoid Y5V)
+        "0.33 uF":
+            primary_part:
+                mfg:            TDK Corporation
+                mfg_pn:         C1608X5R1E334K080AC
+                distributor:    DigiKey
+                distributor_pn: 445-5142-2-ND
                 notes:          at least 16V, prefer X5R/X7R (avoid Y5V)
     "0805":
         "4.7 uF":
@@ -207,6 +249,14 @@
                 distributor:    DigiKey
                 distributor_pn: 445-6003-2-ND
                 notes:          at least 16V, prefer X5R/X7R (avoid Y5V)
+    "PANASONIC_G":
+        "470 uF":
+            primary_part:
+                mfg:            Nichicon
+                mfg_pn:         UCL1E471MNL1GS
+                distributor:    DigiKey
+                distributor_pn: 493-3944-1-ND
+                notes:          at least 25V, check ripple current rating
 "CAPACITOR-TANTALUM":
     "TANT_CASE_E":
         "470 uF":
@@ -243,6 +293,13 @@
                 mfg_pn:         ABLS-8.000MHZ-B4-T
                 distributor:    DigiKey
                 distributor_pn: 535-10212-1-ND
+                notes:          Needs to be good enough for USB FS, 100 ppm probably sufficient
+        "16 MHz":
+            primary_part:
+                mfg:            Abracon Corporation
+                mfg_pn:         ABLS-16.000MHZ-B4-T
+                distributor:    DigiKey
+                distributor_pn: 535-10226-1-ND
                 notes:          Needs to be good enough for USB FS, 100 ppm probably sufficient
 "BULK-STOCK":
     "*":
@@ -338,6 +395,14 @@
                 mfg_pn:         ZX62-AB-5PA(11)
                 distributor:    DigiKey
                 distributor_pn: H11635CT-ND
+                notes:          If substituting, check very carefully (connector)
+    "USB-M26FTR":
+        "*":
+            primary_part:
+                mfg:            On Shore Technology Inc
+                mfg_pn:         USB-M26FTR
+                distributor:    DigiKey
+                distributor_pn: ED2992CT-ND
                 notes:          If substituting, check very carefully (connector)
 "LED":
     "LED-0805":
@@ -465,6 +530,14 @@
                 distributor:    DigiKey
                 distributor_pn: IRFML8244TRPBFCT-ND
                 notes:          Substituting with equal or higher-rated part OK.
+    "SOT669":
+        "PSMN4R0":
+            primary_part:
+                mfg:            NXP Semiconductors
+                mfg_pn:         PSMN4R0-30YLD
+                distributor:    DigiKey
+                distributor_pn: 568-10433-1-ND
+                notes:          Substituting with equal or higher-rated part OK. Check carefully.
 "DIODE":
     "SMA-DIODE_ALT":
         "SS16":
@@ -500,3 +573,48 @@
                 distributor:    Donated
                 distributor_pn: N/A
                 notes:          Watch supply chain on this part!
+"A4940":
+    "24-PIN_TSSOP":
+        "*":
+            primary_part:
+                mfg:            Allegro MicroSystems, LLC
+                mfg_pn:         A4940KLPTR-T
+                distributor:    DigiKey
+                distributor_pn: 620-1319-1-ND
+                notes:          Do not substitute
+"ATmega32U4":
+    "TQFP44":
+        "*":
+            primary_part:
+                mfg:            Atmel
+                mfg_pn:         ATMEGA32U4-AU
+                distributor:    DigiKey
+                distributor_pn: ATMEGA32U4-AU-ND
+                notes:          Substituting RC and non-RC version OK. Check carefully if substituting to 16U4.
+"ACS714":
+    "8-PIN_SOIC":
+        "*":
+            primary_part:
+                mfg:            Allegro MicroSystems, LLC
+                mfg_pn:         ACS714ELCTR-30A-T
+                distributor:    DigiKey
+                distributor_pn: 620-1260-1-ND
+                notes:          Do not substitute current range
+"UA7805":
+    "SOT-89-3":
+        "*":
+            primary_part:
+                mfg:            Texas Instruments
+                mfg_pn:         UA78L05ACPK
+                distributor:    DigiKey
+                distributor_pn: 296-11118-1-ND
+                notes:          Substituting ok. Needs 5V and ~100 mA.
+"PMOS":
+    "TO252":
+        "IPD90P03P4L":
+            primary_part:
+                mfg:            Infineon Technologies
+                mfg_pn:         IPD90P03P4L-04
+                distributor:    DigiKey
+                distributor_pn: IPD90P03P4L-04INCT-ND
+                notes:          Substituting with equal or higher-rated part OK. Check carefully.

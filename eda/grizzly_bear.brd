@@ -1310,16 +1310,6 @@ Vertical</description>
 <smd name="13" x="2.8" y="2.54" dx="1.75" dy="0.65" layer="1"/>
 <smd name="14" x="2.8" y="3.81" dx="1.75" dy="0.65" layer="1"/>
 </package>
-</packages>
-</library>
-<library name="con-lstb">
-<description>&lt;b&gt;Pin Headers&lt;/b&gt;&lt;p&gt;
-Naming:&lt;p&gt;
-MA = male&lt;p&gt;
-# contacts - # rows&lt;p&gt;
-W = angled&lt;p&gt;
-&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
-<packages>
 <package name="MA04-2">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
 <wire x1="-4.445" y1="2.54" x2="-3.175" y2="2.54" width="0.1524" layer="21"/>
@@ -1577,7 +1567,7 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="57.912" y="23.368" size="0.381" layer="27" font="vector" ratio="20"/>
 <attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="56.31" y="23.859" size="1.778" layer="27" display="off"/>
 </element>
-<element name="C8" library="pie" package="0603-CAP" value="470nF" x="48.084" y="16.997" smashed="yes">
+<element name="C8" library="pie" package="0603-CAP" value=".47 uF" x="48.084" y="16.997" smashed="yes">
 <attribute name="NAME" x="50.292" y="17.272" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="46.373" y="17.9065" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
 <attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="48.084" y="16.997" size="1.778" layer="27" display="off"/>
@@ -1614,7 +1604,9 @@ design rules under a new name.</description>
 <element name="JP3" library="pie" package="1X04-MTA" value="encoder" x="53.467" y="37.719" smashed="yes" rot="R180">
 <attribute name="PIE-INT-REF-NUM" value="MTA" x="53.467" y="37.719" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="JP6" library="pie" package="MA03-2" value="AVR_SPI_PRG_6MA03-2" x="71.628" y="32.639" smashed="yes"/>
+<element name="JP6" library="pie" package="MA03-2" value="AVR_SPI_PRG_6MA03-2" x="71.628" y="32.639" smashed="yes">
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK" x="71.628" y="32.639" size="1.778" layer="27" display="off"/>
+</element>
 <element name="C2" library="pie" package="0603-CAP" value="0.33uF" x="11.460996875" y="34.211" smashed="yes">
 <attribute name="NAME" x="11.938" y="36.195" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
 <attribute name="VALUE" x="11.938" y="37.338" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
@@ -1661,6 +1653,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="32.175" y="13.545" size="1.016" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="32.175" y="7.2605" size="0.889" layer="27" font="vector" ratio="20" align="top-left"/>
 <attribute name="PIE-DIGIKEY-PN-PRI" value="620-1260-1-ND" x="35.025" y="10.37" size="1.778" layer="27" display="off"/>
+<attribute name="PIE-INT-REF-NUM" value="ACS714" x="35.025" y="10.37" size="1.778" layer="27" display="off"/>
 </element>
 <element name="C10" library="pie" package="0603-CAP" value="1nF" x="39.113" y="6.518" smashed="yes">
 <attribute name="NAME" x="40.132" y="5.588" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
@@ -1676,6 +1669,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="45.847" y="26.416" size="1.27" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="48.006" y="26.289" size="0.889" layer="27" font="vector" ratio="20"/>
 <attribute name="PIE-DIGIKEY-PN-PRI" value="620-1319-1-ND" x="48.04" y="22.395" size="1.778" layer="27" display="off"/>
+<attribute name="PIE-INT-REF-NUM" value="A4940" x="48.04" y="22.395" size="1.778" layer="27" display="off"/>
 </element>
 <element name="R4" library="pie" package="R0603" value="10k" x="38.608" y="18.161" smashed="yes" rot="R180">
 <attribute name="NAME" x="36.068" y="18.542" size="0.889" layer="25" font="vector" ratio="20" rot="R180"/>
@@ -1723,7 +1717,9 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="26.67" y="36.83" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
 <attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="25.575" y="37.956" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="U$2" library="pie" package="USB-M26FTR" value="USB-M26FTR" x="62.611" y="7.62"/>
+<element name="U$2" library="pie" package="USB-M26FTR" value="USB-M26FTR" x="62.611" y="7.62">
+<attribute name="PIE-INT-REF-NUM" value="USB" x="62.611" y="7.62" size="1.778" layer="27" display="off"/>
+</element>
 <element name="C13" library="pie" package="0603-CAP" value="1uF" x="74.676" y="16.129" smashed="yes" rot="R270">
 <attribute name="NAME" x="73.231" y="13.4625" size="0.889" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="73.264" y="12.3285" size="0.889" layer="27" font="vector" ratio="20"/>
@@ -1748,15 +1744,18 @@ design rules under a new name.</description>
 <attribute name="NAME" x="63.373" y="17.018" size="1.27" layer="25" font="vector" ratio="15" rot="SR0"/>
 <attribute name="PIE-DIGIKEY-PN-PRI" value="ATMEGA32U4RC-MURCT-ND" x="64.42800625" y="18.05" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="PIE-DIGIKEY-PN-ALT1" value="ATMEGA32U4-MURCT-ND" x="64.42800625" y="18.05" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="PIE-INT-REF-NUM" value="ATmega32U4" x="64.42800625" y="18.05" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="U4" library="pie" package="SOT-89-3" value="UA78L00" x="16.2195" y="34.771" smashed="yes" rot="R180">
 <attribute name="NAME" x="13.589" y="39.116" size="1.27" layer="25" font="vector" ratio="15" rot="R180"/>
 <attribute name="VALUE" x="13.589" y="40.259" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
 <attribute name="PIE-DIGIKEY-PN-PRI" value="296-11118-1-ND" x="16.2195" y="34.771" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="PIE-INT-REF-NUM" value="UA7805" x="16.2195" y="34.771" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="C100" library="pie" package="PANASONIC_G" value="470uF" x="24.638" y="30.099" smashed="yes" rot="R180">
 <attribute name="NAME" x="24.662" y="28.055" size="1.27" layer="25" font="vector" ratio="15" align="top-center"/>
 <attribute name="VALUE" x="26.694" y="32.373" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="24.638" y="30.099" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="Y1" library="pie" package="HC49UP" value="16MHz" x="59.7154" y="30.1498" smashed="yes" rot="R180">
 <attribute name="VALUE" x="61.5188" y="32.2072" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
@@ -1769,28 +1768,34 @@ design rules under a new name.</description>
 <attribute name="MF" value="" x="71.628" y="27.432" size="0.762" layer="27" font="vector" ratio="20" rot="R180" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="71.628" y="27.432" size="0.762" layer="27" font="vector" ratio="20" rot="R180" display="off"/>
 <attribute name="VALUE" x="72.898" y="31.623" size="1.27" layer="27" ratio="10" rot="R180"/>
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK" x="71.628" y="27.432" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="U$17" library="pie" package="PIE-LOGO" value="" x="54.102" y="19.05" rot="MR0"/>
-<element name="Q1" library="pie" package="SOT669" value="N-CHANNEL-MOSFET" x="20.557" y="20.075" smashed="yes">
+<element name="Q1" library="pie" package="SOT669" value="PSMN4R0" x="20.557" y="20.075" smashed="yes">
 <attribute name="PIE-DIGIKEY-PN-PRI" value="568-6738-1-ND" x="20.557" y="20.075" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
 <attribute name="NAME" x="20.583" y="14.876" size="1.27" layer="25" font="vector" ratio="15" align="bottom-center"/>
+<attribute name="PIE-INT-REF-NUM" value="NMOS" x="20.557" y="20.075" size="1.778" layer="27" display="off"/>
 </element>
-<element name="Q2" library="pie" package="SOT669" value="N-CHANNEL-MOSFET" x="27.692" y="20.075" smashed="yes">
+<element name="Q2" library="pie" package="SOT669" value="PSMN4R0" x="27.692" y="20.075" smashed="yes">
 <attribute name="PIE-DIGIKEY-PN-PRI" value="568-6738-1-ND" x="27.692" y="20.075" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
 <attribute name="NAME" x="27.695" y="14.853" size="1.27" layer="25" font="vector" ratio="15" align="bottom-center"/>
+<attribute name="PIE-INT-REF-NUM" value="NMOS" x="27.692" y="20.075" size="1.778" layer="27" display="off"/>
 </element>
-<element name="Q3" library="pie" package="SOT669" value="N-CHANNEL-MOSFET" x="20.557" y="10.045" smashed="yes">
+<element name="Q3" library="pie" package="SOT669" value="PSMN4R0" x="20.557" y="10.045" smashed="yes">
 <attribute name="PIE-DIGIKEY-PN-PRI" value="568-6738-1-ND" x="20.557" y="10.045" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
 <attribute name="NAME" x="20.586" y="4.843" size="1.27" layer="25" font="vector" ratio="15" align="bottom-center"/>
+<attribute name="PIE-INT-REF-NUM" value="NMOS" x="20.557" y="10.045" size="1.778" layer="27" display="off"/>
 </element>
-<element name="Q4" library="pie" package="SOT669" value="N-CHANNEL-MOSFET" x="27.692" y="10.045" smashed="yes">
+<element name="Q4" library="pie" package="SOT669" value="PSMN4R0" x="27.692" y="10.045" smashed="yes">
 <attribute name="PIE-DIGIKEY-PN-PRI" value="568-6738-1-ND" x="27.692" y="10.045" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
 <attribute name="NAME" x="27.698" y="4.82" size="1.27" layer="25" font="vector" ratio="15" align="bottom-center"/>
+<attribute name="PIE-INT-REF-NUM" value="NMOS" x="27.692" y="10.045" size="1.778" layer="27" display="off"/>
 </element>
 <element name="Q5" library="pie" package="TO252" value="IPD90P03P4L" x="13.001" y="25.417" smashed="yes" rot="R180">
 <attribute name="PIE-DIGIKEY-PN-PRI" value="IPD90P03P4L-04INCT-ND" x="13.001" y="25.417" size="1.27" layer="27" font="vector" ratio="15" rot="R180" display="off"/>
 <attribute name="NAME" x="12.954" y="17.272" size="1.27" layer="25" font="vector" ratio="15" align="bottom-center"/>
 <attribute name="VALUE" x="8.509" y="16.256" size="0.889" layer="27" font="vector" ratio="20"/>
+<attribute name="PIE-INT-REF-NUM" value="PMOS" x="13.001" y="25.417" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="JP1" library="pie" package="1X02" value="GND" x="42.799" y="2.159" smashed="yes" rot="R180">
 <attribute name="VALUE" x="38.862" y="3.429" size="0.889" layer="27" font="vector" ratio="20" rot="R180"/>
@@ -1823,13 +1828,14 @@ design rules under a new name.</description>
 <attribute name="PIE-INT-REF-NUM" value="rs485_491" x="42.3926" y="35.433" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="NAME" x="46.8376" y="30.861" size="1.27" layer="25" font="vector" rot="R180"/>
 </element>
-<element name="SV2" library="con-lstb" package="MA04-2" value="" x="34.0614" y="35.2552" smashed="yes" rot="R90">
+<element name="SV2" library="pie" package="MA04-2" value="" x="34.0614" y="35.2552" smashed="yes" rot="R90">
 <attribute name="OC_NEWARK" value="unknown" x="34.0614" y="35.2552" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MPN" value="" x="34.0614" y="35.2552" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MF" value="" x="34.0614" y="35.2552" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="34.0614" y="35.2552" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="35.6108" y="29.8704" size="1.27" layer="25" ratio="10" rot="R180"/>
 <attribute name="VALUE" x="38.2524" y="35.2552" size="1.27" layer="27" ratio="10" rot="R90"/>
+<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK" x="34.0614" y="35.2552" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
 <element name="C17" library="pie" package="0603-CAP" value="0.1uF" x="38.608" y="29.972" smashed="yes" rot="R180">
 <attribute name="NAME" x="42.037" y="30.48" size="0.635" layer="25" font="vector" ratio="20" rot="R180"/>
