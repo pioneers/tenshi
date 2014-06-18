@@ -129,7 +129,7 @@
 <wire x1="46.99" y1="0" x2="46.99" y2="26.67" width="0.254" layer="20"/>
 <wire x1="46.99" y1="26.67" x2="0" y2="26.67" width="0.254" layer="20"/>
 <wire x1="0" y1="26.67" x2="0" y2="0" width="0.254" layer="20"/>
-<text x="36.3982" y="0.3302" size="0.889" layer="1" font="vector" ratio="20">26 March 2014</text>
+<text x="28.6512" y="0.8382" size="0.889" layer="1" font="vector" ratio="20">17 June 2014</text>
 <text x="38.354" y="1.016" size="0.6096" layer="21" font="vector" ratio="20" rot="MR0">Design by:
 Vincent Donato, Devin He, and Krystyn Neisess
 This design is open source hardware.
