@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -3974,6 +3974,8 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <part name="TP1" library="pie" deviceset="TEST-POINT" device="2"/>
 <part name="TP2" library="pie" deviceset="TEST-POINT" device="2" value="IO3"/>
 <part name="TP3" library="pie" deviceset="TEST-POINT" device="2" value="IO4"/>
+<part name="TP4" library="pie" deviceset="TEST-POINT" device="2"/>
+<part name="TP5" library="pie" deviceset="TEST-POINT" device="2"/>
 </parts>
 <sheets>
 <sheet>
@@ -3989,6 +3991,8 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <text x="48.26" y="157.48" size="3.81" layer="94" font="vector">Old Team Flag</text>
 <wire x1="0" y1="78.74" x2="109.22" y2="78.74" width="0.1524" layer="94"/>
 <wire x1="109.22" y1="78.74" x2="109.22" y2="93.98" width="0.1524" layer="94"/>
+<text x="99.06" y="114.3" size="1.778" layer="95">TP4</text>
+<text x="99.06" y="116.84" size="1.778" layer="95">TP5</text>
 </plain>
 <instances>
 <instance part="LED1" gate="G$1" x="12.7" y="165.1" smashed="yes">
@@ -4054,6 +4058,8 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <instance part="TP3" gate="G$1" x="88.9" y="111.76" smashed="yes">
 <attribute name="NAME" x="83.82" y="109.22" size="1.778" layer="95"/>
 </instance>
+<instance part="TP4" gate="G$1" x="93.98" y="114.3" smashed="yes"/>
+<instance part="TP5" gate="G$1" x="93.98" y="116.84" smashed="yes"/>
 </instances>
 <busses>
 </busses>
@@ -4070,6 +4076,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <pinref part="U2" gate="G$1" pin="PB2(ADC7/PCINT10)"/>
 <wire x1="81.28" y1="114.3" x2="93.98" y2="114.3" width="0.1524" layer="91"/>
 <label x="83.82" y="114.3" size="1.778" layer="95"/>
+<pinref part="TP4" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -4146,6 +4153,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <pinref part="U2" gate="G$1" pin="PB1(ADC6/PCINT9)"/>
 <wire x1="81.28" y1="116.84" x2="93.98" y2="116.84" width="0.1524" layer="91"/>
 <label x="83.82" y="116.84" size="1.778" layer="95"/>
+<pinref part="TP5" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="BSOURCE" class="0">
