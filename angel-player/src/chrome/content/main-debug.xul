@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="main" title="Control System Next IDE Unit Testing"
+    width="1366" height="768" windowtype="angel-player:main"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <browser type="content-primary"
+      src="chrome://angel-player/content/main-debug.html"
+      homepage="chrome://angel-player/content/main-debug.html"
+      id="mainXULBrowser" flex="1"/>
+
+</window>
