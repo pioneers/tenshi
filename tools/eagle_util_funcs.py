@@ -14,11 +14,12 @@ XVFB_START_TIMEOUT = 2  # Seconds
 
 def start_xvfb():
     display_num = os.getpid()
+    devnull = open('/dev/null', 'w')
     xvfb_process = subprocess.Popen([
         'Xvfb',
         ':%d' % display_num,
         '-screen', '0', '1024x768x24',
-        ])
+        ], stdout=devnull, stderr=devnull)
     start_time = time.time()
     found_x_socket = False
     while time.time() - start_time < XVFB_START_TIMEOUT:

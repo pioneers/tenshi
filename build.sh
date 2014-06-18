@@ -28,6 +28,9 @@ if [ $linter_status != 0 ] ; then
   exit $linter_status
 fi
 
+# Run unit test for Angel Player
+./angel-player/run-tests.py
+
 ./waf configure build
 
 # TODO(kzentner): Fix this hack?
