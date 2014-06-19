@@ -7,6 +7,8 @@
 
 #include "inc/uart_serial_driver.h"
 
+void smartsensor_init();
+
 
 portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters);
 portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters);

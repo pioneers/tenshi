@@ -9,6 +9,13 @@
 #include "inc/uart_serial_driver.h"
 
 
+EventGroupHandle_t ssBusEventGroup;
+
+size_t numSensors = 0;
+SSState *sensorArr = NULL;
+xSemaphoreHandle sensorArrLock;
+
+
 
 // TODO(cduck): Move this to uart_serial_driver.c and make it work
 int ss_uart_serial_send_and_finish_data(uart_serial_module *module,
@@ -104,13 +111,46 @@ int ss_all_reset_bus() {
   static const 
 }
 */
-// data must be 100 bytes length
-/*
-int ss_setup_active_sample(uart_serial_module *module, uint8_t *data) {
-  
+int ss_setup_active_sample(uart_serial_module *module, uint8_t inband,
+  uint8_t sample, uint8_t frame, uint8_t *data, uint8_t len) {
+  // TODO(cduck): Support in-band signalling
+
+  // TODO(cduck): Split up packet if too long.
+  if (len > 12)return 0;  // Too long for active packet
+  if ((frame & 7) == 0)return 0;  // Frame can never be zero
+
+  uint8_t *data_cobs = (uint8_t*)pvPortMalloc(4+len);
+  // Four extra for 0x00, sample/frame, len, and extra COBS byte.
+
+  data_cobs[0] = 0x00;
+  data_cobs[1] = ((!!inband) << 6) | ((sample & 7) << 3) | (frame & 7);
+  data_cobs[2] = len+4;
+  cobs_encode(data_cobs+3, data, len);
+
+  int r = ss_all_uart_serial_send_and_finish_data(data_cobs, len+4);
+  vPortFree(data_cobs);
+  return r;
 }
-*/
 
 
-// ss_active_
+
+
+
+// Assuming the sensor is already locked
+void allocIncomingBytes(SSState sensor, uint8_t requiredLen) {
+  if (sensor.incomingBytes == NULL) {
+    sensor.incomingLen = requiredLen;
+    sensor.incomingBytes = pvPortMalloc(requiredLen);
+  }
+  if (sensor.incomingLen != requiredLen) {
+    vPortFree(sensor.incomingBytes);
+    sensor.incomingLen = requiredLen;
+    sensor.incomingBytes = pvPortMalloc(requiredLen);
+  }
+}
+
+// Assuming the sensor is already locked
+int checkOutgoingBytes(SSState sensor, uint8_t requiredLen) {
+  return (sensor.outgoingBytes != NULL) && (sensor.outgoingLen >= requiredLen);
+}
 
