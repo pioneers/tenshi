@@ -12,6 +12,7 @@ const appStartup =
 
 const TEST_DIR_CHROME = 'chrome://angel-player/content/test';
 const TEST_DIR_COMMONJS = 'tenshi/test/';
+const JASMINE_STUB = 'tenshi/test/jasminestub';
 
 // files = find_recursively(root, [relative])
 // Returns a list of files in <root>/<relative>, or just <root> if relative is
@@ -67,17 +68,22 @@ function create_new_test_env(window) {
         },
     });
     let testRequirer = jetpackLoader.Module("TEST_MAIN", "about:blank");
+    // Return a version of require() that loads into an isolated environment.
     return jetpackLoader.Require(testLoader, testRequirer);
 }
 
-exports.init = function(window) {
-    // -------------------------------------------------------------------------
-    // Run simple tests
-    // These tests are individually loaded into a CommonJS environment and are
-    // expected to export a function called run that takes no arguments and
-    // returns a boolean true or false indicating if the test succeeded or not.
-    // These tests do not have access to the DOM.
-    let testDir = url.toFilename(TEST_DIR_CHROME);
+function reportException(e, first_line) {
+    console.log(first_line);
+    console.log(e.name + ": " + e.message);
+    console.log("Stack trace: " + e.stack);
+}
+
+// Run simple tests
+// These tests are individually loaded into a CommonJS environment and are
+// expected to export a function called run that takes no arguments and
+// returns a boolean true or false indicating if the test succeeded or not.
+// These tests do not have access to the DOM.
+function runSimpleTests(window, testDir) {
     let tests = find_recursively(testDir, 'simpletests/');
 
     let testsAllPassed = true;
@@ -87,13 +93,11 @@ exports.init = function(window) {
         console.log("Running unit test " + testFileName);
         let testModule;
         try {
-            let testRequire = create_new_test_env(window);
-            testModule = testRequire(testFilePath);
+            let testEnvRequire = create_new_test_env(window);
+            testModule = testEnvRequire(testFilePath);
         } catch(e) {
             testsAllPassed = false;
-            console.log("Test " + testFileName + " failed to load!");
-            console.log(e.name + ": " + e.message);
-            console.log("Stack trace: " + e.stack);
+            reportException(e, "Test " + testFileName + " failed to load!");
         }
         
         try {
@@ -106,11 +110,60 @@ exports.init = function(window) {
             }
         } catch(e) {
             testsAllPassed = false;
-            console.log("Test " + testFileName + " threw an exception!");
-            console.log(e.name + ": " + e.message);
-            console.log("Stack trace: " + e.stack);
+            reportException(e, "Test " + testFileName + " threw an exception!");
         }
     }
+
+    return testsAllPassed;
+}
+
+// Run Jasmine tests
+// A new empty CommonJS environment is created and a Jasmine boot.js-like
+// stub is loaded into it. This stub preps the newly-created sandbox and
+// then loads the actual test file itself. Jasmine will automagically
+// run the appropriate tests in the test file. These tests do not have
+// access to the DOM.
+function runJasmineNoDomTests(window, testDir) {
+    let tests = find_recursively(testDir, 'jasmine-no-dom/');
+
+    let testsAllPassed = true;
+
+    for (let testFileName of tests) {
+        let testFilePath = TEST_DIR_CHROME + '/' + testFileName;
+        console.log("Running unit test " + testFileName);
+        let testModule;
+        try {
+            let testEnvRequire = create_new_test_env(window);
+            testModule = testEnvRequire(JASMINE_STUB);
+        } catch(e) {
+            testsAllPassed = false;
+            reportException(e, "Test " + testFileName + " failed to load!");
+        }
+        
+        try {
+            let ret = testModule.run(testFilePath);
+            if (!ret) {
+                testsAllPassed = false;
+                console.log("Test " + testFileName + " failed!");
+            } else {
+                console.log("OK");
+            }
+        } catch(e) {
+            testsAllPassed = false;
+            reportException(e, "Test " + testFileName + " threw an exception!");
+        }
+    }
+
+    return testsAllPassed;
+}
+
+exports.init = function(window) {
+    let testDir = url.toFilename(TEST_DIR_CHROME);
+
+    let testsAllPassed = true;
+
+    testsAllPassed = testsAllPassed && runSimpleTests(window, testDir);
+    testsAllPassed = testsAllPassed && runJasmineNoDomTests(window, testDir);
 
     if (testsAllPassed) {
         console.log("All tests passed!");
