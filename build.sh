@@ -28,9 +28,6 @@ if [ $linter_status != 0 ] ; then
   exit $linter_status
 fi
 
-# Run unit test for Angel Player
-./angel-player/run-tests.py
-
 ./waf configure build
 
 # TODO(kzentner): Fix this hack?
@@ -42,3 +39,8 @@ for dir in angel-player
 do
 	./$dir/build.sh
 done
+
+# Run unit test for Angel Player
+# TODO(rqou): Fix the fact that this has to be run at the end of the build
+# process and can't be run at the beginning.
+./angel-player/run-tests.py
