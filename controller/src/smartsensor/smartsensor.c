@@ -40,9 +40,54 @@ typedef enum {
 
 
 
+void smartsensor_init() {
+  // Init busses
+  smartsensor1_init();
+  smartsensor2_init();
+  smartsensor3_init();
+  smartsensor4_init();
+
+  // Init sensor array
+  sensorArrLock = xSemaphoreCreateBinary();
+
+  uint8_t *outgoing = pvPortMalloc(1);
+  outgoing[0] = 0;
+  uint8_t *incoming = pvPortMalloc(1);
+  incoming[0] = 0;
+  SSState sensor1 = {
+    .id = {0, 1, 2, 3, 4, 5, 0x42, 7},
+    .busNum = 0,
+    .lock = xSemaphoreCreateBinary(),
+    .outgoingLen = 1,
+    .outgoingBytes = outgoing,
+    .incomingLen = 1,
+    .incomingBytes = incoming
+  };
+  xSemaphoreGive(sensor1.lock);
+
+  numSensors = 1;
+  sensorArr = pvPortMalloc(numSensors*sizeof(SSState));
+  sensorArr[0] = sensor1;
+
+  xSemaphoreGive(sensorArrLock);
+
+
+  // Start tasks
+  xTaskCreate(smartSensorTX, (const char *)"SensorTX", 2048, NULL,
+    tskIDLE_PRIORITY, NULL);
+  // xTaskCreate(smartSensorRX, (const char *)"SensorRX", 2048, NULL,
+  //   tskIDLE_PRIORITY, NULL);
+}
+
+
+
 
 portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
   (void) pvParameters;
+
+  // TODO(cduck): Get bus num from pvParameters.
+  uint8_t busNum = 0;
+  uart_serial_module *bus = ssBusses[busNum];
 
   // TODO(cduck): Don't start with active state.  Write code for other states.
   SS_BUS_STATE busState = SS_BUS_ACTIVE;
@@ -50,10 +95,16 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
 
   while (1) {
     while (busState == SS_BUS_ENUMERATION) {
-      break;
+      
+
+      busState = SS_BUS_MAINTAINANCE;
     }
 
-    if (busState == SS_BUS_ACTIVE) {
+    while (busState == SS_BUS_MAINTAINANCE) {
+      busState = SS_BUS_ACTIVE;
+    }
+
+    while (busState == SS_BUS_ACTIVE) {
       // At the beginning of each subchunk, the master sends the following
       // header:
       // |----------------------------------------
@@ -79,6 +130,9 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
           0, 0b00000110, 0b00000011, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           0, 0, 0, 0  // Timing bytes
          };
+      uint8_t activeLen = 0;
+      uint8_t activePacket[12];
+
       uint8_t d_len = 7 +8;
       uint8_t d[] = {0, 1, 2, 3, 4, 5, 0x42, 7, 0x01, 0x10, 0x00, 0x44, 0x88,
                      0xCC, 0xFF};
@@ -95,17 +149,95 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
       uint8_t d3[] = {0, 0xFF, d3_len, 9, 1, 0x10};
       // uint8_t d3[] = {0, 6, 2, 1, 2};
 
+      unsigned int sampleNumber = 0;
+      uint8_t frameNumber = 1;
+      unsigned int sampleNumberLast = 0;
+      uint8_t frameNumberLast = 1;
+
+      // Recieve
+      size_t recLen = 0;
+
       // TODO(cduck): Better timing
       while (1) {
         // Send entire sample (about 1ms for 100 bytes)
 
-        uint8_t button = button_driver_get_button_state(0);
+        if (frameNumber == 1) {
+          uint8_t button = button_driver_get_button_state(0);
+          uint8_t result = 0;
+          if (numSensors > 0) {
+            SSState sensor = sensorArr[0];
+            if (xSemaphoreTake(sensor.lock, SENSOR_WAIT_TIME) == pdTRUE) {
+              if (checkOutgoingBytes(sensor, 1)) {
+                result = sensor.outgoingBytes[0] ^ (button << 1);
+              }
+              xSemaphoreGive(sensor.lock);
+            }
+          }
+          // result ^= button << 1;
+          activeLen = 1;
+          activePacket[0] = result;
+        } else if (frameNumber == 4) {
+          uint8_t button = button_driver_get_button_state(1);
+          uint8_t result = 0;
+          if (numSensors > 0) {
+            SSState sensor = sensorArr[0];
+            if (xSemaphoreTake(sensor.lock, SENSOR_WAIT_TIME) == pdTRUE) {
+              if (checkOutgoingBytes(sensor, 1)) {
+                result = sensor.outgoingBytes[0] ^ button << 1;
+              }
+              xSemaphoreGive(sensor.lock);
+            }
+          }
+          // result ^= button << 1;
+          activeLen = 1;
+          activePacket[0] = result;
+        } else {
+          activeLen = 0;
+        }
+
+        // Clear missed packets
+        // ///////////while (uart_serial_receive_packet(bus, &recLen, 0)) {}
+
+        // Send active frame
+        ss_setup_active_sample(bus, 0, sampleNumber, frameNumber,
+          activePacket, activeLen);
+
+        // Recieve
+        {
+          // 1 means wait for packet
+          uint8_t *data = uart_serial_receive_packet(bus, &recLen, 0);
+
+          if (data) {
+            if (recLen > 2) {
+              uint8_t *data_decode = pvPortMalloc(recLen-3);
+              cobs_decode(data_decode, data+2, recLen-2);
+
+              SSState sensor = sensorArr[0];
+              if (xSemaphoreTake(sensor.lock, SENSOR_WAIT_TIME) == pdTRUE) {
+                allocIncomingBytes(sensor, 1);
+                sensor.incomingBytes[0] = data_decode[0];
+
+                xSemaphoreGive(sensor.lock);
+              }
+              // led_driver_set_mode(PATTERN_JUST_RED);
+              // led_driver_set_fixed(data_decode[0]&6, 0b111);
+
+              if (data_decode) vPortFree(data_decode);
+            }
+            vPortFree(data);
+          }
+        }
+
+        /*
+        activeLen = 1;  // Before COBS encoding
+        cobs_encode(data+3, activePacket, activeLen);
+        data[2] = 3+activeLen+1;
+
 
         // Ping pong packet
         sensor1.id[2] ^= 5;
         sensor2.id[2] ^= 5;
         d[2] ^= 5;
-        data[3] = button ? 2 : 1;
         // ss_all_send_maintenance(0xFE, d, d_len);
         // ss_send_maintenance(smartsensor_1, 0xFE, d, d_len);
         // ss_send_maintenance(smartsensor_2, 0xFE, d, d_len);
@@ -121,6 +253,16 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
         }
 
         // vTaskDelay(200 / portTICK_RATE_MS);  // /////////////////
+        */
+
+        frameNumberLast = frameNumber;
+        sampleNumberLast = sampleNumber;
+
+        frameNumber++;
+        if (frameNumber > 6) {
+          frameNumber = 1;
+          sampleNumber++;
+        }
       }
     }
   }
@@ -145,7 +287,7 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
       // 1 means wait for packet
       uint8_t *data = uart_serial_receive_packet(smartsensor_1, &len, 1);
 
-      if (!data)continue;
+      if (!data) continue;
       if (len <= 2) {
         vPortFree(data);
         continue;
@@ -155,8 +297,16 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
 
       uint8_t *data_decode = pvPortMalloc(len-3);
       cobs_decode(data_decode, data+2, len-2);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(data_decode[0]&3 | (button << 2), 0b111);
+
+      SSState sensor = sensorArr[0];
+      if (xSemaphoreTake(sensor.lock, SENSOR_WAIT_TIME) == pdTRUE) {
+        allocIncomingBytes(sensor, 1);
+        sensor.incomingBytes[0] = data_decode[0];
+
+        xSemaphoreGive(sensor.lock);
+      }
+      // led_driver_set_mode(PATTERN_JUST_RED);
+      // led_driver_set_fixed(data_decode[0]&6, 0b111);
 
       if (data_decode) vPortFree(data_decode);
       if (data) vPortFree(data);
