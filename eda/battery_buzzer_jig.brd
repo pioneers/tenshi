@@ -135,10 +135,10 @@ This design is
 open source hardware.
 For more information visit
 pioneers.berkeley.edu/opensource</text>
-<text x="23.495" y="25.4" size="1.6764" layer="21" font="vector" ratio="15" align="top-center">Battery Buzzer Jig</text>
+<text x="23.495" y="25.273" size="1.6764" layer="21" font="vector" ratio="15" align="top-center">Battery Buzzer Jig</text>
 <text x="23.495" y="22.86" size="1.4224" layer="21" font="vector" ratio="15" align="top-center">For Battery Buzzer
 Board V1 Rev. A</text>
-<text x="25.4" y="0.889" size="1.4224" layer="1" font="vector" ratio="15">20 June 2014</text>
+<text x="15.113" y="0.889" size="1.4224" layer="1" font="vector" ratio="15">v1 revA 20 June 2014</text>
 </plain>
 <libraries>
 <library name="pie">
@@ -862,7 +862,7 @@ design rules under a new name.</description>
 <attribute name="PIE-INT-REF-NUM" value="BULK-STOCK" x="4.826" y="2.286" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
 <element name="MISO" library="pie" package="POGO_PIN_394" value="" x="17.78" y="11.43" smashed="yes">
-<attribute name="NAME" x="15.24" y="12.7" size="1.4224" layer="25" font="vector" ratio="15"/>
+<attribute name="NAME" x="19.05" y="12.7" size="1.4224" layer="25" font="vector" ratio="15" align="bottom-right"/>
 <attribute name="VALUE" x="16.51" y="8.89" size="1.27" layer="27" font="vector"/>
 <attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="17.78" y="11.43" size="1.778" layer="27" display="off"/>
 </element>

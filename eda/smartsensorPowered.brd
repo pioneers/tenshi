@@ -129,13 +129,14 @@
 <wire x1="46.99" y1="0" x2="46.99" y2="26.67" width="0.254" layer="20"/>
 <wire x1="46.99" y1="26.67" x2="0" y2="26.67" width="0.254" layer="20"/>
 <wire x1="0" y1="26.67" x2="0" y2="0" width="0.254" layer="20"/>
-<text x="36.3982" y="0.2032" size="0.889" layer="1" font="vector" ratio="20">26 March 2014</text>
-<text x="38.354" y="1.016" size="0.6096" layer="21" ratio="20" rot="MR0">Design by:
-  Vincent Donato and Devin He
+<text x="36.3982" y="0.2032" size="0.889" layer="1" font="vector" ratio="20">20 June 2014</text>
+<text x="38.354" y="0.889" size="0.6096" layer="21" ratio="20" rot="MR0">Design by:
+ Vincent Donato and     Devin He
 This design is open source hardware.
 For more information, visit 
 pioneers.berkeley.edu/opensource</text>
-<text x="0.508" y="25.4" size="0.762" layer="21" ratio="15">Powered Smartsensor Board Rev. A</text>
+<text x="0.508" y="25.4" size="0.762" layer="21" ratio="15">Powered Smartsensor Board Version 1 Rev. A</text>
+<text x="40.5892" y="4.1402" size="0.889" layer="1" font="vector" ratio="20">v1 revA</text>
 </plain>
 <libraries>
 <library name="pie">
@@ -1753,9 +1754,9 @@ design rules under a new name.</description>
 </signal>
 </signals>
 <errors>
-<approved hash="4,1,9fd83177a593fe10"/>
-<approved hash="4,1,ea7159f1cd5de0a9"/>
 <approved hash="4,1,e42a223fb6cf96c6"/>
+<approved hash="4,1,ea7159f1cd5de0a9"/>
+<approved hash="4,1,9fd83177a593fe10"/>
 <approved hash="4,1,f2833aadae3d9a9f"/>
 <approved hash="4,16,f2833aadae3d9a9f"/>
 <approved hash="4,16,e42a223fb6cf96c6"/>

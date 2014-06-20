@@ -8,7 +8,7 @@
 </settings>
 <grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
 <layer number="3" name="Route3" color="20" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="21" fill="4" visible="no" active="no"/>
@@ -28,13 +28,13 @@
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="16" fill="1" visible="no" active="yes"/>
 <layer number="22" name="bPlace" color="17" fill="1" visible="yes" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="25" name="tNames" color="18" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="18" fill="1" visible="no" active="yes"/>
 <layer number="26" name="bNames" color="19" fill="1" visible="yes" active="yes"/>
-<layer number="27" name="tValues" color="18" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="18" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="19" fill="1" visible="yes" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
@@ -58,7 +58,7 @@
 <layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="51" name="tDocu" color="6" fill="1" visible="no" active="yes"/>
 <layer number="52" name="bDocu" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
@@ -175,7 +175,7 @@ source hardware.
 For more information,
 visit
 pioneers.berkeley.edu/opensource</text>
-<text x="66.04" y="1.27" size="0.889" layer="1" font="vector" ratio="20">19 Jun 2014</text>
+<text x="74.93" y="1.27" size="1.016" layer="16" font="vector" ratio="20" rot="MR0">v1 revB 20 June 2014</text>
 <text x="46.99" y="60.325" size="1.27" layer="22" font="vector" ratio="20" rot="MR0">Rev. B "Kanade"</text>
 <text x="47.1424" y="56.0324" size="1.27" layer="22" ratio="20" rot="MR0">Serial#</text>
 <rectangle x1="23.1648" y1="50.1396" x2="47.7012" y2="55.7784" layer="22"/>
@@ -4883,12 +4883,12 @@ design rules under a new name.</description>
 <approved hash="4,1,ba6fdfcc86770d24"/>
 <approved hash="4,1,0a075fbb1e01d524"/>
 <approved hash="4,1,7d7cc3b68d8d5da6"/>
-<approved hash="19,1,0cbe0280000c0e32"/>
 <approved hash="19,1,0cba028401e00fde"/>
+<approved hash="19,1,0cbe0280000c0e32"/>
 <approved hash="19,1,38b8868685f03bce"/>
 <approved hash="19,1,38bc8682841c3a22"/>
-<approved hash="19,1,1cba028401e41fda"/>
 <approved hash="19,1,1cbe028000081e36"/>
+<approved hash="19,1,1cba028401e41fda"/>
 <approved hash="4,1,8def15eb80f1fb53"/>
 <approved hash="4,1,e7cc13b2d9327c12"/>
 <approved hash="4,1,5252d541dbebdcb2"/>

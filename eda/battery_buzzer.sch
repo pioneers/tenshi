@@ -4098,7 +4098,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <parts>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Devin He, Krystyn Neisess"/>
-<attribute name="REVISION" value="A"/>
+<attribute name="REVISION" value="1A"/>
 </part>
 <part name="U1" library="pie" deviceset="ISL83491" device="SOIC"/>
 <part name="U2" library="pie" deviceset="ATTINY1634" device=""/>

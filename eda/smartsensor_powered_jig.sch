@@ -512,7 +512,7 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <parts>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Krystyn Neisess"/>
-<attribute name="REVISION" value="&quot;B&quot;"/>
+<attribute name="REVISION" value="1A"/>
 </part>
 <part name="J2" library="pie" deviceset="AVR_SPI_PRG_6" device="PTH"/>
 <part name="MISO" library="pie" deviceset="POGO_PIN" device=""/>

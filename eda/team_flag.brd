@@ -28,13 +28,13 @@
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="21" name="tPlace" color="16" fill="1" visible="no" active="yes"/>
+<layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="yes"/>
 <layer number="22" name="bPlace" color="17" fill="1" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="25" name="tNames" color="18" fill="1" visible="no" active="yes"/>
+<layer number="25" name="tNames" color="18" fill="1" visible="yes" active="yes"/>
 <layer number="26" name="bNames" color="19" fill="1" visible="yes" active="yes"/>
-<layer number="27" name="tValues" color="18" fill="1" visible="no" active="yes"/>
+<layer number="27" name="tValues" color="18" fill="1" visible="yes" active="yes"/>
 <layer number="28" name="bValues" color="19" fill="1" visible="yes" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
@@ -138,13 +138,14 @@
 <text x="18.034" y="26.035" size="1.778" layer="22" font="vector" rot="MR180">Blue</text>
 <text x="16.764" y="39.624" size="1.4224" layer="21" font="vector" ratio="15" rot="R180" align="bottom-center">Pioneers in Engineering
 Team Flag
-Version 3.0, Rev A</text>
+Version 3 Rev. A</text>
 <text x="-1.778" y="29.972" size="1.016" layer="21" font="vector" ratio="15" align="top-left">Copyright (c) 2013, Pioneers in Engineering
 All rights reserved
 Designed by: Jared P., Aravind K., Sumita G.
 This design is open source hardware.
 pioneers.berkeley.edu/opensource</text>
-<text x="22.098" y="0.889" size="0.9144" layer="1" font="vector" ratio="20">20 June 2014</text>
+<text x="22.606" y="0.762" size="0.9144" layer="1" font="vector" ratio="20">  v3  revA
+20 June 2014</text>
 </plain>
 <libraries>
 <library name="pie">
@@ -1019,12 +1020,12 @@ design rules under a new name.</description>
 </element>
 <element name="R3" library="pie" package="R0603" value="10k" x="24.4094" y="4.064" smashed="yes" rot="R180">
 <attribute name="NAME" x="23.0124" y="4.9022" size="0.762" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="23.0124" y="2.4638" size="0.762" layer="27" font="vector" ratio="15"/>
+<attribute name="VALUE" x="24.7904" y="4.8768" size="0.762" layer="27" font="vector" ratio="15"/>
 <attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="24.4094" y="4.064" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R4" library="pie" package="R0603" value="10k" x="28.4734" y="4.064" smashed="yes" rot="R180">
 <attribute name="NAME" x="27.0002" y="4.9022" size="0.762" layer="25" font="vector" ratio="15" rot="R180" align="top-right"/>
-<attribute name="VALUE" x="27.1272" y="2.4638" size="0.762" layer="27" font="vector" ratio="15" rot="R180" align="top-right"/>
+<attribute name="VALUE" x="28.7782" y="4.8768" size="0.762" layer="27" font="vector" ratio="15" rot="R180" align="top-right"/>
 <attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="28.4734" y="4.064" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="U1" library="pie" package="SOIC14" value="ISL83491SOIC" x="5.5372" y="7.9502" smashed="yes">
@@ -1112,10 +1113,21 @@ design rules under a new name.</description>
 <vertex x="-3.556" y="40.64"/>
 <vertex x="37.084" y="40.64"/>
 </polygon>
-<wire x1="20.574" y1="8.1534" x2="21.844" y2="6.8834" width="0.3048" layer="16"/>
-<wire x1="21.844" y1="6.8834" x2="21.844" y2="4.064" width="0.3048" layer="16"/>
 <wire x1="21.844" y1="4.064" x2="20.574" y2="2.794" width="0.3048" layer="16"/>
 <wire x1="20.574" y1="2.794" x2="20.574" y2="1.905" width="0.3048" layer="16"/>
+<wire x1="25.2594" y1="4.064" x2="25.273" y2="4.064" width="0.3048" layer="1"/>
+<wire x1="26.162" y1="6.096" x2="28.9424" y2="6.096" width="0.3048" layer="16"/>
+<via x="26.162" y="6.096" extent="1-16" drill="0.381"/>
+<via x="28.9424" y="6.096" extent="1-16" drill="0.381"/>
+<wire x1="21.844" y1="6.35" x2="20.574" y2="7.62" width="0.3048" layer="16"/>
+<wire x1="20.574" y1="7.62" x2="20.574" y2="8.1534" width="0.3048" layer="16"/>
+<wire x1="21.844" y1="4.064" x2="21.844" y2="5.842" width="0.3048" layer="16"/>
+<wire x1="21.844" y1="5.969" x2="21.844" y2="6.35" width="0.3048" layer="16"/>
+<wire x1="21.844" y1="6.35" x2="22.098" y2="6.096" width="0.3048" layer="16"/>
+<wire x1="22.098" y1="6.096" x2="21.844" y2="5.842" width="0.3048" layer="16"/>
+<wire x1="21.844" y1="5.842" x2="21.844" y2="5.969" width="0.3048" layer="16"/>
+<wire x1="21.844" y1="5.969" x2="21.971" y2="6.096" width="0.3048" layer="16"/>
+<wire x1="21.971" y1="6.096" x2="26.162" y2="6.096" width="0.3048" layer="16"/>
 </signal>
 <signal name="BLUE">
 <contactref element="Q1" pad="1"/>

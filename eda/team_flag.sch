@@ -3949,7 +3949,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <part name="SUPPLY1" library="pie" deviceset="GND" device=""/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Jared P., Aravind K., Sumita G."/>
-<attribute name="REVISION" value="C"/>
+<attribute name="REVISION" value="3A"/>
 </part>
 <part name="R3" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="R4" library="pie" deviceset="R-US_" device="R0603" value="10k"/>

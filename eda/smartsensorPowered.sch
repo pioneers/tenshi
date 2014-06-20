@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -4355,7 +4355,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <parts>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Devin He"/>
-<attribute name="REVISION" value="A"/>
+<attribute name="REVISION" value="1A"/>
 </part>
 <part name="U1" library="pie" deviceset="ISL83491" device="SOIC"/>
 <part name="U2" library="pie" deviceset="ATTINY1634" device=""/>
@@ -4437,7 +4437,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <instance part="U$7" gate="G$1" x="195.58" y="139.7"/>
 <instance part="U$8" gate="G$1" x="236.22" y="139.7"/>
 <instance part="U$9" gate="G$1" x="182.88" y="154.94"/>
-<instance part="SUPPLY5" gate="GND" x="182.88" y="119.38"/>
+<instance part="SUPPLY5" gate="GND" x="182.88" y="116.84"/>
 <instance part="GND" gate="G$1" x="157.48" y="172.72"/>
 <instance part="5V" gate="G$1" x="134.62" y="172.72"/>
 <instance part="U$16" gate="G$1" x="144.78" y="177.8"/>
@@ -4608,7 +4608,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <pinref part="SUPPLY5" gate="GND" pin="GND"/>
 <wire x1="182.88" y1="134.62" x2="182.88" y2="127" width="0.1524" layer="91"/>
 <pinref part="U$7" gate="G$1" pin="2"/>
-<wire x1="182.88" y1="127" x2="182.88" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="182.88" y1="127" x2="182.88" y2="119.38" width="0.1524" layer="91"/>
 <wire x1="198.12" y1="142.24" x2="210.82" y2="142.24" width="0.1524" layer="91"/>
 <wire x1="210.82" y1="142.24" x2="213.36" y2="142.24" width="0.1524" layer="91"/>
 <wire x1="213.36" y1="142.24" x2="213.36" y2="137.16" width="0.1524" layer="91"/>
