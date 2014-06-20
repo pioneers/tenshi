@@ -7,26 +7,12 @@ let connectedGamepads = {};
 let pielesValueMap = {};
 let controllersValid = false;
 let updateSetIntervalId;
-const global_state = require('tenshi/common/global_state');
-const robot_application = require('tenshi/common/robot_application');
-const typpo_module = require('tenshi/common/factory');
-const url = require('jetpack/sdk/url');
-const buffer = require('jetpack/sdk/io/buffer');
-const Int64 = require('Int64.js');
+let attachedRadios = {};
 
-const XBEE_FRAMING_YAML_FILE =
-    'chrome://angel-player/content/common_defs/xbee_typpo.yaml';
-const PIEMOS_FRAMING_YAML_FILE =
-    'chrome://angel-player/content/common_defs/legacy_piemos_framing.yaml';
+const global_state = require('tenshi/common/global_state');
 
 // 10 Hz. To be tuned later
 const PIELES_UPDATE_RATE = 1.0/10.0;
-
-// Init Typpo
-let typpo = typpo_module.make();
-typpo.set_target_type('ARM');
-typpo.load_type_file(url.toFilename(XBEE_FRAMING_YAML_FILE), false);
-typpo.load_type_file(url.toFilename(PIEMOS_FRAMING_YAML_FILE), false);
 
 // Checks whether we have all the controllers needed for PiELES to work
 // according to the configuration
@@ -127,19 +113,6 @@ function gamepadDetach(e) {
     }
 }
 
-// TODO(rqou): Move this elsewhere. There's now two copies.
-function computeXbeeChecksum(buf, start, len) {
-    let sum = 0;
-
-    for (let i = start; i < start + len; i++) {
-        sum += buf[i];
-    }
-
-    sum = sum & 0xFF;
-
-    return 0xFF - sum;
-}
-
 // Does actual sending of packets to robot
 // TODO(rqou): Reinvent this protocol
 function sendPiELESData(e) {
@@ -191,73 +164,26 @@ function sendPiELESData(e) {
         PiELESDigitalVals[i] = value;
     }
 
-    let digitalBitfield = 0;
-    for (let i = 0; i < 8; i++) {
-        if (PiELESDigitalVals[i]) {
-            digitalBitfield |= (1 << i);
-        }
-    }
-
     // Now we send a packet to the robot!
-
-    // TODO(rqou): Massive massive code duplication alert! Clean me up!
-
-    let serportObj = global_state.get('serial_port_object');
-    if (!serportObj) {
-        throw "Serial port not open!";
+    for (let radio in attachedRadios) {
+        attachedRadios[radio].send({
+            'PiELESDigitalVals': PiELESDigitalVals,
+            'PiELESAnalogVals': PiELESAnalogVals,
+        });
     }
-
-    let robotApp = global_state.get('robot_application');
-    if (!robotApp.radio_pairing_info) {
-        throw "No radio address set!";
-    }
-    let ROBOT = "0x" + robotApp.radio_pairing_info;
-
-    // Create initial packet
-    let initial_packet = typpo.create('pier_incomingdata');
-    initial_packet.set_slot('ident',
-        typpo.get_const('PIER_INCOMINGDATA_IDENT'));
-    // TODO(rqou): Meaningful flags?
-    initial_packet.set_slot('fieldtime', 0);
-    initial_packet.set_slot('flags', 0);
-    initial_packet.set_slot('analog', PiELESAnalogVals);
-    initial_packet.set_slot('digital', digitalBitfield);
-    // The +1 allows the checksum to be crammed in the end
-    let payloadbuf =
-        buffer.Buffer(typpo.get_size('pier_incomingdata') + 1);
-    payloadbuf.fill(0x00);
-    initial_packet.write(payloadbuf);
-    // Add XBee framing
-    let xbee_tx_frame = typpo.create('xbee_tx64_header');
-    xbee_tx_frame.set_slot('xbee_api_type',
-        typpo.get_const('XBEE_API_TYPE_TX64'));
-    // TODO(rqou): Use frameId?
-    xbee_tx_frame.set_slot('frameId', 0);
-    xbee_tx_frame.set_slot('xbee_dest_addr', new Int64(ROBOT));
-    xbee_tx_frame.set_slot('options', 0);
-    xbee_tx_frame.set_slot('data', payloadbuf);
-    let xbee_payload = typpo.create('xbee_payload');
-    xbee_payload.set_slot('tx64', xbee_tx_frame);
-    let initial_packet_xbee = typpo.create('xbee_api_packet');
-    initial_packet_xbee.set_slot('xbee_api_magic',
-        typpo.get_const('XBEE_MAGIC'));
-    initial_packet_xbee.set_slot('length',
-        typpo.get_size('pier_incomingdata') +
-        typpo.get_size('xbee_tx64_header'));
-    initial_packet_xbee.set_slot('payload', xbee_payload);
-    // TODO(rqou): Jank jank jank
-    let buf = buffer.Buffer(
-        typpo.get_size('xbee_api_packet') + payloadbuf.length);
-    initial_packet_xbee.write(buf);
-    // Note, this is kinda jank. Checksum is last byte. Getting the length
-    // is also kinda borked due to the union.
-    // TODO(rqou): Don't hardcode 3 here!
-    buf[buf.length - 1] = computeXbeeChecksum(buf,
-        3,
-        buf.length - 1 - (3));
-
-    serportObj.write(buf);
 }
+
+// Add a "radio" to PiELES
+// Note that it is likely that radio is not really a radio.
+// It should have a method in it called send, which accepts a key-value mapping 
+// of values.
+exports.attachRadio = function(name, radio) {
+    attachedRadios[name] = radio;
+};
+
+exports.detachRadio = function(name) {
+    delete attachedRadios[name];
+};
 
 exports.attachToPage = function(_window) {
     // TODO(rqou): Some means to send feedback to update page display when

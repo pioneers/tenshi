@@ -5,12 +5,14 @@ const { Cc, Ci, ChromeWorker } = require('chrome');
 const global_state = require('tenshi/common/global_state');
 const robot_application = require('tenshi/common/robot_application');
 const serport = require('tenshi/common/serport');
+const pieles = require('tenshi/pieles/pieles');
+const radio = require('tenshi/common/piemos_radio');
 let window;
 let document;
 let $;
 
-function connectRadio(e) {
-    disconnectRadio(e);
+function connectRadio() {
+    disconnectRadio();
 
     let serPortName = global_state.get('serial_port');
     if (!serPortName) {
@@ -20,9 +22,14 @@ function connectRadio(e) {
     let serportObj = serport.open(serPortName);
 
     global_state.set('serial_port_object', serportObj);
+
+    let addr = global_state.get('robot_application').radio_pairing_info;
+
+    pieles.attachRadio('xbee', new radio.Radio(addr, serportObj));
 }
 
-function disconnectRadio(e) {
+function disconnectRadio() {
+    pieles.detachRadio('xbee');
     let serportObj = global_state.get('serial_port_object');
     if (serportObj) {
         serportObj.close();
@@ -30,16 +37,17 @@ function disconnectRadio(e) {
     }
 }
 
-function xbeeAddrKeyup(e) {
+function xbeeAddrKeyup() {
     /* jshint validthis: true */
 
     if (this.validity.valid) {
         global_state.get('robot_application').radio_pairing_info =
             this.value;
+        connectRadio();
     }
 }
 
-function serialPortKeyup(e) {
+function serialPortKeyup() {
     /* jshint validthis: true */
 
     if (this.validity.valid) {
