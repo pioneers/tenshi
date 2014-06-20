@@ -2043,7 +2043,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <text x="-11.43" y="-7.62" size="1.27" layer="27">&gt;VALUE</text>
 </package>
 <package name="WIRE_WITH_HOLE">
-<pad name="P$1" x="-2.54" y="0" drill="1.016"/>
+<pad name="P$1" x="-2.54" y="0" drill="1.016" diameter="1.778"/>
 <hole x="2.54" y="0" drill="2.38125"/>
 <wire x1="10.16" y1="2.54" x2="2.54" y2="2.54" width="0.127" layer="51"/>
 <wire x1="2.54" y1="2.54" x2="2.54" y2="-2.54" width="0.127" layer="51"/>
@@ -4073,7 +4073,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 </devices>
