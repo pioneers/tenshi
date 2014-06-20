@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -3815,7 +3815,7 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 <part name="SERVO_PWR_12" library="pie" deviceset="M02" device="PTH"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Kate R, Andrew H, Sumita G"/>
-<attribute name="REVISION" value="7A"/>
+<attribute name="REVISION" value="3A"/>
 </part>
 <part name="R5" library="pie" deviceset="R-US_" device="R0603" value="330"/>
 <part name="LED2" library="pie" deviceset="LED" device="0805" value="YELLOW"/>

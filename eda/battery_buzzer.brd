@@ -129,14 +129,15 @@
 <wire x1="46.99" y1="0" x2="46.99" y2="26.67" width="0.254" layer="20"/>
 <wire x1="46.99" y1="26.67" x2="0" y2="26.67" width="0.254" layer="20"/>
 <wire x1="0" y1="26.67" x2="0" y2="0" width="0.254" layer="20"/>
-<text x="23.3172" y="0.8382" size="1.4224" layer="1" font="vector" ratio="15">20 June 2014</text>
+<text x="16.9672" y="0.8382" size="1.1684" layer="1" font="vector" ratio="15">v1 revA 20 June 2014</text>
 <text x="38.354" y="1.016" size="0.762" layer="22" font="vector" ratio="20" rot="MR0">Design by:
 Vincent Donato, Devin He, and Krystyn Neisess
 This design is open source hardware.
 For more information, visit 
 pioneers.berkeley.edu/opensource</text>
-<text x="16.764" y="25.908" size="1.0922" layer="21" font="vector" ratio="15" align="top-center">Battery Buzzer
-V1 Rev. A</text>
+<text x="16.764" y="22.352" size="1.0922" layer="21" font="vector" ratio="15" distance="25" align="bottom-center">Battery Buzzer
+Version 1
+Rev. A</text>
 <text x="7.366" y="23.368" size="0.762" layer="27" font="vector" ratio="20" align="top-left">130</text>
 <text x="6.6802" y="19.7104" size="0.762" layer="27" font="vector" ratio="20" align="top-left">110k</text>
 </plain>
@@ -1083,7 +1084,7 @@ design rules under a new name.</description>
 <element name="U2" library="pie" package="SOIC20S" value="ATTINY1634" x="20.32" y="7.62" smashed="yes" rot="R90">
 <attribute name="PIE-INT-REF-NUM" value="ATtiny1634" x="20.32" y="7.62" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="12.954" y="21.59" size="1.27" layer="25" font="vector" ratio="15" rot="R180"/>
-<attribute name="VALUE" x="13.208" y="17.145" size="1.016" layer="27" font="vector" ratio="16" rot="R270"/>
+<attribute name="VALUE" x="13.208" y="17.145" size="1.016" layer="27" font="vector" ratio="15" rot="R270"/>
 </element>
 <element name="C1" library="pie" package="0603-CAP" value="0.1 uF" x="16.51" y="21.59" smashed="yes">
 <attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="16.51" y="21.59" size="1.778" layer="27" display="off"/>
@@ -1105,11 +1106,11 @@ design rules under a new name.</description>
 </element>
 <element name="GND" library="pie" package="WIRE_WITH_HOLE" value="WIRE_WITH_HOLE" x="42.418" y="2.54" smashed="yes">
 <attribute name="PIE-INT-REF-NUM" value="DNL" x="42.418" y="2.54" size="1.778" layer="27" display="off"/>
-<attribute name="NAME" x="40.894" y="2.032" size="1.016" layer="25" font="vector" ratio="20"/>
+<attribute name="NAME" x="41.021" y="2.032" size="0.9144" layer="25" font="vector" ratio="20"/>
 </element>
 <element name="5V" library="pie" package="WIRE_WITH_HOLE" value="WIRE_WITH_HOLE" x="42.418" y="24.892" smashed="yes">
 <attribute name="PIE-INT-REF-NUM" value="DNL" x="42.418" y="24.892" size="1.778" layer="27" display="off"/>
-<attribute name="NAME" x="40.894" y="24.384" size="1.016" layer="25" font="vector" ratio="20"/>
+<attribute name="NAME" x="41.021" y="24.384" size="0.9144" layer="25" font="vector" ratio="20"/>
 </element>
 <element name="TP1" library="pie" package="PAD.02X.02" value="TEST-POINT2" x="10.16" y="21.59" smashed="yes">
 <attribute name="PIE-INT-REF-NUM" value="DNL" x="10.16" y="21.59" size="1.778" layer="27" display="off"/>
@@ -1618,10 +1619,10 @@ design rules under a new name.</description>
 </signal>
 </signals>
 <errors>
-<approved hash="4,1,e42a223fb6cf96c6"/>
-<approved hash="4,1,ea7159f1cd5de0a9"/>
-<approved hash="4,1,9fd83177a593fe10"/>
 <approved hash="4,1,f2833aadae3d9a9f"/>
+<approved hash="4,1,e42a223fb6cf96c6"/>
+<approved hash="4,1,9fd83177a593fe10"/>
+<approved hash="4,1,ea7159f1cd5de0a9"/>
 <approved hash="4,16,e42a223fb6cf96c6"/>
 <approved hash="4,16,ea7159f1cd5de0a9"/>
 <approved hash="4,16,f2833aadae3d9a9f"/>

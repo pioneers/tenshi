@@ -138,7 +138,8 @@ pioneers.berkeley.edu/opensource</text>
 <text x="20.32" y="38.1" size="1.6764" layer="21" font="vector" ratio="15" align="top-center">Team Flag Jig</text>
 <text x="20.32" y="35.56" size="1.4224" layer="21" font="vector" ratio="15" align="top-center">For Battery Buzzer
 Board V3 Rev. A</text>
-<text x="19.304" y="0.889" size="1.4224" layer="1" font="vector" ratio="15">20 June 2014</text>
+<text x="35.433" y="0.889" size="1.4224" layer="1" font="vector" ratio="15" align="bottom-right">v3 revA
+20 June 2014</text>
 </plain>
 <libraries>
 <library name="pie">
