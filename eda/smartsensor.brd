@@ -8,7 +8,7 @@
 </settings>
 <grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
 <layer number="3" name="Route3" color="20" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="21" fill="4" visible="no" active="no"/>
@@ -28,13 +28,13 @@
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="14" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="21" name="tPlace" color="16" fill="1" visible="no" active="yes"/>
+<layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="yes"/>
 <layer number="22" name="bPlace" color="17" fill="1" visible="yes" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="25" name="tNames" color="18" fill="1" visible="no" active="yes"/>
+<layer number="25" name="tNames" color="18" fill="1" visible="yes" active="yes"/>
 <layer number="26" name="bNames" color="19" fill="1" visible="yes" active="yes"/>
-<layer number="27" name="tValues" color="18" fill="1" visible="no" active="yes"/>
+<layer number="27" name="tValues" color="18" fill="1" visible="yes" active="yes"/>
 <layer number="28" name="bValues" color="19" fill="1" visible="yes" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
@@ -58,7 +58,7 @@
 <layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="6" fill="1" visible="no" active="yes"/>
+<layer number="51" name="tDocu" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="52" name="bDocu" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
@@ -321,7 +321,7 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <text x="-11.43" y="-7.62" size="1.27" layer="27">&gt;VALUE</text>
 </package>
 <package name="WIRE_WITH_HOLE">
-<pad name="P$1" x="-2.54" y="0" drill="1.016"/>
+<pad name="P$1" x="-2.54" y="0" drill="1.016" diameter="1.778"/>
 <hole x="2.54" y="0" drill="2.38125"/>
 <wire x1="10.16" y1="2.54" x2="2.54" y2="2.54" width="0.127" layer="51"/>
 <wire x1="2.54" y1="2.54" x2="2.54" y2="-2.54" width="0.127" layer="51"/>
@@ -1604,9 +1604,9 @@ design rules under a new name.</description>
 <wire x1="24.13" y1="13.97" x2="24.13" y2="11.8364" width="0.2032" layer="16"/>
 <wire x1="24.13" y1="11.8364" x2="26.2128" y2="9.7536" width="0.2032" layer="16"/>
 <wire x1="26.2128" y1="9.7536" x2="26.2128" y2="4.572" width="0.2032" layer="16"/>
-<wire x1="26.2128" y1="4.572" x2="25.2984" y2="3.6576" width="0.2032" layer="16"/>
-<wire x1="25.2984" y1="3.6576" x2="23.4696" y2="3.6576" width="0.2032" layer="16"/>
-<wire x1="23.4696" y1="3.6576" x2="22.5552" y2="2.7432" width="0.2032" layer="16"/>
+<wire x1="26.2128" y1="4.572" x2="25.4254" y2="3.7846" width="0.2032" layer="16"/>
+<wire x1="25.4254" y1="3.7846" x2="23.5966" y2="3.7846" width="0.2032" layer="16"/>
+<wire x1="23.5966" y1="3.7846" x2="22.5552" y2="2.7432" width="0.2032" layer="16"/>
 <wire x1="9.74" y1="3.8481" x2="10.6807" y2="3.8481" width="0.2032" layer="1"/>
 <wire x1="10.6807" y1="3.8481" x2="10.9855" y2="3.5433" width="0.2032" layer="1"/>
 <wire x1="9.743440625" y1="5.069840625" x2="9.743440625" y2="3.851540625" width="0.2032" layer="1"/>
@@ -1762,10 +1762,10 @@ design rules under a new name.</description>
 </signal>
 </signals>
 <errors>
-<approved hash="4,1,28151940c1c3ec0c"/>
 <approved hash="4,1,5c7470f8a78dfef7"/>
-<approved hash="4,1,42835aac8e3fca9e"/>
+<approved hash="4,1,28151940c1c3ec0c"/>
 <approved hash="4,1,3c4e79c4b1458ea5"/>
+<approved hash="4,1,42835aac8e3fca9e"/>
 <approved hash="4,16,42835aac8e3fca9e"/>
 <approved hash="4,16,5c7470f8a78dfef7"/>
 <approved hash="4,16,28151940c1c3ec0c"/>

@@ -2043,7 +2043,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <text x="-11.43" y="-7.62" size="1.27" layer="27">&gt;VALUE</text>
 </package>
 <package name="WIRE_WITH_HOLE">
-<pad name="P$1" x="-2.54" y="0" drill="1.016"/>
+<pad name="P$1" x="-2.54" y="0" drill="1.016" diameter="1.778"/>
 <hole x="2.54" y="0" drill="2.38125"/>
 <wire x1="10.16" y1="2.54" x2="2.54" y2="2.54" width="0.127" layer="51"/>
 <wire x1="2.54" y1="2.54" x2="2.54" y2="-2.54" width="0.127" layer="51"/>
@@ -2434,6 +2434,17 @@ Vertical</description>
 <text x="3.2004" y="-1.8034" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 <wire x1="2.54" y1="1.905" x2="2.54" y2="-1.905" width="0.254" layer="21" curve="-73.739795"/>
 <text x="-5.842" y="-1.016" size="2.54" layer="21">+</text>
+</package>
+<package name="SOD-323">
+<wire x1="-0.9" y1="0.65" x2="-0.5" y2="0.65" width="0.2032" layer="21"/>
+<wire x1="-0.5" y1="0.65" x2="0.9" y2="0.65" width="0.2032" layer="21"/>
+<wire x1="-0.9" y1="-0.65" x2="-0.5" y2="-0.65" width="0.2032" layer="21"/>
+<wire x1="-0.5" y1="-0.65" x2="0.9" y2="-0.65" width="0.2032" layer="21"/>
+<wire x1="-0.5" y1="0.65" x2="-0.5" y2="-0.65" width="0.2032" layer="21"/>
+<smd name="1" x="-1.15" y="0" dx="0.63" dy="0.83" layer="1"/>
+<smd name="2" x="1.15" y="0" dx="0.63" dy="0.83" layer="1"/>
+<text x="-0.889" y="1.016" size="0.4064" layer="25">&gt;NAME</text>
+<text x="-1.016" y="-1.397" size="0.4064" layer="27">&gt;VALUE</text>
 </package>
 </packages>
 <symbols>
@@ -4062,6 +4073,17 @@ These are standard reverse protection diodes and small signal diodes. SMA packag
 </technology>
 </technologies>
 </device>
+<device name="SOD-323" package="SOD-323">
+<connects>
+<connect gate="G$1" pin="A" pad="1"/>
+<connect gate="G$1" pin="C" pad="2"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="DIODE"/>
+</technology>
+</technologies>
+</device>
 </devices>
 </deviceset>
 <deviceset name="MOSFET-NCHANNEL" prefix="Q">
@@ -4312,7 +4334,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <connect gate="G$1" pin="C" pad="K"/>
 </connects>
 <technologies>
-<technology name=""/>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="LED"/>
+</technology>
 </technologies>
 </device>
 </devices>
