@@ -180,6 +180,21 @@ pioneers.berkeley.edu/opensource</text>
 <text x="47.1424" y="56.0324" size="1.27" layer="22" ratio="20" rot="MR0">Serial#</text>
 <rectangle x1="23.1648" y1="50.1396" x2="47.7012" y2="55.7784" layer="22"/>
 <text x="48.387" y="52.705" size="1.27" layer="21" font="vector" ratio="20">RSSI</text>
+<text x="12.065" y="31.75" size="1.27" layer="22" font="vector" ratio="20" rot="MR0">5V</text>
+<text x="17.145" y="27.94" size="1.27" layer="22" font="vector" ratio="20" rot="MR0">5V</text>
+<text x="17.145" y="31.75" size="1.27" layer="22" font="vector" ratio="20" rot="MR0">GND</text>
+<text x="12.065" y="27.94" size="1.27" layer="22" font="vector" ratio="20" rot="MR0">GND</text>
+<text x="12.065" y="30.48" size="1.27" layer="22" font="vector" ratio="20" rot="MR0">TX+</text>
+<text x="17.145" y="30.48" size="1.27" layer="22" font="vector" ratio="20" rot="MR0">TX-</text>
+<text x="17.145" y="29.21" size="1.27" layer="22" font="vector" ratio="20" rot="MR0">RX+</text>
+<text x="12.065" y="29.21" size="1.27" layer="22" font="vector" ratio="20" rot="MR0">RX-</text>
+<wire x1="8.255" y1="33.655" x2="13.335" y2="33.655" width="0.2032" layer="22"/>
+<wire x1="13.335" y1="33.655" x2="17.78" y2="33.655" width="0.2032" layer="22"/>
+<wire x1="17.78" y1="33.655" x2="17.78" y2="27.305" width="0.2032" layer="22"/>
+<wire x1="17.78" y1="27.305" x2="13.335" y2="27.305" width="0.2032" layer="22"/>
+<wire x1="13.335" y1="27.305" x2="8.255" y2="27.305" width="0.2032" layer="22"/>
+<wire x1="8.255" y1="27.305" x2="8.255" y2="33.655" width="0.2032" layer="22"/>
+<wire x1="13.335" y1="33.655" x2="13.335" y2="27.305" width="0.2032" layer="22"/>
 </plain>
 <libraries>
 <library name="pie">
