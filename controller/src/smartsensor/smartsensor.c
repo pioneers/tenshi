@@ -90,14 +90,101 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
   uart_serial_module *bus = ssBusses[busNum];
 
   // TODO(cduck): Don't start with active state.  Write code for other states.
-  SS_BUS_STATE busState = SS_BUS_ACTIVE;
+  SS_BUS_STATE busState = SS_BUS_ENUMERATION;
 
 
   while (1) {
     while (busState == SS_BUS_ENUMERATION) {
-      
+      // int rxActive = 0;
 
-      busState = SS_BUS_MAINTAINANCE;
+      /*
+      int ss_send_enum_enter(uart_serial_module *module);
+      int ss_send_enum_exit(uart_serial_module *module);
+      int ss_send_enum_reset(uart_serial_module *module);
+      int ss_send_enum_select(uart_serial_module *module, uint8_t id[8],
+        uint8_t mask[8]);
+      */
+      uint8_t id1[] = {0xFF, 1, 2, 3, 4, 5, 0x42, 7};
+      uint8_t mask1[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+      uint8_t id2[] = {0xFF, 1, 2, 3, 4, 5, 0x42, 7};
+      uint8_t mask2[] = {0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+      uint8_t id3[] = {0, 0xFF, 2, 3, 4, 5, 0x42, 7};
+      uint8_t mask3[] = {0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+      uint8_t id4[] = {0, 0xA, 0xB, 0xC, 0xA, 0xB, 0xC, 0};
+      uint8_t mask4[] = {0, 0, 0, 0, 0, 0, 0, 0};
+
+
+      ss_send_enum_reset(bus);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+      ss_send_enum_enter(bus);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+
+      ss_send_enum_select(bus, id1, mask1);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+      ss_send_enum_reset(bus);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+      ss_send_enum_select(bus, id2, mask2);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+      ss_send_enum_reset(bus);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+      ss_send_enum_select(bus, id3, mask3);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+      ss_send_enum_reset(bus);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+      ss_send_enum_select(bus, id4, mask4);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+      ss_send_enum_reset(bus);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+
+      ss_send_enum_exit(bus);
+      vTaskDelay(3 / portTICK_RATE_MS);
+      led_driver_set_mode(PATTERN_JUST_RED);
+      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
+      vTaskDelay(10 / portTICK_RATE_MS);
+
+      vTaskDelay(1000 / portTICK_RATE_MS);
+
+      // busState = SS_BUS_MAINTAINANCE;
     }
 
     while (busState == SS_BUS_MAINTAINANCE) {

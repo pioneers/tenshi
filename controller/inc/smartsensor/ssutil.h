@@ -45,12 +45,21 @@ extern xSemaphoreHandle sensorArrLock;
 
 
 int ss_uart_serial_send_and_finish_data(uart_serial_module *module,
-  uint8_t *data, size_t len);
-int ss_all_uart_serial_send_and_finish_data(uint8_t *data, size_t len);
+  const uint8_t *data, size_t len);
+int ss_all_uart_serial_send_and_finish_data(const uint8_t *data, size_t len);
 int ss_send_maintenance(uart_serial_module *module, uint8_t type,
-  uint8_t *data, uint8_t len);
-int ss_all_send_maintenance(uint8_t type, uint8_t *data, uint8_t len);
-int ss_send_ping_pong(SSState sensor, uint8_t *data, uint8_t len);
+  const uint8_t *data, uint8_t len);
+int ss_all_send_maintenance(uint8_t type, const uint8_t *data, uint8_t len);
+int ss_send_ping_pong(SSState sensor, const uint8_t *data, uint8_t len);
+
+int ss_send_enum_enter(uart_serial_module *module);
+int ss_send_enum_exit(uart_serial_module *module);
+int ss_send_enum_reset(uart_serial_module *module);
+int ss_send_enum_select(uart_serial_module *module, uint8_t id[8],
+  uint8_t mask[8]);
+// Returns 1 if any sensors are still driving a logic level 0 onto the bus.
+int ss_recieve_enum_any_unselected(uart_serial_module *module);
+
 int ss_setup_active_sample(uart_serial_module *module, uint8_t inband,
   uint8_t sample, uint8_t frame, uint8_t *data, uint8_t len);
 
