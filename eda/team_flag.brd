@@ -1059,6 +1059,12 @@ design rules under a new name.</description>
 <element name="TP3" library="pie" package="PAD.02X.02" value="IO4" x="23.114" y="9.5758">
 <attribute name="PIE-INT-REF-NUM" value="DNL" x="23.114" y="9.5758" size="1.778" layer="27" display="off"/>
 </element>
+<element name="TP4" library="pie" package="PAD.02X.02" value="TEST-POINT2" x="27.686" y="2.794">
+<attribute name="PIE-INT-REF-NUM" value="DNL" x="27.686" y="2.794" size="1.778" layer="27" display="off"/>
+</element>
+<element name="TP5" library="pie" package="PAD.02X.02" value="TEST-POINT2" x="22.479" y="5.334">
+<attribute name="PIE-INT-REF-NUM" value="DNL" x="22.479" y="5.334" size="1.778" layer="27" display="off"/>
+</element>
 </elements>
 <signals>
 <signal name="YELLOW">
@@ -1074,6 +1080,9 @@ design rules under a new name.</description>
 <wire x1="22.352" y1="12.7" x2="22.352" y2="9.144" width="0.2032" layer="1"/>
 <wire x1="22.352" y1="9.144" x2="23.1902" y2="8.3058" width="0.2032" layer="1"/>
 <wire x1="23.1902" y1="8.3058" x2="24.6164" y2="8.3058" width="0.2032" layer="1"/>
+<contactref element="TP4" pad="P$1"/>
+<wire x1="27.686" y1="2.794" x2="27.686" y2="4.0014" width="0.3048" layer="1"/>
+<wire x1="27.686" y1="4.0014" x2="27.6234" y2="4.064" width="0.3048" layer="1"/>
 </signal>
 <signal name="GND">
 <contactref element="R3" pad="1"/>
@@ -1112,6 +1121,8 @@ design rules under a new name.</description>
 <wire x1="18.354" y1="12.208" x2="19.227" y2="13.081" width="0.2032" layer="1"/>
 <wire x1="21.844" y1="12.192" x2="20.955" y2="13.081" width="0.2032" layer="1"/>
 <wire x1="19.227" y1="13.081" x2="20.955" y2="13.081" width="0.2032" layer="1"/>
+<contactref element="TP5" pad="P$1"/>
+<wire x1="22.479" y1="5.334" x2="23.5594" y2="4.064" width="0.3048" layer="1"/>
 </signal>
 <signal name="BSOURCE">
 <contactref element="Q1" pad="3"/>
