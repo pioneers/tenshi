@@ -4049,7 +4049,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <instance part="U$8" gate="G$1" x="185.42" y="137.16"/>
 <instance part="U$9" gate="G$1" x="226.06" y="137.16"/>
 <instance part="U$10" gate="G$1" x="172.72" y="152.4"/>
-<instance part="SUPPLY6" gate="GND" x="172.72" y="116.84"/>
+<instance part="SUPPLY6" gate="GND" x="172.72" y="114.3"/>
 <instance part="TP1" gate="G$1" x="96.52" y="96.52" rot="R270"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="TP2" gate="G$1" x="88.9" y="106.68" smashed="yes">
@@ -4121,7 +4121,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <pinref part="SUPPLY6" gate="GND" pin="GND"/>
 <wire x1="172.72" y1="132.08" x2="172.72" y2="124.46" width="0.1524" layer="91"/>
 <pinref part="U$8" gate="G$1" pin="2"/>
-<wire x1="172.72" y1="124.46" x2="172.72" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="124.46" x2="172.72" y2="116.84" width="0.1524" layer="91"/>
 <wire x1="187.96" y1="139.7" x2="200.66" y2="139.7" width="0.1524" layer="91"/>
 <wire x1="200.66" y1="139.7" x2="203.2" y2="139.7" width="0.1524" layer="91"/>
 <wire x1="203.2" y1="139.7" x2="203.2" y2="134.62" width="0.1524" layer="91"/>

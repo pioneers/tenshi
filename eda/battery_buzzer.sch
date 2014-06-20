@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -4137,7 +4137,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="SUPPLY8" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY9" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY10" library="pie" deviceset="GND" device=""/>
-<part name="LS1" library="pie" deviceset="BUZZER" device=""/>
+<part name="LS1" library="pie" deviceset="BUZZER" device="" value="BUZZER"/>
 <part name="R9" library="pie" deviceset="R-US_" device="R0603" value="100"/>
 <part name="R10" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="U$12" library="pie" deviceset="5V" device=""/>
@@ -4146,6 +4146,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="LED2" library="pie" deviceset="LED" device="0805" value="RED"/>
 <part name="SUPPLY13" library="pie" deviceset="GND" device=""/>
 <part name="Q2" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
+<part name="TP2" library="pie" deviceset="TEST-POINT" device="2"/>
 </parts>
 <sheets>
 <sheet>
@@ -4215,7 +4216,10 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <instance part="SUPPLY8" gate="GND" x="30.48" y="121.92"/>
 <instance part="SUPPLY9" gate="GND" x="40.64" y="121.92"/>
 <instance part="SUPPLY10" gate="GND" x="50.8" y="121.92"/>
-<instance part="LS1" gate="G$1" x="48.26" y="93.98"/>
+<instance part="LS1" gate="G$1" x="48.26" y="93.98" smashed="yes">
+<attribute name="NAME" x="53.34" y="96.52" size="1.778" layer="94"/>
+<attribute name="VALUE" x="53.34" y="91.44" size="1.778" layer="94" align="top-left"/>
+</instance>
 <instance part="R9" gate="G$1" x="22.86" y="83.82"/>
 <instance part="R10" gate="G$1" x="30.48" y="76.2" rot="R90"/>
 <instance part="U$12" gate="G$1" x="40.64" y="99.06"/>
@@ -4227,6 +4231,9 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <instance part="LED2" gate="G$1" x="83.82" y="78.74"/>
 <instance part="SUPPLY13" gate="GND" x="83.82" y="71.12"/>
 <instance part="Q2" gate="G$1" x="40.64" y="83.82"/>
+<instance part="TP2" gate="G$1" x="88.9" y="27.94" smashed="yes">
+<attribute name="NAME" x="88.9" y="27.94" size="1.778" layer="95"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -4555,6 +4562,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <pinref part="U2" gate="G$1" pin="PC1(ADC10/PCINT13)"/>
 <wire x1="81.28" y1="27.94" x2="88.9" y2="27.94" width="0.1524" layer="91"/>
 <label x="83.82" y="27.94" size="1.778" layer="95"/>
+<pinref part="TP2" gate="G$1" pin="1"/>
 </segment>
 <segment>
 <pinref part="R9" gate="G$1" pin="1"/>
