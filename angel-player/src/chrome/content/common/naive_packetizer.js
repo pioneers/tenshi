@@ -2,12 +2,13 @@
 "use strict";
 
 const { ChromeWorker } = require('chrome');
-let typpo_module = require('tenshi/common/factory');
-let url = require('jetpack/sdk/url');
-let buffer = require('jetpack/sdk/io/buffer');
-let Int64 = require('Int64.js');
+const typpo_module = require('tenshi/common/factory');
+const url = require('jetpack/sdk/url');
+const buffer = require('jetpack/sdk/io/buffer');
+const Int64 = require('Int64.js');
 const global_state = require('tenshi/common/global_state');
 const robot_application = require('tenshi/common/robot_application');
+const xbee = require('tenshi/common/xbee');
 
 const XBEE_FRAMING_YAML_FILE =
     'chrome://angel-player/content/common_defs/xbee_typpo.yaml';
@@ -19,19 +20,6 @@ let typpo = typpo_module.make();
 typpo.set_target_type('ARM');
 typpo.load_type_file(url.toFilename(XBEE_FRAMING_YAML_FILE), false);
 typpo.load_type_file(url.toFilename(PIEMOS_FRAMING_YAML_FILE), false);
-
-// TODO(rqou): Move this elsewhere
-function computeXbeeChecksum(buf, start, len) {
-    let sum = 0;
-
-    for (let i = start; i < start + len; i++) {
-        sum += buf[i];
-    }
-
-    sum = sum & 0xFF;
-
-    return 0xFF - sum;
-}
 
 exports.sendPacketizedData = function(data) {
     let serportObj = global_state.get('serial_port_object');
@@ -50,7 +38,7 @@ exports.sendPacketizedData = function(data) {
         let rxbuf = e.data;
         let rx_packet =
             typpo.read('xbee_api_packet', buffer.Buffer(rxbuf)).unwrap();
-        let checksum = computeXbeeChecksum(
+        let checksum = xbee.computeChecksum(
             rx_packet.payload.bytes, 0, rx_packet.length);
         if (rx_packet.payload.bytes[rx_packet.length] !== checksum) {
             dump("Bad checksum!\n");
@@ -120,7 +108,7 @@ exports.sendPacketizedData = function(data) {
             // Note, this is kinda jank. Checksum is last byte. Getting the
             // length is also kinda borked due to the union.
             // TODO(rqou): Don't hardcode 3 here!
-            buf[buf.length - 1] = computeXbeeChecksum(buf,
+            buf[buf.length - 1] = xbee.computeChecksum(buf,
                 3,
                 buf.length - 1 - (3));
             dump("Sent bytes " + chunkreq.start_addr + " to " +
@@ -173,7 +161,7 @@ exports.sendPacketizedData = function(data) {
     // Note, this is kinda jank. Checksum is last byte. Getting the length
     // is also kinda borked due to the union.
     // TODO(rqou): Don't hardcode 3 here!
-    buf[buf.length - 1] = computeXbeeChecksum(buf,
+    buf[buf.length - 1] = xbee.computeChecksum(buf,
         3,
         buf.length - 1 - (3));
     serportObj.write(buf);
