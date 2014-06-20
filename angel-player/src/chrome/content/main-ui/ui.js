@@ -7,9 +7,7 @@ let $;
 
 let currentSelectedTab = -1;
 
-const { Cu } = require("chrome");
-let debugModule =
-    Cu.import("chrome://angel-player/content/debug.js").debugModule;
+let moz_utils = require("tenshi/common/moz_utils");
 
 // Different ways to arrange the divs to suit different environments. Contains
 // relative flexbox sizes for each element.
@@ -122,7 +120,7 @@ var ENVIRONMENTS = [
 // Useful for prototyping components on their own page, since this can't be done
 // in a browser
 // TODO(rqou): Toggling doesn't update the menu; you need to reload.
-if (debugModule.isDebugEnabled()) {
+if (moz_utils.isDebugEnabled()) {
   ENVIRONMENTS.push({
         text: "Stargate Network",
         image: 'chrome://angel-player/content/main-ui/assets/stargate.png',

@@ -1,10 +1,7 @@
 const url = require ('jetpack/sdk/url');
 const file = require('jetpack/sdk/io/file');
-const { Cu, Cc, Ci } = require('chrome');
-const console =
-    Cu.import("resource://gre/modules/devtools/Console.jsm").console;
-const appStartup =
-    Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup);
+const console = require('tenshi/common/console');
+const moz_utils = require('tenshi/common/moz_utils');
 
 const TEST_DIR = 'chrome://angel-player/content/test/tests';
 
@@ -47,5 +44,5 @@ exports.onLoad = function(window) {
     }
 
     // Quit
-    appStartup.quit(appStartup.eForceQuit);
+    moz_utils.quit_application();
 };
