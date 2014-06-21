@@ -70,27 +70,40 @@ def build(bld):
             target='lua',
         )
 
-        # Find the functions to export. All exported functions are marked with
-        # LUA_API or LUALIB_API (lauxlib) and their names are wrapped in
-        # parentheses (at least in Lua version 5.x).
-        func_decl = re.compile(r'^LUA_API [A-z0-9_ *]*\(([A-z0-9_]+)\) *\(',
-                               flags=re.MULTILINE)
-        with open(os.path.join(bld.env['root'], 'vm', 'lua', 'src',
-                               'lua.h')) as f:
-            contents = f.read()
-            api_fns = func_decl.findall(contents)
+        api_fns = []
 
-        func_decl = re.compile(r'^LUALIB_API [A-z0-9_ *]*\(([A-z0-9_]+)\) *\(',
-                               flags=re.MULTILINE)
-        with open(os.path.join(bld.env['root'], 'vm', 'lua', 'src',
-                               'lauxlib.h')) as f:
-            contents = f.read()
-            api_aux_fns = func_decl.findall(contents)
+        func_decl = re.compile(r'''
+        # Begin at the start of the line
+        ^
+        # Do not capture the next group
+        (?:
+        # Require some words with possible * and ().
+        [*()]*\w+[*()]*\s+
+        # There must be at least one such word
+        )+
+        # Then allow * and (
+        [*(]*
+        # There may be some whitespace
+        \s*
+        # Capture the function name.
+        (\w+)
+        # There may be some whitespace
+        \s*
+        # Allow a )
+        \)?
+        # There may be some whitespace
+        \s*
+        # And then an argument list
+        \(''', flags=re.MULTILINE | re.VERBOSE)
 
-        js_api_fns = ['registerJS']
+        for filename in ['lua.h', 'lauxlib.h', 'js.h', 'threading.h']:
+            with open(os.path.join(bld.env['root'], 'vm', 'lua', 'src',
+                                   filename)) as f:
+                contents = f.read()
+                api_fns.extend(func_decl.findall(contents))
 
         export_str = ','.join(
-            "'_{}'".format(fn) for fn in api_fns + api_aux_fns + js_api_fns)
+            "'_{}'".format(fn) for fn in api_fns)
 
         fake_node_js = bld.path.parent.find_resource(
             'angelic/src/fake_node.js')
