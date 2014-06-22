@@ -419,9 +419,7 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <connect gate="G$1" pin="6" pad="6"/>
 </connects>
 <technologies>
-<technology name="">
-<attribute name="PIE-INT-REF-NUM" value="BULK-STOCK"/>
-</technology>
+<technology name=""/>
 </technologies>
 </device>
 <device name="NS" package="2X3-NS">

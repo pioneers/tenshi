@@ -223,14 +223,6 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <text x="-1.27" y="1.905" size="0.6096" layer="25">&gt;Name</text>
 <text x="-1.27" y="-2.54" size="0.6096" layer="27">&gt;Value</text>
 </package>
-<package name="0805">
-<wire x1="-0.3" y1="0.6" x2="0.3" y2="0.6" width="0.1524" layer="21"/>
-<wire x1="-0.3" y1="-0.6" x2="0.3" y2="-0.6" width="0.1524" layer="21"/>
-<smd name="1" x="-0.9" y="0" dx="0.8" dy="1.2" layer="1"/>
-<smd name="2" x="0.9" y="0" dx="0.8" dy="1.2" layer="1"/>
-<text x="-0.762" y="0.8255" size="0.4064" layer="25">&gt;NAME</text>
-<text x="-1.016" y="-1.397" size="0.4064" layer="27">&gt;VALUE</text>
-</package>
 <package name="CAP-PTH-LARGE">
 <wire x1="0" y1="0.635" x2="0" y2="0" width="0.2032" layer="21"/>
 <wire x1="0" y1="0" x2="0" y2="-0.635" width="0.2032" layer="21"/>
@@ -2445,6 +2437,19 @@ Vertical</description>
 <smd name="2" x="1.15" y="0" dx="0.63" dy="0.83" layer="1"/>
 <text x="-0.889" y="1.016" size="0.4064" layer="25">&gt;NAME</text>
 <text x="-1.016" y="-1.397" size="0.4064" layer="27">&gt;VALUE</text>
+</package>
+<package name="0805">
+<description>Standard US Chip 0805 Footprint</description>
+<wire x1="-0.3" y1="0.6" x2="0.3" y2="0.6" width="0.1524" layer="21"/>
+<wire x1="-0.3" y1="-0.6" x2="0.3" y2="-0.6" width="0.1524" layer="21"/>
+<smd name="1" x="-0.95" y="0" dx="1" dy="1.4" layer="1"/>
+<smd name="2" x="0.95" y="0" dx="1" dy="1.4" layer="1"/>
+<text x="-1.905" y="0.9398" size="0.889" layer="25">&gt;NAME</text>
+<text x="-2.3462" y="-1.8342" size="0.889" layer="27">&gt;VALUE</text>
+<wire x1="-1" y1="0.55" x2="1" y2="0.55" width="0.127" layer="39"/>
+<wire x1="1" y1="0.55" x2="1" y2="-0.55" width="0.127" layer="39"/>
+<wire x1="1" y1="-0.55" x2="-1" y2="-0.55" width="0.127" layer="39"/>
+<wire x1="-1" y1="-0.55" x2="-1" y2="0.55" width="0.127" layer="39"/>
 </package>
 </packages>
 <symbols>
