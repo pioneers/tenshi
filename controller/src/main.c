@@ -56,18 +56,11 @@ static int lua_get_sensor(lua_State *L) {
 static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
   (void) pvParameters;
 
-  vTaskDelay(500 / portTICK_RATE_MS);
-
-  led_driver_set_mode(PATTERN_JUST_RED);
-  led_driver_set_fixed(0b100, 0b111);
-
   #ifndef TEST_STATIC_LUA
   if (*(uint32_t *)(code_buffer) == NGL_PACKAGE_MAGIC) {
   #else
   if (0) {
   #endif
-    led_driver_set_mode(PATTERN_JUST_RED);
-    led_driver_set_fixed(0b110, 0b111);
     // Load Angelic blob
     ngl_buffer *program = ngl_buffer_alloc(code_buffer_len);
     // TODO(rqou): This is dumb.
@@ -298,8 +291,6 @@ int main(int argc, char **argv) {
   radio_driver_init();
 
   #ifdef TEST_STATIC_LUA
-  led_driver_set_mode(PATTERN_JUST_RED);
-  led_driver_set_fixed(0b000, 0b111);
   xTaskCreate(angelicTask, "Angelic", 2048, NULL,
               tskIDLE_PRIORITY, NULL);
   #endif
