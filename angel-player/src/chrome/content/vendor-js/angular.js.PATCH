@@ -1,0 +1,95 @@
+# Angular's SCE module writes to the valueOf property of certain objects.
+# However, Mozilla's loader.js marks this property as read-only. This does not
+# allow angular.js and loader.js to be run in the same webpage.
+#
+# Therefore, the version of angular that ships with the repo has been modified
+# as follows. (This patch is applied to the compiled, but non-minified, version
+# of angular)
+
+--- a/angular.js
++++ b/angular.js
+@@ -1,7 +1,9 @@
+ /**
+- * @license AngularJS v1.3.0-beta.11
++ * @license AngularJS v1.3.0-beta.11-nosce
+  * (c) 2010-2014 Google, Inc. http://angularjs.org
+  * License: MIT
++ *
++ * This library was modified from its original version by disabling SCE features
+  */
+ (function(window, document, undefined) {'use strict';
+ 
+@@ -8826,12 +8828,6 @@ function $InterpolateProvider() {
+         };
+ 
+         var getValue = function (value) {
+-          if (trustedContext) {
+-            value = $sce.getTrusted(trustedContext, value);
+-          } else {
+-            value = $sce.valueOf(value);
+-          }
+-
+           return value;
+         };
+ 
+@@ -13296,14 +13292,7 @@ function $SceDelegateProvider() {
+       return holderType;
+     }
+ 
+-    var trustedValueHolderBase = generateHolderType(),
+-        byType = {};
+ 
+-    byType[SCE_CONTEXTS.HTML] = generateHolderType(trustedValueHolderBase);
+-    byType[SCE_CONTEXTS.CSS] = generateHolderType(trustedValueHolderBase);
+-    byType[SCE_CONTEXTS.URL] = generateHolderType(trustedValueHolderBase);
+-    byType[SCE_CONTEXTS.JS] = generateHolderType(trustedValueHolderBase);
+-    byType[SCE_CONTEXTS.RESOURCE_URL] = generateHolderType(byType[SCE_CONTEXTS.URL]);
+ 
+     /**
+      * @ngdoc method
+@@ -13361,11 +13350,7 @@ function $SceDelegateProvider() {
+      *     `value` unchanged.
+      */
+     function valueOf(maybeTrusted) {
+-      if (maybeTrusted instanceof trustedValueHolderBase) {
+-        return maybeTrusted.$$unwrapTrustedValue();
+-      } else {
+-        return maybeTrusted;
+-      }
++      return maybeTrusted;
+     }
+ 
+     /**
+@@ -13698,7 +13683,7 @@ function $SceDelegateProvider() {
+ /* jshint maxlen: 100 */
+ 
+ function $SceProvider() {
+-  var enabled = true;
++  var enabled = false; // PERMANENTLY DISABLE SCE
+ 
+   /**
+    * @ngdoc method
+@@ -13712,10 +13697,7 @@ function $SceProvider() {
+    * Enables/disables SCE and returns the current value.
+    */
+   this.enabled = function (value) {
+-    if (arguments.length) {
+-      enabled = !!value;
+-    }
+-    return enabled;
++    return false; // PERMANENTLY DISABLE SCE
+   };
+ 
+ 
+@@ -13794,11 +13776,9 @@ function $SceProvider() {
+     };
+     sce.trustAs = $sceDelegate.trustAs;
+     sce.getTrusted = $sceDelegate.getTrusted;
+-    sce.valueOf = $sceDelegate.valueOf;
+ 
+     if (!enabled) {
+       sce.trustAs = sce.getTrusted = function(type, value) { return value; };
+-      sce.valueOf = identity;
+     }
+ 
+     /**
