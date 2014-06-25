@@ -10,7 +10,7 @@
 
 
 #define F_CPU 8000000  // AVR clock frequency in Hz, used by util/delay.h
-#define SMART_BAUD 19200  // Smartsensor baud rate
+#define SMART_BAUD 1000000  // Smartsensor baud rate
 #define SMART_ID_LEN 8   // Length of smartsensor personal ID
 
 // May change
@@ -19,7 +19,7 @@
 
 
 // ****Sensor Personal Data*** // to be a struct later.
-extern uint8_t smartID[8];
+extern uint8_t smartID[SMART_ID_LEN];
 
 // Only uses last three bits
 // TODO(tobinsarah): allow for multiple frames

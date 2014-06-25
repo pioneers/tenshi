@@ -2,14 +2,19 @@
 
 #include "inc/enumeration.h"
 
+#define TYPE_ENUMERATION_ENTER 0xF0
+#define TYPE_ENUMERATION_EXIT 0xF1
+#define TYPE_ENUMERATION_SELECT 0xF2
+#define TYPE_ENUMERATION_RESET 0xF3
+
 uint8_t enumerating = 0;
 
 void enumerationPacket(uint8_t type, uint8_t *data, uint8_t len) {
   switch (type) {
-    case 0xF0: enumerationEnter(data, len); break;
-    case 0xF1: enumerationExit(data, len); break;
-    case 0xF2: enumerationSelect(data, len); break;
-    case 0xF3: enumerationReset(data, len); break;
+    case TYPE_ENUMERATION_ENTER: enumerationEnter(data, len); break;
+    case TYPE_ENUMERATION_EXIT: enumerationExit(data, len); break;
+    case TYPE_ENUMERATION_SELECT: enumerationSelect(data, len); break;
+    case TYPE_ENUMERATION_RESET: enumerationReset(data, len); break;
     default: break;
   }
 }

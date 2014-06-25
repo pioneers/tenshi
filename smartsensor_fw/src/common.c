@@ -8,7 +8,7 @@
 
 
 // ****Sensor Personal Data*** // to be a struct later.
-uint8_t smartID[8] = {SMART_ID};
+uint8_t smartID[SMART_ID_LEN] = {SMART_ID};
 // Only uses last three bits
 uint8_t my_frame = 0x11 & 0x7;  // TODO(tobinsarah): allow for multiple frames
 uint32_t sample_rate = 0x0100;  // hardcoded for now;
@@ -20,8 +20,8 @@ extern void USART_Transmit_Start();
 extern void USART_Transmit_Stop();
 extern void USART_Transmit(uint8_t data);
 extern void serialPrint(uint8_t *StringOfCharacters, size_t len);
-extern void LF();
-extern void CR();
+static void LF();
+static void CR();
 extern int isMyChunk(uint8_t frameByte);
 
 
@@ -51,6 +51,8 @@ void uart_init(uint32_t Desired_Baudrate) {
   // Set nRX enable and TX enable to outputs
   PORTA &= ~((1 << PA5) | (1 << PA6));  // Set PA5 and PA6 to 0
   DDRA |= (1 << DDRA5) | (1 << DDRA6);
+
+  DIGITAL_PULLUP_ON(UART0_RX);
 
   sei();  // Enable interrupts
 }
