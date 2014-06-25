@@ -5,20 +5,16 @@ const { ChromeWorker } = require('chrome');
 const typpo_module = require('tenshi/common/factory');
 const url = require('jetpack/sdk/url');
 const buffer = require('jetpack/sdk/io/buffer');
-const Int64 = require('Int64.js');
 const global_state = require('tenshi/common/global_state');
 const robot_application = require('tenshi/common/robot_application');
 const xbee = require('tenshi/common/xbee');
 
-const XBEE_FRAMING_YAML_FILE =
-    'chrome://angel-player/content/common_defs/xbee_typpo.yaml';
 const PIEMOS_FRAMING_YAML_FILE =
     'chrome://angel-player/content/common_defs/legacy_piemos_framing.yaml';
 
 // Init Typpo
 let typpo = typpo_module.make();
 typpo.set_target_type('ARM');
-typpo.load_type_file(url.toFilename(XBEE_FRAMING_YAML_FILE), false);
 typpo.load_type_file(url.toFilename(PIEMOS_FRAMING_YAML_FILE), false);
 
 exports.sendPacketizedData = function(data) {
@@ -76,43 +72,12 @@ exports.sendPacketizedData = function(data) {
                 replyChunk[i - chunkreq.start_addr] = data[i];
             }
             initial_packet.set_slot('data', replyChunk);
-            // The +1 allows the checksum to be crammed in the end
-            let payloadbuf =
-                buffer.Buffer(
-                    typpo.get_size('tenshi_bulk_chunk') + chunklen + 1);
-            payloadbuf.fill(0x00);
-            initial_packet.write(payloadbuf);
-            // Add XBee framing
-            let xbee_tx_frame = typpo.create('xbee_tx64_header');
-            xbee_tx_frame.set_slot('xbee_api_type',
-                typpo.get_const('XBEE_API_TYPE_TX64'));
-            // TODO(rqou): Use frameId?
-            xbee_tx_frame.set_slot('frameId', 0);
-            xbee_tx_frame.set_slot('xbee_dest_addr', new Int64(ROBOT));
-            xbee_tx_frame.set_slot('options', 0);
-            xbee_tx_frame.set_slot('data', payloadbuf);
-            let xbee_payload = typpo.create('xbee_payload');
-            xbee_payload.set_slot('tx64', xbee_tx_frame);
-            let initial_packet_xbee = typpo.create('xbee_api_packet');
-            initial_packet_xbee.set_slot('xbee_api_magic',
-                typpo.get_const('XBEE_MAGIC'));
-            initial_packet_xbee.set_slot('length',
-                typpo.get_size('tenshi_bulk_chunk') +
-                typpo.get_size('xbee_tx64_header') +
-                chunklen);
-            initial_packet_xbee.set_slot('payload', xbee_payload);
-            // TODO(rqou): Jank jank jank
-            let buf = buffer.Buffer(
-                typpo.get_size('xbee_api_packet') + payloadbuf.length);
-            initial_packet_xbee.write(buf);
-            // Note, this is kinda jank. Checksum is last byte. Getting the
-            // length is also kinda borked due to the union.
-            // TODO(rqou): Don't hardcode 3 here!
-            buf[buf.length - 1] = xbee.computeChecksum(buf,
-                3,
-                buf.length - 1 - (3));
+
+            let buf = xbee.createPacket(initial_packet, this.address);
+
             dump("Sent bytes " + chunkreq.start_addr + " to " +
                 chunkreq.end_addr + "\n");
+
             serportObj.write(buf);
         }
         else if (rx_packet.payload.rx64.data[0] ===
@@ -130,39 +95,8 @@ exports.sendPacketizedData = function(data) {
     // TODO(rqou): Meaningful stream IDs
     initial_packet.set_slot('stream_id', 0);
     initial_packet.set_slot('length', data.length);
-    // The +1 allows the checksum to be crammed in the end
-    let payloadbuf =
-        buffer.Buffer(typpo.get_size('tenshi_bulk_start') + 1);
-    payloadbuf.fill(0x00);
-    initial_packet.write(payloadbuf);
-    // Add XBee framing
-    let xbee_tx_frame = typpo.create('xbee_tx64_header');
-    xbee_tx_frame.set_slot('xbee_api_type',
-        typpo.get_const('XBEE_API_TYPE_TX64'));
-    // TODO(rqou): Use frameId?
-    xbee_tx_frame.set_slot('frameId', 0);
-    // TODO(rqou): Don't hardcode!!!
-    xbee_tx_frame.set_slot('xbee_dest_addr', new Int64(ROBOT));
-    xbee_tx_frame.set_slot('options', 0);
-    xbee_tx_frame.set_slot('data', payloadbuf);
-    let xbee_payload = typpo.create('xbee_payload');
-    xbee_payload.set_slot('tx64', xbee_tx_frame);
-    let initial_packet_xbee = typpo.create('xbee_api_packet');
-    initial_packet_xbee.set_slot('xbee_api_magic',
-        typpo.get_const('XBEE_MAGIC'));
-    initial_packet_xbee.set_slot('length',
-        typpo.get_size('tenshi_bulk_start') +
-        typpo.get_size('xbee_tx64_header'));
-    initial_packet_xbee.set_slot('payload', xbee_payload);
-    // TODO(rqou): Jank jank jank
-    let buf = buffer.Buffer(
-        typpo.get_size('xbee_api_packet') + payloadbuf.length);
-    initial_packet_xbee.write(buf);
-    // Note, this is kinda jank. Checksum is last byte. Getting the length
-    // is also kinda borked due to the union.
-    // TODO(rqou): Don't hardcode 3 here!
-    buf[buf.length - 1] = xbee.computeChecksum(buf,
-        3,
-        buf.length - 1 - (3));
+
+    let buf = xbee.createPacket(initial_packet, this.address);
+
     serportObj.write(buf);
 };

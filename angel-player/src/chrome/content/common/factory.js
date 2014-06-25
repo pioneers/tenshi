@@ -14,6 +14,13 @@ var Int64 = require ( '../vendor-js/Int64.js' );
 
 var kind_prototypes = { };
 
+function cast ( ) {
+  return {
+    kind : 'cast',
+    val : this
+    };
+  }
+
 function get_buffer_method_base ( type, factory ) {
   var size = factory.get_size ( type );
   var prefix;
@@ -62,6 +69,7 @@ function lshift_32 ( val ) {
 
 // Wrap a base type
 kind_prototypes.base = {
+  cast : cast,
   _is_64bit_int : function ( ) {
     return this.factory.get_size ( this.type ) === 8 && this.type.repr !== 'float';
     },
@@ -209,6 +217,7 @@ function unwrap_composite ( comp ) {
   }
 
 kind_prototypes.struct = {
+  cast : cast,
   init : function ( ) {
     this.slot_values = { };
     },
@@ -234,9 +243,14 @@ kind_prototypes.struct = {
     return unwrap_composite ( this );
     },
   set_slot : function ( slot_name, val ) {
-    var type = get_slot_type ( this.factory, this.type, slot_name );
-    this.slot_values [ slot_name ] = this.factory.wrap ( type, val );
-    misc.assert ( this.slot_values [ slot_name ].type.endian === type.endian );
+    if ( val.kind === 'cast' ) {
+      this.slot_values [ slot_name ] = val.val;
+      }
+    else {
+      var type = get_slot_type ( this.factory, this.type, slot_name );
+      this.slot_values [ slot_name ] = this.factory.wrap ( type, val );
+      misc.assert ( this.slot_values [ slot_name ].type.endian === type.endian );
+      }
     this.recalculate_offsets ( );
     },
   get_slot : function ( slot_name ) {
@@ -295,6 +309,7 @@ kind_prototypes.struct = {
   };
 
 kind_prototypes.union = {
+  cast : cast,
   init : function ( ) {
     this.slot_values = { };
     this.last_set_slot = null;
@@ -306,7 +321,9 @@ kind_prototypes.union = {
       }
     else {
       var out = factory.create ( type );
-      out.last_set_value = factory.wrap ( obj );
+      for ( var field in obj ) {
+        out.set_slot(field, obj[field]);
+        }
       return out;
       }
     },
@@ -314,10 +331,15 @@ kind_prototypes.union = {
     return unwrap_composite ( this );
     },
   set_slot : function ( slot_name, val ) {
-    // Record only the most recent assignment.
-    var type = get_slot_type ( this.factory, this.type, slot_name );
-    this.last_set_slot = slot_name;
-    this.last_set_value = this.factory.wrap ( type, val );
+    if ( val.kind === 'cast' ) {
+      this.last_set_value = val.val;
+      }
+    else {
+      // Record only the most recent assignment.
+      var type = get_slot_type ( this.factory, this.type, slot_name );
+      this.last_set_slot = slot_name;
+      this.last_set_value = this.factory.wrap ( type, val );
+      }
     this.slot_values [ slot_name ] = this.last_set_value;
     },
   get_slot : function ( slot_name ) {
@@ -373,6 +395,7 @@ function get_array_length ( typename ) {
   }
 
 kind_prototypes.array = {
+  cast : cast,
   init : function ( ) {
     this.vals = [];
     this.base = this.factory.get_type ( get_array_elem_type ( this.type.name ) );
@@ -645,6 +668,10 @@ var factory_prototype = {
     misc.assert ( typeof type === 'object',
                   'type should be an object not ' + type );
     var proto = get_proto ( type );
+    if (proto === undefined) {
+      throw ('Could not make sense of kind ' + type.kind +
+             ' of type ' + type.name);
+    }
     return proto.wrap ( this, type, val );
     },
   get_const : function get_const ( name ) {
