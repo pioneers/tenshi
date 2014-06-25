@@ -26,11 +26,6 @@
 #include "inc/lua_interface.h"
 
 
-// #define TEST_STATIC_LUA  "while 1 do\n"\
-                         "   set_led(1)\n"\
-                         "   set_led(2)\n"\
-                         "end"  /* NOLINT(*) */
-
 
 uint8_t *code_buffer;
 uint32_t code_buffer_len;
@@ -61,18 +56,11 @@ static int lua_get_sensor(lua_State *L) {
 static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
   (void) pvParameters;
 
-  vTaskDelay(500 / portTICK_RATE_MS);
-
-  led_driver_set_mode(PATTERN_JUST_RED);
-  led_driver_set_fixed(0b100, 0b111);
-
   #ifndef TEST_STATIC_LUA
   if (*(uint32_t *)(code_buffer) == NGL_PACKAGE_MAGIC) {
   #else
   if (0) {
   #endif
-    led_driver_set_mode(PATTERN_JUST_RED);
-    led_driver_set_fixed(0b110, 0b111);
     // Load Angelic blob
     ngl_buffer *program = ngl_buffer_alloc(code_buffer_len);
     // TODO(rqou): This is dumb.
@@ -90,7 +78,7 @@ static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
     // Register builtins
     lua_register(L, "set_motor", lua_set_motor);
     lua_register(L, "get_sensor", lua_get_sensor);
-    lua_register(L, "set_led", lua_set_led);
+    lua_register_all(L);
 
     // Load the code blob into the Lua state
     const char *read_from_code_buffer(lua_State *L, void *data, size_t *size) {
@@ -297,22 +285,12 @@ int main(int argc, char **argv) {
   i2c1_init();
 
   // Setup SmartSensors
-  smartsensor1_init();
-  smartsensor2_init();
-  smartsensor3_init();
-  smartsensor4_init();
-
-  xTaskCreate(smartSensorTX, (const signed char *)"SensorTX", 2048, NULL,
-    tskIDLE_PRIORITY, NULL);
-  xTaskCreate(smartSensorRX, (const signed char *)"SensorRX", 2048, NULL,
-    tskIDLE_PRIORITY, NULL);
+  smartsensor_init();
 
   // Setup radio
   radio_driver_init();
 
   #ifdef TEST_STATIC_LUA
-  led_driver_set_mode(PATTERN_JUST_RED);
-  led_driver_set_fixed(0b000, 0b111);
   xTaskCreate(angelicTask, "Angelic", 2048, NULL,
               tskIDLE_PRIORITY, NULL);
   #endif

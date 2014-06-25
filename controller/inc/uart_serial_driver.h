@@ -29,6 +29,8 @@ extern int uart_serial_send_and_finish_data(uart_serial_module *module,
 extern uint8_t *uart_serial_receive_packet(uart_serial_module *module,
   size_t *len_out, int shouldBlock);
 
+extern int uart_bus_logic_level(uart_serial_module *module);
+
 extern void uart_serial_handle_tx_dma_interrupt(uart_serial_module *module);
 extern void uart_serial_handle_rx_dma_interrupt(uart_serial_module *module);
 extern void uart_serial_handle_uart_interrupt(uart_serial_module *module);

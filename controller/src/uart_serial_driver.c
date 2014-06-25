@@ -333,6 +333,27 @@ uint8_t *uart_serial_receive_packet(uart_serial_module *module,
   return outBuf;
 }
 
+extern int uart_bus_logic_level(uart_serial_module *_module) {
+  uart_serial_module_private *module = (uart_serial_module_private *)_module;
+  switch (module->uart_num) {
+    case 4:
+      return !!(GPIO_BANK(PINDEF_SENSOR_CH1_RX)->IDR &
+                (1 << GPIO_PIN(PINDEF_SENSOR_CH1_RX)) );
+    case 2:
+      return !!(GPIO_BANK(PINDEF_SENSOR_CH2_RX)->IDR &
+                (1 << GPIO_PIN(PINDEF_SENSOR_CH2_RX)) );
+    case 1:
+      return !!(GPIO_BANK(PINDEF_SENSOR_CH3_RX)->IDR &
+                (1 << GPIO_PIN(PINDEF_SENSOR_CH3_RX)) );
+    case 6:
+      return !!(GPIO_BANK(PINDEF_SENSOR_CH4_RX)->IDR &
+                (1 << GPIO_PIN(PINDEF_SENSOR_CH4_RX)) );
+    default:
+      return -1;
+  }
+  return -1;
+}
+
 void uart_serial_handle_tx_dma_interrupt(uart_serial_module *_module) {
   uart_serial_module_private *module = (uart_serial_module_private *)_module;
   uint32_t isr;

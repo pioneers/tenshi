@@ -15,256 +15,188 @@
 // specific language governing permissions and limitations
 // under the License
 
-#define F_CPU 8000000  // AVR clock frequency in Hz, used by util/delay.h
-#define SMART_BAUD 9600  // Smartsensor baud rate
-#define SMART_ID_LEN 8   // Length of smartsensor personal ID
-
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/atomic.h>
-#include <stdlib.h>
-#include <stdint.h>
 
 #include "inc/smartsensor/cobs.h"
+#include "inc/common.h"
+#include "inc/digital.h"
+#include "inc/enumeration.h"
+#include "inc/maintenance.h"
 
 
-// **** MACROS ****
-#define TOGGLE_IN0 PORTC = PORTC ^ (1 << PC1);  // toggle IN0
-#define TOGGLE_IN1 PORTB = PORTB ^ (1 << PB3);  // toggle IN1
-#define TOGGLE_IN2 PORTB = PORTB ^ (1 << PB1);  // toggle IN2
-#define TOGGLE_IN3 PORTB = PORTB ^ (1 << PB2);  // toggle IN3
+
+#define RX_FLAG_READY 0
+#define RX_FLAG_GET_TYPE 1
+#define RX_FLAG_GET_LENGTH 2
+#define RX_FLAG_GET_DATA 3
+#define RX_FLAG_DATA_AVAILABLE 0xFE
+#define RX_FLAG_DATA_IN_USE 0xFF
 
 
-// ****Forward declaration of functions****
-void uart_init(uint32_t BUADRATE);
-void USART_Transmit(uint8_t data);
-void serialPrint(uint8_t *StringOfCharacters, size_t len);
-void LF();
-void CR();
-void init_sensor_io();
-uint8_t compare_ID(uint8_t *buffer);
-uint8_t make_flags(uint8_t canIn,
-                   uint8_t pushPull,
-                   uint8_t openDr,
-                   uint8_t outAL);
-void decode_active_packet(uint8_t *data, size_t len);
-void receive_and_echo();  // TODO(tobinsarah): implement working r&e
+// Defined in common.c
 
-// ****Sensor Personal Data*** // to be a struct later.
-uint8_t smartID[8] = {0, 1, 2, 3, 4, 5, 0x42, 7};
-uint8_t my_frame = 0x11;  // TODO(tobinsarah): allow for multiple frames
-uint32_t sample_rate = 0x0100;  // hardcoded for now;
+// Should not use these functions outside of main.c
+extern void uart_init(uint32_t BUADRATE);
+extern void USART_Transmit_Start();
+extern void USART_Transmit_Stop();
+extern void USART_Transmit(uint8_t data);
+extern void serialPrint(uint8_t *StringOfCharacters, size_t len);
+extern void LF();
+extern void CR();
+extern int isMyChunk(uint8_t frameByte);
 
 
-// ****Global vars****
-uint8_t volatile receivedByte;
+// Private global vars
 uint8_t rxBuffer[255];
-uint8_t decodedBuffer[255];
 uint8_t encodedBuffer[255];  // TODO(tobinsarah): don't run out of SRAM!!
-
-// rxBufferFlag = n: n = [0,255] means expecting to read nth byte of packet
-// n = 0: main is done, 0xFF: main is processing, 0xFE: rx is done
-int volatile rxBufferFlag;
+uint8_t decodedBuffer[255];
+uint8_t volatile rxBufferFlag;
 uint8_t in_band_sigFlag;
-int volatile rxBufferIndex;
-int volatile packetType;
+uint8_t volatile rxBufferIndex;
+uint8_t volatile packetType;
 uint8_t volatile dataLen;
+
+uint8_t activeSendFlag = 0;
+
+
 
 // Main
 int main() {
-  rxBufferFlag = 0;
+  rxBufferFlag = RX_FLAG_READY;
   rxBufferIndex = 0;
   dataLen = 0;
 
-  init_sensor_io();
+  switch (SENSOR_TYPE) {
+    case SENSOR_TYPE_DIGITAL:
+      initDigital();
+      break;
+    default: break;
+    // TODO(cduck): Add more smart sensors types
+  }
 
   uart_init(SMART_BAUD);
 
   while (1) {
-    if (rxBufferFlag == 0xFE) {  // if done receiving
-      rxBufferFlag++;
+    if (activeSendFlag) {
+      uint8_t pacLen = 0;
+      switch (SENSOR_TYPE == SENSOR_TYPE_DIGITAL) {
+        case SENSOR_TYPE_DIGITAL:
+          activeDigitalSend(decodedBuffer, &pacLen);
+          break;
+        default: break;
+        // TODO(cduck): Add more smart sensors types
+      }
+      // Send reply active packet
+      if (pacLen > 0 && pacLen <= ACTIVE_PACKET_MAX_LEN) {
+        encodedBuffer[0] = 0x00;
+        encodedBuffer[1] = pacLen+3;
+        cobs_encode(encodedBuffer+2, decodedBuffer, pacLen);
+        serialPrint(encodedBuffer, pacLen+3);
+      }
+      activeSendFlag = 0;
+    }
+    if (rxBufferFlag == RX_FLAG_DATA_AVAILABLE) {  // if done receiving
+      rxBufferFlag = RX_FLAG_DATA_IN_USE;
       if (dataLen >= 1) {
         cobs_decode(decodedBuffer, rxBuffer, dataLen);
       }
-      if (packetType == 0xFE) {  // if pingpong type
-        if (compare_ID(decodedBuffer)) {
-          encodedBuffer[0] = 0x00;
-          encodedBuffer[1] = 0xFE;
-          encodedBuffer[2] = dataLen - 5;
-          cobs_encode(encodedBuffer+3, decodedBuffer + 8, dataLen - 9);
-          serialPrint(encodedBuffer, (dataLen - 5));
+      if (packetType < 0x80) {
+        switch (SENSOR_TYPE == SENSOR_TYPE_DIGITAL) {
+          case SENSOR_TYPE_DIGITAL:
+            activeDigitalRec(decodedBuffer, dataLen-1, in_band_sigFlag);
+            break;
+          default: break;
+          // TODO(cduck): Add more smart sensors types
         }
-      } else if (packetType < 0x80 && packetType == my_frame) {  // if active
-        // read from controller (Digital Out)
-        if (dataLen >= 2) decode_active_packet(decodedBuffer, dataLen-1);
-
-        // reply to controller
-        encodedBuffer[0] = 0x00;
-        encodedBuffer[1] = 4;  // reply len: hardcoded for DIO
-        decodedBuffer[0] = ((!!(PINC & (1 << PINC1))) << 0);
-        // make_flags(1, 0, 0, 0);
-        // decodedBuffer[1] = (uint8_t) (sample_rate);
-        // decodedBuffer[2] = (uint8_t) (sample_rate >> 8);
-        cobs_encode(encodedBuffer + 2, decodedBuffer, 1);
-        serialPrint(encodedBuffer, encodedBuffer[1]);
+      } else if (packetType <= 0xFD && packetType >= 0xF0) {
+        enumerationPacket(packetType, decodedBuffer, dataLen-1);
+      } else {
+        uint8_t pacLen = 0;
+        maintenancePacket(packetType, decodedBuffer, dataLen-1,
+          decodedBuffer, &pacLen);
+        // Send reply maintenance packet
+        if (pacLen > 0 && pacLen <= 0xFF-4) {
+          encodedBuffer[0] = 0x00;
+          encodedBuffer[1] = packetType;  // Respond with same type as sent.
+          encodedBuffer[2] = pacLen+4;
+          cobs_encode(encodedBuffer+3, decodedBuffer, pacLen);
+          serialPrint(encodedBuffer, pacLen+4);
+        }
       }
-      rxBufferFlag = 0;  // should be below if statemt
+      rxBufferFlag = RX_FLAG_READY;  // should be below if statement
     }
   }
   return 1;
 }
-
-
-// function to initialize UART
-void uart_init(uint32_t Desired_Baudrate) {
-  // If its not already set, calculate the baud rate dynamically,
-  // based on current microcontroller speed and user specified
-  // desired baudrate.
-  #ifndef UBBR
-  #define UBBR ((F_CPU)/(Desired_Baudrate*8UL)-1)
-  #endif
-
-  // Set to double speed mode.
-  UCSR0A = UCSR0A | (1 << U2X0);
-
-  // Set baud rate.
-  UBRR0H = (uint8_t)(UBBR >> 8);
-  UBRR0L = (uint8_t)UBBR;
-  // Enable receiver, transmitter, and RxComplete interrupt
-  UCSR0B = (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);
-  // Set frame format: 8data, 1 stop bit
-  UCSR0C = (1 << USBS0) | (1 << UCSZ00) | (1 << UCSZ01);
-  // Enable the Global Interrupt Enbl flag to process interrupts
-  sei();
+// Not used now
+/*
+void transmitMaintenancePacket(uint8_t type, uint8_t *data, uint8_t len) {
+  if (len > 0xFF-4) return -1;
+  cobs_encode(encodedBuffer+3, data, len);
+  encodedBuffer[0] = 0;
+  encodedBuffer[1] = type;
+  encodedBuffer[2] = len+4;
+  serialPrint(encodedBuffer, encodedBuffer[2]);
+  return 0;
 }
-
-void USART_Transmit(uint8_t data) {  // and toggle
-  // Wait for empty transmit buffer
-  while (!(UCSR0A & (1 << UDRE0))) {}  // TODO(tobinsarah): interruptTx
-
-  // Put data into buffer to send the data.
-  UDR0 = data;
+int transmitActivePacket(uint8_t *data, uint8_t len, uint8_t inband) {
+  if (len > ACTIVE_PACKET_MAX_LEN) return -1;
+  cobs_encode(encodedBuffer+2, data, len);
+  encodedBuffer[0] = 0;
+  encodedBuffer[1] = ((len+3)&7) | (!!inband << 7);
+  serialPrint(encodedBuffer, len+3);
+  return 0;
 }
+*/
 
 
-// Print an array of chars instead of just one char.
-void serialPrint(uint8_t *StringOfCharacters, size_t len) {
-  for (size_t i = 0; i < len; i++) {
-    USART_Transmit(*StringOfCharacters++);
-  }
-}
-
-// TODO(tobinsarah): delete LF() and CR() if not using them
-// functions that transmit Line Feed and Carriage Return
-void LF() {USART_Transmit(0x0A);}
-void CR() {USART_Transmit(0x0D);}
-
-// TODO(tobinsarah): allow configuration as input/output for each relevant pin
-// DDRxn: 1 --> output, 0 --> input
-void init_sensor_io() {
-  // portA not used by board, so this should do nothing.
-  PORTA = (0 << PA0) | (0 << PA1) | (0 << PA2);
-  DDRA = (1 << DDRA0) | (1 << DDRA1) | (1 << DDRA2);
-
-  // B3 should be IN1
-  PORTB = (1 << PB0) | (1 << PB1) | (1 << PB2) | (1 << PB3);
-  DDRB = (1 << DDRB0) | (1 << DDRB1) | (1 << DDRB2) | (1 << DDRB3);
-
-  // C1 sould be IN0
-  PORTC = (0 << PC0) | (0 << PC1) | (0 << PC2);
-  DDRC = (0 << DDRC0) | (0 << DDRC1) | (0 << DDRC2);
-
-  uart_init(SMART_BAUD);
-}
-
-// For ping-pong packet, check if its my ID.
-uint8_t compare_ID(uint8_t *buffer) {
-  uint8_t val = 1;
-  for (uint8_t i = 0; i < SMART_ID_LEN; i++) {
-    val &= (smartID[i] == buffer[i]);
-  }
-  return val;
-}
-
-// assemble flags byte for DIO
-//   bit0 of flags -- can input
-//   bit1 of flags -- input is active low
-//   bit2 of flags -- can output push-pull
-//   bit3 of flags -- can output open-drain
-//   bit4 of flags -- output is active low
-uint8_t make_flags(uint8_t canIn,
-                   uint8_t pushPull,
-                   uint8_t openDr,
-                   uint8_t outAL) {
-  uint8_t flagbyte = (uint8_t) (canIn & 1);
-  flagbyte |= ((!!(PINC & (1 << PINC1))) << 1);
-  flagbyte |= ((pushPull & 1) << 2);
-  flagbyte |= ((openDr & 1) << 3);
-  flagbyte |= ((outAL & 1) << 4);
-  return flagbyte;
-}
-
-// assemble flags byte for DIO
-//   bit0 of flags -- can input
-//   bit1 of flags -- input is active low
-//   bit2 of flags -- can output push-pull
-//   bit3 of flags -- can output open-drain
-//   bit4 of flags -- output is active low
-void decode_active_packet(uint8_t *data, size_t len) {
-  if (data[0]) TOGGLE_IN1
-  if (len < 1) return;
-  // currently assuming digital
-    PORTC = (PORTC & ~(1 << PC1)) | ((!!(data[0] & 1)) << PC1);  // UPDATE IN0
-    PORTB = (PORTB & ~(1 << PB3)) | ((!!(data[0] & 2)) << PB3);  // UPDATE IN1
-    PORTB = (PORTB & ~(1 << PB1)) | ((!!(data[0] & 4)) << PB1);  // UPDATE IN2
-    PORTB = (PORTB & ~(1 << PB2)) | ((!!(data[0] & 8)) << PB2);  // UPDATE IN3
-}
-
-// interrupt for recieve and echo one byte.
+// Interrupt when recieving a byte from the smart sensor bus.
 ISR(USART0__RX_vect) {
   // Fetch the received byte value into the variable "ByteReceived"
-  receivedByte = UDR0;
-  if (rxBufferFlag == 0xFE || rxBufferFlag == 0xFF) {
+  uint8_t receivedByte = UDR0;
+  if (rxBufferFlag == RX_FLAG_DATA_AVAILABLE ||
+      rxBufferFlag == RX_FLAG_DATA_IN_USE) {
     return;
   } else if (receivedByte == 0x00) {  // if r 0x00 (whenever in Rmode)
-    rxBufferFlag = 0x01;
-  } else if (rxBufferFlag == 0x00) {
+    rxBufferFlag = RX_FLAG_GET_TYPE;
+  } else if (rxBufferFlag == RX_FLAG_READY) {
     // Nothing
-  } else if (rxBufferFlag == 0x01) {  // looking for type
+  } else if (rxBufferFlag == RX_FLAG_GET_TYPE) {  // looking for type
     packetType = receivedByte;
-    rxBufferFlag++;
-    // TODO(tobinsarah): proper logic for checking if its my frame
+    rxBufferFlag = RX_FLAG_GET_LENGTH;
     if (packetType < 0x80) {  // if active packet
-      // If not allowed frame and subchunk #s ???????
-      if (((packetType & 0x3F) ^ my_frame)) {
-        rxBufferFlag = 0;
+      if (isMyChunk(packetType)) {
+        activeSendFlag = 1;
+      } else {
+        // If not allocated frame and subchunk #s
+        rxBufferFlag = RX_FLAG_READY;
       }
     }
-  } else if (rxBufferFlag == 0x02) {  // looking for len
+  } else if (rxBufferFlag == RX_FLAG_GET_LENGTH) {  // looking for len
     dataLen = receivedByte;
     if (receivedByte < 0x80) {  // if active packet
       dataLen &= 0x7F;  // remove in-band signalling from packet len
     }
     if (dataLen < 3) {
       // TODO(tobinsarah): deal with too short packets;
-      rxBufferFlag = 0;
+      rxBufferFlag = RX_FLAG_READY;
     } else if (dataLen == 3) {
       dataLen -= 3;
-      rxBufferFlag = 0xFE;  // set to "done receiving" mode
+      rxBufferFlag = RX_FLAG_DATA_AVAILABLE;  // set to "done receiving" mode
     } else {
       dataLen -= 3;
       rxBufferIndex = 0;
-      rxBufferFlag++;
+      rxBufferFlag = RX_FLAG_GET_DATA;
     }
-  } else if (rxBufferFlag == 0x03) {
+  } else if (rxBufferFlag == RX_FLAG_GET_DATA) {
     rxBuffer[rxBufferIndex] = receivedByte;
     rxBufferIndex++;
-    // TOGGLE_IN2
     if (rxBufferIndex >= dataLen) {
       // TODO(tobinsarah): deal with dataLen <= 3
       // TODO(tobinsarah): cobs encode in place so you can use one less buffer
-      // TOGGLE_IN1;
-      rxBufferFlag = 0xFE;
+      rxBufferFlag = RX_FLAG_DATA_AVAILABLE;
     }
   }
 }
