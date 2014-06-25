@@ -43,7 +43,7 @@ def prep_testing_dir(proj_root):
     new_prefs = re.sub(
         'pref\([\'"]toolkit.defaultChromeURI[\'"], [\'"].*[\'"]\);',
         'pref("toolkit.defaultChromeURI", '
-        '"chrome://angel-player/content/main-debug.xul");',
+        '"chrome://angel-player/content/main-tests.xul");',
         old_prefs)
     f = open('build/angel-player-test/defaults/preferences/prefs.js', 'w')
     f.write(new_prefs)

@@ -7,8 +7,8 @@
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <browser type="content-primary"
-      src="chrome://angel-player/content/main-debug.html"
-      homepage="chrome://angel-player/content/main-debug.html"
+      src="chrome://angel-player/content/main-tests.html"
+      homepage="chrome://angel-player/content/main-tests.html"
       id="mainXULBrowser" flex="1"/>
 
 </window>

@@ -1,3 +1,9 @@
+/* jshint globalstrict: true */
+/* global document */
+/* global window */
+/* global loader */
+"use strict";
+
 function onLoad() {
     // Set up globals object. This globals object lives inside the main page
     // document. The main page does not normally reload, and subpages can add
@@ -14,6 +20,10 @@ function onLoad() {
             // work.
             setTimeout: window.setTimeout,
             clearTimeout: window.clearTimeout,
+            // TODO(rqou): This is a hack because for some reason requiring the
+            // loader within the CommonJS environment doesn't actually work.
+            // This might be fixed in a later version of the Jetpack SDK.
+            jetpackLoader: loader,
         },
         paths: {
             // In order to make node.js and other modules happy, the "root"
@@ -27,5 +37,5 @@ function onLoad() {
 
     var requirer = loader.Module("TEST_MAIN", "about:blank");
     var require = loader.Require(document.tenshiGlobals.loader, requirer);
-    require('tenshi/test/main-commonjs').onLoad(window);
+    require('tenshi/test/main-commonjs').init(window);
 }
