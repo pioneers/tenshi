@@ -498,6 +498,13 @@ void uart_serial_handle_uart_interrupt(uart_serial_module *_module) {
         case  0:
         case -1:
           // Don't know the length
+          if (module->currentRxTxn->len+1
+               >= UART_RX_BUFFER_SIZE) {
+            // TODO(rqou): Report this error!
+            // TODO(rqou): Can this break length finders?
+            module->currentRxTxn->len = 0;
+            return;
+          }
           module->currentRxTxn->data[module->currentRxTxn->len++] = dr;
           break;
         case -2:

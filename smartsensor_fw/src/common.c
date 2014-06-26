@@ -10,7 +10,7 @@
 // ****Sensor Personal Data*** // to be a struct later.
 uint8_t smartID[SMART_ID_LEN] = {SMART_ID};
 // Only uses last three bits
-uint8_t my_frame = 0x11 & 0x7;  // TODO(tobinsarah): allow for multiple frames
+uint8_t my_frame = 0x12 & 0x7;  // TODO(tobinsarah): allow for multiple frames
 uint32_t sample_rate = 0x0100;  // hardcoded for now;
 
 
@@ -66,9 +66,7 @@ void USART_Transmit_Stop() {
 
 void USART_Transmit(uint8_t data) {  // and toggle
   // Wait for empty transmit buffer
-  while (!(UCSR0A & (1 << UDRE0))) {  // TODO(tobinsarah): interruptTx
-    // TOGGLE_IN1;
-  }
+  while (!(UCSR0A & (1 << UDRE0))) {}  // TODO(tobinsarah): interruptTx
   // Put data into buffer to send the data.
   UDR0 = data;
 }
@@ -77,12 +75,11 @@ void USART_Transmit(uint8_t data) {  // and toggle
 // Print an array of chars instead of just one char.
 void serialPrint(uint8_t *StringOfCharacters, size_t len) {
   USART_Transmit_Start();
-  USART_Transmit(0);
   for (size_t i = 0; i < len; i++) {
     USART_Transmit(*StringOfCharacters++);
   }
-  while (!(UCSR0A & (1 << UDRE0))) {}
-  USART_Transmit(0);
+  // TODO(cduck): Properly wait for end of transmission
+  USART_Transmit(0xFF);
   while (!(UCSR0A & (1 << UDRE0))) {}
   USART_Transmit_Stop();
 }

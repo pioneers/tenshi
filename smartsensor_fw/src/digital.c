@@ -12,7 +12,7 @@ uint8_t make_flags(uint8_t canIn, uint8_t pushPull, uint8_t openDr,
 
 // Public functions called from main.c
 void initDigital() {
-  DIGITAL_SET_LOW(IN0);
+  DIGITAL_PULLUP_ON(IN0);
   DIGITAL_SET_HIGH(IN1);
   DIGITAL_SET_LOW(IN2);
   DIGITAL_SET_LOW(IN3);
@@ -33,7 +33,7 @@ void activeDigitalRec(uint8_t *data, uint8_t len, uint8_t inband) {
 }
 void activeDigitalSend(uint8_t *outData, uint8_t *outLen) {
   *outLen = 1;
-  outData[0] = DIGITAL_READ(IN0);
+  outData[0] = (~(DIGITAL_READ(IN0))) & 0x1;
 }
 
 
