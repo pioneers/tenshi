@@ -42,7 +42,7 @@ void I2C1_ER_IRQHandler(void) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define LENGTH_FINDER_DEFAULT ss_active_length_finder
+#define LENGTH_FINDER_DEFAULT ss_length_finder
 
 // This length finder expects packets with format {0, entire length, ...}
 static ssize_t dummy_length_finder(uart_serial_module *module, uint8_t byte) {
@@ -61,17 +61,27 @@ static ssize_t dummy_length_finder(uart_serial_module *module, uint8_t byte) {
 
 // This length finder expects packets with format {0, slllllll, ...}
 // Uses the low 7 bits of the second byte for the length.
-static ssize_t ss_active_length_finder(uart_serial_module *module,
+static ssize_t ss_length_finder(uart_serial_module *module,
   uint8_t byte) {
   if (byte == 0x00) {
     module->length_finder_state = 1;
     return -2;  // -2 means that this is the first byte of the packet.
   }
   if (module->length_finder_state == 1) {
-    module->length_finder_state = 0;
-    if ((byte & 0x7F) <= 2)
+    if (byte & 0x80) {  // The type byte of a maintenance packet
+      module->length_finder_state = 2;
       return -1;  // -1 means nothing is known about the length.
-    return (byte & 0x7F)-2;  // The positive number of bytes REMAINING.
+    } else {  // The length byte of an active packet
+      module->length_finder_state = 0;
+      if ((byte & 0x7F) <= 2) return 0;
+      return (byte & 0x7F)-2;  // The positive number of bytes REMAINING.
+    }
+  }
+  if (module->length_finder_state == 2) {
+    // The length byte of a maintenance packet
+    module->length_finder_state = 3;
+    if (byte <= 3) return 0;
+    return byte-3;  // The positive number of bytes REMAINING.
   }
 
   return 0;
@@ -134,7 +144,7 @@ void smartsensor1_init(void) {
 
   // Initialize the actual driver
   ssBusses[0] =
-  smartsensor_1 = uart_serial_init_module(4, ss_active_length_finder,
+  smartsensor_1 = uart_serial_init_module(4, LENGTH_FINDER_DEFAULT,
     smartsensor1_txen, SMART_SENSOR_BAUD);
 
   // Enable the interrupt at priority 15 (lowest)
@@ -193,7 +203,7 @@ void smartsensor2_init(void) {
 
   // Initialize the actual driver
   ssBusses[1] =
-  smartsensor_2 = uart_serial_init_module(2, ss_active_length_finder,
+  smartsensor_2 = uart_serial_init_module(2, LENGTH_FINDER_DEFAULT,
     smartsensor2_txen, SMART_SENSOR_BAUD);
 
   // Enable the interrupt at priority 15 (lowest)
@@ -252,7 +262,7 @@ void smartsensor3_init(void) {
 
   // Initialize the actual driver
   ssBusses[2] =
-  smartsensor_3 = uart_serial_init_module(1, ss_active_length_finder,
+  smartsensor_3 = uart_serial_init_module(1, LENGTH_FINDER_DEFAULT,
     smartsensor3_txen, SMART_SENSOR_BAUD);
 
   // Enable the interrupt at priority 15 (lowest)
@@ -311,7 +321,7 @@ void smartsensor4_init(void) {
 
   // Initialize the actual driver
   ssBusses[3] =
-  smartsensor_4 = uart_serial_init_module(6, ss_active_length_finder,
+  smartsensor_4 = uart_serial_init_module(6, LENGTH_FINDER_DEFAULT,
     smartsensor4_txen, SMART_SENSOR_BAUD);
 
   // Enable the interrupt at priority 15 (lowest)
