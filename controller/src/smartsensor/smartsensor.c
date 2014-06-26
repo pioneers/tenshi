@@ -30,13 +30,20 @@
 #include "ngl_types.h"   // NOLINT(build/include)
 */
 
-
 typedef enum {
   SS_BUS_INACTIVE,
   SS_BUS_MAINTAINANCE,
   SS_BUS_ENUMERATION,
   SS_BUS_ACTIVE
 } SS_BUS_STATE;
+
+
+
+// Initialize with -1
+// Specifies the index of the sensor in sensorArr assigned to a given sample
+// and frame (both zero indexed).
+int16_t sensorMapping[SS_NUM_SAMPLES][SS_NUM_FRAMES] = {{-1}};
+SS_BUS_STATE busState = SS_BUS_ENUMERATION;
 
 
 
@@ -50,33 +57,16 @@ void smartsensor_init() {
   // Init sensor array
   sensorArrLock = xSemaphoreCreateBinary();
 
-  uint8_t *outgoing = pvPortMalloc(1);
-  outgoing[0] = 0;
-  uint8_t *incoming = pvPortMalloc(1);
-  incoming[0] = 0;
-  SSState sensor1 = {
-    .id = {0, 1, 2, 3, 4, 5, 0x42, 7},
-    .busNum = 0,
-    .lock = xSemaphoreCreateBinary(),
-    .outgoingLen = 1,
-    .outgoingBytes = outgoing,
-    .incomingLen = 1,
-    .incomingBytes = incoming
-  };
-  xSemaphoreGive(sensor1.lock);
-
-  numSensors = 1;
-  sensorArr = pvPortMalloc(numSensors*sizeof(SSState));
-  sensorArr[0] = sensor1;
+  numSensorsAlloc = numSensors = 0;
+  sensorArr = pvPortMalloc(numSensorsAlloc*sizeof(SSState*));
 
   xSemaphoreGive(sensorArrLock);
-
 
   // Start tasks
   xTaskCreate(smartSensorTX, (const char *)"SensorTX", 2048, NULL,
     tskIDLE_PRIORITY, NULL);
-  // xTaskCreate(smartSensorRX, (const char *)"SensorRX", 2048, NULL,
-  //   tskIDLE_PRIORITY, NULL);
+  xTaskCreate(smartSensorRX, (const char *)"SensorRX", 2048, NULL,
+    tskIDLE_PRIORITY, NULL);
 }
 
 
@@ -88,106 +78,89 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
   // TODO(cduck): Get bus num from pvParameters.
   uint8_t busNum = 0;
   uart_serial_module *bus = ssBusses[busNum];
-
-  // TODO(cduck): Don't start with active state.  Write code for other states.
-  SS_BUS_STATE busState = SS_BUS_ENUMERATION;
-
-
   while (1) {
+    vTaskDelay(200 / portTICK_RATE_MS);  // Wait for smart sensors to boot.
+
     while (busState == SS_BUS_ENUMERATION) {
-      // int rxActive = 0;
+      uint8_t id[] = {0, 0, 0, 0, 0, 0, 0, 0};
+      static uint8_t maskAll[] =
+        {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+      static uint8_t maskNone[] = {0, 0, 0, 0, 0, 0, 0, 0};
+      uint8_t unsel = 0;
+      uint8_t unselOld = 0;
+      uint8_t selectDelay = 1;
+      size_t numSensorFound = 0;
 
-      /*
-      int ss_send_enum_enter(uart_serial_module *module);
-      int ss_send_enum_exit(uart_serial_module *module);
-      int ss_send_enum_reset(uart_serial_module *module);
-      int ss_send_enum_select(uart_serial_module *module, uint8_t id[8],
-        uint8_t mask[8]);
-      */
-      uint8_t id1[] = {0xFF, 1, 2, 3, 4, 5, 0x42, 7};
-      uint8_t mask1[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-      uint8_t id2[] = {0xFF, 1, 2, 3, 4, 5, 0x42, 7};
-      uint8_t mask2[] = {0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-      uint8_t id3[] = {0, 0xFF, 2, 3, 4, 5, 0x42, 7};
-      uint8_t mask3[] = {0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-      uint8_t id4[] = {0, 0xA, 0xB, 0xC, 0xA, 0xB, 0xC, 0};
-      uint8_t mask4[] = {0, 0, 0, 0, 0, 0, 0, 0};
+      ss_send_enum_enter(bus);  // Enter enumeration
+      vTaskDelay(selectDelay / portTICK_RATE_MS);
+      unsel = ss_recieve_enum_any_unselected(bus);
 
+      ss_send_enum_select(bus, id, maskNone);  // Select all sensors
+      vTaskDelay(selectDelay / portTICK_RATE_MS);
+      unselOld = unsel;
+      unsel = ss_recieve_enum_any_unselected(bus);
 
-      ss_send_enum_reset(bus);
-      vTaskDelay(3 / portTICK_RATE_MS);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
+      if (!unsel && unselOld) {
+        // There are smart sensors on the bus
+        for (int i = 0; i < 255; i++) {
+          id[SMART_ID_LEN-1] = (uint8_t)i;
 
-      ss_send_enum_enter(bus);
-      vTaskDelay(3 / portTICK_RATE_MS);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
+          ss_send_enum_unselect(bus, id, maskAll);  // Unselect one sensor
+          vTaskDelay(selectDelay / portTICK_RATE_MS);
+          unselOld = unsel;
+          unsel = ss_recieve_enum_any_unselected(bus);
+          if (unsel && !unselOld) {
+            // Found a sensor with id of i
+            size_t index = ss_add_new_sensor(id, busNum);
 
+            // //////////////////////////////////////////////////
+            // TODO(cduck): Better bandwidth allocation (only allocates first 6)
+            if (numSensorFound < SS_NUM_FRAMES) {
+              for (int i = 0; i < SS_NUM_SAMPLES; ++i) {
+                sensorMapping[i][numSensorFound] = index;
+              }
+            }
 
-      ss_send_enum_select(bus, id1, mask1);
-      vTaskDelay(3 / portTICK_RATE_MS);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
+            ++numSensorFound;
+          }
 
-      ss_send_enum_reset(bus);
-      vTaskDelay(3 / portTICK_RATE_MS);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
-
-      ss_send_enum_select(bus, id2, mask2);
-      vTaskDelay(3 / portTICK_RATE_MS);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
-
-      ss_send_enum_reset(bus);
-      vTaskDelay(3 / portTICK_RATE_MS);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
-
-      ss_send_enum_select(bus, id3, mask3);
-      vTaskDelay(3 / portTICK_RATE_MS);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
-
-      ss_send_enum_reset(bus);
-      vTaskDelay(3 / portTICK_RATE_MS);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
-
-      ss_send_enum_select(bus, id4, mask4);
-      vTaskDelay(3 / portTICK_RATE_MS);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
-
-      ss_send_enum_reset(bus);
-      vTaskDelay(3 / portTICK_RATE_MS);
-      led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
-
+          ss_send_enum_select(bus, id, maskNone);  // Select all sensors
+          vTaskDelay(selectDelay / portTICK_RATE_MS);
+          unselOld = unsel;
+          unsel = ss_recieve_enum_any_unselected(bus);
+        }
+      } else {
+        // There are no smart sensor on the bus
+        while (1) {
+          led_driver_set_mode(PATTERN_JUST_RED);
+          led_driver_set_fixed(0b100, 0b111);
+        }
+      }
 
       ss_send_enum_exit(bus);
-      vTaskDelay(3 / portTICK_RATE_MS);
+      vTaskDelay(selectDelay / portTICK_RATE_MS);
+
       led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(ss_recieve_enum_any_unselected(bus)+1, 0b111);
-      vTaskDelay(10 / portTICK_RATE_MS);
+      led_driver_set_fixed(0b111, 0b111);
 
-      vTaskDelay(1000 / portTICK_RATE_MS);
-
-      // busState = SS_BUS_MAINTAINANCE;
+      busState = SS_BUS_MAINTAINANCE;
     }
 
+    vTaskDelay(50 / portTICK_RATE_MS);  // ///////
+
     while (busState == SS_BUS_MAINTAINANCE) {
+      uint8_t d1_len = 7;
+      uint8_t d1[] = {0x11, 0x22, 0x33, 0x44, 0x88, 0xCC, 0xFF};
+      uint8_t d2_len = 100;
+      uint8_t d2[251];
+      for (int i = 0; i < 251; ++i) {
+        d2[i] = i;
+      }
+      for (int i = 0; i < numSensors; ++i) {
+        ss_send_ping_pong(sensorArr[i], d1, d1_len);
+        vTaskDelay(2 / portTICK_RATE_MS);
+      }
+
       busState = SS_BUS_ACTIVE;
     }
 
@@ -217,138 +190,113 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
           0, 0b00000110, 0b00000011, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           0, 0, 0, 0  // Timing bytes
          };
-      uint8_t activeLen = 0;
-      uint8_t activePacket[12];
-
-      uint8_t d_len = 7 +8;
-      uint8_t d[] = {0, 1, 2, 3, 4, 5, 0x42, 7, 0x01, 0x10, 0x00, 0x44, 0x88,
-                     0xCC, 0xFF};
-      uint8_t d2_len = 7;
-      uint8_t d2[] = {0x01, 0x10, 0x00, 0x44, 0x88, 0xCC, 0xFF};
-      SSState sensor1 = {
-        .id = {0, 1, 2, 3, 4, 5, 0x42, 7},
-        .busNum = 2};
-      SSState sensor2 = {
-        .id = {0, 1, 2, 3, 4, 5, 0x42, 7},
-        .busNum = 0};
-
-      uint8_t d3_len = 6;
-      uint8_t d3[] = {0, 0xFF, d3_len, 9, 1, 0x10};
-      // uint8_t d3[] = {0, 6, 2, 1, 2};
 
       unsigned int sampleNumber = 0;
-      uint8_t frameNumber = 1;
-      unsigned int sampleNumberLast = 0;
-      uint8_t frameNumberLast = 1;
+      uint8_t frameNumber = SS_FIRST_FRAME;
+      unsigned int sampleNumberLast = sampleNumber;
+      uint8_t frameNumberLast = frameNumber;
 
       // Recieve
       size_t recLen = 0;
+
+      transmit_allocations allocs = {.txn = NULL, .data = NULL};
+      transmit_allocations allocsOld = {.txn = NULL, .data = NULL};
+
+      // Clear missed packets
+      // while (uart_serial_receive_packet(bus, &recLen, 0)) {}
 
       // TODO(cduck): Better timing
       while (1) {
         // Send entire sample (about 1ms for 100 bytes)
 
-        if (frameNumber == 1) {
-          uint8_t button = button_driver_get_button_state(0);
-          uint8_t result = 0;
-          if (numSensors > 0) {
-            SSState sensor = sensorArr[0];
-            if (xSemaphoreTake(sensor.lock, SENSOR_WAIT_TIME) == pdTRUE) {
-              if (checkOutgoingBytes(sensor, 1)) {
-                result = sensor.outgoingBytes[0] ^ (button << 1);
-              }
-              xSemaphoreGive(sensor.lock);
+        // Clear missed packets
+        // while (uart_serial_receive_packet(bus, &recLen, 0)) {}
+
+        uint8_t isOutgoing = 0;
+        int16_t sensorIndex =
+          sensorMapping[sampleNumber%SS_NUM_SAMPLES]
+                       [frameNumber-SS_FIRST_FRAME];
+        SSState *sensor;
+        if (sensorIndex >= 0 && numSensors > sensorIndex) {
+          uint8_t button = button_driver_get_button_state(sensorIndex%2);
+          sensor = sensorArr[sensorIndex];
+          if (xSemaphoreTake(sensor->outLock, SENSOR_WAIT_TIME) == pdTRUE) {
+            if (checkOutgoingBytes(sensor, 1)) {
+              sensor->outgoingBytes[0] ^= ((0xFF*(!!button)) << 1);
+              isOutgoing = 1;
+              allocs = ss_send_active(bus, 0, sampleNumber, frameNumber,
+                sensor->outgoingBytes, sensor->outgoingLen);
+            } else {
+              allocs = ss_send_active(bus, 0, sampleNumber, frameNumber,
+                NULL, 0);
             }
+
+            // Wait until the previous packet sent
+            ss_wait_until_done(bus, allocs);
+            // Clean up the after sending the previous packet
+            ss_send_finish(bus, allocs);
+
+            xSemaphoreGive(sensor->outLock);
           }
-          // result ^= button << 1;
-          activeLen = 1;
-          activePacket[0] = result;
-        } else if (frameNumber == 4) {
-          uint8_t button = button_driver_get_button_state(1);
-          uint8_t result = 0;
-          if (numSensors > 0) {
-            SSState sensor = sensorArr[0];
-            if (xSemaphoreTake(sensor.lock, SENSOR_WAIT_TIME) == pdTRUE) {
-              if (checkOutgoingBytes(sensor, 1)) {
-                result = sensor.outgoingBytes[0] ^ button << 1;
-              }
-              xSemaphoreGive(sensor.lock);
-            }
-          }
-          // result ^= button << 1;
-          activeLen = 1;
-          activePacket[0] = result;
-        } else {
-          activeLen = 0;
         }
 
-        // Clear missed packets
-        // ///////////while (uart_serial_receive_packet(bus, &recLen, 0)) {}
+        // //////////////////////Send
+        // Queue the current packet for sending
+        // Send active frame (non-blocking)
+        /* if (isOutgoing) {
 
-        // Send active frame
-        ss_setup_active_sample(bus, 0, sampleNumber, frameNumber,
-          activePacket, activeLen);
+          xSemaphoreGive(sensor->outLock);
+        } else {
+          allocs = ss_send_active(bus, 0, sampleNumber, frameNumber,
+            NULL, 0);
+        }
+        if (allocs.txn) {
+          // Wait until the previous packet sent
+          ss_wait_until_done(bus, allocs);
+          // Clean up the after sending the previous packet
+          ss_send_finish(bus, allocs);
+        }
+        allocsOld = allocs;*/
 
-        // Recieve
+        vTaskDelay(1 / portTICK_RATE_MS);
+/*
+        // Recieve the response to the packet
         {
           // 1 means wait for packet
           uint8_t *data = uart_serial_receive_packet(bus, &recLen, 0);
 
           if (data) {
             if (recLen > 2) {
-              uint8_t *data_decode = pvPortMalloc(recLen-3);
-              cobs_decode(data_decode, data+2, recLen-2);
+              uint8_t prefixLen = 3;
+              uint8_t decodeLen = recLen-prefixLen-1;
+              uint8_t *data_decode = pvPortMalloc(decodeLen);
+              uint8_t freeData = 1;
+              cobs_decode(data_decode, data+prefixLen, decodeLen+1);
 
-              SSState sensor = sensorArr[0];
-              if (xSemaphoreTake(sensor.lock, SENSOR_WAIT_TIME) == pdTRUE) {
-                allocIncomingBytes(sensor, 1);
-                sensor.incomingBytes[0] = data_decode[0];
-
-                xSemaphoreGive(sensor.lock);
+              int16_t sensorIndex =
+                sensorMapping[sampleNumber%SS_NUM_SAMPLES]
+                             [frameNumber-SS_FIRST_FRAME];
+              if (sensorIndex >= 0 && numSensors > sensorIndex) {
+                SSState *sensor = sensorArr[sensorIndex];
+                ss_recieved_data_for_sensor(sensor, data_decode, decodeLen, 0);
               }
-              // led_driver_set_mode(PATTERN_JUST_RED);
-              // led_driver_set_fixed(data_decode[0]&6, 0b111);
 
-              if (data_decode) vPortFree(data_decode);
+              // Only free if not assigned to a sensor.
+              if (data_decode && freeData) vPortFree(data_decode);
             }
             vPortFree(data);
           }
         }
+*/
 
-        /*
-        activeLen = 1;  // Before COBS encoding
-        cobs_encode(data+3, activePacket, activeLen);
-        data[2] = 3+activeLen+1;
-
-
-        // Ping pong packet
-        sensor1.id[2] ^= 5;
-        sensor2.id[2] ^= 5;
-        d[2] ^= 5;
-        // ss_all_send_maintenance(0xFE, d, d_len);
-        // ss_send_maintenance(smartsensor_1, 0xFE, d, d_len);
-        // ss_send_maintenance(smartsensor_2, 0xFE, d, d_len);
-        ss_send_ping_pong(sensor1, d2, d2_len);
-        // ss_send_ping_pong(sensor2, d, d_len);
-        ss_uart_serial_send_and_finish_data(smartsensor_4, d3, d3_len);
-        ss_uart_serial_send_and_finish_data(smartsensor_1, data, data_len);
-
-        // Increment sample number in bits 4-6 (mod 8)
-        // assuming has payload=0
-        for (uint8_t i = 0; i < 6; i++) {
-          data[1+i*16] = (data[1+i*16] + 0b1000) & 0b00111111;
-        }
-
-        // vTaskDelay(200 / portTICK_RATE_MS);  // /////////////////
-        */
-
+        // Update sample and frame numbers
         frameNumberLast = frameNumber;
         sampleNumberLast = sampleNumber;
 
-        frameNumber++;
-        if (frameNumber > 6) {
-          frameNumber = 1;
-          sampleNumber++;
+        ++frameNumber;
+        if (frameNumber >= SS_NUM_FRAMES+SS_FIRST_FRAME) {
+          frameNumber = SS_FIRST_FRAME;
+          ++sampleNumber;
         }
       }
     }
@@ -358,45 +306,48 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
 portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
   (void) pvParameters;
 
-  // TODO(cduck): Don't start with active state.  Write code for other states.
-  SS_BUS_STATE busState = SS_BUS_ACTIVE;
+  // TODO(cduck): Get bus num from pvParameters.
+  uint8_t busNum = 0;
+  uart_serial_module *bus = ssBusses[busNum];
+
+  // Recieve
+  size_t recLen = 0;
 
   while (1) {
-    while (busState == SS_BUS_ENUMERATION) {
-      break;
-    }
+    while (busState != SS_BUS_ACTIVE) {}
 
-    // if (busState == SS_BUS_ACTIVE) {
-    // uint8_t a = 0xaa;
-    // uint8_t b = 0xbb;
-    while (1) {
-      size_t len = 0;
+    while (busState == SS_BUS_ACTIVE) {
+      // Recieve the response to the packet
       // 1 means wait for packet
-      uint8_t *data = uart_serial_receive_packet(smartsensor_1, &len, 1);
+      uint8_t *data = uart_serial_receive_packet(bus, &recLen, 0);
 
-      if (!data) continue;
-      if (len <= 2) {
+      if (busState != SS_BUS_ACTIVE) break;
+
+      if (data) {
+        uint8_t prefixLen = 3;
+        if (recLen > prefixLen) {
+          uint8_t sampleNumber = (data[1] >> 3) & 0b111;
+          uint8_t frameNumber0 = data[1] & 0b111;  // Zero indexed
+          uint8_t inband = data[1] >> 7;
+          uint8_t decodeLen = recLen-prefixLen-1;
+          uint8_t *data_decode = pvPortMalloc(decodeLen);
+          cobs_decode(data_decode, data+prefixLen, decodeLen+1);
+
+          led_driver_set_mode(PATTERN_JUST_RED);
+          led_driver_set_fixed(sampleNumber, 0b111);
+
+          int16_t sensorIndex =
+            sensorMapping[sampleNumber%SS_NUM_SAMPLES]
+                         [frameNumber0];
+          if (sensorIndex >= 0 && numSensors > sensorIndex) {
+            SSState *sensor = sensorArr[sensorIndex];
+            ss_recieved_data_for_sensor(sensor, data_decode, decodeLen, inband);
+          }
+
+          if (data_decode) vPortFree(data_decode);
+        }
         vPortFree(data);
-        continue;
       }
-
-      uint8_t button = button_driver_get_button_state(0);
-
-      uint8_t *data_decode = pvPortMalloc(len-3);
-      cobs_decode(data_decode, data+2, len-2);
-
-      SSState sensor = sensorArr[0];
-      if (xSemaphoreTake(sensor.lock, SENSOR_WAIT_TIME) == pdTRUE) {
-        allocIncomingBytes(sensor, 1);
-        sensor.incomingBytes[0] = data_decode[0];
-
-        xSemaphoreGive(sensor.lock);
-      }
-      // led_driver_set_mode(PATTERN_JUST_RED);
-      // led_driver_set_fixed(data_decode[0]&6, 0b111);
-
-      if (data_decode) vPortFree(data_decode);
-      if (data) vPortFree(data);
     }
   }
 }

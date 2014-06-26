@@ -10,7 +10,7 @@
 
 
 #define F_CPU 8000000  // AVR clock frequency in Hz, used by util/delay.h
-#define SMART_BAUD 1000000  // Smartsensor baud rate
+#define SMART_BAUD 500000  // Smartsensor baud rate
 #define SMART_ID_LEN 8   // Length of smartsensor personal ID
 
 // May change

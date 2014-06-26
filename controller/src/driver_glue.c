@@ -59,8 +59,9 @@ static ssize_t dummy_length_finder(uart_serial_module *module, uint8_t byte) {
   return 0;
 }
 
-// This length finder expects packets with format {0, slllllll, ...}
-// Uses the low 7 bits of the second byte for the length.
+// This length finder expects packets with format
+//   {0, type or sample/frame, length, ....}
+// Uses the low 7 bits of the third byte for the length.
 static ssize_t ss_length_finder(uart_serial_module *module,
   uint8_t byte) {
   if (byte == 0x00) {
@@ -68,14 +69,8 @@ static ssize_t ss_length_finder(uart_serial_module *module,
     return -2;  // -2 means that this is the first byte of the packet.
   }
   if (module->length_finder_state == 1) {
-    if (byte & 0x80) {  // The type byte of a maintenance packet
       module->length_finder_state = 2;
       return -1;  // -1 means nothing is known about the length.
-    } else {  // The length byte of an active packet
-      module->length_finder_state = 0;
-      if ((byte & 0x7F) <= 2) return 0;
-      return (byte & 0x7F)-2;  // The positive number of bytes REMAINING.
-    }
   }
   if (module->length_finder_state == 2) {
     // The length byte of a maintenance packet

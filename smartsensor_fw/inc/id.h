@@ -4,7 +4,7 @@
 
 
 
-#define SMART_ID 0, 0, 0, 0, 0, 0, 0, 1
+#define SMART_ID 0, 0, 0, 0, 0, 0, 0, 2
 
 
 

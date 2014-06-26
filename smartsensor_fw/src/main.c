@@ -98,9 +98,10 @@ int main() {
       // Send reply active packet
       if (pacLen > 0 && pacLen <= ACTIVE_PACKET_MAX_LEN) {
         encodedBuffer[0] = 0x00;
-        encodedBuffer[1] = pacLen+3;
-        cobs_encode(encodedBuffer+2, decodedBuffer, pacLen);
-        serialPrint(encodedBuffer, pacLen+3);
+        encodedBuffer[1] = packetType;
+        encodedBuffer[2] = pacLen+4;
+        cobs_encode(encodedBuffer+3, decodedBuffer, pacLen);
+        serialPrint(encodedBuffer, pacLen+4);
       }
       activeSendFlag = 0;
     }

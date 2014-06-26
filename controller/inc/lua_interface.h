@@ -8,7 +8,7 @@
 
 #define TEST_STATIC_LUA \
   "while 1 do\n"\
-  "   set_led(get_digital(0)*2+get_digital(1)*4)\n"\
+  /*"   set_led(get_digital(0)*2+get_digital(1)*4)\n"*/\
   "   set_digital(0,get_digital(1)*2)\n"\
   "   set_digital(1,get_digital(0)*2)\n"\
   "end"  /* NOLINT(*) */
