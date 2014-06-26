@@ -8,7 +8,12 @@
 #include "inc/uart_serial_driver.h"
 
 
-#define SENSOR_WAIT_TIME (5000/portTICK_PERIOD_MS)  // 5 seconds
+#define SMART_ID_LEN 8   // Length of smartsensor personal ID
+#define SS_MAX_ACTIVE_LEN (16-4)  // Most bytes that can be sent to a sensor
+                                  // during active bus mode.
+
+// Timeout
+#define SENSOR_WAIT_TIME (1000/portTICK_PERIOD_MS)  // 1 seconds
 
 #define MAGIC_SEQUENCE_LEN 21
 #define MAGIC_SEQUENCE 0xE6, 0xAD, 0xBB, 0xE3, 0x82, 0x93, 0xE3, 0x81, 0xA0, \
