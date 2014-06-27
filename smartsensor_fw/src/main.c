@@ -22,6 +22,7 @@
 #include "inc/smartsensor/cobs.h"
 #include "inc/common.h"
 #include "inc/digital.h"
+#include "inc/analog_in.h"
 #include "inc/enumeration.h"
 #include "inc/maintenance.h"
 
@@ -72,7 +73,7 @@ int main() {
     case SENSOR_TYPE_DIGITAL:
       initDigital();
       break;
-	case SENSOR_TYPE_ANALOG_IN:
+    case SENSOR_TYPE_ANALOG_IN:
       initAnalogIn();
       break;
     default: break;
@@ -113,8 +114,8 @@ int main() {
           case SENSOR_TYPE_DIGITAL:
             activeDigitalRec(decodedBuffer, dataLen-1, in_band_sigFlag);
             break;
-          case SENSOR_TYPE_DIGITAL:
-            activeDigitalRec(decodedBuffer, dataLen-1, in_band_sigFlag);
+          case SENSOR_TYPE_ANALOG_IN:
+            activeAnalogInRec(decodedBuffer, dataLen-1, in_band_sigFlag);
             break;
           default: break;
           // TODO(cduck): Add more smart sensors types
