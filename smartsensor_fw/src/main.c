@@ -88,7 +88,7 @@ int main() {
         case SENSOR_TYPE_DIGITAL:
           activeDigitalSend(decodedBuffer, &pacLen);
           break;
-		case SENSOR_TYPE_ANALOG_IN:
+        case SENSOR_TYPE_ANALOG_IN:
           activeAnalogInSend(decodedBuffer, &pacLen);
           break;
         default: break;
