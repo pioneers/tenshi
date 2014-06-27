@@ -72,6 +72,9 @@ int main() {
     case SENSOR_TYPE_DIGITAL:
       initDigital();
       break;
+	case SENSOR_TYPE_ANALOG_IN:
+      initAnalogIn();
+      break;
     default: break;
     // TODO(cduck): Add more smart sensors types
   }
@@ -84,6 +87,9 @@ int main() {
       switch (SENSOR_TYPE == SENSOR_TYPE_DIGITAL) {
         case SENSOR_TYPE_DIGITAL:
           activeDigitalSend(decodedBuffer, &pacLen);
+          break;
+		case SENSOR_TYPE_ANALOG_IN:
+          activeAnalogInSend(decodedBuffer, &pacLen);
           break;
         default: break;
         // TODO(cduck): Add more smart sensors types
@@ -104,6 +110,9 @@ int main() {
       }
       if (packetType < 0x80) {
         switch (SENSOR_TYPE == SENSOR_TYPE_DIGITAL) {
+          case SENSOR_TYPE_DIGITAL:
+            activeDigitalRec(decodedBuffer, dataLen-1, in_band_sigFlag);
+            break;
           case SENSOR_TYPE_DIGITAL:
             activeDigitalRec(decodedBuffer, dataLen-1, in_band_sigFlag);
             break;
