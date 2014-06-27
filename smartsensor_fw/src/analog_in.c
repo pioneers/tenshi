@@ -24,7 +24,7 @@ void activeAnalogInRec(uint8_t *data, uint8_t len, uint8_t inband) {
 }
 void activeAnalogInSend(uint8_t *outData, uint8_t *outLen) {
   *outLen = 1;
-  outData[0] = adc_read(IN0);  // see below for this one.
+  outData[0] = adc_read();  // see below for this one.
 }
 
 // Private helper functions
