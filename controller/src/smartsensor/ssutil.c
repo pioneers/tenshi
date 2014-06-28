@@ -260,8 +260,13 @@ int ss_send_enum_select(uart_serial_module *module, uint8_t id[SMART_ID_LEN],
 }
 int ss_send_enum_unselect(uart_serial_module *module, uint8_t id[SMART_ID_LEN],
   uint8_t mask[SMART_ID_LEN]) {
-  // TODO(cduck): Implement
-  return 0;
+  static const uint8_t len = 2*SMART_ID_LEN;  // Not COBS
+  uint8_t data[2*SMART_ID_LEN];  // Not COBS
+  for (int i = 0; i < SMART_ID_LEN; ++i) {
+    data[i] = id[i];
+    data[i+SMART_ID_LEN] = mask[i];
+  }
+  return ss_send_maintenance(module, 0xF4, data, len);
 }
 int ss_recieve_enum_any_unselected(uart_serial_module *module) {
   int r;

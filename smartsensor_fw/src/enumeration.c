@@ -6,6 +6,7 @@
 #define TYPE_ENUMERATION_EXIT 0xF1
 #define TYPE_ENUMERATION_SELECT 0xF2
 #define TYPE_ENUMERATION_RESET 0xF3
+#define TYPE_ENUMERATION_UNSELECT 0xF4
 
 uint8_t enumerating = 0;
 
@@ -15,6 +16,7 @@ void enumerationPacket(uint8_t type, uint8_t *data, uint8_t len) {
     case TYPE_ENUMERATION_EXIT: enumerationExit(data, len); break;
     case TYPE_ENUMERATION_SELECT: enumerationSelect(data, len); break;
     case TYPE_ENUMERATION_RESET: enumerationReset(data, len); break;
+    case TYPE_ENUMERATION_UNSELECT: enumerationUnselect(data, len); break;
     default: break;
   }
 }
@@ -68,4 +70,12 @@ void enumerationSelect(uint8_t *data, uint8_t len) {
   }
   DIGITAL_SET_LOW(UART0_TXE);  // Turn PA6 off  // Stop driving the bus
   UCSR0B |= (1 << TXEN0);  // Enable UART transmiter
+}
+void enumerationUnselect(uint8_t *data, uint8_t len) {
+  if (!enumerating) return;
+  if (len < 2*SMART_ID_LEN) return;
+  for (uint8_t i = 0; i < SMART_ID_LEN; ++i) {
+    if ((data[i] ^ smartID[i]) & data[i+SMART_ID_LEN]) return;  // Doesn't match
+  }
+  enumerationReset(data, len);
 }
