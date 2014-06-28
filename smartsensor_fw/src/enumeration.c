@@ -53,6 +53,11 @@ void enumerationEnter(uint8_t *data, uint8_t len) {
 void enumerationExit(uint8_t *data, uint8_t len) {
   if (!enumerating) return;
   enumerating = 0;
+
+  // Fix for floating bus when not driven
+  DIGITAL_SET_HIGH(UART0_TX);
+  for (uint8_t i = 0; i < 20; i++) {}
+
   DIGITAL_SET_LOW(UART0_TXE);  // Turn PA6 off  // Stop driving the bus
   UCSR0B |= (1 << TXEN0);  // Enable UART transmiter
 }
@@ -68,6 +73,11 @@ void enumerationSelect(uint8_t *data, uint8_t len) {
   for (uint8_t i = 0; i < SMART_ID_LEN; ++i) {
     if ((data[i] ^ smartID[i]) & data[i+SMART_ID_LEN]) return;  // Doesn't match
   }
+
+  // Fix for floating bus when not driven
+  DIGITAL_SET_HIGH(UART0_TX);
+  for (uint8_t i = 0; i < 20; i++) {}
+
   DIGITAL_SET_LOW(UART0_TXE);  // Turn PA6 off  // Stop driving the bus
   UCSR0B |= (1 << TXEN0);  // Enable UART transmiter
 }
