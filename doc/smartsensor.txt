@@ -145,6 +145,8 @@ operations. The following type IDs are defined:
 * 0xF0 - enter enumeration
 * 0xF1 - exit enumeration, return to normal operation
 * 0xF2 - enumeration select
+* 0xF3 - reset enumeration
+* 0xF4 - enumeration unselect
 
 Enumeration state is entered when the master sends a maintainance frame of
 type 0xF0. The payload must contain a COBS-encoded version of the magic bytes
@@ -165,6 +167,9 @@ Upon receiving the command to exit enumeration mode, a slave device must turn
 off its transmitter and return to an idle state ready to receive commands. This
 command does not have a payload.
 
+Upon receiving the enumeration reset command, a slave device must do the same
+as the enumeration enter command. This command does not have a payload.
+
 Upon receiving the enumeration select command, a slave device must turn off its
 transmitter iff its unique 64-bit ID bitwise-anded with the transmitted mask is
 equal to the transmitted value. The structure of the payload is 8 bytes of
@@ -173,6 +178,10 @@ perform the test "<my ID> & <mask> == <value>" and disable its transmitter iff
 this test is true. Note that once all slaves have their transmitters off,
 the bus is no longer driven and returns to an idle logic high. This allows
 binary searching through the address space.
+
+Upon receiving the enumeration unselect command, a slave device must turn its
+transmitter back on again iff the same condition used by enumeration select
+holds.
 
 Enumeration protocol:
 The main controller may use the enumeration commands to discover slave devices

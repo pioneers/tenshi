@@ -87,6 +87,8 @@ int ss_send_enum_exit(uart_serial_module *module);
 int ss_send_enum_reset(uart_serial_module *module);
 int ss_send_enum_select(uart_serial_module *module, uint8_t id[SMART_ID_LEN],
   uint8_t mask[SMART_ID_LEN]);
+int ss_send_enum_unselect(uart_serial_module *module, uint8_t id[SMART_ID_LEN],
+  uint8_t mask[SMART_ID_LEN]);
 // Returns 1 if any sensors are still driving a logic level 0 onto the bus.
 int ss_recieve_enum_any_unselected(uart_serial_module *module);
 
