@@ -25,6 +25,107 @@ import subprocess
 import sys
 import shutil
 
+try:
+    import csv
+    from reportlab.lib.pagesizes import LETTER, landscape
+    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.platypus import Paragraph, Table, TableStyle
+    from reportlab.platypus import SimpleDocTemplate
+    import reportlab.lib.colors
+
+    reportlab_available = True
+except ImportError:
+    print("Warning: reportlab is not available, documentation will not "
+          "contain BOM")
+    reportlab_available = False
+
+
+def hint_word_wrap(dat):
+    """
+    If the BOM sheets are generated without word-wrapping cells, they would be
+    wider than a page.
+
+    By default, reportlab only word wraps around spaces. However, some fields
+    use underscores or dashes as separators. (e.g. WIRE_WITH_HOLE)
+
+    This hack inserts spaces throughout the fields to force them to word wrap.
+    """
+    segments = dat.split(" ")
+    i = 0
+    while i < len(segments):
+        seg = segments[i]
+        if len(seg) < 15:
+            i += 1
+            continue
+
+        try:
+            before, after = seg.split("-", 1)
+            if len(before) < 15:
+                segments[i] = before + "-"
+                segments.insert(i + 1, after)
+                i += 1
+                continue
+        except ValueError:
+            pass
+
+        try:
+            before, after = seg.split("_", 1)
+            if len(before) < 15:
+                segments[i] = before + "_"
+                segments.insert(i + 1, after)
+                i += 1
+                continue
+        except ValueError:
+            pass
+
+        i += 1
+
+    return " ".join(segments)
+
+
+def get_table_data(csv_name):
+    """
+    Read a CSV file, and convert it to an array of reportlab Paragraphs.
+    The Paragraphs make sure the cells can word wrap.
+    """
+
+    with open(csv_name, "r") as csvfile:
+        reader = csv.reader(csvfile)
+        data = list(reader)
+
+    # Small fonts are required for the table width to not exceed the page width
+    styles = getSampleStyleSheet()
+    text_style = styles["Normal"]
+    text_style.fontSize = 6
+
+    header_row = [[Paragraph("<b><u>" + x + "</u></b>", text_style)
+                   for x in data[0]]]
+    other_rows = [[Paragraph(hint_word_wrap(x), text_style) for x in y]
+                  for y in data[1:]]
+
+    return header_row + other_rows
+
+
+def gen_bom_pdf(csv_name, pdf_name):
+    """
+    Render a CSV file to PDF
+    """
+    doc = SimpleDocTemplate(pdf_name,
+                            pagesize=landscape(LETTER),
+                            # Use minimum printable margins
+                            rightMargin=4,
+                            leftMargin=4,
+                            topMargin=4,
+                            bottomMargin=4)
+    data = get_table_data(csv_name)
+    table_style = TableStyle([
+        # Shade alternating rows with a light grey background
+        ['ROWBACKGROUNDS', (0, 0), (-1, -1), [reportlab.lib.colors.lightgrey,
+                                              reportlab.lib.colors.white]]
+    ])
+    # Render and write the PDF file to disk
+    doc.build([Table(data, style=table_style)])
+
 
 def run_script(file_name, script_name):
     ret = eagle_util_funcs.run_eagle([
@@ -59,19 +160,37 @@ def compile_pdf(inputs, output):
 
 def main():
     if len(sys.argv) < 3:
-        print("Usage: %s in.sch|in.brd out.pdf" % (sys.argv[0]))
+        print("""Usage: {} [in.sch] [in.brd] [in.csv] out.pdf
+
+Generates a PDF documentation packet based on the input files.
+At least one input file is required.
+""".format(sys.argv[0]))
         sys.exit(1)
+
+    # print("ARGUMENTS:", sys.argv)
+    # return
 
     scr_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-    base_name = os.path.splitext(os.path.abspath(sys.argv[1]))[0]
-    out_name = os.path.join(os.getcwd(), os.path.abspath(sys.argv[2]))
+    sch_name = None
+    brd_name = None
+    csv_name = None
+    for arg in sys.argv[1:-1]:
+        ext = os.path.splitext(arg)[1]
+        arg_abs = os.path.abspath(arg)
+        if not os.path.isfile(arg_abs):
+            raise IOError("File not found: {}".format(arg))
 
-    sch_name = os.path.join(os.getcwd(), base_name + ".sch")
-    brd_name = os.path.join(os.getcwd(), base_name + ".brd")
+        if ext == ".sch":
+            sch_name = arg_abs
+        elif ext == ".brd":
+            brd_name = arg_abs
+        elif ext == ".csv":
+            csv_name = arg_abs
+        else:
+            raise Exception("Unsupported input filetype: {}".format(ext))
 
-    have_sch = os.path.isfile(sch_name)
-    have_brd = os.path.isfile(brd_name)
+    out_name = os.path.abspath(sys.argv[-1])
 
     # Start xvfb
     xvfb, display_num = eagle_util_funcs.start_xvfb()
@@ -95,7 +214,7 @@ def main():
     inputs = []
 
     # Generate schematic image
-    if have_sch:
+    if sch_name:
         dst_sch_name = os.path.join(tmp_dir, "file.sch")
         shutil.copy(sch_name, dst_sch_name)
         run_script(dst_sch_name, "schematic.scr")
@@ -103,13 +222,18 @@ def main():
         inputs.append(os.path.join(tmp_dir, "schematic.pdf"))
 
     # Generate board images
-    if have_brd:
+    if brd_name:
         dst_brd_name = os.path.join(tmp_dir, "file.brd")
         shutil.copy(brd_name, dst_brd_name)
         run_script(dst_brd_name, "board.scr")
         os.remove(dst_brd_name)
         inputs.append(os.path.join(tmp_dir, "top.pdf"))
         inputs.append(os.path.join(tmp_dir, "bottom.pdf"))
+
+    # Generate bill of materials
+    if csv_name and reportlab_available:
+        gen_bom_pdf(csv_name, os.path.join(tmp_dir, "bom.pdf"))
+        inputs.append(os.path.join(tmp_dir, "bom.pdf"))
 
     # Compile final pdf
     compile_pdf(inputs, out_name)
