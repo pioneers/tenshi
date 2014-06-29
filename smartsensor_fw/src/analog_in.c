@@ -40,6 +40,6 @@ int adc_read(void) {
     // Wait for it to finish
     while (ADCSRA & (1 << ADSC)) {}
 
-    return ADCH;
+    // return ADCH;
     return ADC;  // For 10-bit resolution
 }
