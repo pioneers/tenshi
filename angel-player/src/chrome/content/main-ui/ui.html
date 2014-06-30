@@ -39,13 +39,40 @@
           </div>
         </div>
         <div id="mainContent">
-            <div id="topDiv"><!--Loaded dynamically--></div>
-            <div id="mainCenter">
-                <div id="leftDiv"><!--Loaded dynamically--></div>
-                <div id="centerDiv"><!--Loaded dynamically--></div>
-                <div id="rightDiv"><!--Loaded dynamically--></div>
-            </div>
-            <div id="bottomDiv"><!--Loaded dynamically--></div>
+          <div id="welcome-div" class="module-div">
+            <iframe src="../welcome/welcome.html"></iframe>
+          </div>
+
+          <div id="controls-div" class="module-div">
+            <iframe src="../controls/main.html"></iframe>
+          </div>
+
+          <div id="texteditor-div" class="module-div">
+            <iframe src="../texteditor/editor.html"></iframe>
+          </div>
+
+          <div id="console-div" class="module-div">
+            <iframe src="../console/console.html"></iframe>
+          </div>
+
+          <div id="blockeditor-div" class="module-div">
+            <iframe src="../blockeditor/blockeditor.html"></iframe>
+          </div>
+
+          <div id="simulator-div" class="module-div">
+            <iframe src="../simulator/main.html"></iframe>
+          </div>
+
+          <div id="maker-div" class="module-div">
+            <!-- Commented out for now, because both the simulator and the -->
+            <!-- maker use the same variable to store the window object. -->
+            <!-- <iframe src="../simulator/maker.html"></iframe> -->
+            <p>Robot builder is temporarily disabled</p>
+          </div>
+
+          <div id="stargate-div" class="module-div">
+            <iframe src="../debug-main.html"></iframe>
+          </div>
         </div>
     </body>
 </html>
