@@ -57,7 +57,7 @@ body {
     padding: 5px 0 0 0;
 }
 
-a {
+#header a {
     margin: 5px 5px 5px 5px;
     color: #dbdbdb;
     font-family: 'Open Sans';
@@ -65,7 +65,7 @@ a {
     text-decoration: none;
 }
 
-a.tabActive {
+#header a.tabActive {
     color: white;
     font-weight: 400;
 }
