@@ -2,12 +2,25 @@
 
 <html>
     <head>
+        <!-- GLOBAL LIBRARY SECTION -->
+        <!-- All globally available libraries that use the DOM must be
+             included here -->
+
+        <!-- jQuery must be loaded before angular.
+             Otherwise angular activates a no-jQuery mode with less features -->
+        <script src="../vendor-js/jquery.js"></script>
+        <script src="../vendor-js/angular.js"></script>
+
+        <!-- GLOBAL STYLE SECTION -->
         <link rel="stylesheet" type="text/css" href="ui.css">
+
+        <!-- Load application logic inside the CommonJS environment -->
         <script type='application/javascript;version=1.7'
             src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
         <script src="../common/require_stub.js"></script>
         <script>
             requireStub('tenshi/main-ui/ui.js');
+            requireStub('tenshi/main-ui/app.js');
         </script>
     </head>
     <body>
