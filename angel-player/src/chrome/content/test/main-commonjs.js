@@ -2,8 +2,8 @@
 /* global jetpackLoader */
 "use strict";
 
-const url = require ('jetpack/sdk/url');
-const fs = require('jetpack/sdk/io/fs');
+const url = require ('sdk/url');
+const fs = require('sdk/io/fs');
 const { Cu, Cc, Ci } = require('chrome');
 const console =
     Cu.import("resource://gre/modules/devtools/Console.jsm").console;
@@ -58,12 +58,15 @@ function create_new_test_env(window) {
             clearInterval: window.clearInterval,
             console: console,
         },
+        modules: {
+            'toolkit/loader': jetpackLoader,
+        },
         paths: {
             // In order to make node.js and other modules happy, the
             // "root" of the import paths is the vendor js directory.
-            // To get the Mozilla Jetpack SDK stuff, use jetpack/
+            // To get the Mozilla Jetpack SDK stuff, use sdk/
             "": "chrome://angel-player/content/vendor-js/",
-            "jetpack": "resource://gre/modules/commonjs",
+            "sdk": "resource://gre/modules/commonjs/sdk",
             "tenshi": "chrome://angel-player/content",
         },
     });

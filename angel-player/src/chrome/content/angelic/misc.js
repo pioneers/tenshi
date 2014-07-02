@@ -71,7 +71,7 @@ function to_filename ( path ) {
     return path;
     }
   else if ( environment === 'xulrunner' ) {
-    var url = require ( 'jetpack/sdk/url' );
+    var url = require ( 'sdk/url' );
     if ( url.isValidURI ( path ) ) {
       // url.isValidURI returns true for Windows paths.
       // Hopefully, this will be fixed at some point.

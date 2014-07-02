@@ -3,7 +3,7 @@
 
 const typpo_module = require('tenshi/common/factory');
 const xbee = require('tenshi/common/xbee');
-const url = require('jetpack/sdk/url');
+const url = require('sdk/url');
 
 const PIEMOS_FRAMING_YAML_FILE =
     'chrome://angel-player/content/common_defs/legacy_piemos_framing.yaml';

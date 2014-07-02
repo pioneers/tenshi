@@ -46,12 +46,15 @@ function onLoad() {
             setTimeout: window.setTimeout,
             clearTimeout: window.clearTimeout,
         },
+        modules: {
+            'toolkit/loader': loader,
+        },
         paths: {
             // In order to make node.js and other modules happy, the "root"
             // of the import paths is the vendor js directory. To get the
-            // Mozilla Jetpack SDK stuff, use jetpack/
+            // Mozilla Jetpack SDK stuff, use sdk/
             "": "chrome://angel-player/content/vendor-js/",
-            "jetpack": "resource://gre/modules/commonjs",
+            "sdk": "resource://gre/modules/commonjs/sdk",
             "tenshi": "chrome://angel-player/content",
         },
     });

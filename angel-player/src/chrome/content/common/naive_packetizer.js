@@ -3,8 +3,8 @@
 
 const { ChromeWorker } = require('chrome');
 const typpo_module = require('tenshi/common/factory');
-const url = require('jetpack/sdk/url');
-const buffer = require('jetpack/sdk/io/buffer');
+const url = require('sdk/url');
+const buffer = require('sdk/io/buffer');
 const global_state = require('tenshi/common/global_state');
 const robot_application = require('tenshi/common/robot_application');
 const xbee = require('tenshi/common/xbee');
