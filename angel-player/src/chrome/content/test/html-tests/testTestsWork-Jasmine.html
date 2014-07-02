@@ -1,0 +1,26 @@
+<!doctype html>
+
+<html>
+    <head>
+        <title>Test that Jasmine DOM tests work</title>
+        <script type="text/javascript" src="chrome://angel-player/content/vendor-js/jasmine.js"></script>
+        <script type="text/javascript" src="chrome://angel-player/content/vendor-js/jasmine-console.js"></script>
+        <script type="text/javascript" src="chrome://angel-player/content/vendor-js/jasmine-html.js"></script>
+        <script type="text/javascript" src="chrome://angel-player/content/test/jasminestub-htmlboot.js"></script>
+
+        <script>
+            // In an actual test, this would probably be in a separate file.
+            // In this case, this is probably fine.
+            describe("Dummy framework tester", function() {
+                it("should work", function() {
+                    expect(0).toEqual(0);
+                });
+            });
+
+            // TODO(rqou): If an HTML file contains no tests, it will hang
+            // the test framework. Fix this.
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

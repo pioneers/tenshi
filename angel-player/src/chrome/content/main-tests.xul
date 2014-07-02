@@ -11,4 +11,7 @@
       homepage="chrome://angel-player/content/main-tests.html"
       id="mainXULBrowser" flex="1"/>
 
+  <browser type="content" src="about:blank" homepage="about:blank"
+      id="testBrowser" flex="1"/>
+
 </window>

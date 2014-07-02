@@ -1,0 +1,20 @@
+<!doctype html>
+
+<html>
+    <head>
+        <title>Test that things work</title>
+        <script type="application/javascript;version=1.7">
+            // Simple, non-Jasmine HTML test
+            // Note: not recommended to write one of these!
+
+            // Simply raise a pass condition
+            let newEvent = new CustomEvent('TenshiTest', {
+                'detail': true,
+                'bubbles': true
+            });
+            window.dispatchEvent(newEvent);
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

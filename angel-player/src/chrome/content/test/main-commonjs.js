@@ -12,7 +12,7 @@ const appStartup =
 
 const TEST_DIR_CHROME = 'chrome://angel-player/content/test';
 const TEST_DIR_COMMONJS = 'tenshi/test/';
-const JASMINE_STUB = 'tenshi/test/jasminestub';
+const JASMINE_STUB_COMMONJS = 'tenshi/test/jasminestub-commonjs';
 
 // files = find_recursively(root, [relative])
 // Returns a list of files in <root>/<relative>, or just <root> if relative is
@@ -134,7 +134,7 @@ function runJasmineNoDomTests(window, testDir) {
         let testModule;
         try {
             let testEnvRequire = create_new_test_env(window);
-            testModule = testEnvRequire(JASMINE_STUB);
+            testModule = testEnvRequire(JASMINE_STUB_COMMONJS);
         } catch(e) {
             testsAllPassed = false;
             reportException(e, "Test " + testFileName + " failed to load!");
@@ -157,6 +157,65 @@ function runJasmineNoDomTests(window, testDir) {
     return testsAllPassed;
 }
 
+// Run HTML tests
+// Each of these tests is loaded into a <browser> element with chrome
+// privileges. Jasmine or other frameworks can be added into the page in a
+// "normal" way. This is intended for much heavier tests that actually
+// require the DOM. To report status, the page needs to raise a TenshiTest
+// event, which will be caught by this code. The details field should contain
+// a true/false indicating if tests passed or not.
+// Get access to the main chrome window
+function runHtmlTests(window, testDir, existingTestsAllPassed) {
+    let testsAllPassed = existingTestsAllPassed;
+
+    var wm = Cc["@mozilla.org/appshell/window-mediator;1"].
+        getService(Ci.nsIWindowMediator);
+    var mainWindow = wm.getMostRecentWindow(null);
+    var testBrowser = mainWindow.document.getElementById('testBrowser');
+
+    let tests = find_recursively(testDir, 'html-tests/');
+    let current_test = 0;
+
+    testBrowser.addEventListener('TenshiTest', function(e) {
+        let testPassed = e.detail;
+        let testFileName = tests[current_test];
+
+        if (!testPassed) {
+            testsAllPassed = false;
+            console.log("Test " + testFileName + " failed!");
+        } else {
+            console.log("OK");
+        }
+
+        // Move on to next test or quit
+        current_test++;
+        if (current_test >= tests.length) {
+            // Done
+            if (testsAllPassed) {
+                console.log("All tests passed!");
+            } else {
+                console.log("SOME TESTS DID NOT PASS!");
+            }
+
+            // Quit
+            appStartup.quit(appStartup.eForceQuit);
+        } else {
+            testFileName = tests[current_test];
+            let testFilePath = TEST_DIR_CHROME + '/' + testFileName;
+            console.log("Running unit test " + testFileName);
+            testBrowser.loadURI(testFilePath);
+        }
+    });
+
+    // Load the first test
+    if (tests.length > 0) {
+        let testFileName = tests[0];
+        let testFilePath = TEST_DIR_CHROME + '/' + testFileName;
+        console.log("Running unit test " + testFileName);
+        testBrowser.loadURI(testFilePath);
+    }
+}
+
 exports.init = function(window) {
     let testDir = url.toFilename(TEST_DIR_CHROME);
 
@@ -165,12 +224,10 @@ exports.init = function(window) {
     testsAllPassed = testsAllPassed && runSimpleTests(window, testDir);
     testsAllPassed = testsAllPassed && runJasmineNoDomTests(window, testDir);
 
-    if (testsAllPassed) {
-        console.log("All tests passed!");
-    } else {
-        console.log("SOME TESTS DID NOT PASS!");
-    }
-
-    // Quit
-    appStartup.quit(appStartup.eForceQuit);
+    // This must be run last! As far as I can tell, JS in another page cannot
+    // run until this JS returns. What we do then is that we load the new page
+    // and expect it to raise an event back to us. In the event handler we
+    // advance to the next page until there are no more pages. We then exit the
+    // process.
+    runHtmlTests(window, testDir, testsAllPassed);
 };
