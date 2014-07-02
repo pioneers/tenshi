@@ -5,7 +5,7 @@
 // thread and b) wraps the serial port code for different platforms.
 
 const { ChromeWorker } = require('chrome');
-const system = require('jetpack/sdk/system');
+const system = require('sdk/system');
 // Note: According to Mozilla Windows can only be winnt.
 // (https://developer.mozilla.org/en-US/docs/OS_TARGET)
 // Also, we can't just do "win" because that would match darwin as well.

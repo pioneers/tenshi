@@ -1,7 +1,7 @@
 /* jshint globalstrict: true */
 "use strict";
 
-const file = require('jetpack/sdk/io/file');
+const file = require('sdk/io/file');
 const js_yaml = require('js-yaml/lib/js-yaml');
 
 function saveApplication(filename) {

@@ -3,8 +3,8 @@
 
 const typpo_module = require('tenshi/common/factory');
 const Int64 = require('Int64.js');
-const buffer = require('jetpack/sdk/io/buffer');
-const url = require('jetpack/sdk/url');
+const buffer = require('sdk/io/buffer');
+const url = require('sdk/url');
 
 const XBEE_FRAMING_YAML_FILE =
     'chrome://angel-player/content/common_defs/xbee_typpo.yaml';

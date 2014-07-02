@@ -1,7 +1,7 @@
 var buffer = require ( 'tenshi/angelic/buffer.js' );
 var misc = require ( 'tenshi/angelic/misc.js' );
 var factory = require ( 'tenshi/common/factory.js' );
-var url = require ( 'jetpack/sdk/url' );
+var url = require ( 'sdk/url' );
 var Int64 = require ( 'tenshi/vendor-js/Int64.js' );
 
 exports.run = function() {

@@ -6,31 +6,31 @@ mkdir -p $PROJECT_ROOT_DIR/build/angel-player
 pushd $PROJECT_ROOT_DIR/build/angel-player
 
 # Download XULRunner if it isn't already
-if [ ! -e xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 ]
+if [ ! -e xulrunner-30.0.en-US.linux-x86_64.tar.bz2 ]
 then
-    if [ -e ~/tenshi-cache/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 ]
+    if [ -e ~/tenshi-cache/xulrunner-30.0.en-US.linux-x86_64.tar.bz2 ]
     then
-        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2 .
+        cp ~/tenshi-cache/xulrunner-30.0.en-US.linux-x86_64.tar.bz2 .
     else
-        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
+        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/30.0/runtimes/xulrunner-30.0.en-US.linux-x86_64.tar.bz2
     fi
 fi
-if [ ! -e xulrunner-27.0.1.en-US.win32.zip ]
+if [ ! -e xulrunner-30.0.en-US.win32.zip ]
 then
-    if [ -e ~/tenshi-cache/xulrunner-27.0.1.en-US.win32.zip ]
+    if [ -e ~/tenshi-cache/xulrunner-30.0.en-US.win32.zip ]
     then
-        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.win32.zip .
+        cp ~/tenshi-cache/xulrunner-30.0.en-US.win32.zip .
     else
-        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.win32.zip
+        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/30.0/runtimes/xulrunner-30.0.en-US.win32.zip
     fi
 fi
-if [ ! -e xulrunner-27.0.1.en-US.mac.tar.bz2 ]
+if [ ! -e xulrunner-30.0.en-US.mac.tar.bz2 ]
 then
-    if [ -e ~/tenshi-cache/xulrunner-27.0.1.en-US.mac.tar.bz2 ]
+    if [ -e ~/tenshi-cache/xulrunner-30.0.en-US.mac.tar.bz2 ]
     then
-        cp ~/tenshi-cache/xulrunner-27.0.1.en-US.mac.tar.bz2 .
+        cp ~/tenshi-cache/xulrunner-30.0.en-US.mac.tar.bz2 .
     else
-        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/27.0.1/runtimes/xulrunner-27.0.1.en-US.mac.tar.bz2
+        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/30.0/runtimes/xulrunner-30.0.en-US.mac.tar.bz2
     fi
 fi
 
@@ -73,9 +73,9 @@ cp new-src-hash src-hash
 rm -rf angel-player.app
 mkdir angel-player.app
 pushd angel-player.app
-unzip ../xulrunner-27.0.1.en-US.win32.zip
+unzip ../xulrunner-30.0.en-US.win32.zip
 mv xulrunner xul-win32
-tar xjf ../xulrunner-27.0.1.en-US.linux-x86_64.tar.bz2
+tar xjf ../xulrunner-30.0.en-US.linux-x86_64.tar.bz2
 mv xulrunner xul-lin64
 cp xul-lin64/xulrunner-stub angel-player
 cp xul-win32/xulrunner-stub.exe angel-player.exe
@@ -92,7 +92,7 @@ rm defaults/preferences/debug.js
 # own directory.
 mkdir -p Contents/Frameworks
 pushd Contents/Frameworks
-tar xjf ../../../xulrunner-27.0.1.en-US.mac.tar.bz2
+tar xjf ../../../xulrunner-30.0.en-US.mac.tar.bz2
 popd
 # Symlink the source code. Breaks on Windows. Whatever.
 ln -s .. Contents/Resources

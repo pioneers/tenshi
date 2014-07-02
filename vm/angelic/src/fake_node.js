@@ -1,7 +1,7 @@
 // If we're actually inside XULRunner.
 if (typeof process === 'undefined') {
   var fake_process = {
-    'platform': require('jetpack/sdk/system').platform,
+    'platform': require('sdk/system').platform,
     'argv': ['fake_node', 'fake_script.js'],
     };
   var fake_require = (function (real_require) {
@@ -11,8 +11,8 @@ if (typeof process === 'undefined') {
 
         // These are the node module replacements
         var replacements = {
-          'fs': 'jetpack/sdk/io/fs',
-          'path': 'jetpack/sdk/fs/path',
+          'fs': 'sdk/io/fs',
+          'path': 'sdk/fs/path',
         };
 
         // If there's a replacement, use it.

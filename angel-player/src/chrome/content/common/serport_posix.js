@@ -19,7 +19,7 @@ if (typeof navigator !== 'undefined') {
     is_mac = navigator.platform.search(/mac/i) > -1;
 } else {
     // Normal module
-    const system = require('jetpack/sdk/system');
+    const system = require('sdk/system');
     is_linux = system.platform.search(/linux/i) > -1;
     is_mac = system.platform.search(/darwin/i) > -1;
 }

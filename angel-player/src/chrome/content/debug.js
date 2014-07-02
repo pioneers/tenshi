@@ -20,19 +20,6 @@ debugModule.init = function() {
       DebuggerServer.addBrowserActors(MAIN_WINDOW_TYPE);
 
       DebuggerServer.addActors("chrome://angel-player/content/XULRootActor.js");
-
-      // In the current version of XULRunner, these actors are not registered
-      // globally. TODO(rqou): Fix this when we update to XULRunner 28.
-      // See https://bugzilla.mozilla.org/show_bug.cgi?id=928008,
-      // https://bugzilla.mozilla.org/show_bug.cgi?id=946800 for more details.
-      // Also, for some reason, the inspector does not seem to expose itself
-      // under DebugServer the way StyleEditorActor does. We do a really awful
-      // hack to fetch it from the list of tab actors and then add it into the
-      // list of global actors.
-      DebuggerServer.addGlobalActor(
-        DebuggerServer.tabActorFactories.inspectorActor, "inspectorActor");
-      DebuggerServer.addGlobalActor(DebuggerServer.StyleEditorActor,
-        "styleEditorActor");
     }
     try {
       DebuggerServer.openListener(6000);

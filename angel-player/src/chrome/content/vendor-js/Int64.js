@@ -29,7 +29,7 @@
 
 // TODO(rqou): Fix this hack?
 try {
-  var Buffer = require('jetpack/sdk/io/buffer').Buffer;
+  var Buffer = require('sdk/io/buffer').Buffer;
 }
 catch (_) {
   var Buffer = require('buffer').Buffer;
