@@ -161,6 +161,16 @@ var chartRT = function (widget) {
          s4() + '-' + s4() + s4() + s4();
     }
 
+    _self.resizeChart = function() {
+	var ticks = window.prompt("How many ticks do you want? (number on x-axis)", "Currently "+String(_self.Ticks));
+	if(ticks > 99) {
+        _self.Ticks = parseInt(ticks);
+	};
+        _self.w = _self.Ticks * 3;
+        _self.width = _self.w - _self.margin.left - _self.margin.right;
+        _self.Init();
+    };
+
     _self.guid = guid();
     _self.DataSeries = [];
     _self.Ticks = 20;
@@ -373,7 +383,25 @@ function buildRTGraph(widget) {
       chart.chartSeries[Name] = Math.random() * 10;
     }
   });
-}
+
+  $(widget).on("mousedown", function(e) {
+    if (e.button == 2) {
+      $('.focus').removeClass('focus');
+      $(widget).addClass('focus');
+
+      context.attach('.focus', [
+        {text: 'Resize Chart',
+          action: chart.resizeChart},
+        {text: 'Delete Chart',
+          action: removeWidget}
+        ]);
+    };
+    });
+
+  function removeWidget() {
+    $('.focus').remove();
+  };
+};
 
 exports.init = function(_window) {
 
@@ -395,6 +423,8 @@ exports.init = function(_window) {
     {text: 'Text Sensor'},
     {header: 'Add Control Feedback'}
   ]);
+
+
   
   bindMouse();
   
