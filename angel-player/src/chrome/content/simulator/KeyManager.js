@@ -1,3 +1,5 @@
+const { printOut } = require('tenshi/simulator/miscFuncs');
+
 var DOWN = 0;
 var HOLD = 1;
 var UP = 2;
@@ -66,3 +68,8 @@ KeyManager.prototype.actOnFuncs = function(type, key)
         }
     }
 };
+
+exports.KeyManager = KeyManager;
+exports.DOWN = DOWN;
+exports.HOLD = HOLD;
+exports.UP = UP;

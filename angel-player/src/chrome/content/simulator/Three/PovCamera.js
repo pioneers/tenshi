@@ -181,3 +181,5 @@ PovCamera.prototype.strafe = function(speed)
 
     this.updatePosition();
 };
+
+exports.PovCamera = PovCamera;

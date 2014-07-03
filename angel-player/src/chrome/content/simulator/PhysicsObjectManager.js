@@ -6,6 +6,9 @@ Manages physics objects in the world
     runState reads from that state data structure,
         sets all object to such state, sets frame to that state
 */
+
+const G = require('tenshi/simulator/window_imports').globals;
+
 function PhysicsObjectManager()
 {
     this.array = []; // objects currently in world
@@ -39,15 +42,15 @@ PhysicsObjectManager.prototype.remove = function(obj)
 
 PhysicsObjectManager.prototype.iterator = function()
 {
-    return Iterator(this.array);
+    return G.window.Iterator(this.array);
 };
 
 PhysicsObjectManager.prototype.render = function()
 {
-    var origin, rotation, transform = new Ammo.btTransform();
+    var origin, rotation, transform = new G.Ammo.btTransform();
 
     var arr = this.array;
-    var it = Iterator(arr, true);
+    var it = G.window.Iterator(arr, true);
     for(var key in it)
     {
         arr[key].getMotionState().getWorldTransform( transform ); // Retrieve box position & rotation from Ammo
@@ -71,7 +74,7 @@ PhysicsObjectManager.prototype.getState = function(simulator)
 {
     var tempState = [],
         arr = this.array,
-        it = Iterator(arr, true),
+        it = G.window.Iterator(arr, true),
         obj,
         linVel,
         angVel,
@@ -79,21 +82,21 @@ PhysicsObjectManager.prototype.getState = function(simulator)
         temp_tr;
     for(var key in it)
     {
-        tr = new Ammo.btTransform();
+        tr = new G.Ammo.btTransform();
 
         obj = arr[key];
 
-        linVel = new Ammo.btVector3(obj.getLinearVelocity().x(),
+        linVel = new G.Ammo.btVector3(obj.getLinearVelocity().x(),
                                     obj.getLinearVelocity().y(),
                                     obj.getLinearVelocity().z());
-        angVel = new Ammo.btVector3(obj.getAngularVelocity().x(),
+        angVel = new G.Ammo.btVector3(obj.getAngularVelocity().x(),
                                     obj.getAngularVelocity().y(),
                                     obj.getAngularVelocity().z());
         temp_tr = obj.getCenterOfMassTransform();
-        tr.setOrigin(new Ammo.btVector3(temp_tr.getOrigin().x(),
+        tr.setOrigin(new G.Ammo.btVector3(temp_tr.getOrigin().x(),
                                         temp_tr.getOrigin().y(),
                                         temp_tr.getOrigin().z()));
-        tr.setRotation(new Ammo.btQuaternion(temp_tr.getRotation().x(),
+        tr.setRotation(new G.Ammo.btQuaternion(temp_tr.getRotation().x(),
                                              temp_tr.getRotation().y(),
                                              temp_tr.getRotation().z(),
                                              temp_tr.getRotation().w()));
@@ -127,3 +130,5 @@ PhysicsObjectManager.prototype.loadState = function(simulator, state)
 
     this.render();
 };
+
+exports.PhysicsObjectManager = PhysicsObjectManager;

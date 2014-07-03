@@ -36,3 +36,5 @@ MasterObject.prototype.loadMotors = function(state, vrsn)
 
     this.version = vrsn;
 };
+
+exports.MasterObject = MasterObject;

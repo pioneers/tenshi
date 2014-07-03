@@ -93,3 +93,5 @@ SaveManager.prototype.runVersion = function(simulator, vrsn)
 
     simulator.physicsObjects.loadState(simulator, save);
 };
+
+exports.SaveManager = SaveManager;

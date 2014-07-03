@@ -2,6 +2,8 @@
 Three.js wrappers
 ============================/*/
 
+const G = require('tenshi/simulator/window_imports').globals;
+
 // creates a cylinder mesh
 function createCylMesh(radius, height, mColor, scene, op)
 {
@@ -9,9 +11,9 @@ function createCylMesh(radius, height, mColor, scene, op)
     radius = radius||1;
     mColor = mColor === undefined ? 0xffffff : mColor;
 
-    var geom = new THREE.CylinderGeometry(radius, radius, height, 30);
-    var material = new THREE.MeshLambertMaterial({ color: mColor, transparent: true, opacity: op||1});
-    var mesh = new THREE.Mesh(geom, material);
+    var geom = new G.THREE.CylinderGeometry(radius, radius, height, 30);
+    var material = new G.THREE.MeshLambertMaterial({ color: mColor, transparent: true, opacity: op||1});
+    var mesh = new G.THREE.Mesh(geom, material);
 
     mesh.receiveShadow = true;
     mesh.castShadow = true;
@@ -34,9 +36,9 @@ function createBoxMesh(width, height, depth, mColor, scene, op)
     depth = depth||1;
     mColor = mColor === undefined ? 0xffffff : mColor;
 
-    var geom = new THREE.CubeGeometry(width, height, depth);
-    var material = new THREE.MeshLambertMaterial({ color: mColor, transparent: true, opacity: op||1});
-    var mesh = new THREE.Mesh(geom, material);
+    var geom = new G.THREE.CubeGeometry(width, height, depth);
+    var material = new G.THREE.MeshLambertMaterial({ color: mColor, transparent: true, opacity: op||1});
+    var mesh = new G.THREE.Mesh(geom, material);
 
     mesh.receiveShadow = true;
     mesh.castShadow = true;
@@ -59,7 +61,7 @@ function createBoxMesh(width, height, depth, mColor, scene, op)
 
 function makeMappedMesh(mesh, len, iniX, iniY, iniZ, scene)
 {
-    var group = new THREE.Object3D();
+    var group = new G.THREE.Object3D();
 
     axisX = createBoxMesh(len, 0.5, 0.5, 0xff0000, scene);
     axisY = createBoxMesh(0.5, len, 0.5, 0x00ff00, scene);
@@ -87,3 +89,6 @@ function makeUnMappedMesh(mesh)
 {
     return mesh.original;
 }
+
+exports.createBoxMesh = createBoxMesh;
+exports.createCylMesh = createCylMesh;

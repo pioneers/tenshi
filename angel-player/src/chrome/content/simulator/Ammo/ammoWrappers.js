@@ -2,26 +2,28 @@
 Ammo.js wrappers
 ============================/*/
 
+const G = require('tenshi/simulator/window_imports').globals;
+
 // TODO(ericnguyen): adjust friction/damping to reflect reality
 
 // creates a box physic, returns box
 function createBoxPhysics(width, height, depth, mass, iniX, iniY, iniZ, physicsWorld)
 {
     var nMass = mass;
-    var startTransform = new Ammo.btTransform();
+    var startTransform = new G.Ammo.btTransform();
     startTransform.setIdentity();
-    startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
+    startTransform.setOrigin(new G.Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
 
-    var localInertia = new Ammo.btVector3(0, 0, 0); // physics fills this later
+    var localInertia = new G.Ammo.btVector3(0, 0, 0); // physics fills this later
 
-    var boxShape = new Ammo.btBoxShape(new Ammo.btVector3(width/2, height/2, depth/2));
+    var boxShape = new G.Ammo.btBoxShape(new G.Ammo.btVector3(width/2, height/2, depth/2));
     boxShape.calculateLocalInertia(nMass, localInertia);
 
-    var motionState = new Ammo.btDefaultMotionState(startTransform);
-    var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, boxShape, localInertia);
+    var motionState = new G.Ammo.btDefaultMotionState(startTransform);
+    var rbInfo = new G.Ammo.btRigidBodyConstructionInfo(mass, motionState, boxShape, localInertia);
         rbInfo.set_m_linearDamping(0.5); // friction seems to be off, no damping = infinite sliding
         rbInfo.set_m_angularDamping(0.2);
-    var boxAmmo = new Ammo.btRigidBody(rbInfo);
+    var boxAmmo = new G.Ammo.btRigidBody(rbInfo);
 
     if(physicsWorld)
         physicsWorld.addRigidBody(boxAmmo);
@@ -36,20 +38,20 @@ function createBoxPhysics(width, height, depth, mass, iniX, iniY, iniZ, physicsW
 function createCylinderPhysics(radius, height, mass, iniX, iniY, iniZ, physicsWorld)
 {
     var nMass = mass;
-    var startTransform = new Ammo.btTransform();
+    var startTransform = new G.Ammo.btTransform();
     startTransform.setIdentity();
-    startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
+    startTransform.setOrigin(new G.Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
 
-    var localInertia = new Ammo.btVector3(0, 0, 0);
+    var localInertia = new G.Ammo.btVector3(0, 0, 0);
 
-    var cylShape = new Ammo.btCylinderShape(new Ammo.btVector3(radius, height/2, radius));
+    var cylShape = new G.Ammo.btCylinderShape(new G.Ammo.btVector3(radius, height/2, radius));
     cylShape.calculateLocalInertia(nMass, localInertia);
 
-    var motionState = new Ammo.btDefaultMotionState(startTransform);
-    var rbInfo = new Ammo.btRigidBodyConstructionInfo(nMass, motionState, cylShape, localInertia);
+    var motionState = new G.Ammo.btDefaultMotionState(startTransform);
+    var rbInfo = new G.Ammo.btRigidBodyConstructionInfo(nMass, motionState, cylShape, localInertia);
         rbInfo.set_m_angularDamping(0.5);
         rbInfo.set_m_linearDamping(0.5);
-    var cylAmmo = new Ammo.btRigidBody(rbInfo);
+    var cylAmmo = new G.Ammo.btRigidBody(rbInfo);
 
     if(physicsWorld)
         physicsWorld.addRigidBody(cylAmmo);
@@ -114,3 +116,6 @@ function setRotationObject(obj, quat)
     obj.setActivationState(1);
     obj.setWorldTransform(newTransform);
 }
+
+exports.createBoxPhysics = createBoxPhysics;
+exports.createCylinderPhysics = createCylinderPhysics;

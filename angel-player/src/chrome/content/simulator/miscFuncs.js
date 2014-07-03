@@ -1,3 +1,5 @@
+const { Cu } = require('chrome');
+
 function printMethods(obj)
 {
     var prop;
@@ -9,7 +11,7 @@ function printMethods(obj)
 
 function printOut(string)
 {
-  Components.utils.reportError(string);
+  Cu.reportError(string);
   console.log(string);
 }
 
@@ -137,3 +139,7 @@ function createCar3(simulator)
         new Ammo.btVector3(0, 0, 1));
     return robot;
 }
+
+exports.printOut = printOut;
+exports.saveFrame = saveFrame;
+exports.loadFrame = loadFrame;

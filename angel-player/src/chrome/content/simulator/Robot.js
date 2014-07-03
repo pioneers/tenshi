@@ -22,6 +22,8 @@ Robot is the main robot class
         object axis is in which axis (relative to object) the hinge should be connected
 */
 
+const G = require('tenshi/simulator/window_imports').globals;
+
 function Robot(simulator, master, id)
 {
     this.chassi = null;
@@ -78,8 +80,8 @@ Robot.prototype.updateSensors = function()
 
 Robot.prototype.initChassi = function()
 {
-    this.mesh = new THREE.Object3D();
-    this.chassi = new Ammo.btCompoundShape();
+    this.mesh = new G.THREE.Object3D();
+    this.chassi = new G.Ammo.btCompoundShape();
 };
 
 Robot.prototype.addShape = function(shape, transform, mass, mesh)
@@ -96,19 +98,19 @@ Robot.prototype.addShape = function(shape, transform, mass, mesh)
 
 Robot.prototype.finishChassi = function(iniX, iniY, iniZ)
 {
-    var startTransform = new Ammo.btTransform();
+    var startTransform = new G.Ammo.btTransform();
     startTransform.setIdentity();
-    startTransform.setOrigin(new Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
+    startTransform.setOrigin(new G.Ammo.btVector3(iniX, iniY, iniZ)); // Set initial position
 
-    var localInertia = new Ammo.btVector3(0, 0, 0);
+    var localInertia = new G.Ammo.btVector3(0, 0, 0);
 
     this.chassi.calculateLocalInertia(this.mass, localInertia );
 
-    var motionState = new Ammo.btDefaultMotionState( startTransform );
-    var cpInfo = new Ammo.btRigidBodyConstructionInfo(this.mass, motionState, this.chassi, localInertia );
+    var motionState = new G.Ammo.btDefaultMotionState( startTransform );
+    var cpInfo = new G.Ammo.btRigidBodyConstructionInfo(this.mass, motionState, this.chassi, localInertia );
         cpInfo.set_m_linearDamping(0.5); // TODO(ericnguyen): adjust magic numbers to resemble reality
         cpInfo.set_m_angularDamping(0.5);
-    this.physicsChassi = new Ammo.btRigidBody( cpInfo );
+    this.physicsChassi = new G.Ammo.btRigidBody( cpInfo );
     this.simulator.physicsWorld.addRigidBody( this.physicsChassi );
 
     this.simulator.physicsObjects.push(this.physicsChassi);
@@ -122,7 +124,7 @@ Robot.prototype.addMotor = function(port, object, physicsObject, chassiLoc, obje
     this.simulator.master.robotMotors[this.id][port] = 0;
     this.motors[port] = object;
 
-    var constraint = new Ammo.btHingeConstraint(this.physicsChassi, physicsObject,
+    var constraint = new G.Ammo.btHingeConstraint(this.physicsChassi, physicsObject,
                                                 chassiLoc,
                                                 objectLoc,
                                                 chassiAxis,
@@ -135,7 +137,7 @@ Robot.prototype.addSensor = function(port, object, physicsObject, chassiLoc, obj
     this.simulator.master.robotSensors[this.id][port] = 0;
     this.sensors[port] = object;
 
-    var constraint = new Ammo.btHingeConstraint(this.physicsChassi, physicsObject,
+    var constraint = new G.Ammo.btHingeConstraint(this.physicsChassi, physicsObject,
                                                 chassiLoc,
                                                 objectLoc,
                                                 chassiAxis,
@@ -143,3 +145,5 @@ Robot.prototype.addSensor = function(port, object, physicsObject, chassiLoc, obj
     constraint.setLimit(0, 0);
     this.simulator.physicsWorld.addConstraint(constraint);
 };
+
+exports.Robot = Robot;

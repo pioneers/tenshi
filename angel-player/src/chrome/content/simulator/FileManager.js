@@ -1,15 +1,19 @@
+const { Cc, Ci, Cu } = require('chrome');
+const { printOut } = require('tenshi/simulator/miscFuncs');
+const G = require('tenshi/simulator/window_imports').globals;
+
 function genBaseFile()
 {
-    return Components.classes["@mozilla.org/file/directory_service;1"].
-           getService(Components.interfaces.nsIProperties).
-           get("CurProcD", Components.interfaces.nsIFile);
+    return Cc["@mozilla.org/file/directory_service;1"].
+           getService(Ci.nsIProperties).
+           get("CurProcD", Ci.nsIFile);
 }
 
 // done because append modifies the object itself
 function copyFile(base)
 {
-    var file  = Components.classes["@mozilla.org/file/local;1"]
-            .createInstance(Components.interfaces.nsILocalFile);
+    var file  = Cc["@mozilla.org/file/local;1"]
+            .createInstance(Ci.nsILocalFile);
         file.initWithPath(base.path);
     return file;
 }
@@ -75,15 +79,15 @@ FileManager.prototype.writeJsonObjToFile = function(fileName, data)
 
 FileManager.prototype.getDirectoryFiles = function(filePath)
 {
-    var file = Components.classes["@mozilla.org/file/local;1"]
-                .createInstance(Components.interfaces.nsILocalFile);
+    var file = Cc["@mozilla.org/file/local;1"]
+                .createInstance(Ci.nsILocalFile);
         file.initWithPath(filePath);
     var entries = file.directoryEntries;
     var array = [];
     while(entries.hasMoreElements())
     {
       var entry = entries.getNext();
-      entry.QueryInterface(Components.interfaces.nsIFile);
+      entry.QueryInterface(Ci.nsIFile);
       array.push(entry.path.replace(filePath, ""));
     }
 
@@ -92,17 +96,17 @@ FileManager.prototype.getDirectoryFiles = function(filePath)
 
 FileManager.prototype.writeToFile = function(fileName, data)
 {
-    var file = Components.classes["@mozilla.org/file/local;1"].
-           createInstance(Components.interfaces.nsILocalFile);
+    var file = Cc["@mozilla.org/file/local;1"].
+           createInstance(Ci.nsILocalFile);
     file.initWithPath(fileName);
 
-    Components.utils.import("resource://gre/modules/NetUtil.jsm");
-    Components.utils.import("resource://gre/modules/FileUtils.jsm");
+    Cu.import("resource://gre/modules/NetUtil.jsm");
+    Cu.import("resource://gre/modules/FileUtils.jsm");
 
     var ostream = FileUtils.openSafeFileOutputStream(file);
 
-    var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].
-                    createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+    var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"].
+                    createInstance(Ci.nsIScriptableUnicodeConverter);
     converter.charset = "UTF-8";
     var istream = converter.convertToInputStream(data);
 
@@ -119,7 +123,7 @@ FileManager.prototype.writeToFile = function(fileName, data)
 
 FileManager.prototype.getFileData = function(filePath)
 {
-    if (window.File && window.FileReader && window.FileList && window.Blob)
+    if (G.window.File && G.window.FileReader && G.window.FileList && G.window.Blob)
     {
         console.log("File reader exists.");
     }
@@ -128,13 +132,13 @@ FileManager.prototype.getFileData = function(filePath)
         console.log("No file reader exists.");
     }
 
-    var file = Components.classes["@mozilla.org/file/local;1"]
-                   .createInstance(Components.interfaces.nsILocalFile);
+    var file = Cc["@mozilla.org/file/local;1"]
+                   .createInstance(Ci.nsILocalFile);
 
-    var fstream = Components.classes["@mozilla.org/network/file-input-stream;1"]
-    .createInstance(Components.interfaces.nsIFileInputStream);
-    var sstream = Components.classes["@mozilla.org/scriptableinputstream;1"]
-    .createInstance(Components.interfaces.nsIScriptableInputStream);
+    var fstream = Cc["@mozilla.org/network/file-input-stream;1"]
+    .createInstance(Ci.nsIFileInputStream);
+    var sstream = Cc["@mozilla.org/scriptableinputstream;1"]
+    .createInstance(Ci.nsIScriptableInputStream);
 
     try
     {
@@ -168,3 +172,5 @@ FileManager.prototype.test = function()
 
     this.writeToFile(this.localFilePath.path + "\\test.txt", "Testing");
 };
+
+exports.FileManager = FileManager;

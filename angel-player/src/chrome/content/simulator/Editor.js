@@ -1,3 +1,7 @@
+const { Simulator } = require('tenshi/simulator/Simulator');
+const { printOut } = require('tenshi/simulator/miscFuncs');
+const G = require('tenshi/simulator/window_imports').globals;
+
 function Editor(document, classSelectorElem, objSelectorElem,
                 addingInfoElem, curSelectionElem,
                 simElem, master, mapId)
@@ -277,20 +281,20 @@ Editor.prototype.updateCurSelection = function()
         target.innerHTML = "";
     var tempTxt, inp;
 
-    tempTxt = document.createTextNode(this.curSelection.name);
+    tempTxt = G.document.createTextNode(this.curSelection.name);
     target.appendChild(tempTxt);
-    target.appendChild(document.createElement("br"));
+    target.appendChild(G.document.createElement("br"));
     for(var i = 0; i < this.curSelection.args.length; i++)
     {
-        tempTxt = document.createTextNode(this.curSelection.argNames[i] + " : ");
-        inp = document.createElement("input");
+        tempTxt = G.document.createTextNode(this.curSelection.argNames[i] + " : ");
+        inp = G.document.createElement("input");
             inp.type = "text";
             inp.name = this.curSelection.argNames[i];
             inp.className = "inputField";
             inp.value = this.curSelection.args[i];
         target.appendChild(tempTxt);
         target.appendChild(inp);
-        target.appendChild(document.createElement("br"));
+        target.appendChild(G.document.createElement("br"));
     }
 };
 
@@ -304,7 +308,7 @@ Editor.prototype.updateObjSelection = function()
 
     for(var i = 0; i < this.selections[key].length; i++)
     {
-        tempOpt = new Option(this.selections[key][i], this.selections[key][i]);
+        tempOpt = new G.window.Option(this.selections[key][i], this.selections[key][i]);
         objSel.options[objSel.length] = tempOpt;
     }
 };
@@ -319,13 +323,15 @@ Editor.prototype.updateAttrSelection = function()
 
     for(var i = 0; i < this.args[key].length; i++)
     {
-        txt = document.createTextNode(this.args[key][i] + " : ");
-        inp = document.createElement("input");
+        txt = G.document.createTextNode(this.args[key][i] + " : ");
+        inp = G.document.createElement("input");
             inp.className = "inputField";
             inp.type = "text";
             inp.name = this.args[key][i];
         objAttr.appendChild(txt);
         objAttr.appendChild(inp);
-        objAttr.appendChild(document.createElement("br"));
+        objAttr.appendChild(G.document.createElement("br"));
     }
 };
+
+exports.Editor = Editor;

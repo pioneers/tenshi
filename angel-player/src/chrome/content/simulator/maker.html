@@ -1,51 +1,39 @@
 <html>
     <head>
         <title>test</title>
-        <script type="text/javascript" src="FileManager.js"></script>
         <script type="text/javascript" src="../vendor-js/ammo.js"></script>
-        <script type="text/javascript" src="Ammo/ammoWrappers.js"></script>
-        <script type="text/javascript" src="Ammo/mathSupplements.js"></script>
-        <script type="text/javascript" src="Actuators/Led.js"></script>
-        <script type="text/javascript" src="Actuators/Motor.js"></script>
-        <script type="text/javascript" src="Sensors/Infrared.js"></script>
-        <script type="text/javascript" src="Sensors/Rangefinder.js"></script>
-        <script type="text/javascript" src="Sensors/TouchSensor.js"></script>
-        <script type="text/javascript" src="Three/SphericalCamera.js"></script>
-        <script type="text/javascript" src="Three/PovCamera.js"></script>
         <script type="text/javascript" src="../vendor-js/three.min.js"></script>
-        <script type="text/javascript" src="Three/threeWrappers.js"></script>
-        <script type="text/javascript" src="KeyManager.js"></script>
-        <script type="text/javascript" src="MasterObject.js"></script>
-        <script type="text/javascript" src="PhysicsObjectManager.js"></script>
-        <script type="text/javascript" src="Robot.js"></script>
-        <script type="text/javascript" src="SaveManager.js"></script>
-        <script type="text/javascript" src="miscFuncs.js"></script>
-        <script type="text/javascript" src="Simulator.js"></script>
-        <script type="text/javascript" src="Editor.js"></script>
+        <script type='application/javascript;version=1.7'
+            src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+        <script src="../common/require_stub.js"></script>
+        <script src="../vendor-js/jquery.js"></script>
+        <script>
+            requireStub('tenshi/simulator/main-edit');
+        </script>
     </head>
     <link rel="stylesheet" type="text/css" href="maker.css">
     <body>
         <div id="toolbar">
             Tools
-            <button type="button" class="toolBut" onclick="eddy.toggleSelection()">Select</button><br />
-            <button type="button" class="toolBut" onclick="eddy.setMode('MOVE')">Move</button><br />
-            <button type="button" class="toolBut" onclick="eddy.setMode('RESIZE')">Resize</button><br />
-            <button type="button" class="toolBut" onclick="eddy.setMode('ROTATE')">Rotate</button><br />
-            <button type="button" class="toolBut" onclick="eddy.removeObj()">Delete</button><br />
+            <button type="button" class="toolBut" id="Select">Select</button><br />
+            <button type="button" class="toolBut" id="Move">Move</button><br />
+            <button type="button" class="toolBut" id="Resize">Resize</button><br />
+            <button type="button" class="toolBut" id="Rotate">Rotate</button><br />
+            <button type="button" class="toolBut" id="Delete">Delete</button><br />
         </div>
         <div id="mainScreen"></div>
         <div id="addingSelector">
             Object Selector<br>
-            Class: <select id="classSelector" onchange="eddy.updateObjSelection(); eddy.updateAttrSelection()">
+            Class: <select id="classSelector">
                 <option></option>
                 <option>Chassi</option>
                 <option>Motors</option>
                 <option>Sensors</option>
             </select><br>
-            Object:  <select id="objSelector" onchange="eddy.updateAttrSelection()">
+            Object:  <select id="objSelector">
             </select><br>
             <div id="addingInfo" class="parametersList"></div>
-            <button id="add" class="submitButton" type="button" onclick="eddy.addObj()">ADD</button>
+            <button id="add" class="submitButton" type="button"D</button>
         </div>
         <div id="currentSelection">
             Current Selection<br>
@@ -53,7 +41,7 @@
             </div>
         </div>
         <div id="options">
-            <button type="button" class="optionBut" onclick="grid.toggle()">Grid</button>
+            <button type="button" class="optionBut" id="Grid" onclick="grid.toggle()">Grid</button>
             <button type="button" class="optionBut" onclick="1 + 1">Clear</button>
             <button type="button" class="optionBut" onclick="1 + 1">Undo</button>
             <button type="button" class="optionBut" onclick="1 + 1">Save</button>
@@ -61,38 +49,5 @@
             <button type="button" class="optionBut" onclick="1 + 1">Cam</button>
             <button type="button" class="optionBut" onclick="1 + 1">Help</button>
         </div>
-        <script type="text/javascript">
-            var eddy = new Editor(document, document.getElementById("classSelector"),
-                                  document.getElementById("objSelector"),
-                                  document.getElementById("addingInfo"),
-                                  document.getElementById("selnInfo"),
-                                  document.getElementById("mainScreen"), null, "blankMap");
-            var curSelection = null;
-            var keyMan = new KeyManager(document);
-
-                // Bind camera controls to WASD, shift, space (minecraft style)
-                keyMan.bindFunc(DOWN, 68, function() {eddy.simulator.cameraController.strafe(3);});
-                keyMan.bindFunc(DOWN, 65, function() {eddy.simulator.cameraController.strafe(-3);});
-
-                keyMan.bindFunc(DOWN, 87, function() {eddy.simulator.cameraController.forward(3);});
-                keyMan.bindFunc(DOWN, 83, function() {eddy.simulator.cameraController.forward(-3);});
-
-                keyMan.bindFunc(DOWN, 32, function() {eddy.simulator.cameraController.elevate(3);});
-                keyMan.bindFunc(DOWN, 16, function() {eddy.simulator.cameraController.elevate(-3);});
-
-                // Bind object manipulation to IJKLUO keys
-                keyMan.bindFunc(DOWN, 73, function() { eddy.manipObj(0); });
-                keyMan.bindFunc(DOWN, 75, function() { eddy.manipObj(1); });
-
-                keyMan.bindFunc(DOWN, 74, function() { eddy.manipObj(2); });
-                keyMan.bindFunc(DOWN, 76, function() { eddy.manipObj(3); });
-
-                keyMan.bindFunc(DOWN, 85, function() { eddy.manipObj(4); });
-                keyMan.bindFunc(DOWN, 79, function() { eddy.manipObj(5); });
-
-            eddy.updateObjSelection();
-            eddy.updateAttrSelection();
-            eddy.simulator.render();
-        </script>
     </body>
 </html>
