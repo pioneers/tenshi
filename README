@@ -32,3 +32,22 @@ would be something like:
 -purgecaches is required in order to debug JS in-tree (without building and
 updating build ID).
 
+Setting up Angel Player debugger:
+Angel Player can be debugged by using the Firefox remote debug tools that are
+normally used to debug Thunderbird/Firefox OS. To enable this on the Firefox
+side:
+1. Open the developer tools (Ctrl+Shift+I)
+2. Click the "Settings" sprocket in the top-left.
+3. Under advanced, enable remote debugging (you may also need to enable chrome
+   debugging).
+
+To enable remote debugging in Angel Player, either launch the in-tree version
+of the code or set "devtools.debugger.remote-enabled" and
+"devtools.chrome.enabled" to "true" in about:config. If for some reason you
+already have an application listening on port 6000 on your computer, you can
+also change "devtools.debugger.remote-port" to an alternate port.
+
+To connect the remote debugger, select "Tools>Web Developer>Connect..." in
+Firefox. Set the host to localhost and the port to 6000 (unless you changed
+the port above) and click connect. Until this is fixed, to debug JS, select
+"Main Process" and to debug CSS select "chrome://angel-player/content/main.html"

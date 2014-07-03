@@ -3,38 +3,26 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 const console =
   Components.utils.import("resource://gre/modules/devtools/Console.jsm").console;
 
-var EXPORTED_SYMBOLS = ["debugModule"];
+const MAIN_WINDOW_TYPE = "angel-player:main";
 
-var debugModule = {};
+function xulrunnerRemoteDebugInit() {
+  // Start remote debugger (won't actually start unless
+  // devtools.debugger.remote-enabled is set to true)
+  if (!DebuggerServer.initialized) {
+    DebuggerServer.init(function() {
+      // Don't warn if debugging connections restricted to the local machine.
+      return Services.prefs.getBoolPref("devtools.debugger.force-local") ||
+        DebuggerServer._defaultAllowConnection();
+    });
+    DebuggerServer.addBrowserActors(MAIN_WINDOW_TYPE);
 
-var DEBUG_MODE_PREF = "tenshi.enableDebug";
-var MAIN_WINDOW_TYPE = "angel-player:main";
-var debugMode = false;
-
-debugModule.init = function() {
-    debugMode = Services.prefs.getBoolPref(DEBUG_MODE_PREF);
-
-    // Start remote debugger
-    if (!DebuggerServer.initialized) {
-      DebuggerServer.init();
-      DebuggerServer.addBrowserActors(MAIN_WINDOW_TYPE);
-
-      DebuggerServer.addActors("chrome://angel-player/content/XULRootActor.js");
-    }
-    try {
-      DebuggerServer.openListener(6000);
-    } catch (_) {
-      console.log("Failed to launch DebuggerServer on port 6000, " +
-                  "attempting to use port 6001");
-      DebuggerServer.openListener(6001);
-    }
-};
-
-debugModule.isDebugEnabled = function() {
-    return debugMode;
-};
-
-debugModule.toggleDebug = function() {
-    debugMode = !debugMode;
-    Services.prefs.setBoolPref(DEBUG_MODE_PREF, debugMode);
-};
+    DebuggerServer.addActors("chrome://angel-player/content/XULRootActor.js");
+  }
+  try {
+    var port =
+      Services.prefs.getIntPref('devtools.debugger.remote-port') || 6000;
+    DebuggerServer.openListener(6000);
+  } catch (_) {
+    console.log("Failed to launch DebuggerServer!");
+  }
+}

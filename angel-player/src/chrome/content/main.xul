@@ -6,7 +6,10 @@
     windowtype="angel-player:main"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <script type="text/javascript" src="globalinit.js"/>
+  <script type="text/javascript" src="debug.js"/>
+  <script type="text/javascript">
+  	xulrunnerRemoteDebugInit();
+  </script>
 
   <browser type="content-primary" src="chrome://angel-player/content/main.html"
       homepage="chrome://angel-player/content/main.html" id="mainXULBrowser"
