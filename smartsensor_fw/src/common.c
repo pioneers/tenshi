@@ -9,8 +9,9 @@
 
 // ****Sensor Personal Data*** // to be a struct later.
 uint8_t smartID[SMART_ID_LEN] = {SMART_ID};
-// Only uses last three bits
-uint8_t my_frame = 0x12 & 0x7;  // TODO(tobinsarah): allow for multiple frames
+// Given a sample and a frame number, if the byte at index <frame> contains a
+// one at the bit at position <sample>,
+uint8_t my_frames[SS_NUM_FRAMES] = {0};
 uint32_t sample_rate = 0x0100;  // hardcoded for now;
 
 
@@ -97,8 +98,9 @@ void CR() {
   USART_Transmit_Stop();
 }
 
-// TODO(tobinsarah): proper logic for checking if its my frame
 int isMyChunk(uint8_t frameByte) {
-  return !((frameByte & 0x7) ^ my_frame);
+  uint8_t sample = (frameByte >> 3) & 0x7;
+  // frame > SS_NUM_FRAMES if subtraction overflows.
+  uint8_t frame = (frameByte & 0x07) - SS_FIRST_FRAME;
+  return (frame < SS_NUM_FRAMES) && ((my_frames[frame] >> sample) & 1);
 }
-
