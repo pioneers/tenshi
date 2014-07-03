@@ -12,6 +12,7 @@
 
 #include "inc/smartsensor/smartsensor.h"
 #include "inc/smartsensor/ssutil.h"
+#include "inc/smartsensor/enumeration.h"
 #include "inc/smartsensor/cobs.h"
 
 #include "inc/button_driver.h"
@@ -82,68 +83,55 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
     vTaskDelay(200 / portTICK_RATE_MS);  // Wait for smart sensors to boot.
 
     while (busState == SS_BUS_ENUMERATION) {
-      uint8_t id[] = {0, 0, 0, 0, 0, 0, 0, 0};
-      static uint8_t maskAll[] =
-        {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-      static uint8_t maskNone[] = {0, 0, 0, 0, 0, 0, 0, 0};
-      uint8_t unsel = 0;
-      uint8_t unselOld = 0;
-      uint8_t selectDelay = 1;
-      size_t numSensorFound = 0;
+      led_driver_set_mode(PATTERN_ENUMERATING);
 
-      ss_send_enum_enter(bus);  // Enter enumeration
-      vTaskDelay(selectDelay / portTICK_RATE_MS);
-      unsel = ss_recieve_enum_any_unselected(bus);
+      KnownIDs enumIDs = {
+        .arr = pvPortMalloc(SS_MAX_SENSORS_PER_BUS * sizeof(SSState*)),
+        .len = 0,
+        .maxLen = SS_MAX_SENSORS_PER_BUS,
+      };
 
-      ss_send_enum_select(bus, id, maskNone);  // Select all sensors
-      vTaskDelay(selectDelay / portTICK_RATE_MS);
-      unselOld = unsel;
-      unsel = ss_recieve_enum_any_unselected(bus);
-
-      if (!unsel && unselOld) {
-        // There are smart sensors on the bus
-        for (int i = 0; i < 255; i++) {
-          id[SMART_ID_LEN-1] = (uint8_t)i;
-
-          ss_send_enum_unselect(bus, id, maskAll);  // Unselect one sensor
-          vTaskDelay(selectDelay / portTICK_RATE_MS);
-          unselOld = unsel;
-          unsel = ss_recieve_enum_any_unselected(bus);
-          if (unsel && !unselOld) {
-            // Found a sensor with id of i
-            size_t index = ss_add_new_sensor(id, busNum);
-
-            // //////////////////////////////////////////////////
-            // TODO(cduck): Better bandwidth allocation (only allocates first 6)
-            if (numSensorFound < SS_NUM_FRAMES) {
-              for (int i = 0; i < SS_NUM_SAMPLES; ++i) {
-                sensorMapping[i][numSensorFound] = index;
-              }
-            }
-
-            ++numSensorFound;
-          }
-
-          ss_send_enum_select(bus, id, maskNone);  // Select all sensors
-          vTaskDelay(selectDelay / portTICK_RATE_MS);
-          unselOld = unsel;
-          unsel = ss_recieve_enum_any_unselected(bus);
-        }
+      if (enumerateSensors(&enumIDs, bus, busNum)) {
       } else {
-        // There are no smart sensor on the bus
-        while (1) {
-          led_driver_set_mode(PATTERN_JUST_RED);
-          led_driver_set_fixed(0b100, 0b111);
-        }
+        enumIDs.len = 0;  // Ignore sensors from failed attempt.
       }
 
-      ss_send_enum_exit(bus);
-      vTaskDelay(selectDelay / portTICK_RATE_MS);
+      size_t index = ss_add_sensors(&enumIDs);
+
+      // Bandwidth allocation and assignment
+      // TODO(cduck): Better bandwidth allocation (only allocates first 6)
+      for (int i = 0; i < SS_NUM_FRAMES && i < enumIDs.len; ++i) {
+        SSState *sensor = enumIDs.arr[i];
+
+        uint8_t a = 0x1D;
+        ss_uart_serial_send_and_finish_data(smartsensor_1, &a, 1);  // Debug
+
+        ss_uart_serial_send_and_finish_data(smartsensor_4, &a, 1);
+        ss_uart_serial_send_and_finish_data(smartsensor_1, sensor->id,
+          SMART_ID_LEN);  // Debug
+
+        // Assign bandwidth to sensor
+        uint8_t data[SMART_ID_LEN+2];
+        data[SMART_ID_LEN] = 0xFF;
+        data[SMART_ID_LEN+1] = (uint8_t)(i+SS_FIRST_FRAME);
+        memcpy(data, sensor->id, SMART_ID_LEN);
+        ss_send_maintenance(bus, 0xD0, data, SMART_ID_LEN+2);
+        ss_select_delay();
+
+        // Store bandwidth assignment
+        for (int s = 0; s < SS_NUM_SAMPLES; ++s) {
+          sensorMapping[s][i] = index+i;
+        }
+
+        ss_select_delay();  // Debug
+      }
+
+      vPortFree(enumIDs.arr);
 
       led_driver_set_mode(PATTERN_JUST_RED);
       led_driver_set_fixed(0b111, 0b111);
 
-      busState = SS_BUS_MAINTAINANCE;
+      busState = SS_BUS_ACTIVE;  // //////////
     }
 
     vTaskDelay(50 / portTICK_RATE_MS);  // ///////

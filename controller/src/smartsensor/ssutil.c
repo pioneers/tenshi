@@ -77,20 +77,43 @@ SSState *ss_init_sensor(uint8_t id[SMART_ID_LEN], uint8_t busNum) {
   return s;
 }
 size_t ss_add_new_sensor(uint8_t id[SMART_ID_LEN], uint8_t busNum) {
-  if (xSemaphoreTake(sensorArrLock, SENSOR_WAIT_TIME) != pdTRUE) return;
+  return ss_add_sensor(ss_init_sensor(id, busNum));
+}
+size_t ss_add_sensor(SSState *sensor) {
+  if (xSemaphoreTake(sensorArrLock, SENSOR_WAIT_TIME) != pdTRUE) return -1;
 
   const int numAllocAtOnce = 10;
   if (numSensorsAlloc <= numSensors) {
-    SSState *newPtr = pvPortMalloc((numSensorsAlloc+numAllocAtOnce) *
+    SSState **newPtr = pvPortMalloc((numSensorsAlloc+numAllocAtOnce) *
                                    sizeof(SSState*));
     memcpy(newPtr, sensorArr, numSensorsAlloc*sizeof(SSState*));
+    vPortFree(sensorArr);
     sensorArr = newPtr;
     numSensorsAlloc += numAllocAtOnce;
   }
 
   size_t index = numSensors;
-  sensorArr[index] = ss_init_sensor(id, busNum);
+  sensorArr[index] = sensor;
   ++numSensors;
+  xSemaphoreGive(sensorArrLock);
+  return index;
+}
+size_t ss_add_sensors(KnownIDs *sensors) {
+  if (sensors->len <= 0) return -1;
+  if (xSemaphoreTake(sensorArrLock, SENSOR_WAIT_TIME) != pdTRUE) return -1;
+
+  if (numSensorsAlloc < numSensors+sensors->len) {
+    SSState **newPtr = pvPortMalloc((numSensors+sensors->len) *
+                                   sizeof(SSState*));
+    memcpy(newPtr, sensorArr, numSensors*sizeof(SSState*));
+    vPortFree(sensorArr);
+    sensorArr = newPtr;
+    numSensorsAlloc = numSensors+sensors->len;
+  }
+
+  size_t index = numSensors;
+  memcpy(sensorArr+numSensors, sensors->arr, sensors->len*sizeof(SSState*));
+  numSensors += sensors->len;
   xSemaphoreGive(sensorArrLock);
   return index;
 }
@@ -201,6 +224,16 @@ int ss_send_maintenance(uart_serial_module *module, uint8_t type,
   vPortFree(data_cobs);
   return r;
 }
+int ss_send_maintenance_to_sensor(SSState *sensor, uint8_t type,
+  const uint8_t *data, uint8_t len) {
+  uint8_t *buffer = pvPortMalloc(SMART_ID_LEN+len);
+  memcpy(buffer, sensor->id, SMART_ID_LEN);
+  memcpy(buffer+SMART_ID_LEN, data, len);
+  int ret = ss_send_maintenance(ssBusses[sensor->busNum], type, buffer,
+    SMART_ID_LEN+len);
+  vPortFree(buffer);
+  return ret;
+}
 int ss_all_send_maintenance(uint8_t type, const uint8_t *data, uint8_t len) {
   if (len > 255-4)return 0;
 
@@ -277,11 +310,14 @@ int ss_recieve_enum_any_unselected(uart_serial_module *module) {
   }
   return r;
 }
+void ss_select_delay() {
+  vTaskDelay(SENSOR_SELECT_DELAY / portTICK_RATE_MS);
+}
 
 
 /*
 int ss_all_reset_bus() {
-  static const 
+  static const
 }
 */
 transmit_allocations ss_send_active(uart_serial_module *module, uint8_t inband,
