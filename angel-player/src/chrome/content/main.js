@@ -1,4 +1,8 @@
-Components.utils.import("resource://gre/modules/Services.jsm");
+/* jshint globalstrict: true */
+"use strict";
+
+const { Cu, Cc, Ci } = require('chrome');
+const { Services } = Cu.import("resource://gre/modules/Services.jsm");
 
 var XUL_MAIN_CONTENT_ID = 'mainXULBrowser';
 var MAIN_CONTENT_ID = 'mainContent';
@@ -52,38 +56,16 @@ function onLoad() {
     debugEnabled = Services.prefs.getBoolPref(DEBUG_MODE_PREF);
     setDebugFooterVisibility(debugEnabled);
 
-    // Set up globals object. This globals object lives inside the main page
-    // document. The main page does not normally reload, and subpages can add
-    // and reference items in here. However, the "super-reload" function will
-    // wipe this scope. "Super-reload" will not wipe anything in a JSM context.
-    document.tenshiGlobals = {};
-
-    // Set up main loader object. You must import the Add-on SDK loader.js first
-    // in the HTML page.
-    document.tenshiGlobals.loader = loader.Loader({
-        globals: {
-            // TODO(rqou): This is a tentative hack to make referencing Angelic
-            // work.
-            setTimeout: window.setTimeout,
-            clearTimeout: window.clearTimeout,
-        },
-        modules: {
-            'toolkit/loader': loader,
-        },
-        paths: {
-            // In order to make node.js and other modules happy, the "root"
-            // of the import paths is the vendor js directory. To get the
-            // Mozilla Jetpack SDK stuff, use sdk/
-            "": "chrome://angel-player/content/vendor-js/",
-            "sdk": "resource://gre/modules/commonjs/sdk",
-            "tenshi": "chrome://angel-player/content",
-        },
-    });
-
     // TODO(rqou): This loading is inefficient. However, if we don't do this,
     // we get a race condition where ui.html tries to load tenshiGlobals before
     // we even create it.
     document.getElementById('mainContent').src = "main-ui/ui.html";
+    
+    $('#toggle-debug').click(toggleDebug);
+    $('#backButton').click(mainContentGoBack);
+    $('#forwardButton').click(mainContentGoForward);
+    $('#reloadButton').click(mainContentReload);
+    $('#superReloadButton').click(entirePageReload);
 }
 
 function toggleDebug() {
@@ -113,18 +95,28 @@ function mainContentReload() {
 function entirePageReload() {
     // We invalidate some kind of JS cache thing so that when we reload we
     // re-eval all the global JS.
-    var obs = Components.classes["@mozilla.org/observer-service;1"]
-        .getService(Components.interfaces.nsIObserverService);
+    var obs = Cc["@mozilla.org/observer-service;1"]
+        .getService(Ci.nsIObserverService);
     obs.notifyObservers(null, "startupcache-invalidate", null);
 
     var xulMainWindow = window
-        .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-        .getInterface(Components.interfaces.nsIWebNavigation)
-        .QueryInterface(Components.interfaces.nsIDocShellTreeItem)
+        .QueryInterface(Ci.nsIInterfaceRequestor)
+        .getInterface(Ci.nsIWebNavigation)
+        .QueryInterface(Ci.nsIDocShellTreeItem)
         .rootTreeItem
-        .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-        .getInterface(Components.interfaces.nsIDOMWindow);
+        .QueryInterface(Ci.nsIInterfaceRequestor)
+        .getInterface(Ci.nsIDOMWindow);
     var browserElem =
         xulMainWindow.document.getElementById(XUL_MAIN_CONTENT_ID);
     browserElem.goHome();
 }
+
+var $, window, document;
+
+exports.init = function(_window) {
+    window = _window;
+    document = window.document;
+    $ = window.$;
+
+    $(onLoad);
+};

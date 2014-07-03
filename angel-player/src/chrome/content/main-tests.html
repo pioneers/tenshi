@@ -4,10 +4,27 @@
     <head>
         <script type='application/javascript;version=1.7'
             src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
-        <script src="test/main.js"></script>
+        <script src="common/create_commonjs.js"></script>
+        <script>
+            // Set up globals object. This globals object lives inside the main
+            // page document. The main page does not normally reload, and
+            // subpages can add and reference items in here. However, the
+            // "super-reload" function will wipe this scope. "Super-reload"
+            // will not wipe anything in a JSM context.
+            document.tenshiGlobals = {};
+
+            // Set up main loader object. ("loader" comes from loader.js)
+            document.tenshiGlobals.loader = createCommonJsEnv(loader);
+        </script>
+        <!-- We can now load require_stub.js to load the rest of our JS in
+             the CommonJS environment -->
+        <script src="common/require_stub.js"></script>
+        <script>
+            requireStub('tenshi/test/main');
+        </script>
         <title>Tenshi Tester</title>
     </head>
-    <body onload="onLoad()">
+    <body>
         <div>Tenshi Tester</div>
     </body>
 </html>

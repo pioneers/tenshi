@@ -22,7 +22,7 @@ var require = (function(){
 
     var globalLoader = frame.document.tenshiGlobals.loader;
 
-    var requirer = loader.Module("HTML_UI", "about:blank");
+    var requirer = loader.Module("HTML_UI", document.URL);
 
     return loader.Require(globalLoader, requirer);
 })();
