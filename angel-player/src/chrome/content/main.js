@@ -1,8 +1,9 @@
 /* jshint globalstrict: true */
 "use strict";
 
-const { Cu, Cc, Ci } = require('chrome');
-const { Services } = Cu.import("resource://gre/modules/Services.jsm");
+const { Cc, Ci } = require('chrome');
+const { isDebugEnabled, toggleDebug } = require('tenshi/common/tenshi_prefs');
+const { getBuildID, getVersion, getOS } = require('tenshi/common/versioninfo');
 
 var XUL_MAIN_CONTENT_ID = 'mainXULBrowser';
 var MAIN_CONTENT_ID = 'mainContent';
@@ -10,27 +11,6 @@ var FOOTER_CONTAINER_ID = 'footer-debug-container';
 var VERSION_DATA_ID = 'version-data';
 var DEBUG_MODE_PREF = "tenshi.enableDebug";
 var debugEnabled;
-
-function getOS() {
-    var os = "Unknown";
-    // TODO(rqou): Is this getting the right window?
-    var window = Services.wm.getMostRecentWindow(null);
-    if (window.navigator.platform.search(/mac/i) > -1)
-        os = "Mac";
-    if (window.navigator.platform.search(/win/i) > -1)
-        os = "Windows";
-    if (window.navigator.platform.search(/linux/i) > -1)
-        os = "Linux";
-    return os;
-}
-
-function getVersion() {
-    return Services.appinfo.version;
-}
-
-function getBuildID() {
-    return Services.appinfo.appBuildID;
-}
 
 function setDebugFooterVisibility(visible) {
     var debugFooter = document.getElementById(FOOTER_CONTAINER_ID);
@@ -53,24 +33,22 @@ function onLoad() {
     setVersionInfoTag();
 
     // Set initial visibility.
-    debugEnabled = Services.prefs.getBoolPref(DEBUG_MODE_PREF);
-    setDebugFooterVisibility(debugEnabled);
+    setDebugFooterVisibility(isDebugEnabled());
 
     // TODO(rqou): This loading is inefficient. However, if we don't do this,
     // we get a race condition where ui.html tries to load tenshiGlobals before
     // we even create it.
     document.getElementById('mainContent').src = "main-ui/ui.html";
     
-    $('#toggle-debug').click(toggleDebug);
+    $('#toggle-debug').click(toggleDebugFooter);
     $('#backButton').click(mainContentGoBack);
     $('#forwardButton').click(mainContentGoForward);
     $('#reloadButton').click(mainContentReload);
     $('#superReloadButton').click(entirePageReload);
 }
 
-function toggleDebug() {
-    debugEnabled = !debugEnabled;
-    Services.prefs.setBoolPref(DEBUG_MODE_PREF, debugEnabled);
+function toggleDebugFooter() {
+    var debugEnabled = toggleDebug();
     setDebugFooterVisibility(debugEnabled);
 }
 

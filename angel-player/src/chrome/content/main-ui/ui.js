@@ -7,9 +7,7 @@ let $;
 
 let currentSelectedTab = -1;
 
-const { Cu } = require("chrome");
-const { Services } = Cu.import("resource://gre/modules/Services.jsm");
-var DEBUG_MODE_PREF = "tenshi.enableDebug";
+const { isDebugEnabled } = require('tenshi/common/tenshi_prefs');
 
 // Different ways to arrange the divs to suit different environments. Contains
 // relative flexbox sizes for each element.
@@ -122,7 +120,7 @@ var ENVIRONMENTS = [
 // Useful for prototyping components on their own page, since this can't be done
 // in a browser
 // TODO(rqou): Toggling doesn't update the menu; you need to reload.
-if (Services.prefs.getBoolPref(DEBUG_MODE_PREF)) {
+if (isDebugEnabled()) {
   ENVIRONMENTS.push({
         text: "Stargate Network",
         image: 'chrome://angel-player/content/main-ui/assets/stargate.png',
