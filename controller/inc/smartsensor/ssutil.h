@@ -14,6 +14,8 @@
 
 // Timeout
 #define SENSOR_WAIT_TIME (1000/portTICK_PERIOD_MS)  // 1 seconds
+// Time for sensor to respond to enumeration select command
+#define SENSOR_SELECT_DELAY 1  // 1 ms
 
 #define MAGIC_SEQUENCE_LEN 21
 #define MAGIC_SEQUENCE 0xE6, 0xAD, 0xBB, 0xE3, 0x82, 0x93, 0xE3, 0x81, 0xA0, \
@@ -41,6 +43,12 @@ typedef struct _transmit_allocations {
   void *data;
 } transmit_allocations;
 
+typedef struct {
+  SSState **arr;
+  size_t len;
+  size_t maxLen;
+} KnownIDs;
+
 
 extern EventGroupHandle_t ssBusEventGroup;
 
@@ -64,6 +72,8 @@ int ss_get_value(int sensorIndex, uint8_t *data, size_t len);
 SSState *ss_init_sensor(uint8_t id[SMART_ID_LEN], uint8_t busNum);
 // Returns the index of the sensor
 size_t ss_add_new_sensor(uint8_t id[SMART_ID_LEN], uint8_t busNum);
+size_t ss_add_sensor(SSState *sensor);
+size_t ss_add_sensors(KnownIDs *sensors);
 void ss_recieved_data_for_sensor(SSState *s, uint8_t *data, size_t len,
   uint8_t inband);
 // Assuming the sensor is already locked
@@ -79,6 +89,8 @@ int ss_uart_serial_send_and_finish_data(uart_serial_module *module,
 int ss_all_uart_serial_send_and_finish_data(const uint8_t *data, size_t len);
 int ss_send_maintenance(uart_serial_module *module, uint8_t type,
   const uint8_t *data, uint8_t len);
+int ss_send_maintenance_to_sensor(SSState *sensor, uint8_t type,
+  const uint8_t *data, uint8_t len);
 int ss_all_send_maintenance(uint8_t type, const uint8_t *data, uint8_t len);
 int ss_send_ping_pong(SSState *sensor, const uint8_t *data, uint8_t len);
 
@@ -91,6 +103,7 @@ int ss_send_enum_unselect(uart_serial_module *module, uint8_t id[SMART_ID_LEN],
   uint8_t mask[SMART_ID_LEN]);
 // Returns 1 if any sensors are still driving a logic level 0 onto the bus.
 int ss_recieve_enum_any_unselected(uart_serial_module *module);
+void ss_select_delay();
 
 transmit_allocations ss_send_active(uart_serial_module *module, uint8_t inband,
   uint8_t sample, uint8_t frame, uint8_t *data, uint8_t len);

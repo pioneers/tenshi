@@ -17,6 +17,8 @@ extern void led_driver_init(void);
 #define PATTERN_BACK_AND_FORTH    1
 // Just red flashes
 #define PATTERN_JUST_RED    2
+// Flashes pairs of LEDs during sensor enumeration
+#define PATTERN_ENUMERATING    3
 
 // Set the LED pattern
 extern void led_driver_set_mode(uint8_t mode);

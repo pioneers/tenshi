@@ -89,6 +89,20 @@ static led_driver_pattern driver_patterns[] = {
         .num_ticks = 1,
       },
     },
+  }, {
+    // PATTERN_ENUMERATING
+    // Flashes pairs of LEDs during sensor enumeration
+    .len = 2,
+    .entries =
+    (led_driver_pattern_entry[]) {
+      {
+        .led_states = LED_YELLOW | LED_RED,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_BLUE | LED_GREEN,
+        .num_ticks = 1,
+      },
+    },
   },
 };
 

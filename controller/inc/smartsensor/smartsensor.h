@@ -9,6 +9,9 @@
 #define SS_NUM_FRAMES 6
 #define SS_FIRST_FRAME 1  // 1 indexed frame numbers
 
+// Set to whatever
+#define SS_MAX_SENSORS_PER_BUS 32
+
 
 void smartsensor_init();
 
