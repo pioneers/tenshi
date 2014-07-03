@@ -16,14 +16,15 @@
 // May change
 #define ACTIVE_PACKET_MAX_LEN 10  // Not including prefix or extra COBS byte
 
+#define SS_NUM_SAMPLES 8  // 3 bits of resolution
+#define SS_NUM_FRAMES 6
+#define SS_FIRST_FRAME 1  // 1 indexed frame numbers
+
 
 
 // ****Sensor Personal Data*** // to be a struct later.
 extern uint8_t smartID[SMART_ID_LEN];
-
-// Only uses last three bits
-// TODO(tobinsarah): allow for multiple frames
-extern uint8_t my_frame;
+uint8_t my_frames[SS_NUM_FRAMES];
 extern uint32_t sample_rate;  // hardcoded for now;
 
 
