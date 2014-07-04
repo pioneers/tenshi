@@ -55,7 +55,8 @@ def build(bld):
     # We want to glob all files in the src directory which don't contain main
     # functions.
     main_re = re.compile(r'^ *int +main *\(', re.MULTILINE)
-    paths = bld.path.ant_glob("src/**/*.c")
+    paths = (bld.path.ant_glob("src/**/*.c") +
+             bld.path.ant_glob("tenshi-runtime/src/**/*.c"))
     files = []
 
     # Filter out files which contain a main function
@@ -69,7 +70,7 @@ def build(bld):
     bld.objects(
         source=files,
         target="lua_objects",
-        includes="src"
+        includes="src tenshi-runtime"
     )
 
     if 'native' in bld.variant:
@@ -84,6 +85,13 @@ def build(bld):
             source='src/luac.c',
             use='lua_objects math'
         )
+
+    bld.program(
+        target='tenshi-runtime-test',
+        source='tenshi-runtime/src/test_program.c',
+        use='lua_objects math',
+        includes="src tenshi-runtime"
+    )
 
     if 'emscripten' in bld.variant:
         # Using emscripten, build a .so, and from that build a .js.
@@ -119,7 +127,13 @@ def build(bld):
         # And then an argument list
         \(''', flags=re.MULTILINE | re.VERBOSE)
 
-        for filename in ['lua.h', 'lauxlib.h', 'js.h', 'threading.h']:
+        tenshi_runtime_headers = bld.path.ant_glob("tenshi-runtime/inc/**/*.h")
+        tenshi_runtime_headers = map(
+            lambda x: os.path.join('..', 'tenshi-runtime', 'inc', str(x)),
+            tenshi_runtime_headers)
+        lua_headers = ['lua.h', 'lauxlib.h', 'js.h', 'threading.h']
+
+        for filename in lua_headers + tenshi_runtime_headers:
             with open(os.path.join(bld.env['root'], 'vm', 'lua', 'src',
                                    filename)) as f:
                 contents = f.read()
