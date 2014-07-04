@@ -85,7 +85,7 @@ int main() {
   while (1) {
     if (activeSendFlag) {
       uint8_t pacLen = 0;
-      switch (SENSOR_TYPE == SENSOR_TYPE_DIGITAL) {
+      switch (SENSOR_TYPE) {
         case SENSOR_TYPE_DIGITAL:
           activeDigitalSend(decodedBuffer, &pacLen);
           break;
@@ -110,7 +110,7 @@ int main() {
         cobs_decode(decodedBuffer, rxBuffer, dataLen);
       }
       if (packetType < 0x80) {
-        switch (SENSOR_TYPE == SENSOR_TYPE_DIGITAL) {
+        switch (SENSOR_TYPE) {
           case SENSOR_TYPE_DIGITAL:
             activeDigitalRec(decodedBuffer, dataLen-1, in_band_sigFlag);
             break;
