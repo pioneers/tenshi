@@ -21,7 +21,7 @@ function xulrunnerRemoteDebugInit() {
   try {
     var port =
       Services.prefs.getIntPref('devtools.debugger.remote-port') || 6000;
-    DebuggerServer.openListener(6000);
+    DebuggerServer.openListener(port);
   } catch (_) {
     console.log("Failed to launch DebuggerServer!");
   }

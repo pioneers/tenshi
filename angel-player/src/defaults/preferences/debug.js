@@ -6,3 +6,5 @@ pref("nglayout.debug.disable_xul_fastload", true);
 
 pref("devtools.debugger.remote-enabled", true);
 pref("devtools.chrome.enabled", true);
+
+prefs("tenshi.enableDebug", true);
