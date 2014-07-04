@@ -10,6 +10,7 @@
              Otherwise angular activates a no-jQuery mode with less features -->
         <script src="../vendor-js/jquery.js"></script>
         <script src="../vendor-js/angular.js"></script>
+        <script src="../vendor-js/ace/ace.js"></script>
 
         <!-- GLOBAL STYLE SECTION -->
         <link rel="stylesheet" type="text/css" href="ui.css">
@@ -47,8 +48,8 @@
                src="'chrome://angel-player/content/controls/main.html'">
           </div>
 
-          <div id="texteditor-div" class="module-div">
-            <iframe src="../texteditor/editor.html"></iframe>
+          <div ng-include id="texteditor-div" class="module-div"
+               src="'../texteditor/editor.html'">
           </div>
 
           <div id="console-div" class="module-div">

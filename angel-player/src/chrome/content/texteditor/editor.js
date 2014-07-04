@@ -1,5 +1,5 @@
-var window,
-    ace;
+let window = require('tenshi/common/window')();
+let {ace} = window;
 
 var editor,
     initialized = false;
@@ -32,10 +32,7 @@ exports.initialized = function(){
     return initialized;
 };
 
-exports.init = function(_window) {
-  window = _window;
-  ace = window.ace;
-
+exports.init = function() {
   editor = ace.edit("editor");
 
   let robotApp = global_state.get('robot_application');
