@@ -11,6 +11,8 @@
         <script src="../vendor-js/jquery.js"></script>
         <script src="../vendor-js/angular.js"></script>
         <script src="../vendor-js/ace/ace.js"></script>
+        <script src="../vendor-js/ammo.js"></script>
+        <script src="../vendor-js/three.min.js"></script>
 
         <!-- GLOBAL STYLE SECTION -->
         <link rel="stylesheet" type="text/css" href="ui.css">
@@ -60,8 +62,8 @@
                src="'../blockeditor/blockeditor.html'">
           </div>
 
-          <div id="simulator-div" class="module-div">
-            <iframe src="../simulator/main.html"></iframe>
+          <div ng-include id="simulator-div" class="module-div"
+            src="'../simulator/main.html'">
           </div>
 
           <div id="maker-div" class="module-div">
