@@ -7,9 +7,9 @@ const robot_application = require('tenshi/common/robot_application');
 const serport = require('tenshi/common/serport');
 const pieles = require('tenshi/pieles/pieles');
 const radio = require('tenshi/common/piemos_radio');
-let window;
-let document;
-let $;
+
+let window = require('tenshi/common/window')();
+let {document, $} = window;
 
 function connectRadio() {
     disconnectRadio();
@@ -126,9 +126,4 @@ function onSaveClicked(e) {
     fp.open({done: saveCallback});
 }
 
-exports.init = function(_window) {
-    window = _window;
-    document = window.document;
-    $ = require('jquery')(window);
-    $(onLoad);
-};
+$(onLoad);
