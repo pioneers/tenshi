@@ -1,8 +1,8 @@
 from collections import defaultdict
-from waflib.Build import BuildContext, CleanContext, \
-    InstallContext, UninstallContext
+import waflib.Build
 
 from waflib import Utils
+import re
 
 variants = defaultdict(set)
 cmds = defaultdict(set)
@@ -11,22 +11,24 @@ cmds = defaultdict(set)
 def declare_variants(args=None, subdir=''):
     if not args:
         args = ['']
-    for x in args:
-        var = x
+    for a in args:
+        var = a
         if subdir != '':
-            var = subdir + '/' + x
-        for y in (BuildContext, CleanContext, InstallContext,
-                  UninstallContext):
-            name = y.__name__.replace('Context', '').lower()
-            # Examples of name: build, clean, install...
-            c = name + '_' + var
-            cmds[name].add(c)
+            var = subdir + '/' + a
+        ctxts = []
+        ctxt_re = re.compile('(\w+)Context')
+        for key, ctxt in waflib.Build.__dict__.items():
+            m = ctxt_re.match(key)
+            if m is not None:
+                t = m.group(1).lower()
+                cmd_name = '{0}_{1}'.format(t, var)
+                cmds[t].add(cmd_name)
 
-            class tmp(y):
-                cmd = c
-                variant = var
+                class new_variant(ctxt):
+                    cmd = cmd_name
+                    variant = var
 
-            variants[x].add(tmp)
+                variants[a].add(new_variant)
 
 
 def run_all(kind):
