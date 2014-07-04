@@ -16,6 +16,7 @@
 // under the License
 
 #include <stdio.h>
+#include <string.h>
 
 #include "inc/runtime_entry.h"
 
@@ -25,6 +26,14 @@ int main(int argc, char **argv) {
   TenshiRuntimeState s = TenshiRuntimeInit();
 
   printf("Allocated state: %p\n", s);
+
+  const char studentcode[] =
+    "x = 42";
+
+  TenshiActorState a;
+
+  int ret = LoadStudentcode(s, studentcode, strlen(studentcode), &a);
+  printf("LoadStudentcode: %d, TenshiActorState: %p\n", ret, a);
 
   TenshiRuntimeDeinit(s);
 

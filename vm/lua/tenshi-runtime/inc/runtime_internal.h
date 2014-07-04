@@ -15,21 +15,19 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_RUNTIME_ENTRY_H_
-#define INC_RUNTIME_ENTRY_H_
+#ifndef INC_RUNTIME_INTERNAL_H_
+#define INC_RUNTIME_INTERNAL_H_
 
-#include <stdlib.h>
+struct _TenshiRuntimeState {
+  // Lua state object -- refers to "main" thread (that never executes)
+  lua_State *L;
+};
 
-typedef struct _TenshiRuntimeState* TenshiRuntimeState;
+struct _TenshiActorState {
+  // Main runtime data structure pointer
+  TenshiRuntimeState s;
+  // This actor's lua_State
+  lua_State *L;
+};
 
-#include "inc/actor_sched.h"
-
-extern TenshiRuntimeState TenshiRuntimeInit(void);
-extern void TenshiRuntimeDeinit(TenshiRuntimeState s);
-
-// Returns the same values as lua_load. Automatically creates a new actor for
-// the loaded code.
-extern int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
-  TenshiActorState *actor_state);
-
-#endif  // INC_RUNTIME_ENTRY_H_
+#endif  // INC_RUNTIME_INTERNAL_H_

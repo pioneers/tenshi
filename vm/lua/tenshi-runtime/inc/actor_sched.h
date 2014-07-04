@@ -15,21 +15,25 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_RUNTIME_ENTRY_H_
-#define INC_RUNTIME_ENTRY_H_
+#ifndef INC_ACTOR_SCHED_H_
+#define INC_ACTOR_SCHED_H_
 
-#include <stdlib.h>
+typedef struct _TenshiActorState* TenshiActorState;
 
-typedef struct _TenshiRuntimeState* TenshiRuntimeState;
+#include "inc/runtime_entry.h"
+#include "lua.h"  // NOLINT(build/include)
 
-#include "inc/actor_sched.h"
+#define RIDX_ALLACTORS    "tenshi.allActors"
+#define RIDX_RUNQUEUE     "tenshi.runQueue"
 
-extern TenshiRuntimeState TenshiRuntimeInit(void);
-extern void TenshiRuntimeDeinit(TenshiRuntimeState s);
+// To be called in protected mode.
+extern int ActorSchedulerInit(lua_State *L);
 
-// Returns the same values as lua_load. Automatically creates a new actor for
-// the loaded code.
-extern int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
-  TenshiActorState *actor_state);
+// Returns NULL on error. Automatically registers the actor with the scheduler.
+extern TenshiActorState ActorCreate(TenshiRuntimeState s);
+extern void ActorDestroy(TenshiActorState a);
 
-#endif  // INC_RUNTIME_ENTRY_H_
+// Close all actors, used for shutting down VM
+extern void ActorDestroyAll(TenshiRuntimeState s);
+
+#endif  // INC_ACTOR_SCHED_H_

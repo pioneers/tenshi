@@ -18,12 +18,11 @@
 #include "inc/runtime_entry.h"
 
 #include <stdlib.h>
-#include "lua.h"      // NOLINT(build/include)
-#include "lauxlib.h"  // NOLINT(build/include)
-
-struct _TenshiRuntimeState {
-  lua_State *L;
-};
+#include "inc/actor_sched.h"
+#include "inc/runtime_internal.h"
+#include "lua.h"        // NOLINT(build/include)
+#include "lauxlib.h"    // NOLINT(build/include)
+#include "threading.h"  // NOLINT(build/include)
 
 TenshiRuntimeState TenshiRuntimeInit(void) {
   TenshiRuntimeState ret;
@@ -32,7 +31,20 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   if (!ret) return NULL;
 
   ret->L = luaL_newstate();
-  if (!ret->L) return NULL;
+  if (!ret->L) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+
+  // Set up actor scheduler
+  lua_pushcfunction(ret->L, ActorSchedulerInit);
+  if (lua_pcall(ret->L, 0, 0, 0) != LUA_OK) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+
+  // Set up preemption trick
+  threading_setup(ret->L);
 
   return ret;
 }
@@ -40,6 +52,33 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
 void TenshiRuntimeDeinit(TenshiRuntimeState s) {
   if (!s) return;
 
-  if (!s->L) return;
-  lua_close(s->L);
+  ActorDestroyAll(s);
+
+  if (s->L) {
+    lua_close(s->L);
+  }
+
+  free(s);
+}
+
+int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
+  TenshiActorState *actor_state) {
+  if (actor_state) {
+    *actor_state = NULL;
+  }
+
+  TenshiActorState a = ActorCreate(s);
+  if (!a) return LUA_ERRRUN;  // TODO(rqou): Return the correct error?
+
+  int ret = luaL_loadbuffer(a->L, data, len, "<student code>");
+  if (ret != LUA_OK) {
+    ActorDestroy(a);
+    return ret;
+  }
+
+  if (actor_state) {
+    *actor_state = a;
+  }
+
+  return LUA_OK;
 }
