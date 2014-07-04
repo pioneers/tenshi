@@ -315,7 +315,8 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
         uint8_t prefixLen = 3;
         if (recLen > prefixLen) {
           uint8_t sampleNumber = (data[1] >> 3) & 0b111;
-          uint8_t frameNumber0 = data[1] & 0b111;  // Zero indexed
+          // Zero indexed
+          uint8_t frameNumber = (data[1] & 0b111) - SS_FIRST_FRAME;
           uint8_t inband = data[1] >> 7;
           uint8_t decodeLen = recLen-prefixLen-1;
           uint8_t *data_decode = pvPortMalloc(decodeLen);
@@ -324,12 +325,15 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
           led_driver_set_mode(PATTERN_JUST_RED);
           led_driver_set_fixed(sampleNumber, 0b111);
 
-          int16_t sensorIndex =
-            sensorMapping[sampleNumber%SS_NUM_SAMPLES]
-                         [frameNumber0];
-          if (sensorIndex >= 0 && numSensors > sensorIndex) {
-            SSState *sensor = sensorArr[sensorIndex];
-            ss_recieved_data_for_sensor(sensor, data_decode, decodeLen, inband);
+          if (frameNumber < SS_NUM_FRAMES && sampleNumber < SS_NUM_SAMPLES) {
+            int16_t sensorIndex =
+              sensorMapping[sampleNumber%SS_NUM_SAMPLES]
+                           [frameNumber];
+            if (sensorIndex >= 0 && numSensors > sensorIndex) {
+              SSState *sensor = sensorArr[sensorIndex];
+              ss_recieved_data_for_sensor(sensor, data_decode, decodeLen,
+                inband);
+            }
           }
 
           if (data_decode) vPortFree(data_decode);
