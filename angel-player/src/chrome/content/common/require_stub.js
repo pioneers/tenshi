@@ -30,6 +30,8 @@ var require = (function(){
 
 function requireStub(moduleName) {
     var module = require(moduleName);
-    module.init(window);
+    if (module.init !== undefined) {
+        module.init(window);
+    }
     return module;
 }

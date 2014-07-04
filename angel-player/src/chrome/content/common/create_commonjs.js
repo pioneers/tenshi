@@ -20,6 +20,8 @@ function createCommonJsEnv(loaderModule) {
         modules: {
             // So that re-importing the loader works from within CommonJS
             'toolkit/loader': loaderModule,
+            // Leak the global window to "common/window.js"
+            'get_global_window': function() {return window;}
         },
         paths: {
             // In order to make node.js and other modules happy, the "root"
