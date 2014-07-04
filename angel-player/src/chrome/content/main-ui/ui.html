@@ -66,11 +66,8 @@
             src="'../simulator/main.html'">
           </div>
 
-          <div id="maker-div" class="module-div">
-            <!-- Commented out for now, because both the simulator and the -->
-            <!-- maker use the same variable to store the window object. -->
-            <!-- <iframe src="../simulator/maker.html"></iframe> -->
-            <p>Robot builder is temporarily disabled</p>
+          <div ng-include id="maker-div" class="module-div"
+               src="'../simulator/maker.html'">
           </div>
 
           <div id="stargate-div" class="module-div">
