@@ -1,4 +1,5 @@
-const G = require('tenshi/simulator/window_imports').globals;
+const window = require('tenshi/common/window')();
+let {Ammo} = window;
 
 function strVector(v)
 {
@@ -13,9 +14,9 @@ function strQuat(q)
 // Replaces rotation of transform, for use of instant rotation
 function replaceQuaternionOfTransform(base, quat)
 {
-  var tr = new G.Ammo.btTransform();
+  var tr = new Ammo.btTransform();
       tr.setRotation(quat);
-      tr.setOrigin(new G.Ammo.btVector3(base.getOrigin().x(),
+      tr.setOrigin(new Ammo.btVector3(base.getOrigin().x(),
                                       base.getOrigin().y(),
                                       base.getOrigin().z()));
 
@@ -25,8 +26,8 @@ function replaceQuaternionOfTransform(base, quat)
 // Replaces position of transform, for use of teleports
 function replacePositionOfTransform(base, vector)
 {
-  var tr = new G.Ammo.btTransform();
-      tr.setRotation(new G.Ammo.btQuaternion(base.getRotation().x(),
+  var tr = new Ammo.btTransform();
+      tr.setRotation(new Ammo.btQuaternion(base.getRotation().x(),
                                            base.getRotation().y(),
                                            base.getRotation().z(),
                                            base.getRotation().w()));
@@ -39,12 +40,12 @@ function replacePositionOfTransform(base, vector)
 // Returns a transformation with an added position vector
 function translateTransform(base, vector)
 {
-  var tr = new G.Ammo.btTransform();
-      tr.setRotation(new G.Ammo.btQuaternion(base.getRotation().x(),
+  var tr = new Ammo.btTransform();
+      tr.setRotation(new Ammo.btQuaternion(base.getRotation().x(),
                                            base.getRotation().y(),
                                            base.getRotation().z(),
                                            base.getRotation().w()));
-      tr.setOrigin(new G.Ammo.btVector3(base.getOrigin().x() + vector.x(),
+      tr.setOrigin(new Ammo.btVector3(base.getOrigin().x() + vector.x(),
                                       base.getOrigin().y() + vector.y(),
                                       base.getOrigin().z() + vector.z()));
 
@@ -54,9 +55,9 @@ function translateTransform(base, vector)
 // Returns a transformation with an added rotation quaternion
 function rotateTransform(base, quat)
 {
-  var tr = new G.Ammo.btTransform();
+  var tr = new Ammo.btTransform();
       tr.setRotation(multQuats(quat, base.getRotation()));
-      tr.setOrigin(new G.Ammo.btVector3(base.getOrigin().x(),
+      tr.setOrigin(new Ammo.btVector3(base.getOrigin().x(),
                                       base.getOrigin().y(),
                                       base.getOrigin().z()));
 
@@ -82,7 +83,7 @@ function eulerToQuat(roll, pitch, yaw)
   z = c1*s2*c3 - s1*c2*s3;
   w = c1*c2*c3 - s1*s2*s3;
 
-  return new G.Ammo.btQuaternion(x, y, z, w);
+  return new Ammo.btQuaternion(x, y, z, w);
 }
 
 function quatToEuler(q)
@@ -90,14 +91,14 @@ function quatToEuler(q)
   var test = q.x()*q.y() + q.z()*q.w();
   if(test > 0.499)
   {
-    return new G.Ammo.btVector3(2*Math.atan2(q.x(), q.w()), Math.PI/2, 0);
+    return new Ammo.btVector3(2*Math.atan2(q.x(), q.w()), Math.PI/2, 0);
   }
   else if(test < -0.499)
   {
-    return new G.Ammo.btVector3(-2*Math.atan2(q.x(), q.w()), -Math.PI/2, 0);
+    return new Ammo.btVector3(-2*Math.atan2(q.x(), q.w()), -Math.PI/2, 0);
   }
 
-  var sol = new G.Ammo.btVector3(
+  var sol = new Ammo.btVector3(
             Math.atan2(2*q.y()*q.w() - 2*q.x()*q.z(),
                        1 - 2*q.y()*q.y() - 2*q.z()*q.z()),
             Math.sin(2*q.x()*q.y() + 2*q.z()*q.w()),
@@ -109,7 +110,7 @@ function quatToEuler(q)
 // Multiplies quaternions; built in library's multiply is broken
 function multQuats(a, b)
 {
-    var c = new G.Ammo.btQuaternion(a.x()*b.x() - a.y()*b.y() - a.z()*b.z() - a.w()*b.w(),
+    var c = new Ammo.btQuaternion(a.x()*b.x() - a.y()*b.y() - a.z()*b.z() - a.w()*b.w(),
       a.x()*b.y() + a.y()*b.x() - a.z()*b.w() + a.w()*b.z(),
       a.x()*b.z() + a.y()*b.w() + a.z()*b.x() - a.w()*b.y(),
       a.x()*b.w() - a.y()*b.z() + a.z()*b.y() + a.w()*b.x());
@@ -119,14 +120,14 @@ function multQuats(a, b)
 
 function addVector(a, b)
 {
-  return new G.Ammo.btVector3(a.x() + b.x(), a.y() + b.y(), a.z() + b.z());
+  return new Ammo.btVector3(a.x() + b.x(), a.y() + b.y(), a.z() + b.z());
 }
 
 // Rotates a real vector by a quaternion transformation
 function rotateV3ByQuat(vector, quat)
 {
-    var tempQuat = new G.Ammo.btQuaternion(vector.x(), vector.y(), vector.z(), 0);
-    var quatConj = new G.Ammo.btQuaternion(-quat.x(), -quat.y(), -quat.z(), quat.w());
+    var tempQuat = new Ammo.btQuaternion(vector.x(), vector.y(), vector.z(), 0);
+    var quatConj = new Ammo.btQuaternion(-quat.x(), -quat.y(), -quat.z(), quat.w());
 
     return multQuats(multQuats(quat, tempQuat), quatConj);
 }
@@ -136,12 +137,12 @@ function toUnitVector(vector)
   var magnitude = Math.sqrt(vector.x()*vector.x() +
                             vector.y()*vector.y() +
                             vector.z()*vector.z());
-  return new G.Ammo.btVector3(vector.x()/magnitude, vector.y()/magnitude, vector.z()/magnitude);
+  return new Ammo.btVector3(vector.x()/magnitude, vector.y()/magnitude, vector.z()/magnitude);
 }
 
 function scaleVector(scale, vector)
 {
-  return new G.Ammo.btVector3(vector.x()*scale, vector.y()*scale, vector.z()*scale);
+  return new Ammo.btVector3(vector.x()*scale, vector.y()*scale, vector.z()*scale);
 }
 
 // a and b are btVector3s representing points

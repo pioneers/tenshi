@@ -1,6 +1,6 @@
 const { Cc, Ci, Cu } = require('chrome');
 const { printOut } = require('tenshi/simulator/miscFuncs');
-const G = require('tenshi/simulator/window_imports').globals;
+const window = require('tenshi/common/window')();
 
 function genBaseFile()
 {
@@ -123,7 +123,7 @@ FileManager.prototype.writeToFile = function(fileName, data)
 
 FileManager.prototype.getFileData = function(filePath)
 {
-    if (G.window.File && G.window.FileReader && G.window.FileList && G.window.Blob)
+    if (window.File && window.FileReader && window.FileList && window.Blob)
     {
         console.log("File reader exists.");
     }

@@ -2,6 +2,9 @@
 All touchs are a single box : it shoots a ray out at its <0, 0, 1> direction
     run shoots a ray and sets its value to the distance
 */
+const window = require('tenshi/common/window')();
+let {Ammo} = window;
+
 function TouchSensor(simulator, width, length, height, mass, maxRange, iniX, iniY, iniZ)
 {
     this.simulator = simulator;

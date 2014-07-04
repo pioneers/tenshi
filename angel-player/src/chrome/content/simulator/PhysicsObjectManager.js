@@ -7,7 +7,8 @@ Manages physics objects in the world
         sets all object to such state, sets frame to that state
 */
 
-const G = require('tenshi/simulator/window_imports').globals;
+const window = require('tenshi/common/window')();
+let {Ammo} = window;
 
 function PhysicsObjectManager()
 {
@@ -42,15 +43,15 @@ PhysicsObjectManager.prototype.remove = function(obj)
 
 PhysicsObjectManager.prototype.iterator = function()
 {
-    return G.window.Iterator(this.array);
+    return window.Iterator(this.array);
 };
 
 PhysicsObjectManager.prototype.render = function()
 {
-    var origin, rotation, transform = new G.Ammo.btTransform();
+    var origin, rotation, transform = new Ammo.btTransform();
 
     var arr = this.array;
-    var it = G.window.Iterator(arr, true);
+    var it = window.Iterator(arr, true);
     for(var key in it)
     {
         arr[key].getMotionState().getWorldTransform( transform ); // Retrieve box position & rotation from Ammo
@@ -74,7 +75,7 @@ PhysicsObjectManager.prototype.getState = function(simulator)
 {
     var tempState = [],
         arr = this.array,
-        it = G.window.Iterator(arr, true),
+        it = window.Iterator(arr, true),
         obj,
         linVel,
         angVel,
@@ -82,21 +83,21 @@ PhysicsObjectManager.prototype.getState = function(simulator)
         temp_tr;
     for(var key in it)
     {
-        tr = new G.Ammo.btTransform();
+        tr = new Ammo.btTransform();
 
         obj = arr[key];
 
-        linVel = new G.Ammo.btVector3(obj.getLinearVelocity().x(),
+        linVel = new Ammo.btVector3(obj.getLinearVelocity().x(),
                                     obj.getLinearVelocity().y(),
                                     obj.getLinearVelocity().z());
-        angVel = new G.Ammo.btVector3(obj.getAngularVelocity().x(),
+        angVel = new Ammo.btVector3(obj.getAngularVelocity().x(),
                                     obj.getAngularVelocity().y(),
                                     obj.getAngularVelocity().z());
         temp_tr = obj.getCenterOfMassTransform();
-        tr.setOrigin(new G.Ammo.btVector3(temp_tr.getOrigin().x(),
+        tr.setOrigin(new Ammo.btVector3(temp_tr.getOrigin().x(),
                                         temp_tr.getOrigin().y(),
                                         temp_tr.getOrigin().z()));
-        tr.setRotation(new G.Ammo.btQuaternion(temp_tr.getRotation().x(),
+        tr.setRotation(new Ammo.btQuaternion(temp_tr.getRotation().x(),
                                              temp_tr.getRotation().y(),
                                              temp_tr.getRotation().z(),
                                              temp_tr.getRotation().w()));

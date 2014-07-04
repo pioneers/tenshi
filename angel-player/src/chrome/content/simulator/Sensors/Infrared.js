@@ -2,6 +2,9 @@
 All infrareds are a single box : it shoots a ray out at its <0, 0, 1> direction
     run shoots a ray and sets its value to the color of the object it hits
 */
+const window = require('tenshi/common/window')();
+let {Ammo} = window;
+
 function Infrared(simulator, width, length, height, mass, iniX, iniY, iniZ)
 {
     this.simulator = simulator;
