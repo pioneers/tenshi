@@ -20,7 +20,9 @@ const { Robot } = require('tenshi/simulator/Robot');
 const { Motor } = require('tenshi/simulator/Actuators/Motor');
 const { Rangefinder } = require('tenshi/simulator/Sensors/Rangefinder');
 const mathSupplements = require('tenshi/simulator/Ammo/mathSupplements');
-const G = require('tenshi/simulator/window_imports').globals;
+
+const window = require('tenshi/common/window')();
+let {Ammo, THREE} = window;
 
 function Simulator(domElement, master, mapId)
 {
@@ -46,7 +48,7 @@ function Simulator(domElement, master, mapId)
 
     var self = this;
 
-    G.window.onresize = function(event)
+    window.onresize = function(event)
     {
         self.width = self.domElement.offsetWidth;
         self.height = self.domElement.offsetHeight;
@@ -100,17 +102,17 @@ Simulator.prototype.removeTestSprite = function(index)
 
 Simulator.prototype.initScene = function(width, height, fov, drawDistance, cameraPosition, backgroundColor)
 {
-    this.scene = new G.THREE.Scene();
+    this.scene = new THREE.Scene();
 
-    this.ambientLight = new G.THREE.AmbientLight(0x090909, 0.1);
+    this.ambientLight = new THREE.AmbientLight(0x090909, 0.1);
         this.scene.add(this.ambientLight);
 
-    this.directionalLight = new G.THREE.DirectionalLight(0xffffff, 0.9);
+    this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.9);
         this.directionalLight.position.set(1,1,1).normalize();
         this.scene.add(this.directionalLight);
         printOut(this.directionalLight.intensity);
 
-    this.camera = new G.THREE.PerspectiveCamera(fov, width/height, 1, drawDistance);
+    this.camera = new THREE.PerspectiveCamera(fov, width/height, 1, drawDistance);
         this.camera.width = width;
         this.camera.height = height;
 
@@ -121,7 +123,7 @@ Simulator.prototype.initScene = function(width, height, fov, drawDistance, camer
         this.cameraController.updatePosition();
         this.camera.lookAt(this.centralPosition);
 
-    this.renderer = new G.THREE.WebGLRenderer({ antialias: true });
+    this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(width, height);
     this.renderer.setClearColor(backgroundColor, 1);
 
@@ -132,15 +134,15 @@ Simulator.prototype.initPhysics = function(gravity)
 {
     // the following lines were borrowed from a tutorial
     // simulator team is not sure how it works
-    var collisionConfiguration = new G.Ammo.btDefaultCollisionConfiguration();
-    var dispatcher = new G.Ammo.btCollisionDispatcher(collisionConfiguration);
-    var overlappingPairCache = new G.Ammo.btDbvtBroadphase();
-    var solver = new G.Ammo.btSequentialImpulseConstraintSolver();
-    this.physicsWorld = new G.Ammo.btDiscreteDynamicsWorld(dispatcher,
+    var collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
+    var dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration);
+    var overlappingPairCache = new Ammo.btDbvtBroadphase();
+    var solver = new Ammo.btSequentialImpulseConstraintSolver();
+    this.physicsWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher,
                                                          overlappingPairCache,
                                                          solver,
                                                          collisionConfiguration);
-    this.physicsWorld.setGravity(new G.Ammo.btVector3(gravity[0], gravity[1], gravity[2]));
+    this.physicsWorld.setGravity(new Ammo.btVector3(gravity[0], gravity[1], gravity[2]));
 };
 
 Simulator.prototype.initMouseCameraControls = function()
@@ -232,9 +234,9 @@ Simulator.prototype.loadRobot = function(robotJson, position)
 
         if(temp.type == "BOX")
         {
-            robot.addShape(new G.Ammo.btBoxShape(new G.Ammo.btVector3(temp.size[0]/2, temp.size[1]/2, temp.size[2]/2)),
-                           new G.Ammo.btTransform(new G.Ammo.btQuaternion(temp.rot[0], temp.rot[1], temp.rot[2]),
-                                                new G.Ammo.btVector3(temp.offset[0], temp.offset[1], temp.offset[2])),
+            robot.addShape(new Ammo.btBoxShape(new Ammo.btVector3(temp.size[0]/2, temp.size[1]/2, temp.size[2]/2)),
+                           new Ammo.btTransform(new Ammo.btQuaternion(temp.rot[0], temp.rot[1], temp.rot[2]),
+                                                new Ammo.btVector3(temp.offset[0], temp.offset[1], temp.offset[2])),
                            temp.mass,
                            createBoxMesh(temp.size[0], temp.size[1], temp.size[2], parseInt(temp.color, 16), this.scene));
 
@@ -250,10 +252,10 @@ Simulator.prototype.loadRobot = function(robotJson, position)
                               temp.offset[0] + position[0], temp.offset[1] + position[1], temp.offset[2] + position[2]);
 
         robot.addMotor(i, motor, motor.wheel,
-                       new G.Ammo.btVector3(temp.chassiLoc[0], temp.chassiLoc[1], temp.chassiLoc[2]),
-                       new G.Ammo.btVector3(temp.objectLoc[0], temp.objectLoc[1], temp.objectLoc[2]),
-                       new G.Ammo.btVector3(temp.chassiAxis[0], temp.chassiAxis[1], temp.chassiAxis[2]),
-                       new G.Ammo.btVector3(temp.objectAxis[0], temp.objectAxis[1], temp.objectAxis[2]));
+                       new Ammo.btVector3(temp.chassiLoc[0], temp.chassiLoc[1], temp.chassiLoc[2]),
+                       new Ammo.btVector3(temp.objectLoc[0], temp.objectLoc[1], temp.objectLoc[2]),
+                       new Ammo.btVector3(temp.chassiAxis[0], temp.chassiAxis[1], temp.chassiAxis[2]),
+                       new Ammo.btVector3(temp.objectAxis[0], temp.objectAxis[1], temp.objectAxis[2]));
     }
 
     for(i = 0; i < data.sensors.length; i++)
@@ -267,10 +269,10 @@ Simulator.prototype.loadRobot = function(robotJson, position)
                                     temp.maxDistance);
 
             robot.addSensor(i, rf, rf.physicsObject,
-                            new G.Ammo.btVector3(temp.chassiLoc[0], temp.chassiLoc[1], temp.chassiLoc[2]),
-                            new G.Ammo.btVector3(temp.objectLoc[0], temp.objectLoc[1], temp.objectLoc[2]),
-                            new G.Ammo.btVector3(temp.chassiAxis[0], temp.chassiAxis[1], temp.chassiAxis[2]),
-                            new G.Ammo.btVector3(temp.objectAxis[0], temp.objectAxis[1], temp.objectAxis[2]));
+                            new Ammo.btVector3(temp.chassiLoc[0], temp.chassiLoc[1], temp.chassiLoc[2]),
+                            new Ammo.btVector3(temp.objectLoc[0], temp.objectLoc[1], temp.objectLoc[2]),
+                            new Ammo.btVector3(temp.chassiAxis[0], temp.chassiAxis[1], temp.chassiAxis[2]),
+                            new Ammo.btVector3(temp.objectAxis[0], temp.objectAxis[1], temp.objectAxis[2]));
         }
 
         // TODO(ericnguyen): allow loading of other types of sensors
@@ -328,7 +330,7 @@ Simulator.prototype.render = function()
         this.master.frame = this.currentFrame; //synchs frames
     }
 
-    G.window.requestAnimationFrame(this.render.bind(this)); // repeat the render function
+    window.requestAnimationFrame(this.render.bind(this)); // repeat the render function
 };
 
 Simulator.prototype.createBox = function(width, height, depth, mass, color, iniX, iniY, iniZ)

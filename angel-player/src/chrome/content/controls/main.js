@@ -1,8 +1,8 @@
 /* jshint globalstrict: true */
 "use strict";
 
-let window,
-    $;
+let window = require('tenshi/common/window')();
+let {$} = window;
 
 let naive_packetizer = require('tenshi/common/naive_packetizer'),
     texteditor = require('tenshi/texteditor/editor'),
@@ -16,10 +16,7 @@ exports.set_vm_generator = function (x) {
     vm_generator = x;
 };
 
-exports.init = function(_window) {
-    window = _window;
-    $ = window.$;
-
+exports.init = function() {
     $("#toggle").click(toggle_running);
     $("#compile_ngl").click(compile_ngl);
     $("#compile_lua").click(compile_lua);

@@ -4,7 +4,8 @@
 const { Simulator } = require('tenshi/simulator/Simulator');
 const { KeyManager, DOWN } = require('tenshi/simulator/KeyManager');
 const { saveFrame, loadFrame } = require('tenshi/simulator/miscFuncs');
-const G = require('tenshi/simulator/window_imports').globals;
+const window = require('tenshi/common/window')();
+let {$, Ammo, document} = window;
 
 let simmy;
 
@@ -45,17 +46,11 @@ function onResume() {
 
 
 exports.init = function(_window) {
-  G.window = _window;
-  G.document = _window.document;
-  G.$ = _window.$;
-  G.Ammo = _window.Ammo;
-  G.THREE = _window.THREE;
-
-  G.$(function() {
-    simmy = new Simulator(G.document.getElementById("mainScreen"), null, "testMap");
+  $(function() {
+    simmy = new Simulator(document.getElementById("mainScreen"), null, "testMap");
 
     // TODO (ericnguyen): wrap all these test functions and organize them elsewhere
-    var keyMan = new KeyManager(G.document);
+    var keyMan = new KeyManager(document);
 
     var moveForwardRight = function()
     {
@@ -96,15 +91,15 @@ exports.init = function(_window) {
     var jump = function()
     {
       simmy.robot.physicsChassi.setActivationState(1);
-      simmy.robot.physicsChassi.applyCentralForce(new G.Ammo.btVector3(0, 10000000, 0));
-      simmy.robot.physicsChassi.applyTorqueImpulse(new G.Ammo.btVector3(0, 1000, 0));
+      simmy.robot.physicsChassi.applyCentralForce(new Ammo.btVector3(0, 10000000, 0));
+      simmy.robot.physicsChassi.applyTorqueImpulse(new Ammo.btVector3(0, 1000, 0));
     };
 
     var readVal = function()
     {
       var val = simmy.robot.sensors[0].getVal();
-      G.document.getElementById("RF number").innerHTML = val;
-      G.window.requestAnimationFrame(readVal);
+      document.getElementById("RF number").innerHTML = val;
+      window.requestAnimationFrame(readVal);
     };
 
     var save = function()
@@ -130,5 +125,5 @@ exports.init = function(_window) {
     readVal();
   });
   
-  G.$(onResume); // also call on load
+  $(onResume); // also call on load
 };

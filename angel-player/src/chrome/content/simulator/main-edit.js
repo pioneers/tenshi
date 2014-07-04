@@ -3,23 +3,18 @@
 
 const { Editor } = require('tenshi/simulator/Editor');
 const { KeyManager, DOWN } = require('tenshi/simulator/KeyManager');
-const G = require('tenshi/simulator/window_imports').globals;
+const window = require('tenshi/common/window')();
+let {document, $, Ammo, THREE} = window;
 
-exports.init = function(_window) {
-  G.window = _window;
-  G.document = _window.document;
-  G.$ = _window.$;
-  G.Ammo = _window.Ammo;
-  G.THREE = _window.THREE;
-
-  G.$(function() {
-    var eddy = new Editor(G.document, G.document.getElementById("classSelector"),
-      G.document.getElementById("objSelector"),
-      G.document.getElementById("addingInfo"),
-      G.document.getElementById("selnInfo"),
-      G.document.getElementById("mainScreen"), null, "blankMap");
+exports.init = function() {
+  $(function() {
+    var eddy = new Editor(document, document.getElementById("classSelector"),
+      document.getElementById("objSelector"),
+      document.getElementById("addingInfo"),
+      document.getElementById("selnInfo"),
+      document.getElementById("mainScreen"), null, "blankMap");
     var curSelection = null;
-    var keyMan = new KeyManager(G.document);
+    var keyMan = new KeyManager(document);
 
     // Bind camera controls to WASD, shift, space (minecraft style)
     keyMan.bindFunc(DOWN, 68, function() {eddy.simulator.cameraController.strafe(3);});
@@ -45,17 +40,17 @@ exports.init = function(_window) {
     eddy.updateAttrSelection();
     eddy.simulator.render();
 
-    G.$('#Select').click(function() { eddy.toggleSelection(); });
-    G.$('#Move').click(function() { eddy.setMode("MOVE"); });
-    G.$('#Resize').click(function() { eddy.setMode("RESIZE"); });
-    G.$('#Rotate').click(function() { eddy.setMode("ROTATE"); });
-    G.$('#Delete').click(function() { eddy.removeObj(); });
+    $('#Select').click(function() { eddy.toggleSelection(); });
+    $('#Move').click(function() { eddy.setMode("MOVE"); });
+    $('#Resize').click(function() { eddy.setMode("RESIZE"); });
+    $('#Rotate').click(function() { eddy.setMode("ROTATE"); });
+    $('#Delete').click(function() { eddy.removeObj(); });
 
-    G.$('#classSelector').change(function() {
+    $('#classSelector').change(function() {
       eddy.updateObjSelection();
       eddy.updateAttrSelection();
     });
-    G.$('#objSelector').change(function() { eddy.updateAttrSelection(); });
+    $('#objSelector').change(function() { eddy.updateAttrSelection(); });
   });
  };
  
