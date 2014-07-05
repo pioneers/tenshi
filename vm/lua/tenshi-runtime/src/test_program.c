@@ -27,13 +27,28 @@ int main(int argc, char **argv) {
 
   printf("Allocated state: %p\n", s);
 
+  // const char studentcode[] =
+  //   "x = 42";
+
   const char studentcode[] =
-    "x = 42";
+    "while true do\n"
+    "end";
 
   TenshiActorState a;
 
   int ret = LoadStudentcode(s, studentcode, strlen(studentcode), &a);
   printf("LoadStudentcode: %d, TenshiActorState: %p\n", ret, a);
+
+  ret = ActorSetRunnable(a);
+  printf("ActorSetRunnable: %d\n", ret);
+
+  int i = 0;
+
+  while (i < 100) {
+    ret = TenshiRunQuanta(s);
+    printf("Ran quanta %d, ret = %d\n", i, ret);
+    i++;
+  }
 
   TenshiRuntimeDeinit(s);
 

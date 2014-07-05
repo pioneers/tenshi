@@ -24,6 +24,8 @@ typedef struct _TenshiRuntimeState* TenshiRuntimeState;
 
 #include "inc/actor_sched.h"
 
+#define QUANTA_OPCODES  1000
+
 extern TenshiRuntimeState TenshiRuntimeInit(void);
 extern void TenshiRuntimeDeinit(TenshiRuntimeState s);
 
@@ -31,5 +33,9 @@ extern void TenshiRuntimeDeinit(TenshiRuntimeState s);
 // the loaded code.
 extern int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
   TenshiActorState *actor_state);
+
+// Runs the interpreter for QUANTA_OPCODES opcodes. Automatically handles
+// scheduling, etc. Returns LUA_OK on success.
+extern int TenshiRunQuanta(TenshiRuntimeState s);
 
 #endif  // INC_RUNTIME_ENTRY_H_

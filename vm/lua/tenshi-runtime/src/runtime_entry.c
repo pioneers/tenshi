@@ -82,3 +82,36 @@ int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
 
   return LUA_OK;
 }
+
+int TenshiRunQuanta(TenshiRuntimeState s) {
+  int ops_left = QUANTA_OPCODES;
+
+  while (ops_left > 0) {
+    TenshiActorState a;
+    int ret = ActorDequeueHead(s, &a);
+    if (ret != LUA_OK) return ret;
+
+    if (!a) {
+      printf("NOTHING TO RUN!\n");
+      return LUA_OK;
+    }
+
+    ret = threading_run_ops(a->L, ops_left, &ops_left);
+    if (ret == THREADING_ERROR) return LUA_ERRRUN;
+
+    if (ret == THREADING_EXITED) {
+      printf("Thread exited!\n");
+      ActorDestroy(a);
+    } else if (ret == THREADING_YIELD) {
+      printf("ERROR: Yield to block not implemented!\n");
+      return LUA_ERRRUN;
+    } else if (ret == THREADING_PREEMPT) {
+      // Requeue it
+      printf("Thread preempted!\n");
+      ret = ActorSetRunnable(a);
+      if (ret != LUA_OK) return ret;
+    }
+  }
+
+  return LUA_OK;
+}

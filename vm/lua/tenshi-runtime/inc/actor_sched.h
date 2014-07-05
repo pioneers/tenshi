@@ -33,6 +33,12 @@ extern int ActorSchedulerInit(lua_State *L);
 extern TenshiActorState ActorCreate(TenshiRuntimeState s);
 extern void ActorDestroy(TenshiActorState a);
 
+// Returns LUA_OK on success
+extern int ActorSetRunnable(TenshiActorState a);
+
+// Returns LUA_OK on success.
+extern int ActorDequeueHead(TenshiRuntimeState s, TenshiActorState *a_out);
+
 // Close all actors, used for shutting down VM
 extern void ActorDestroyAll(TenshiRuntimeState s);
 
