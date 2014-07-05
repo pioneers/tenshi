@@ -20,6 +20,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#include "lstrlib.h"
 
 /*
 ** maximum number of captures that a pattern can do during
@@ -35,7 +36,7 @@
 
 
 
-static int str_len (lua_State *L) {
+LUAMOD_API int str_len (lua_State *L) {
   size_t l;
   luaL_checklstring(L, 1, &l);
   lua_pushinteger(L, (lua_Integer)l);
@@ -51,7 +52,7 @@ static lua_Integer posrelat (lua_Integer pos, size_t len) {
 }
 
 
-static int str_sub (lua_State *L) {
+LUAMOD_API int str_sub (lua_State *L) {
   size_t l;
   const char *s = luaL_checklstring(L, 1, &l);
   lua_Integer start = posrelat(luaL_checkinteger(L, 2), l);
@@ -65,7 +66,7 @@ static int str_sub (lua_State *L) {
 }
 
 
-static int str_reverse (lua_State *L) {
+LUAMOD_API int str_reverse (lua_State *L) {
   size_t l, i;
   luaL_Buffer b;
   const char *s = luaL_checklstring(L, 1, &l);
@@ -77,7 +78,7 @@ static int str_reverse (lua_State *L) {
 }
 
 
-static int str_lower (lua_State *L) {
+LUAMOD_API int str_lower (lua_State *L) {
   size_t l;
   size_t i;
   luaL_Buffer b;
@@ -90,7 +91,7 @@ static int str_lower (lua_State *L) {
 }
 
 
-static int str_upper (lua_State *L) {
+LUAMOD_API int str_upper (lua_State *L) {
   size_t l;
   size_t i;
   luaL_Buffer b;
@@ -110,7 +111,7 @@ static int str_upper (lua_State *L) {
 #define MAXSIZE		((size_t)0x10000000)
 #endif
 
-static int str_rep (lua_State *L) {
+LUAMOD_API int str_rep (lua_State *L) {
   size_t l, lsep;
   const char *s = luaL_checklstring(L, 1, &l);
   lua_Integer n = luaL_checkinteger(L, 2);
@@ -136,7 +137,7 @@ static int str_rep (lua_State *L) {
 }
 
 
-static int str_byte (lua_State *L) {
+LUAMOD_API int str_byte (lua_State *L) {
   size_t l;
   const char *s = luaL_checklstring(L, 1, &l);
   lua_Integer posi = posrelat(luaL_optinteger(L, 2, 1), l);
@@ -155,7 +156,7 @@ static int str_byte (lua_State *L) {
 }
 
 
-static int str_char (lua_State *L) {
+LUAMOD_API int str_char (lua_State *L) {
   int n = lua_gettop(L);  /* number of arguments */
   int i;
   luaL_Buffer b;
@@ -177,7 +178,7 @@ static int writer (lua_State *L, const void *b, size_t size, void *B) {
 }
 
 
-static int str_dump (lua_State *L) {
+LUAMOD_API int str_dump (lua_State *L) {
   luaL_Buffer b;
   int strip = lua_toboolean(L, 2);
   luaL_checktype(L, 1, LUA_TFUNCTION);
@@ -633,12 +634,12 @@ static int str_find_aux (lua_State *L, int find) {
 }
 
 
-static int str_find (lua_State *L) {
+LUAMOD_API int str_find (lua_State *L) {
   return str_find_aux(L, 1);
 }
 
 
-static int str_match (lua_State *L) {
+LUAMOD_API int str_match (lua_State *L) {
   return str_find_aux(L, 0);
 }
 
@@ -672,7 +673,7 @@ static int gmatch_aux (lua_State *L) {
 }
 
 
-static int gmatch (lua_State *L) {
+LUAMOD_API int gmatch (lua_State *L) {
   luaL_checkstring(L, 1);
   luaL_checkstring(L, 2);
   lua_settop(L, 2);
@@ -739,7 +740,7 @@ static void add_value (MatchState *ms, luaL_Buffer *b, const char *s,
 }
 
 
-static int str_gsub (lua_State *L) {
+LUAMOD_API int str_gsub (lua_State *L) {
   size_t srcl, lp;
   const char *src = luaL_checklstring(L, 1, &srcl);
   const char *p = luaL_checklstring(L, 2, &lp);
@@ -865,7 +866,7 @@ static void addlenmod (char *form, const char *lenmod) {
 }
 
 
-static int str_format (lua_State *L) {
+LUAMOD_API int str_format (lua_State *L) {
   int top = lua_gettop(L);
   int arg = 1;
   size_t sfl;
@@ -1020,7 +1021,7 @@ static int dumpint (char *buff, lua_Integer m, int littleendian, int size) {
 }
 
 
-static int dumpint_l (lua_State *L) {
+LUAMOD_API int dumpint_l (lua_State *L) {
   char buff[MAXINTSIZE];
   lua_Integer n = luaL_checkinteger(L, 1);
   int size = getintsize(L, 2);
@@ -1065,7 +1066,7 @@ static int undumpint (const char *buff, lua_Integer *res,
 }
 
 
-static int undumpint_l (lua_State *L) {
+LUAMOD_API int undumpint_l (lua_State *L) {
   lua_Integer res;
   size_t len;
   const char *s = luaL_checklstring(L, 1, &len);
@@ -1104,7 +1105,7 @@ static int getfloatsize (lua_State *L, int arg) {
 }
 
 
-static int dumpfloat_l (lua_State *L) {
+LUAMOD_API int dumpfloat_l (lua_State *L) {
   float f;  double d;
   char *pn;  /* pointer to number */
   lua_Number n = luaL_checknumber(L, 1);
@@ -1126,7 +1127,7 @@ static int dumpfloat_l (lua_State *L) {
 }
 
 
-static int undumpfloat_l (lua_State *L) {
+LUAMOD_API int undumpfloat_l (lua_State *L) {
   lua_Number res;
   size_t len;
   const char *s = luaL_checklstring(L, 1, &len);

@@ -32,6 +32,8 @@ int main(int argc, char **argv) {
 
   const char studentcode[] =
     "while true do\n"
+    "    print(\"Hello world!\")\n"
+    "    print(math.pi)\n"
     "end";
 
   TenshiActorState a;

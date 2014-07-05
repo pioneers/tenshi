@@ -21,8 +21,101 @@
 #include "inc/actor_sched.h"
 #include "inc/runtime_internal.h"
 #include "lua.h"        // NOLINT(build/include)
+#include "lualib.h"     // NOLINT(build/include)
 #include "lauxlib.h"    // NOLINT(build/include)
+#include "lbaselib.h"   // NOLINT(build/include)
+#include "lstrlib.h"    // NOLINT(build/include)
 #include "threading.h"  // NOLINT(build/include)
+
+// Custom version of baselib with some functions omitted
+static const luaL_Reg tenshi_base_funcs[] = {
+  {"assert", luaB_assert},
+  {"error", luaB_error},
+  {"getmetatable", luaB_getmetatable},
+  {"ipairs", luaB_ipairs},
+  {"next", luaB_next},
+  {"pairs", luaB_pairs},
+  {"pcall", luaB_pcall},
+  {"print", luaB_print},
+  {"rawequal", luaB_rawequal},
+  {"rawlen", luaB_rawlen},
+  {"rawget", luaB_rawget},
+  {"rawset", luaB_rawset},
+  {"select", luaB_select},
+  {"setmetatable", luaB_setmetatable},
+  {"tonumber", luaB_tonumber},
+  {"tostring", luaB_tostring},
+  {"type", luaB_type},
+  {"xpcall", luaB_xpcall},
+  {NULL, NULL}
+};
+
+static int tenshi_open_base(lua_State *L) {
+  /* set global _G */
+  lua_pushglobaltable(L);
+  lua_pushglobaltable(L);
+  lua_setfield(L, -2, "_G");
+  /* open lib into global table */
+  luaL_setfuncs(L, tenshi_base_funcs, 0);
+  lua_pushliteral(L, LUA_VERSION);
+  lua_setfield(L, -2, "_VERSION");  /* set global _VERSION */
+  return 1;
+}
+
+// Custom version of strlib with some functions (dump) omitted
+static const luaL_Reg tenshi_strlib[] = {
+  {"byte", str_byte},
+  {"char", str_char},
+  {"find", str_find},
+  {"format", str_format},
+  {"gmatch", gmatch},
+  {"gsub", str_gsub},
+  {"len", str_len},
+  {"lower", str_lower},
+  {"match", str_match},
+  {"rep", str_rep},
+  {"reverse", str_reverse},
+  {"sub", str_sub},
+  {"upper", str_upper},
+  {"dumpfloat", dumpfloat_l},
+  {"dumpint", dumpint_l},
+  {"undumpfloat", undumpfloat_l},
+  {"undumpint", undumpint_l},
+  {NULL, NULL}
+};
+
+static int tenshi_open_string(lua_State *L) {
+  luaL_newlib(L, tenshi_strlib);
+  lua_createtable(L, 0, 1);  /* table to be metatable for strings */
+  lua_pushliteral(L, "");  /* dummy string */
+  lua_pushvalue(L, -2);  /* copy table */
+  lua_setmetatable(L, -2);  /* set table as metatable for strings */
+  lua_pop(L, 1);  /* pop dummy string */
+  lua_pushvalue(L, -2);  /* get string library */
+  lua_setfield(L, -2, "__index");  /* metatable.__index = string */
+  lua_pop(L, 1);  /* pop metatable */
+  return 1;
+}
+
+// Tenshi modules (omits some Lua modules, adds some new modules)
+static const luaL_Reg tenshi_loadedlibs[] = {
+  {"_G", tenshi_open_base},
+  {LUA_TABLIBNAME, luaopen_table},
+  {LUA_STRLIBNAME, tenshi_open_string},
+  {LUA_MATHLIBNAME, luaopen_math},
+  {LUA_UTF8LIBNAME, luaopen_utf8},
+  {NULL, NULL}
+};
+
+// We specifically expose only a subset of the normal Lua standard library.
+// This function loads only the functions we want.
+static void TenshiRuntime_openlibs(lua_State *L) {
+  const luaL_Reg *lib;
+  for (lib = tenshi_loadedlibs; lib->func; lib++) {
+    luaL_requiref(L, lib->name, lib->func, 1);
+    lua_pop(L, 1);  /* remove lib */
+  }
+}
 
 TenshiRuntimeState TenshiRuntimeInit(void) {
   TenshiRuntimeState ret;
@@ -35,6 +128,9 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
     TenshiRuntimeDeinit(ret);
     return NULL;
   }
+
+  // Load libraries
+  TenshiRuntime_openlibs(ret->L);
 
   // Set up actor scheduler
   lua_pushcfunction(ret->L, ActorSchedulerInit);
