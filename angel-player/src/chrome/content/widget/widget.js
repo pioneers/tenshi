@@ -161,9 +161,23 @@ var chartRT = function (widget) {
          s4() + '-' + s4() + s4() + s4();
     }
 
-    _self.resizeChart = function() {
+    _self.resizeChartX = function() {
 	var ticks = window.prompt("How many ticks do you want? (number on x-axis)", "Currently "+String(_self.Ticks));
 	if(ticks > 99) {
+	// Shift data when resized
+	if (ticks < _self.Ticks) {
+	    for (i=0; i < _self.Ticks-ticks;i++) {
+	        for (j in _self.DataSeries) {
+            	    _self.DataHistory[j].Data.push(_self.DataSeries[j].Data.shift());
+                }
+	    }
+	} else {
+	    for (i=0; i < ticks-_self.Ticks;i++) {
+	        for (j in _self.DataSeries) {
+            	    _self.DataSeries[j].Data.unshift(_self.DataHistory[j].Data.pop());
+                }
+	    }
+	};
         _self.Ticks = parseInt(ticks);
 	};
         _self.w = _self.Ticks * 3;
@@ -171,8 +185,18 @@ var chartRT = function (widget) {
         _self.Init();
     };
 
+    _self.resizeChartY = function() {
+	var newHeight = window.prompt("How tall do you want the chart to be?", "Currently "+String(_self.height));
+	if (newHeight > 99) {
+	_self.height = parseInt(newHeight);
+	};
+	_self.h = _self.height + _self.margin.top + _self.margin.bottom;
+	_self.Init();
+    };
+
     _self.guid = guid();
     _self.DataSeries = [];
+    _self.DataHistory = [];
     _self.Ticks = 20;
     _self.TickDuration = 200; // 5 Hz
     _self.MaxValue = 10;
@@ -316,7 +340,7 @@ var chartRT = function (widget) {
                 _self.lastTick = _self.thisTick;
                 return;
             }
-            if (id < _self.DataSeries.length - 1 && elapsedTotal > 0) {
+            if (id < _self.DataSeries.length-1 && elapsedTotal > 0) {
                 return;
             }
             _self.lastTick = _self.thisTick;
@@ -327,6 +351,9 @@ var chartRT = function (widget) {
                 while (_self.DataSeries[i].Data.length -1<_self.Ticks+3 ) {
                     _self.DataSeries[i].Data.unshift({ Value: 0 });
                 }
+		while (_self.DataHistory[i].Data.length -1< 400-_self.Ticks+3 ) {
+		    _self.DataHistory[i].Data.unshift({ Value: 0 });
+		}
             }
 
             d3.select("#yName-" + _self.guid).text(_self.yText);
@@ -344,9 +371,9 @@ var chartRT = function (widget) {
 
             //Remove oldest values
             for (i in _self.DataSeries) {
-                _self.DataSeries[i].Data.shift();
+            	_self.DataHistory[i].Data.push(_self.DataSeries[i].Data.shift());
+		_self.DataHistory[i].Data.shift();
             }
-
         };
 
         _self.firstTick = new Date();
@@ -363,6 +390,7 @@ var chartRT = function (widget) {
     _self.addSeries = function (SeriesName) {
         _self.chartSeries[SeriesName] = 0;
         _self.DataSeries.push({ Name: SeriesName, Data: [{ Value: 0}] });
+	_self.DataHistory.push({ Name: SeriesName, Data: [{ Value: 0}] });
         _self.Init();
     };
 
@@ -390,13 +418,15 @@ function buildRTGraph(widget) {
       $(widget).addClass('focus');
 
       context.attach('.focus', [
-        {text: 'Resize Chart',
-          action: chart.resizeChart},
+        {text: 'Resize Chart X',
+          action: chart.resizeChartX},
+        {text: 'Resize Chart Y',
+          action: chart.resizeChartY},
         {text: 'Delete Chart',
           action: removeWidget}
         ]);
     };
-    });
+  });
 
   function removeWidget() {
     $('.focus').remove();
