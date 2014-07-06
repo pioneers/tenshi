@@ -19,20 +19,35 @@
 #include "inc/runtime_internal.h"
 
 int ActorSchedulerInit(lua_State *L) {
-  // This scheduler is the most naive possible scheduler consisting of one
-  // priority level with a FIFO of tasks ready to run. Scheduler state is
-  // stored in the Lua registry.
+  // This scheduler is almost the most naive possible scheduler consisting of
+  // two priority level with a FIFO of tasks ready to run. Scheduler state is
+  // stored in the Lua registry. The low priority level is used for most tasks.
+  // The high priority level is used only for tasks that have become unblocked.
+  // When a task in unblocked, it is appended to the high priority FIFO. As
+  // soon as it is run, it will either be removed completely (exited, yielded)
+  // or it will be preempted. If it is preempted, it gets placed onto the low
+  // priority FIFO.
 
   // Initialize the task set with an empty table. The task set will eventually
   // contain a table with keys being the Lua thread objects and values being
-  // lightuserdata pointing to the actor data in C.
+  // Actor objects. Actor objects are documented in actorlib.c.
   lua_pushstring(L, RIDX_ALLACTORS);
   lua_newtable(L);
   lua_settable(L, LUA_REGISTRYINDEX);
 
   // The runnable queue is a singly-linked list with a last element pointer.
-  // Here we initialize both of them to point to nil.
-  lua_pushstring(L, RIDX_RUNQUEUE);
+  // Here we initialize both head and tail in both queues to be nil.
+  lua_pushstring(L, RIDX_RUNQUEUELO);
+  lua_newtable(L);
+  lua_pushstring(L, "head");
+  lua_pushnil(L);
+  lua_settable(L, -3);
+  lua_pushstring(L, "tail");
+  lua_pushnil(L);
+  lua_settable(L, -3);
+  lua_settable(L, LUA_REGISTRYINDEX);
+
+  lua_pushstring(L, RIDX_RUNQUEUEHI);
   lua_newtable(L);
   lua_pushstring(L, "head");
   lua_pushnil(L);
@@ -72,7 +87,10 @@ TenshiActorState ActorCreate(TenshiRuntimeState s) {
 
   // Add this to the task set
   lua_pushcfunction(ret->L, ActorAddToTaskset);
-  lua_pushlightuserdata(ret->L, ret);
+  if (ActorObjectCreate(ret->L, ret) != LUA_OK) {
+    ActorDestroy(ret);
+    return NULL;
+  }
   if (lua_pcall(ret->L, 1, 0, 0) != LUA_OK) {
     ActorDestroy(ret);
     return NULL;
@@ -113,7 +131,7 @@ static int _ActorDestroyAll(lua_State *L) {
   lua_pushnil(L);
   while (lua_next(L, -2) != 0) {
     // Free the native TenshiActorState (the value)
-    free((TenshiActorState)lua_topointer(L, -1));
+    free(ActorObjectGetCState(L));
     // We have to leave the key, so duplicate it
     lua_pushvalue(L, -2);
     lua_pushnil(L);
@@ -127,7 +145,10 @@ static int _ActorDestroyAll(lua_State *L) {
   lua_pop(L, 1);
 
   // Set the runnable queue to nil and GC should take care of it
-  lua_pushstring(L, RIDX_RUNQUEUE);
+  lua_pushstring(L, RIDX_RUNQUEUELO);
+  lua_pushnil(L);
+  lua_settable(L, LUA_REGISTRYINDEX);
+  lua_pushstring(L, RIDX_RUNQUEUEHI);
   lua_pushnil(L);
   lua_settable(L, LUA_REGISTRYINDEX);
 
@@ -155,95 +176,110 @@ static int _ActorSetRunnable(lua_State *L) {
   lua_settable(L, -3);
 
   // Add ourselves to the back of the runnable list
-  lua_pushstring(L, RIDX_RUNQUEUE);
+  lua_pushvalue(L, -2);
   lua_gettable(L, LUA_REGISTRYINDEX);
 
   lua_pushstring(L, "tail");
   lua_gettable(L, -2);
-  // stack is newobj, runqueue, tailelem
+  // stack is lohi, newobj, runqueue, tailelem
 
   if (lua_isnil(L, -1)) {
     // If there is no runnables list, make it point to us
     lua_pop(L, 1);
-    // stack is newobj, runqueue
+    // stack is lohi, newobj, runqueue
     lua_pushstring(L, "head");
     lua_pushvalue(L, -3);
     lua_settable(L, -3);
     lua_pushstring(L, "tail");
     lua_pushvalue(L, -3);
     lua_settable(L, -3);
-    // stack is newobj, runqueue
-    lua_pop(L, 2);
+    // stack is lohi, newobj, runqueue
+    lua_pop(L, 3);
     return 0;
   } else {
-    // stack is newobj, runqueue, tailelem
+    // stack is lohi, newobj, runqueue, tailelem
     lua_pushstring(L, "next");
     lua_pushvalue(L, -4);
-    // stack is newobj, runqueue, tailelem, "next", newobj
+    // stack is lohi, newobj, runqueue, tailelem, "next", newobj
     lua_settable(L, -3);
     lua_pop(L, 1);
-    // stack is newobj, runqueue
+    // stack is lohi, newobj, runqueue
     // Need to update tail poninter now
     lua_pushstring(L, "tail");
     lua_pushvalue(L, -3);
     lua_settable(L, -3);
-    // stack is newobj, runqueue
-    lua_pop(L, 2);
+    // stack is lohi, newobj, runqueue
+    lua_pop(L, 3);
     return 0;
   }
 }
 
-int ActorSetRunnable(TenshiActorState a) {
+int ActorSetRunnable(TenshiActorState a, int highPriority) {
   lua_pushcfunction(a->L, _ActorSetRunnable);
-  return lua_pcall(a->L, 0, 0, 0);
+  if (highPriority) {
+    lua_pushstring(a->L, RIDX_RUNQUEUEHI);
+  } else {
+    lua_pushstring(a->L, RIDX_RUNQUEUELO);
+  }
+  return lua_pcall(a->L, 1, 0, 0);
 }
 
 // Called in protected mode
 static int _ActorDequeueHead(lua_State *L) {
-  lua_pushstring(L, RIDX_RUNQUEUE);
+  lua_pushstring(L, RIDX_RUNQUEUEHI);
   lua_gettable(L, LUA_REGISTRYINDEX);
   lua_pushstring(L, "head");
   lua_gettable(L, -2);
-  // stack is runqueue, headelem
+  // stack is runqueuehi, headelem
 
   if (lua_isnil(L, -1)) {
-    // No actor!
+    // No high priority, how about low?
     lua_pop(L, 2);
-    lua_pushnil(L);
-    return 1;
-  } else {
-    lua_pushstring(L, "thread");
+    lua_pushstring(L, RIDX_RUNQUEUELO);
+    lua_gettable(L, LUA_REGISTRYINDEX);
+    lua_pushstring(L, "head");
     lua_gettable(L, -2);
-    lua_pushstring(L, "next");
-    lua_gettable(L, -3);
-    // stack is runqueue, headelem, thread, nextelem
+    // stack is runqueuelo, headelem
     if (lua_isnil(L, -1)) {
-      // This was the only thread
-      lua_pushstring(L, "head");
+      // No low priority either, so nothing at all.
+      lua_pop(L, 2);
       lua_pushnil(L);
-      lua_settable(L, -6);
-      lua_pushstring(L, "tail");
-      lua_pushnil(L);
-      lua_settable(L, -6);
-      // stack is runqueue, headelem, thread, nextelem
-      lua_copy(L, -2, -4);
-      lua_pop(L, 3);
-      return 1;
-    } else {
-      // Other threads exist
-      lua_pushstring(L, "head");
-      lua_pushvalue(L, -2);
-      // stack is runqueue, headelem, thread, nextelem, "head", nextelem
-      lua_settable(L, -6);
-      lua_copy(L, -2, -4);
-      lua_pop(L, 3);
       return 1;
     }
+  }
+
+  // stack is runqueue(hi/lo), headelem
+  lua_pushstring(L, "thread");
+  lua_gettable(L, -2);
+  lua_pushstring(L, "next");
+  lua_gettable(L, -3);
+  // stack is runqueue, headelem, thread, nextelem
+  if (lua_isnil(L, -1)) {
+    // This was the only thread
+    lua_pushstring(L, "head");
+    lua_pushnil(L);
+    lua_settable(L, -6);
+    lua_pushstring(L, "tail");
+    lua_pushnil(L);
+    lua_settable(L, -6);
+    // stack is runqueue, headelem, thread, nextelem
+    lua_copy(L, -2, -4);
+    lua_pop(L, 3);
+    return 1;
+  } else {
+    // Other threads exist
+    lua_pushstring(L, "head");
+    lua_pushvalue(L, -2);
+    // stack is runqueue, headelem, thread, nextelem, "head", nextelem
+    lua_settable(L, -6);
+    lua_copy(L, -2, -4);
+    lua_pop(L, 3);
+    return 1;
   }
 }
 
 // Called in protected mode
-static int ActorFindInTaskset(lua_State *L) {
+int ActorFindInTaskset(lua_State *L) {
   if (lua_isnil(L, 1)) return 1;
 
   lua_pushstring(L, RIDX_ALLACTORS);
@@ -274,7 +310,7 @@ int ActorDequeueHead(TenshiRuntimeState s, TenshiActorState *a_out) {
   if (lua_isnil(s->L, -1))
     *a_out = NULL;
   else
-    *a_out = (TenshiActorState)lua_topointer(s->L, -1);
+    *a_out = ActorObjectGetCState(s->L);
   lua_pop(s->L, 1);
 
   return LUA_OK;

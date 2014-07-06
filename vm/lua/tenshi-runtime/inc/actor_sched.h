@@ -20,11 +20,13 @@
 
 typedef struct _TenshiActorState* TenshiActorState;
 
+#include "inc/actorlib.h"
 #include "inc/runtime_entry.h"
 #include "lua.h"  // NOLINT(build/include)
 
 #define RIDX_ALLACTORS    "tenshi.allActors"
-#define RIDX_RUNQUEUE     "tenshi.runQueue"
+#define RIDX_RUNQUEUELO   "tenshi.runQueueLo"
+#define RIDX_RUNQUEUEHI   "tenshi.runQueueHi"
 
 // To be called in protected mode.
 extern int ActorSchedulerInit(lua_State *L);
@@ -34,12 +36,16 @@ extern TenshiActorState ActorCreate(TenshiRuntimeState s);
 extern void ActorDestroy(TenshiActorState a);
 
 // Returns LUA_OK on success
-extern int ActorSetRunnable(TenshiActorState a);
+extern int ActorSetRunnable(TenshiActorState a, int highPriority);
 
 // Returns LUA_OK on success.
 extern int ActorDequeueHead(TenshiRuntimeState s, TenshiActorState *a_out);
 
 // Close all actors, used for shutting down VM
 extern void ActorDestroyAll(TenshiRuntimeState s);
+
+// To be called in protected mode. Takes one argument, the thread to look up,
+// and returns one argument, the found actor object.
+extern int ActorFindInTaskset(lua_State *L);
 
 #endif  // INC_ACTOR_SCHED_H_

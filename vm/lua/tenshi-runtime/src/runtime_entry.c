@@ -19,6 +19,7 @@
 
 #include <stdlib.h>
 #include "inc/actor_sched.h"
+#include "inc/actorlib.h"
 #include "inc/runtime_internal.h"
 #include "lua.h"        // NOLINT(build/include)
 #include "lualib.h"     // NOLINT(build/include)
@@ -132,6 +133,10 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   // Load libraries
   TenshiRuntime_openlibs(ret->L);
 
+  // Load actor library. This is special because it loads into the global
+  // scope and not into a specific module.
+  tenshi_open_actor(ret->L);
+
   // Set up actor scheduler
   lua_pushcfunction(ret->L, ActorSchedulerInit);
   if (lua_pcall(ret->L, 0, 0, 0) != LUA_OK) {
@@ -141,6 +146,11 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
 
   // Set up preemption trick
   threading_setup(ret->L);
+
+  // Store ourselves into the registry
+  lua_pushstring(ret->L, RIDX_RUNTIMESTATE);
+  lua_pushlightuserdata(ret->L, ret);
+  lua_settable(ret->L, LUA_REGISTRYINDEX);
 
   return ret;
 }
@@ -204,7 +214,7 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
     } else if (ret == THREADING_PREEMPT) {
       // Requeue it
       printf("Thread preempted!\n");
-      ret = ActorSetRunnable(a);
+      ret = ActorSetRunnable(a, 0);
       if (ret != LUA_OK) return ret;
     }
   }

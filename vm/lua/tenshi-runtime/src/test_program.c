@@ -30,10 +30,27 @@ int main(int argc, char **argv) {
   // const char studentcode[] =
   //   "x = 42";
 
+  // const char studentcode[] =
+  //   "i = 0\n"
+  //   "while true do\n"
+  //   "    print(\"Hello world!\")\n"
+  //   "    print(math.pi)\n"
+  //   "    i = i + 1\n"
+  //   "    if i > 300 then\n"
+  //   "        get_own_actor():stop()\n"
+  //   "    end\n"
+  //   "end";
+
   const char studentcode[] =
-    "while true do\n"
-    "    print(\"Hello world!\")\n"
-    "    print(math.pi)\n"
+    "function b()\n"
+    "    for i = 1,500,1 do\n"
+    "        print(\"b: \" .. i)\n"
+    "    end\n"
+    "end\n"
+    "\n"
+    "start_actor(b)\n"
+    "for i = 1,500,1 do\n"
+    "    print(\"a: \" .. i)\n"
     "end";
 
   TenshiActorState a;
@@ -41,7 +58,7 @@ int main(int argc, char **argv) {
   int ret = LoadStudentcode(s, studentcode, strlen(studentcode), &a);
   printf("LoadStudentcode: %d, TenshiActorState: %p\n", ret, a);
 
-  ret = ActorSetRunnable(a);
+  ret = ActorSetRunnable(a, 1);
   printf("ActorSetRunnable: %d\n", ret);
 
   int i = 0;

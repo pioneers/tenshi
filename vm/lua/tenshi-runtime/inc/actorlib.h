@@ -15,29 +15,23 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_RUNTIME_ENTRY_H_
-#define INC_RUNTIME_ENTRY_H_
-
-#include <stdlib.h>
-
-typedef struct _TenshiRuntimeState* TenshiRuntimeState;
+#ifndef INC_ACTORLIB_H_
+#define INC_ACTORLIB_H_
 
 #include "inc/actor_sched.h"
+#include "lua.h"  // NOLINT(build/include)
 
-#define QUANTA_OPCODES  1000
+// Key used to store the actor object metatable in the Lua registry
+#define RIDX_ACTORLIB_METATABLE   "tenshi.actorlib.metatable"
 
-#define RIDX_RUNTIMESTATE   "tenshi.globalCState"
+extern void tenshi_open_actor(lua_State *L);
 
-extern TenshiRuntimeState TenshiRuntimeInit(void);
-extern void TenshiRuntimeDeinit(TenshiRuntimeState s);
+// Create an actor object wrapping the passed-in TenshiActorState and leave
+// it on the top of L's stack. Returns the same arguments as lua_pcall.
+extern int ActorObjectCreate(lua_State *L, TenshiActorState a);
 
-// Returns the same values as lua_load. Automatically creates a new actor for
-// the loaded code.
-extern int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
-  TenshiActorState *actor_state);
+// Gets the TenshiActorState corresponding to the actor object on the top of
+// L's stack. Does not pop the passed in object.
+extern TenshiActorState ActorObjectGetCState(lua_State *L);
 
-// Runs the interpreter for QUANTA_OPCODES opcodes. Automatically handles
-// scheduling, etc. Returns LUA_OK on success.
-extern int TenshiRunQuanta(TenshiRuntimeState s);
-
-#endif  // INC_RUNTIME_ENTRY_H_
+#endif  // INC_ACTORLIB_H_
