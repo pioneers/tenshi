@@ -1,6 +1,6 @@
 // This file handles enumeration packets
 
-#include "inc/enumeration.h"
+#include "inc/smartsensor/enumeration.h"
 
 #define TYPE_ENUMERATION_ENTER 0xF0
 #define TYPE_ENUMERATION_EXIT 0xF1

@@ -1,6 +1,6 @@
 
-#ifndef INC_PINUTIL_H_
-#define INC_PINUTIL_H_
+#ifndef INC_SMARTSENSOR_PINUTIL_H_
+#define INC_SMARTSENSOR_PINUTIL_H_
 
 #include <avr/io.h>
 
@@ -48,4 +48,4 @@
 
 
 
-#endif  // INC_PINUTIL_H_
+#endif  // INC_SMARTSENSOR_PINUTIL_H_

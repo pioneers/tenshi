@@ -1,7 +1,7 @@
 // This file handles maintenance packets
 
 #include <string.h>
-#include "inc/maintenance.h"
+#include "inc/smartsensor/maintenance.h"
 
 #define TYPE_PING_PONG    0xFE
 #define TYPE_SLAVE_CONFIG 0xD0

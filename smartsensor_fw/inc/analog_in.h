@@ -2,7 +2,7 @@
 #ifndef INC_ANALOG_IN_H_
 #define INC_ANALOG_IN_H_
 
-#include "inc/common.h"
+#include "inc/smartsensor/common.h"
 
 // Public functions called from main.c
 void initAnalogIn();
