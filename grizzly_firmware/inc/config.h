@@ -1,0 +1,10 @@
+
+#ifndef INC_CONFIG_H_
+#define INC_CONFIG_H_
+
+#define SENSOR_TYPE_GRIZZLY3 0x80
+
+#define SENSOR_TYPE SENSOR_TYPE_GRIZZLY3
+
+
+#endif  // INC_CONFIG_H_
