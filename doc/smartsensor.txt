@@ -228,11 +228,11 @@ noncontiguous blocks, it must stop transmitting after each block and must send
 a new slave reply header each time.
 
 The structure of the slave reply header is as follows:
-    |---------------------------------------------|
-    | 0x00 | in-band signalling  length | payload |
-    |---------------------------------------------|
+    |---------------------------------------------------------------------------------|
+    | 0x00 | 0 has payload  sample#  subchunk# | in-band signalling  length | payload |
+    |---------------------------------------------------------------------------------|
 
-The second byte contains an in-band signalling bit in bit7 and a length of the
+The third byte contains an in-band signalling bit in bit7 and a length of the
 entire reply packet in bits 0-6. If the in-band signalling bit is set, the
 payload is interpreted as some in-band signalling command defined later.
 Otherwise, the payload is interpreted as normal sample data. The payload is
