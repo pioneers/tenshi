@@ -62,4 +62,46 @@
 #define PINDEF_LEDGRN           D, 6
 #define PINDEF_LEDRED           D, 4
 
+
+
+// ////////////////////////////
+// Smart sensor pin definitions
+#include "inc/smartsensor/pinutil.h"
+
+#define F_CPU 16000000  // AVR clock frequency in Hz, used by util/delay.h, etc.
+
+// Different pin definition for ATMega32U4
+// DDR is now DD
+// Pull ups are controlled by the PORT register
+#define PIN_DEFINITION(PORT_LETTER, PIN_NUMBER) \
+          PORT##PORT_LETTER, P##PORT_LETTER##PIN_NUMBER, \
+          PIN##PORT_LETTER, PIN##PORT_LETTER##PIN_NUMBER, \
+          DDR##PORT_LETTER, DD##PORT_LETTER##PIN_NUMBER, \
+          PORT##PORT_LETTER, P##PORT_LETTER##PIN_NUMBER
+
+// Pin definitions
+#define SS_UART_TX   PIN_DEFINITION(D, 3)
+#define SS_UART_RX   PIN_DEFINITION(D, 2)
+#define SS_UART_TXE  PIN_DEFINITION(E, 6)
+#define SS_UART_nRXE PIN_DEFINITION(D, 5)  // Inverted RX enable pin
+
+// Smart sensor bus UART registers
+#define SS_UCSRnA UCSR1A
+#define SS_U2Xn U2X1
+#define SS_UBRRnH UBRR1H
+#define SS_UBRRnL UBRR1L
+#define SS_UCSRnB UCSR1B
+#define SS_RXENn RXEN1
+#define SS_TXENn TXEN1
+#define SS_RXCIEn RXCIE1
+#define SS_UCSRnC UCSR1C
+#define SS_USBSn USBS1
+#define SS_UCSZn0 UCSZ10
+#define SS_UCSZn1 UCSZ11
+#define SS_UCSRnA UCSR1A
+#define SS_UDREn UDRE1
+#define SS_UDRn UDR1
+#define SS_USARTn__RX_vect USART1__RX_vect
+
+
 #endif  // INC_PINDEF_H_

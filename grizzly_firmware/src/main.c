@@ -35,6 +35,8 @@
 #include "inc/pwm.h"
 #include "inc/twi_state_machine.h"
 
+#include "inc/smartsensor/common.h"
+
 // Registers
 unsigned char pwm_mode;
 DECLARE_I2C_REGISTER_C(FIXED1616, target_speed);
@@ -423,6 +425,8 @@ void init_hardware(void) {
   init_led();
 
   USB_Init();
+
+  ssInit();  // Initialize smart sensor protocol
 }
 
 int main(void) {
@@ -447,5 +451,7 @@ int main(void) {
 
       PORT(PINDEF_DIP2) |= _BV(IO(PINDEF_DIP2));  // Lower debug pin low
     }
+
+    ssMainUpdate();
   }
 }
