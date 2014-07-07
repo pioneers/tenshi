@@ -15,21 +15,20 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_RUNTIME_INTERNAL_H_
-#define INC_RUNTIME_INTERNAL_H_
+#ifndef INC_MBOXLIB_H_
+#define INC_MBOXLIB_H_
 
-struct _TenshiRuntimeState {
-  // Lua state object -- refers to "main" thread (that never executes)
-  lua_State *L;
-};
+#include "lua.h"  // NOLINT(build/include)
 
-struct _TenshiActorState {
-  // Main runtime data structure pointer
-  TenshiRuntimeState s;
-  // This actor's lua_State
-  lua_State *L;
-  // Set to true if this actor is blocked. Prevents multiple unblocking.
-  int isblocked;
-};
+extern void tenshi_open_mbox(lua_State *L);
 
-#endif  // INC_RUNTIME_INTERNAL_H_
+// Creates a new mailbox internal state (not associated with anything)
+// and leaves it at the top of the stack. To be called in protected mode.
+extern int MBoxCreateInternal(lua_State *L);
+
+// Creates a new public, Lua-facing mailbox wrapping the internal mailbox
+// state on the stack and returns the new mailbox wrapper. To be called in
+// protected mode.
+extern int MBoxCreate(lua_State *L);
+
+#endif  // INC_MBOXLIB_H_
