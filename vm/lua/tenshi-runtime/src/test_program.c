@@ -44,13 +44,15 @@ int main(int argc, char **argv) {
   const char studentcode[] =
     "function b()\n"
     "    for i = 1,500,1 do\n"
-    "        print(\"b: \" .. i)\n"
+    "        send(a_actor, i)\n"
+    "        print(\"sent: \" .. i)\n"
     "    end\n"
     "end\n"
     "\n"
+    "a_actor = get_own_actor()\n"
     "start_actor(b)\n"
     "for i = 1,500,1 do\n"
-    "    print(\"a: \" .. i)\n"
+    "    print(\"recv: \" .. recv(a_actor))\n"
     "end";
 
   TenshiActorState a;

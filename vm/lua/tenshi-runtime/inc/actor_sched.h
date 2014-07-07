@@ -48,4 +48,10 @@ extern void ActorDestroyAll(TenshiRuntimeState s);
 // and returns one argument, the found actor object.
 extern int ActorFindInTaskset(lua_State *L);
 
+// Returns LUA_OK on success
+extern int ActorSetBlocked(TenshiActorState a);
+
+// Returns LUA_OK on success
+extern int ActorSetUnblocked(TenshiActorState a);
+
 #endif  // INC_ACTOR_SCHED_H_

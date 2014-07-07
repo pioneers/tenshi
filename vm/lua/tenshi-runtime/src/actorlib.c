@@ -19,10 +19,12 @@
 // {
 //    <metatable> = <tenshi.actorlib.metatable>
 //    __cstate = <TenshiActorState>
+//    __mbox = <Mailbox internal state>
 //    -- TODO(rqou): More objects later?
 // }
 
 #include "inc/actorlib.h"
+#include "inc/mboxlib.h"
 #include "inc/runtime_entry.h"
 #include "inc/runtime_internal.h"
 #include "lauxlib.h"    // NOLINT(build/include)
@@ -72,6 +74,13 @@ static int _ActorObjectCreate(lua_State *L) {
   lua_copy(L, -1, -2);
   lua_pop(L, 1);
   // Stack is newtable
+
+  // Create associated mailbox
+  lua_pushstring(L, "__mbox");
+  lua_pushcfunction(L, MBoxCreateInternal);
+  lua_pcall(L, 0, 1, 0);
+  lua_settable(L, -3);
+
   // Set its metatable
   lua_pushstring(L, RIDX_ACTORLIB_METATABLE);
   lua_gettable(L, LUA_REGISTRYINDEX);

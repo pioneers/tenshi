@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include "inc/actor_sched.h"
 #include "inc/actorlib.h"
+#include "inc/mboxlib.h"
 #include "inc/runtime_internal.h"
 #include "lua.h"        // NOLINT(build/include)
 #include "lualib.h"     // NOLINT(build/include)
@@ -136,6 +137,8 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   // Load actor library. This is special because it loads into the global
   // scope and not into a specific module.
   tenshi_open_actor(ret->L);
+  // Load mailbox library. Similar thing.
+  tenshi_open_mbox(ret->L);
 
   // Set up actor scheduler
   lua_pushcfunction(ret->L, ActorSchedulerInit);
@@ -209,8 +212,9 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
       printf("Thread exited!\n");
       ActorDestroy(a);
     } else if (ret == THREADING_YIELD) {
-      printf("ERROR: Yield to block not implemented!\n");
-      return LUA_ERRRUN;
+      printf("Thread yielded (blocked)!\n");
+      ret = ActorSetBlocked(a);
+      if (ret != LUA_OK) return ret;
     } else if (ret == THREADING_PREEMPT) {
       // Requeue it
       printf("Thread preempted!\n");

@@ -79,6 +79,7 @@ TenshiActorState ActorCreate(TenshiRuntimeState s) {
   if (!ret) return NULL;
 
   ret->s = s;
+  ret->isblocked = 0;
   ret->L = lua_newthread(s->L);
   if (!ret->L) {
     ActorDestroy(ret);
@@ -313,5 +314,20 @@ int ActorDequeueHead(TenshiRuntimeState s, TenshiActorState *a_out) {
     *a_out = ActorObjectGetCState(s->L);
   lua_pop(s->L, 1);
 
+  return LUA_OK;
+}
+
+int ActorSetBlocked(TenshiActorState a) {
+  a->isblocked = 1;
+  return LUA_OK;
+}
+
+int ActorSetUnblocked(TenshiActorState a) {
+  if (a->isblocked) {
+    a->isblocked = 0;
+    return ActorSetRunnable(a, 1);
+  }
+
+  // Trying to unblock an unblocked actor is ok.
   return LUA_OK;
 }
