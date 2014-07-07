@@ -2,8 +2,10 @@
 #ifndef INC_PINDEF_H_
 #define INC_PINDEF_H_
 
-#include <avr/interrupt.h>
-#include "inc/pinutil.h"
+#include "inc/smartsensor/pinutil.h"
+
+
+#define F_CPU 8000000  // AVR clock frequency in Hz, used by util/delay.h, etc.
 
 // Pin definitions
 #define IN0        PIN_DEFINITION(C, 1)

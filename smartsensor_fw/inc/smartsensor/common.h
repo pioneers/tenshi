@@ -1,6 +1,6 @@
 
-#ifndef INC_COMMON_H_
-#define INC_COMMON_H_
+#ifndef INC_SMARTSENSOR_COMMON_H_
+#define INC_SMARTSENSOR_COMMON_H_
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -9,7 +9,6 @@
 #include "inc/config.h"
 
 
-#define F_CPU 8000000  // AVR clock frequency in Hz, used by util/delay.h
 #define SMART_BAUD 500000  // Smartsensor baud rate
 #define SMART_ID_LEN 8   // Length of smartsensor personal ID
 
@@ -28,4 +27,10 @@ uint8_t my_frames[SS_NUM_FRAMES];
 extern uint32_t sample_rate;  // hardcoded for now;
 
 
-#endif  // INC_COMMON_H_
+
+void ssInit();
+void ssMainUpdate();
+
+
+
+#endif  // INC_SMARTSENSOR_COMMON_H_
