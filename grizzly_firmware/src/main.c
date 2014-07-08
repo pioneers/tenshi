@@ -449,9 +449,11 @@ int main(void) {
       read_adc();
       run_control_loop();
 
-      PORT(PINDEF_DIP2) |= _BV(IO(PINDEF_DIP2));  // Lower debug pin low
+      PORT(PINDEF_DIP2) &= ~(_BV(IO(PINDEF_DIP2)));  // Lower debug pin low
     }
 
     ssMainUpdate();
   }
 }
+
+EMPTY_INTERRUPT(BADISR_vect);
