@@ -7,6 +7,6 @@
 // Public functions called from main.c
 void initDigital();
 void activeDigitalRec(uint8_t *data, uint8_t len, uint8_t inband);
-void activeDigitalSend(uint8_t *outData, uint8_t *outLen);
+void activeDigitalSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband);
 
 #endif  // INC_DIGITAL_H_

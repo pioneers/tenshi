@@ -31,7 +31,7 @@ void activeDigitalRec(uint8_t *data, uint8_t len, uint8_t inband) {
     DIGITAL_SET(IN3, data[0] & 8);  // UPDATE IN3
   }
 }
-void activeDigitalSend(uint8_t *outData, uint8_t *outLen) {
+void activeDigitalSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
   *outLen = 1;
   outData[0] = (~(DIGITAL_READ(IN0))) & 0x1;
 }
