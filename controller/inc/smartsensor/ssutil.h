@@ -8,6 +8,8 @@
 #include "inc/uart_serial_driver.h"
 
 
+#define GRIZZLY_DEFAULT_MODE 0x03  // No PID
+
 #define SMART_ID_LEN 8   // Length of smartsensor personal ID
 #define SS_MAX_ACTIVE_LEN (16-4)  // Most bytes that can be sent to a sensor
                                   // during active bus mode.
@@ -61,6 +63,8 @@ extern xSemaphoreHandle sensorArrLock;
 // Functions to enable external code to set and read sensors
 void ss_set_digital_value(int sensorIndex, uint8_t val);
 uint8_t ss_get_digital_value(int sensorIndex);
+
+void ss_set_motor_value(int sensorIndex, uint8_t mode, double speed);
 
 void ss_set_value(int sensorIndex, uint8_t *data, size_t len);
 // len is the maximum number to be stored in the data buffer.

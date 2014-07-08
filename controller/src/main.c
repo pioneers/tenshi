@@ -37,7 +37,7 @@ uint8_t PiEMOSDigitalVals[8];
 // TODO(rqou): Wat r abstraction?
 // TODO(rqou): My macro-fu is not up to par
 extern ngl_error *ngl_set_motor(ngl_float motor, ngl_float val);
-static int lua_set_motor(lua_State *L) {
+static int lua_set_motor_old(lua_State *L) {
   ngl_error *ret = ngl_set_motor(lua_tonumber(L, 1), lua_tonumber(L, 2));
   // TODO(rqou): Um, I don't think this is how it's supposed to work?
   lua_pushnumber(L, ret == ngl_ok);
@@ -76,7 +76,7 @@ static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
     luaL_openlibs(L);
 
     // Register builtins
-    lua_register(L, "set_motor", lua_set_motor);
+    lua_register(L, "set_motor_old", lua_set_motor_old);
     lua_register(L, "get_sensor", lua_get_sensor);
     lua_register_all(L);
 

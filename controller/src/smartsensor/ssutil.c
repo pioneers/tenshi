@@ -29,6 +29,17 @@ uint8_t ss_get_digital_value(int sensorIndex) {
   return result;
 }
 
+void ss_set_motor_value(int sensorIndex, uint8_t mode, double speed) {
+  uint8_t data[5];
+  data[0] = mode;
+  int32_t speed32 = (int32_t)(speed * 65536.f);
+  data[1] = speed32;
+  data[2] = speed32 >> 8;
+  data[3] = speed32 >> 16;
+  data[4] = speed32 >> 24;
+  ss_set_value(sensorIndex, data, 5);
+}
+
 void ss_set_value(int sensorIndex, uint8_t *data, size_t len) {
   if (numSensors > sensorIndex) {
     SSState *sensor = sensorArr[sensorIndex];

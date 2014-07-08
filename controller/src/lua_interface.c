@@ -14,6 +14,7 @@ void lua_register_all(lua_State *L) {
   LUA_REGISTER(get_button);
   LUA_REGISTER(get_digital);
   LUA_REGISTER(set_digital);
+  LUA_REGISTER(set_motor);
 }
 
 int lua_set_led(lua_State *L) {
@@ -42,6 +43,17 @@ int lua_set_digital(lua_State *L) {
   uint8_t sensorVal = (uint8_t)lua_tonumber(L, 2);
 
   ss_set_digital_value(sensorIndex, sensorVal);
+
+  lua_pushnumber(L, 1);  // 1 means ok.
+  return 1;
+}
+
+int lua_set_motor(lua_State *L) {
+  int sensorIndex = lua_tonumber(L, 1);
+  uint8_t mode = GRIZZLY_DEFAULT_MODE;
+  double speed = lua_tonumber(L, 2);
+
+  ss_set_motor_value(sensorIndex, mode, speed);
 
   lua_pushnumber(L, 1);  // 1 means ok.
   return 1;
