@@ -15,21 +15,20 @@ void ssInitType() {
   }
 }
 
-void ssActiveSend(uint8_t *decodedBuffer, uint8_t *pacLen) {
+void ssActiveSend(uint8_t *decodedBuffer, uint8_t *pacLen, uint8_t *inband) {
   switch (SENSOR_TYPE) {
     case SENSOR_TYPE_GRIZZLY3:
-      activeGrizzly3Send(decodedBuffer, pacLen);
+      activeGrizzly3Send(decodedBuffer, pacLen, inband);
       break;
     default: break;
     // TODO(cduck): Add more smart sensors types
   }
 }
 
-void ssActiveInRec(uint8_t *decodedBuffer, uint8_t dataLen,
-  uint8_t in_band_sigFlag) {
+void ssActiveInRec(uint8_t *decodedBuffer, uint8_t dataLen, uint8_t inband) {
   switch (SENSOR_TYPE) {
     case SENSOR_TYPE_GRIZZLY3:
-      activeGrizzly3Rec(decodedBuffer, dataLen, in_band_sigFlag);
+      activeGrizzly3Rec(decodedBuffer, dataLen, inband);
       break;
     default: break;
     // TODO(cduck): Add more smart sensors types

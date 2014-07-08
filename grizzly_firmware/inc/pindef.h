@@ -101,7 +101,7 @@
 #define SS_UCSRnA UCSR1A
 #define SS_UDREn UDRE1
 #define SS_UDRn UDR1
-#define SS_USARTn__RX_vect USART1__RX_vect
+#define SS_USARTn__RX_vect USART1_RX_vect
 
 
 #endif  // INC_PINDEF_H_
