@@ -22,7 +22,7 @@ void activeAnalogInRec(uint8_t *data, uint8_t len, uint8_t inband) {
   // there's no information coming from the controller.
   // I'll need this for the analog out code, though.
 }
-void activeAnalogInSend(uint8_t *outData, uint8_t *outLen) {
+void activeAnalogInSend(uint8_t *outData, uint8_t *outLen, uint8_t inband) {
   *outLen = 1;
   outData[0] = adc_read();  // see below for this one.
 }

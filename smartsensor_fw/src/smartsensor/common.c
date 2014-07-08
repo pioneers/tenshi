@@ -71,12 +71,13 @@ void ssInit() {
 void ssMainUpdate() {
   if (activeSendFlag) {
     uint8_t pacLen = 0;
-    ssActiveSend(decodedBuffer, &pacLen);
+    uint8_t inband = 0;
+    ssActiveSend(decodedBuffer, &pacLen, &inband);
     // Send reply active packet
     if (pacLen > 0 && pacLen <= ACTIVE_PACKET_MAX_LEN) {
       encodedBuffer[0] = 0x00;
       encodedBuffer[1] = packetType;
-      encodedBuffer[2] = pacLen+4;
+      encodedBuffer[2] = ((!!inband) << 7) | (pacLen+4);
       cobs_encode(encodedBuffer+3, decodedBuffer, pacLen);
       serialPrint(encodedBuffer, pacLen+4);
     }
