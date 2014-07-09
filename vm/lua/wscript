@@ -72,17 +72,18 @@ def build(bld):
         includes="src"
     )
 
-    bld.program(
-        target='lua',
-        source='src/lua.c',
-        use='lua_objects math'
-    )
+    if 'native' in bld.variant:
+        bld.program(
+            target='lua',
+            source='src/lua.c',
+            use='lua_objects math'
+        )
 
-    bld.program(
-        target='luac',
-        source='src/luac.c',
-        use='lua_objects math'
-    )
+        bld.program(
+            target='luac',
+            source='src/luac.c',
+            use='lua_objects math'
+        )
 
     if 'emscripten' in bld.variant:
         # Using emscripten, build a .so, and from that build a .js.
