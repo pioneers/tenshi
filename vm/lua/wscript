@@ -26,6 +26,7 @@ def configure_emscripten(conf):
 def configure_debug_native(conf):
     conf.load('compiler_c')
     conf.check_cc(lib='m', uselib_store='math', mandatory=True)
+    conf.env.append_value('CFLAGS', '-std=gnu99')
     conf.load('ar')
     conf.env.append_value('CFLAGS', '-g')
 
