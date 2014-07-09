@@ -67,8 +67,6 @@ then
     exit 0
 fi
 
-cp new-src-hash src-hash
-
 # Prepare Mac/Linux/Windows version. Use an awful hack to combine them.
 rm -rf angel-player.app
 mkdir angel-player.app
@@ -104,5 +102,7 @@ $PROJECT_ROOT_DIR/tools/inject-version-angel-player.py $ANGEL_PLAYER_MAIN_DIR/sr
 
 # Archive the output
 tar cjf ../artifacts/angel-player.tar.bz2 angel-player.app
+
+cp new-src-hash src-hash
 
 popd
