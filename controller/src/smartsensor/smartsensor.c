@@ -43,8 +43,8 @@ typedef enum {
 // Initialize with -1
 // Specifies the index of the sensor in sensorArr assigned to a given sample
 // and frame (both zero indexed).
-int16_t sensorMapping[SS_NUM_SAMPLES][SS_NUM_FRAMES] = {{-1}};
-SS_BUS_STATE busState = SS_BUS_ENUMERATION;
+volatile int16_t sensorMapping[SS_NUM_SAMPLES][SS_NUM_FRAMES] = {{-1}};
+volatile SS_BUS_STATE busState = SS_BUS_ENUMERATION;
 
 
 
