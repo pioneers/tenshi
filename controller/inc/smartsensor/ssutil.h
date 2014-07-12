@@ -64,6 +64,9 @@ extern xSemaphoreHandle sensorArrLock;
 void ss_set_digital_value(int sensorIndex, uint8_t val);
 uint8_t ss_get_digital_value(int sensorIndex);
 
+void ss_set_analog_value(int sensorIndex, unsigned int val);
+unsigned int ss_get_analog_value(int sensorIndex);
+
 void ss_set_motor_value(int sensorIndex, uint8_t mode, double speed);
 
 void ss_set_value(int sensorIndex, uint8_t *data, size_t len);

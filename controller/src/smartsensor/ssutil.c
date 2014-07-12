@@ -29,6 +29,26 @@ uint8_t ss_get_digital_value(int sensorIndex) {
   return result;
 }
 
+void ss_set_analog_value(int sensorIndex, unsigned int val) {
+  #define val_len 4
+  uint8_t data[val_len] = {val, val>>8, val>>16, val>>24};
+  ss_set_value(sensorIndex, data, val_len);
+  #undef val_len
+}
+unsigned int ss_get_analog_value(int sensorIndex) {
+  #define val_len 4
+  // If no value has been recieved yet default to 0.
+  uint8_t data[val_len] = {0};
+  ss_get_value(sensorIndex, data, val_len);
+
+  uint32_t result = 0;
+  for (uint8_t i = 0; i < val_len; ++i) {
+    result |= ((uint32_t)data[i]) << (i*8);
+  }
+  return (unsigned int)result;
+  #undef val_len
+}
+
 void ss_set_motor_value(int sensorIndex, uint8_t mode, double speed) {
   uint8_t data[5];
   data[0] = mode;

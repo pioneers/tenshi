@@ -14,6 +14,8 @@ void lua_register_all(lua_State *L) {
   LUA_REGISTER(get_button);
   LUA_REGISTER(get_digital);
   LUA_REGISTER(set_digital);
+  LUA_REGISTER(get_analog);
+  LUA_REGISTER(set_analog);
   LUA_REGISTER(set_motor);
 }
 
@@ -43,6 +45,21 @@ int lua_set_digital(lua_State *L) {
   uint8_t sensorVal = (uint8_t)lua_tonumber(L, 2);
 
   ss_set_digital_value(sensorIndex, sensorVal);
+
+  lua_pushnumber(L, 1);  // 1 means ok.
+  return 1;
+}
+
+int lua_get_analog(lua_State *L) {
+  int sensorIndex = lua_tonumber(L, 1);
+  lua_pushnumber(L, ss_get_analog_value(sensorIndex));
+  return 1;
+}
+int lua_set_analog(lua_State *L) {
+  int sensorIndex = lua_tonumber(L, 1);
+  unsigned int sensorVal = (unsigned int)lua_tonumber(L, 2);
+
+  ss_set_analog_value(sensorIndex, sensorVal);
 
   lua_pushnumber(L, 1);  // 1 means ok.
   return 1;
