@@ -9,12 +9,15 @@ const global_state = require('tenshi/common/global_state');
 const robot_application = require('tenshi/common/robot_application');
 const xbee = require('tenshi/common/xbee');
 
+const XBEE_FRAMING_YAML_FILE =
+    'chrome://angel-player/content/common_defs/xbee_typpo.yaml';
 const PIEMOS_FRAMING_YAML_FILE =
     'chrome://angel-player/content/common_defs/legacy_piemos_framing.yaml';
 
 // Init Typpo
 let typpo = typpo_module.make();
 typpo.set_target_type('ARM');
+typpo.load_type_file(url.toFilename(XBEE_FRAMING_YAML_FILE), false);
 typpo.load_type_file(url.toFilename(PIEMOS_FRAMING_YAML_FILE), false);
 
 exports.sendPacketizedData = function(data) {
@@ -27,7 +30,7 @@ exports.sendPacketizedData = function(data) {
     if (!robotApp.radio_pairing_info) {
         throw "No radio address set!";
     }
-    let ROBOT = "0x" + robotApp.radio_pairing_info;
+    let ROBOT = robotApp.radio_pairing_info;
 
     // TODO(rqou): Refactor this
     serportObj.setReadHandler(function(e) {
@@ -73,7 +76,7 @@ exports.sendPacketizedData = function(data) {
             }
             initial_packet.set_slot('data', replyChunk);
 
-            let buf = xbee.createPacket(initial_packet, this.address);
+            let buf = xbee.createPacket(initial_packet, ROBOT);
 
             dump("Sent bytes " + chunkreq.start_addr + " to " +
                 chunkreq.end_addr + "\n");
@@ -96,7 +99,7 @@ exports.sendPacketizedData = function(data) {
     initial_packet.set_slot('stream_id', 0);
     initial_packet.set_slot('length', data.length);
 
-    let buf = xbee.createPacket(initial_packet, this.address);
+    let buf = xbee.createPacket(initial_packet, ROBOT);
 
     serportObj.write(buf);
 };
