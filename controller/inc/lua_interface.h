@@ -7,10 +7,15 @@
 
 
 #define TEST_STATIC_LUA \
+  /*"while get_digital(0)==0 then"\
+  "end"\
+  "a=1"*/\
   "while 1 do\n"\
-  "   set_led((get_digital(0)%2)*2+(get_digital(1)%2)*4)\n"\
-  "   set_digital(0,get_digital(1)*2)\n"\
-  "   set_motor(1,get_digital(0)*100)\n"\
+  "   set_led(get_digital(0))"\
+  /*"   a = a+1"*/\
+  /*"   set_led((get_digital(0)%2)*2+(get_digital(1)%2)*4)\n"*/\
+  /*"   set_digital(0,get_digital(1)*2)\n"*/\
+  "   set_motor(1,get_digital(0)<10 and 0 or 100)\n"\
   "end"  /* NOLINT(*) */
 
 
