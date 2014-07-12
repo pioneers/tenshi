@@ -126,15 +126,15 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
         ss_select_delay();  // Debug
       }
 
-      vPortFree(enumIDs.arr);
-
       led_driver_set_mode(PATTERN_JUST_RED);
-      led_driver_set_fixed(0b111, 0b111);
+      led_driver_set_fixed(enumIDs.len, 0b111);
+
+      vPortFree(enumIDs.arr);
 
       busState = SS_BUS_ACTIVE;  // //////////
     }
 
-    vTaskDelay(50 / portTICK_RATE_MS);  // ///////
+    vTaskDelay(1000 / portTICK_RATE_MS);  // ///////
 
     while (busState == SS_BUS_MAINTAINANCE) {
       uint8_t d1_len = 7;
@@ -322,8 +322,8 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
           uint8_t *data_decode = pvPortMalloc(decodeLen);
           cobs_decode(data_decode, data+prefixLen, decodeLen+1);
 
-          led_driver_set_mode(PATTERN_JUST_RED);
-          led_driver_set_fixed(sampleNumber, 0b111);
+          // led_driver_set_mode(PATTERN_JUST_RED);
+          // led_driver_set_fixed(sampleNumber, 0b111);
 
           if (frameNumber < SS_NUM_FRAMES && sampleNumber < SS_NUM_SAMPLES) {
             int16_t sensorIndex =
