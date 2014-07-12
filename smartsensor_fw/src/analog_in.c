@@ -23,8 +23,10 @@ void activeAnalogInRec(uint8_t *data, uint8_t len, uint8_t inband) {
   // I'll need this for the analog out code, though.
 }
 void activeAnalogInSend(uint8_t *outData, uint8_t *outLen, uint8_t inband) {
-  *outLen = 1;
-  outData[0] = adc_read();  // see below for this one.
+  *outLen = 2;
+  int val = adc_read();  // 10 bit resolution
+  outData[0] = val;
+  outData[1] = val >> 8;
 }
 
 // Private helper functions
