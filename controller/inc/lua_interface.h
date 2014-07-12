@@ -28,6 +28,9 @@ int lua_get_button(lua_State *L);
 int lua_get_digital(lua_State *L);
 int lua_set_digital(lua_State *L);
 
+int lua_get_analog(lua_State *L);
+int lua_set_analog(lua_State *L);
+
 int lua_set_motor(lua_State *L);
 
 
