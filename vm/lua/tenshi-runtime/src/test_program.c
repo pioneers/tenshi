@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
   const char studentcode[] =
     "function b()\n"
     "    for i = 1,500,1 do\n"
-    "        send(a_actor, i)\n"
+    "        send(a_actor, i, a_actor, i, a_actor, i)\n"
     "        print(\"sent: \" .. i)\n"
     "    end\n"
     "end\n"
