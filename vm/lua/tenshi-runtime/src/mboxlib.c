@@ -104,24 +104,55 @@ int MBoxCreate(lua_State *L) {
 // read).
 // NOT A LUA C FUNCTION.
 static int MBoxSendCheckSpace(lua_State *L, int num_mboxes) {
-  int enough_space = 1;
+  // In order to handle sending to the same mailbox multiple times, here we
+  // total up the number of times each mailbox is referenced. We will then
+  // check whether there is enough space to push all of that data into the
+  // mailbox at once.
 
+  // Total up references to each mailbox
+  // stack is ...args...
+  lua_newtable(L);
+  for (int i = 0; i < num_mboxes; i++) {
+    // stack is ...args..., count_table
+    lua_pushstring(L, "__mbox");
+    lua_gettable(L, i * 2 + 1);
+    lua_pushvalue(L, -1);
+    // stack is ...args..., count_table, mboxinternal, mboxinternal
+    lua_gettable(L, -3);
+    // stack is ...args..., count_table, mboxinternal, curr_count
+    // nil will cause tointeger to return 0, which is fine
+    int new_count = lua_tointeger(L, -1) + 1;
+    lua_pop(L, 1);
+    lua_pushinteger(L, new_count);
+    // stack is ...args..., count_table, mboxinternal, new_count
+    lua_settable(L, -3);
+    // stack is ...args..., count_table
+  }
+
+  // Check if each mailbox has enough space
+  // stack is ...args..., count_table
+  int enough_space = 1;
   for (int i = 0; i < num_mboxes; i++) {
     lua_pushstring(L, "__mbox");
     lua_gettable(L, i * 2 + 1);
     lua_pushstring(L, "count");
     lua_gettable(L, -2);
-    // stack is ...args..., mboxinternal, count
+    // stack is ...args..., count_table, mboxinternal, count
     int bufferlen = lua_tointeger(L, -1);
     lua_pop(L, 1);
-    // stack is ...args..., mboxinternal
+    // stack is ...args..., count_table, mboxinternal
     lua_pushstring(L, "capacity");
     lua_gettable(L, -2);
     int buffercapacity = lua_tointeger(L, -1);
     lua_pop(L, 1);
-    // stack is ...args..., mboxinternal
+    // stack is ...args..., count_table, mboxinternal
+    lua_pushvalue(L, -1);
+    lua_gettable(L, -3);
+    int num_to_send = lua_tointeger(L, -1);
+    lua_pop(L, 1);
+    // stack is ...args..., count_table, mboxinternal
 
-    if (bufferlen >= buffercapacity) {
+    if (bufferlen + num_to_send > buffercapacity) {
       // Oh dear, we don't have enough space!
       // TODO(rqou): We can only support blocking at this point.
 
@@ -130,14 +161,14 @@ static int MBoxSendCheckSpace(lua_State *L, int num_mboxes) {
       // Add ourselves to the blocked list.
       lua_pushstring(L, "blockedSend");
       lua_gettable(L, -2);
-      // stack is ...args..., mboxinternal, blockedsend
+      // stack is ...args..., count_table, mboxinternal, blockedsend
       lua_len(L, -1);
       int num_blocked_send = lua_tointeger(L, -1);
       lua_pop(L, 1);
       lua_pushinteger(L, num_blocked_send + 1);
       lua_pushthread(L);
       lua_settable(L, -3);
-      // stack is ...args..., mboxinternal, blockedsend
+      // stack is ...args..., count_table, mboxinternal, blockedsend
       lua_pop(L, 2);
 
       // We cannot break here because we add ourselves to the blocked list
@@ -145,9 +176,12 @@ static int MBoxSendCheckSpace(lua_State *L, int num_mboxes) {
     } else {
       // This is fine, this mailbox had enough space.
       lua_pop(L, 1);
-      // stack is ...args...
+      // stack is ...args..., count_table
     }
   }
+  // stack is ...args..., count_table
+  lua_pop(L, 1);
+  // stack is ...args...
 
   return enough_space;
 }
