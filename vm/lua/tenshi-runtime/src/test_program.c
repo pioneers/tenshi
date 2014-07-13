@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "inc/mboxlib.h"
 #include "inc/runtime_entry.h"
 
 int main(int argc, char **argv) {
@@ -41,23 +42,48 @@ int main(int argc, char **argv) {
   //   "    end\n"
   //   "end";
 
+  // const char studentcode[] =
+  //   "function b()\n"
+  //   "    for i = 1,500,1 do\n"
+  //   "        send(a_actor, i, a_actor, i, a_actor, i)\n"
+  //   "        print(\"sent: \" .. i)\n"
+  //   "    end\n"
+  //   "end\n"
+  //   "\n"
+  //   "a_actor = get_own_actor()\n"
+  //   "start_actor(b)\n"
+  //   "for i = 1,500,1 do\n"
+  //   "    print(\"recv: \" .. recv(a_actor))\n"
+  //   "end";
+
   const char studentcode[] =
-    "function b()\n"
-    "    for i = 1,500,1 do\n"
-    "        send(a_actor, i, a_actor, i, a_actor, i)\n"
-    "        print(\"sent: \" .. i)\n"
-    "    end\n"
-    "end\n"
+    "input = __mboxinternal.find_sensor_actuator('input')\n"
+    "output = __mboxinternal.find_sensor_actuator('output')\n"
     "\n"
-    "a_actor = get_own_actor()\n"
-    "start_actor(b)\n"
-    "for i = 1,500,1 do\n"
-    "    print(\"recv: \" .. recv(a_actor))\n"
+    "print(input.__mbox.ext_id)\n"
+    "print(output.__mbox.ext_id)\n"
+    "print(input.__mbox.actuator)\n"
+    "print(output.__mbox.actuator)\n"
+    "\n"
+    "while true do\n"
+    "    print('about to recv')\n"
+    "    local x = recv(input)\n"
+    "    print('recv: ' .. x)\n"
+    "    x = x + 1"
+    "    print('about to send')\n"
+    "    send(output, x)\n"
+    "    print('sent: ' .. x)\n"
     "end";
 
   TenshiActorState a;
 
-  int ret = LoadStudentcode(s, studentcode, strlen(studentcode), &a);
+  int ret = MBoxCreateActuator(s, "output", 6);
+  printf("MBoxCreateActuator: %d\n", ret);
+
+  ret = MBoxCreateSensor(s, "input", 5);
+  printf("MBoxCreateSensor: %d\n", ret);
+
+  ret = LoadStudentcode(s, studentcode, strlen(studentcode), &a);
   printf("LoadStudentcode: %d, TenshiActorState: %p\n", ret, a);
 
   ret = ActorSetRunnable(a, 1);
@@ -66,8 +92,28 @@ int main(int argc, char **argv) {
   int i = 0;
 
   while (i < 100) {
+    printf("-----> Sent into sensor: %d\n", i);
+    TenshiMainStackPushInt(s, i);
+    ret = MBoxSendSensor(s, "input", 5);
+    printf("MBoxSendSensor: %d\n", ret);
     ret = TenshiRunQuanta(s);
     printf("Ran quanta %d, ret = %d\n", i, ret);
+
+    update_info *ui_orig = MBoxGetActuatorsChanged(s);
+    printf("MBoxGetActuatorsChanged: %p\n", ui_orig);
+    update_info *ui = ui_orig;
+    while (ui) {
+      printf("Actuator set: %s (%d values)\n", ui->id, ui->num_data);
+      for (int j = 0; j < ui->num_data; j++) {
+        ret = MBoxRecvActuator(s, ui->id, ui->id_len);
+        printf("MBoxRecvActuator: %d\n", ret);
+        int x = TenshiMainStackGetInt(s);
+        printf("<----- Got data out: %d\n", x);
+      }
+      ui = ui->next;
+    }
+    MBoxFreeUpdateInfo(ui_orig);
+
     i++;
   }
 
