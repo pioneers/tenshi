@@ -19,6 +19,7 @@
 #define INC_RUNTIME_ENTRY_H_
 
 #include <stdlib.h>
+#include "lua.h"  // NOLINT(build/include)
 
 typedef struct _TenshiRuntimeState* TenshiRuntimeState;
 
@@ -39,5 +40,14 @@ extern int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
 // Runs the interpreter for QUANTA_OPCODES opcodes. Automatically handles
 // scheduling, etc. Returns LUA_OK on success.
 extern int TenshiRunQuanta(TenshiRuntimeState s);
+
+// Used for e.g. sending data to/from sensors/actuators
+extern void TenshiMainStackPushInt(TenshiRuntimeState s, lua_Integer i);
+extern void TenshiMainStackPushUInt(TenshiRuntimeState s, lua_Unsigned i);
+extern void TenshiMainStackPushFloat(TenshiRuntimeState s, lua_Number i);
+// Also pops the item off the stack.
+extern lua_Integer TenshiMainStackGetInt(TenshiRuntimeState s);
+extern lua_Unsigned TenshiMainStackGetUInt(TenshiRuntimeState s);
+extern lua_Number TenshiMainStackGetFloat(TenshiRuntimeState s);
 
 #endif  // INC_RUNTIME_ENTRY_H_

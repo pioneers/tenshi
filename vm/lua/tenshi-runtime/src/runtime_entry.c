@@ -225,3 +225,28 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
 
   return LUA_OK;
 }
+
+void TenshiMainStackPushInt(TenshiRuntimeState s, lua_Integer i) {
+  lua_pushinteger(s->L, i);
+}
+void TenshiMainStackPushUInt(TenshiRuntimeState s, lua_Unsigned i) {
+  lua_pushunsigned(s->L, i);
+}
+void TenshiMainStackPushFloat(TenshiRuntimeState s, lua_Number i) {
+  lua_pushnumber(s->L, i);
+}
+lua_Integer TenshiMainStackGetInt(TenshiRuntimeState s) {
+  lua_Integer ret = lua_tointeger(s->L, -1);
+  lua_pop(s->L, 1);
+  return ret;
+}
+lua_Unsigned TenshiMainStackGetUInt(TenshiRuntimeState s) {
+  lua_Unsigned ret = lua_tounsigned(s->L, -1);
+  lua_pop(s->L, 1);
+  return ret;
+}
+lua_Number TenshiMainStackGetFloat(TenshiRuntimeState s) {
+  lua_Number ret = lua_tonumber(s->L, -1);
+  lua_pop(s->L, 1);
+  return ret;
+}
