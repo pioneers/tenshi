@@ -6,4 +6,4 @@
 
 cd "$(dirname "$0")"/..
 
-./build/angel-player/angel-player.app/Contents/MacOS/xulrunner angel-player/src/application.ini -jsconsole -purgecaches
+./build/angel-player/angel-player.app/Contents/Frameworks/XUL.framework/Versions/Current/xulrunner angel-player/src/application.ini -jsconsole -purgecaches
