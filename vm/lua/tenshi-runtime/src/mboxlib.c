@@ -19,7 +19,9 @@
 // {
 //    -- TODO(rqou): Metatable
 //    __mbox = {
-//      -- Internal mbox state
+//      -- Internal mbox state (common)
+//      is_group = true/false
+//      -- Not a group
 //      buffer = {} -- circular buffer
 //      readidx = <nnn>
 //      writeidx = <nnn>
@@ -27,6 +29,8 @@
 //      capacity = <nnn>
 //      blockedSend = {}  -- Tasks that are blocked and can't send (full)
 //      blockedRecv = {}  -- Tasks that are blocked and can't recv (empty)
+//      -- Is a group
+//      grouped_mboxes = {}
 //    }
 //    -- Possibly other fields
 // }
@@ -42,10 +46,12 @@
 static int MBoxSend(lua_State *L);
 static int MBoxRecv(lua_State *L);
 static int MBoxFindSensorActuator(lua_State *L);
+static int MBoxCreateGroup(lua_State *L);
 
 static const luaL_Reg mbox_global_funcs[] = {
   {"send", MBoxSend},
   {"recv", MBoxRecv},
+  {"create_mailbox", MBoxCreateGroup},
   {NULL, NULL}
 };
 
@@ -104,6 +110,9 @@ int MBoxCreateInternal(lua_State *L) {
   lua_settable(L, -3);
   lua_pushstring(L, "blockedRecv");
   lua_newtable(L);
+  lua_settable(L, -3);
+  lua_pushstring(L, "is_group");
+  lua_pushboolean(L, 0);
   lua_settable(L, -3);
 
   return 1;
@@ -252,6 +261,98 @@ static void MBoxUnblockActor(lua_State *L, const char *field_name) {
   // stack is ..., mboxinternal
 }
 
+// Subroutine for send/recv to handle grouped mailboxes. Returns the new
+// number of mailboxes. NOT A LUA C FUNCTION.
+static int MBoxUnpackGroups(lua_State *L, int num_mboxes, int is_send) {
+  // stack is ...args...
+  for (int i = 0; i < num_mboxes; i++) {
+    // Read __mbox from the i'th mailbox
+    lua_pushstring(L, "__mbox");
+    if (is_send) {
+      lua_gettable(L, i * 2 + 1);
+    } else {
+      lua_gettable(L, i + 1);
+    }
+    // stack is ...args..., mboxinternal
+    lua_pushstring(L, "is_group");
+    lua_gettable(L, -2);
+    int is_group = lua_toboolean(L, -1);
+    lua_pop(L, 1);
+    if (is_group) {
+      // We replace the current item with the first item in the group. We
+      // append other items to the end. This will work correctly because you
+      // cannot add more mailboxes to a group once it is created. Therefore, it
+      // is impossible to construct a set of groups that is not linearizable.
+      lua_pushstring(L, "grouped_mboxes");
+      lua_gettable(L, -2);
+      // stack is ...args..., mboxinternal, grouped_mboxes
+      lua_len(L, -1);
+      int num_grouped_mboxes = lua_tointeger(L, -1);
+      lua_pop(L, 1);
+      // stack is ...args..., mboxinternal, grouped_mboxes
+      if (num_grouped_mboxes == 0) {
+        // There is nothing in the mailbox at all. Remove it from the list and
+        // decrement num_mboxes. We do not want to increment i, so do i--
+        if (is_send) {
+          // Remove mbox and val
+          lua_remove(L, i * 2 + 1);
+          lua_remove(L, i * 2 + 1);
+        } else {
+          lua_remove(L, i + 1);
+        }
+        lua_pop(L, 2);
+        num_mboxes--;
+        i--;
+        // stack is ...args... (but 1 fewer)
+      } else {
+        // There are one or more items in the group. Handle the first one
+        // specially (it replaces what's in the current position).
+        lua_pushinteger(L, 1);
+        lua_gettable(L, -2);
+        // stack is ...args..., mboxinternal, grouped_mboxes, inner_mbox_0
+        if (is_send) {
+          lua_copy(L, -1, i * 2 + 1);
+        } else {
+          lua_copy(L, -1, i + 1);
+        }
+        lua_pop(L, 1);
+        // stack is ...args..., mboxinternal, grouped_mboxes
+        // We still have to decrement i so it doesn't increment so we can
+        // reprocess if the new mbox is also a group. So far we haven't
+        // changed the total number of mailboxes.
+        i--;
+        // Handle every other mailbox in the group
+        for (int j = 1; j < num_grouped_mboxes; j++) {
+          lua_pushinteger(L, j + 1);
+          lua_gettable(L, -2);
+          // stack is ...args..., mboxinternal, grouped_mboxes, inner_mbox_n
+          if (is_send) {
+            lua_insert(L, -3);
+            // stack is ...args..., inner_mbox_n, mboxinternal, grouped_mboxes
+            // This is kinda ugly. We're pushing the val passed to this
+            // mailbox, but the +1 compensates for the -- we did above.
+            lua_pushvalue(L, (i + 1) * 2 + 2);
+            lua_insert(L, -3);
+            // stack is ...args..., inner_mbox_n, val, mboxinternal,
+            //    grouped_mboxes
+          } else {
+            lua_insert(L, -3);
+            // stack is ...args..., inner_mbox_n, mboxinternal, grouped_mboxes
+          }
+          num_mboxes++;
+        }
+        // stack is ...args..., ...new_args..., mboxinternal, grouped_mboxes
+        lua_pop(L, 2);
+      }
+    } else {
+      // Do nothing. Remove the mboxinternal
+      lua_pop(L, 1);
+    }
+  }
+
+  return num_mboxes;
+}
+
 static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // Called either on initial attempt to send or when we tried, failed,
   // yielded, and came back.
@@ -261,6 +362,9 @@ static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // Yes, the flooring division is intentional and ok here. If we get an odd
   // number of arguments, the last one is interpreted as options.
   int num_mboxes = lua_gettop(L) / 2;
+
+  // Handle groups
+  num_mboxes = MBoxUnpackGroups(L, num_mboxes, 1);
 
   // Check if all mailboxes have space
   // stack is ...args...
@@ -365,6 +469,9 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
   // TODO(rqou): Handle options. This line will need to change when options
   // are added.
   int num_mboxes = lua_gettop(L);
+
+  // Handle groups
+  num_mboxes = MBoxUnpackGroups(L, num_mboxes, 0);
 
   int have_data = 0;
 
@@ -654,4 +761,34 @@ void MBoxFreeUpdateInfo(update_info *i) {
     free(i->id);
     free(i);
   }
+}
+
+// grouped_mailbox = create_mailbox(mailbox0, mailbox1, ..., mailboxn)
+static int MBoxCreateGroup(lua_State *L) {
+  int num_mboxes = lua_gettop(L);
+
+  // stack is ...args...
+  lua_newtable(L);
+  lua_pushstring(L, "grouped_mboxes");
+  lua_newtable(L);
+  // stack is ...args..., mboxinternal, "grouped_mboxes", grouped_mboxes
+  for (int i = 0; i < num_mboxes; i++) {
+    lua_pushinteger(L, i + 1);
+    lua_pushvalue(L, i + 1);
+    lua_settable(L, -3);
+  }
+  // stack is ...args..., mboxinternal, "grouped_mboxes", grouped_mboxes
+  lua_settable(L, -3);
+  // stack is ...args..., mboxinternal
+  lua_pushstring(L, "is_group");
+  lua_pushboolean(L, 1);
+  lua_settable(L, -3);
+  // stack is ...args..., mboxinternal
+  lua_pushcfunction(L, MBoxCreate);
+  lua_insert(L, -2);
+  lua_call(L, 1, 1);
+  // stack is ...args..., mbox
+  lua_insert(L, 1);
+  lua_pop(L, num_mboxes);
+  return 1;
 }
