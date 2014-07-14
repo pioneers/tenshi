@@ -51,6 +51,9 @@ void tenshi_open_actor(lua_State *L) {
   lua_pushstring(L, RIDX_ACTORLIB_METATABLE);
   lua_newtable(L);
   luaL_setfuncs(L, actor_metatable_funcs, 0);
+  // Also load mailbox metatable functions. We can do this because actors
+  // also contain a __mbox field.
+  luaL_setfuncs(L, mbox_metatable_funcs, 0);
   // Set __index to this table
   lua_pushstring(L, "__index");
   lua_pushvalue(L, -2);
