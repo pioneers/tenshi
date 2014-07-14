@@ -66,14 +66,14 @@ int main(int argc, char **argv) {
     "\n"
     "while true do\n"
     "    print('about to send to bogus')\n"
-    "    send(bogus_mbox, 42)\n"
+    "    bogus_mbox:send({42})\n"
     "    print('sent bogus: 42')\n"
     "    print('about to recv')\n"
-    "    local x = recv(one_mbox)\n"
+    "    local x = one_mbox:recv()\n"
     "    print('recv: ' .. x)\n"
     "    x = x + 1"
     "    print('about to send')\n"
-    "    send(two_mbox, x)\n"
+    "    two_mbox:send({x})\n"
     "    print('sent: ' .. x)\n"
     "end";
 

@@ -47,6 +47,7 @@ static int MBoxSend(lua_State *L);
 static int MBoxRecv(lua_State *L);
 static int MBoxFindSensorActuator(lua_State *L);
 static int MBoxCreateGroup(lua_State *L);
+static int MBoxSendArray(lua_State *L);
 
 static const luaL_Reg mbox_global_funcs[] = {
   {"send", MBoxSend},
@@ -60,12 +61,31 @@ static const luaL_Reg mbox_internal_funcs[] = {
   {NULL, NULL}
 };
 
+const luaL_Reg mbox_metatable_funcs[] = {
+  // Since this will be called using the mbox:recv() shorthand notation,
+  // it is compatible with the normal recv function.
+  {"recv", MBoxRecv},
+  {"send", MBoxSendArray},
+  {NULL, NULL}
+};
+
 static int tenshi_open_mboxinternal(lua_State *L) {
   luaL_newlib(L, mbox_internal_funcs);
   return 1;
 }
 
 void tenshi_open_mbox(lua_State *L) {
+  // Initialize the mailbox object metatable (contains implementations of the
+  // mailbox object API)
+  lua_pushstring(L, RIDX_MBOXLIB_METATABLE);
+  lua_newtable(L);
+  luaL_setfuncs(L, mbox_metatable_funcs, 0);
+  // Set __index to this table
+  lua_pushstring(L, "__index");
+  lua_pushvalue(L, -2);
+  lua_settable(L, -3);
+  lua_settable(L, LUA_REGISTRYINDEX);
+
   // Initialize the functions we load into the global scope.
   lua_pushglobaltable(L);
   luaL_setfuncs(L, mbox_global_funcs, 0);
@@ -129,7 +149,10 @@ int MBoxCreate(lua_State *L) {
   lua_copy(L, -1, -2);
   lua_pop(L, 1);
   // Stack is mbox_public
-  // TODO(rqou): Set its metatable
+  // Set its metatable
+  lua_pushstring(L, RIDX_MBOXLIB_METATABLE);
+  lua_gettable(L, LUA_REGISTRYINDEX);
+  lua_setmetatable(L, -2);
   return 1;
 }
 
@@ -791,4 +814,34 @@ static int MBoxCreateGroup(lua_State *L) {
   lua_insert(L, 1);
   lua_pop(L, num_mboxes);
   return 1;
+}
+
+// mboxobj:send({val0, val1, ..., valn}, [options])
+int MBoxSendArray(lua_State *L) {
+  // stack is mbox, valarr, [options]
+  int has_options = lua_gettop(L) >= 3;
+  lua_pushcfunction(L, MBoxSend);
+  // stack is mbox, valarr, [options], MBoxSend
+  lua_len(L, 2);
+  int num_data = lua_tointeger(L, -1);
+  lua_pop(L, 1);
+  // stack is mbox, valarr, [options], MBoxSend
+  for (int i = 0; i < num_data; i++) {
+    lua_pushvalue(L, 1);
+    lua_pushinteger(L, i + 1);
+    lua_gettable(L, 2);
+  }
+  if (has_options) {
+    lua_pushvalue(L, 3);
+  }
+  // stack is mbox, valarr, [options], MBoxSend, mbox, val0, ..., mbox, valn,
+  //    [options]
+  lua_call(L, 2 * num_data + has_options, 0);
+  // stack is mbox, valarr, [options]
+  lua_pop(L, 2);
+  if (has_options) {
+    lua_pop(L, 1);
+  }
+
+  return 0;
 }

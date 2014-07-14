@@ -22,11 +22,18 @@
 #include <stdlib.h>
 #include "inc/runtime_entry.h"
 #include "lua.h"  // NOLINT(build/include)
+#include "lauxlib.h"    // NOLINT(build/include)
 
 // Key used to store the sensor and actuator mailboxes table
 #define RIDX_MBOXLIB_SENSORS_ACTUATORS    "tenshi.mboxlib.sensors_actuators"
 // Key used to store the changed actuator table
 #define RIDX_MBOXLIB_CHANGED_TABLE        "tenshi.mboxlib.changed_actuators"
+// Key used to store the mailbox metatable in the Lua registry
+#define RIDX_MBOXLIB_METATABLE            "tenshi.mboxlib.metatable"
+
+// This is used as a somewhat hacky way to get mailbox functions into e.g.
+// actors rather than actually handling inheritance using more metatables.
+extern const luaL_Reg mbox_metatable_funcs[];
 
 extern void tenshi_open_mbox(lua_State *L);
 
