@@ -64,6 +64,8 @@ int main(int argc, char **argv) {
     "one_mbox = create_mailbox(input)\n"
     "two_mbox = create_mailbox(output, output)\n"
     "\n"
+    "print('units.mega = ' .. units.mega)\n"
+    "\n"
     "while true do\n"
     "    print('about to send to bogus')\n"
     "    bogus_mbox:send({42})\n"

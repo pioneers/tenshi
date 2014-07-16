@@ -73,23 +73,44 @@ def build(bld):
         includes="src tenshi-runtime"
     )
 
+    # Tenshi Runtime components written in Lua
+    # TODO(rqou): Byte-compile them on the host
+    lua_c_objs = []
+    for path in bld.path.ant_glob("tenshi-runtime/src/lua/**/*.lua"):
+        base_name = os.path.basename(str(path))
+        lua_c_objs = lua_c_objs + [base_name + '.c']
+        bld(
+            rule='${root}/tools/bin2c.py '
+                 '${SRC} '
+                 'vm/lua/${TGT[0]} '
+                 'vm/lua/${TGT[1]} ',
+            source=path,
+            target=base_name + '.c ' + base_name + '.h'
+        )
+
+    bld.objects(
+        source=lua_c_objs,
+        target="lua_lua_objects",
+        includes="src tenshi-runtime"
+    )
+
     if 'native' in bld.variant:
         bld.program(
             target='lua',
             source='src/lua.c',
-            use='lua_objects math'
+            use='lua_objects lua_lua_objects math'
         )
 
         bld.program(
             target='luac',
             source='src/luac.c',
-            use='lua_objects math'
+            use='lua_objects lua_lua_objects math'
         )
 
     bld.program(
         target='tenshi-runtime-test',
         source='tenshi-runtime/src/test_program.c',
-        use='lua_objects math',
+        use='lua_objects lua_lua_objects math',
         includes="src tenshi-runtime"
     )
 
@@ -97,7 +118,7 @@ def build(bld):
         # Using emscripten, build a .so, and from that build a .js.
         bld(
             features=['c', 'cshlib'],
-            use='lua_objects',
+            use='lua_objects lua_lua_objects',
             target='lua',
         )
 
