@@ -28,6 +28,7 @@
 #include "lbaselib.h"   // NOLINT(build/include)
 #include "lstrlib.h"    // NOLINT(build/include)
 #include "threading.h"  // NOLINT(build/include)
+#include "../units.lua.h"   // NOLINT(build/include)
 
 // Custom version of baselib with some functions omitted
 static const luaL_Reg tenshi_base_funcs[] = {
@@ -99,6 +100,12 @@ static int tenshi_open_string(lua_State *L) {
   return 1;
 }
 
+static int tenshi_open_units(lua_State *L) {
+  luaL_loadbuffer(L, units_lua, sizeof(units_lua), "units.lua");
+  lua_pcall(L, 0, LUA_MULTRET, 0);
+  return 1;
+}
+
 // Tenshi modules (omits some Lua modules, adds some new modules)
 static const luaL_Reg tenshi_loadedlibs[] = {
   {"_G", tenshi_open_base},
@@ -106,6 +113,7 @@ static const luaL_Reg tenshi_loadedlibs[] = {
   {LUA_STRLIBNAME, tenshi_open_string},
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_UTF8LIBNAME, luaopen_utf8},
+  {"units", tenshi_open_units},
   {NULL, NULL}
 };
 
