@@ -9,7 +9,7 @@ exports.run = function() {
   fact.load_type_file ( url.toFilename ( 
         'chrome://angel-player/content/common_defs/ngl_types.yaml' ) );
 
-  misc.assert ( fact.get_size ( 'ngl_buffer' ) === 4 * ( 2 + 1 ),
+  misc.assert ( fact.get_size ( 'ngl_buffer', true ) === 4 * ( 2 + 1 ),
                 'Size of ngl_buffer should be 12 bytes.' );
   return true;
 };

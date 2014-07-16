@@ -17,7 +17,7 @@ exports.run = function() {
   sub_buf.fill ( 0xbb );
   b.set_slot ( 'bytes', sub_buf );
 
-  var buf = buffer.Buffer ( fact.get_size ( 'ngl_buffer' ) + sub_buf.length );
+  var buf = buffer.Buffer ( b.get_size ( ) );
   b.write ( buf );
 
   misc.assert ( buf.readUInt32LE ( 0 ) === 1, 'refc should be 1' );

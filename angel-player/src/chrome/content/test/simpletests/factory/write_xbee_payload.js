@@ -21,9 +21,7 @@ exports.run = function() {
     data : buffer.Buffer ( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] ),
   } );
 
-  var size = fact.get_size ( 'xbee_payload' ) + xb_pay_out.get_slot ( 'tx64' )
-                                                          .get_slot ( 'data' )
-                                                          .unwrap ( ).length;
+  var size = xb_pay_out.get_size ( );
 
   var buf = buffer.Buffer ( size );
   buf.fill ( 0xff );

@@ -70,6 +70,9 @@ function lshift_32 ( val ) {
 // Wrap a base type
 kind_prototypes.base = {
   cast : cast,
+  get_size : function ( ) {
+    return this.factory.get_size ( this.type );
+    },
   _is_64bit_int : function ( ) {
     return this.factory.get_size ( this.type ) === 8 && this.type.repr !== 'float';
     },
@@ -216,6 +219,21 @@ function unwrap_composite ( comp ) {
   return out;
   }
 
+function get_slot_size ( slot_values, factory, slot ) {
+  var val = slot_values [ slot.name ];
+  try {
+    return val.get_size ( );
+    }
+  catch ( _1 ) {
+    try {
+      return factory.get_size ( slot.type );
+      }
+    catch ( _2 ) {
+      return 0;
+      }
+    }
+  }
+
 kind_prototypes.struct = {
   cast : cast,
   init : function ( ) {
@@ -267,7 +285,7 @@ kind_prototypes.struct = {
       // Recalculate the offsets of all slots.
       var slot = this.type.slots [ s ];
       var val = this.slot_values [ slot.name ];
-      var size = this.factory.get_size ( slot.type );
+      var size = get_slot_size ( this.slot_values, this.factory, slot );
       var alignment = this.factory.get_alignment ( slot.type );
       if ( ! this.type.packed ) {
         relative = round_up ( relative, alignment );
@@ -305,6 +323,24 @@ kind_prototypes.struct = {
       var val = this.slot_values [ slot.name ];
       val.read ( buffer );
       }
+    },
+  get_size : function ( ) {
+    var relative = 0;
+    for ( var s in this.type.slots ) {
+      var slot = this.type.slots [ s ];
+      var val = this.slot_values [ slot.name ];
+      var alignment = this.factory.get_alignment ( slot.type );
+      if ( ! this.type.packed ) {
+        relative = round_up ( relative, alignment );
+        }
+      if ( val === undefined ) {
+        relative += get_slot_size ( this.slot_values, this.factory, slot );
+        }
+      else {
+        relative += val.get_size ( );
+        }
+      }
+    return relative;
     },
   };
 
@@ -379,6 +415,19 @@ kind_prototypes.union = {
       this.set_slot ( slot.name, val );
       }
     },
+  get_size : function ( ) {
+    var max = 0;
+    for ( var s in this.type.slots ) {
+      var slot = this.type.slots [ s ];
+      var type = get_slot_type ( this.factory, this.type, slot.name );
+      var val = this.slot_values [ slot.name ];
+      var size = get_slot_size ( this.slot_values, this.factory, slot );
+      if ( size > max ) {
+        max = size;
+        }
+      }
+    return max;
+    },
   };
 
 function get_array_elem_type ( typename ) {
@@ -426,14 +475,26 @@ kind_prototypes.array = {
     this.vals.push ( this.factory.wrap ( this.base, val ) );
     },
   get_length : function ( ) {
-    if ( this.length !== null ) {
+    if ( this.length !== null && this.length !== undefined ) {
       return this.length;
       }
     else if ( this.type.length !== undefined ) {
       return this.type.length;
       }
+    else if ( this.vals !== undefined ) {
+      return this.vals.length;
+      }
     else {
       return undefined;
+      }
+    },
+  get_size : function ( ) {
+    var length = this.get_length ( );
+    if ( length === undefined ) {
+      return 0;
+      }
+    else {
+      return length * this.factory.get_size ( this.base );
       }
     },
   set_length : function ( length ) {
@@ -587,7 +648,9 @@ var factory_prototype = {
       return type.size;
       }
     },
-  get_size : function get_size ( type ) {
+  get_size : function get_size ( type, collapse_dynamic ) {
+    // Setting collapse_dynamic causes flexible array members to be considered
+    // length 0.
     var size;
     var s;
     var actual_type = type;
@@ -598,12 +661,18 @@ var factory_prototype = {
         return this.get_native_size ( );
         }
       else if ( type.substr ( -2 ) === '[]' ) {
-        return 0;
+        if ( collapse_dynamic ) {
+          return 0;
+          }
+        else {
+          throw ('Object ' + type + ' has dynamic size');
+          }
         }
       else if ( type.match ( /\[([0-9]+)\]/ ) ) {
         // Handle arrays.
         // Extract size in "base [size]".
-        return get_array_length ( type ) * this.get_size ( get_array_elem_type ( type ) );
+        return (get_array_length ( type ) *
+            this.get_size ( get_array_elem_type ( type ), collapse_dynamic ) );
         }
       actual_type = this.get_type ( type );
       }
@@ -622,7 +691,7 @@ var factory_prototype = {
       var total = 0;
       var align;
       for ( s in type.slots ) {
-        size = this.get_size ( type.slots [ s ].type );
+        size = this.get_size ( type.slots [ s ].type, collapse_dynamic );
         align = this.get_alignment ( type.slots [ s ].type );
         if ( ! type.packed ) {
           total = round_up ( total, align );
@@ -635,7 +704,7 @@ var factory_prototype = {
       var max = 0;
       for ( s in type.slots ) {
         var slot = type.slots [ s ];
-        max = Math.max ( max, this.get_size ( slot.type ) );
+        max = Math.max ( max, this.get_size ( slot.type, collapse_dynamic ) );
         }
       return max;
       }

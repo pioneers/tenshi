@@ -35,7 +35,7 @@ describe("XBee createPacket", function () {
     // TODO(rqou): Meaningful flags?
     data.set_slot('fieldtime', 0);
     data.set_slot('flags', 0);
-    data.set_slot('analog', [127, 127, 127, 127, 127, 127, 127, 127]);
+    data.set_slot('analog', [127, 127, 127, 127, 127, 127, 127]);
     data.set_slot('digital', 0);
 
     let buf = xbee.createPacket(data,

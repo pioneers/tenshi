@@ -39,7 +39,7 @@ exports.createPacket = function (payload, address) {
   if (payload instanceof buffer.Buffer) {
     payload_length = payload.length;
   } else if (payload.type) {
-    payload_length = typpo.get_size(payload.type);
+    payload_length = payload.get_size();
     // We're going to store payload into a uint8_t[] below, so cast it.
     payload = payload.cast();
   } else {
@@ -59,13 +59,13 @@ exports.createPacket = function (payload, address) {
 
   let xbee_packet = typpo.wrap(typpo.get_type('xbee_api_packet'), {
     xbee_api_magic: typpo.get_const('XBEE_MAGIC'),
-    length: typpo.get_size('xbee_tx64_header') + payload_length,
+    length: typpo.get_size('xbee_tx64_header', true) + payload_length,
     payload: xbee_payload
   });
 
   // The +1 allows the checksum to be crammed in the end
 
-  let buf = buffer.Buffer(typpo.get_size('xbee_api_packet') + payload_length + 1);
+  let buf = buffer.Buffer(typpo.get_size('xbee_api_packet', true) + payload_length + 1);
 
   xbee_packet.write(buf);
 
