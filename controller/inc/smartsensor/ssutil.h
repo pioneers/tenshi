@@ -35,6 +35,10 @@
 #define SENSOR_WAIT_TIME (1000/portTICK_PERIOD_MS)  // 1 seconds
 // Time for sensor to respond to enumeration select command
 #define SENSOR_SELECT_DELAY 1  // 1 ms
+#define SENSOR_REPLY_TIMEOUT 7  // ms
+
+// Smart sensor packet type definitions
+#define SS_PACKET_DESCRIPTOR 0xD1
 
 #define MAGIC_SEQUENCE_LEN 21
 #define MAGIC_SEQUENCE 0xE6, 0xAD, 0xBB, 0xE3, 0x82, 0x93, 0xE3, 0x81, 0xA0, \
@@ -46,16 +50,43 @@
                        0xa6, 0xe7, 0xb7, 0x9a /* NOLINT(*) */
 
 
+
 typedef struct {
+  uint8_t descriptionLen;
+  char *description;
+  uint8_t type;
+  uint8_t additionalLen;
+  uint8_t *additional;  // Sensor type specific data
+                        // TODO(cduck): Actually use the additional information
+} SSChannel;
+
+typedef struct {
+  // Sensor identification
   uint8_t id[SMART_ID_LEN];
   uint8_t busNum;
+
+  // Communication buffers and locks
   xSemaphoreHandle outLock;
   size_t outgoingLen;
   uint8_t *outgoingBytes;
   xSemaphoreHandle inLock;
   size_t incomingLen;
   uint8_t *incomingBytes;
+
+  uint8_t hasReadDescriptor;
+  // Descriptor data (not valid until hasReadDescriptor==1)
+  uint8_t descriptionLen;
+  char *description;  // Human readable
+  // TODO(cduck): Figure out what to do with "chunks requested per sample
+  //   numerator/denominator"
+  uint8_t chunksNumerator;
+  uint8_t chunksDenominator;
+  uint8_t channelsNum;
+  SSChannel **channels;  // TODO(cduck): Currently only know how to handle one
+  uint8_t primaryType;  // Used until I figure out what to do about mutiple
+                        //   channels
 } SSState;
+
 
 typedef struct _transmit_allocations {
   void *txn;
@@ -105,6 +136,15 @@ void allocIncomingBytes(SSState *sensor, uint8_t requiredLen);
 int checkOutgoingBytes(SSState *sensor, uint8_t requiredLen);
 void allocOutgoingBytes(SSState *sensor, uint8_t requiredLen);
 int checkIncomingBytes(SSState *sensor, uint8_t requiredLen);
+
+
+// Functions for getting sensor descriptor data
+// Returns mallocated byte array.  You need to free the result
+uint8_t *ss_read_descriptor(SSState *sensor, uint32_t *readLen);
+// Intreprets descriptor data and updates the SSState with it
+int ss_interpret_descriptor(SSState *sensor, uint8_t *data, uint32_t len);
+// Does both of the above functions
+int ss_update_descriptor(SSState *sensor);
 
 
 // Helper functions for smartsensor.c

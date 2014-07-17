@@ -122,10 +122,15 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
 
         uint8_t a = 0x1D;
         ss_uart_serial_send_and_finish_data(smartsensor_1, &a, 1);  // Debug
-
         ss_uart_serial_send_and_finish_data(smartsensor_4, &a, 1);
-        ss_uart_serial_send_and_finish_data(smartsensor_1, sensor->id,
-          SMART_ID_LEN);  // Debug
+
+        ss_update_descriptor(sensor);
+        ss_uart_serial_send_and_finish_data(smartsensor_1,
+          &(sensor->hasReadDescriptor), 1);  // Debug
+        ss_uart_serial_send_and_finish_data(smartsensor_1,
+          &(sensor->channelsNum), 1);  // Debug
+        ss_uart_serial_send_and_finish_data(smartsensor_1,
+          &(sensor->primaryType), 1);  // Debug
 
         // Assign bandwidth to sensor
         uint8_t data[SMART_ID_LEN+2];

@@ -247,7 +247,7 @@ The 0xD0 command is idempotent (not cumulative) so a slave must stop using its
 previous allocation of subchunks upon receiving a new 0xD0 command.
 
 Slave descriptor data can be retrieved using the 0xD1 command. The payload
-consists of an 8-byte slave unique ID, a 16-bit start address, and a 16-bit
+consists of an 8-byte slave unique ID, a 16-bit start address, and a 8-bit
 length. The slave reply payload consists of only the descriptor data. The
 format of the descriptor data is TBD.
 
@@ -262,7 +262,7 @@ descriptor are null-terminated UTF-8 English. There is currently no support for
 true i18n. The structure of the data is as follows:
 
             ----------------------------------------------------
-            | length (4 bytes)                                 |
+            | length (2 bytes)                                 |
             ----------------------------------------------------
             | length of human-readable description (1 byte)    |
             ----------------------------------------------------
