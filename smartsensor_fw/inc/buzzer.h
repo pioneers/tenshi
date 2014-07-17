@@ -15,15 +15,14 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_CONFIG_H_
-#define INC_CONFIG_H_
+#ifndef INC_BUZZER_H_
+#define INC_BUZZER_H_
 
-#define SENSOR_TYPE_DIGITAL 0x00
-#define SENSOR_TYPE_ANALOG_IN 0x01
-#define SENSOR_TYPE_BUZZER 0x81
-// ...
+#include "inc/smartsensor/common.h"
 
-#define SENSOR_TYPE SENSOR_TYPE_ANALOG_IN
+// Public functions called from main.c
+void initBuzzer();
+void activeBuzzerRec(uint8_t *data, uint8_t len, uint8_t inband);
+void activeBuzzerSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband);
 
-
-#endif  // INC_CONFIG_H_
+#endif  // INC_BUZZER_H_

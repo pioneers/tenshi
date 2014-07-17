@@ -303,6 +303,7 @@ The following types of channels are currently defined:
     * 0x41 -- generic SPI
     * 0x42 -- generic UART
     * 0x80 -- Grizzly Bear v3
+    * 0x81 -- Battery Buzzer
     * 0xFF -- debugger
 
 The structure of the additional information block varies according to the type.
@@ -410,6 +411,9 @@ Type 0x42 -- generic UART
             TODO
 
 Type 0x80 -- Grizzly Bear v3
+            TODO
+
+Type 0x81 -- Battery Buzzer
             TODO
 
 Type 0xFF -- debugger
