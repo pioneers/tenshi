@@ -20,6 +20,7 @@
 
 #include "inc/smartsensor/ssutil.h"
 #include "inc/smartsensor/cobs.h"
+#include "inc/smartsensor/crc.h"
 
 #include "inc/driver_glue.h"
 #include "inc/uart_serial_driver.h"
@@ -35,6 +36,7 @@ xSemaphoreHandle sensorArrLock;
 
 
 // Functions to enable external code to set and read sensors
+
 void ss_set_digital_value(int sensorIndex, uint8_t val) {
   ss_set_value(sensorIndex, &val, 1);
 }
@@ -106,6 +108,170 @@ int ss_get_value(int sensorIndex, uint8_t *data, size_t len) {
 
 
 
+
+// Functions for getting sensor descriptor data
+// Returns mallocated byte array.  You need to free the result
+uint8_t *ss_read_descriptor(SSState *sensor, uint32_t *readLen) {
+  *readLen = 0;
+
+  uart_serial_module *bus = ssBusses[sensor->busNum];
+  const uint8_t requestLen = 3;
+  uint8_t request[3] = {0, 0, 2};  // Request two length bytes
+  size_t recLen = 0;
+  uint8_t *recData;
+  const uint8_t prefixLen = 3;
+
+  uint8_t temp[4];
+  uint32_t allLen = 0, partLen = 0;
+  uint8_t *allData = NULL;
+
+  // Clear missed packets
+  while (uart_serial_receive_packet(bus, &recLen, 0)) {}
+
+  int success = ss_send_maintenance_to_sensor(sensor, SS_PACKET_DESCRIPTOR,
+                  request, requestLen);  // Request two length bytes
+  if (!success) return NULL;
+  recData = uart_serial_receive_packet_timeout(bus, &recLen,
+              SENSOR_REPLY_TIMEOUT);
+  if (!recData) return NULL;
+  if (recLen < prefixLen+3 || recData[1] != SS_PACKET_DESCRIPTOR) {
+    vPortFree(recData);
+    return NULL;
+  }
+  // At least two bytes decoded, at most 3 if extra data was recieved.
+  cobs_decode(temp, recData+prefixLen, 4);
+  vPortFree(recData);
+
+  allLen = temp[0] + temp[1]*0x100;  // Little endian
+  allData = pvPortMalloc(allLen);
+
+  while (partLen < allLen) {
+    request[0] = partLen & 0xFF;
+    request[1] = (partLen >> 8) & 0xFF;
+    request[2] = allLen-partLen > 255-prefixLen-1 ? 255-prefixLen-1
+                                                  : allLen-partLen;
+    int success = ss_send_maintenance_to_sensor(sensor, SS_PACKET_DESCRIPTOR,
+                    request, requestLen);  // Request descriptor bytes
+    if (!success) {
+      vPortFree(allData);
+      return NULL;
+    }
+    recData = uart_serial_receive_packet_timeout(bus, &recLen,
+                SENSOR_REPLY_TIMEOUT);
+    if (!recData || recLen < prefixLen+2  // Minimum 1 byte of descriptor data
+        || recData[1] != SS_PACKET_DESCRIPTOR) {
+      vPortFree(allData);
+      vPortFree(recData);
+      return NULL;
+    }
+    if (partLen + (recLen-prefixLen-1) > allLen)  // If too much data recieved
+      recLen = allLen-partLen + prefixLen+1;
+    cobs_decode(allData + partLen, recData+prefixLen, recLen-prefixLen);
+    vPortFree(recData);
+
+    partLen += recLen-prefixLen-1;
+  }
+
+  // TODO(cduck): Check the CRC
+  uint8_t crc = crc8(0, allData, allLen);
+
+  *readLen = allLen;
+  return allData;
+}
+// Intreprets descriptor data and updates the SSState with it
+// Returns 0 on fail
+int ss_interpret_descriptor(SSState *sensor, uint8_t *data, uint32_t len) {
+  if (sensor->hasReadDescriptor) return 0;
+  uint8_t *end = data+len;
+  data += 2;  // Ignore length bytes
+
+  // Human-readable description
+  if (data + 1 > end) return 0;
+  sensor->descriptionLen = data[0];
+  ++data;
+  if (data + sensor->descriptionLen > end) return 0;
+  vPortFree(sensor->description);
+  sensor->description = pvPortMalloc(sensor->descriptionLen);
+  if (!sensor->description) return 0;
+  memcpy(sensor->description, data, sensor->descriptionLen);
+  data += sensor->descriptionLen;
+
+  // Chunks requested per sample numerator/denominator
+  if (data + 2 > end) return 0;
+  sensor->chunksNumerator = data[0];
+  sensor->chunksDenominator = data[1];
+  data += 2;
+
+  // Channels
+  if (data + 1 > end) return 0;
+  uint8_t channelsNum = data[0];
+  ++data;
+  vPortFree(sensor->channels);
+  sensor->channels = pvPortMalloc(sensor->channelsNum * sizeof(SSChannel*));
+  if (!sensor->channels) return 0;
+
+  for (sensor->channelsNum = 0; sensor->channelsNum < channelsNum;
+      ++sensor->channelsNum) {
+    if (data + 3 > end) return 0;
+    if (data[1] + 3 > data[0]) return 0;
+    if (data + data[0] > end) return 0;
+    SSChannel *channel = pvPortMalloc(sizeof(SSChannel));
+    if (!channel) return 0;
+
+    channel->descriptionLen = data[1];
+    uint8_t descriptorLen = data[0];
+    data += 2;
+    channel->description = pvPortMalloc(channel->descriptionLen);
+    if (!channel->description) {
+      vPortFree(channel);
+      return 0;
+    }
+    memcpy(channel->description, data, channel->descriptionLen);
+    data += channel->descriptionLen;
+
+    channel->type = data[0];
+    ++data;
+
+    channel->additionalLen = descriptorLen - 3 - channel->descriptionLen;
+    channel->additional = pvPortMalloc(channel->additionalLen);
+    if (!channel->additional) {
+      vPortFree(channel->description);
+      vPortFree(channel);
+      return 0;
+    }
+    memcpy(channel->additional, data, channel->additionalLen);
+    data += channel->additionalLen;
+
+    sensor->channels[sensor->channelsNum] = channel;
+
+    if (sensor->channelsNum == 0) {
+      sensor->primaryType = channel->type;
+      sensor->hasReadDescriptor = 1;  // If it fails after this it is still
+                                      // good enough.
+    }
+  }
+
+  // Assumeing CRC has already been checked in ss_read_descriptor()
+
+  sensor->hasReadDescriptor = 1;
+  return 1;
+}
+// Does both of the above functions
+// Returns 0 on fail
+int ss_update_descriptor(SSState *sensor) {
+  uint32_t len = 0;
+  uint8_t *data = ss_read_descriptor(sensor, &len);
+  int ret = 0;
+  if (data && len > 0) {
+    ret = ss_interpret_descriptor(sensor, data, len);
+  }
+  vPortFree(data);
+  return ret;
+}
+
+
+
+
 // Helper functions for smartsensor.c
 SSState *ss_init_sensor(uint8_t id[SMART_ID_LEN], uint8_t busNum) {
   SSState *s = pvPortMalloc(sizeof(SSState));
@@ -116,6 +282,16 @@ SSState *ss_init_sensor(uint8_t id[SMART_ID_LEN], uint8_t busNum) {
   s->inLock = xSemaphoreCreateBinary();
   s->incomingLen = 0;
   s->incomingBytes = NULL;
+
+  s->hasReadDescriptor = 0;
+  s->descriptionLen = 0;
+  s->description = NULL;
+  s->chunksNumerator = 0;
+  s->chunksDenominator = 0;
+  s->channelsNum = 0;
+  s->channels = NULL;
+  s->primaryType = 0;
+
   memcpy(s->id, id, SMART_ID_LEN);
 
   xSemaphoreGive(s->outLock);
