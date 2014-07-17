@@ -1,7 +1,4 @@
 body {
-    background-image: url("assets/Angel_player.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 input:invalid {
