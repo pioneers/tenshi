@@ -31,7 +31,11 @@ uint8_t replyRegister = 0;
 uint8_t replyLen = 0xFF;
 
 void initGrizzly3() {
-  // Nothing needed
+  // Disable acceleration limiting
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    set_i2c_reg(REG_ACCEL_LIMIT, 0xFF);
+    set_i2c_reg(REG_ACCEL_LIMIT+1, 0x7F);
+  }
 }
 void activeGrizzly3Rec(uint8_t *data, uint8_t len, uint8_t inband) {
   last_i2c_update = get_uptime_dangerous();
