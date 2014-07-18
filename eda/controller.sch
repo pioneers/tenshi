@@ -501,18 +501,7 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="180"/>
 <wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="-180"/>
 <hole x="0" y="0" drill="3.302"/>
-<polygon width="0.127" layer="39" spacing="25.4" pour="hatch">
-<vertex x="2.794" y="0" curve="-90"/>
-<vertex x="0" y="-2.794"/>
-<vertex x="0" y="-1.905" curve="90"/>
-<vertex x="1.905" y="0" curve="90"/>
-<vertex x="0" y="1.905" curve="90"/>
-<vertex x="-1.905" y="0" curve="90"/>
-<vertex x="0" y="-1.905"/>
-<vertex x="0" y="-2.794" curve="-90"/>
-<vertex x="-2.794" y="0" curve="-90"/>
-<vertex x="0" y="2.794" curve="-90"/>
-</polygon>
+<circle x="0" y="0" radius="2.78821875" width="0.127" layer="39"/>
 </package>
 <package name="1X03-MTA">
 <description>3-pin MTA connector</description>
@@ -3191,27 +3180,6 @@ chip</description>
 <vertex x="3.429" y="0" curve="-90"/>
 </polygon>
 </package>
-<package name="STAND-OFF-TIGHT">
-<description>&lt;b&gt;Stand Off&lt;/b&gt;&lt;p&gt;
-This is the mechanical footprint for a #4 phillips button head screw. Use the keepout ring to avoid running the screw head into surrounding components. SKU : PRT-00447</description>
-<wire x1="0" y1="1.8542" x2="0" y2="-1.8542" width="0.2032" layer="41" curve="-180"/>
-<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="41" curve="-180"/>
-<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="180"/>
-<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="-180"/>
-<hole x="0" y="0" drill="3.048"/>
-<polygon width="0.127" layer="39" spacing="25.4" pour="hatch">
-<vertex x="2.794" y="0" curve="-90"/>
-<vertex x="0" y="-2.794"/>
-<vertex x="0" y="-1.778" curve="90"/>
-<vertex x="1.778" y="0" curve="90"/>
-<vertex x="0" y="1.778" curve="90"/>
-<vertex x="-1.778" y="0" curve="90"/>
-<vertex x="0" y="-1.778"/>
-<vertex x="0" y="-2.794" curve="-90"/>
-<vertex x="-2.794" y="0" curve="-90"/>
-<vertex x="0" y="2.794" curve="-90"/>
-</polygon>
-</package>
 <package name="1X03">
 <description>3-pin 0.1-inch header</description>
 <pad name="1" x="-2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
@@ -3749,6 +3717,16 @@ This is the "EZ" version, which has limited top masking for improved ease of ass
 <wire x1="0.381" y1="-0.635" x2="-0.381" y2="-0.635" width="0.1016" layer="21" curve="-61.927513"/>
 <wire x1="-0.381" y1="-0.635" x2="-0.381" y2="0.635" width="0.1016" layer="51" curve="-118.072487"/>
 <wire x1="0.381" y1="0.635" x2="0.381" y2="-0.635" width="0.1016" layer="51" curve="-118.072487"/>
+</package>
+<package name="STAND-OFF-TIGHT">
+<description>&lt;b&gt;Stand Off&lt;/b&gt;&lt;p&gt;
+This is the mechanical footprint for a #4 phillips button head screw. Use the keepout ring to avoid running the screw head into surrounding components. SKU : PRT-00447</description>
+<wire x1="0" y1="1.8542" x2="0" y2="-1.8542" width="0.2032" layer="41" curve="-180"/>
+<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="41" curve="-180"/>
+<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="180"/>
+<wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="-180"/>
+<hole x="0" y="0" drill="3.048"/>
+<circle x="0" y="0" radius="2.85396875" width="0.127" layer="39"/>
 </package>
 </packages>
 <symbols>

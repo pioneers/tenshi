@@ -692,18 +692,7 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="180"/>
 <wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="-180"/>
 <hole x="0" y="0" drill="3.302"/>
-<polygon width="0.127" layer="39" spacing="25.4" pour="hatch">
-<vertex x="2.794" y="0" curve="-90"/>
-<vertex x="0" y="-2.794"/>
-<vertex x="0" y="-1.905" curve="90"/>
-<vertex x="1.905" y="0" curve="90"/>
-<vertex x="0" y="1.905" curve="90"/>
-<vertex x="-1.905" y="0" curve="90"/>
-<vertex x="0" y="-1.905"/>
-<vertex x="0" y="-2.794" curve="-90"/>
-<vertex x="-2.794" y="0" curve="-90"/>
-<vertex x="0" y="2.794" curve="-90"/>
-</polygon>
+<circle x="0" y="0" radius="2.78821875" width="0.127" layer="39"/>
 </package>
 </packages>
 </library>

@@ -1298,18 +1298,7 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="180"/>
 <wire x1="0" y1="-1.8542" x2="0" y2="1.8542" width="0.2032" layer="42" curve="-180"/>
 <hole x="0" y="0" drill="3.302"/>
-<polygon width="0.127" layer="39" spacing="25.4" pour="hatch">
-<vertex x="2.794" y="0" curve="-90"/>
-<vertex x="0" y="-2.794"/>
-<vertex x="0" y="-1.905" curve="90"/>
-<vertex x="1.905" y="0" curve="90"/>
-<vertex x="0" y="1.905" curve="90"/>
-<vertex x="-1.905" y="0" curve="90"/>
-<vertex x="0" y="-1.905"/>
-<vertex x="0" y="-2.794" curve="-90"/>
-<vertex x="-2.794" y="0" curve="-90"/>
-<vertex x="0" y="2.794" curve="-90"/>
-</polygon>
+<circle x="0" y="0" radius="2.78821875" width="0.127" layer="39"/>
 </package>
 <package name="OSHW-LOGO-L">
 <polygon width="0.15" layer="21">
@@ -3157,14 +3146,14 @@ design rules under a new name.</description>
 <approved hash="7,39,dd5a96c756cc1d51"/>
 <approved hash="7,39,e200cbe50be52200"/>
 <approved hash="7,39,98bff89938a35885"/>
-<approved hash="7,39,9b6511f511f59b65"/>
 <approved hash="7,39,98851afc9afc1885"/>
+<approved hash="7,39,9b6511f511f59b65"/>
 <approved hash="7,39,26604e4a0e70665a"/>
-<approved hash="7,39,9b6517a2d7a25b65"/>
-<approved hash="7,39,265aa3e663e6e65a"/>
-<approved hash="7,39,606e9afc9afc606e"/>
 <approved hash="7,39,e89063e663e6e890"/>
 <approved hash="7,39,606ee171e171606e"/>
+<approved hash="7,39,265aa3e663e6e65a"/>
+<approved hash="7,39,606e9afc9afc606e"/>
+<approved hash="7,39,9b6517a2d7a25b65"/>
 <approved hash="7,39,e5ad9bfe1bf865ab"/>
 <approved hash="7,39,4d041cebdce48d0b"/>
 <approved hash="7,39,70c36b0a2b1630df"/>
