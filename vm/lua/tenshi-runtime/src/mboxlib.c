@@ -17,7 +17,7 @@
 
 // A mailbox object looks like the following:
 // {
-//    -- TODO(rqou): Metatable
+//    <metatable> = <tenshi.mboxlib.metatable>
 //    __mbox = {
 //      -- Internal mbox state (common)
 //      is_group = true/false

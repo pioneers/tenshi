@@ -57,12 +57,8 @@ int main(int argc, char **argv) {
   //   "end";
 
   const char studentcode[] =
-    "input = __mboxinternal.find_sensor_actuator('input')\n"
-    "output = __mboxinternal.find_sensor_actuator('output')\n"
-    "\n"
-    "bogus_mbox = create_mailbox()\n"
-    "one_mbox = create_mailbox(input)\n"
-    "two_mbox = create_mailbox(output, output)\n"
+    "input = get_device('input')\n"
+    "output = get_device('output')\n"
     "\n"
     "print('units.mega = ' .. units.mega)\n"
     "print('units.kilo = ' .. units.kilo)\n"
@@ -74,15 +70,13 @@ int main(int argc, char **argv) {
     "print('units.deg = ' .. units.deg)\n"
     "\n"
     "while true do\n"
-    "    print('about to send to bogus')\n"
-    "    bogus_mbox:send({42})\n"
-    "    print('sent bogus: 42')\n"
-    "    print('about to recv')\n"
-    "    local x = one_mbox:recv()\n"
+    "    print('about to read value')\n"
+    "    local x = input.value\n"
+    "    if x == nil then x = 0 end\n"
     "    print('recv: ' .. x)\n"
     "    x = x + 1"
-    "    print('about to send')\n"
-    "    two_mbox:send({x})\n"
+    "    print('sending using value')\n"
+    "    output.value = x\n"
     "    print('sent: ' .. x)\n"
     "end";
 

@@ -15,18 +15,29 @@
 -- specific language governing permissions and limitations
 -- under the License
 
-local units = {}
+local actuators = {}
 
--- SI prefixes
-units.mega = 1e6
-units.kilo = 1e3
-units.mili = 1e-3
-units.micro = 1e-6
-units.nano = 1e-9
+-- Actuators wrap a mailbox but add the ability to set value to update the
+-- actuator (allowing students to bypass the messaging API).
 
--- Conversion factors into standard units used in the API
-units.inch = 2.54               -- to cm
-units.pound = 453.592           -- to g
-units.deg = math.pi / 180.0     -- to radians
+actuators.metatable = {
+    __index = function(t, k)
+        return t.__actuator[k]
+    end,
+    __newindex = function(t, k, v)
+        if k == 'value' then
+            t.__actuator:send({v})
+        else
+            t[k] = v
+        end
+    end
+}
 
-return units
+function actuators.wrap_actuator(actuator)
+    local ret = {}
+    ret.__actuator = actuator
+    setmetatable(ret, actuators.metatable)
+    return ret
+end
+
+return actuators
