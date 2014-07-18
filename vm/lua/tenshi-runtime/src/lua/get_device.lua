@@ -15,18 +15,19 @@
 -- specific language governing permissions and limitations
 -- under the License
 
-local units = {}
+function get_device(id)
+    local dev = __mboxinternal.find_sensor_actuator(id)
+    if dev == nil then return nil end
 
--- SI prefixes
-units.mega = 1e6
-units.kilo = 1e3
-units.mili = 1e-3
-units.micro = 1e-6
-units.nano = 1e-9
+    -- Sensor or actuator?
+    -- TODO(rqou): We need to expand this a lot for implementing behavior
+    -- beyond the core API
 
--- Conversion factors into standard units used in the API
-units.inch = 2.54               -- to cm
-units.pound = 453.592           -- to g
-units.deg = math.pi / 180.0     -- to radians
-
-return units
+    if dev.__mbox.actuator ~= nil then
+        -- It is an actuator
+        return __actuators.wrap_actuator(dev)
+    else
+        -- It is a sensor
+        return __signals.wrap_sensor(dev)
+    end
+end

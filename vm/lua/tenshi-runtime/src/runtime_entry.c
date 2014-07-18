@@ -28,7 +28,10 @@
 #include "lbaselib.h"   // NOLINT(build/include)
 #include "lstrlib.h"    // NOLINT(build/include)
 #include "threading.h"  // NOLINT(build/include)
-#include "../units.lua.h"   // NOLINT(build/include)
+#include "../actuators.lua.h"   // NOLINT(build/include)
+#include "../get_device.lua.h"  // NOLINT(build/include)
+#include "../signals.lua.h"     // NOLINT(build/include)
+#include "../units.lua.h"       // NOLINT(build/include)
 
 // Custom version of baselib with some functions omitted
 static const luaL_Reg tenshi_base_funcs[] = {
@@ -106,6 +109,18 @@ static int tenshi_open_units(lua_State *L) {
   return 1;
 }
 
+static int tenshi_open_signals(lua_State *L) {
+  luaL_loadbuffer(L, signals_lua, sizeof(signals_lua), "signals.lua");
+  lua_pcall(L, 0, LUA_MULTRET, 0);
+  return 1;
+}
+
+static int tenshi_open_actuators(lua_State *L) {
+  luaL_loadbuffer(L, actuators_lua, sizeof(actuators_lua), "actuators.lua");
+  lua_pcall(L, 0, LUA_MULTRET, 0);
+  return 1;
+}
+
 // Tenshi modules (omits some Lua modules, adds some new modules)
 static const luaL_Reg tenshi_loadedlibs[] = {
   {"_G", tenshi_open_base},
@@ -114,6 +129,8 @@ static const luaL_Reg tenshi_loadedlibs[] = {
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_UTF8LIBNAME, luaopen_utf8},
   {"units", tenshi_open_units},
+  {"__signals", tenshi_open_signals},
+  {"__actuators", tenshi_open_actuators},
   {NULL, NULL}
 };
 
@@ -125,6 +142,12 @@ static void TenshiRuntime_openlibs(lua_State *L) {
     luaL_requiref(L, lib->name, lib->func, 1);
     lua_pop(L, 1);  /* remove lib */
   }
+}
+
+static int tenshi_open_get_device(lua_State *L) {
+  luaL_loadbuffer(L, get_device_lua, sizeof(get_device_lua), "get_device.lua");
+  lua_pcall(L, 0, 0, 0);
+  return 0;
 }
 
 TenshiRuntimeState TenshiRuntimeInit(void) {
@@ -147,6 +170,8 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   tenshi_open_actor(ret->L);
   // Load mailbox library. Similar thing.
   tenshi_open_mbox(ret->L);
+  // Load get_device implementation.
+  tenshi_open_get_device(ret->L);
 
   // Set up actor scheduler
   lua_pushcfunction(ret->L, ActorSchedulerInit);
