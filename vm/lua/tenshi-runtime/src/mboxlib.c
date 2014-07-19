@@ -820,12 +820,11 @@ static int MBoxCreateGroup(lua_State *L) {
 int MBoxSendArray(lua_State *L) {
   // stack is mbox, valarr, [options]
   int has_options = lua_gettop(L) >= 3;
-  lua_pushcfunction(L, MBoxSend);
-  // stack is mbox, valarr, [options], MBoxSend
+  // stack is mbox, valarr, [options]
   lua_len(L, 2);
   int num_data = lua_tointeger(L, -1);
   lua_pop(L, 1);
-  // stack is mbox, valarr, [options], MBoxSend
+  // stack is mbox, valarr, [options]
   for (int i = 0; i < num_data; i++) {
     lua_pushvalue(L, 1);
     lua_pushinteger(L, i + 1);
@@ -834,14 +833,13 @@ int MBoxSendArray(lua_State *L) {
   if (has_options) {
     lua_pushvalue(L, 3);
   }
-  // stack is mbox, valarr, [options], MBoxSend, mbox, val0, ..., mbox, valn,
-  //    [options]
-  lua_call(L, 2 * num_data + has_options, 0);
-  // stack is mbox, valarr, [options]
-  lua_pop(L, 2);
+  // stack is mbox, valarr, [options], mbox, val0, ..., mbox, valn, [options]
+  lua_remove(L, 1);
+  lua_remove(L, 1);
   if (has_options) {
-    lua_pop(L, 1);
+    lua_remove(L, 1);
   }
-
-  return 0;
+  // stack is mbox, val0, ..., mbox, valn, [options]
+  // Call MBoxSend
+  return MBoxSend(L);
 }
