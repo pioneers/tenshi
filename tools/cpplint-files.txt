@@ -6,3 +6,4 @@ vm/angelic/src/*
 grizzly_firmware/inc/*
 grizzly_firmware/src/*
 vm/lua/tenshi-runtime/*
+network/src/*
