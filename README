@@ -32,6 +32,9 @@ would be something like:
 -purgecaches is required in order to debug JS in-tree (without building and
 updating build ID).
 
+If you are running on Ubuntu, make sure to add yourself to the dialout group to
+access your USB serial port (usually /dev/ttyUSB0).
+
 Setting up Angel Player debugger:
 Angel Player can be debugged by using the Firefox remote debug tools that are
 normally used to debug Thunderbird/Firefox OS. To enable this on the Firefox
