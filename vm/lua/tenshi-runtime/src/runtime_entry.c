@@ -28,13 +28,14 @@
 #include "lbaselib.h"   // NOLINT(build/include)
 #include "lstrlib.h"    // NOLINT(build/include)
 #include "threading.h"  // NOLINT(build/include)
-#include "../actuators.lua.h"   // NOLINT(build/include)
-#include "../game.lua.h"        // NOLINT(build/include)
-#include "../get_device.lua.h"  // NOLINT(build/include)
-#include "../pieles.lua.h"      // NOLINT(build/include)
-#include "../signals.lua.h"     // NOLINT(build/include)
-#include "../triggers.lua.h"    // NOLINT(build/include)
-#include "../units.lua.h"       // NOLINT(build/include)
+#include "../actuators.lua.h"     // NOLINT(build/include)
+#include "../game.lua.h"          // NOLINT(build/include)
+#include "../get_device.lua.h"    // NOLINT(build/include)
+#include "../pieles.lua.h"        // NOLINT(build/include)
+#include "../signals.lua.h"       // NOLINT(build/include)
+#include "../trap_global.lua.h"   // NOLINT(build/include)
+#include "../triggers.lua.h"      // NOLINT(build/include)
+#include "../units.lua.h"         // NOLINT(build/include)
 
 // Custom version of baselib with some functions omitted
 static const luaL_Reg tenshi_base_funcs[] = {
@@ -174,6 +175,13 @@ static int tenshi_open_get_device(lua_State *L) {
   return 0;
 }
 
+static int tenshi_open_trap_global(lua_State *L) {
+  luaL_loadbuffer(L, trap_global_lua, sizeof(trap_global_lua),
+    "trap_global.lua");
+  lua_pcall(L, 0, 0, 0);
+  return 0;
+}
+
 TenshiRuntimeState TenshiRuntimeInit(void) {
   TenshiRuntimeState ret;
 
@@ -196,6 +204,8 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   tenshi_open_mbox(ret->L);
   // Load get_device implementation.
   tenshi_open_get_device(ret->L);
+  // Load install_trap_global implementation.
+  tenshi_open_trap_global(ret->L);
 
   // Set up actor scheduler
   lua_pushcfunction(ret->L, ActorSchedulerInit);

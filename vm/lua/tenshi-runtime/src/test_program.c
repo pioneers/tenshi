@@ -57,6 +57,7 @@ int main(int argc, char **argv) {
   //   "end";
 
   const char studentcode[] =
+    "install_trap_global()\n"   // Normally this would be further down
     "input_dev = get_device('input')\n"
     "input = triggers.changed(input_dev)\n"
     "output = get_device('output')\n"
