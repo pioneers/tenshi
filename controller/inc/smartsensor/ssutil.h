@@ -49,6 +49,8 @@
                        0xa0, 0xe4, 0xb8, 0x96, 0xe7, 0x95, 0x8c, 0xe6, 0x88, \
                        0xa6, 0xe7, 0xb7, 0x9a /* NOLINT(*) */
 
+#define SS_MAX_ANALOG_VAL 1023.0
+
 
 
 typedef struct {
@@ -113,7 +115,7 @@ void ss_set_digital_value(int sensorIndex, uint8_t val);
 uint8_t ss_get_digital_value(int sensorIndex);
 
 void ss_set_analog_value(int sensorIndex, unsigned int val);
-unsigned int ss_get_analog_value(int sensorIndex);
+double ss_get_analog_value(int sensorIndex);
 
 void ss_set_motor_value(int sensorIndex, uint8_t mode, double speed);
 

@@ -53,7 +53,7 @@ void ss_set_analog_value(int sensorIndex, unsigned int val) {
   ss_set_value(sensorIndex, data, val_len);
   #undef val_len
 }
-unsigned int ss_get_analog_value(int sensorIndex) {
+double ss_get_analog_value(int sensorIndex) {
   #define val_len 4
   // If no value has been recieved yet default to 0.
   uint8_t data[val_len] = {0};
@@ -63,7 +63,7 @@ unsigned int ss_get_analog_value(int sensorIndex) {
   for (uint8_t i = 0; i < val_len; ++i) {
     result |= ((uint32_t)data[i]) << (i*8);
   }
-  return (unsigned int)result;
+  return result/((double)SS_MAX_ANALOG_VAL);
   #undef val_len
 }
 
