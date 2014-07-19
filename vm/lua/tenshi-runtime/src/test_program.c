@@ -57,7 +57,8 @@ int main(int argc, char **argv) {
   //   "end";
 
   const char studentcode[] =
-    "input = get_device('input')\n"
+    "input_dev = get_device('input')\n"
+    "input = triggers.changed(input_dev)\n"
     "output = get_device('output')\n"
     "\n"
     "print('units.mega = ' .. units.mega)\n"
@@ -70,8 +71,8 @@ int main(int argc, char **argv) {
     "print('units.deg = ' .. units.deg)\n"
     "\n"
     "while true do\n"
-    "    print('about to read value')\n"
-    "    local x = input.value\n"
+    "    print('about to recv')\n"
+    "    local x = input:recv()\n"
     "    if x == nil then x = 0 end\n"
     "    print('recv: ' .. x)\n"
     "    x = x + 1"
@@ -97,8 +98,8 @@ int main(int argc, char **argv) {
   int i = 0;
 
   while (i < 100) {
-    printf("-----> Sent into sensor: %d\n", i);
-    TenshiMainStackPushInt(s, i);
+    printf("-----> Sent into sensor: %d\n", i / 2);
+    TenshiMainStackPushInt(s, i / 2);
     ret = MBoxSendSensor(s, "input", 5);
     printf("MBoxSendSensor: %d\n", ret);
     ret = TenshiRunQuanta(s);

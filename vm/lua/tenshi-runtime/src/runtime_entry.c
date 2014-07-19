@@ -31,6 +31,7 @@
 #include "../actuators.lua.h"   // NOLINT(build/include)
 #include "../get_device.lua.h"  // NOLINT(build/include)
 #include "../signals.lua.h"     // NOLINT(build/include)
+#include "../triggers.lua.h"    // NOLINT(build/include)
 #include "../units.lua.h"       // NOLINT(build/include)
 
 // Custom version of baselib with some functions omitted
@@ -121,6 +122,12 @@ static int tenshi_open_actuators(lua_State *L) {
   return 1;
 }
 
+static int tenshi_open_triggers(lua_State *L) {
+  luaL_loadbuffer(L, triggers_lua, sizeof(triggers_lua), "triggers.lua");
+  lua_pcall(L, 0, LUA_MULTRET, 0);
+  return 1;
+}
+
 // Tenshi modules (omits some Lua modules, adds some new modules)
 static const luaL_Reg tenshi_loadedlibs[] = {
   {"_G", tenshi_open_base},
@@ -131,6 +138,7 @@ static const luaL_Reg tenshi_loadedlibs[] = {
   {"units", tenshi_open_units},
   {"__signals", tenshi_open_signals},
   {"__actuators", tenshi_open_actuators},
+  {"triggers", tenshi_open_triggers},
   {NULL, NULL}
 };
 

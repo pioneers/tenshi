@@ -48,6 +48,7 @@ static int MBoxRecv(lua_State *L);
 static int MBoxFindSensorActuator(lua_State *L);
 static int MBoxCreateGroup(lua_State *L);
 static int MBoxSendArray(lua_State *L);
+static int MBoxCreateIndependent(lua_State *L);
 
 static const luaL_Reg mbox_global_funcs[] = {
   {"send", MBoxSend},
@@ -57,6 +58,7 @@ static const luaL_Reg mbox_global_funcs[] = {
 };
 
 static const luaL_Reg mbox_internal_funcs[] = {
+  {"create_independent_mbox", MBoxCreateIndependent},
   {"find_sensor_actuator", MBoxFindSensorActuator},
   {NULL, NULL}
 };
@@ -842,4 +844,23 @@ int MBoxSendArray(lua_State *L) {
   // stack is mbox, val0, ..., mbox, valn, [options]
   // Call MBoxSend
   return MBoxSend(L);
+}
+
+// mbox = __mboxinternal.create_independent_mbox()
+// Creates a new mailbox that isn't a group that is independent from any
+// sensor/actuator/actor.
+int MBoxCreateIndependent(lua_State *L) {
+  int ret;
+  lua_pushcfunction(L, MBoxCreateInternal);
+  ret = lua_pcall(L, 0, 1, 0);
+  if (ret != LUA_OK) return ret;
+
+  // stack is mboxinternal
+  lua_pushcfunction(L, MBoxCreate);
+  lua_insert(L, -2);
+  ret = lua_pcall(L, 1, 1, 0);
+  if (ret != LUA_OK) return ret;
+
+  // stack is mbox
+  return 1;
 }
