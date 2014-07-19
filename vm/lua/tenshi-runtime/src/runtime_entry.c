@@ -214,7 +214,22 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
     }
 
     ret = threading_run_ops(a->L, ops_left, &ops_left);
-    if (ret == THREADING_ERROR) return LUA_ERRRUN;
+    if (ret == THREADING_ERROR) {
+      printf("THERE WAS AN ERROR!\n");
+
+      const char *msg = lua_tostring(a->L, -1);
+      if (msg)  /* is error object a string? */
+        luaL_traceback(a->L, a->L, msg, 0);  /* use standard traceback */
+      else if (!lua_isnoneornil(a->L, -1)) {  /* non-string error object? */
+        /* try its 'tostring' metamethod */
+        if (!luaL_callmeta(a->L, -1, "__tostring"))
+          lua_pushliteral(a->L, "(no error message)");
+      }  /* else no error object, does nothing */
+
+      const char *err_w_traceback = lua_tostring(a->L, -1);
+      printf("%s\n", err_w_traceback);
+      return LUA_ERRRUN;
+    }
 
     if (ret == THREADING_EXITED) {
       printf("Thread exited!\n");
