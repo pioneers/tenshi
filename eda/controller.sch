@@ -6489,15 +6489,15 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <instance part="R2" gate="G$1" x="101.6" y="53.34" rot="R90"/>
 <instance part="SUPPLY2" gate="GND" x="101.6" y="45.72"/>
 <instance part="U$2" gate="G$1" x="124.46" y="58.42"/>
-<instance part="C11" gate="G$1" x="129.54" y="76.2" smashed="yes">
-<attribute name="NAME" x="132.588" y="76.581" size="1.778" layer="95"/>
-<attribute name="VALUE" x="132.588" y="74.041" size="1.778" layer="96"/>
+<instance part="C11" gate="G$1" x="129.54" y="78.74" smashed="yes">
+<attribute name="NAME" x="132.588" y="79.121" size="1.778" layer="95"/>
+<attribute name="VALUE" x="132.588" y="76.581" size="1.778" layer="96"/>
 </instance>
 <instance part="C10" gate="G$1" x="129.54" y="83.82" smashed="yes">
 <attribute name="NAME" x="132.588" y="84.201" size="1.778" layer="95"/>
 <attribute name="VALUE" x="132.588" y="81.661" size="1.778" layer="96"/>
 </instance>
-<instance part="SUPPLY3" gate="GND" x="139.7" y="71.12"/>
+<instance part="SUPPLY3" gate="GND" x="139.7" y="73.66"/>
 <instance part="U$3" gate="G$1" x="99.06" y="83.82"/>
 <instance part="R3" gate="G$1" x="137.16" y="93.98" rot="R90"/>
 <instance part="U$4" gate="G$1" x="137.16" y="99.06"/>
@@ -6629,12 +6629,12 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <pinref part="C11" gate="G$1" pin="2"/>
 <pinref part="SUPPLY3" gate="GND" pin="GND"/>
-<wire x1="134.62" y1="76.2" x2="139.7" y2="76.2" width="0.1524" layer="91"/>
-<wire x1="139.7" y1="76.2" x2="139.7" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="134.62" y1="78.74" x2="139.7" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="78.74" x2="139.7" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="C10" gate="G$1" pin="2"/>
 <wire x1="134.62" y1="83.82" x2="139.7" y2="83.82" width="0.1524" layer="91"/>
-<wire x1="139.7" y1="83.82" x2="139.7" y2="76.2" width="0.1524" layer="91"/>
-<junction x="139.7" y="76.2"/>
+<wire x1="139.7" y1="83.82" x2="139.7" y2="78.74" width="0.1524" layer="91"/>
+<junction x="139.7" y="78.74"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="VSSA/VREF-"/>
@@ -6817,7 +6817,6 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <pinref part="U1" gate="G$1" pin="VDDA/VREF+"/>
 <wire x1="96.52" y1="71.12" x2="99.06" y2="71.12" width="0.1524" layer="91"/>
-<wire x1="99.06" y1="71.12" x2="99.06" y2="73.66" width="0.1524" layer="91"/>
 <wire x1="99.06" y1="73.66" x2="99.06" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="C6" gate="G$1" pin="1"/>
 <wire x1="99.06" y1="73.66" x2="104.14" y2="73.66" width="0.1524" layer="91"/>
@@ -6873,7 +6872,9 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <segment>
 <pinref part="U1" gate="G$1" pin="VCAP2"/>
 <pinref part="C11" gate="G$1" pin="1"/>
-<wire x1="96.52" y1="76.2" x2="127" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="76.2" x2="114.3" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="114.3" y1="76.2" x2="114.3" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="114.3" y1="78.74" x2="127" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -7550,39 +7551,39 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <wire x1="76.2" y1="40.64" x2="71.12" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="CONN1" gate="G$1" pin="2"/>
 <pinref part="SUPPLY21" gate="GND" pin="GND"/>
-<wire x1="205.74" y1="165.1" x2="218.44" y2="165.1" width="0.1524" layer="91"/>
-<wire x1="218.44" y1="165.1" x2="218.44" y2="144.78" width="0.1524" layer="91"/>
-<pinref part="CONN2" gate="G$1" pin="2"/>
-<wire x1="218.44" y1="144.78" x2="218.44" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="218.44" y1="124.46" x2="218.44" y2="104.14" width="0.1524" layer="91"/>
-<wire x1="218.44" y1="104.14" x2="218.44" y2="88.9" width="0.1524" layer="91"/>
-<wire x1="205.74" y1="144.78" x2="218.44" y2="144.78" width="0.1524" layer="91"/>
-<junction x="218.44" y="144.78"/>
-<pinref part="CONN3" gate="G$1" pin="2"/>
-<wire x1="205.74" y1="124.46" x2="218.44" y2="124.46" width="0.1524" layer="91"/>
-<junction x="218.44" y="124.46"/>
-<pinref part="CONN4" gate="G$1" pin="2"/>
-<wire x1="205.74" y1="104.14" x2="218.44" y2="104.14" width="0.1524" layer="91"/>
-<junction x="218.44" y="104.14"/>
-<pinref part="CONN1" gate="G$1" pin="7"/>
-<wire x1="198.12" y1="157.48" x2="185.42" y2="157.48" width="0.1524" layer="91"/>
-<wire x1="185.42" y1="157.48" x2="185.42" y2="137.16" width="0.1524" layer="91"/>
-<wire x1="185.42" y1="137.16" x2="185.42" y2="116.84" width="0.1524" layer="91"/>
-<wire x1="185.42" y1="116.84" x2="185.42" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="185.42" y1="96.52" x2="185.42" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="218.44" y1="162.56" x2="218.44" y2="142.24" width="0.1524" layer="91"/>
+<wire x1="218.44" y1="142.24" x2="218.44" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="218.44" y1="121.92" x2="218.44" y2="101.6" width="0.1524" layer="91"/>
+<wire x1="218.44" y1="101.6" x2="218.44" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="185.42" y1="160.02" x2="185.42" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="185.42" y1="139.7" x2="185.42" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="185.42" y1="119.38" x2="185.42" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="185.42" y1="99.06" x2="185.42" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="185.42" y1="88.9" x2="218.44" y2="88.9" width="0.1524" layer="91"/>
 <junction x="218.44" y="88.9"/>
-<pinref part="CONN2" gate="G$1" pin="7"/>
-<wire x1="198.12" y1="137.16" x2="185.42" y2="137.16" width="0.1524" layer="91"/>
-<junction x="185.42" y="137.16"/>
-<pinref part="CONN3" gate="G$1" pin="7"/>
-<wire x1="198.12" y1="116.84" x2="185.42" y2="116.84" width="0.1524" layer="91"/>
-<junction x="185.42" y="116.84"/>
-<pinref part="CONN4" gate="G$1" pin="7"/>
-<wire x1="198.12" y1="96.52" x2="185.42" y2="96.52" width="0.1524" layer="91"/>
-<junction x="185.42" y="96.52"/>
+<pinref part="CONN1" gate="G$1" pin="5"/>
+<wire x1="185.42" y1="160.02" x2="198.12" y2="160.02" width="0.1524" layer="91"/>
+<pinref part="CONN1" gate="G$1" pin="4"/>
+<wire x1="218.44" y1="162.56" x2="205.74" y2="162.56" width="0.1524" layer="91"/>
+<pinref part="CONN2" gate="G$1" pin="5"/>
+<wire x1="185.42" y1="139.7" x2="198.12" y2="139.7" width="0.1524" layer="91"/>
+<junction x="185.42" y="139.7"/>
+<pinref part="CONN2" gate="G$1" pin="4"/>
+<wire x1="205.74" y1="142.24" x2="218.44" y2="142.24" width="0.1524" layer="91"/>
+<junction x="218.44" y="142.24"/>
+<pinref part="CONN3" gate="G$1" pin="5"/>
+<wire x1="185.42" y1="119.38" x2="198.12" y2="119.38" width="0.1524" layer="91"/>
+<junction x="185.42" y="119.38"/>
+<pinref part="CONN3" gate="G$1" pin="4"/>
+<wire x1="205.74" y1="121.92" x2="218.44" y2="121.92" width="0.1524" layer="91"/>
+<junction x="218.44" y="121.92"/>
+<pinref part="CONN4" gate="G$1" pin="5"/>
+<wire x1="185.42" y1="99.06" x2="198.12" y2="99.06" width="0.1524" layer="91"/>
+<junction x="185.42" y="99.06"/>
+<pinref part="CONN4" gate="G$1" pin="4"/>
+<wire x1="218.44" y1="101.6" x2="205.74" y2="101.6" width="0.1524" layer="91"/>
+<junction x="218.44" y="101.6"/>
 </segment>
 </net>
 <net name="5V" class="0">
@@ -7621,39 +7622,39 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <wire x1="116.84" y1="154.94" x2="119.38" y2="154.94" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="CONN1" gate="G$1" pin="1"/>
 <pinref part="U$17" gate="G$1" pin="5V"/>
-<wire x1="198.12" y1="165.1" x2="190.5" y2="165.1" width="0.1524" layer="91"/>
-<wire x1="190.5" y1="165.1" x2="190.5" y2="172.72" width="0.1524" layer="91"/>
-<pinref part="CONN2" gate="G$1" pin="1"/>
-<wire x1="198.12" y1="144.78" x2="190.5" y2="144.78" width="0.1524" layer="91"/>
-<wire x1="190.5" y1="144.78" x2="190.5" y2="165.1" width="0.1524" layer="91"/>
-<junction x="190.5" y="165.1"/>
-<pinref part="CONN3" gate="G$1" pin="1"/>
-<wire x1="198.12" y1="124.46" x2="190.5" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="190.5" y1="124.46" x2="190.5" y2="144.78" width="0.1524" layer="91"/>
-<junction x="190.5" y="144.78"/>
-<pinref part="CONN4" gate="G$1" pin="1"/>
-<wire x1="198.12" y1="104.14" x2="190.5" y2="104.14" width="0.1524" layer="91"/>
-<wire x1="190.5" y1="104.14" x2="190.5" y2="124.46" width="0.1524" layer="91"/>
-<junction x="190.5" y="124.46"/>
-<pinref part="CONN4" gate="G$1" pin="8"/>
-<wire x1="205.74" y1="96.52" x2="213.36" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="213.36" y1="96.52" x2="213.36" y2="116.84" width="0.1524" layer="91"/>
-<wire x1="213.36" y1="116.84" x2="213.36" y2="137.16" width="0.1524" layer="91"/>
-<wire x1="213.36" y1="137.16" x2="213.36" y2="157.48" width="0.1524" layer="91"/>
-<wire x1="213.36" y1="157.48" x2="213.36" y2="172.72" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="142.24" x2="190.5" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="162.56" x2="190.5" y2="172.72" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="121.92" x2="190.5" y2="142.24" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="101.6" x2="190.5" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="99.06" x2="213.36" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="119.38" x2="213.36" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="139.7" x2="213.36" y2="160.02" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="160.02" x2="213.36" y2="172.72" width="0.1524" layer="91"/>
 <wire x1="213.36" y1="172.72" x2="190.5" y2="172.72" width="0.1524" layer="91"/>
 <junction x="190.5" y="172.72"/>
-<pinref part="CONN1" gate="G$1" pin="8"/>
-<wire x1="205.74" y1="157.48" x2="213.36" y2="157.48" width="0.1524" layer="91"/>
-<junction x="213.36" y="157.48"/>
-<pinref part="CONN2" gate="G$1" pin="8"/>
-<wire x1="205.74" y1="137.16" x2="213.36" y2="137.16" width="0.1524" layer="91"/>
-<junction x="213.36" y="137.16"/>
-<pinref part="CONN3" gate="G$1" pin="8"/>
-<wire x1="205.74" y1="116.84" x2="213.36" y2="116.84" width="0.1524" layer="91"/>
-<junction x="213.36" y="116.84"/>
+<pinref part="CONN1" gate="G$1" pin="3"/>
+<wire x1="190.5" y1="162.56" x2="198.12" y2="162.56" width="0.1524" layer="91"/>
+<junction x="190.5" y="162.56"/>
+<pinref part="CONN1" gate="G$1" pin="6"/>
+<wire x1="205.74" y1="160.02" x2="213.36" y2="160.02" width="0.1524" layer="91"/>
+<junction x="213.36" y="160.02"/>
+<pinref part="CONN2" gate="G$1" pin="3"/>
+<wire x1="190.5" y1="142.24" x2="198.12" y2="142.24" width="0.1524" layer="91"/>
+<junction x="190.5" y="142.24"/>
+<pinref part="CONN2" gate="G$1" pin="6"/>
+<wire x1="205.74" y1="139.7" x2="213.36" y2="139.7" width="0.1524" layer="91"/>
+<junction x="213.36" y="139.7"/>
+<pinref part="CONN3" gate="G$1" pin="3"/>
+<wire x1="190.5" y1="121.92" x2="198.12" y2="121.92" width="0.1524" layer="91"/>
+<junction x="190.5" y="121.92"/>
+<pinref part="CONN3" gate="G$1" pin="6"/>
+<wire x1="205.74" y1="119.38" x2="213.36" y2="119.38" width="0.1524" layer="91"/>
+<junction x="213.36" y="119.38"/>
+<pinref part="CONN4" gate="G$1" pin="3"/>
+<wire x1="190.5" y1="101.6" x2="198.12" y2="101.6" width="0.1524" layer="91"/>
+<pinref part="CONN4" gate="G$1" pin="6"/>
+<wire x1="213.36" y1="99.06" x2="205.74" y2="99.06" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="B_RX1_N" class="0">
@@ -7668,16 +7669,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <junction x="142.24" y="167.64"/>
 </segment>
 <segment>
-<pinref part="CONN1" gate="G$1" pin="5"/>
-<wire x1="162.56" y1="160.02" x2="198.12" y2="160.02" width="0.1524" layer="91"/>
-<label x="170.18" y="160.02" size="1.778" layer="95"/>
+<label x="170.18" y="157.48" size="1.778" layer="95"/>
+<pinref part="CONN1" gate="G$1" pin="7"/>
+<wire x1="198.12" y1="157.48" x2="162.56" y2="157.48" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="B_RX1_P" class="0">
 <segment>
-<pinref part="CONN1" gate="G$1" pin="6"/>
-<wire x1="241.3" y1="160.02" x2="205.74" y2="160.02" width="0.1524" layer="91"/>
-<label x="223.52" y="160.02" size="1.778" layer="95"/>
+<label x="223.52" y="157.48" size="1.778" layer="95"/>
+<pinref part="CONN1" gate="G$1" pin="8"/>
+<wire x1="205.74" y1="157.48" x2="241.3" y2="157.48" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U2" gate="G$1" pin="A"/>
@@ -7702,16 +7703,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <junction x="142.24" y="129.54"/>
 </segment>
 <segment>
-<pinref part="CONN2" gate="G$1" pin="5"/>
-<wire x1="162.56" y1="139.7" x2="198.12" y2="139.7" width="0.1524" layer="91"/>
-<label x="170.18" y="139.7" size="1.778" layer="95"/>
+<label x="170.18" y="137.16" size="1.778" layer="95"/>
+<pinref part="CONN2" gate="G$1" pin="7"/>
+<wire x1="162.56" y1="137.16" x2="198.12" y2="137.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="B_RX2_P" class="0">
 <segment>
-<pinref part="CONN2" gate="G$1" pin="6"/>
-<wire x1="205.74" y1="139.7" x2="241.3" y2="139.7" width="0.1524" layer="91"/>
-<label x="223.52" y="139.7" size="1.778" layer="95"/>
+<label x="223.52" y="137.16" size="1.778" layer="95"/>
+<pinref part="CONN2" gate="G$1" pin="8"/>
+<wire x1="241.3" y1="137.16" x2="205.74" y2="137.16" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U3" gate="G$1" pin="A"/>
@@ -7736,16 +7737,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <junction x="142.24" y="91.44"/>
 </segment>
 <segment>
-<pinref part="CONN3" gate="G$1" pin="5"/>
-<wire x1="162.56" y1="119.38" x2="198.12" y2="119.38" width="0.1524" layer="91"/>
-<label x="170.18" y="119.38" size="1.778" layer="95"/>
+<label x="170.18" y="116.84" size="1.778" layer="95"/>
+<pinref part="CONN3" gate="G$1" pin="7"/>
+<wire x1="162.56" y1="116.84" x2="198.12" y2="116.84" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="B_RX3_P" class="0">
 <segment>
-<pinref part="CONN3" gate="G$1" pin="6"/>
-<wire x1="205.74" y1="119.38" x2="241.3" y2="119.38" width="0.1524" layer="91"/>
-<label x="223.52" y="119.38" size="1.778" layer="95"/>
+<label x="223.52" y="116.84" size="1.778" layer="95"/>
+<pinref part="CONN3" gate="G$1" pin="8"/>
+<wire x1="205.74" y1="116.84" x2="241.3" y2="116.84" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U4" gate="G$1" pin="A"/>
@@ -7770,16 +7771,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <junction x="142.24" y="53.34"/>
 </segment>
 <segment>
-<pinref part="CONN4" gate="G$1" pin="5"/>
-<wire x1="162.56" y1="99.06" x2="198.12" y2="99.06" width="0.1524" layer="91"/>
-<label x="170.18" y="99.06" size="1.778" layer="95"/>
+<label x="170.18" y="96.52" size="1.778" layer="95"/>
+<pinref part="CONN4" gate="G$1" pin="7"/>
+<wire x1="198.12" y1="96.52" x2="162.56" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="B_RX4_P" class="0">
 <segment>
-<pinref part="CONN4" gate="G$1" pin="6"/>
-<wire x1="205.74" y1="99.06" x2="241.3" y2="99.06" width="0.1524" layer="91"/>
-<label x="223.52" y="99.06" size="1.778" layer="95"/>
+<label x="223.52" y="96.52" size="1.778" layer="95"/>
+<pinref part="CONN4" gate="G$1" pin="8"/>
+<wire x1="241.3" y1="96.52" x2="205.74" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U5" gate="G$1" pin="A"/>
@@ -7794,9 +7795,9 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </net>
 <net name="A_TX1_P" class="0">
 <segment>
-<pinref part="CONN1" gate="G$1" pin="3"/>
-<wire x1="198.12" y1="162.56" x2="162.56" y2="162.56" width="0.1524" layer="91"/>
-<label x="170.18" y="162.56" size="1.778" layer="95"/>
+<label x="170.18" y="165.1" size="1.778" layer="95"/>
+<pinref part="CONN1" gate="G$1" pin="1"/>
+<wire x1="198.12" y1="165.1" x2="162.56" y2="165.1" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U2" gate="G$1" pin="Y"/>
@@ -7821,16 +7822,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <junction x="142.24" y="165.1"/>
 </segment>
 <segment>
-<pinref part="CONN1" gate="G$1" pin="4"/>
-<wire x1="205.74" y1="162.56" x2="241.3" y2="162.56" width="0.1524" layer="91"/>
-<label x="223.52" y="162.56" size="1.778" layer="95"/>
+<label x="223.52" y="165.1" size="1.778" layer="95"/>
+<pinref part="CONN1" gate="G$1" pin="2"/>
+<wire x1="205.74" y1="165.1" x2="241.3" y2="165.1" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A_TX2_P" class="0">
 <segment>
-<pinref part="CONN2" gate="G$1" pin="3"/>
-<wire x1="162.56" y1="142.24" x2="198.12" y2="142.24" width="0.1524" layer="91"/>
-<label x="170.18" y="142.24" size="1.778" layer="95"/>
+<label x="170.18" y="144.78" size="1.778" layer="95"/>
+<pinref part="CONN2" gate="G$1" pin="1"/>
+<wire x1="162.56" y1="144.78" x2="198.12" y2="144.78" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U3" gate="G$1" pin="Y"/>
@@ -7855,16 +7856,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <junction x="142.24" y="127"/>
 </segment>
 <segment>
-<pinref part="CONN2" gate="G$1" pin="4"/>
-<wire x1="241.3" y1="142.24" x2="205.74" y2="142.24" width="0.1524" layer="91"/>
-<label x="223.52" y="142.24" size="1.778" layer="95"/>
+<label x="223.52" y="144.78" size="1.778" layer="95"/>
+<pinref part="CONN2" gate="G$1" pin="2"/>
+<wire x1="241.3" y1="144.78" x2="205.74" y2="144.78" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A_TX3_P" class="0">
 <segment>
-<pinref part="CONN3" gate="G$1" pin="3"/>
-<wire x1="162.56" y1="121.92" x2="198.12" y2="121.92" width="0.1524" layer="91"/>
-<label x="170.18" y="121.92" size="1.778" layer="95"/>
+<label x="170.18" y="124.46" size="1.778" layer="95"/>
+<pinref part="CONN3" gate="G$1" pin="1"/>
+<wire x1="162.56" y1="124.46" x2="198.12" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U4" gate="G$1" pin="Y"/>
@@ -7889,16 +7890,16 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <junction x="142.24" y="88.9"/>
 </segment>
 <segment>
-<pinref part="CONN3" gate="G$1" pin="4"/>
-<wire x1="205.74" y1="121.92" x2="241.3" y2="121.92" width="0.1524" layer="91"/>
-<label x="223.52" y="121.92" size="1.778" layer="95"/>
+<label x="223.52" y="124.46" size="1.778" layer="95"/>
+<pinref part="CONN3" gate="G$1" pin="2"/>
+<wire x1="205.74" y1="124.46" x2="241.3" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A_TX4_P" class="0">
 <segment>
-<pinref part="CONN4" gate="G$1" pin="3"/>
-<wire x1="162.56" y1="101.6" x2="198.12" y2="101.6" width="0.1524" layer="91"/>
-<label x="170.18" y="101.6" size="1.778" layer="95"/>
+<label x="170.18" y="104.14" size="1.778" layer="95"/>
+<pinref part="CONN4" gate="G$1" pin="1"/>
+<wire x1="162.56" y1="104.14" x2="198.12" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U5" gate="G$1" pin="Y"/>
@@ -7923,9 +7924,9 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <junction x="142.24" y="50.8"/>
 </segment>
 <segment>
-<pinref part="CONN4" gate="G$1" pin="4"/>
-<wire x1="205.74" y1="101.6" x2="241.3" y2="101.6" width="0.1524" layer="91"/>
-<label x="223.52" y="101.6" size="1.778" layer="95"/>
+<label x="223.52" y="104.14" size="1.778" layer="95"/>
+<pinref part="CONN4" gate="G$1" pin="2"/>
+<wire x1="205.74" y1="104.14" x2="241.3" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="RS485_1_TXEN" class="0">
