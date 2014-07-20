@@ -1,7 +1,6 @@
 #include <ndl3.h>
 #include <stdint.h>
 #include <string.h>
-#include <stdio.h>
 #include <assert.h>
 
 /**
@@ -526,7 +525,6 @@ void NDL3_L2_pop(NDL3Net * restrict net,
 
 static void NDL3_L2_push_in_pkt(NDL3Net * restrict net, semi_packet * pkt,
                          L2_data_packet * L2pkt) {
-  printf("recv side got ");
   /*
    * Called for packets that are being received. Does not handle START packets,
    * because those are somewhat more complicated and thus have their own
@@ -534,11 +532,9 @@ static void NDL3_L2_push_in_pkt(NDL3Net * restrict net, semi_packet * pkt,
    * semi_packet.
    */
   if (L2pkt->type == END_PACKET) {
-    printf("end\n");
     pkt->state |= PACKET_CLOSING;
     net->free(pkt->data, net->userdata);
   } else if (L2pkt->type == DATA_PACKET) {
-    printf("data\n");
     if (L2pkt->offset != pkt->last_offset) {
       /*
        * We received an out of order data packet, so set the PACKET_BACK flag.
@@ -559,19 +555,15 @@ static void NDL3_L2_push_in_pkt(NDL3Net * restrict net, semi_packet * pkt,
 
 static void NDL3_L2_push_out_pkt(NDL3Net * restrict net, semi_packet * pkt,
                          L2_data_packet * L2pkt) {
-  printf("send side got ");
   /* Called for packets that are being sent. */
   if (L2pkt->type == ACK_PACKET) {
-    printf("ack\n");
     pkt->last_acked_offset = L2pkt->offset;
     pkt->time_last_ack = net->time;
   } else if (L2pkt->type == BACK_PACKET) {
-    printf("back\n");
     pkt->last_offset = L2pkt->offset;
     pkt->last_acked_offset = L2pkt->offset;
     pkt->time_last_ack = net->time;
   } else if (L2pkt->type == FIN_PACKET) {
-    printf("fin\n");
     pkt->state |= PACKET_CLOSING;
     net->free(pkt->data, net->userdata);
   } else {
@@ -585,7 +577,6 @@ static void push_start(NDL3Net * restrict net, NDL3_port port,
    * Handle receiving START packet. Only place where memory is currently
    * allocated by this system.
    */
-  printf("recv side got start\n");
   for (int j = 0; j < NDL3_PACKETS_PER_PORT; j++) {
     semi_packet * pkt = &net->ports[port].in_pkts[j];
     if (pkt->state == PACKET_EMPTY) {
