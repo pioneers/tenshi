@@ -61,6 +61,14 @@ def build(bld):
         includes="src"
     )
 
+    if 'native' in bld.variant:
+        bld.program(
+            source='src/test.c',
+            target='ndl3_test',
+            use='ndl3_objects',
+            includes='src',
+        )
+
     if 'emscripten' in bld.variant:
         header = os.path.join(bld.env['root'], 'network', 'src', 'ndl3.h')
 
