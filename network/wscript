@@ -1,9 +1,11 @@
 #!/usr/bin/env python
-from waf_extensions import declare_variants, run_all, sub_conf
+from waf_extensions import declare_variants, run_all, sub_conf, \
+    build_emcc_lib, export_str_from_filenames, \
+    configure_emscripten
 import re
 import os.path
 
-variants = ['debug_native']
+variants = ['release_emscripten', 'debug_native']
 declare_variants(variants,
                  subdir='network')
 
@@ -23,6 +25,8 @@ def configure(conf):
     if not conf.env['root']:
         conf.env['root'] = os.path.join(conf.path.abspath(), os.pardir,
                                         os.pardir)
+    with sub_conf(conf, 'network/release_emscripten'):
+        configure_emscripten(conf)
     with sub_conf(conf, 'network/debug_native'):
         configure_debug_native(conf)
 
@@ -53,6 +57,13 @@ def build(bld):
     # Always build the objects.
     bld.objects(
         source=files,
-        target="ndnet_objects",
+        target="ndl3_objects",
         includes="src"
     )
+
+    if 'emscripten' in bld.variant:
+        header = os.path.join(bld.env['root'], 'network', 'src', 'ndl3.h')
+
+        export_str = export_str_from_filenames([header])
+
+        build_emcc_lib(bld, export_str, target='ndl3', use='ndl3_objects')
