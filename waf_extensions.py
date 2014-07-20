@@ -2,6 +2,7 @@ from collections import defaultdict
 import waflib.Build
 
 from waflib import Utils
+import os.path
 import re
 
 variants = defaultdict(set)
@@ -74,3 +75,82 @@ def add_dependency(bld, tgt, src):
     if src_node is None:
         bld.fatal("Could not find manual dependency '{}'".format(src))
     bld.add_manual_dependency(tgt, src_node)
+
+
+def configure_emscripten(conf):
+    conf.env['CC'] = 'emcc'
+    conf.env['CC_NAME'] = 'emcc'
+    conf.env['COMPILER_CC'] = 'emcc'
+    conf.env['LINK_CC'] = 'emcc'
+    conf.env.append_value('CFLAGS', '-Wno-warn-absolute-paths')
+    conf.load('compiler_c')
+    conf.env['cprogram_PATTERN'] = '%s.js'
+    conf.env['AR'] = 'llvm-ar'
+    conf.load('ar')
+
+
+def export_str_from_filenames(filenames):
+    func_decl = re.compile(r'''
+    # Begin at the start of the line
+    ^
+    # Do not capture the next group
+    (?:
+    # Require some words with possible * and ().
+    [*()]*\w+[*()]*\s+
+    # There must be at least one such word
+    )+
+    # Then allow * and (
+    [*(]*
+    # There may be some whitespace
+    \s*
+    # Capture the function name.
+    (\w+)
+    # There may be some whitespace
+    \s*
+    # Allow a )
+    \)?
+    # There may be some whitespace
+    \s*
+    # And then an argument list
+    \(''', flags=re.MULTILINE | re.VERBOSE)
+
+    api_fns = []
+
+    for filename in filenames:
+        with open(filename) as f:
+            contents = f.read()
+            api_fns.extend(func_decl.findall(contents))
+
+    export_str = ','.join(
+        "'_{}'".format(fn) for fn in api_fns)
+    return export_str
+
+
+def build_emcc_lib(bld, export_str, target, **kwargs):
+
+    fake_node_js = os.path.join(bld.env['root'],
+                                'vm/angelic/src/fake_node.js')
+
+    # Using emscripten, build a .so, and from that build a .js.
+    bld(
+        features=['c', 'cshlib'],
+        target=target,
+        **kwargs
+    )
+    bld(
+        name='emcc library',
+        rule=' '.join([
+            'emcc ${SRC} -o ${TGT} ${CFLAGS}',
+            '-s EXPORTED_FUNCTIONS="[' + export_str + ']"',
+            '--llvm-lto 3',
+            '-s RESERVED_FUNCTION_POINTERS=1024',
+            '-s TOTAL_STACK=1600000',
+            '--pre-js ' + fake_node_js,
+            ]),
+        source='lib{0}.so'.format(target),
+        target='{0}.js'.format(target),
+    )
+    bld.add_manual_dependency('{0}.js'.format(target),
+                              fake_node_js)
+    bld.add_manual_dependency('{0}.js'.format(target),
+                              target)
