@@ -47,7 +47,7 @@ function onResume() {
 
 exports.init = function(_window) {
   $(function() {
-    simmy = new Simulator(document.getElementById("mainScreen"), null, "testMap");
+    simmy = new Simulator(document.getElementById("sim-mainScreen"), null, "testMap");
 
     // TODO (ericnguyen): wrap all these test functions and organize them elsewhere
     var keyMan = new KeyManager(document);

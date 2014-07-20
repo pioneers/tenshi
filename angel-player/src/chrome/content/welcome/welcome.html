@@ -1,37 +1,33 @@
-<!doctype html>
+<style scoped>
+    @import url(chrome://angel-player/content/welcome/welcome.css);
+</style>
+<script>
+    requireStub('tenshi/welcome/welcome.js');
+</script>
 
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css"
-              href="chrome://angel-player/content/welcome/welcome.css">
-        <script>
-            requireStub('tenshi/welcome/welcome.js');
-        </script>
-    </head>
-    <body>
-        <p>
-            Hello world! To get started, click on one of the above tabs.
-        </p>
-        <div>
-            <button type="button" id="openButton">
-                Open
-            </button>
-            <button type="button" id="saveButton">
-                Save
-            </button>
-        </div>
-        <div>
-            XBee address:
-            <input type="text" id="xbeeAddrInput" pattern="[0-9a-fA-F]{16}" required>
-            </input>
-            Serial port:
-            <input type="text" id="serialPort" required></input>
-            <button type="button" id="connectButton">
-                Connect
-            </button>
-            <button type="button" id="disconnectButton">
-                Disconnect
-            </button>
-        </div>
-    </body>
-</html>
+<div id="welcome-body">
+    <p>
+        Hello world! To get started, click on one of the above tabs.
+    </p>
+    <div>
+        <button type="button" id="openButton">
+            Open
+        </button>
+        <button type="button" id="saveButton">
+            Save
+        </button>
+    </div>
+    <div>
+        XBee address:
+        <input type="text" id="xbeeAddrInput" pattern="[0-9a-fA-F]{16}" required>
+        </input>
+        Serial port:
+        <input type="text" id="serialPort" required></input>
+        <button type="button" id="connectButton">
+            Connect
+        </button>
+        <button type="button" id="disconnectButton">
+            Disconnect
+        </button>
+    </div>
+</div>

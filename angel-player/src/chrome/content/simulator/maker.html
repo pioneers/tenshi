@@ -1,48 +1,45 @@
-<html>
-    <head>
-        <title>test</title>
-        <script src="../vendor-js/jquery.js"></script>
-        <script>
-            requireStub('tenshi/simulator/main-edit');
-        </script>
-    </head>
-    <link rel="stylesheet" type="text/css" href="chrome://angel-player/content/simulator/maker.css">
-    <body>
-        <div id="toolbar">
-            Tools
-            <button type="button" class="toolBut" id="Select">Select</button><br />
-            <button type="button" class="toolBut" id="Move">Move</button><br />
-            <button type="button" class="toolBut" id="Resize">Resize</button><br />
-            <button type="button" class="toolBut" id="Rotate">Rotate</button><br />
-            <button type="button" class="toolBut" id="Delete">Delete</button><br />
+<style scoped>
+    @import url(chrome://angel-player/content/simulator/maker.css);
+</style>
+<script>
+    requireStub('tenshi/simulator/main-edit');
+</script>
+
+<div id="maker-body">
+    <div id="toolbar">
+        Tools
+        <button type="button" class="toolBut" id="Select">Select</button><br />
+        <button type="button" class="toolBut" id="Move">Move</button><br />
+        <button type="button" class="toolBut" id="Resize">Resize</button><br />
+        <button type="button" class="toolBut" id="Rotate">Rotate</button><br />
+        <button type="button" class="toolBut" id="Delete">Delete</button><br />
+    </div>
+    <div id="eddy-mainScreen"></div>
+    <div id="addingSelector">
+        Object Selector<br>
+        Class: <select id="classSelector">
+            <option></option>
+            <option>Chassi</option>
+            <option>Motors</option>
+            <option>Sensors</option>
+        </select><br>
+        Object:  <select id="objSelector">
+        </select><br>
+        <div id="addingInfo" class="parametersList"></div>
+        <button id="add" class="submitButton" type="button"D</button>
+    </div>
+    <div id="currentSelection">
+        Current Selection<br>
+        <div id="selnInfo">
         </div>
-        <div id="mainScreen"></div>
-        <div id="addingSelector">
-            Object Selector<br>
-            Class: <select id="classSelector">
-                <option></option>
-                <option>Chassi</option>
-                <option>Motors</option>
-                <option>Sensors</option>
-            </select><br>
-            Object:  <select id="objSelector">
-            </select><br>
-            <div id="addingInfo" class="parametersList"></div>
-            <button id="add" class="submitButton" type="button"D</button>
-        </div>
-        <div id="currentSelection">
-            Current Selection<br>
-            <div id="selnInfo">
-            </div>
-        </div>
-        <div id="options">
-            <button type="button" class="optionBut" id="Grid" onclick="grid.toggle()">Grid</button>
-            <button type="button" class="optionBut" onclick="1 + 1">Clear</button>
-            <button type="button" class="optionBut" onclick="1 + 1">Undo</button>
-            <button type="button" class="optionBut" onclick="1 + 1">Save</button>
-            <button type="button" class="optionBut" onclick="1 + 1">Load</button>
-            <button type="button" class="optionBut" onclick="1 + 1">Cam</button>
-            <button type="button" class="optionBut" onclick="1 + 1">Help</button>
-        </div>
-    </body>
-</html>
+    </div>
+    <div id="options">
+        <button type="button" class="optionBut" id="Grid" onclick="grid.toggle()">Grid</button>
+        <button type="button" class="optionBut" onclick="1 + 1">Clear</button>
+        <button type="button" class="optionBut" onclick="1 + 1">Undo</button>
+        <button type="button" class="optionBut" onclick="1 + 1">Save</button>
+        <button type="button" class="optionBut" onclick="1 + 1">Load</button>
+        <button type="button" class="optionBut" onclick="1 + 1">Cam</button>
+        <button type="button" class="optionBut" onclick="1 + 1">Help</button>
+    </div>
+</div>

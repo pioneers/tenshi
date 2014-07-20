@@ -1,18 +1,13 @@
-<!doctype html>
+<style scoped>
+    @import url(chrome://angel-player/content/blockeditor/blockeditor.css);
+</style>
+<script>
+    requireStub('tenshi/blockeditor/blockeditor')
+</script>
 
-<html>
-    <head>
-        <title>Block Editor</title>
-        <link rel="stylesheet" type="text/css"
-              href="chrome://angel-player/content/blockeditor/blockeditor.css">
-        <script>
-          requireStub('tenshi/blockeditor/blockeditor')
-        </script>
-    </head>
-    <body>
-        <svg id="blocks-main" xmlns="http://www.w3.org/2000/svg" version="1.1"
-                width="10000em" height="10000em" viewBox="0 0 10000 10000">
-            <g id="width-computing-group"/>
-        </svg>
-    </body>
-</html>
+<div id="blockeditor-body">
+    <svg id="blocks-main" xmlns="http://www.w3.org/2000/svg" version="1.1"
+            width="10000em" height="10000em" viewBox="0 0 10000 10000">
+        <g id="width-computing-group"/>
+    </svg>
+</div>

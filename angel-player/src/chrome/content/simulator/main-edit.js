@@ -12,7 +12,7 @@ exports.init = function() {
       document.getElementById("objSelector"),
       document.getElementById("addingInfo"),
       document.getElementById("selnInfo"),
-      document.getElementById("mainScreen"), null, "blankMap");
+      document.getElementById("eddy-mainScreen"), null, "blankMap");
     var curSelection = null;
     var keyMan = new KeyManager(document);
 

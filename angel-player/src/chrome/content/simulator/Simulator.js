@@ -48,7 +48,7 @@ function Simulator(domElement, master, mapId)
 
     var self = this;
 
-    window.onresize = function(event)
+    var resizeCanvas = function(event)
     {
         self.width = self.domElement.offsetWidth;
         self.height = self.domElement.offsetHeight;
@@ -58,6 +58,7 @@ function Simulator(domElement, master, mapId)
         self.camera.height = self.height;
         self.camera.updateProjectionMatrix();
     };
+    window.$(window).resize(resizeCanvas);
 }
 
 // creates a mesh at location, for testing purposes

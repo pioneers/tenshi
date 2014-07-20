@@ -3,7 +3,7 @@
 
 /* Margins get set to 0 because otherwise they mess up coordinates for mouse
    events. */
-body {
+#blockeditor-body {
     margin: 0 0 0 0;
     background-color: white;
 }

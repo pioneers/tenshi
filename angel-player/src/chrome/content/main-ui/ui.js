@@ -26,24 +26,13 @@ var ENVIRONMENTS = [
             $("#controls-div").show();
             $("#texteditor-div").show();
             $("#console-div").show();
+            $("#apihelp-div").show();
         },
         deactivate: function(next) {
             $("#controls-div").hide();
             $("#texteditor-div").hide();
             $("#console-div").hide();
-        },
-    }, {
-        text: "Block Editor",
-        image: 'chrome://angel-player/content/main-ui/assets/blockeditor.png',
-        activate: function(prev) {
-            $("#controls-div").show();
-            $("#blockeditor-div").show();
-            $("#console-div").show();
-        },
-        deactivate: function(next) {
-            $("#controls-div").hide();
-            $("#blockeditor-div").hide();
-            $("#console-div").hide();
+            $("#apihelp-div").hide();
         },
     }, {
         text: "Simulator",
@@ -53,6 +42,9 @@ var ENVIRONMENTS = [
             $("#texteditor-div").show();
             $("#simulator-div").show();
             $("#console-div").show();
+            // This is a hack to make the simulator show up or else it makes
+            // the simulator 0x0
+            $(window).resize();
         },
         deactivate: function(next) {
             $("#controls-div").hide();
@@ -65,6 +57,9 @@ var ENVIRONMENTS = [
         image: 'chrome://angel-player/content/main-ui/assets/builder.png',
         activate: function(prev) {
             $("#maker-div").show();
+            // This is a hack to make the robot builder show up or else it makes
+            // the robot builder 0x0
+            $(window).resize();
         },
         deactivate: function(next) {
             $("#maker-div").hide();

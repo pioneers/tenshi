@@ -1,7 +1,11 @@
-body {
+#welcome-body {
     background-image: url("assets/Angel_player.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    /* TODO(rqou): Figure out why we need this??? */;
+    position: absolute;
 }
 
 input:invalid {

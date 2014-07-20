@@ -27,6 +27,26 @@
         </script>
     </head>
     <body>
+      <!-- The UI contains modules that take up some set of the following
+           regions:
+
+           ####################################################################
+           # Top header                                                       #
+           ####################################################################
+           #         #                                              #         #
+           # Left    #  Center region                               #   Right #
+           # sidebar #                                              # sidebar #
+           #         #                                              #         #
+           #         #                                              #         #
+           #         #                                              #         #
+           #         #                                              #         #
+           ####################################################################
+           # Bottom footer                                                    #
+           ####################################################################
+
+           Each region contains all of the modules that could possibly exist
+           there. Javascript will hide/show the appropriate modules. -->
+      <div id="topHeader">
         <div id="header">
           <div id="logo">
               <img id="appLogo" src="../common/assets/svg/pie-sprocket-color.svg"></img>
@@ -41,38 +61,41 @@
             <!--Added dynamically-->
           </div>
         </div>
-        <div id="mainContent">
+      </div>
+      <div id="middleRegion">
+        <div id="leftSidebar">
+        </div>
+        <div id="centerRegion">
           <div ng-include id="welcome-div" class="module-div"
                src="'../welcome/welcome.html'">
           </div>
-
-          <div ng-include id="controls-div" class="module-div"
-               src="'chrome://angel-player/content/controls/main.html'">
-          </div>
-
           <div ng-include id="texteditor-div" class="module-div"
                src="'../texteditor/editor.html'">
           </div>
-
-          <div id="console-div" class="module-div">
-            <iframe src="../console/console.html"></iframe>
-          </div>
-
-          <div ng-include id="blockeditor-div" class="module-div"
-               src="'../blockeditor/blockeditor.html'">
-          </div>
-
           <div ng-include id="simulator-div" class="module-div"
             src="'../simulator/main.html'">
           </div>
-
           <div ng-include id="maker-div" class="module-div"
                src="'../simulator/maker.html'">
           </div>
-
           <div id="stargate-div" class="module-div">
-            <iframe src="../debug-main.html"></iframe>
+            <iframe src="../debug-main.html" class="absolutelyNoSpace">
+            </iframe>
           </div>
         </div>
+        <div id="rightSidebar">
+          <div id="apihelp-div" class="module-div">
+            Pretend API help was here...
+          </div>
+        </div>
+      </div>
+      <div id="bottomFooter">
+        <div ng-include id="console-div" class="module-div"
+             src="'../console/console.html'">
+        </div>
+        <div ng-include id="controls-div" class="module-div"
+             src="'../controls/main.html'">
+        </div>
+      </div>
     </body>
 </html>

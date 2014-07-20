@@ -1,7 +1,7 @@
 #toolbar
 {
     position:fixed;
-    top:5px;
+    top:55px;
     left:5px;
     background-color: #999999;
     width:5%;
@@ -9,10 +9,17 @@
     height:80%;
 }
 
-#mainScreen
+#maker-body
+{
+    width: 100%;
+    height: 100%;
+    /* TODO(rqou): Why? */
+}
+
+#eddy-mainScreen
 {
     position:fixed;
-    top:5px;
+    top:55px;
     left:5%;
     width:75%;
     height:80%;
@@ -21,7 +28,7 @@
 #addingSelector
 {
     position:fixed;
-    top:5px;
+    top:55px;
     left:80%;
     width:15%;
     min-width:120px;
@@ -33,7 +40,7 @@
 #currentSelection
 {
     position:fixed;
-    top:40%;
+    top:calc(40% + 50px);
     left:80%;
     width:15%;
     min-width:120px;
@@ -45,7 +52,7 @@
 #options
 {
     position:fixed;
-    top:80%;
+    top:calc(80% + 50px);
     left:5px;
     background-color:#d0e4fe;
     width:calc(95% - 5px);

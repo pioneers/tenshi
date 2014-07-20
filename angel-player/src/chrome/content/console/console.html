@@ -1,32 +1,21 @@
-<!doctype html>
+<style scoped type="text/css">
+    #console-body {
+        background-color: white;
+        height: 100%;
+        margin: 0;
+    }
 
-<html>
-    <head>
-        <script type='application/javascript;version=1.7'
-            src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
-        <script src="../common/require_stub.js"></script>
-        <script src="../vendor-js/jquery.js"></script>
-        <script src="../vendor-js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-        <style type="text/css">
-            html {
-                height: 100%;
-            }
+    #text {
+        width: 100%;
+        /* TODO(rqou): Breaks really bad when you resize */
+        height: 10em;
+    }
+</style>
+<script>
+    requireStub('tenshi/console/console');
+</script>
 
-            body {
-                background-color: white;
-                height: 100%;
-                margin: 0;
-            }
-
-            #text {
-                width: 100%;
-                /* TODO(rqou): Breaks really bad when you resize */
-                height: 70%;
-            }
-        </style>
-    </head>
-    <body onload="requireStub('tenshi/console/console')">
-        <div id="text"></div>
-        <button id="clear">Clear</button>
-    </body>
-</html>
+<div id="console-body">
+    <div id="text"></div>
+    <button id="clear">Clear</button>
+</div>
