@@ -1,26 +1,17 @@
 #!/usr/bin/env python
-from waf_extensions import declare_variants, run_all, sub_conf
+from waf_extensions import declare_variants, run_all, sub_conf, \
+    build_emcc_lib, export_str_from_filenames, \
+    configure_emscripten
 import re
 import os.path
 
-declare_variants(['release_emscripten', 'debug_native'],
+variants = ['release_emscripten', 'debug_native']
+declare_variants(variants,
                  subdir='lua')
 
 
 def options(opt):
     opt.load('compiler_c')
-
-
-def configure_emscripten(conf):
-    conf.env['CC'] = 'emcc'
-    conf.env['CC_NAME'] = 'emcc'
-    conf.env['COMPILER_CC'] = 'emcc'
-    conf.env['LINK_CC'] = 'emcc'
-    conf.env.append_value('CFLAGS', '-Wno-warn-absolute-paths')
-    conf.load('compiler_c')
-    conf.env['cprogram_PATTERN'] = '%s.js'
-    conf.env['AR'] = 'llvm-ar'
-    conf.load('ar')
 
 
 def configure_debug_native(conf):
@@ -115,69 +106,19 @@ def build(bld):
     )
 
     if 'emscripten' in bld.variant:
-        # Using emscripten, build a .so, and from that build a .js.
-        bld(
-            features=['c', 'cshlib'],
-            use='lua_objects lua_lua_objects',
-            target='lua',
-        )
-
-        api_fns = []
-
-        func_decl = re.compile(r'''
-        # Begin at the start of the line
-        ^
-        # Do not capture the next group
-        (?:
-        # Require some words with possible * and ().
-        [*()]*\w+[*()]*\s+
-        # There must be at least one such word
-        )+
-        # Then allow * and (
-        [*(]*
-        # There may be some whitespace
-        \s*
-        # Capture the function name.
-        (\w+)
-        # There may be some whitespace
-        \s*
-        # Allow a )
-        \)?
-        # There may be some whitespace
-        \s*
-        # And then an argument list
-        \(''', flags=re.MULTILINE | re.VERBOSE)
-
         tenshi_runtime_headers = bld.path.ant_glob("tenshi-runtime/inc/**/*.h")
         tenshi_runtime_headers = map(
             lambda x: os.path.join('..', 'tenshi-runtime', 'inc', str(x)),
             tenshi_runtime_headers)
+
         lua_headers = ['lua.h', 'lauxlib.h', 'js.h', 'threading.h']
 
-        for filename in lua_headers + tenshi_runtime_headers:
-            with open(os.path.join(bld.env['root'], 'vm', 'lua', 'src',
-                                   filename)) as f:
-                contents = f.read()
-                api_fns.extend(func_decl.findall(contents))
+        headers = []
 
-        export_str = ','.join(
-            "'_{}'".format(fn) for fn in api_fns)
+        for filename in lua_headers + list(tenshi_runtime_headers):
+            headers.append(os.path.join(bld.env['root'], 'vm', 'lua', 'src',
+                                        filename))
 
-        fake_node_js = bld.path.parent.find_resource(
-            'angelic/src/fake_node.js')
+        export_str = export_str_from_filenames(headers)
 
-        bld(
-            name='emcc library',
-            rule=' '.join([
-                'emcc ${SRC} -o ${TGT} ${CFLAGS}',
-                '-s EXPORTED_FUNCTIONS="[' + export_str + ']"',
-                '--llvm-lto 3',
-                '-s RESERVED_FUNCTION_POINTERS=1024',
-                '-s TOTAL_STACK=1600000',
-                '--pre-js ' + fake_node_js.abspath(),
-                ]),
-            source='liblua.so',
-            target='lua.js',
-        )
-        bld.add_manual_dependency('lua.js',
-                                  fake_node_js)
+        build_emcc_lib(bld, export_str, target='lua', use='lua_objects')
