@@ -431,13 +431,21 @@ int main(void) {
   sei();
 
   while (1) {
+    DDR(PINDEF_DIP1) |= _BV(IO(PINDEF_DIP1));  // Debug
+    PORT(PINDEF_DIP1) ^= _BV(IO(PINDEF_DIP1));  // Upper debug pin toggle
+
     if (TIFR4 & _BV(TOV4)) {
       TIFR4 = _BV(TOV4);
+
+      DDR(PINDEF_DIP2) |= _BV(IO(PINDEF_DIP2));  // Debug
+      PORT(PINDEF_DIP2) |= _BV(IO(PINDEF_DIP2));  // Lower debug pin high
 
       // This code is run every time a timer overflow occurs. This currently
       // happens at an frequency of just under 1 kHz (every 1.024 ms).
       read_adc();
       run_control_loop();
+
+      PORT(PINDEF_DIP2) |= _BV(IO(PINDEF_DIP2));  // Lower debug pin low
     }
   }
 }
