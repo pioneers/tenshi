@@ -38,38 +38,39 @@ void uart_init(uint32_t Desired_Baudrate) {
   #endif
 
   // Set to double speed mode.
-  UCSR0A = UCSR0A | (1 << U2X0);
+  SS_UCSRnA |= (1 << SS_U2Xn);
 
   // Set baud rate.
-  UBRR0H = (uint8_t)(UBBR >> 8);
-  UBRR0L = (uint8_t)UBBR;
+  SS_UBRRnH = (uint8_t)(UBBR >> 8);
+  SS_UBRRnL = (uint8_t)UBBR;
   // Enable receiver, transmitter, and RxComplete interrupt
-  UCSR0B = (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);
+  SS_UCSRnB = (1 << SS_RXENn) | (1 << SS_TXENn) | (1 << SS_RXCIEn);
   // Set frame format: 8data, 1 stop bit
-  UCSR0C = (1 << USBS0) | (1 << UCSZ00) | (1 << UCSZ01);
+  SS_UCSRnC = (1 << SS_USBSn) | (1 << SS_UCSZn0) | (1 << SS_UCSZn1);
   // Enable the Global Interrupt Enbl flag to process interrupts
 
-  // Set nRX enable and TX enable to outputs
-  PORTA &= ~((1 << PA5) | (1 << PA6));  // Set PA5 and PA6 to 0
-  DDRA |= (1 << DDRA5) | (1 << DDRA6);
+  DIGITAL_SET_OUT(SS_UART_TXE);  // Set nRX enable and TX enable as outputs
+  DIGITAL_SET_OUT(SS_UART_nRXE);
+  DIGITAL_SET_LOW(SS_UART_TXE);  // Set nRX enable and TX enable to 0
+  DIGITAL_SET_LOW(SS_UART_nRXE);  // Enable RX and disable TX
 
-  DIGITAL_PULLUP_ON(UART0_RX);
+  DIGITAL_PULLUP_ON(SS_UART_RX);
 
   sei();  // Enable interrupts
 }
 
 void USART_Transmit_Start() {
-  PORTA |= (1 << PA6);  // Turn PA6 on
+  DIGITAL_SET_HIGH(SS_UART_TXE);  // Set TX enable to 1
 }
 void USART_Transmit_Stop() {
-  PORTA &= ~(1 << PA6);  // Turn PA6 off
+  DIGITAL_SET_LOW(SS_UART_TXE);  // Set TX enable to 1
 }
 
 void USART_Transmit(uint8_t data) {  // and toggle
   // Wait for empty transmit buffer
-  while (!(UCSR0A & (1 << UDRE0))) {}  // TODO(tobinsarah): interruptTx
+  while (!(SS_UCSRnA & (1 << SS_UDREn))) {}  // TODO(tobinsarah): interruptTx
   // Put data into buffer to send the data.
-  UDR0 = data;
+  SS_UDRn = data;
 }
 
 
@@ -81,7 +82,7 @@ void serialPrint(uint8_t *StringOfCharacters, size_t len) {
   }
   // TODO(cduck): Properly wait for end of transmission
   USART_Transmit(0xFF);
-  while (!(UCSR0A & (1 << UDRE0))) {}
+  while (!(SS_UCSRnA & (1 << SS_UDREn))) {}
   USART_Transmit_Stop();
 }
 

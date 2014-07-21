@@ -43,11 +43,11 @@ void enumerationEnter(uint8_t *data, uint8_t len) {
                 && data[19] == 0xB7
                 && data[20] == 0x9A) {
     enumerating = 1;
-    DIGITAL_SET_OUT(UART0_TXE);
-    DIGITAL_SET_OUT(UART0_TX);
-    DIGITAL_SET_HIGH(UART0_TXE);  // Turn PA6 on  // Enable bus driver
-    UCSR0B &= ~(1 << TXEN0);    // Disable UART transmiter
-    DIGITAL_SET_LOW(UART0_TX);  // Drive TX pin low
+    DIGITAL_SET_OUT(SS_UART_TXE);
+    DIGITAL_SET_OUT(SS_UART_TX);
+    DIGITAL_SET_HIGH(SS_UART_TXE);  // Turn PA6 on  // Enable bus driver
+    SS_UCSRnB &= ~(1 << SS_TXENn);    // Disable UART transmiter
+    DIGITAL_SET_LOW(SS_UART_TX);  // Drive TX pin low
   }
 }
 void enumerationExit(uint8_t *data, uint8_t len) {
@@ -55,17 +55,17 @@ void enumerationExit(uint8_t *data, uint8_t len) {
   enumerating = 0;
 
   // Fix for floating bus when not driven
-  DIGITAL_SET_HIGH(UART0_TX);
+  DIGITAL_SET_HIGH(SS_UART_TX);
   for (uint8_t i = 0; i < 20; i++) {}
 
-  DIGITAL_SET_LOW(UART0_TXE);  // Turn PA6 off  // Stop driving the bus
-  UCSR0B |= (1 << TXEN0);  // Enable UART transmiter
+  DIGITAL_SET_LOW(SS_UART_TXE);  // Turn PA6 off  // Stop driving the bus
+  SS_UCSRnB |= (1 << SS_TXENn);  // Enable UART transmiter
 }
 void enumerationReset(uint8_t *data, uint8_t len) {
   if (!enumerating) return;
-  DIGITAL_SET_HIGH(UART0_TXE);  // Turn PA6 on  // Enable bus driver
-  UCSR0B &= ~(1 << TXEN0);    // Disable UART transmiter
-  DIGITAL_SET_LOW(UART0_TX);  // Drive TX pin low
+  DIGITAL_SET_HIGH(SS_UART_TXE);  // Turn PA6 on  // Enable bus driver
+  SS_UCSRnB &= ~(1 << SS_TXENn);    // Disable UART transmiter
+  DIGITAL_SET_LOW(SS_UART_TX);  // Drive TX pin low
 }
 void enumerationSelect(uint8_t *data, uint8_t len) {
   if (!enumerating) return;
@@ -75,11 +75,11 @@ void enumerationSelect(uint8_t *data, uint8_t len) {
   }
 
   // Fix for floating bus when not driven
-  DIGITAL_SET_HIGH(UART0_TX);
+  DIGITAL_SET_HIGH(SS_UART_TX);
   for (uint8_t i = 0; i < 20; i++) {}
 
-  DIGITAL_SET_LOW(UART0_TXE);  // Turn PA6 off  // Stop driving the bus
-  UCSR0B |= (1 << TXEN0);  // Enable UART transmiter
+  DIGITAL_SET_LOW(SS_UART_TXE);  // Turn PA6 off  // Stop driving the bus
+  SS_UCSRnB |= (1 << SS_TXENn);  // Enable UART transmiter
 }
 void enumerationUnselect(uint8_t *data, uint8_t len) {
   if (!enumerating) return;
