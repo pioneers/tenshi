@@ -164,9 +164,9 @@ int transmitActivePacket(uint8_t *data, uint8_t len, uint8_t inband) {
 
 
 // Interrupt when recieving a byte from the smart sensor bus.
-ISR(USART0__RX_vect) {
+ISR(SS_USARTn__RX_vect) {
   // Fetch the received byte value into the variable "ByteReceived"
-  uint8_t receivedByte = UDR0;
+  uint8_t receivedByte = SS_UDRn;
   if (rxBufferFlag == RX_FLAG_DATA_AVAILABLE ||
       rxBufferFlag == RX_FLAG_DATA_IN_USE) {
     return;
