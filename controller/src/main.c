@@ -18,12 +18,18 @@
 #include <stdio.h>
 #include <string.h>
 
+// Interpreter
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
 #include <ngl_vm.h>
 #include <ngl_buffer.h>
 #include <ngl_package.h>
+
+// Interpreter runtime
+#include <inc/mboxlib.h>
+#include <inc/runtime_entry.h>
+
 #include "inc/FreeRTOS.h"
 #include "inc/button_driver.h"
 #include "inc/driver_glue.h"

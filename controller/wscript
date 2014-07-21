@@ -220,14 +220,16 @@ def build(bld):
         bld.objects(
             source=bld.path.ant_glob("src/**/*.c"),
             target="c_objects",
-            includes=". inc common_defs ../vm/angelic/src ../vm/lua/src",
+            includes=". inc common_defs ../vm/angelic/src ../vm/lua/src " +
+            "../vm/lua/tenshi-runtime",
             use="typpo_includes"
         )
 
         bld.objects(
             source=bld.path.ant_glob("src/**/*.cpp"),
             target="cpp_objects",
-            includes=". inc common_defs ../vm/angelic/src ../vm/lua/src",
+            includes=". inc common_defs ../vm/angelic/src ../vm/lua/src " +
+            "../vm/lua/tenshi-runtime",
             use="typpo_includes"
         )
 
