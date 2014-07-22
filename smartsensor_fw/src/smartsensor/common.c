@@ -27,8 +27,16 @@
 #include "inc/smartsensor/maintenance.h"
 
 
-// ****Sensor Personal Data*** // to be a struct later.
-uint8_t smartID[SMART_ID_LEN] = {SMART_ID};
+// This placeholder will be replaced in the compiled hex when the deploy script
+// is run.  Do not change the string.
+// The sensor type is stored in flash memory directly after the ID.
+const uint8_t smartID[SMART_ID_LEN+1] PROGMEM = "SENSORID";
+
+// This will also be replaced
+const uint8_t descriptor[DESCRIPTOR_MAX_LEN] PROGMEM =
+  "Do not change this string.  It is a placeholder that is replaced in the "
+  "compiled hex file when the deploy script is run.";
+
 // Given a sample and a frame number, if the byte at index <frame> contains a
 // one at the bit at position <sample>,
 uint8_t my_frames[SS_NUM_FRAMES] = {0};
