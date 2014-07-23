@@ -1,5 +1,6 @@
 const studentconsole = require('tenshi/console/console');
 const texteditor = require('tenshi/texteditor/editor');
+const ioports = require('tenshi/welcome/ioports');
 
 exports.init = function(_window) {
   _window.$(function() {
@@ -8,6 +9,7 @@ exports.init = function(_window) {
 
     studentconsole.consoleController(app);
     texteditor.texteditorController(app);
+    ioports.ioportController(app);
 
     angular.bootstrap(_window.document, [app.name]);
 

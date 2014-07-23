@@ -1,13 +1,12 @@
 /* jshint globalstrict: true */
 "use strict";
 
-const { ChromeWorker } = require('chrome');
 const typpo_module = require('tenshi/common/factory');
 const url = require('sdk/url');
 const buffer = require('sdk/io/buffer');
 const global_state = require('tenshi/common/global_state');
-const robot_application = require('tenshi/common/robot_application');
 const xbee = require('tenshi/common/xbee');
+const ioports = require('tenshi/welcome/ioports');
 
 const XBEE_FRAMING_YAML_FILE =
     'chrome://angel-player/content/common_defs/xbee_typpo.yaml';
@@ -26,11 +25,10 @@ exports.sendPacketizedData = function(data) {
         throw "Serial port not open!";
     }
 
-    let robotApp = global_state.get('robot_application');
-    if (!robotApp.radio_pairing_info) {
+    let ROBOT = ioports.get_xbee_addr();
+    if (!ROBOT) {
         throw "No radio address set!";
     }
-    let ROBOT = robotApp.radio_pairing_info;
 
     // TODO(rqou): Refactor this
     serportObj.setReadHandler(function(e) {

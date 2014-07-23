@@ -17,12 +17,14 @@
             Save
         </button>
     </div>
-    <div>
+    <div ng-controller="IoPortCtrl">
         XBee address:
-        <input type="text" id="xbeeAddrInput" pattern="[0-9a-fA-F]{16}" required>
+        <input type="text" id="xbeeAddrInput" pattern="[0-9a-fA-F]{16}"
+            required ng-model="xbeeAddr">
         </input>
         Serial port:
-        <input type="text" id="serialPort" required></input>
+        <input type="text" id="serialPort" required ng-model="serialPort">
+        </input>
         <button type="button" id="connectButton">
             Connect
         </button>

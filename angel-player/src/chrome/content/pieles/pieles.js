@@ -17,7 +17,7 @@ const PIELES_UPDATE_RATE = 1.0/10.0;
 // Checks whether we have all the controllers needed for PiELES to work
 // according to the configuration
 function validateControllers() {
-    let pielesConfig = global_state.get('robot_application').PiELES_config;
+    let pielesConfig = global_state.get('PiELES_config');
     if (!pielesConfig) {
         // No configuration is currently treated as never ready.
         return false;
@@ -52,7 +52,7 @@ function validateControllers() {
 }
 
 function updatePiELESMap() {
-    let pielesConfig = global_state.get('robot_application').PiELES_config;
+    let pielesConfig = global_state.get('PiELES_config');
 
     for (let cmdPacketField of pielesConfig) {
         let { controller_type, controller_index, name, type } = cmdPacketField;
