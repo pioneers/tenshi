@@ -1,4 +1,5 @@
 const studentconsole = require('tenshi/console/console');
+const texteditor = require('tenshi/texteditor/editor');
 
 exports.init = function(_window) {
   _window.$(function() {
@@ -6,6 +7,7 @@ exports.init = function(_window) {
     var app = angular.module("tenshi", ['ui.ace']);
 
     studentconsole.consoleController(app);
+    texteditor.texteditorController(app);
 
     angular.bootstrap(_window.document, [app.name]);
 

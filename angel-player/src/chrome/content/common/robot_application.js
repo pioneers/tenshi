@@ -3,9 +3,13 @@
 
 const file = require('sdk/io/file');
 const js_yaml = require('js-yaml/lib/js-yaml');
+const texteditor = require('tenshi/texteditor/editor');
 
 function saveApplication(filename) {
     /* jshint validthis: true */
+
+    // TODO(rqou): Clean up how this works
+    this.text_code = texteditor.get_text();
 
     let appstr = js_yaml.safeDump(this, {skipInvalid: true});
     let outF = file.open(filename, 'w');
@@ -32,6 +36,9 @@ exports.CreateEmptyRobotApplication = function() {
                     "        set_motor(1, y)\n";
     ret.radio_pairing_info = "0013A20040A580C4";
 
+    // TODO(rqou): Refactor where this logic goes
+    texteditor.set_text(ret.text_code);
+
     setExports(ret);
     return ret;
 };
@@ -40,6 +47,9 @@ exports.CreateEmptyRobotApplication = function() {
 exports.LoadRobotApplication = function(filename) {
     let appstr = file.read(filename, 'r');
     let ret = js_yaml.safeLoad(appstr);
+
+    // TODO(rqou): Refactor where this logic goes
+    texteditor.set_text(ret.text_code);
 
     setExports(ret);
     return ret;

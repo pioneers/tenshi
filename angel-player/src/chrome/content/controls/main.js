@@ -29,11 +29,6 @@ function run() {
         return; // Do not run multiple simultaneous vms
     }
 
-    if (!texteditor.initialized()) {
-        $("#status").text("ERROR: text editor not yet loaded");
-        throw "ERROR: text editor not yet loaded";
-    }
-
     var text = texteditor.get_text();
     current_vm = vm_generator();
 
@@ -75,11 +70,6 @@ function toggle_running() {
 }
 
 function compile_ngl() {
-    if (!texteditor.initialized()) {
-        $("#status").text("ERROR: text editor not yet loaded");
-        throw "ERROR: text editor not yet loaded";
-    }
-
     var text = texteditor.get_text();
     var compiler_vm = vm_generator();
 
@@ -89,11 +79,6 @@ function compile_ngl() {
 }
 
 function compile_lua() {
-    if (!texteditor.initialized()) {
-        $("#status").text("ERROR: text editor not yet loaded");
-        throw "ERROR: text editor not yet loaded";
-    }
-
     var text = texteditor.get_text();
 
     let lua = require('tenshi/vendor-js/lua');

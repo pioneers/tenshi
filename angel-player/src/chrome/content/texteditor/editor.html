@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-
 <style scoped type="text/css" media="screen">
+    /* TODO(rqou): clean up all of this height 100% stuff */
+    #texteditor-body {
+        background-color: white;
+        height: 100%;
+        margin: 0;
+    }
+
     #editor {
         width: 100%;
         height: 100%;
     }
 </style>
-<script>
-  requireStub('tenshi/texteditor/editor')
-</script>
 
-<div id="editor"></div>
+<div id="texteditor-body" ng-controller="TexteditCtrl">
+    <div id="editor" ui-ace="{
+                                mode: 'lua'
+                             }" ng-model="text"></div>
+</div>
