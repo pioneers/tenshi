@@ -14,11 +14,13 @@ from crc8 import crc8
 def main(argv):
   # Interpret parameters
   sensorConfig = ""
+  hexFile = "../../build/artifacts/smartsensor_fw/opt/smartsensor_fw.hex"
 
-  helpText = (argv[0] if len(argv)>0 else "generate.py") + " [-d] <sensor-type>"
+  helpText = (argv[0] if len(argv)>0 else "generate.py") + \
+    " [-d] [-i <hex-file>] <sensor-type>"
   helpMore = "Supported sensor types:\n\t" + ", ".join(ss_type.allTypes())
   try:
-    opts, args = getopt.getopt(argv[1:],"hd",[])
+    opts, args = getopt.getopt(argv[1:],"hdi:")
   except getopt.GetoptError:
     print helpText
     sys.exit(2)
@@ -27,7 +29,9 @@ def main(argv):
       print helpText
       print helpMore
       sys.exit()
-    elif opt in ("-d"):
+    elif opt == "-i":
+      hexFile = arg
+    elif opt == "-d":
       if len(args)>0:
         try:
           ss_type.descriptor(args[0])
@@ -92,7 +96,7 @@ def main(argv):
   b"compiled hex file when the deploy script is run."
   idPlaceholder = "SENSORID"
 
-  ih = IntelHex("../../build/artifacts/smartsensor_fw/opt/smartsensor_fw.hex")
+  ih = IntelHex(hexFile)
   ihDict = ih.todict()
   ihArr = array('B', [ihDict[key] for key in sorted(ihDict)])
   ihString = ihArr.tostring()
@@ -106,10 +110,11 @@ def main(argv):
   except ValueError:
     sys.exit('Error: ID placeholder not found in hex file.')
 
-  ihArr[descriptorIndex:descriptorIndex+len(descriptorNew)] = descriptorNew
-  ihArr[idIndex:idIndex+len(idNew)] = idNew
+  descriptorDict = {descriptorIndex+i: descriptorNew[i] for i in
+    range(len(descriptorNew))}
+  idDict = {idIndex+i: idNew[i] for i in range(len(idNew))}
+  ihDict = dict(ihDict.items()+descriptorDict.items()+idDict.items())
 
-  ihDict = {i: ihArr[i] for i in range(len(ihArr))}
   newIh = IntelHex()
   newIh.fromdict(ihDict)
 
@@ -121,5 +126,5 @@ def main(argv):
 if __name__ == "__main__":
   try:
     main(sys.argv)
-  except IOError:
-    exit(1)
+  except IOError as e:
+    exit("IO Error: "+str(e))
