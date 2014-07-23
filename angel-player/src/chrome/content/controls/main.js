@@ -6,7 +6,7 @@ let {$} = window;
 
 let naive_packetizer = require('tenshi/common/naive_packetizer'),
     texteditor = require('tenshi/texteditor/editor'),
-    console = require('tenshi/console/console'),
+    studentconsole = require('tenshi/console/console'),
     pieles = require('tenshi/pieles/pieles');
 
 let current_vm = null,
@@ -46,10 +46,7 @@ function run() {
         current_vm.load_text(text);
         current_vm.start_main();
     } catch(err) {
-        if (!console.initialized()) {
-            return;
-        }
-        console.report_error(err);
+        studentconsole.report_error(err);
         throw err;
     }
     current_vm.set_evaluation_rate(100, 0.01);

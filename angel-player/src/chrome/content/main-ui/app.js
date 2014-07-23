@@ -1,7 +1,11 @@
+const studentconsole = require('tenshi/console/console');
+
 exports.init = function(_window) {
   _window.$(function() {
     var angular = _window.angular;
-    var app = angular.module("tenshi", []);
+    var app = angular.module("tenshi", ['ui.ace']);
+
+    studentconsole.consoleController(app);
 
     angular.bootstrap(_window.document, [app.name]);
 

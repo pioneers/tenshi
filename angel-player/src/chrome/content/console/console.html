@@ -11,11 +11,14 @@
         height: 10em;
     }
 </style>
-<script>
-    requireStub('tenshi/console/console');
-</script>
 
-<div id="console-body">
-    <div id="text"></div>
+<div id="console-body" ng-controller="ConsoleCtrl">
+    <div id="text" ui-ace="{
+                                theme: 'terminal',
+                                mode: 'text',
+                                showGutter: false,
+                                useWrapmode: true,
+                                onLoad: aceLoaded
+                           }" ng-model="text"></div>
     <button id="clear">Clear</button>
 </div>

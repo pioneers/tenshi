@@ -1,74 +1,32 @@
-var window,
-    $,
-    ace;
+let $scope;
 
-var angelic = require("tenshi/angelic/robot"),
-    controls = require("tenshi/controls/main");
+exports.consoleController = function(angular_app) {
+  angular_app.controller('ConsoleCtrl', ['$scope', function($scope_) {
+    $scope = $scope_;
 
-var editor;
-
-function gen_vm() {
-    var vm = angelic.make();
-
-    function set_motor() {}
-    function get_sensor(port) {
-        return 0;
-    }
-
-    vm.set_common_defs_path('chrome://angel-player/content/common_defs');
-
-    vm.add_library ( 'core', [
-        vm.make_exfn ( 0, 'print', print_line),
-        vm.make_exfn ( 1, 'set_motor', set_motor ),
-        vm.make_exfn ( 2, 'get_sensor', get_sensor ),
-    ] );
-
-    print_line("====== RESTART ======");
-    vm.source = "Console";
-    return vm;
-}
-
-function onResume() {
-    controls.set_vm_generator(gen_vm);
-}
-
-function print_line(text) {
-    editor.setValue(editor.getValue() + "\n" + text);
-    // HACK: for some reason, setting the value selects text
-    editor.getSelection().clearSelection();
-}
-
-exports.report_error = function(what) {
-    print_line("ERROR: " + what);
+    $scope.aceLoaded = function(_editor) {
+      _editor.setReadOnly(true);
+      _editor.setHighlightActiveLine(false);
+      _editor.setDisplayIndentGuides(false);
+      _editor.renderer.setPrintMarginColumn(false);
+    };
+  }]);
 };
 
-var initialized = false;
-exports.initialized = function() {
-    return initialized;
+exports.report_error = function(str) {
+  if (!$scope) return;
+
+  $scope.text += "\nERROR: " + str;
 };
 
-exports.init = function(_window) {
-    window = _window;
-    $ = window.$;
-    ace = window.ace;
+exports.report_warning = function(str) {
+  if (!$scope) return;
 
-    editor = ace.edit("text");
-    editor.setTheme("ace/theme/terminal");
-    editor.getSession().setMode("ace/mode/text");
-    editor.setReadOnly(true);
+  $scope.text += "\nWARN: " + str;
+};
 
-    editor.setHighlightActiveLine(false);
-    editor.setDisplayIndentGuides(false);
-    editor.getSession().setUseWrapMode(true);
-    editor.renderer.setShowGutter(false);
-    editor.renderer.setPrintMarginColumn(false);
+exports.report_message = function(str) {
+  if (!$scope) return;
 
-    $("#clear").click(function(){
-        $("#text").text("");
-    });
-
-    window.onResume = onResume;
-    onResume();
-
-    initialized = true;
+  $scope.text += "\n" + str;
 };
