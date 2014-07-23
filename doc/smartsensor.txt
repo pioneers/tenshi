@@ -412,13 +412,22 @@ Type 0x42 -- generic UART
             TODO
 
 Type 0x80 -- Grizzly Bear v3
-            TODO
+            ----------------------------------------------------
+            | mode (1 byte)                                    |
+            ----------------------------------------------------
+            | speed (4 byte)                                   |
+            ----------------------------------------------------
+
+For mode explanation, see Grizzly Documentation packet at:
+https://pioneers.berkeley.edu/staff/wiki/File:Grizzly_doc.pdf
 
 Type 0x81 -- Battery Buzzer
-            TODO
+            For now, Battery Buzzer additional information block is identical
+            to analog in.
 
 Type 0x82 -- Team Flag
-            TODO
+            For now, Team Flag additional information block is identical
+            to digital.
 
 Type 0xFF -- debugger
             No calibration data is present
