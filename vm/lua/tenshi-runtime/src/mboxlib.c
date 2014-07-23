@@ -110,6 +110,16 @@ void tenshi_open_mbox(lua_State *L) {
 // mbox_internal = MBoxCreateInternal()
 // TODO(rqou): Options? Capacity?
 int MBoxCreateInternal(lua_State *L) {
+  // Sets default capacity to 16.
+  int capacity = 16;
+
+  // If the first argument is the capacity, reassign capacity
+  // and pop stack.
+  if (lua_gettop(L) > 0) {
+    capacity = lua_tointeger(L, -1);
+    lua_pop(L, 1);
+  }
+
   lua_newtable(L);
   lua_pushstring(L, "buffer");
   lua_newtable(L);
@@ -123,9 +133,10 @@ int MBoxCreateInternal(lua_State *L) {
   lua_pushstring(L, "count");
   lua_pushinteger(L, 0);
   lua_settable(L, -3);
+
   lua_pushstring(L, "capacity");
-  // TODO(rqou): Don't hardcode capacity
-  lua_pushinteger(L, 16);
+  lua_pushinteger(L, capacity);
+
   lua_settable(L, -3);
   lua_pushstring(L, "blockedSend");
   lua_newtable(L);
