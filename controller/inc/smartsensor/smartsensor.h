@@ -29,8 +29,12 @@
 // Set to whatever
 #define SS_MAX_SENSORS_PER_BUS 32
 
+// Max 4 dependent on hardware
+#define SS_BUS_COUNT 4
+
 
 void smartsensor_init();
+void ssBlockUntilActive();
 
 
 portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters);
