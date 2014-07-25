@@ -59,6 +59,12 @@ struct BandwidthAllocation {
   int16_t sensorMapping[SS_NUM_SAMPLES][SS_NUM_FRAMES];
 };
 
+// Linked list
+struct SensorCallback {
+  void(*func)(uint16_t, SSState *sensor);
+  struct SensorCallback *next;
+};
+
 
 
 // Initialize with -1
@@ -74,6 +80,16 @@ volatile SS_BUS_STATE busState[SS_BUS_COUNT] =
 EventGroupHandle_t busStateEvent = NULL;
 int allActive = 0;
 
+// Linked list of callback functions
+struct SensorCallback *sensorCallbacks = NULL;
+xSemaphoreHandle sensorCallbackLock = NULL;
+QueueHandle_t sensorUpdateQueue = NULL;  // Private queue
+
+
+
+portTASK_FUNCTION_PROTO(smartSensorUpdateTask, pvParameters);
+
+
 
 
 void smartsensor_init() {
@@ -83,9 +99,15 @@ void smartsensor_init() {
   smartsensor3_init();
   smartsensor4_init();
 
+  busStateEvent = xEventGroupCreate();
+
+  sensorCallbackLock = xSemaphoreCreateBinary();
+  xSemaphoreGive(sensorCallbackLock);
+
+  sensorUpdateQueue = xQueueCreate(100, sizeof(uint16_t));
+
   // Init sensor array
   sensorArrLock = xSemaphoreCreateBinary();
-  busStateEvent = xEventGroupCreate();
 
   numSensorsAlloc = numSensors = 0;
   sensorArr = pvPortMalloc(numSensorsAlloc*sizeof(SSState*));
@@ -93,6 +115,8 @@ void smartsensor_init() {
   xSemaphoreGive(sensorArrLock);
 
   // Start tasks
+  xTaskCreate(smartSensorUpdateTask, (const char *)"SensorTX", 200, NULL,
+    tskIDLE_PRIORITY, NULL);
   for (int i = 0; i < SS_BUS_COUNT; i++) {
     busState[i] = SS_BUS_ENUMERATION;
     xTaskCreate(smartSensorTX, (const char *)"SensorTX", 2048, (void*)i,
@@ -107,6 +131,25 @@ void ssBlockUntilActive() {
   if (!allActive) {
     EventBits_t waitBits = ~((~0) << (SS_BUS_COUNT));
     xEventGroupSync(busStateEvent, 0, waitBits, portMAX_DELAY);
+  }
+}
+void registerSensorUpdateCallback(void(*func)(uint16_t i, SSState *sensor)) {
+  if (xSemaphoreTake(sensorCallbackLock, SEMAPHORE_WAIT_TIME) == pdTRUE) {
+    struct SensorCallback *callback =
+                                  pvPortMalloc(sizeof(struct SensorCallback));
+    callback->func = func,
+    callback->next = NULL;
+
+    if (sensorCallbacks == NULL) {
+      sensorCallbacks = callback;
+    } else {
+      struct SensorCallback *last = sensorCallbacks;
+      while (last->next != NULL) {
+        last = last->next;
+      }
+      last->next = callback;
+    }
+    xSemaphoreGive(sensorCallbackLock);
   }
 }
 
@@ -329,12 +372,29 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
               SSState *sensor = sensorArr[sensorIndex];
               ss_recieved_data_for_sensor(sensor, data_decode, decodeLen,
                 inband);
+              xQueueSend(sensorUpdateQueue, &sensorIndex, 0);
             }
           }
 
           if (data_decode) vPortFree(data_decode);
         }
         vPortFree(data);
+      }
+    }
+  }
+}
+
+
+portTASK_FUNCTION_PROTO(smartSensorUpdateTask, pvParameters) {
+  (void) pvParameters;
+
+  uint16_t index;
+  while (1) {
+    if (xQueueReceive(sensorUpdateQueue, &index, portMAX_DELAY)) {
+      struct SensorCallback *callback = sensorCallbacks;
+      while (callback != NULL) {
+        callback->func(index, sensorArr[index]);
+        callback = callback->next;
       }
     }
   }

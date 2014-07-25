@@ -36,6 +36,7 @@
 // Time for sensor to respond to enumeration select command
 #define SENSOR_SELECT_DELAY 1  // 1 ms
 #define SENSOR_REPLY_TIMEOUT 7  // ms
+#define SEMAPHORE_WAIT_TIME (1000/portTICK_PERIOD_MS)
 
 // Smart sensor packet type definitions
 #define SS_PACKET_DESCRIPTOR 0xD1

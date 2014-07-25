@@ -34,7 +34,9 @@
 
 
 void smartsensor_init();
+
 void ssBlockUntilActive();
+void registerSensorUpdateCallback(void(*func)(uint16_t i, SSState *sensor));
 
 
 portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters);
