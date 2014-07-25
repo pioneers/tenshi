@@ -103,9 +103,7 @@ local function array_helper(val)
     length = length + 1
   end
 
-  local function write_val(val, buffer, memo)
-    encode(val, buffer, memo)
-  end
+  local write_val = encode
 
   if #t == 1 then
     local size = int_tag_size[t]
@@ -144,9 +142,9 @@ local function encode_int(val, buffer)
   -- TODO(kzentner): Huge int support?
 end
 
-encode = function(val, buffer, memo)
+encode = function(val, buffer, memo, depth)
   if memo[val] then
-    error("Cannot serialize circular data structure.")
+    error("Cannot serialize circular data structure.", depth)
   end
   local t = type(val)
   if t == 'number' then
@@ -195,11 +193,11 @@ encode = function(val, buffer, memo)
         local str = k .. ''
         encode_int(#str, buffer)
         table.insert(buffer, str)
-        write_val(v, buffer, memo)
+        write_val(v, buffer, memo, depth + 1)
       end
     else
       for k = 1, max do
-        write_val(val[k], buffer, memo)
+        write_val(val[k], buffer, memo, depth + 1)
       end
     end
     memo[val] = nil
@@ -209,7 +207,7 @@ end
 function ubjson.encode(value, state)
   local buffer = {}
   local memo = {}
-  encode(value, buffer, memo)
+  encode(value, buffer, memo, 3)
   out = ''
   for k, v in pairs(buffer) do
     out = out .. v
@@ -252,3 +250,8 @@ test({PiELESDigitalVals = {true, true, true, true, true, true, true, true},
       PiELESAnalogVals = {127, 127, 127, 127, 127, 127, 127}})
 
 test{[1] = 1, [3] = 4, [14] = 5}
+
+t = {}
+t[1] = t
+
+xpcall(test, print, t)
