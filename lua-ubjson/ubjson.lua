@@ -128,7 +128,7 @@ local function array_helper(val)
 
   if max > 2 * length then 
     -- This table is a sparse array, so don't create a ubjson array.
-    return true, length, max, t, encode
+    return true, length, max, t, write_val
   end
 
   return non_int, length, max, t, write_val
