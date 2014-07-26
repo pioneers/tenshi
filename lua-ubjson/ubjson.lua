@@ -105,7 +105,7 @@ local function array_helper(val)
 
   local write_val = encode
 
-  if #t == 1 then
+  if t ~= nil and #t == 1 then
     local size = int_tag_size[t]
     if size then
       write_val = function(val, buffer, memo)
@@ -180,7 +180,7 @@ encode = function(val, buffer, memo, depth)
       table.insert(buffer, '[')
     end
 
-    if #tag == 1 then
+    if tag ~= nil and #tag == 1 then
       table.insert(buffer, '$')
       table.insert(buffer, tag)
     end
@@ -414,6 +414,9 @@ test({1, 2, 3, 4, 5, -1})
 test({0, 1, 2, 3, 4, 5})
 test({PiELESDigitalVals = {true, true, true, true, true, true, true, true},
       PiELESAnalogVals = {127, 127, 127, 127, 127, 127, 127}})
+test({})
+test({{}})
+test({outer = {inner = {}, {}}})
 
 test{[1] = 1, [3] = 4, [14] = 5}
 
