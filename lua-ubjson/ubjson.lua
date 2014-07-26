@@ -215,6 +215,171 @@ function ubjson.encode(value, state)
   return out
 end
 
+function decode_int(str, offset, depth, error_context)
+  local c = str:sub(offset, offset)
+  local int_size = int_tag_size[c]
+  if int_size == nil then
+    error(error_context .. " length did not have an integer tag.", depth)
+  end
+  local i = str:undumpint(offset + 1, int_size, 'b')
+  if c == 'U' and i < 0 then
+    -- Undo twos-complement
+    i = 256 + i
+  end
+  return i, offset + 1 + int_size
+end
+
+-- Returns function with signature
+-- (str, offset, depth) -> val, new_offset, skip
+function get_read_func(tag)
+  local int_size = int_tag_size[tag]
+  if tag == 'C' then
+    int_size = 1
+  end
+  if int_size ~= nil then
+    return function(str, offset, depth)
+      return str:undumpint(offset, int_size, 'b'), offset + int_size
+    end
+  elseif tag == 'd' then
+    return function(str, offset, depth)
+      return str:undumpfloat(offset, 'f', 'b'), offset + 4
+    end
+  elseif tag == 'D' then
+    return function(str, offset, depth)
+      return str:undumpfloat(offset, 'd', 'b'), offset + 8
+    end
+  elseif tag == 'T' then
+    return function(str, offset, depth)
+      return true, offset
+    end
+  elseif tag == 'F' then
+    return function(str, offset, depth)
+      return false, offset
+    end
+  elseif tag == 'Z' then
+    return function(str, offset, depth)
+      return nil, offset
+    end
+  elseif tag == 'N' then
+    return function(str, offset, depth)
+      return nil, offset, true
+    end
+  else
+    return nil
+  end
+end
+
+function decode_str(str, offset, depth)
+  local str_length, str_start = decode_int(str, offset,
+                                           depth + 1,
+                                           "String at offset " .. offset)
+  return str:sub(str_start, str_start + str_length), str_start + str_length
+end
+
+function decode(str, offset, depth)
+  if offset == nil then
+    offset = 1
+  end
+  if depth == nil then
+    error('Depth missing')
+  end
+
+  local c = str:sub(offset, offset)
+  local int_size = int_tag_size[c]
+  if int_size ~= nil then
+    return str:undumpint(offset + 1, int_size, 'b'), offset + 1 + int_size
+  elseif c == 'C' then
+    return str:undumpint(offset + 1, 1, 'b'), offset + 2
+  elseif c == 'S' then
+    return decode_str(str, offset + 1, depth + 1)
+  elseif c == 'T' then
+    return true, offset + 1
+  elseif c == 'F' then
+    return false, offset + 1
+  elseif c == 'Z' then
+    return nil, offset + 1
+  elseif c == 'N' then
+    return nil, offset + 1, true
+  elseif c == '[' or c == '{' then
+    local start_offset = offset + 1
+    local tag = str:sub(start_offset, start_offset)
+    local length = nil
+    local out = {}
+    local read_val = decode
+    if tag == '$' then
+      start_offset = start_offset + 1
+      local t = str:sub(start_offset, start_offset)
+      start_offset = start_offset + 1
+      tag = str:sub(start_offset, start_offset)
+      read_val = get_read_func(t)
+      if read_val == nil then
+        if c == '[' then
+          error("Type tag for non value type in array at offset " .. offset,
+                depth)
+        else
+          error("Type tag for non value type in object at offset " .. offset,
+                depth)
+        end
+      end
+    end
+    if tag == '#' then
+      local msg
+      if c == '[' then
+        msg = 'Array'
+      else
+        msg = 'Object'
+      end
+      msg = msg .. ' length at offset ' .. offset
+      length, start_offset = decode_int(str, start_offset + 1,
+                                        depth + 1, msg)
+    else
+      start_offset = start_offset - 1
+    end
+
+    local elt_offset = start_offset
+    local key, val
+    if c == '[' then
+      if length ~= nil then
+        for i = 1, length do
+          val, elt_offset, skip = read_val(str, elt_offset, depth + 1)
+          if not skip then
+            out[i] = val
+          end
+        end
+      else
+        while str:sub(elt_offset, elt_offset) ~= ']' do
+          val, elt_offset, skip = read_val(str, elt_offset, depth + 1)
+          if not skip then
+            out[i] = val
+          end
+        end
+      end
+    else
+      if length ~= nil then
+        for i = 1, length do
+          key, elt_offset = decode_str(str, elt_offset, depth + 1)
+          val, elt_offset, skip = read_val(str, elt_offset, depth + 1)
+          if not skip then
+            out[key] = val
+          end
+        end
+      else
+        while str:sub(elt_offset, elt_offset) ~= '}' do
+          key, elt_offset = decode_str(str, elt_offset, depth + 1)
+          val, elt_offset, skip = read_val(str, elt_offset, depth + 1)
+          if not skip then
+            out[key] = val
+          end
+        end
+      end
+    end
+    return out, elt_offset
+  else
+    error('Unrecognized type tag ' .. c .. ' at offset ' .. offset .. '.',
+          depth)
+  end
+end
+
 function hex(str)
   local out = ''
   for i = 1, #str do
@@ -241,6 +406,7 @@ local function test(val)
   print('length:', #enc)
   print(hex(enc))
   print(ascii(enc))
+  print(decode(enc, 1, 0))
 end
 
 test({1, 2, 3, 4})
