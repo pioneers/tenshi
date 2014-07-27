@@ -20,11 +20,10 @@
 #include "inc/digital.h"
 
 // Private global variables
-// None
+uint8_t outValue = 0;
 
 // Private helper functions
-uint8_t make_flags(uint8_t canIn, uint8_t pushPull, uint8_t openDr,
-  uint8_t outAL);
+void digitalSetValue(uint8_t val);
 
 
 // Public functions called from main.c
@@ -42,10 +41,15 @@ void initDigital() {
 }
 void activeDigitalRec(uint8_t *data, uint8_t len, uint8_t inband) {
   if (len >= 1) {
-    DIGITAL_SET(IN0, data[0] & 1);  // UPDATE IN0
-    DIGITAL_SET(IN1, data[0] & 2);  // UPDATE IN1
-    DIGITAL_SET(IN2, data[0] & 4);  // UPDATE IN2
-    DIGITAL_SET(IN3, data[0] & 8);  // UPDATE IN3
+    outValue = data[0];
+  }
+  switch (gameMode) {
+    case MODE_ACTIVE: digitalSetValue(outValue);
+      break;
+    case MODE_DISABLED: digitalSetValue(0);
+      break;
+    case MODE_PAUSED: break;  // Don't update outputs
+    default: break;
   }
 }
 void activeDigitalSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
@@ -58,4 +62,9 @@ void activeDigitalSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
 
 
 // Private helper functions
+void digitalSetValue(uint8_t val) {
+  DIGITAL_SET(IN0, val & 1);  // UPDATE IN0
+  DIGITAL_SET(IN1, val & 2);  // UPDATE IN1
+  DIGITAL_SET(IN2, val & 4);  // UPDATE IN2
+  DIGITAL_SET(IN3, val & 8);  // UPDATE IN3
 }
