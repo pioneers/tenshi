@@ -30,6 +30,8 @@ struct _TenshiActorState {
   lua_State *L;
   // Set to true if this actor is blocked. Prevents multiple unblocking.
   int isblocked;
+  // Set to true if this actor woke because of a timeout.
+  int woke_timeout;
 };
 
 #endif  // INC_RUNTIME_INTERNAL_H_

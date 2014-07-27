@@ -175,7 +175,7 @@ int MBoxCreate(lua_State *L) {
 // room. Input stack is alternating mailbox and value (only mailbox will be
 // read).
 // NOT A LUA C FUNCTION.
-static int MBoxSendCheckSpace(lua_State *L, int num_mboxes) {
+static int MBoxSendCheckSpace(lua_State *L, int num_mboxes, int timeout) {
   // In order to handle sending to the same mailbox multiple times, here we
   // total up the number of times each mailbox is referenced. We will then
   // check whether there is enough space to push all of that data into the
@@ -230,18 +230,20 @@ static int MBoxSendCheckSpace(lua_State *L, int num_mboxes) {
 
       enough_space = 0;
 
-      // Add ourselves to the blocked list.
-      lua_pushstring(L, "blockedSend");
-      lua_gettable(L, -2);
-      // stack is ...args..., count_table, mboxinternal, blockedsend
-      lua_len(L, -1);
-      int num_blocked_send = lua_tointeger(L, -1);
-      lua_pop(L, 1);
-      lua_pushinteger(L, num_blocked_send + 1);
-      lua_pushthread(L);
-      lua_settable(L, -3);
-      // stack is ...args..., count_table, mboxinternal, blockedsend
-      lua_pop(L, 2);
+      // Add ourselves to the blocked list if timeout isn't 0
+      if (timeout) {
+        lua_pushstring(L, "blockedSend");
+        lua_gettable(L, -2);
+        // stack is ...args..., count_table, mboxinternal, blockedsend
+        lua_len(L, -1);
+        int num_blocked_send = lua_tointeger(L, -1);
+        lua_pop(L, 1);
+        lua_pushinteger(L, num_blocked_send + 1);
+        lua_pushthread(L);
+        lua_settable(L, -3);
+        // stack is ...args..., count_table, mboxinternal, blockedsend
+        lua_pop(L, 2);
+      }
 
       // We cannot break here because we add ourselves to the blocked list
       // here.
@@ -254,6 +256,17 @@ static int MBoxSendCheckSpace(lua_State *L, int num_mboxes) {
   // stack is ...args..., count_table
   lua_pop(L, 1);
   // stack is ...args...
+
+  if (!enough_space && (timeout > 0)) {
+    // Add ourselves to the global timeout list
+    lua_pushstring(L, RIDX_TIMEOUTQUEUE);
+    lua_gettable(L, LUA_REGISTRYINDEX);
+    lua_pushcfunction(L, ActorGetOwnActor);
+    lua_call(L, 0, 1);
+    lua_pushinteger(L, timeout);
+    lua_settable(L, -3);
+    lua_pop(L, 1);
+  }
 
   return enough_space;
 }
@@ -393,7 +406,32 @@ static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // Called either on initial attempt to send or when we tried, failed,
   // yielded, and came back.
 
-  // TODO(rqou): Handle options
+  // Check if timeout happened
+  lua_pushcfunction(L, ActorGetOwnActor);
+  lua_call(L, 0, 1);
+  // We can have no actor if the external code is sending/receiving. Assume
+  // no timeout in that case
+  if (lua_isnil(L, -1)) {
+    lua_pop(L, 1);
+  } else {
+    TenshiActorState a = ActorObjectGetCState(L);
+    lua_pop(L, 1);
+    if (ActorWasWokenTimeout(a)) {
+      // It was due to a timeout
+      lua_pop(L, lua_gettop(L));
+      return 0;
+    }
+  }
+
+  int timeout = -1;
+
+  if (lua_gettop(L) % 2) {
+    // There is an options table as the last table, on the TOS
+    lua_pushstring(L, "timeout");
+    lua_gettable(L, -2);
+    timeout = luaL_optinteger(L, -1, timeout);
+    lua_pop(L, 1);
+  }
 
   // Yes, the flooring division is intentional and ok here. If we get an odd
   // number of arguments, the last one is interpreted as options.
@@ -404,7 +442,13 @@ static int MBoxSendReal(lua_State *L, int status, int ctx) {
 
   // Check if all mailboxes have space
   // stack is ...args...
-  if (!MBoxSendCheckSpace(L, num_mboxes)) {
+  if (!MBoxSendCheckSpace(L, num_mboxes, timeout)) {
+    if (timeout == 0) {
+      // No timeout, so we return immediately
+      lua_pop(L, lua_gettop(L));
+      return 0;
+    }
+
     // Yield ourselves to the scheduler. We will be rerun (and all mailboxes
     // will be rescanned) if somebody receives data from any of our mailboxes.
     // TODO(rqou): This is not the most efficient way to do this. We might
@@ -502,9 +546,41 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
   // Called either on initial attempt to recv or when we tried, failed,
   // yielded, and came back.
 
-  // TODO(rqou): Handle options. This line will need to change when options
-  // are added.
+  // Check if timeout happened
+  lua_pushcfunction(L, ActorGetOwnActor);
+  lua_call(L, 0, 1);
+  // We can have no actor if the external code is sending/receiving. Assume
+  // no timeout in that case
+  if (lua_isnil(L, -1)) {
+    lua_pop(L, 1);
+  } else {
+    TenshiActorState a = ActorObjectGetCState(L);
+    lua_pop(L, 1);
+    if (ActorWasWokenTimeout(a)) {
+      // It was due to a timeout
+      lua_pop(L, lua_gettop(L));
+      return 0;
+    }
+  }
+
   int num_mboxes = lua_gettop(L);
+
+  // Check for options by checking if TOS is a mailbox with a __mbox field.
+  lua_pushstring(L, "__mbox");
+  lua_gettable(L, -2);
+  int has_options = lua_isnil(L, -1);
+  lua_pop(L, 1);
+
+  int timeout = -1;
+
+  if (has_options) {
+    num_mboxes--;
+
+    lua_pushstring(L, "timeout");
+    lua_gettable(L, -2);
+    timeout = luaL_optinteger(L, -1, timeout);
+    lua_pop(L, 1);
+  }
 
   // Handle groups
   num_mboxes = MBoxUnpackGroups(L, num_mboxes, 0);
@@ -570,6 +646,12 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
   }
 
   if (!have_data) {
+    // If there is no timeout we can just return now
+    if (timeout == 0) {
+      lua_pop(L, lua_gettop(L));
+      return 0;
+    }
+
     // Add ourselves to the blocked list for every mailbox.
     for (int i = 0; i < num_mboxes; i++) {
       lua_pushstring(L, "__mbox");
@@ -588,6 +670,18 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
       // stack is ...args..., mboxinternal, blockedrecv
       lua_pop(L, 2);
     }
+
+    if (timeout > 0) {
+      // Add ourselves to the global timeout list
+      lua_pushstring(L, RIDX_TIMEOUTQUEUE);
+      lua_gettable(L, LUA_REGISTRYINDEX);
+      lua_pushcfunction(L, ActorGetOwnActor);
+      lua_call(L, 0, 1);
+      lua_pushinteger(L, timeout);
+      lua_settable(L, -3);
+      lua_pop(L, 1);
+    }
+
     // stack is ...args...
     // Yield ourselves to the scheduler. We will be rerun (and all mailboxes
     // will be rescanned) if somebody sends data to any of our mailboxes.
