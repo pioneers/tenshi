@@ -57,6 +57,13 @@ int ActorSchedulerInit(lua_State *L) {
   lua_settable(L, -3);
   lua_settable(L, LUA_REGISTRYINDEX);
 
+  // This is a simple unsorted array of things waiting on timeouts.
+  // TODO(rqou): This is not algorithmically efficient -- eventually
+  // should replace with a priority queue.
+  lua_pushstring(L, RIDX_TIMEOUTQUEUE);
+  lua_newtable(L);
+  lua_settable(L, LUA_REGISTRYINDEX);
+
   return 0;
 }
 
@@ -150,6 +157,9 @@ static int _ActorDestroyAll(lua_State *L) {
   lua_pushnil(L);
   lua_settable(L, LUA_REGISTRYINDEX);
   lua_pushstring(L, RIDX_RUNQUEUEHI);
+  lua_pushnil(L);
+  lua_settable(L, LUA_REGISTRYINDEX);
+  lua_pushstring(L, RIDX_TIMEOUTQUEUE);
   lua_pushnil(L);
   lua_settable(L, LUA_REGISTRYINDEX);
 
@@ -330,4 +340,55 @@ int ActorSetUnblocked(TenshiActorState a) {
 
   // Trying to unblock an unblocked actor is ok.
   return LUA_OK;
+}
+
+// Called in protected mode
+static int _ActorProcessTimeouts(lua_State *L) {
+  lua_pushstring(L, RIDX_TIMEOUTQUEUE);
+  lua_gettable(L, LUA_REGISTRYINDEX);
+
+  // Stack is timeoutqueue
+
+  lua_pushnil(L);
+  while (lua_next(L, -2) != 0) {
+    // stack is timeoutqueue, key (actor), value (timeout)
+    int timeout = lua_tointeger(L, -1);
+    lua_pop(L, 1);
+    // stack is timeoutqueue, key (actor)
+    if (--timeout == 0) {
+      // Unblock this actor
+      lua_pushvalue(L, -1);
+      lua_pushnil(L);
+      lua_settable(L, -4);
+      // stack is timeoutqueue, key (actor)
+      TenshiActorState a = ActorObjectGetCState(L);
+      if (ActorSetRunnable(a, 0) != LUA_OK) {
+        lua_pushstring(L, "Error setting actor to runnable");
+        lua_error(L);
+      }
+      // Set its woke_timeout flag
+      a->woke_timeout = 1;
+    } else {
+      // Decrement the timeout
+      lua_pushvalue(L, -1);
+      lua_pushinteger(L, timeout);
+      lua_settable(L, -4);
+      // stack is timeoutqueue, key (actor)
+    }
+  }
+
+  // Stack is timeoutqueue
+  lua_pop(L, 1);
+  return 0;
+}
+
+int ActorProcessTimeouts(TenshiRuntimeState s) {
+  lua_pushcfunction(s->L, _ActorProcessTimeouts);
+  return lua_pcall(s->L, 0, 0, 0);
+}
+
+int ActorWasWokenTimeout(TenshiActorState a) {
+  int ret = a->woke_timeout;
+  a->woke_timeout = 0;
+  return ret;
 }

@@ -34,4 +34,7 @@ extern int ActorObjectCreate(lua_State *L, TenshiActorState a);
 // L's stack. Does not pop the passed in object.
 extern TenshiActorState ActorObjectGetCState(lua_State *L);
 
+// Called in protected mode. Push the current actor object on the stack.
+extern int ActorGetOwnActor(lua_State *L);
+
 #endif  // INC_ACTORLIB_H_

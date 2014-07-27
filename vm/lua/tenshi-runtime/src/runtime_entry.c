@@ -260,6 +260,10 @@ int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
 }
 
 int TenshiRunQuanta(TenshiRuntimeState s) {
+  // Do timeouts
+  ActorProcessTimeouts(s);
+
+  // Run the main code
   int ops_left = QUANTA_OPCODES;
 
   while (ops_left > 0) {
