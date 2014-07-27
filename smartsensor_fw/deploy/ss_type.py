@@ -2,6 +2,11 @@
 
 from array import array
 
+gameModeChannel = { "description": "The game mode channel.",
+        "type": 0xFE,
+        "additional": array('B', [])
+      }
+
 allDescriptors = {
   "digital-in": {
     "description": "This is a digital sensor.  It can be used to get the " + \
@@ -9,6 +14,7 @@ allDescriptors = {
     "chunksNumer": 0xFF,  # TODO(cduck): What is this?
     "chunksDenom": 0xFF,
     "channels": [
+      gameModeChannel,
       { "description": "This is the only digital channel.",
         "type": 0x00,
         "additional": array('B', [0x01, 0xFF, 0xFF])
@@ -22,6 +28,7 @@ allDescriptors = {
     "chunksNumer": 0xFF,
     "chunksDenom": 0xFF,
     "channels": [
+      gameModeChannel,
       { "description": "This is the only analog channel.",
         "type"  : 0x01,
         "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
@@ -37,6 +44,7 @@ allDescriptors = {
     "chunksDenom": 0xFF,
     "channels": [
       # TODO (tobinsarah): get this from Casey's grizzly protocol
+      gameModeChannel,
       { "description": "This is the only grizzly channel.",
         "type": 0x80,
         "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF, 0xFF])
@@ -50,6 +58,7 @@ allDescriptors = {
     "chunksNumer": 0xFF,
     "chunksDenom": 0xFF,
     "channels": [
+      gameModeChannel,
       { "description": "This is the only buzzer channel.",
         "type": 0x81,
         "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
@@ -64,6 +73,7 @@ allDescriptors = {
     "chunksNumer": 0xFF,  # TODO(cduck): What is this?
     "chunksDenom": 0xFF,
     "channels": [
+      gameModeChannel,
       { "description": "This is the only digital channel.",
         "type": 0x82,
         "additional": array('B', [0x01, 0xFF, 0xFF])
