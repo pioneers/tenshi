@@ -8,9 +8,6 @@ local ipairs, pairs, error, type =
       ipairs, pairs, error, type
 local insert = table.insert
 
-local print = print
-local format = string.format
-
 
 local _ENV = nil -- Block global read and write
 
@@ -448,51 +445,4 @@ local ubjson = {
   decode = decode
 }
 
-
-local function hex(str)
-  local out = ''
-  for i = 1, #str do
-    out = out .. format('%02x', str:byte(i))
-  end
-  return out
-end
-
-local function ascii(str)
-  local out = ''
-  for i = 1, #str do
-    local c = str:sub(i, i)
-    if c:match('%g') then
-      out = out .. c .. ' '
-    else
-      out = (out .. '  ')
-    end
-  end
-  return out
-end
-
-local function test(val)
-  local enc = ubjson.encode(val) 
-  print('length:', #enc)
-  print(hex(enc))
-  print(ascii(enc))
-  print(decode(enc, 1, 0))
-end
-
-test({1, 2, 3, 4})
-test({1, 2, 3, 4, 5, -1})
-test({0, 1, 2, 3, 4, 5})
-test({PiELESDigitalVals = {true, true, true, true, true, true, true, true},
-      PiELESAnalogVals = {127, 127, 127, 127, 127, 127, 127}})
-test({})
-test({{}})
-test({outer = {inner = {}, {}}})
-
-test{[1] = 1, [3] = 4, [14] = 5}
-
-local t = {}
-t[1] = t
-
 return ubjson
-
---xpcall(test, print, t)
-
