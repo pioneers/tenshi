@@ -30,7 +30,6 @@
 #include "lauxlib.h"    // NOLINT(build/include)
 #include "threading.h"    // NOLINT(build/include)
 
-static int ActorGetOwnActor(lua_State *L);
 static int ActorStop(lua_State *L);
 static int ActorStart(lua_State *L);
 
