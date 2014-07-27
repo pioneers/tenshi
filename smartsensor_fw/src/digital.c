@@ -30,7 +30,7 @@ uint8_t make_flags(uint8_t canIn, uint8_t pushPull, uint8_t openDr,
 // Public functions called from main.c
 void initDigital() {
   DIGITAL_PULLUP_ON(IN0);
-  DIGITAL_SET_HIGH(IN1);
+  DIGITAL_SET_LOW(IN1);
   DIGITAL_SET_LOW(IN2);
   DIGITAL_SET_LOW(IN3);
 
@@ -58,19 +58,4 @@ void activeDigitalSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
 
 
 // Private helper functions
-
-// assemble flags byte for DIO
-//   bit0 of flags -- can input
-//   bit1 of flags -- input is active low
-//   bit2 of flags -- can output push-pull
-//   bit3 of flags -- can output open-drain
-//   bit4 of flags -- output is active low
-uint8_t make_flags(uint8_t canIn, uint8_t pushPull, uint8_t openDr,
-  uint8_t outAL) {
-  uint8_t flagbyte = (uint8_t) (canIn & 1);
-  flagbyte |= ((DIGITAL_READ(IN0)) << 1);
-  flagbyte |= ((pushPull & 1) << 2);
-  flagbyte |= ((openDr & 1) << 3);
-  flagbyte |= ((outAL & 1) << 4);
-  return flagbyte;
 }
