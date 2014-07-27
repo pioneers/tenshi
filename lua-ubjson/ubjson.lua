@@ -1,9 +1,21 @@
+-- Global dependencies here.
 
---local _ENV = nil -- blocking globals in Lua 5.2
-local math = require 'math'
+local abs = math.abs
+local floor = math.floor
+local dumpint = string.dumpint
+local dumpfloat = string.dumpfloat
+local ipairs, pairs, error, type =
+      ipairs, pairs, error, type
+local insert = table.insert
 
-local ubjson = { version = 'lua-ubjson 0.1' }
+local print = print
+local format = string.format
 
+
+local _ENV = nil -- Block global read and write
+
+
+-- Calculate 2 ^ v
 local pow2 = function(v)
   local out = 1
   for i = 0, v do
@@ -28,6 +40,7 @@ local int_tags = {
   'L',
 }
 
+-- ubjson tag -> size in bytes
 local int_tag_size = {
   U = 1,
   i = 1,
@@ -36,9 +49,11 @@ local int_tag_size = {
   L = 8,
 }
 
+-- Use doubles to serialize Lua numbers.
 local use_double = false
 
-local function int_data(val)
+-- Get the smallest tag and size to hold a value.
+local function int_tag(val)
   if val >= 0 and val < 256 then
     return 'U', 1
   end
@@ -64,10 +79,12 @@ local function int_data(val)
   return last_key, size / 2
 end
 
+-- If val can be represented by a fixed size value type, return the tag for
+-- that type, otherwise return the Lua type string.
 local function val_tag(val)
   local t = type(val)
   if t == 'number' then
-    t = int_data(val)
+    t = int_tag(val)
   elseif t == 'boolean' then
     if t then
       return 'T'
@@ -80,8 +97,27 @@ local function val_tag(val)
   return t
 end
 
-local encode = nil
+-- Pre-declare encode_inner
+local encode_inner
 
+-- Determines whether an table should become an array or a table.
+-- Also determines length, and whether the optimized container optimization can
+-- be applied.
+-- returns use_obj, length, max_index, shared_tag, write_val
+-- where
+-- use_obj is true iff the table should become a ubjson object (not an array).
+-- length is the number of entries in the array or table.
+-- max_index is the largest integer index.
+-- shared_tag is a ubjson type tag if the optimized container format can be
+--     applied, otherwise is the string 'mixed'
+-- write_val is a function which writes a value for the object or array.
+-- write_val has the same type as encode_inner
+--   (value, buffer, memo, depth) -> ()
+--   where value is the value to be serialized
+--         buffer is a table of strings which will be concatenated together to
+--             produce the output
+--         memo is a table mapping currently entered tables to true
+--         depth is the recursion depth from the user's call
 local function array_helper(val)
   local t = nil
   local length = 0
@@ -103,21 +139,21 @@ local function array_helper(val)
     length = length + 1
   end
 
-  local write_val = encode
+  local write_val = encode_inner
 
   if t ~= nil and #t == 1 then
     local size = int_tag_size[t]
     if size then
       write_val = function(val, buffer, memo)
-        table.insert(buffer, string.dumpint(val, size, 'b'))
+        insert(buffer, dumpint(val, size, 'b'))
       end
     elseif t == 'f' then
       write_val = function(val, buffer, memo)
-        table.insert(buffer, string.dumpfloat(val, 'f', 'b'))
+        insert(buffer, dumpfloat(val, 'f', 'b'))
       end
     elseif t == 'd' then
       write_val = function(val, buffer, memo)
-        table.insert(buffer, string.dumpfloat(val, 'd', 'b'))
+        insert(buffer, dumpfloat(val, 'd', 'b'))
       end
     else
       -- Tag should be 'T', 'F', 'Z'
@@ -135,64 +171,69 @@ local function array_helper(val)
 end
 
 local function encode_int(val, buffer)
-  local tag, size = int_data(val)
-  table.insert(buffer, tag)
-  table.insert(buffer, string.dumpint(val, size, 'b'))
+  local tag, size = int_tag(val)
+  insert(buffer, tag)
+  insert(buffer, dumpint(val, size, 'b'))
 
   -- TODO(kzentner): Huge int support?
 end
 
-encode = function(val, buffer, memo, depth)
+-- 
+function encode_inner(val, buffer, memo, depth)
   if memo[val] then
     error("Cannot serialize circular data structure.", depth)
   end
+  if depth == nil then
+    error("Depth missing.")
+  end
+
   local t = type(val)
   if t == 'number' then
-    if math.floor(val) == val then
+    if floor(val) == val then
       encode_int(val, buffer)
     else
       if use_double then
-        table.insert(buffer, 'D')
-        table.insert(buffer, string.dumpfloat(val, 'd', 'b'))
+        insert(buffer, 'D')
+        insert(buffer, dumpfloat(val, 'd', 'b'))
       else
-        table.insert(buffer, 'd')
-        table.insert(buffer, string.dumpfloat(val, 'f', 'b'))
+        insert(buffer, 'd')
+        insert(buffer, dumpfloat(val, 'f', 'b'))
       end
     end
   elseif t == 'nil' then
-    table.insert(buffer, 'Z')
+    insert(buffer, 'Z')
   elseif t == 'boolean' then
-    if t then
-      table.insert(buffer, 'T')
+    if val then
+      insert(buffer, 'T')
     else
-      table.insert(buffer, 'F')
+      insert(buffer, 'F')
     end
   elseif t == 'string' then
-    table.insert(buffer, 'S')
+    insert(buffer, 'S')
     encode_int(#val, buffer)
-    table.insert(buffer, val)
+    insert(buffer, val)
   elseif t == 'table' then
     memo[val] = true
     local use_obj, length, max, tag, write_val = array_helper(val)
     if use_obj then
-      table.insert(buffer, '{')
+      insert(buffer, '{')
     else
-      table.insert(buffer, '[')
+      insert(buffer, '[')
     end
 
     if tag ~= nil and #tag == 1 then
-      table.insert(buffer, '$')
-      table.insert(buffer, tag)
+      insert(buffer, '$')
+      insert(buffer, tag)
     end
 
-    table.insert(buffer, '#')
+    insert(buffer, '#')
     encode_int(length, buffer)
 
     if use_obj then
       for k, v in pairs(val) do
         local str = k .. ''
         encode_int(#str, buffer)
-        table.insert(buffer, str)
+        insert(buffer, str)
         write_val(v, buffer, memo, depth + 1)
       end
     else
@@ -204,18 +245,18 @@ encode = function(val, buffer, memo, depth)
   end
 end
 
-function ubjson.encode(value, state)
+local function encode(value, state)
   local buffer = {}
   local memo = {}
-  encode(value, buffer, memo, 3)
-  out = ''
+  encode_inner(value, buffer, memo, 3)
+  local out = ''
   for k, v in pairs(buffer) do
     out = out .. v
   end
   return out
 end
 
-function decode_int(str, offset, depth, error_context)
+local function decode_int(str, offset, depth, error_context)
   local c = str:sub(offset, offset)
   local int_size = int_tag_size[c]
   if int_size == nil then
@@ -231,7 +272,14 @@ end
 
 -- Returns function with signature
 -- (str, offset, depth) -> val, new_offset, skip
-function get_read_func(tag)
+-- where str is the input string
+--       offset is the index into str to start reading at
+--       depth is the recursion depth from the user's call
+--       val is the read value
+--       new_offset is the offset after the read element
+--       skip is whether the object should be recognized
+--           (used to implement noop)
+local function get_read_func(tag)
   local int_size = int_tag_size[tag]
   if tag == 'C' then
     int_size = 1
@@ -269,17 +317,25 @@ function get_read_func(tag)
   end
 end
 
-function decode_str(str, offset, depth)
+-- Decodes a string. Does not read the type tag, so that it can be used to
+-- decode ubjson object keys.
+local function decode_str(str, offset, depth)
   local str_length, str_start = decode_int(str, offset,
                                            depth + 1,
                                            "String at offset " .. offset)
   return str:sub(str_start, str_start + str_length), str_start + str_length
 end
 
-function decode(str, offset, depth)
-  if offset == nil then
-    offset = 1
-  end
+-- Recursive function used to decode object.
+-- (str, offset, depth) -> (val, new_offset, skip)
+-- where str is the input string
+--       offset is the index into str to start reading at
+--       depth is the recursion depth from the user's call
+--       val is the read value
+--       new_offset is the offset after the read element
+--       skip is whether the object should be recognized
+--           (used to implement noop)
+local function decode_inner(str, offset, depth)
   if depth == nil then
     error('Depth missing')
   end
@@ -290,7 +346,8 @@ function decode(str, offset, depth)
     return str:undumpint(offset + 1, int_size, 'b'), offset + 1 + int_size
   elseif c == 'C' then
     return str:undumpint(offset + 1, 1, 'b'), offset + 2
-  elseif c == 'S' then
+  elseif c == 'S' or c == 'H' then
+    -- TODO(kzentner): How to handle huge numbers?
     return decode_str(str, offset + 1, depth + 1)
   elseif c == 'T' then
     return true, offset + 1
@@ -305,7 +362,7 @@ function decode(str, offset, depth)
     local tag = str:sub(start_offset, start_offset)
     local length = nil
     local out = {}
-    local read_val = decode
+    local read_val = decode_inner
     if tag == '$' then
       start_offset = start_offset + 1
       local t = str:sub(start_offset, start_offset)
@@ -322,6 +379,7 @@ function decode(str, offset, depth)
         end
       end
     end
+    -- TODO(kzentner): Do not construct the error message every time.
     if tag == '#' then
       local msg
       if c == '[' then
@@ -337,7 +395,7 @@ function decode(str, offset, depth)
     end
 
     local elt_offset = start_offset
-    local key, val
+    local key, val, skip
     if c == '[' then
       if length ~= nil then
         for i = 1, length do
@@ -380,15 +438,26 @@ function decode(str, offset, depth)
   end
 end
 
-function hex(str)
+local function decode(str, offset)
+  return decode_inner(str, offset, 1)
+end
+
+local ubjson = {
+  version = 'lua-ubjson 0.1',
+  encode = encode,
+  decode = decode
+}
+
+
+local function hex(str)
   local out = ''
   for i = 1, #str do
-    out = out .. string.format('%02x', str:byte(i))
+    out = out .. format('%02x', str:byte(i))
   end
   return out
 end
 
-function ascii(str)
+local function ascii(str)
   local out = ''
   for i = 1, #str do
     local c = str:sub(i, i)
@@ -420,7 +489,10 @@ test({outer = {inner = {}, {}}})
 
 test{[1] = 1, [3] = 4, [14] = 5}
 
-t = {}
+local t = {}
 t[1] = t
 
-xpcall(test, print, t)
+return ubjson
+
+--xpcall(test, print, t)
+
