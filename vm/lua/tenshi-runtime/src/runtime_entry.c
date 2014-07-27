@@ -28,14 +28,16 @@
 #include "lbaselib.h"   // NOLINT(build/include)
 #include "lstrlib.h"    // NOLINT(build/include)
 #include "threading.h"  // NOLINT(build/include)
-#include "../actuators.lua.h"     // NOLINT(build/include)
-#include "../game.lua.h"          // NOLINT(build/include)
-#include "../get_device.lua.h"    // NOLINT(build/include)
-#include "../pieles.lua.h"        // NOLINT(build/include)
-#include "../signals.lua.h"       // NOLINT(build/include)
-#include "../trap_global.lua.h"   // NOLINT(build/include)
-#include "../triggers.lua.h"      // NOLINT(build/include)
-#include "../units.lua.h"         // NOLINT(build/include)
+#include "../actuator_actor.lua.h"  // NOLINT(build/include)
+#include "../actuators.lua.h"       // NOLINT(build/include)
+#include "../game.lua.h"            // NOLINT(build/include)
+#include "../get_device.lua.h"      // NOLINT(build/include)
+#include "../pieles.lua.h"          // NOLINT(build/include)
+#include "../sensor_actor.lua.h"    // NOLINT(build/include)
+#include "../signals.lua.h"         // NOLINT(build/include)
+#include "../trap_global.lua.h"     // NOLINT(build/include)
+#include "../triggers.lua.h"        // NOLINT(build/include)
+#include "../units.lua.h"           // NOLINT(build/include)
 
 // Custom version of baselib with some functions omitted
 static const luaL_Reg tenshi_base_funcs[] = {
@@ -240,6 +242,34 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   lua_pushlightuserdata(ret->L, ret);
   lua_settable(ret->L, LUA_REGISTRYINDEX);
 
+  // Load the code for the actor that handles reading sensor updates and
+  // updating sensor mailboxes
+  ret->sensor_actor = ActorCreate(ret);
+  if (!ret->sensor_actor) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+  int ret_ = luaL_loadbuffer(ret->sensor_actor->L,
+    sensor_actor_lua, sizeof(sensor_actor_lua), "sensor_actor.lua");
+  if (ret_ != LUA_OK) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+
+  // Load the code for the actor that handles reading actuator mailboxes and
+  // updating actuators.
+  ret->actuator_actor = ActorCreate(ret);
+  if (!ret->actuator_actor) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+  ret_ = luaL_loadbuffer(ret->actuator_actor->L,
+    actuator_actor_lua, sizeof(actuator_actor_lua), "actuator_actor.lua");
+  if (ret_ != LUA_OK) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+
   return ret;
 }
 
@@ -281,17 +311,26 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
   // Do timeouts
   ActorProcessTimeouts(s);
 
+  // Run the sensor actor
+  // Dup the function first, as it disappears when we exit
+  // TODO(rqou): Will we have a problem with the hardcoded op limit?
+  lua_pushvalue(s->sensor_actor->L, -1);
+  int ret = threading_run_ops(s->sensor_actor->L, 1000, NULL);
+  if (ret != THREADING_EXITED) {
+    printf("There was an error running the sensor actor!\n");
+    return ret;
+  }
+
   // Run the main code
   int ops_left = QUANTA_OPCODES;
-
   while (ops_left > 0) {
     TenshiActorState a;
-    int ret = ActorDequeueHead(s, &a);
+    ret = ActorDequeueHead(s, &a);
     if (ret != LUA_OK) return ret;
 
     if (!a) {
       printf("NOTHING TO RUN!\n");
-      return LUA_OK;
+      break;
     }
 
     ret = threading_run_ops(a->L, ops_left, &ops_left);
@@ -325,6 +364,15 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
       ret = ActorSetRunnable(a, 0);
       if (ret != LUA_OK) return ret;
     }
+  }
+
+  // Run the actuator actor
+  // Dup the function first, as it disappears when we exit
+  lua_pushvalue(s->actuator_actor->L, -1);
+  ret = threading_run_ops(s->actuator_actor->L, 1000, NULL);
+  if (ret != THREADING_EXITED) {
+    printf("There was an error running the actuator actor!\n");
+    return ret;
   }
 
   return LUA_OK;
