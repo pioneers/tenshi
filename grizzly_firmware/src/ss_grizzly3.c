@@ -26,9 +26,17 @@
 #include "inc/twi_state_machine.h"
 #include "inc/control_loop.h"
 
-
+// Private global variables
 uint8_t replyRegister = 0;
 uint8_t replyLen = 0xFF;
+
+uint8_t modeSet = 0;
+uint8_t speedSet[4] = {0};
+
+
+// Private helper functions
+void grizzly3SetValue(uint8_t mode, uint8_t speed[4]);
+
 
 void initGrizzly3() {
   // Nothing needed
@@ -36,21 +44,19 @@ void initGrizzly3() {
 void activeGrizzly3Rec(uint8_t *data, uint8_t len, uint8_t inband) {
   last_i2c_update = get_uptime_dangerous();
 
+  uint8_t apply = 0;
+
   if (!inband) {  // Expecting mode byte and 4 optional speed bytes.
     if (len > 0) {
-      ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-        if (len >= 1) {
-          set_i2c_reg(REG_PWM_MODE, data[0]);  // Set mode
-        }
-        if (len >= 5) {
-          set_i2c_reg(REG_TARGET_SPEED_NEW,   data[1]);  // Set speed
-          set_i2c_reg(REG_TARGET_SPEED_NEW+1, data[2]);
-          set_i2c_reg(REG_TARGET_SPEED_NEW+2, data[3]);
-          set_i2c_reg(REG_TARGET_SPEED_NEW+3, data[4]);
-        }
-        set_i2c_reg(REG_APPLY_NEW_SPEED, 0);  // Update Grizzly
-      }
+      modeSet = data[0];  // Set grizzly mode
     }
+    if (len >= 5) {
+      speedSet[0] = data[1];  // Set speed
+      speedSet[1] = data[2];
+      speedSet[2] = data[3];
+      speedSet[3] = data[4];
+    }
+    apply = 1;
   } else {  // Same as USB protocol
     uint8_t reg = data[0];
     uint8_t regLen = data[1] & 0x7F;
@@ -61,6 +67,14 @@ void activeGrizzly3Rec(uint8_t *data, uint8_t len, uint8_t inband) {
         regLen = len - 2;
       ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
         for (uint8_t i = 0; i < regLen; i++) {
+          if (reg + i == REG_PWM_MODE) {
+            modeSet = data[i + 2];
+          } else if (reg + i >= REG_TARGET_SPEED_NEW &&
+                     reg + i < REG_TARGET_SPEED_NEW + 4) {
+            speedSet[reg + i - REG_TARGET_SPEED_NEW] = data[i + 2];
+          } else if (reg + i == REG_APPLY_NEW_SPEED) {
+            apply = 1;
+          }
           set_i2c_reg(reg + i, data[i + 2]);
         }
       }
@@ -69,6 +83,26 @@ void activeGrizzly3Rec(uint8_t *data, uint8_t len, uint8_t inband) {
       replyRegister = reg;
       replyLen = regLen;
     }
+  }
+
+  switch (gameMode) {
+    case MODE_ACTIVE:
+      if (apply) grizzly3SetValue(modeSet, speedSet);
+      break;
+    case MODE_DISABLED: grizzly3SetValue(0, speedSet);
+      break;
+    case MODE_PAUSED:
+      if ((pwm_mode & MODE_SPEED_MASK) == MODE_POS_PID ||
+          !(pwm_mode & MODE_ENABLE_MASK)) {
+        // Don't update value; continue holding position or stay disabled
+      } else {
+        // TODO(cduck): Is it best to brake or coast on pause?
+        // Set speed to zero and mode to controlled brake
+        uint8_t sp = {0, 0, 0, 0};
+        grizzly3SetValue(0x23, sp);
+      }
+      break;
+    default: break;
   }
 }
 void activeGrizzly3Send(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
@@ -89,5 +123,17 @@ void activeGrizzly3Send(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
     replyLen = 0xFF;
   } else {
     // Haven't yet decided what to reply with when not in-band
+  }
+}
+
+
+void grizzly3SetValue(uint8_t mode, uint8_t speed[4]) {
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    set_i2c_reg(REG_PWM_MODE, mode);  // Set mode
+    set_i2c_reg(REG_TARGET_SPEED_NEW,   speed[0]);  // Set speed
+    set_i2c_reg(REG_TARGET_SPEED_NEW+1, speed[1]);
+    set_i2c_reg(REG_TARGET_SPEED_NEW+2, speed[2]);
+    set_i2c_reg(REG_TARGET_SPEED_NEW+3, speed[3]);
+    set_i2c_reg(REG_APPLY_NEW_SPEED, 0);  // Update Grizzly
   }
 }
