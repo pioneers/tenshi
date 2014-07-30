@@ -6,7 +6,7 @@
 
 // Require dependencies
 var Buffer = require('buffer').Buffer;
-var assert = require('assert');
+var assert = require('./assert');
 var strtok = require('strtok');
 
 // Require UBJSON types definition

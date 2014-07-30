@@ -6,13 +6,10 @@
 
 // Require dependencies
 var Buffer = require('buffer').Buffer;
-var EventEmitter = require('events').EventEmitter;
-var assert = require('assert');
-var util = require('util');
+var EventEmitter = require('./events').EventEmitter;
+var assert = require('./assert');
+var util = require('./util');
 var strtok = require('strtok');
-
-// Extend `strtok` for reading/writing float and double numbers
-require('./strtok-extend.js');
 
 // Require UBJSON parser, packer and stream
 var UbjsonParser = require("./ubjson-parser.js");
@@ -21,6 +18,8 @@ var UbjsonStream = require("./ubjson-stream.js");
 
 // Require class for int64 storing
 var Int64 = require('./int64.js');
+
+var process = require('sdk/system/process');
 
 // A mock stream implementation that breaks up provided data into
 // 1-byte chunks and emits 'data' events. This is used to simulate
