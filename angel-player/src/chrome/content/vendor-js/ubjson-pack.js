@@ -29,7 +29,7 @@ var Int64 = require('./int64.js');
  * Returns buffer offset after write.
  **/
 function ubjsonPack(s, b, bo, v, flush) {
-  assert.ok(b instanceof Buffer);
+  //assert.ok(b instanceof Buffer);
   assert.ok(typeof bo === 'number');
   assert.ok(bo >= 0);
   assert.ok(bo < b.length);
@@ -134,7 +134,7 @@ function ubjsonPack(s, b, bo, v, flush) {
         v.forEach(function(vv) {
           len += ubjsonPack(s, b, bo + len, vv, flush);
         });
-      } else if (v.constructor === Object) {
+      } else /* if (v.constructor === Object) */ {
         var vk = Object.keys(v);
 
         // 255 (0xFF) is reserved fo unknown-length containers
@@ -150,9 +150,9 @@ function ubjsonPack(s, b, bo, v, flush) {
           len += ubjsonPack(s, b, bo + len, k, flush);
           len += ubjsonPack(s, b, bo + len, v[k], flush);
         });
-      } else {
+      } /* else {
         throw new Error('Cannot pack object constructed by ' + v.constructor.valueOf());
-      }
+      } */
 
       return len;
 
