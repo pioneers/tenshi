@@ -1,5 +1,6 @@
 angel-player/src/chrome/content/vendor-js/lua.js
 angel-player/src/chrome/content/vendor-js/ngl_vm.js
+angel-player/src/chrome/content/vendor-js/ndl3.js
 
 tools/*.tar.bz2
 tools/arm-toolchain
