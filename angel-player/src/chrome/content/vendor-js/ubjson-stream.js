@@ -6,9 +6,9 @@
 
 // Require dependencies
 var Buffer = require('buffer').Buffer;
-var EventEmitter = require('events').EventEmitter;
-var assert = require('assert');
-var util = require('util');
+var EventEmitter = require('./events').EventEmitter;
+var assert = require('./assert');
+var util = require('./util');
 var strtok = require('strtok');
 
 // Require UBJSON parser and packer
