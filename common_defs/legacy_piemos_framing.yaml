@@ -37,6 +37,16 @@
   kind: const
   value: 0x64
 
+- name: NDL3_UBJSON_PORT
+  kind: const
+  value: 0x4e
+- name: NDL3_STRING_PORT
+  kind: const
+  value: 0x59
+- name: NDL3_CODE_PORT
+  kind: const
+  value: 0x41
+
 - name: pier_incomingdata
   kind: struct
   # No packing necessary, all bytes

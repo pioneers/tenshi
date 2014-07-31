@@ -12,9 +12,9 @@ const MAX_PACKET_SIZE = 1024 * 1024;
 const MAX_XBEE_PAYLOAD_SIZE = 256;
 const SEND_INTERVAL = 100;
 
-const UBJSON_PORT = 1;
-const STRING_PORT = 2;
-const CODE_PORT = 3;
+const UBJSON_PORT = typpo.get_const('NDL3_UBJSON_PORT');
+const STRING_PORT = typpo.get_const('NDL3_STRING_PORT');
+const CODE_PORT = typpo.get_const('NDL3_CODE_PORT');
 
 try {
   var ndl3 = require('tenshi/vendor-js/ndl3');
