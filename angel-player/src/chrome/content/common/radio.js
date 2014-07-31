@@ -107,6 +107,8 @@ function recv_L2 (evt) {
   call('free', ptr);
 
   check_L3.apply(this);
+  // Ignore errors due to bad packets.
+  call('NDL3_pop_error', this.net);
 }
 
 function check_L3() {
