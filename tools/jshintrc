@@ -12,6 +12,11 @@
         "onmessage": true,
         "ChromeWorker": true,
         "close": true,
-        "console": true
+        "console": true,
+        "setInterval": true,
+        "clearInterval": true,
+        "setTimeout": true,
+        "clearTimeout": true,
+        "module": true
     }
 }
