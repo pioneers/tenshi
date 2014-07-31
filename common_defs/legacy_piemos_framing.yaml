@@ -33,6 +33,9 @@
 - name: TENSHI_NAIVE_BULK_STOP_IDENT
   kind: const
   value: 0x61
+- name: NDL3_IDENT
+  kind: const
+  value: 0x64
 
 - name: pier_incomingdata
   kind: struct
