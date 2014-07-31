@@ -30,9 +30,12 @@ exports.sendPacketizedData = function(data) {
         throw "No radio address set!";
     }
 
-    // TODO(rqou): Refactor this
-    serportObj.setReadHandler(function(e) {
-        let rxbuf = e.data;
+    let main_radio = global_state.get('main_radio');
+    if (!main_radio) {
+        throw "Could not get main radio.";
+    }
+
+    main_radio.on('data', function (rxbuf) {
         let rx_packet =
             typpo.read('xbee_api_packet', buffer.Buffer(rxbuf)).unwrap();
         let checksum = xbee.computeChecksum(
