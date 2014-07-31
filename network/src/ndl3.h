@@ -40,10 +40,13 @@ typedef uint32_t NDL3_time;
 
 typedef uint32_t NDL3_size;
 
-typedef void * (*NDAlloc)(NDL3_size size, void * userdata);
-typedef void (*NDFree)(void * to_free, void * userdata);
+typedef void * NDAlloc(NDL3_size size, void * userdata);
+typedef void NDFree(void * to_free, void * userdata);
 
-NDL3Net * NDL3_new(NDAlloc alloc_fn, NDFree free_fn, void * userdata);
+extern NDAlloc ND_malloc;
+extern NDFree ND_free;
+
+NDL3Net * NDL3_new(NDAlloc * alloc_fn, NDFree * free_fn, void * userdata);
 
 void NDL3_open(NDL3Net * restrict net, NDL3_port port);
 void NDL3_close(NDL3Net * restrict net, NDL3_port port);

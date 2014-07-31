@@ -4,14 +4,6 @@
 #include <stdio.h>
 #include <string.h>
 
-void * ND_malloc(NDL3_size size, void * userdata) {
-  return malloc(size);
-}
-
-void ND_free(void * to_free, void * userdata) {
-  return free(to_free);
-}
-
 const char * test_msg = "test msg"
       " test "
       " test "
@@ -514,8 +506,8 @@ const char * test_msg = "test msg"
       " test ";
 
 int main() {
-  NDL3Net * target = NDL3_new(&ND_malloc, &ND_free, NULL);
-  NDL3Net * host = NDL3_new(&ND_malloc, &ND_free, NULL);
+  NDL3Net * target = NDL3_new(NULL, NULL, NULL);
+  NDL3Net * host = NDL3_new(NULL, NULL, NULL);
   NDL3_open(target, 1);
   NDL3_open(host, 1);
   char * in_msg = strdup(test_msg);

@@ -1,7 +1,8 @@
 #include <ndl3.h>
-#include <stdint.h>
-#include <string.h>
-#include <assert.h>
+#include <stdint.h> /* uint8_t, uint16_t, uint32_t. */
+#include <string.h> /* memcpy */
+#include <assert.h> /* assert */
+#include <stdlib.h> /* malloc, free, size_t */
 
 /**
  * Basically, works like this:
@@ -105,13 +106,13 @@ struct NDL3Net {
   port ports[NDL3_MAXPORTS];
   NDL3_error last_error;
   void * userdata;
-  NDAlloc alloc;
-  NDFree free;
+  NDAlloc * alloc;
+  NDFree * free;
   int time;
 };
 
 /* Find the offset of a field. This will be optimized out anyways. */
-#define OFFSET(strct, field) ((uint64_t) &((strct *) 0)->field)
+#define OFFSET(strct, field) ((size_t) &((strct *) 0)->field)
 
 static uint16_t checksum_packet(L2_data_packet * packet,
                                 NDL3_size actual_size) {
@@ -137,6 +138,12 @@ static uint16_t checksum_packet(L2_data_packet * packet,
  * passed userdata in later calls.
  */
 NDL3Net * NDL3_new(NDAlloc alloc_fn, NDFree free_fn, void * userdata) {
+  if (alloc_fn == NULL) {
+    alloc_fn = &ND_malloc;
+  }
+  if (free_fn == NULL) {
+    free_fn = &ND_free;
+  }
   NDL3Net * net = (NDL3Net *) alloc_fn(sizeof(NDL3Net), userdata);
   if (net == 0) {
     return 0;
@@ -712,4 +719,18 @@ NDL3_error NDL3_pop_error(NDL3Net * restrict net) {
  */
 void NDL3_elapse_time(NDL3Net * restrict net, NDL3_time time) {
   net->time += time;
+}
+
+/*
+ * A wrapper around stdlib malloc. Provided for convenience.
+ */
+void * ND_malloc(NDL3_size size, void * userdata) {
+  return malloc(size);
+}
+
+/*
+ * A wrapper around stdlib free. Provided for convenience.
+ */
+void ND_free(void * to_free, void * userdata) {
+  free(to_free);
 }
