@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -2397,6 +2397,16 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <wire x1="-0.381" y1="-0.635" x2="-0.381" y2="0.635" width="0.1016" layer="51" curve="-118.072487"/>
 <wire x1="0.381" y1="0.635" x2="0.381" y2="-0.635" width="0.1016" layer="51" curve="-118.072487"/>
 </package>
+<package name="POGO_PIN_394">
+<description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;
+&lt;p&gt; For 0.04" diameter body, 0.06" diameter head. &lt;/p&gt;
+&lt;p&gt; Source:  http://www.adafruit.com/products/394 &lt;/p&gt;</description>
+<pad name="POGO_PIN" x="0" y="0" drill="1.016" diameter="1.524"/>
+<text x="-1.27" y="1.27" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-1.27" y="-2.54" size="1.27" layer="27" font="vector">&gt;VALUE</text>
+<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
+<rectangle x1="-1.016" y1="-1.016" x2="1.016" y2="1.016" layer="39"/>
+</package>
 </packages>
 <symbols>
 <symbol name="MOSFET-NCHANNEL">
@@ -2643,6 +2653,14 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <text x="0" y="2.54" size="1.778" layer="95">&gt;NAME</text>
 <text x="0" y="-3.81" size="1.778" layer="96">&gt;VALUE</text>
 <pin name="1" x="0" y="0" visible="off" length="point" rot="R180"/>
+</symbol>
+<symbol name="POGO_PIN">
+<description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;</description>
+<pin name="P$1" x="2.54" y="0" visible="off" length="short" rot="R180"/>
+<wire x1="0.254" y1="0" x2="1.524" y2="0" width="0.6096" layer="94"/>
+<text x="1.27" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
+<circle x="0" y="0" radius="1.135921875" width="0.254" layer="94"/>
+<text x="1.27" y="1.27" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -3995,6 +4013,24 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 </device>
 </devices>
 </deviceset>
+<deviceset name="POGO_PIN" uservalue="yes">
+<description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;</description>
+<gates>
+<gate name="G$1" symbol="POGO_PIN" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="POGO_PIN_394">
+<connects>
+<connect gate="G$1" pin="P$1" pad="POGO_PIN"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -4038,11 +4074,13 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <part name="U$9" library="pie" deviceset="SENSOR_CON" device="SMD-EDGE"/>
 <part name="U$10" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY6" library="pie" deviceset="GND" device=""/>
-<part name="TP1" library="pie" deviceset="TEST-POINT" device="2"/>
-<part name="TP2" library="pie" deviceset="TEST-POINT" device="2" value="IO3"/>
 <part name="TP3" library="pie" deviceset="TEST-POINT" device="2" value="IO4"/>
-<part name="TP4" library="pie" deviceset="TEST-POINT" device="2"/>
-<part name="TP5" library="pie" deviceset="TEST-POINT" device="2"/>
+<part name="SCK" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="GND" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="5V" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="RESET" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="MISO" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="MOSI" library="pie" deviceset="POGO_PIN" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4058,8 +4096,6 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <text x="48.26" y="157.48" size="3.81" layer="94" font="vector">Old Team Flag</text>
 <wire x1="0" y1="78.74" x2="109.22" y2="78.74" width="0.1524" layer="94"/>
 <wire x1="109.22" y1="78.74" x2="109.22" y2="93.98" width="0.1524" layer="94"/>
-<text x="99.06" y="114.3" size="1.778" layer="95">TP4</text>
-<text x="99.06" y="116.84" size="1.778" layer="95">TP5</text>
 </plain>
 <instances>
 <instance part="LED1" gate="G$1" x="12.7" y="166.37" smashed="yes" rot="R270">
@@ -4117,22 +4153,37 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <instance part="U$6" gate="G$1" x="5.08" y="99.06"/>
 <instance part="SUPPLY4" gate="GND" x="5.08" y="88.9"/>
 <instance part="SUPPLY5" gate="GND" x="134.62" y="101.6"/>
-<instance part="R5" gate="G$1" x="96.52" y="104.14"/>
+<instance part="R5" gate="G$1" x="96.52" y="104.14" smashed="yes">
+<attribute name="NAME" x="99.06" y="104.14" size="1.778" layer="95"/>
+<attribute name="VALUE" x="99.06" y="101.6" size="1.778" layer="96"/>
+</instance>
 <instance part="U$7" gate="G$1" x="106.68" y="106.68"/>
 <instance part="U$8" gate="G$1" x="185.42" y="137.16"/>
 <instance part="U$9" gate="G$1" x="226.06" y="137.16"/>
 <instance part="U$10" gate="G$1" x="167.64" y="152.4"/>
 <instance part="SUPPLY6" gate="GND" x="167.64" y="114.3"/>
-<instance part="TP1" gate="G$1" x="96.52" y="96.52" rot="R270"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
-<instance part="TP2" gate="G$1" x="88.9" y="106.68" smashed="yes">
-<attribute name="NAME" x="83.82" y="104.14" size="1.778" layer="95"/>
-</instance>
 <instance part="TP3" gate="G$1" x="88.9" y="111.76" smashed="yes">
 <attribute name="NAME" x="83.82" y="109.22" size="1.778" layer="95"/>
 </instance>
-<instance part="TP4" gate="G$1" x="93.98" y="114.3" smashed="yes"/>
-<instance part="TP5" gate="G$1" x="93.98" y="116.84" smashed="yes"/>
+<instance part="SCK" gate="G$1" x="96.52" y="106.68" smashed="yes" rot="R180">
+<attribute name="NAME" x="83.82" y="104.14" size="1.778" layer="95"/>
+<attribute name="VALUE" x="91.44" y="110.49" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="GND" gate="G$1" x="177.8" y="116.84" smashed="yes" rot="R180">
+<attribute name="VALUE" x="176.53" y="119.38" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="180.34" y="116.84" size="1.778" layer="95"/>
+</instance>
+<instance part="5V" gate="G$1" x="177.8" y="152.4" smashed="yes" rot="R180">
+<attribute name="VALUE" x="176.53" y="154.94" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="180.34" y="152.4" size="1.778" layer="95"/>
+</instance>
+<instance part="RESET" gate="G$1" x="96.52" y="99.06" smashed="yes" rot="R90">
+<attribute name="VALUE" x="99.06" y="100.33" size="1.778" layer="96" rot="R90"/>
+<attribute name="NAME" x="99.06" y="99.06" size="1.778" layer="95"/>
+</instance>
+<instance part="MISO" gate="G$1" x="96.52" y="114.3" rot="R180"/>
+<instance part="MOSI" gate="G$1" x="96.52" y="116.84" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -4149,7 +4200,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <pinref part="U2" gate="G$1" pin="PB2(ADC7/PCINT10)"/>
 <wire x1="81.28" y1="114.3" x2="93.98" y2="114.3" width="0.1524" layer="91"/>
 <label x="83.82" y="114.3" size="1.778" layer="95"/>
-<pinref part="TP4" gate="G$1" pin="1"/>
+<pinref part="MISO" gate="G$1" pin="P$1"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -4227,7 +4278,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <pinref part="U2" gate="G$1" pin="PB1(ADC6/PCINT9)"/>
 <wire x1="81.28" y1="116.84" x2="93.98" y2="116.84" width="0.1524" layer="91"/>
 <label x="83.82" y="116.84" size="1.778" layer="95"/>
-<pinref part="TP5" gate="G$1" pin="1"/>
+<pinref part="MOSI" gate="G$1" pin="P$1"/>
 </segment>
 </net>
 <net name="BSOURCE" class="0">
@@ -4370,9 +4421,8 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <pinref part="R5" gate="G$1" pin="1"/>
 <wire x1="88.9" y1="104.14" x2="91.44" y2="104.14" width="0.1524" layer="91"/>
 <wire x1="88.9" y1="101.6" x2="96.52" y2="101.6" width="0.1524" layer="91"/>
-<wire x1="96.52" y1="101.6" x2="96.52" y2="96.52" width="0.1524" layer="91"/>
 <junction x="88.9" y="101.6"/>
-<pinref part="TP1" gate="G$1" pin="1"/>
+<pinref part="RESET" gate="G$1" pin="P$1"/>
 </segment>
 </net>
 <net name="A_P" class="0">
@@ -4448,9 +4498,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <net name="IO3" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PC1(ADC10/PCINT13)"/>
-<wire x1="81.28" y1="106.68" x2="88.9" y2="106.68" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="106.68" x2="93.98" y2="106.68" width="0.1524" layer="91"/>
 <label x="83.82" y="106.68" size="1.778" layer="95"/>
-<pinref part="TP2" gate="G$1" pin="1"/>
+<pinref part="SCK" gate="G$1" pin="P$1"/>
 </segment>
 </net>
 <net name="IO4" class="0">

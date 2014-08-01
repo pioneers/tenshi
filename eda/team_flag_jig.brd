@@ -138,7 +138,7 @@ pioneers.berkeley.edu/opensource</text>
 <text x="20.32" y="38.1" size="1.6764" layer="21" font="vector" ratio="15" align="top-center">Team Flag Jig</text>
 <text x="20.32" y="35.56" size="1.4224" layer="21" font="vector" ratio="15" align="top-center">For Battery Buzzer
 Board V3 Rev. A</text>
-<text x="35.433" y="0.889" size="1.4224" layer="1" font="vector" ratio="15" align="bottom-right">v3 revA
+<text x="34.925" y="0.889" size="1.4224" layer="1" font="vector" ratio="15" align="bottom-right">v3 revA
 20 June 2014</text>
 </plain>
 <libraries>
@@ -887,35 +887,35 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="1.27" y="9.525" size="1.4224" layer="27" font="vector" ratio="15"/>
 <attribute name="PIE-INT-REF-NUM" value="BULK-STOCK" x="5.08" y="2.54" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="MISO" library="pie" package="POGO_PIN_394" value="" x="10.668" y="2.794" smashed="yes">
-<attribute name="NAME" x="8.382" y="4.064" size="1.4224" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="9.398" y="0.254" size="1.27" layer="27" font="vector"/>
-<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="10.668" y="2.794" size="1.778" layer="27" display="off"/>
+<element name="MISO" library="pie" package="POGO_PIN_394" value="" x="20.32" y="16.637" smashed="yes">
+<attribute name="NAME" x="19.304" y="17.907" size="1.4224" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="19.05" y="14.097" size="1.27" layer="27" font="vector"/>
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="20.32" y="16.637" size="1.778" layer="27" display="off"/>
 </element>
-<element name="SCK" library="pie" package="POGO_PIN_394" value="" x="13.97" y="12.1158" smashed="yes">
-<attribute name="NAME" x="15.24" y="14.0208" size="1.4224" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="12.7" y="9.5758" size="1.27" layer="27" font="vector"/>
-<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="13.97" y="12.1158" size="1.778" layer="27" display="off"/>
+<element name="SCK" library="pie" package="POGO_PIN_394" value="" x="14.224" y="12.827" smashed="yes">
+<attribute name="NAME" x="15.494" y="11.811" size="1.4224" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="12.954" y="10.287" size="1.27" layer="27" font="vector"/>
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="14.224" y="12.827" size="1.778" layer="27" display="off"/>
 </element>
-<element name="RESET" library="pie" package="POGO_PIN_394" value="" x="13.97" y="14.6558" smashed="yes" rot="R270">
-<attribute name="NAME" x="15.24" y="11.4808" size="1.4224" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="11.43" y="15.9258" size="1.27" layer="27" font="vector" rot="R270"/>
-<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="13.97" y="14.6558" size="1.778" layer="27" rot="R270" display="off"/>
+<element name="RESET" library="pie" package="POGO_PIN_394" value="" x="14.224" y="14.605" smashed="yes" rot="R270">
+<attribute name="NAME" x="15.494" y="13.843" size="1.4224" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="11.684" y="15.875" size="1.27" layer="27" font="vector" rot="R270"/>
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="14.224" y="14.605" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
-<element name="VCC" library="pie" package="POGO_PIN_394" value="" x="14.732" y="2.54" smashed="yes" rot="R270">
-<attribute name="NAME" x="16.002" y="2.032" size="1.4224" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="12.192" y="3.81" size="1.27" layer="27" font="vector" rot="R270"/>
-<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="14.732" y="2.54" size="1.778" layer="27" rot="R270" display="off"/>
+<element name="5V" library="pie" package="POGO_PIN_394" value="" x="25.527" y="16.637" smashed="yes" rot="R270">
+<attribute name="NAME" x="24.511" y="17.907" size="1.4224" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="22.987" y="17.907" size="1.27" layer="27" font="vector" rot="R270"/>
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="25.527" y="16.637" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
-<element name="MOSI" library="pie" package="POGO_PIN_394" value="" x="14.605" y="5.08" smashed="yes">
-<attribute name="NAME" x="15.875" y="4.572" size="1.4224" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="13.335" y="2.54" size="1.27" layer="27" font="vector"/>
-<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="14.605" y="5.08" size="1.778" layer="27" display="off"/>
+<element name="MOSI" library="pie" package="POGO_PIN_394" value="" x="20.32" y="12.7" smashed="yes">
+<attribute name="NAME" x="21.59" y="11.684" size="1.4224" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="19.05" y="10.16" size="1.27" layer="27" font="vector"/>
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="20.32" y="12.7" size="1.778" layer="27" display="off"/>
 </element>
-<element name="GND" library="pie" package="POGO_PIN_394" value="" x="16.51" y="8.1534" smashed="yes" rot="R90">
-<attribute name="NAME" x="17.78" y="7.6454" size="1.4224" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="19.05" y="6.8834" size="1.27" layer="27" font="vector" rot="R90"/>
-<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="16.51" y="8.1534" size="1.778" layer="27" rot="R90" display="off"/>
+<element name="GND" library="pie" package="POGO_PIN_394" value="" x="29.337" y="16.637" smashed="yes" rot="R90">
+<attribute name="NAME" x="28.321" y="17.907" size="1.4224" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="31.877" y="15.367" size="1.27" layer="27" font="vector" rot="R90"/>
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="29.337" y="16.637" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
 <element name="U$1" library="pie" package="OSHW-LOGO-M" value="" x="20.32" y="28.575"/>
 <element name="U$2" library="pie" package="PIE-LOGO-SMALL" value="" x="20.32" y="20.955" rot="MR0"/>
@@ -927,14 +927,13 @@ design rules under a new name.</description>
 <signal name="MOSI">
 <contactref element="J2" pad="4"/>
 <contactref element="MOSI" pad="POGO_PIN"/>
-<wire x1="2.54" y1="5.08" x2="3.81" y2="3.81" width="0.3048" layer="1"/>
-<wire x1="3.81" y1="3.81" x2="7.62" y2="3.81" width="0.3048" layer="1"/>
-<wire x1="7.62" y1="3.81" x2="8.89" y2="5.08" width="0.3048" layer="1"/>
-<wire x1="8.89" y1="5.08" x2="14.605" y2="5.08" width="0.3048" layer="1"/>
+<wire x1="2.54" y1="5.08" x2="3.81" y2="3.81" width="0.3048" layer="16"/>
+<wire x1="3.81" y1="3.81" x2="11.43" y2="3.81" width="0.3048" layer="16"/>
+<wire x1="11.43" y1="3.81" x2="20.32" y2="12.7" width="0.3048" layer="16"/>
 </signal>
-<signal name="VCC">
+<signal name="5V">
 <contactref element="J2" pad="2"/>
-<contactref element="VCC" pad="POGO_PIN"/>
+<contactref element="5V" pad="POGO_PIN"/>
 <polygon width="0.254" layer="1" isolate="0.3048">
 <vertex x="0" y="0"/>
 <vertex x="0" y="40.64"/>
@@ -945,20 +944,21 @@ design rules under a new name.</description>
 <signal name="RESET">
 <contactref element="J2" pad="5"/>
 <contactref element="RESET" pad="POGO_PIN"/>
-<wire x1="5.08" y1="7.62" x2="6.9342" y2="7.62" width="0.3048" layer="1"/>
-<wire x1="6.9342" y1="7.62" x2="13.97" y2="14.6558" width="0.3048" layer="1"/>
+<wire x1="5.08" y1="7.62" x2="7.239" y2="7.62" width="0.3048" layer="1"/>
+<wire x1="7.239" y1="7.62" x2="14.224" y2="14.605" width="0.3048" layer="1"/>
 </signal>
 <signal name="SCK">
 <contactref element="J2" pad="3"/>
 <contactref element="SCK" pad="POGO_PIN"/>
-<wire x1="5.08" y1="5.08" x2="6.9342" y2="5.08" width="0.3048" layer="1"/>
-<wire x1="6.9342" y1="5.08" x2="13.97" y2="12.1158" width="0.3048" layer="1"/>
+<wire x1="5.08" y1="5.08" x2="6.477" y2="5.08" width="0.3048" layer="1"/>
+<wire x1="6.477" y1="5.08" x2="14.224" y2="12.827" width="0.3048" layer="1"/>
 </signal>
 <signal name="MISO">
 <contactref element="J2" pad="1"/>
 <contactref element="MISO" pad="POGO_PIN"/>
-<wire x1="5.08" y1="2.54" x2="10.414" y2="2.54" width="0.3048" layer="1"/>
-<wire x1="10.414" y1="2.54" x2="10.668" y2="2.794" width="0.3048" layer="1"/>
+<wire x1="5.08" y1="2.54" x2="6.35" y2="2.54" width="0.3048" layer="1"/>
+<wire x1="6.35" y1="2.54" x2="20.32" y2="16.51" width="0.3048" layer="1"/>
+<wire x1="20.32" y1="16.51" x2="20.32" y2="16.637" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="A">
 <polygon width="0.254" layer="16" isolate="0.3048">
@@ -971,6 +971,9 @@ design rules under a new name.</description>
 <contactref element="GND" pad="POGO_PIN"/>
 </signal>
 </signals>
+<errors>
+<approved hash="7,39,e9d7fc1a7c1069dd"/>
+</errors>
 </board>
 </drawing>
 <compatibility>

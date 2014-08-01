@@ -479,11 +479,11 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 </symbol>
 <symbol name="POGO_PIN">
 <description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;</description>
-<pin name="P$1" x="7.62" y="0" visible="pad" length="middle" rot="R180"/>
-<wire x1="1.27" y1="0" x2="2.54" y2="0" width="0.6096" layer="94"/>
-<text x="5.08" y="2.54" size="1.778" layer="95">&gt;NAME</text>
-<text x="5.08" y="-3.81" size="1.778" layer="96">&gt;VALUE</text>
-<circle x="0" y="0" radius="3.5921" width="0.254" layer="94"/>
+<pin name="P$1" x="2.54" y="0" visible="off" length="short" rot="R180"/>
+<wire x1="0.254" y1="0" x2="1.524" y2="0" width="0.6096" layer="94"/>
+<text x="1.27" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
+<circle x="0" y="0" radius="1.135921875" width="0.254" layer="94"/>
+<text x="1.27" y="1.27" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -618,7 +618,7 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <part name="MISO" library="pie" deviceset="POGO_PIN" device=""/>
 <part name="SCK" library="pie" deviceset="POGO_PIN" device=""/>
 <part name="RESET" library="pie" deviceset="POGO_PIN" device=""/>
-<part name="VCC" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="5V" library="pie" deviceset="POGO_PIN" device=""/>
 <part name="MOSI" library="pie" deviceset="POGO_PIN" device=""/>
 <part name="GND" library="pie" deviceset="POGO_PIN" device=""/>
 </parts>
@@ -634,19 +634,28 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <attribute name="REVISION" x="147.32" y="0" size="1.778" layer="96" display="off"/>
 </instance>
 <instance part="J2" gate="G$1" x="121.92" y="111.76"/>
-<instance part="MISO" gate="G$1" x="76.2" y="114.3"/>
-<instance part="SCK" gate="G$1" x="76.2" y="104.14"/>
-<instance part="RESET" gate="G$1" x="76.2" y="93.98"/>
-<instance part="VCC" gate="G$1" x="170.18" y="114.3" smashed="yes" rot="R180">
-<attribute name="NAME" x="165.1" y="119.38" size="1.778" layer="95" rot="R180"/>
+<instance part="MISO" gate="G$1" x="76.2" y="114.3" smashed="yes">
+<attribute name="VALUE" x="77.47" y="111.76" size="1.778" layer="96"/>
+<attribute name="NAME" x="78.74" y="115.062" size="1.778" layer="95"/>
+</instance>
+<instance part="SCK" gate="G$1" x="76.2" y="104.14" smashed="yes">
+<attribute name="VALUE" x="77.47" y="101.6" size="1.778" layer="96"/>
+<attribute name="NAME" x="78.74" y="104.902" size="1.778" layer="95"/>
+</instance>
+<instance part="RESET" gate="G$1" x="76.2" y="93.98" smashed="yes">
+<attribute name="VALUE" x="77.47" y="91.44" size="1.778" layer="96"/>
+<attribute name="NAME" x="78.74" y="94.742" size="1.778" layer="95"/>
+</instance>
+<instance part="5V" gate="G$1" x="170.18" y="114.3" smashed="yes" rot="R180">
+<attribute name="NAME" x="167.64" y="116.84" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="165.1" y="118.11" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="MOSI" gate="G$1" x="170.18" y="104.14" smashed="yes" rot="R180">
-<attribute name="NAME" x="165.1" y="109.22" size="1.778" layer="95" rot="R180"/>
+<attribute name="NAME" x="167.64" y="106.68" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="165.1" y="107.95" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="GND" gate="G$1" x="170.18" y="93.98" smashed="yes" rot="R180">
-<attribute name="NAME" x="165.1" y="99.06" size="1.778" layer="95" rot="R180"/>
+<attribute name="NAME" x="167.64" y="96.52" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="165.1" y="97.79" size="1.778" layer="96" rot="R180"/>
 </instance>
 </instances>
@@ -659,7 +668,7 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <wire x1="132.08" y1="109.22" x2="144.78" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="144.78" y1="109.22" x2="144.78" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="GND" gate="G$1" pin="P$1"/>
-<wire x1="144.78" y1="93.98" x2="162.56" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="144.78" y1="93.98" x2="167.64" y2="93.98" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="MOSI" class="0">
@@ -668,14 +677,14 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <wire x1="132.08" y1="111.76" x2="147.32" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="147.32" y1="111.76" x2="147.32" y2="104.14" width="0.1524" layer="91"/>
 <pinref part="MOSI" gate="G$1" pin="P$1"/>
-<wire x1="147.32" y1="104.14" x2="162.56" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="147.32" y1="104.14" x2="167.64" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="VCC" class="0">
+<net name="5V" class="0">
 <segment>
 <pinref part="J2" gate="G$1" pin="2"/>
-<pinref part="VCC" gate="G$1" pin="P$1"/>
-<wire x1="132.08" y1="114.3" x2="162.56" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="5V" gate="G$1" pin="P$1"/>
+<wire x1="132.08" y1="114.3" x2="167.64" y2="114.3" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="RESET" class="0">
@@ -684,7 +693,7 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <wire x1="114.3" y1="109.22" x2="104.14" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="104.14" y1="109.22" x2="104.14" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="RESET" gate="G$1" pin="P$1"/>
-<wire x1="104.14" y1="93.98" x2="83.82" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="93.98" x2="78.74" y2="93.98" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SCK" class="0">
@@ -693,13 +702,13 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <wire x1="114.3" y1="111.76" x2="101.6" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="111.76" x2="101.6" y2="104.14" width="0.1524" layer="91"/>
 <pinref part="SCK" gate="G$1" pin="P$1"/>
-<wire x1="101.6" y1="104.14" x2="83.82" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="104.14" x2="78.74" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="MISO" class="0">
 <segment>
 <pinref part="J2" gate="G$1" pin="1"/>
-<wire x1="114.3" y1="114.3" x2="83.82" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="114.3" y1="114.3" x2="78.74" y2="114.3" width="0.1524" layer="91"/>
 <pinref part="MISO" gate="G$1" pin="P$1"/>
 </segment>
 </net>

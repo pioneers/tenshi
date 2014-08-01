@@ -368,10 +368,6 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <rectangle x1="1.27" y1="-1.27" x2="3.81" y2="1.27" layer="39"/>
 <rectangle x1="1.27" y1="-1.27" x2="3.81" y2="1.27" layer="40" rot="R180"/>
 </package>
-<package name="PAD.02X.02">
-<smd name="P$1" x="0" y="0" dx="0.508" dy="0.508" layer="1"/>
-<rectangle x1="-0.381" y1="-0.381" x2="0.381" y2="0.381" layer="39"/>
-</package>
 <package name="OSHW-LOGO-M">
 <polygon width="0.15" layer="21">
 <vertex x="0.6578" y="-1.588" curve="9.499253"/>
@@ -944,6 +940,16 @@ Vertical</description>
 <text x="-1.905" y="-2.54" size="1.27" layer="25" font="vector">&gt;VALUE</text>
 <rectangle x1="-2.286" y1="-1.27" x2="2.286" y2="1.27" layer="39"/>
 </package>
+<package name="POGO_PIN_394">
+<description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;
+&lt;p&gt; For 0.04" diameter body, 0.06" diameter head. &lt;/p&gt;
+&lt;p&gt; Source:  http://www.adafruit.com/products/394 &lt;/p&gt;</description>
+<pad name="POGO_PIN" x="0" y="0" drill="1.016" diameter="1.524"/>
+<text x="-1.27" y="1.27" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-1.27" y="-2.54" size="1.27" layer="27" font="vector">&gt;VALUE</text>
+<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
+<rectangle x1="-1.016" y1="-1.016" x2="1.016" y2="1.016" layer="39"/>
+</package>
 </packages>
 </library>
 </libraries>
@@ -1139,8 +1145,8 @@ design rules under a new name.</description>
 </element>
 <element name="U2" library="pie" package="SOIC20" value="ATTINY1634" x="16.51" y="13.97" smashed="yes" rot="R180">
 <attribute name="PIE-INT-REF-NUM" value="ATtiny1634" x="16.51" y="13.97" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="NAME" x="3.302" y="6.35" size="1.27" layer="25" ratio="15" rot="R270"/>
-<attribute name="VALUE" x="7.112" y="6.985" size="1.016" layer="27" ratio="16"/>
+<attribute name="NAME" x="12.7" y="20.701" size="1.27" layer="25" ratio="15"/>
+<attribute name="VALUE" x="14.605" y="8.382" size="1.016" layer="27" ratio="16" rot="R90"/>
 </element>
 <element name="C1" library="pie" package="0603-CAP" value="0.1 uF" x="16.51" y="21.59" smashed="yes">
 <attribute name="PIE-INT-REF-NUM" value="CAPACITOR-GENERIC" x="16.51" y="21.59" size="1.778" layer="27" display="off"/>
@@ -1161,9 +1167,6 @@ design rules under a new name.</description>
 <element name="5V" library="pie" package="WIRE_WITH_HOLE" value="WIRE_WITH_HOLE" x="42.418" y="24.892" smashed="yes">
 <attribute name="PIE-INT-REF-NUM" value="DNL" x="42.418" y="24.892" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="41.148" y="24.511" size="0.762" layer="25" ratio="20"/>
-</element>
-<element name="TP1" library="pie" package="PAD.02X.02" value="TEST-POINT2" x="10.16" y="21.59" smashed="yes">
-<attribute name="PIE-INT-REF-NUM" value="DNL" x="10.16" y="21.59" size="1.778" layer="27" display="off"/>
 </element>
 <element name="U$10" library="pie" package="OSHW-LOGO-M" value="" x="3.048" y="20.574"/>
 <element name="U$1" library="pie" package="PIE-LOGO-SMALL" value="" x="5.08" y="4.064"/>
@@ -1187,7 +1190,7 @@ design rules under a new name.</description>
 </element>
 <element name="R2" library="pie" package="R0603" value="1k" x="13.1064" y="3.556" smashed="yes">
 <attribute name="PIE-INT-REF-NUM" value="RESISTOR-GENERIC" x="13.1064" y="3.556" size="1.778" layer="27" display="off"/>
-<attribute name="NAME" x="10.3759" y="3.01625" size="0.762" layer="25" font="vector" ratio="20"/>
+<attribute name="NAME" x="10.3759" y="3.65125" size="0.762" layer="25" font="vector" ratio="20"/>
 </element>
 <element name="Q2" library="pie" package="SOT23-3" value="IRFML8244" x="28.702" y="3.302" smashed="yes">
 <attribute name="NAME" x="27.8765" y="5.08" size="0.6096" layer="25" font="vector" ratio="20"/>
@@ -1272,6 +1275,26 @@ design rules under a new name.</description>
 </element>
 <element name="U$13" library="pie" package="2X4-EDGE" value="SENSOR_CONSMD-EDGE" x="-0.635" y="12.7" smashed="yes" rot="R180">
 <attribute name="PIE-INT-REF-NUM" value="BULK-STOCK" x="-0.635" y="24.13" size="1.778" layer="27" rot="R180" display="off"/>
+</element>
+<element name="RESET" library="pie" package="POGO_PIN_394" value="" x="10.16" y="21.59" smashed="yes">
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="10.16" y="21.59" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="8.509" y="22.733" size="0.762" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="8.89" y="19.05" size="1.27" layer="27" font="vector"/>
+</element>
+<element name="MOSI" library="pie" package="POGO_PIN_394" value="" x="9.525" y="5.588" smashed="yes">
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="9.525" y="5.588" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="8.128" y="6.731" size="0.762" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="8.255" y="3.048" size="1.27" layer="27" font="vector"/>
+</element>
+<element name="MISO" library="pie" package="POGO_PIN_394" value="" x="9.525" y="1.651" smashed="yes">
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="9.525" y="1.651" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="8.382" y="2.794" size="0.762" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="8.255" y="-0.889" size="1.27" layer="27" font="vector"/>
+</element>
+<element name="SCK" library="pie" package="POGO_PIN_394" value="" x="8.763" y="18.923" smashed="yes">
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="8.763" y="18.923" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="5.715" y="18.542" size="0.762" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="7.493" y="16.383" size="1.27" layer="27" font="vector"/>
 </element>
 </elements>
 <signals>
@@ -1421,13 +1444,13 @@ design rules under a new name.</description>
 <signal name="RESET">
 <contactref element="U2" pad="14"/>
 <contactref element="R1" pad="1"/>
-<contactref element="TP1" pad="P$1"/>
-<wire x1="10.16" y1="21.59" x2="8.597" y2="21.59" width="0.2032" layer="1"/>
 <wire x1="10.875" y1="15.875" x2="11.049" y2="15.875" width="0.2032" layer="1"/>
 <wire x1="11.049" y1="15.875" x2="10.1854" y2="16.7386" width="0.2032" layer="1"/>
 <wire x1="10.1854" y1="16.7386" x2="10.1854" y2="21.5646" width="0.2032" layer="1"/>
-<wire x1="10.1854" y1="21.5646" x2="10.16" y2="21.59" width="0.2032" layer="1"/>
 <wire x1="11.51" y1="15.875" x2="11.049" y2="15.875" width="0.2032" layer="1"/>
+<contactref element="RESET" pad="POGO_PIN"/>
+<wire x1="8.597" y1="21.59" x2="10.16" y2="21.59" width="0.2032" layer="1"/>
+<wire x1="10.1854" y1="21.5646" x2="10.16" y2="21.59" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="A_P">
 <contactref element="U$12" pad="1"/>
@@ -1498,6 +1521,8 @@ design rules under a new name.</description>
 <wire x1="11.0998" y1="5.5952" x2="11.0998" y2="4.7126" width="0.2032" layer="1"/>
 <wire x1="11.0998" y1="4.7126" x2="12.2564" y2="3.556" width="0.2032" layer="1"/>
 <wire x1="11.3284" y1="8.255" x2="11.51" y2="8.255" width="0.2032" layer="1"/>
+<contactref element="MOSI" pad="POGO_PIN"/>
+<wire x1="9.525" y1="5.588" x2="11.107" y2="5.588" width="0.2032" layer="1"/>
 </signal>
 <signal name="IO2">
 <contactref element="U2" pad="19"/>
@@ -1507,13 +1532,13 @@ design rules under a new name.</description>
 <wire x1="13.1064" y1="9.525" x2="14.1478" y2="8.4836" width="0.2032" layer="1"/>
 <wire x1="14.1478" y1="8.4836" x2="14.1478" y2="5.5952" width="0.2032" layer="1"/>
 <wire x1="14.1478" y1="5.5952" x2="14.155" y2="5.588" width="0.2032" layer="1"/>
-<wire x1="12.2564" y1="1.651" x2="9.779" y2="1.651" width="0.3048" layer="1"/>
-<via x="9.779" y="1.651" extent="1-16" drill="0.381"/>
+<wire x1="12.2564" y1="1.651" x2="9.525" y2="1.651" width="0.3048" layer="1"/>
 <via x="13.208" y="5.588" extent="1-16" drill="0.381"/>
 <wire x1="14.155" y1="5.588" x2="13.208" y2="5.588" width="0.2032" layer="1"/>
-<wire x1="13.208" y1="5.588" x2="13.208" y2="5.08" width="0.2032" layer="16"/>
-<wire x1="13.208" y1="5.08" x2="9.779" y2="1.651" width="0.2032" layer="16"/>
 <wire x1="10.875" y1="9.525" x2="11.51" y2="9.525" width="0.2032" layer="1"/>
+<contactref element="MISO" pad="POGO_PIN"/>
+<wire x1="9.525" y1="1.651" x2="9.525" y2="1.905" width="0.2032" layer="16"/>
+<wire x1="9.525" y1="1.905" x2="13.208" y2="5.588" width="0.2032" layer="16"/>
 </signal>
 <signal name="IO3">
 <contactref element="U2" pad="16"/>
@@ -1532,6 +1557,14 @@ design rules under a new name.</description>
 <wire x1="17.203" y1="7.689" x2="13.5255" y2="11.3665" width="0.2032" layer="1"/>
 <wire x1="13.5255" y1="11.3665" x2="13.5255" y2="12.3825" width="0.2032" layer="1"/>
 <wire x1="10.875" y1="13.335" x2="11.51" y2="13.335" width="0.2032" layer="1"/>
+<contactref element="SCK" pad="POGO_PIN"/>
+<wire x1="8.763" y1="18.923" x2="8.763" y2="17.907" width="0.2032" layer="1"/>
+<wire x1="8.763" y1="17.907" x2="9.525" y2="17.145" width="0.2032" layer="1"/>
+<wire x1="9.525" y1="17.145" x2="9.525" y2="15.875" width="0.2032" layer="1"/>
+<wire x1="9.525" y1="15.875" x2="10.287" y2="15.113" width="0.2032" layer="1"/>
+<wire x1="10.287" y1="15.113" x2="10.287" y2="14.097" width="0.2032" layer="1"/>
+<wire x1="10.875" y1="13.335" x2="10.875" y2="13.509" width="0.2032" layer="1"/>
+<wire x1="10.875" y1="13.509" x2="10.287" y2="14.097" width="0.2032" layer="1"/>
 </signal>
 <signal name="IO4">
 <contactref element="U2" pad="18"/>
@@ -1769,14 +1802,17 @@ design rules under a new name.</description>
 </signals>
 <errors>
 <approved hash="7,39,26d93598359926d8"/>
+<approved hash="7,39,4c08c39fc39c4c0b"/>
+<approved hash="7,39,584dcfe1cfe0584c"/>
+<approved hash="7,39,f7877341f3437785"/>
 <approved hash="4,1,ea7159f1cd5de0a9"/>
 <approved hash="4,1,e42a223fb6cf96c6"/>
-<approved hash="4,1,f2833aadae3d9a9f"/>
 <approved hash="4,1,9fd83177a593fe10"/>
-<approved hash="4,16,e42a223fb6cf96c6"/>
+<approved hash="4,1,f2833aadae3d9a9f"/>
 <approved hash="4,16,9fd83177a593fe10"/>
 <approved hash="4,16,ea7159f1cd5de0a9"/>
 <approved hash="4,16,f2833aadae3d9a9f"/>
+<approved hash="4,16,e42a223fb6cf96c6"/>
 </errors>
 </board>
 </drawing>

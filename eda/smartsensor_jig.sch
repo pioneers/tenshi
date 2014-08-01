@@ -618,7 +618,7 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <part name="MISO" library="pie" deviceset="POGO_PIN" device=""/>
 <part name="SCK" library="pie" deviceset="POGO_PIN" device=""/>
 <part name="RESET" library="pie" deviceset="POGO_PIN" device=""/>
-<part name="VCC" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="5V" library="pie" deviceset="POGO_PIN" device=""/>
 <part name="MOSI" library="pie" deviceset="POGO_PIN" device=""/>
 <part name="GND" library="pie" deviceset="POGO_PIN" device=""/>
 </parts>
@@ -637,7 +637,7 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <instance part="MISO" gate="G$1" x="76.2" y="114.3"/>
 <instance part="SCK" gate="G$1" x="76.2" y="104.14"/>
 <instance part="RESET" gate="G$1" x="76.2" y="93.98"/>
-<instance part="VCC" gate="G$1" x="170.18" y="114.3" smashed="yes" rot="R180">
+<instance part="5V" gate="G$1" x="170.18" y="114.3" smashed="yes" rot="R180">
 <attribute name="NAME" x="165.1" y="119.38" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="165.1" y="118.11" size="1.778" layer="96" rot="R180"/>
 </instance>
@@ -671,10 +671,10 @@ This is the reduced ISP connector for AVR programming. Common on Arduino. This f
 <wire x1="147.32" y1="104.14" x2="162.56" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="VCC" class="0">
+<net name="5V" class="0">
 <segment>
 <pinref part="J2" gate="G$1" pin="2"/>
-<pinref part="VCC" gate="G$1" pin="P$1"/>
+<pinref part="5V" gate="G$1" pin="P$1"/>
 <wire x1="132.08" y1="114.3" x2="162.56" y2="114.3" width="0.1524" layer="91"/>
 </segment>
 </net>
