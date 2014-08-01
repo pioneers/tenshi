@@ -201,3 +201,5 @@ exports.detachFromPage = function() {
     window.removeEventListener('gamepaddisconnected', gamepadDetach);
     window.clearInterval(updateSetIntervalId);
 };
+
+exports.attachRadio('main_radio', global_state.get('main_radio'));

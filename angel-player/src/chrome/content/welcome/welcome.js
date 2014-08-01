@@ -29,14 +29,12 @@ function connectRadio() {
     main_radio.connectXBee(addr, serportObj);
 
     pieles.attachRadio('piemos', new piemos_radio.Radio(addr, serportObj));
-    pieles.attachRadio('ndl3', main_radio);
 }
 
 function disconnectRadio() {
     let main_radio = global_state.get('main_radio');
     main_radio.disconnectXBee();
     pieles.detachRadio('piemos');
-    pieles.detachRadio('ndl3');
     let serportObj = global_state.get('serial_port_object');
     if (serportObj) {
         serportObj.close();
