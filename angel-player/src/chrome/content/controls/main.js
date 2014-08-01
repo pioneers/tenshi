@@ -92,5 +92,8 @@ function compile_lua() {
     for (let i = 0; i < ret.bytecode.length; i++) {
         console.log(ret.bytecode[i]);
     }
+
     naive_packetizer.sendPacketizedData(ret.bytecode);
+    let main_radio = global_state.get('main_radio');
+    main_radio.send(ret.bytecode, 'code');
 }

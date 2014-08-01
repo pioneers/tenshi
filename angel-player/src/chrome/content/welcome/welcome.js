@@ -25,14 +25,16 @@ function connectRadio() {
     global_state.set('serial_port_object', serportObj);
 
     let addr = global_state.get('robot_application').radio_pairing_info;
-    let main_radio = new radio.Radio(addr, serportObj);
-    global_state.set('main_radio', main_radio);
+    let main_radio = global_state.get('main_radio');
+    main_radio.connectXBee(addr, serportObj);
 
     pieles.attachRadio('piemos', new piemos_radio.Radio(addr, serportObj));
     pieles.attachRadio('ndl3', main_radio);
 }
 
 function disconnectRadio() {
+    let main_radio = global_state.get('main_radio');
+    main_radio.disconnectXBee();
     pieles.detachRadio('piemos');
     pieles.detachRadio('ndl3');
     let serportObj = global_state.get('serial_port_object');
