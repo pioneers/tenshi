@@ -1,6 +1,8 @@
 const studentconsole = require('tenshi/console/console');
 const texteditor = require('tenshi/texteditor/editor');
 const ioports = require('tenshi/welcome/ioports');
+const radio = require('tenshi/common/radio');
+const global_state = require('tenshi/common/global_state');
 
 exports.init = function(_window) {
   _window.$(function() {
@@ -12,6 +14,9 @@ exports.init = function(_window) {
     ioports.ioportController(app);
 
     angular.bootstrap(_window.document, [app.name]);
+
+    // Initialize global state.
+    global_state.set('main_radio', new radio.Radio());
 
     // Following Google's angular style guide (but modified to use CommonJS
     // instead of the goog import system), other files that need to declare an

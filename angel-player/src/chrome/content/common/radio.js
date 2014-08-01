@@ -33,8 +33,7 @@ function call(name) {
 
 var Radio = function(address, serportObj) {
   EventEmitter.apply(this);
-  this.address = address;
-  this.serportObj = serportObj;
+  this.connected = false;
   this.net = call('NDL3_new', 0, 0, 0);
   if (this.net === 0) {
     throw 'Could not allocate NDL3.';
@@ -45,16 +44,19 @@ var Radio = function(address, serportObj) {
 
   this._tick = send_L2.bind(this);
   setInterval(this._tick, SEND_INTERVAL);
-  serportObj.setReadHandler(read_handler.bind(this));
-  serportObj.setReadHandler = function () {
-    throw 'Radio already attached to serial port.';
-  };
 
   this.on('send_object', send_object.bind(this));
   this.on('send_string', send_string.bind(this));
   this.on('send_code', send_code.bind(this));
-  this.on('send_data', send_data.bind(this));
   this.on('data', recv_L2.bind(this));
+
+  if (address !== undefined &&
+      serportObj !== undefined) {
+    this.connectXBee(address, serportObj);
+  } else {
+    this.address = null;
+    this.serportObj = null;
+  }
 
   // Print out every message in or out of the radio, for debugging
   // purposes.
@@ -72,6 +74,35 @@ var Radio = function(address, serportObj) {
 };
 
 Radio.prototype = Object.create(EventEmitter.prototype);
+
+Radio.prototype.isConnected = function () {
+  return this.connected;
+};
+
+Radio.prototype.connectXBee = function (address, serportObj) {
+  if (this.connected) {
+    throw 'XBee has already been connected to radio.';
+  }
+  this.address = address;
+  this.serportObj = serportObj;
+  serportObj.setReadHandler(read_handler.bind(this));
+  serportObj.setReadHandler = function () {
+    throw 'Radio already attached to serial port.';
+  };
+  this._send_data = send_data.bind(this);
+  this.on('send_data', this._send_data);
+};
+
+Radio.prototype.disconnectXBee = function () {
+  if (!this.connected) {
+    throw 'XBee not connected.';
+  }
+  this.off('send_data', this._send_data);
+  delete this.serportObj.setReadHandler;
+  this.serportObj.setReadHandler(null);
+  this.address = null;
+  this.serportObj = null;
+};
 
 function send_L2 () {
   /* jshint validthis: true */
@@ -193,7 +224,9 @@ Radio.prototype.close = function() {
   call('free', this.net);
   // TODO(kzentner): NDL3 provides no way of deleteing a transport.
   clearInterval(this._tick);
-  delete this.serportObj.setReadHandler;
+  if (this.connected) {
+    this.disconnectXBee();
+  }
 };
 
 exports.Radio = Radio;
