@@ -174,9 +174,12 @@ static int port_idx(NDL3Net * restrict net, NDL3_port port) {
  * Open a port. Required before anything can be sent or received on port.
  */
 void NDL3_open(NDL3Net * restrict net, NDL3_port port) {
+  NDL3_error last_error = net->last_error;
   if (port_idx(net, port) >= 0) {
     net->last_error = NDL3_ERROR_PORT_ALREADY_OPEN;
     return;
+  } else {
+    net->last_error = last_error;
   }
   int i;
   if ((i = port_idx(net, 0)) >= 0) {
