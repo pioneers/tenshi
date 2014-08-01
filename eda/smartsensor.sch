@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -378,10 +378,6 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <text x="-1.27" y="1.27" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
 <text x="-1.27" y="-2.54" size="1.27" layer="27" font="vector">&gt;VALUE</text>
 <rectangle x1="-1.143" y1="-1.143" x2="1.143" y2="1.143" layer="39"/>
-</package>
-<package name="PAD.02X.02">
-<smd name="P$1" x="0" y="0" dx="0.508" dy="0.508" layer="1"/>
-<rectangle x1="-0.381" y1="-0.381" x2="0.381" y2="0.381" layer="39"/>
 </package>
 <package name="SOT223">
 <smd name="P$1" x="-3.1" y="2.3" dx="1.8" dy="0.95" layer="1"/>
@@ -2229,14 +2225,6 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="-1.016" y1="-1.016" x2="1.016" y2="1.016" layer="31"/>
 <rectangle x1="-1.143" y1="-1.143" x2="1.143" y2="1.143" layer="39"/>
 </package>
-<package name="PAD.03X.03">
-<smd name="P$1" x="0" y="0" dx="0.762" dy="0.762" layer="1" roundness="100" cream="no"/>
-<circle x="0" y="0" radius="0.457903125" width="0.127" layer="39"/>
-</package>
-<package name="PAD.03X.05">
-<smd name="P$1" x="0" y="0" dx="1.27" dy="1.27" layer="1" roundness="100" cream="no"/>
-<circle x="0" y="0" radius="0.71841875" width="0.127" layer="39"/>
-</package>
 <package name="LED5MM">
 <description>&lt;B&gt;LED&lt;/B&gt;&lt;p&gt;
 5 mm, round</description>
@@ -2477,6 +2465,16 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <wire x1="-0.381" y1="-0.635" x2="-0.381" y2="0.635" width="0.1016" layer="51" curve="-118.072487"/>
 <wire x1="0.381" y1="0.635" x2="0.381" y2="-0.635" width="0.1016" layer="51" curve="-118.072487"/>
 </package>
+<package name="POGO_PIN_394">
+<description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;
+&lt;p&gt; For 0.04" diameter body, 0.06" diameter head. &lt;/p&gt;
+&lt;p&gt; Source:  http://www.adafruit.com/products/394 &lt;/p&gt;</description>
+<pad name="POGO_PIN" x="0" y="0" drill="1.016" diameter="1.524"/>
+<text x="-1.27" y="1.27" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-1.27" y="-2.54" size="1.27" layer="27" font="vector">&gt;VALUE</text>
+<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
+<rectangle x1="-1.016" y1="-1.016" x2="1.016" y2="1.016" layer="39"/>
+</package>
 </packages>
 <symbols>
 <symbol name="LETTER_L">
@@ -2671,13 +2669,6 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
 <pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
 </symbol>
-<symbol name="TEST-POINT">
-<wire x1="2.54" y1="0" x2="0" y2="0" width="0.1524" layer="94"/>
-<wire x1="3.302" y1="0.762" x2="3.302" y2="-0.762" width="0.1524" layer="94" curve="180"/>
-<text x="0" y="2.54" size="1.778" layer="95">&gt;NAME</text>
-<text x="0" y="-3.81" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="1" x="0" y="0" visible="off" length="point" rot="R180"/>
-</symbol>
 <symbol name="3.3V">
 <wire x1="0.762" y1="1.27" x2="0" y2="2.54" width="0.254" layer="94"/>
 <wire x1="0" y1="2.54" x2="-0.762" y2="1.27" width="0.254" layer="94"/>
@@ -2722,6 +2713,14 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <vertex x="1.143" y="-2.921"/>
 <vertex x="1.651" y="-2.413"/>
 </polygon>
+</symbol>
+<symbol name="POGO_PIN">
+<description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;</description>
+<pin name="P$1" x="2.54" y="0" visible="off" length="short" rot="R180"/>
+<wire x1="0.254" y1="0" x2="1.524" y2="0" width="0.6096" layer="94"/>
+<text x="1.27" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
+<circle x="0" y="0" radius="1.135921875" width="0.254" layer="94"/>
+<text x="1.27" y="1.27" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -3967,44 +3966,6 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 </device>
 </devices>
 </deviceset>
-<deviceset name="TEST-POINT" prefix="TP">
-<description>Bare copper test points for troubleshooting or ICT</description>
-<gates>
-<gate name="G$1" symbol="TEST-POINT" x="0" y="0"/>
-</gates>
-<devices>
-<device name="2" package="PAD.02X.02">
-<connects>
-<connect gate="G$1" pin="1" pad="P$1"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PIE-INT-REF-NUM" value="DNL"/>
-</technology>
-</technologies>
-</device>
-<device name="3" package="PAD.03X.03">
-<connects>
-<connect gate="G$1" pin="1" pad="P$1"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PIE-INT-REF-NUM" value="DNL"/>
-</technology>
-</technologies>
-</device>
-<device name="3X5" package="PAD.03X.05">
-<connects>
-<connect gate="G$1" pin="1" pad="P$1"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PIE-INT-REF-NUM" value="DNL"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="3.3V">
 <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
 <gates>
@@ -4156,6 +4117,24 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </device>
 </devices>
 </deviceset>
+<deviceset name="POGO_PIN" uservalue="yes">
+<description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;</description>
+<gates>
+<gate name="G$1" symbol="POGO_PIN" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="POGO_PIN_394">
+<connects>
+<connect gate="G$1" pin="P$1" pad="POGO_PIN"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -4212,7 +4191,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="SUPPLY8" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY9" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY10" library="pie" deviceset="GND" device=""/>
-<part name="TP1" library="pie" deviceset="TEST-POINT" device="2"/>
 <part name="U$11" library="pie" deviceset="3.3V" device=""/>
 <part name="U$12" library="pie" deviceset="5V" device=""/>
 <part name="U3" library="pie" deviceset="LM1117" device="" value="3.3V"/>
@@ -4239,6 +4217,10 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="SUPPLY17" library="pie" deviceset="GND" device=""/>
 <part name="C7" library="pie" deviceset="CAP" device="1206" value="10uF"/>
 <part name="C8" library="pie" deviceset="CAP" device="1206" value="10uF"/>
+<part name="RESET" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="MOSI" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="MISO" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="SCK" library="pie" deviceset="POGO_PIN" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4288,7 +4270,10 @@ C=0.1u</text>
 <instance part="U$5" gate="G$1" x="55.88" y="104.14"/>
 <instance part="SUPPLY3" gate="GND" x="55.88" y="93.98"/>
 <instance part="SUPPLY4" gate="GND" x="20.32" y="12.7"/>
-<instance part="R1" gate="G$1" x="104.14" y="66.04"/>
+<instance part="R1" gate="G$1" x="104.14" y="66.04" smashed="yes">
+<attribute name="NAME" x="99.06" y="66.04" size="1.778" layer="95"/>
+<attribute name="VALUE" x="99.06" y="62.23" size="1.778" layer="96"/>
+</instance>
 <instance part="U$7" gate="G$1" x="91.44" y="127"/>
 <instance part="U$8" gate="G$1" x="132.08" y="127" smashed="yes">
 <attribute name="NAME" x="123.19" y="132.715" size="1.778" layer="95"/>
@@ -4352,7 +4337,6 @@ C=0.1u</text>
 <instance part="SUPPLY8" gate="GND" x="170.18" y="160.02" rot="MR0"/>
 <instance part="SUPPLY9" gate="GND" x="170.18" y="68.58" rot="MR0"/>
 <instance part="SUPPLY10" gate="GND" x="170.18" y="99.06" rot="MR0"/>
-<instance part="TP1" gate="G$1" x="106.68" y="58.42"/>
 <instance part="U$11" gate="G$1" x="121.92" y="175.26"/>
 <instance part="U$12" gate="G$1" x="86.36" y="175.26"/>
 <instance part="U3" gate="G$1" x="104.14" y="170.18"/>
@@ -4399,6 +4383,22 @@ C=0.1u</text>
 <instance part="C8" gate="G$1" x="121.92" y="167.64" smashed="yes" rot="R270">
 <attribute name="NAME" x="123.19" y="167.64" size="1.778" layer="95"/>
 <attribute name="VALUE" x="123.19" y="162.56" size="1.778" layer="96"/>
+</instance>
+<instance part="RESET" gate="G$1" x="109.22" y="58.42" smashed="yes" rot="R180">
+<attribute name="VALUE" x="107.95" y="60.96" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="111.76" y="58.42" size="1.778" layer="95"/>
+</instance>
+<instance part="MOSI" gate="G$1" x="93.98" y="78.74" smashed="yes" rot="R180">
+<attribute name="VALUE" x="92.71" y="81.28" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="96.52" y="78.74" size="1.778" layer="95"/>
+</instance>
+<instance part="MISO" gate="G$1" x="93.98" y="76.2" smashed="yes" rot="R180">
+<attribute name="VALUE" x="92.71" y="78.74" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="96.52" y="76.2" size="1.778" layer="95"/>
+</instance>
+<instance part="SCK" gate="G$1" x="93.98" y="68.58" smashed="yes" rot="R180">
+<attribute name="VALUE" x="92.71" y="71.12" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="96.52" y="68.58" size="1.778" layer="95"/>
 </instance>
 </instances>
 <busses>
@@ -4637,8 +4637,8 @@ C=0.1u</text>
 <wire x1="93.98" y1="63.5" x2="104.14" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="104.14" y1="63.5" x2="104.14" y2="58.42" width="0.1524" layer="91"/>
 <junction x="93.98" y="63.5"/>
-<pinref part="TP1" gate="G$1" pin="1"/>
 <wire x1="104.14" y1="58.42" x2="106.68" y2="58.42" width="0.1524" layer="91"/>
+<pinref part="RESET" gate="G$1" pin="P$1"/>
 </segment>
 </net>
 <net name="A_P" class="0">
@@ -4716,6 +4716,7 @@ C=0.1u</text>
 <pinref part="U2" gate="G$1" pin="PB1(ADC6/PCINT9)"/>
 <wire x1="83.82" y1="78.74" x2="91.44" y2="78.74" width="0.1524" layer="91"/>
 <label x="86.36" y="78.74" size="1.778" layer="95"/>
+<pinref part="MOSI" gate="G$1" pin="P$1"/>
 </segment>
 <segment>
 <label x="169.418" y="114.808" size="1.778" layer="95" rot="MR0"/>
@@ -4735,6 +4736,7 @@ C=0.1u</text>
 <pinref part="U2" gate="G$1" pin="PB2(ADC7/PCINT10)"/>
 <wire x1="83.82" y1="76.2" x2="91.44" y2="76.2" width="0.1524" layer="91"/>
 <label x="86.36" y="76.2" size="1.778" layer="95"/>
+<pinref part="MISO" gate="G$1" pin="P$1"/>
 </segment>
 <segment>
 <label x="169.418" y="84.074" size="1.778" layer="95" rot="MR0"/>
@@ -4754,6 +4756,7 @@ C=0.1u</text>
 <pinref part="U2" gate="G$1" pin="PC1(ADC10/PCINT13)"/>
 <wire x1="83.82" y1="68.58" x2="91.44" y2="68.58" width="0.1524" layer="91"/>
 <label x="86.36" y="68.58" size="1.778" layer="95"/>
+<pinref part="SCK" gate="G$1" pin="P$1"/>
 </segment>
 <segment>
 <label x="169.418" y="175.514" size="1.778" layer="95" rot="MR0"/>

@@ -353,10 +353,6 @@ A collection of parts and footprints made for the PiE Robotics Competition.&lt;b
 <rectangle x1="1.27" y1="-1.27" x2="3.81" y2="1.27" layer="39"/>
 <rectangle x1="1.27" y1="-1.27" x2="3.81" y2="1.27" layer="40" rot="R180"/>
 </package>
-<package name="PAD.02X.02">
-<smd name="P$1" x="0" y="0" dx="0.508" dy="0.508" layer="1"/>
-<rectangle x1="-0.381" y1="-0.381" x2="0.381" y2="0.381" layer="39"/>
-</package>
 <package name="LED-0805">
 <description>LED 0805 Package</description>
 <smd name="A" x="-1.0414" y="0" dx="1.1938" dy="1.2446" layer="1"/>
@@ -2223,14 +2219,6 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="1.1" y1="-1.6" x2="1.4" y2="1.6" layer="51" rot="R180"/>
 <rectangle x1="-2.413" y1="-1.905" x2="2.413" y2="1.905" layer="39"/>
 </package>
-<package name="PAD.03X.03">
-<smd name="P$1" x="0" y="0" dx="0.762" dy="0.762" layer="1" roundness="100" cream="no"/>
-<circle x="0" y="0" radius="0.457903125" width="0.127" layer="39"/>
-</package>
-<package name="PAD.03X.05">
-<smd name="P$1" x="0" y="0" dx="1.27" dy="1.27" layer="1" roundness="100" cream="no"/>
-<circle x="0" y="0" radius="0.71841875" width="0.127" layer="39"/>
-</package>
 <package name="LED5MM">
 <description>&lt;B&gt;LED&lt;/B&gt;&lt;p&gt;
 5 mm, round</description>
@@ -2471,6 +2459,16 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <wire x1="-0.381" y1="-0.635" x2="-0.381" y2="0.635" width="0.1016" layer="51" curve="-118.072487"/>
 <wire x1="0.381" y1="0.635" x2="0.381" y2="-0.635" width="0.1016" layer="51" curve="-118.072487"/>
 </package>
+<package name="POGO_PIN_394">
+<description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;
+&lt;p&gt; For 0.04" diameter body, 0.06" diameter head. &lt;/p&gt;
+&lt;p&gt; Source:  http://www.adafruit.com/products/394 &lt;/p&gt;</description>
+<pad name="POGO_PIN" x="0" y="0" drill="1.016" diameter="1.524"/>
+<text x="-1.27" y="1.27" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-1.27" y="-2.54" size="1.27" layer="27" font="vector">&gt;VALUE</text>
+<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
+<rectangle x1="-1.016" y1="-1.016" x2="1.016" y2="1.016" layer="39"/>
+</package>
 </packages>
 <symbols>
 <symbol name="LETTER_L">
@@ -2655,13 +2653,6 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <text x="-2.54" y="3.81" size="1.778" layer="95">&gt;NAME</text>
 <pin name="2" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 </symbol>
-<symbol name="TEST-POINT">
-<wire x1="2.54" y1="0" x2="0" y2="0" width="0.1524" layer="94"/>
-<wire x1="3.302" y1="0.762" x2="3.302" y2="-0.762" width="0.1524" layer="94" curve="180"/>
-<text x="0" y="2.54" size="1.778" layer="95">&gt;NAME</text>
-<text x="0" y="-3.81" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="1" x="0" y="0" visible="off" length="point" rot="R180"/>
-</symbol>
 <symbol name="LED">
 <wire x1="-1.27" y1="1.27" x2="1.27" y2="0" width="0.254" layer="94"/>
 <wire x1="1.27" y1="0" x2="-1.27" y2="-1.27" width="0.254" layer="94"/>
@@ -2752,6 +2743,14 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <pin name="G" x="-7.62" y="0" visible="off" length="short" direction="pas"/>
 <pin name="D" x="0" y="5.08" visible="off" length="short" direction="pas" rot="R270"/>
 <pin name="S" x="0" y="-5.08" visible="off" length="short" direction="pas" rot="R90"/>
+</symbol>
+<symbol name="POGO_PIN">
+<description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;</description>
+<pin name="P$1" x="2.54" y="0" visible="off" length="short" rot="R180"/>
+<wire x1="0.254" y1="0" x2="1.524" y2="0" width="0.6096" layer="94"/>
+<text x="1.27" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
+<circle x="0" y="0" radius="1.135921875" width="0.254" layer="94"/>
+<text x="1.27" y="1.27" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -3944,44 +3943,6 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="TEST-POINT" prefix="TP">
-<description>Bare copper test points for troubleshooting or ICT</description>
-<gates>
-<gate name="G$1" symbol="TEST-POINT" x="0" y="0"/>
-</gates>
-<devices>
-<device name="2" package="PAD.02X.02">
-<connects>
-<connect gate="G$1" pin="1" pad="P$1"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PIE-INT-REF-NUM" value="DNL"/>
-</technology>
-</technologies>
-</device>
-<device name="3" package="PAD.03X.03">
-<connects>
-<connect gate="G$1" pin="1" pad="P$1"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PIE-INT-REF-NUM" value="DNL"/>
-</technology>
-</technologies>
-</device>
-<device name="3X5" package="PAD.03X.05">
-<connects>
-<connect gate="G$1" pin="1" pad="P$1"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="PIE-INT-REF-NUM" value="DNL"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="LED" prefix="LED" uservalue="yes">
 <description>&lt;b&gt;LEDs&lt;/b&gt;
 Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LEDs. 5mm - Spark Fun Electronics SKU : COM-00529 (and others)</description>
@@ -4163,6 +4124,24 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </device>
 </devices>
 </deviceset>
+<deviceset name="POGO_PIN" uservalue="yes">
+<description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;</description>
+<gates>
+<gate name="G$1" symbol="POGO_PIN" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="POGO_PIN_394">
+<connects>
+<connect gate="G$1" pin="P$1" pad="POGO_PIN"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -4196,7 +4175,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="5V" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
 <part name="U$16" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY6" library="pie" deviceset="GND" device=""/>
-<part name="TP1" library="pie" deviceset="TEST-POINT" device="2"/>
 <part name="R6" library="pie" deviceset="R-US_" device="R0603" value="130"/>
 <part name="LED1" library="pie" deviceset="LED" device="0805" value="RED"/>
 <part name="SUPPLY12" library="pie" deviceset="GND" device=""/>
@@ -4220,12 +4198,15 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="LED2" library="pie" deviceset="LED" device="0805" value="RED"/>
 <part name="SUPPLY13" library="pie" deviceset="GND" device=""/>
 <part name="Q2" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
-<part name="TP2" library="pie" deviceset="TEST-POINT" device="2"/>
 <part name="U$13" library="pie" deviceset="5V" device=""/>
 <part name="U$14" library="pie" deviceset="SENSOR_CON" device="PTH"/>
 <part name="U$15" library="pie" deviceset="SENSOR_CON" device="SMD-EDGE"/>
 <part name="U$17" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY14" library="pie" deviceset="GND" device=""/>
+<part name="MOSI" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="MISO" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="RESET" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="SCK" library="pie" deviceset="POGO_PIN" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4254,13 +4235,15 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <instance part="U$5" gate="G$1" x="5.08" y="20.32"/>
 <instance part="SUPPLY3" gate="GND" x="5.08" y="10.16"/>
 <instance part="SUPPLY4" gate="GND" x="144.78" y="106.68"/>
-<instance part="R1" gate="G$1" x="101.6" y="25.4"/>
+<instance part="R1" gate="G$1" x="101.6" y="25.4" smashed="yes">
+<attribute name="NAME" x="96.52" y="25.4" size="1.778" layer="95"/>
+<attribute name="VALUE" x="96.52" y="21.59" size="1.778" layer="96"/>
+</instance>
 <instance part="U$6" gate="G$1" x="111.76" y="27.94"/>
 <instance part="GND" gate="G$1" x="157.48" y="172.72"/>
 <instance part="5V" gate="G$1" x="134.62" y="172.72"/>
 <instance part="U$16" gate="G$1" x="144.78" y="177.8"/>
 <instance part="SUPPLY6" gate="GND" x="167.64" y="165.1"/>
-<instance part="TP1" gate="G$1" x="104.14" y="17.78"/>
 <instance part="R6" gate="G$1" x="129.54" y="25.4" smashed="yes" rot="R90">
 <attribute name="NAME" x="132.08" y="27.2034" size="1.778" layer="95" rot="MR180"/>
 <attribute name="VALUE" x="132.08" y="22.86" size="1.778" layer="96"/>
@@ -4317,9 +4300,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </instance>
 <instance part="SUPPLY13" gate="GND" x="83.82" y="71.12"/>
 <instance part="Q2" gate="G$1" x="40.64" y="83.82"/>
-<instance part="TP2" gate="G$1" x="88.9" y="27.94" smashed="yes">
-<attribute name="NAME" x="88.9" y="27.94" size="1.778" layer="95"/>
-</instance>
 <instance part="U$13" gate="G$1" x="167.64" y="127"/>
 <instance part="U$14" gate="G$1" x="195.58" y="139.7"/>
 <instance part="U$15" gate="G$1" x="236.22" y="139.7" smashed="yes">
@@ -4328,6 +4308,22 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </instance>
 <instance part="U$17" gate="G$1" x="177.8" y="157.48"/>
 <instance part="SUPPLY14" gate="GND" x="177.8" y="116.84"/>
+<instance part="MOSI" gate="G$1" x="91.44" y="38.1" smashed="yes" rot="R180">
+<attribute name="VALUE" x="90.17" y="40.64" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="93.98" y="38.1" size="1.778" layer="95"/>
+</instance>
+<instance part="MISO" gate="G$1" x="91.44" y="35.56" smashed="yes" rot="R180">
+<attribute name="VALUE" x="90.17" y="38.1" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="93.98" y="35.56" size="1.778" layer="95"/>
+</instance>
+<instance part="RESET" gate="G$1" x="106.68" y="17.78" smashed="yes" rot="R180">
+<attribute name="VALUE" x="105.41" y="20.32" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="109.22" y="17.78" size="1.778" layer="95"/>
+</instance>
+<instance part="SCK" gate="G$1" x="91.44" y="27.94" smashed="yes" rot="R180">
+<attribute name="VALUE" x="90.17" y="30.48" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="93.98" y="27.94" size="1.778" layer="95"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -4544,8 +4540,8 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <wire x1="93.98" y1="22.86" x2="101.6" y2="22.86" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="22.86" x2="101.6" y2="17.78" width="0.1524" layer="91"/>
 <junction x="93.98" y="22.86"/>
-<pinref part="TP1" gate="G$1" pin="1"/>
 <wire x1="101.6" y1="17.78" x2="104.14" y2="17.78" width="0.1524" layer="91"/>
+<pinref part="RESET" gate="G$1" pin="P$1"/>
 </segment>
 </net>
 <net name="A_P" class="0">
@@ -4623,6 +4619,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <pinref part="U2" gate="G$1" pin="PB1(ADC6/PCINT9)"/>
 <wire x1="81.28" y1="38.1" x2="88.9" y2="38.1" width="0.1524" layer="91"/>
 <label x="83.82" y="38.1" size="1.778" layer="95"/>
+<pinref part="MOSI" gate="G$1" pin="P$1"/>
 </segment>
 <segment>
 <pinref part="R2" gate="G$1" pin="1"/>
@@ -4639,6 +4636,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <pinref part="U2" gate="G$1" pin="PB2(ADC7/PCINT10)"/>
 <wire x1="81.28" y1="35.56" x2="88.9" y2="35.56" width="0.1524" layer="91"/>
 <label x="83.82" y="35.56" size="1.778" layer="95"/>
+<pinref part="MISO" gate="G$1" pin="P$1"/>
 </segment>
 <segment>
 <pinref part="R3" gate="G$1" pin="1"/>
@@ -4655,7 +4653,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <pinref part="U2" gate="G$1" pin="PC1(ADC10/PCINT13)"/>
 <wire x1="81.28" y1="27.94" x2="88.9" y2="27.94" width="0.1524" layer="91"/>
 <label x="83.82" y="27.94" size="1.778" layer="95"/>
-<pinref part="TP2" gate="G$1" pin="1"/>
+<pinref part="SCK" gate="G$1" pin="P$1"/>
 </segment>
 <segment>
 <pinref part="R9" gate="G$1" pin="1"/>
