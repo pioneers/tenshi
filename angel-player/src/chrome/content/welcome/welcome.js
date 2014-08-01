@@ -8,6 +8,7 @@ const serport = require('tenshi/common/serport');
 const pieles = require('tenshi/pieles/pieles');
 const piemos_radio = require('tenshi/common/piemos_radio');
 const radio = require('tenshi/common/radio');
+const ioports = require('tenshi/welcome/ioports');
 
 let window = require('tenshi/common/window')();
 let {document, $} = window;
@@ -15,7 +16,7 @@ let {document, $} = window;
 function connectRadio() {
     disconnectRadio();
 
-    let serPortName = global_state.get('serial_port');
+    let serPortName = ioports.get_serial_port();
     if (!serPortName) {
         throw "No serial port set!";
     }
@@ -24,7 +25,7 @@ function connectRadio() {
 
     global_state.set('serial_port_object', serportObj);
 
-    let addr = global_state.get('robot_application').radio_pairing_info;
+    let addr = ioports.get_xbee_addr();
     let main_radio = global_state.get('main_radio');
     main_radio.connectXBee(addr, serportObj);
 
