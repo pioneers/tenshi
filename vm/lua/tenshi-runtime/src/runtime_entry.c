@@ -336,3 +336,14 @@ lua_Number TenshiMainStackGetFloat(TenshiRuntimeState s) {
   lua_pop(s->L, 1);
   return ret;
 }
+
+void TenshiRegisterCFunctions(TenshiRuntimeState s, const luaL_Reg *l) {
+  luaL_newlib(s->L, l);
+  // Store the module as if we called luaL_requiref
+  luaL_getsubtable(s->L, LUA_REGISTRYINDEX, "_LOADED");
+  lua_pushvalue(s->L, -2);  /* make copy of module (call result) */
+  lua_setfield(s->L, -2, "__runtimeinternal");  /* _LOADED[modname] = module */
+  lua_pop(s->L, 1);  /* remove _LOADED table */
+  lua_pushvalue(s->L, -1);  /* copy of 'mod' */
+  lua_setglobal(s->L, "__runtimeinternal");  /* _G[modname] = module */
+}
