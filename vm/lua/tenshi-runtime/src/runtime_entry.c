@@ -143,6 +143,23 @@ static int tenshi_open_game(lua_State *L) {
   return 1;
 }
 
+static int get_registry(lua_State *L) {
+  lua_pushvalue(L, LUA_REGISTRYINDEX);
+  return 1;
+}
+
+static luaL_Reg tenshi_runtimeinternal[] = {
+  {"get_registry", get_registry},
+  {NULL, NULL}
+};
+
+// Opens part of the __runtimeinternal library. This will be later extended
+// by the external user of the runtime by calling TenshiRegisterCFunctions.
+static int tenshi_open_runtimeinternal(lua_State *L) {
+  luaL_newlib(L, tenshi_runtimeinternal);
+  return 1;
+}
+
 // Tenshi modules (omits some Lua modules, adds some new modules)
 static const luaL_Reg tenshi_loadedlibs[] = {
   {"_G", tenshi_open_base},
@@ -156,6 +173,7 @@ static const luaL_Reg tenshi_loadedlibs[] = {
   {"triggers", tenshi_open_triggers},
   {"pieles", tenshi_open_pieles},
   {"game", tenshi_open_game},
+  {"__runtimeinternal", tenshi_open_runtimeinternal},
   {NULL, NULL}
 };
 
@@ -338,12 +356,7 @@ lua_Number TenshiMainStackGetFloat(TenshiRuntimeState s) {
 }
 
 void TenshiRegisterCFunctions(TenshiRuntimeState s, const luaL_Reg *l) {
-  luaL_newlib(s->L, l);
-  // Store the module as if we called luaL_requiref
-  luaL_getsubtable(s->L, LUA_REGISTRYINDEX, "_LOADED");
-  lua_pushvalue(s->L, -2);  /* make copy of module (call result) */
-  lua_setfield(s->L, -2, "__runtimeinternal");  /* _LOADED[modname] = module */
-  lua_pop(s->L, 1);  /* remove _LOADED table */
-  lua_pushvalue(s->L, -1);  /* copy of 'mod' */
-  lua_setglobal(s->L, "__runtimeinternal");  /* _G[modname] = module */
+  lua_getglobal(s->L, "__runtimeinternal");
+  luaL_setfuncs(s->L, l, 0);
+  lua_pop(s->L, 1);
 }
