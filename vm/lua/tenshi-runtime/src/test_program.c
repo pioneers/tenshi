@@ -28,6 +28,7 @@ static int get_device(lua_State *L) {
   size_t id_len;
   const char *id = lua_tolstring(L, -1, &id_len);
   lua_pop(L, 1);
+  printf("get_device: %s\n", id);
   // Awful hax
   if (strcmp(id, hax_dev_sensor) == 0) {
     lua_pushlightuserdata(L, hax_dev_sensor);
@@ -40,12 +41,16 @@ static int get_device(lua_State *L) {
 }
 
 static int del_device(lua_State *L) {
+  const char *dev = lua_touserdata(L, 1);
   lua_pop(L, 1);
+
+  printf("del_device: %s\n", dev);
+
   return 0;
 }
 
 static int query_dev_info(lua_State *L) {
-  char *dev = lua_touserdata(L, 1);
+  const char *dev = lua_touserdata(L, 1);
   const char *query_type = lua_tostring(L, 2);
   lua_pop(L, 2);
 
@@ -78,10 +83,10 @@ static int get_testsensor_val(lua_State *L) {
   return 1;
 }
 
-static int global_actuator_data = 0;
 static int set_testactuator_val(lua_State *L) {
-  // Just set this global for now
-  global_actuator_data = lua_tointeger(L, 2);
+  const char *dev = lua_touserdata(L, 1);
+  int val = lua_tointeger(L, 2);
+  printf("<----- Got data out: %s = %d\n", dev, val);
   lua_pop(L, 2);
 
   return 0;
@@ -107,8 +112,11 @@ int main(int argc, char **argv) {
 
   const char studentcode[] =
     "sensor = get_device('stestsensor')\n"
+    "actuator = get_device('atestactuator')\n"
+    "\n"
     "while true do\n"
-    "    print(sensor.value)\n"
+    "    print('sensor is ' .. tostring(sensor.value))\n"
+    "    actuator.value = sensor.value\n"
     "end";
 
   TenshiActorState a;
