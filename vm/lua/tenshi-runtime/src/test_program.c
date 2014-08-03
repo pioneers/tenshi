@@ -113,10 +113,12 @@ int main(int argc, char **argv) {
   const char studentcode[] =
     "sensor = get_device('stestsensor')\n"
     "actuator = get_device('atestactuator')\n"
+    "sensor_sampled = triggers.sampled(sensor)\n"
     "\n"
     "while true do\n"
-    "    print('sensor is ' .. tostring(sensor.value))\n"
-    "    actuator.value = sensor.value\n"
+    "    local val = sensor_sampled:recv()\n"
+    "    print('sensor is ' .. tostring(val))\n"
+    "    actuator:send({val})\n"
     "end";
 
   TenshiActorState a;
