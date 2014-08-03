@@ -22,18 +22,24 @@
 #include "inc/runtime_entry.h"
 
 // Dummy get_device, just takes the id and stores it
+const char *hax_dev_sensor = "stestsensor";
+const char *hax_dev_actuator = "atestactuator";
 static int get_device(lua_State *L) {
   size_t id_len;
   const char *id = lua_tolstring(L, -1, &id_len);
-  const char *id_copy = malloc(id_len);
-  memcpy(id_copy, id, id_len);
   lua_pop(L, 1);
-  lua_pushlightuserdata(L, id_copy);
+  // Awful hax
+  if (strcmp(id, hax_dev_sensor) == 0) {
+    lua_pushlightuserdata(L, hax_dev_sensor);
+  } else if (strcmp(id, hax_dev_actuator) == 0) {
+    lua_pushlightuserdata(L, hax_dev_actuator);
+  } else {
+    lua_pushnil(L);
+  }
   return 1;
 }
 
 static int del_device(lua_State *L) {
-  free(lua_touserdata(L, -1));
   lua_pop(L, 1);
   return 0;
 }
@@ -99,72 +105,11 @@ int main(int argc, char **argv) {
 
   TenshiRegisterCFunctions(s, testprogram_runtimeentries);
 
-  // const char studentcode[] =
-  //   "x = 42";
-
-  // const char studentcode[] =
-  //   "i = 0\n"
-  //   "while true do\n"
-  //   "    print(\"Hello world!\")\n"
-  //   "    print(math.pi)\n"
-  //   "    i = i + 1\n"
-  //   "    if i > 300 then\n"
-  //   "        get_own_actor():stop()\n"
-  //   "    end\n"
-  //   "end";
-
-  // const char studentcode[] =
-  //   "function b()\n"
-  //   "    for i = 1,500,1 do\n"
-  //   "        send(a_actor, i, a_actor, i, a_actor, i)\n"
-  //   "        print(\"sent: \" .. i)\n"
-  //   "    end\n"
-  //   "end\n"
-  //   "\n"
-  //   "a_actor = get_own_actor()\n"
-  //   "start_actor(b)\n"
-  //   "for i = 1,500,1 do\n"
-  //   "    print(\"recv: \" .. recv(a_actor))\n"
-  //   "end";
-
-  // const char studentcode[] =
-  //   "install_trap_global()\n"   // Normally this would be further down
-  //   "input_dev = get_device('input')\n"
-  //   "input = triggers.changed(input_dev)\n"
-  //   "output = get_device('output')\n"
-  //   "full_mbox = __mboxinternal.create_independent_mbox()\n"
-  //   "for i = 1,16 do\n"
-  //   "    full_mbox:send({i})\n"
-  //   "end\n"
-  //   "\n"
-  //   "print('units.mega = ' .. units.mega)\n"
-  //   "print('units.kilo = ' .. units.kilo)\n"
-  //   "print('units.mili = ' .. units.mili)\n"
-  //   "print('units.micro = ' .. units.micro)\n"
-  //   "print('units.nano = ' .. units.nano)\n"
-  //   "print('units.inch = ' .. units.inch)\n"
-  //   "print('units.pound = ' .. units.pound)\n"
-  //   "print('units.deg = ' .. units.deg)\n"
-  //   "\n"
-  //   "while true do\n"
-  //   // "    print('bullshit send')\n"
-  //   // "    full_mbox:send({42}, {timeout = 5})\n"
-  //   // "    print('done bullshit send')\n"
-  //   // "    print('bullshit recv')\n"
-  //   // "    x = recv({timeout = 10})\n"
-  //   // "    print('bullshit done: ' .. tostring(x))\n"
-  //   "    print('about to recv')\n"
-  //   "    local x = input:recv()\n"
-  //   "    if x == nil then x = 0 end\n"
-  //   "    print('recv: ' .. x)\n"
-  //   "    x = x + 1\n"
-  //   "    print('sending using value')\n"
-  //   "    output.value = x\n"
-  //   "    print('sent: ' .. x)\n"
-  //   "end";
-
   const char studentcode[] =
-    "print(__runtimeinternal.get_device)";
+    "sensor = get_device('stestsensor')\n"
+    "while true do\n"
+    "    print(sensor.value)\n"
+    "end";
 
   TenshiActorState a;
 
@@ -183,10 +128,12 @@ int main(int argc, char **argv) {
   int i = 0;
 
   while (i < 100) {
-    printf("-----> Sent into sensor: %d\n", i / 2);
-    TenshiMainStackPushInt(s, i / 2);
-    ret = MBoxSendSensor(s, "input", 5);
-    printf("MBoxSendSensor: %d\n", ret);
+    printf("-----> Sent into sensor: %d\n", i);
+    TenshiMainStackPushInt(s, i);
+    global_sensor_data = i;
+    ret = TenshiFlagSensor(s, hax_dev_sensor);
+    printf("TenshiFlagSensor: %d\n", ret);
+
     ret = TenshiRunQuanta(s);
     printf("Ran quanta %d, ret = %d\n", i, ret);
 

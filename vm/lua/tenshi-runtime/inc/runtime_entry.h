@@ -28,7 +28,9 @@ typedef struct _TenshiRuntimeState* TenshiRuntimeState;
 
 #define QUANTA_OPCODES  1000
 
-#define RIDX_RUNTIMESTATE   "tenshi.globalCState"
+#define RIDX_RUNTIMESTATE     "tenshi.globalCState"
+#define RIDX_CHANGED_SENSORS  "tenshi.changed_sensors"
+#define RIDX_SENSORDEVMAP     "tenshi.sensorDevMap"
 
 extern TenshiRuntimeState TenshiRuntimeInit(void);
 extern void TenshiRuntimeDeinit(TenshiRuntimeState s);
@@ -77,5 +79,10 @@ extern lua_Number TenshiMainStackGetFloat(TenshiRuntimeState s);
 //      For example, set_grizzly_val(lightuserdata, speed)
 //  Other methods may be present depending on the type of device.
 extern void TenshiRegisterCFunctions(TenshiRuntimeState s, const luaL_Reg *l);
+
+// Flag the sensor with lightuserdata "dev" as having a new sample. The
+// runtime will then call the appropriate get_<dev>_val function. Returns
+// LUA_OK on success.
+extern int TenshiFlagSensor(TenshiRuntimeState s, const void *const dev);
 
 #endif  // INC_RUNTIME_ENTRY_H_
