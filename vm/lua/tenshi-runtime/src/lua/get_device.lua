@@ -56,6 +56,9 @@ function get_device(id)
         -- Handle actuators (we return an actuator/mailbox object)
         local actuator = __actuators.create_actuator(dev)
 
+        -- Note that there is also logic in actuator_actor.lua to call the
+        -- external-to-runtime update functions
+
         return actuator
     else
         -- What are we?!

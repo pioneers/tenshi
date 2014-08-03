@@ -171,11 +171,11 @@ static const luaL_Reg tenshi_loadedlibs[] = {
   {LUA_UTF8LIBNAME, luaopen_utf8},
   {"units", tenshi_open_units},
   {"__signals", tenshi_open_signals},
+  {"__runtimeinternal", tenshi_open_runtimeinternal},
   {"__actuators", tenshi_open_actuators},
   {"triggers", tenshi_open_triggers},
   {"pieles", tenshi_open_pieles},
   {"game", tenshi_open_game},
-  {"__runtimeinternal", tenshi_open_runtimeinternal},
   {NULL, NULL}
 };
 
