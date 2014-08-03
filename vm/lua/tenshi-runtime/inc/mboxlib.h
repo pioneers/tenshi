@@ -27,7 +27,7 @@
 // Key used to store the sensor and actuator mailboxes table
 #define RIDX_MBOXLIB_SENSORS_ACTUATORS    "tenshi.mboxlib.sensors_actuators"
 // Key used to store the changed actuator table
-#define RIDX_MBOXLIB_CHANGED_TABLE        "tenshi.mboxlib.changed_actuators"
+#define RIDX_CHANGED_TABLE                "tenshi.changed_actuators"
 // Key used to store the mailbox metatable in the Lua registry
 #define RIDX_MBOXLIB_METATABLE            "tenshi.mboxlib.metatable"
 

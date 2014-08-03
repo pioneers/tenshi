@@ -94,7 +94,7 @@ void tenshi_open_mbox(lua_State *L) {
   lua_pop(L, 1);
 
   // Initialize the changed actuator table and the actuator/sensor table
-  lua_pushstring(L, RIDX_MBOXLIB_CHANGED_TABLE);
+  lua_pushstring(L, RIDX_CHANGED_TABLE);
   lua_newtable(L);
   lua_settable(L, LUA_REGISTRYINDEX);
   lua_pushstring(L, RIDX_MBOXLIB_SENSORS_ACTUATORS);
@@ -503,21 +503,16 @@ static int MBoxSendReal(lua_State *L, int status, int ctx) {
     int is_actuator = lua_tointeger(L, -1);
     lua_pop(L, 1);
     if (is_actuator) {
-      lua_pushstring(L, "ext_id");
-      lua_gettable(L, -2);
-      // stack is ...args..., mboxinternal, id
-      lua_pushstring(L, RIDX_MBOXLIB_CHANGED_TABLE);
+      // If it's an actuator, we add ourselves to the changed_actuators table
+      // stack is ...args..., mboxinternal
+      lua_pushstring(L, RIDX_CHANGED_TABLE);
       lua_gettable(L, LUA_REGISTRYINDEX);
-      lua_pushvalue(L, -2);
-      lua_gettable(L, -2);
-      // stack is ...args..., mboxinternal, id, changed_table, old_count
-      int new_data_count = lua_tointeger(L, -1) + 1;
-      lua_pop(L, 1);
-      lua_pushvalue(L, -2);
-      lua_pushinteger(L, new_data_count);
+      // Get the public (not internal) mbox object
+      lua_pushvalue(L, i * 2 + 1);
+      lua_pushinteger(L, 1);
       lua_settable(L, -3);
-      // stack is ...args..., mboxinternal, id
-      lua_pop(L, 2);
+      // stack is ...args..., mboxinternal, changed_table
+      lua_pop(L, 1);
     }
 
     lua_pop(L, 1);
@@ -579,6 +574,9 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
     lua_pushstring(L, "timeout");
     lua_gettable(L, -2);
     timeout = luaL_optinteger(L, -1, timeout);
+    lua_pop(L, 1);
+
+    // We have to remove the options table or else things will break later
     lua_pop(L, 1);
   }
 
@@ -846,7 +844,7 @@ int MBoxRecvActuator(TenshiRuntimeState s,
 
 update_info *MBoxGetActuatorsChanged(TenshiRuntimeState s) {
   lua_State *L = s->L;
-  lua_pushstring(L, RIDX_MBOXLIB_CHANGED_TABLE);
+  lua_pushstring(L, RIDX_CHANGED_TABLE);
   lua_gettable(L, LUA_REGISTRYINDEX);
 
   update_info *out = NULL;
@@ -877,7 +875,7 @@ update_info *MBoxGetActuatorsChanged(TenshiRuntimeState s) {
   lua_pop(L, 1);
   // stack is ...
 
-  lua_pushstring(L, RIDX_MBOXLIB_CHANGED_TABLE);
+  lua_pushstring(L, RIDX_CHANGED_TABLE);
   lua_newtable(L);
   lua_settable(L, LUA_REGISTRYINDEX);
 
