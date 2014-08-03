@@ -22,17 +22,11 @@
 for a,_ in
     pairs(__runtimeinternal.get_registry()['tenshi.changed_actuators']) do
     -- a is an actual raw actuator object
-    print("a is " .. tostring(a))
-    print("a.__lua_dev is " .. tostring(a.__lua_dev))
-    print("type is " .. a.__lua_dev.__dev)
     local set_func = __runtimeinternal['set_' .. a.__lua_dev.__dev .. '_val']
-    print("set_func is " .. tostring(set_func))
 
     local val = a:recv({timeout=0})
-    print("val is " .. tostring(val))
     while val ~= nil do
         set_func(a.__lua_dev.__raw, val)
         val = a:recv({timeout=0})
-        print("val is " .. tostring(val))
     end
 end

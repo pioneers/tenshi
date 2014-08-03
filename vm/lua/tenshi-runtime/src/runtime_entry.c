@@ -34,7 +34,6 @@
 #include "../get_device.lua.h"      // NOLINT(build/include)
 #include "../pieles.lua.h"          // NOLINT(build/include)
 #include "../sensor_actor.lua.h"    // NOLINT(build/include)
-#include "../signals.lua.h"         // NOLINT(build/include)
 #include "../trap_global.lua.h"     // NOLINT(build/include)
 #include "../triggers.lua.h"        // NOLINT(build/include)
 #include "../units.lua.h"           // NOLINT(build/include)
@@ -115,12 +114,6 @@ static int tenshi_open_units(lua_State *L) {
   return 1;
 }
 
-static int tenshi_open_signals(lua_State *L) {
-  luaL_loadbuffer(L, signals_lua, sizeof(signals_lua), "signals.lua");
-  lua_pcall(L, 0, LUA_MULTRET, 0);
-  return 1;
-}
-
 static int tenshi_open_actuators(lua_State *L) {
   luaL_loadbuffer(L, actuators_lua, sizeof(actuators_lua), "actuators.lua");
   lua_pcall(L, 0, LUA_MULTRET, 0);
@@ -170,7 +163,6 @@ static const luaL_Reg tenshi_loadedlibs[] = {
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_UTF8LIBNAME, luaopen_utf8},
   {"units", tenshi_open_units},
-  {"__signals", tenshi_open_signals},
   {"__runtimeinternal", tenshi_open_runtimeinternal},
   {"__actuators", tenshi_open_actuators},
   {"triggers", tenshi_open_triggers},
@@ -392,31 +384,6 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
   }
 
   return LUA_OK;
-}
-
-void TenshiMainStackPushInt(TenshiRuntimeState s, lua_Integer i) {
-  lua_pushinteger(s->L, i);
-}
-void TenshiMainStackPushUInt(TenshiRuntimeState s, lua_Unsigned i) {
-  lua_pushunsigned(s->L, i);
-}
-void TenshiMainStackPushFloat(TenshiRuntimeState s, lua_Number i) {
-  lua_pushnumber(s->L, i);
-}
-lua_Integer TenshiMainStackGetInt(TenshiRuntimeState s) {
-  lua_Integer ret = lua_tointeger(s->L, -1);
-  lua_pop(s->L, 1);
-  return ret;
-}
-lua_Unsigned TenshiMainStackGetUInt(TenshiRuntimeState s) {
-  lua_Unsigned ret = lua_tounsigned(s->L, -1);
-  lua_pop(s->L, 1);
-  return ret;
-}
-lua_Number TenshiMainStackGetFloat(TenshiRuntimeState s) {
-  lua_Number ret = lua_tonumber(s->L, -1);
-  lua_pop(s->L, 1);
-  return ret;
 }
 
 void TenshiRegisterCFunctions(TenshiRuntimeState s, const luaL_Reg *l) {

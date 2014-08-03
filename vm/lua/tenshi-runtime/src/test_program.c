@@ -121,13 +121,7 @@ int main(int argc, char **argv) {
 
   TenshiActorState a;
 
-  int ret = MBoxCreateActuator(s, "output", 6);
-  printf("MBoxCreateActuator: %d\n", ret);
-
-  ret = MBoxCreateSensor(s, "input", 5);
-  printf("MBoxCreateSensor: %d\n", ret);
-
-  ret = LoadStudentcode(s, studentcode, strlen(studentcode), &a);
+  int ret = LoadStudentcode(s, studentcode, strlen(studentcode), &a);
   printf("LoadStudentcode: %d, TenshiActorState: %p\n", ret, a);
 
   ret = ActorSetRunnable(a, 1);
@@ -137,28 +131,12 @@ int main(int argc, char **argv) {
 
   while (i < 100) {
     printf("-----> Sent into sensor: %d\n", i);
-    TenshiMainStackPushInt(s, i);
     global_sensor_data = i;
     ret = TenshiFlagSensor(s, hax_dev_sensor);
     printf("TenshiFlagSensor: %d\n", ret);
 
     ret = TenshiRunQuanta(s);
     printf("Ran quanta %d, ret = %d\n", i, ret);
-
-    update_info *ui_orig = MBoxGetActuatorsChanged(s);
-    printf("MBoxGetActuatorsChanged: %p\n", ui_orig);
-    update_info *ui = ui_orig;
-    while (ui) {
-      printf("Actuator set: %s (%d values)\n", ui->id, ui->num_data);
-      for (int j = 0; j < ui->num_data; j++) {
-        ret = MBoxRecvActuator(s, ui->id, ui->id_len);
-        printf("MBoxRecvActuator: %d\n", ret);
-        int x = TenshiMainStackGetInt(s);
-        printf("<----- Got data out: %d\n", x);
-      }
-      ui = ui->next;
-    }
-    MBoxFreeUpdateInfo(ui_orig);
 
     i++;
   }
