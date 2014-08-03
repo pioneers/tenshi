@@ -44,15 +44,6 @@ extern int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
 // scheduling, etc. Returns LUA_OK on success.
 extern int TenshiRunQuanta(TenshiRuntimeState s);
 
-// Used for e.g. sending data to/from sensors/actuators
-extern void TenshiMainStackPushInt(TenshiRuntimeState s, lua_Integer i);
-extern void TenshiMainStackPushUInt(TenshiRuntimeState s, lua_Unsigned i);
-extern void TenshiMainStackPushFloat(TenshiRuntimeState s, lua_Number i);
-// Also pops the item off the stack.
-extern lua_Integer TenshiMainStackGetInt(TenshiRuntimeState s);
-extern lua_Unsigned TenshiMainStackGetUInt(TenshiRuntimeState s);
-extern lua_Number TenshiMainStackGetFloat(TenshiRuntimeState s);
-
 // Registers the functions in l into the __runtimeinternal module.
 // The following functions are expected to be registered (this is the
 // "contract" between the runtime and the outside world):

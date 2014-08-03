@@ -45,7 +45,6 @@
 
 static int MBoxSend(lua_State *L);
 static int MBoxRecv(lua_State *L);
-static int MBoxFindSensorActuator(lua_State *L);
 static int MBoxCreateGroup(lua_State *L);
 static int MBoxSendArray(lua_State *L);
 static int MBoxCreateIndependent(lua_State *L);
@@ -59,7 +58,6 @@ static const luaL_Reg mbox_global_funcs[] = {
 
 static const luaL_Reg mbox_internal_funcs[] = {
   {"create_independent_mbox", MBoxCreateIndependent},
-  {"find_sensor_actuator", MBoxFindSensorActuator},
   {NULL, NULL}
 };
 
@@ -93,11 +91,8 @@ void tenshi_open_mbox(lua_State *L) {
   luaL_setfuncs(L, mbox_global_funcs, 0);
   lua_pop(L, 1);
 
-  // Initialize the changed actuator table and the actuator/sensor table
+  // Initialize the changed actuator table
   lua_pushstring(L, RIDX_CHANGED_TABLE);
-  lua_newtable(L);
-  lua_settable(L, LUA_REGISTRYINDEX);
-  lua_pushstring(L, RIDX_MBOXLIB_SENSORS_ACTUATORS);
   lua_newtable(L);
   lua_settable(L, LUA_REGISTRYINDEX);
 
@@ -700,195 +695,6 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
 // TODO(rqou): Improve this explanation.
 int MBoxRecv(lua_State *L) {
   return MBoxRecvReal(L, 0, 0);
-}
-
-// Called in protected mode
-static int MBoxRegisterSensorActuator(lua_State *L) {
-  // stack is id, mbox
-  lua_pushstring(L, RIDX_MBOXLIB_SENSORS_ACTUATORS);
-  lua_gettable(L, LUA_REGISTRYINDEX);
-  // stack is id, mbox, sensor_actuator_list
-  lua_insert(L, -3);
-  lua_settable(L, -3);
-  // stack is sensor_actuator_list
-  lua_pop(L, 1);
-  return 0;
-}
-
-// Called in protected mode
-static int MBoxFindSensorActuator(lua_State *L) {
-  // stack is id
-  lua_pushstring(L, RIDX_MBOXLIB_SENSORS_ACTUATORS);
-  lua_gettable(L, LUA_REGISTRYINDEX);
-  // stack is id, sensor_actuator_list
-  lua_pushvalue(L, -2);
-  lua_gettable(L, -2);
-  // stack is id, sensor_actuator_list, mbox
-  lua_insert(L, 1);
-  // stack is mbox, sensor_actuator_list, id
-  lua_pop(L, 2);
-  // stack is mbox
-  return 1;
-}
-
-int MBoxCreateActuator(TenshiRuntimeState s,
-  const uint8_t *id, size_t id_len) {
-  lua_State *L = s->L;
-  int ret;
-  lua_pushcfunction(L, MBoxCreateInternal);
-  ret = lua_pcall(L, 0, 1, 0);
-  if (ret != LUA_OK) return ret;
-
-  // stack is ..., mboxinternal
-  lua_pushstring(L, "actuator");
-  lua_pushinteger(L, 1);
-  lua_settable(L, -3);
-
-  // stack is ..., mboxinternal
-  lua_pushstring(L, "ext_id");
-  lua_pushlstring(L, (const char *)id, id_len);
-  lua_settable(L, -3);
-
-  // stack is ..., mboxinternal
-  lua_pushcfunction(L, MBoxCreate);
-  lua_insert(L, -2);
-  ret = lua_pcall(L, 1, 1, 0);
-  if (ret != LUA_OK) return ret;
-
-  // stack is ..., mbox
-  lua_pushcfunction(L, MBoxRegisterSensorActuator);
-  lua_pushlstring(L, (const char *)id, id_len);
-  lua_pushvalue(L, -3);
-  ret = lua_pcall(L, 2, 0, 0);
-  if (ret != LUA_OK) return ret;
-
-  // stack is ..., mbox
-  lua_pop(L, 1);
-  return LUA_OK;
-}
-
-int MBoxCreateSensor(TenshiRuntimeState s,
-  const uint8_t *id, size_t id_len) {
-  lua_State *L = s->L;
-  int ret;
-  lua_pushcfunction(L, MBoxCreateInternal);
-  ret = lua_pcall(L, 0, 1, 0);
-  if (ret != LUA_OK) return ret;
-
-  // stack is ..., mboxinternal
-  lua_pushstring(L, "ext_id");
-  lua_pushlstring(L, (const char *)id, id_len);
-  lua_settable(L, -3);
-
-  // stack is ..., mboxinternal
-  lua_pushcfunction(L, MBoxCreate);
-  lua_insert(L, -2);
-  ret = lua_pcall(L, 1, 1, 0);
-  if (ret != LUA_OK) return ret;
-
-  // stack is ..., mbox
-  lua_pushcfunction(L, MBoxRegisterSensorActuator);
-  lua_pushlstring(L, (const char *)id, id_len);
-  lua_pushvalue(L, -3);
-  ret = lua_pcall(L, 2, 0, 0);
-  if (ret != LUA_OK) return ret;
-
-  // stack is ..., mbox
-  lua_pop(L, 1);
-  return LUA_OK;
-}
-
-int MBoxSendSensor(TenshiRuntimeState s,
-  const uint8_t *id, size_t id_len) {
-  lua_State *L = s->L;
-  // stack is ..., data
-  int ret;
-  lua_pushcfunction(L, MBoxFindSensorActuator);
-  lua_pushlstring(L, (const char *)id, id_len);
-  ret = lua_pcall(L, 1, 1, 0);
-  if (ret != LUA_OK) return ret;
-
-  // stack is ..., data, mbox
-  lua_pushcfunction(L, MBoxSend);
-  lua_pushvalue(L, -2);
-  lua_pushvalue(L, -4);
-  ret = lua_pcall(L, 2, 0, 0);
-  if (ret != LUA_OK) return ret;
-
-  // stack is ..., data, mbox
-  lua_pop(L, 2);
-  return LUA_OK;
-}
-
-int MBoxRecvActuator(TenshiRuntimeState s,
-  const uint8_t *id, size_t id_len) {
-  lua_State *L = s->L;
-  // stack is ...
-  int ret;
-  lua_pushcfunction(L, MBoxFindSensorActuator);
-  lua_pushlstring(L, (const char *)id, id_len);
-  ret = lua_pcall(L, 1, 1, 0);
-  if (ret != LUA_OK) return ret;
-
-  // stack is ..., mbox
-  lua_pushcfunction(L, MBoxRecv);
-  lua_pushvalue(L, -2);
-  ret = lua_pcall(L, 1, 1, 0);
-  if (ret != LUA_OK) return ret;
-
-  // stack is ..., mbox, val
-  lua_insert(L, -2);
-  lua_pop(L, 1);
-  return LUA_OK;
-}
-
-update_info *MBoxGetActuatorsChanged(TenshiRuntimeState s) {
-  lua_State *L = s->L;
-  lua_pushstring(L, RIDX_CHANGED_TABLE);
-  lua_gettable(L, LUA_REGISTRYINDEX);
-
-  update_info *out = NULL;
-  update_info *last_out = NULL;
-
-  // stack is ..., update_table
-  lua_pushnil(L);
-  while (lua_next(L, -2) != 0) {
-    update_info *curr = malloc(sizeof(update_info));
-    if (!curr) return NULL;
-    size_t id_len;
-    const char *id_lua = lua_tolstring(L, -2, &id_len);
-    if (!id_lua) return NULL;
-    curr->id = malloc(id_len);
-    if (!curr->id) return NULL;
-    memcpy(curr->id, id_lua, id_len);
-    curr->id_len = id_len;
-    curr->num_data = lua_tointeger(L, -1);
-    curr->next = NULL;
-    if (out) {
-      last_out->next = curr;
-      last_out = curr;
-    } else {
-      out = last_out = curr;
-    }
-    lua_pop(L, 1);
-  }
-  lua_pop(L, 1);
-  // stack is ...
-
-  lua_pushstring(L, RIDX_CHANGED_TABLE);
-  lua_newtable(L);
-  lua_settable(L, LUA_REGISTRYINDEX);
-
-  return out;
-}
-
-void MBoxFreeUpdateInfo(update_info *i) {
-  update_info *next_i;
-  for (; i; i = next_i) {
-    next_i = i->next;
-    free(i->id);
-    free(i);
-  }
 }
 
 // grouped_mailbox = create_mailbox(mailbox0, mailbox1, ..., mailboxn)
