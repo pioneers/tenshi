@@ -270,6 +270,22 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
     return NULL;
   }
 
+  // Construct the RIDX_CHANGED_SENSORS table
+  lua_pushstring(ret->L, RIDX_CHANGED_SENSORS);
+  lua_newtable(ret->L);
+  lua_settable(ret->L, LUA_REGISTRYINDEX);
+
+  // Initialize RIDX_SENSORDEVMAP as a table with weak values that will be
+  // used to map lightuserdata to Lua objects
+  lua_pushstring(ret->L, RIDX_SENSORDEVMAP);
+  lua_newtable(ret->L);
+  lua_pushstring(ret->L, "__mode");
+  lua_pushstring(ret->L, "v");
+  lua_settable(ret->L, -3);
+  lua_pushvalue(ret->L, -1);
+  lua_setmetatable(ret->L, -2);
+  lua_settable(ret->L, LUA_REGISTRYINDEX);
+
   return ret;
 }
 
@@ -407,4 +423,23 @@ void TenshiRegisterCFunctions(TenshiRuntimeState s, const luaL_Reg *l) {
   lua_getglobal(s->L, "__runtimeinternal");
   luaL_setfuncs(s->L, l, 0);
   lua_pop(s->L, 1);
+}
+
+static int _TenshiFlagSensor(lua_State *L) {
+  // stack is dev_raw
+  lua_pushstring(L, RIDX_CHANGED_SENSORS);
+  lua_gettable(L, LUA_REGISTRYINDEX);
+  lua_pushvalue(L, -2);
+  lua_pushboolean(L, 1);
+  // stack is dev_raw, changed_sensors, dev_raw, true
+  lua_settable(L, -3);
+  lua_pop(L, 2);
+
+  return 0;
+}
+
+int TenshiFlagSensor(TenshiRuntimeState s, const void *const dev) {
+  lua_pushcfunction(s->L, _TenshiFlagSensor);
+  lua_pushlightuserdata(s->L, dev);
+  return lua_pcall(s->L, 1, 0, 0);
 }

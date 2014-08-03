@@ -25,32 +25,4 @@
 
 local signals = {}
 
--- signal objects contain the following fields:
--- __sensor: internal mailbox for getting data from the sensor
--- __actor: actor object that forwards messages and updates value
--- __downstream: mailbox to forward messages to
--- value: last value
-
-signals.metatable = {
-    __gc = function(obj)
-        obj.__actor:stop()
-    end
-}
-
-function signals.wrap_sensor(sensor)
-    local ret = {}
-    ret.__sensor = sensor
-    ret.__actor = start_actor(function()
-        while true do
-            local x = sensor:recv()
-            ret.value = x
-            if ret.__downstream then
-                ret.__downstream:send({x})
-            end
-        end
-    end)
-
-    return ret
-end
-
 return signals
