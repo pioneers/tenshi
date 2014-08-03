@@ -19,4 +19,22 @@
 -- to run and then exit. It converts updated sensors into messages sent into
 -- mailboxes.
 
-print("Hello world")
+for s,_ in pairs(__runtimeinternal.get_registry()['tenshi.changed_sensors']) do
+    print("s is " .. tostring(s))
+    -- s is a dev_raw lightuserdata
+    local dev = __runtimeinternal.get_registry()['tenshi.sensorDevMap'][s]
+    print("dev is " .. tostring(dev))
+    -- dev is the sensor object
+
+    if dev ~= nil then
+        local val = __runtimeinternal['get_' .. dev.__dev .. '_val'](s)
+        print("val is " .. tostring(val))
+
+        -- Update value
+        dev.value = val
+        -- If there is a __downstream mailbox, send data to it
+        if dev.__downstream then
+            dev.__downstream:send({val})
+        end
+    end
+end
