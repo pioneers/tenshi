@@ -61,7 +61,7 @@ def build(bld):
         includes="src"
     )
 
-    if 'native' in bld.variant:
+    if 'native' in bld.variant or 'emscripten' in bld.variant:
         bld.program(
             source='src/test.c',
             target='ndl3_test',
