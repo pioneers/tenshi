@@ -21,7 +21,11 @@ let luaL_newstate,
     lua_topointer,
     lua_isuserdata,
     lua_touserdata,
-    lua_tothread;
+    lua_tothread,
+    lua_pushnil,
+    lua_next,
+    lua_settop,
+    lua_pushvalue;
 
 const LUA_TNONE           = (-1);
 const LUA_TNIL            = 0;
@@ -64,6 +68,10 @@ try {
   lua_isuserdata = lua.cwrap('lua_isuserdata', 'number', ['number', 'number']);
   lua_touserdata = lua.cwrap('lua_touserdata', 'number', ['number', 'number']);
   lua_tothread = lua.cwrap('lua_tothread', 'number', ['number', 'number']);
+  lua_pushnil = lua.cwrap('lua_pushnil', null, ['number']);
+  lua_next = lua.cwrap('lua_next', 'number', ['number', 'number']);
+  lua_settop = lua.cwrap('lua_settop', null, ['number', 'number']);
+  lua_pushvalue = lua.cwrap('lua_pushvalue', null, ['number', 'number']);
 } catch(e) {
   // OK, running in dev without build.sh
 }
@@ -150,8 +158,8 @@ exports.compile_lua = function(text, filename) {
 };
 
 // Converts the item at index i on the Lua stack of L into a JavaScript object.
-// Currently this only supports numbers and strings -- everything else is
-// converted into a wrapper object.
+// Currently this only supports numbers and strings and tables containing
+// these types -- everything else is converted into a wrapper object.
 exports.lua_to_js = function(L, i) {
   if (lua_type(L, i) == LUA_TBOOLEAN) {
     if (lua_toboolean(L, i)) {
@@ -204,10 +212,23 @@ exports.lua_to_js = function(L, i) {
       'func': lua_tothread(L, i)
     };
   } else if (lua_type(L, i) == LUA_TTABLE) {
-    return {
-      'type': 'table',
-      'func': lua_topointer(L, i)
-    };
+    let ret = {};
+    // Iterate through the table
+    // Make a copy first to make negative index not break
+    lua_pushvalue(L, i);
+    lua_pushnil(L);
+    while (lua_next(L, -2) !== 0) {
+      // stack is ..., key, value
+      let key = exports.lua_to_js(L, -2);
+      let val = exports.lua_to_js(L, -1);
+      ret[key] = val;
+      // pop the value
+      lua_settop(L, -2);
+    }
+    // Pop the copy
+    lua_settop(L, -2);
+
+    return ret;
   } else {
     throw new Error("Unknown type on lua stack!");
   }
