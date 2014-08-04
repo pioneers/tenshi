@@ -244,6 +244,10 @@ void NDL3_setopt(NDL3Net * restrict net, NDL3_port port, NDL3_options opt) {
  */
 void  NDL3_send(NDL3Net * restrict net, NDL3_port port,
                 void * msg, NDL3_size size) {
+  if (size == 0 || msg == NULL) {
+    net->last_error = NDL3_ERROR_BAD_MSG;
+    return;
+  }
   int i;
   if ((i = port_idx(net, port)) >= 0) {
     for (int j = 0; j < NDL3_PACKETS_PER_PORT; j++) {
@@ -356,7 +360,7 @@ static void pop_start(NDL3Net * restrict net,
     size = max_size;
   }
 
-  /* Must send at least one byte. */
+  /* Must send at least one byte, otherwise start might be sent forever. */
   if (size <= sizeof(L2_data_packet)) {
     net->last_error = NDL3_ERROR_L2_PACKET_TOO_SMALL;
     return;
@@ -627,7 +631,7 @@ void NDL3_L2_push(NDL3Net * restrict net, void * msg, NDL3_size size) {
   /* end_packet is smallest packet type. Check that reading the type field is
    * safe. */
   if (size < sizeof(L2_end_packet)) {
-    net->last_error = NDL3_ERROR_L2_PACKET_TOO_SMALL;
+    net->last_error = NDL3_ERROR_L2_PACKET_CORRUPT;
     return;
   }
   if (L2pkt->type == START_PACKET ||

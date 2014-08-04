@@ -26,6 +26,7 @@
 #define NDL3_ERROR_PORT_ALREADY_CLOSED 8
 #define NDL3_ERROR_PORT_ALREADY_OPEN   9
 #define NDL3_ERROR_PORT_NOT_OPEN       10
+#define NDL3_ERROR_BAD_MSG             11
 
 struct NDL3Net;
 typedef struct NDL3Net NDL3Net;
