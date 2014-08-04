@@ -52,10 +52,10 @@ function create_new_test_env(window) {
             // These are needed both to make Angelic work and to make Jasmine.js
             // work. They should not be actually bound to the window object in
             // any way. TODO(rqou): Check that this is indeed the case.
-            setTimeout: window.setTimeout,
-            clearTimeout: window.clearTimeout,
-            setInterval: window.setInterval,
-            clearInterval: window.clearInterval,
+            setTimeout: window.setTimeout.bind(window),
+            clearTimeout: window.clearTimeout.bind(window),
+            setInterval: window.setInterval.bind(window),
+            clearInterval: window.clearInterval.bind(window),
             console: console,
         },
         modules: {
@@ -77,8 +77,12 @@ function create_new_test_env(window) {
 
 function reportException(e, first_line) {
     console.log(first_line);
-    console.log(e.name + ": " + e.message);
-    console.log("Stack trace: " + e.stack);
+    if (typeof(e) === 'string') {
+        console.log("String: " + e);
+    } else {
+        console.log(e.name + ": " + e.message);
+        console.log("Stack trace: " + e.stack);
+    }
 }
 
 // Run simple tests
