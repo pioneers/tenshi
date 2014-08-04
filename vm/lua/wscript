@@ -121,4 +121,9 @@ def build(bld):
 
         export_str = export_str_from_filenames(headers)
 
-        build_emcc_lib(bld, export_str, target='lua', use='lua_objects')
+        build_emcc_lib(
+            bld,
+            export_str,
+            target='lua',
+            use='lua_objects lua_lua_objects'
+        )
