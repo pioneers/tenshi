@@ -2,13 +2,12 @@
 "use strict";
 
 const EventEmitter = require('tenshi/vendor-js/EventEmitter');
-const ubjson = require('tenshi/vendor-js/ubjson');
+const ubjson = require('tenshi/common/ubjson');
 const buffer = require('sdk/io/buffer');
 const emcc_tools = require('tenshi/common/emcc_tools');
 const xbee = require('tenshi/common/xbee');
 const typpo = require('tenshi/common/typpo');
 
-const MAX_PACKET_SIZE = 1024 * 1024;
 const MAX_XBEE_PAYLOAD_SIZE = 256;
 const SEND_INTERVAL = 100;
 
@@ -146,10 +145,7 @@ function check_L3() {
   /* jshint validthis: true */
   check_port.apply(this, [UBJSON_PORT, function (buf) {
     /* jshint validthis: true */
-    var self = this;
-    ubjson.unpackBuffer(buf, function (object) {
-      self.emit('object', object);
-    });
+    this.emit('object', ubjson.decode(buf));
   }]);
   check_port.apply(this, [STRING_PORT, function (buf) {
     this.emit('string', buf.toString());
@@ -191,9 +187,8 @@ Radio.prototype.send = function(data, type) {
 
 function send_object(object) {
   /* jshint validthis: true */
-  var buf = buffer.Buffer(MAX_PACKET_SIZE);
-  var length = ubjson.packToBufferSync(object, buf);
-  send(this.net, UBJSON_PORT, buf, length);
+  var buf = ubjson.encode(object);
+  send(this.net, UBJSON_PORT, buf);
 }
 
 function send_string(string) {
@@ -207,6 +202,9 @@ function send_code(buf) {
 }
 
 function send(net, port, buf, length) {
+  if (length === undefined) {
+    length = buf.length;
+  }
   var ptr = emcc_tools.buffer_to_ptr(ndl3, buf, length);
   call('NDL3_send', net, port, ptr, length);
 }
