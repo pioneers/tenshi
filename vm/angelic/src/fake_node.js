@@ -1,9 +1,6 @@
 // If we're actually inside XULRunner.
 if (typeof process === 'undefined') {
-  var fake_process = {
-    'platform': require('sdk/system').platform,
-    'argv': ['fake_node', 'fake_script.js'],
-    };
+  var fake_process = require('sdk/system/process');
   var fake_require = (function (real_require) {
     return function (path) {
         // Put the original arguments into an Array we can slice.
