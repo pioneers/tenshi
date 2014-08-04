@@ -111,7 +111,7 @@ def build(bld):
             lambda x: os.path.join('..', 'tenshi-runtime', 'inc', str(x)),
             tenshi_runtime_headers)
 
-        lua_headers = ['lua.h', 'lauxlib.h', 'js.h', 'threading.h']
+        lua_headers = ['lua.h', 'lauxlib.h', 'threading.h']
 
         headers = []
 
