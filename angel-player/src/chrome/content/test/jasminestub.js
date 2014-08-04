@@ -89,6 +89,8 @@ jasmine.clock = function() {
     return env.clock;
 };
 
+env.catchExceptions(false);
+
 env.addReporter(jasmineInterface.jsApiReporter);
 
 var testsAllPassed = true;
