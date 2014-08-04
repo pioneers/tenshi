@@ -28,6 +28,8 @@ let lua_pushthread = lua_emcc.cwrap('lua_pushthread', null,
   ['number']);
 let lua_createtable = lua_emcc.cwrap('lua_createtable', null,
   ['number', 'number', 'number']);
+let lua_settable = lua_emcc.cwrap('lua_settable', null,
+  ['number', 'number']);
 
 describe("Lua/Javascript type conversion", function() {
   it("should convert boolean", function() {
@@ -134,13 +136,29 @@ describe("Lua/Javascript type conversion", function() {
     expect(val.type).toEqual('thread');
     expect(val.func).toEqual(L);
   });
-  it("should convert table", function() {
+  it("should convert table with int key/value", function() {
     let L = luaL_newstate();
     lua_createtable(L, 0, 0);
+    lua_pushinteger(L, 1);
+    lua_pushinteger(L, 42);
+    lua_settable(L, -3);
     let val = lua_langsupp.lua_to_js(L, -1);
     lua_close(L);
 
-    expect(val.type).toEqual('table');
-    expect(val.func).not.toEqual(0);
+    expect(val[1]).toEqual(42);
+  });
+  it("should convert table with table value", function() {
+    let L = luaL_newstate();
+    lua_createtable(L, 0, 0);
+    lua_pushinteger(L, 1);
+    lua_createtable(L, 0, 0);
+    lua_pushinteger(L, 1);
+    lua_pushinteger(L, 42);
+    lua_settable(L, -3);
+    lua_settable(L, -3);
+    let val = lua_langsupp.lua_to_js(L, -1);
+    lua_close(L);
+
+    expect(val[1][1]).toEqual(42);
   });
 });
