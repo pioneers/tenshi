@@ -154,6 +154,7 @@ NDL3Net * NDL3_new(NDAlloc alloc_fn, NDFree free_fn, void * userdata) {
   net->userdata = userdata;
   net->alloc = alloc_fn;
   net->free = free_fn;
+  net->time = 0;
   return net;
 }
 
@@ -185,8 +186,8 @@ void NDL3_open(NDL3Net * restrict net, NDL3_port port) {
   if ((i = port_idx(net, 0)) >= 0) {
     net->ports[i].num = port;
     for (int j = 0; j < NDL3_PACKETS_PER_PORT; j++) {
-      net->ports->in_pkts[j].state = PACKET_EMPTY;
-      net->ports->out_pkts[j].state = PACKET_EMPTY;
+      net->ports[i].in_pkts[j].state = PACKET_EMPTY;
+      net->ports[i].out_pkts[j].state = PACKET_EMPTY;
     }
     return;
   }
