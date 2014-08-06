@@ -93,9 +93,6 @@ Radio.prototype.connectXBee = function (address, serportObj) {
 };
 
 Radio.prototype.disconnectXBee = function () {
-  if (!this.connected) {
-    throw 'XBee not connected.';
-  }
   this.off('send_data', this._send_data);
   delete this.serportObj.setReadHandler;
   this.serportObj.setReadHandler(null);
