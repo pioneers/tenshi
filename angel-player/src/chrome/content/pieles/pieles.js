@@ -12,7 +12,7 @@ let attachedRadios = {};
 const global_state = require('tenshi/common/global_state');
 
 // 10 Hz. To be tuned later
-const PIELES_UPDATE_RATE = 1.0/10.0;
+const PIELES_UPDATE_RATE = 100;
 
 // Checks whether we have all the controllers needed for PiELES to work
 // according to the configuration
