@@ -46,6 +46,9 @@
 - name: NDL3_CODE_PORT
   kind: const
   value: 0x41
+- name: CONFIG_PORT
+  kind: const
+  value: 0x7e
 
 - name: pier_incomingdata
   kind: struct
