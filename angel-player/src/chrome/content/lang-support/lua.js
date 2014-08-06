@@ -25,7 +25,10 @@ let luaL_newstate,
     lua_pushnil,
     lua_next,
     lua_settop,
-    lua_pushvalue;
+    lua_pushvalue,
+    lua_pushstring,
+    lua_pushnumber,
+    lua_pushinteger;
 
 const LUA_TNONE           = (-1);
 const LUA_TNIL            = 0;
@@ -72,6 +75,12 @@ try {
   lua_next = lua.cwrap('lua_next', 'number', ['number', 'number']);
   lua_settop = lua.cwrap('lua_settop', null, ['number', 'number']);
   lua_pushvalue = lua.cwrap('lua_pushvalue', null, ['number', 'number']);
+  lua_pushstring = lua.cwrap('lua_pushstring', null,
+    ['number', 'string']);
+  lua_pushinteger = lua.cwrap('lua_pushinteger', null,
+    ['number', 'number']);
+  lua_pushnumber = lua.cwrap('lua_pushnumber', null,
+    ['number', 'number']);
 } catch(e) {
   // OK, running in dev without build.sh
 }
@@ -231,5 +240,27 @@ exports.lua_to_js = function(L, i) {
     return ret;
   } else {
     throw new Error("Unknown type on lua stack!");
+  }
+};
+
+// Pushes obj onto the Lua stack, automatically converting it to the correct
+// Lua type. Currently only supports strings, numbers, and null -- everything
+// else will raise an error.
+exports.js_to_lua = function(L, obj) {
+  if (typeof(obj) === 'string') {
+    lua_pushstring(L, obj);
+  } else if (typeof(obj) === 'number') {
+    // Check if exact integer
+    if (obj % 1 === 0) {
+      // Integer
+      lua_pushinteger(L, obj);
+    } else {
+      // Float
+      lua_pushnumber(L, obj);
+    }
+  } else if (obj === null) {
+    lua_pushnil(L);
+  } else {
+    throw new Error("Unsupported type to convert to Lua!");
   }
 };
