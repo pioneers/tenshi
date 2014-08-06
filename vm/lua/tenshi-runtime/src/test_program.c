@@ -21,6 +21,86 @@
 #include "inc/mboxlib.h"
 #include "inc/runtime_entry.h"
 
+// Dummy get_device, just takes the id and stores it
+const char *hax_dev_sensor = "stestsensor";
+const char *hax_dev_actuator = "atestactuator";
+static int get_device(lua_State *L) {
+  size_t id_len;
+  const char *id = lua_tolstring(L, -1, &id_len);
+  lua_pop(L, 1);
+  printf("get_device: %s\n", id);
+  // Awful hax
+  if (strcmp(id, hax_dev_sensor) == 0) {
+    lua_pushlightuserdata(L, hax_dev_sensor);
+  } else if (strcmp(id, hax_dev_actuator) == 0) {
+    lua_pushlightuserdata(L, hax_dev_actuator);
+  } else {
+    lua_pushnil(L);
+  }
+  return 1;
+}
+
+static int del_device(lua_State *L) {
+  const char *dev = lua_touserdata(L, 1);
+  lua_pop(L, 1);
+
+  printf("del_device: %s\n", dev);
+
+  return 0;
+}
+
+static int query_dev_info(lua_State *L) {
+  const char *dev = lua_touserdata(L, 1);
+  const char *query_type = lua_tostring(L, 2);
+  lua_pop(L, 2);
+
+  if (strcmp(query_type, "type") == 0) {
+    // Are we a sensor or an actuator? In this test program, if id[0] is 's' we
+    // are a sensor. Otherwise it's an actuator.
+    if (dev[0] == 's') {
+      lua_pushstring(L, "sensor");
+    } else {
+      lua_pushstring(L, "actuator");
+    }
+  } else if (strcmp(query_type, "dev") == 0) {
+    // What is our device type? In this test program, it is id[1] to the first
+    // embedded null or the end.
+    lua_pushstring(L, dev + 1);
+  } else {
+    // Not supported
+    lua_pushnil(L);
+  }
+
+  return 1;
+}
+
+static int global_sensor_data = 0;
+static int get_testsensor_val(lua_State *L) {
+  // Return this global for now
+  lua_pop(L, 1);
+  lua_pushinteger(L, global_sensor_data);
+
+  return 1;
+}
+
+static int set_testactuator_val(lua_State *L) {
+  const char *dev = lua_touserdata(L, 1);
+  int val = lua_tointeger(L, 2);
+  printf("<----- Got data out: %s = %d\n", dev, val);
+  lua_pop(L, 2);
+
+  return 0;
+}
+
+static const luaL_Reg testprogram_runtimeentries[] = {
+  {"get_device", get_device},
+  {"del_device", del_device},
+  {"query_dev_info", query_dev_info},
+  {"get_testsensor_val", get_testsensor_val},
+  {"set_testactuator_val", set_testactuator_val},
+  {NULL, NULL}
+};
+
 int main(int argc, char **argv) {
   printf("Hello world!\n");
 
@@ -28,69 +108,22 @@ int main(int argc, char **argv) {
 
   printf("Allocated state: %p\n", s);
 
-  // const char studentcode[] =
-  //   "x = 42";
-
-  // const char studentcode[] =
-  //   "i = 0\n"
-  //   "while true do\n"
-  //   "    print(\"Hello world!\")\n"
-  //   "    print(math.pi)\n"
-  //   "    i = i + 1\n"
-  //   "    if i > 300 then\n"
-  //   "        get_own_actor():stop()\n"
-  //   "    end\n"
-  //   "end";
-
-  // const char studentcode[] =
-  //   "function b()\n"
-  //   "    for i = 1,500,1 do\n"
-  //   "        send(a_actor, i, a_actor, i, a_actor, i)\n"
-  //   "        print(\"sent: \" .. i)\n"
-  //   "    end\n"
-  //   "end\n"
-  //   "\n"
-  //   "a_actor = get_own_actor()\n"
-  //   "start_actor(b)\n"
-  //   "for i = 1,500,1 do\n"
-  //   "    print(\"recv: \" .. recv(a_actor))\n"
-  //   "end";
+  TenshiRegisterCFunctions(s, testprogram_runtimeentries);
 
   const char studentcode[] =
-    "install_trap_global()\n"   // Normally this would be further down
-    "input_dev = get_device('input')\n"
-    "input = triggers.changed(input_dev)\n"
-    "output = get_device('output')\n"
-    "\n"
-    "print('units.mega = ' .. units.mega)\n"
-    "print('units.kilo = ' .. units.kilo)\n"
-    "print('units.mili = ' .. units.mili)\n"
-    "print('units.micro = ' .. units.micro)\n"
-    "print('units.nano = ' .. units.nano)\n"
-    "print('units.inch = ' .. units.inch)\n"
-    "print('units.pound = ' .. units.pound)\n"
-    "print('units.deg = ' .. units.deg)\n"
+    "sensor = get_device('stestsensor')\n"
+    "actuator = get_device('atestactuator')\n"
+    "sensor_sampled = triggers.sampled(sensor)\n"
     "\n"
     "while true do\n"
-    "    print('about to recv')\n"
-    "    local x = input:recv()\n"
-    "    if x == nil then x = 0 end\n"
-    "    print('recv: ' .. x)\n"
-    "    x = x + 1"
-    "    print('sending using value')\n"
-    "    output.value = x\n"
-    "    print('sent: ' .. x)\n"
+    "    local val = sensor_sampled:recv()\n"
+    "    print('sensor is ' .. tostring(val))\n"
+    "    actuator:send({val})\n"
     "end";
 
   TenshiActorState a;
 
-  int ret = MBoxCreateActuator(s, "output", 6);
-  printf("MBoxCreateActuator: %d\n", ret);
-
-  ret = MBoxCreateSensor(s, "input", 5);
-  printf("MBoxCreateSensor: %d\n", ret);
-
-  ret = LoadStudentcode(s, studentcode, strlen(studentcode), &a);
+  int ret = LoadStudentcode(s, studentcode, strlen(studentcode), &a);
   printf("LoadStudentcode: %d, TenshiActorState: %p\n", ret, a);
 
   ret = ActorSetRunnable(a, 1);
@@ -99,27 +132,13 @@ int main(int argc, char **argv) {
   int i = 0;
 
   while (i < 100) {
-    printf("-----> Sent into sensor: %d\n", i / 2);
-    TenshiMainStackPushInt(s, i / 2);
-    ret = MBoxSendSensor(s, "input", 5);
-    printf("MBoxSendSensor: %d\n", ret);
+    printf("-----> Sent into sensor: %d\n", i);
+    global_sensor_data = i;
+    ret = TenshiFlagSensor(s, hax_dev_sensor);
+    printf("TenshiFlagSensor: %d\n", ret);
+
     ret = TenshiRunQuanta(s);
     printf("Ran quanta %d, ret = %d\n", i, ret);
-
-    update_info *ui_orig = MBoxGetActuatorsChanged(s);
-    printf("MBoxGetActuatorsChanged: %p\n", ui_orig);
-    update_info *ui = ui_orig;
-    while (ui) {
-      printf("Actuator set: %s (%d values)\n", ui->id, ui->num_data);
-      for (int j = 0; j < ui->num_data; j++) {
-        ret = MBoxRecvActuator(s, ui->id, ui->id_len);
-        printf("MBoxRecvActuator: %d\n", ret);
-        int x = TenshiMainStackGetInt(s);
-        printf("<----- Got data out: %d\n", x);
-      }
-      ui = ui->next;
-    }
-    MBoxFreeUpdateInfo(ui_orig);
 
     i++;
   }

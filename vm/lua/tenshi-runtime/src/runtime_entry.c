@@ -28,14 +28,15 @@
 #include "lbaselib.h"   // NOLINT(build/include)
 #include "lstrlib.h"    // NOLINT(build/include)
 #include "threading.h"  // NOLINT(build/include)
-#include "../actuators.lua.h"     // NOLINT(build/include)
-#include "../game.lua.h"          // NOLINT(build/include)
-#include "../get_device.lua.h"    // NOLINT(build/include)
-#include "../pieles.lua.h"        // NOLINT(build/include)
-#include "../signals.lua.h"       // NOLINT(build/include)
-#include "../trap_global.lua.h"   // NOLINT(build/include)
-#include "../triggers.lua.h"      // NOLINT(build/include)
-#include "../units.lua.h"         // NOLINT(build/include)
+#include "../actuator_actor.lua.h"  // NOLINT(build/include)
+#include "../actuators.lua.h"       // NOLINT(build/include)
+#include "../game.lua.h"            // NOLINT(build/include)
+#include "../get_device.lua.h"      // NOLINT(build/include)
+#include "../pieles.lua.h"          // NOLINT(build/include)
+#include "../sensor_actor.lua.h"    // NOLINT(build/include)
+#include "../trap_global.lua.h"     // NOLINT(build/include)
+#include "../triggers.lua.h"        // NOLINT(build/include)
+#include "../units.lua.h"           // NOLINT(build/include)
 
 // Custom version of baselib with some functions omitted
 static const luaL_Reg tenshi_base_funcs[] = {
@@ -113,12 +114,6 @@ static int tenshi_open_units(lua_State *L) {
   return 1;
 }
 
-static int tenshi_open_signals(lua_State *L) {
-  luaL_loadbuffer(L, signals_lua, sizeof(signals_lua), "signals.lua");
-  lua_pcall(L, 0, LUA_MULTRET, 0);
-  return 1;
-}
-
 static int tenshi_open_actuators(lua_State *L) {
   luaL_loadbuffer(L, actuators_lua, sizeof(actuators_lua), "actuators.lua");
   lua_pcall(L, 0, LUA_MULTRET, 0);
@@ -143,6 +138,23 @@ static int tenshi_open_game(lua_State *L) {
   return 1;
 }
 
+static int get_registry(lua_State *L) {
+  lua_pushvalue(L, LUA_REGISTRYINDEX);
+  return 1;
+}
+
+static luaL_Reg tenshi_runtimeinternal[] = {
+  {"get_registry", get_registry},
+  {NULL, NULL}
+};
+
+// Opens part of the __runtimeinternal library. This will be later extended
+// by the external user of the runtime by calling TenshiRegisterCFunctions.
+static int tenshi_open_runtimeinternal(lua_State *L) {
+  luaL_newlib(L, tenshi_runtimeinternal);
+  return 1;
+}
+
 // Tenshi modules (omits some Lua modules, adds some new modules)
 static const luaL_Reg tenshi_loadedlibs[] = {
   {"_G", tenshi_open_base},
@@ -151,7 +163,7 @@ static const luaL_Reg tenshi_loadedlibs[] = {
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_UTF8LIBNAME, luaopen_utf8},
   {"units", tenshi_open_units},
-  {"__signals", tenshi_open_signals},
+  {"__runtimeinternal", tenshi_open_runtimeinternal},
   {"__actuators", tenshi_open_actuators},
   {"triggers", tenshi_open_triggers},
   {"pieles", tenshi_open_pieles},
@@ -222,6 +234,50 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   lua_pushlightuserdata(ret->L, ret);
   lua_settable(ret->L, LUA_REGISTRYINDEX);
 
+  // Load the code for the actor that handles reading sensor updates and
+  // updating sensor mailboxes
+  ret->sensor_actor = ActorCreate(ret);
+  if (!ret->sensor_actor) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+  int ret_ = luaL_loadbuffer(ret->sensor_actor->L,
+    sensor_actor_lua, sizeof(sensor_actor_lua), "sensor_actor.lua");
+  if (ret_ != LUA_OK) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+
+  // Load the code for the actor that handles reading actuator mailboxes and
+  // updating actuators.
+  ret->actuator_actor = ActorCreate(ret);
+  if (!ret->actuator_actor) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+  ret_ = luaL_loadbuffer(ret->actuator_actor->L,
+    actuator_actor_lua, sizeof(actuator_actor_lua), "actuator_actor.lua");
+  if (ret_ != LUA_OK) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+
+  // Construct the RIDX_CHANGED_SENSORS table
+  lua_pushstring(ret->L, RIDX_CHANGED_SENSORS);
+  lua_newtable(ret->L);
+  lua_settable(ret->L, LUA_REGISTRYINDEX);
+
+  // Initialize RIDX_SENSORDEVMAP as a table with weak values that will be
+  // used to map lightuserdata to Lua objects
+  lua_pushstring(ret->L, RIDX_SENSORDEVMAP);
+  lua_newtable(ret->L);
+  lua_pushstring(ret->L, "__mode");
+  lua_pushstring(ret->L, "v");
+  lua_settable(ret->L, -3);
+  lua_pushvalue(ret->L, -1);
+  lua_setmetatable(ret->L, -2);
+  lua_settable(ret->L, LUA_REGISTRYINDEX);
+
   return ret;
 }
 
@@ -260,16 +316,29 @@ int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
 }
 
 int TenshiRunQuanta(TenshiRuntimeState s) {
-  int ops_left = QUANTA_OPCODES;
+  // Do timeouts
+  ActorProcessTimeouts(s);
 
+  // Run the sensor actor
+  // Dup the function first, as it disappears when we exit
+  // TODO(rqou): Will we have a problem with the hardcoded op limit?
+  lua_pushvalue(s->sensor_actor->L, -1);
+  int ret = threading_run_ops(s->sensor_actor->L, 1000, NULL);
+  if (ret != THREADING_EXITED) {
+    printf("There was an error running the sensor actor!\n");
+    return ret;
+  }
+
+  // Run the main code
+  int ops_left = QUANTA_OPCODES;
   while (ops_left > 0) {
     TenshiActorState a;
-    int ret = ActorDequeueHead(s, &a);
+    ret = ActorDequeueHead(s, &a);
     if (ret != LUA_OK) return ret;
 
     if (!a) {
       printf("NOTHING TO RUN!\n");
-      return LUA_OK;
+      break;
     }
 
     ret = threading_run_ops(a->L, ops_left, &ops_left);
@@ -305,30 +374,39 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
     }
   }
 
+  // Run the actuator actor
+  // Dup the function first, as it disappears when we exit
+  lua_pushvalue(s->actuator_actor->L, -1);
+  ret = threading_run_ops(s->actuator_actor->L, 1000, NULL);
+  if (ret != THREADING_EXITED) {
+    printf("There was an error running the actuator actor!\n");
+    return ret;
+  }
+
   return LUA_OK;
 }
 
-void TenshiMainStackPushInt(TenshiRuntimeState s, lua_Integer i) {
-  lua_pushinteger(s->L, i);
-}
-void TenshiMainStackPushUInt(TenshiRuntimeState s, lua_Unsigned i) {
-  lua_pushunsigned(s->L, i);
-}
-void TenshiMainStackPushFloat(TenshiRuntimeState s, lua_Number i) {
-  lua_pushnumber(s->L, i);
-}
-lua_Integer TenshiMainStackGetInt(TenshiRuntimeState s) {
-  lua_Integer ret = lua_tointeger(s->L, -1);
+void TenshiRegisterCFunctions(TenshiRuntimeState s, const luaL_Reg *l) {
+  lua_getglobal(s->L, "__runtimeinternal");
+  luaL_setfuncs(s->L, l, 0);
   lua_pop(s->L, 1);
-  return ret;
 }
-lua_Unsigned TenshiMainStackGetUInt(TenshiRuntimeState s) {
-  lua_Unsigned ret = lua_tounsigned(s->L, -1);
-  lua_pop(s->L, 1);
-  return ret;
+
+static int _TenshiFlagSensor(lua_State *L) {
+  // stack is dev_raw
+  lua_pushstring(L, RIDX_CHANGED_SENSORS);
+  lua_gettable(L, LUA_REGISTRYINDEX);
+  lua_pushvalue(L, -2);
+  lua_pushboolean(L, 1);
+  // stack is dev_raw, changed_sensors, dev_raw, true
+  lua_settable(L, -3);
+  lua_pop(L, 2);
+
+  return 0;
 }
-lua_Number TenshiMainStackGetFloat(TenshiRuntimeState s) {
-  lua_Number ret = lua_tonumber(s->L, -1);
-  lua_pop(s->L, 1);
-  return ret;
+
+int TenshiFlagSensor(TenshiRuntimeState s, const void *const dev) {
+  lua_pushcfunction(s->L, _TenshiFlagSensor);
+  lua_pushlightuserdata(s->L, dev);
+  return lua_pcall(s->L, 1, 0, 0);
 }

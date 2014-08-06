@@ -22,20 +22,28 @@ local actuators = {}
 
 actuators.metatable = {
     __index = function(t, k)
-        return t.__actuator[k]
+        -- There is a problem here where we get loaded before mboxlib
+        -- and it is hard to refactor it to be otherwise. Therefore we use
+        -- this hack solution where as soon as this function gets called, we
+        -- replace ourselves with the actual mboxlib metatable.
+        local mboxlib_meta =
+            __runtimeinternal.get_registry()['tenshi.mboxlib.metatable']
+        actuators.metatable.__index = mboxlib_meta
+        return t[k]
     end,
     __newindex = function(t, k, v)
         if k == 'value' then
-            t.__actuator:send({v})
+            t:send({v})
         else
             t[k] = v
         end
     end
 }
 
-function actuators.wrap_actuator(actuator)
-    local ret = {}
-    ret.__actuator = actuator
+function actuators.create_actuator(lua_dev)
+    local ret = __mboxinternal.create_independent_mbox()
+    ret.__mbox.actuator = 1
+    ret.__lua_dev = lua_dev
     setmetatable(ret, actuators.metatable)
     return ret
 end

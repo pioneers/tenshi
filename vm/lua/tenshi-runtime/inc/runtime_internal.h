@@ -21,6 +21,12 @@
 struct _TenshiRuntimeState {
   // Lua state object -- refers to "main" thread (that never executes)
   lua_State *L;
+  // Thread called before "main" part of loop that translates updated
+  // sensors into data sent into mailboxes
+  TenshiActorState sensor_actor;
+  // Thread called after "main" part of loop that translates data sent into
+  // mailboxes into actuator update functions
+  TenshiActorState actuator_actor;
 };
 
 struct _TenshiActorState {
@@ -30,6 +36,8 @@ struct _TenshiActorState {
   lua_State *L;
   // Set to true if this actor is blocked. Prevents multiple unblocking.
   int isblocked;
+  // Set to true if this actor woke because of a timeout.
+  int woke_timeout;
 };
 
 #endif  // INC_RUNTIME_INTERNAL_H_
