@@ -30,6 +30,8 @@ let lua_createtable = lua_emcc.cwrap('lua_createtable', null,
   ['number', 'number', 'number']);
 let lua_settable = lua_emcc.cwrap('lua_settable', null,
   ['number', 'number']);
+let lua_callk = lua_emcc.cwrap('lua_callk', null,
+  ['number', 'number', 'number', 'number', 'number']);
 
 describe("Lua/Javascript type conversion", function() {
   it("should convert boolean", function() {
@@ -193,5 +195,26 @@ describe("Lua/Javascript type conversion", function() {
     lua_close(L);
 
     expect(val).toEqual(null);
+  });
+
+  it("should be able to use luaify", function() {
+    function testfunc(a, b, c) {
+      return (a + b) + c;
+    }
+    let testfunc_lua = lua_langsupp.luaify(testfunc);
+    let testfunc_ptr = lua_emcc.Runtime.addFunction(testfunc_lua);
+
+    let L = luaL_newstate();
+    lua_pushcclosure(L, testfunc_ptr);
+    lua_langsupp.js_to_lua(L, 1);
+    lua_langsupp.js_to_lua(L, 3);
+    lua_langsupp.js_to_lua(L, "hi");
+    lua_callk(L, 3, 1, 0, 0);
+    let val = lua_langsupp.lua_to_js(L, -1);
+    lua_close(L);
+
+    lua_emcc.Runtime.removeFunction(testfunc_ptr);
+
+    expect(val).toEqual("4hi");
   });
 });

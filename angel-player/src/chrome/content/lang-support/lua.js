@@ -28,7 +28,8 @@ let luaL_newstate,
     lua_pushvalue,
     lua_pushstring,
     lua_pushnumber,
-    lua_pushinteger;
+    lua_pushinteger,
+    lua_gettop;
 
 const LUA_TNONE           = (-1);
 const LUA_TNIL            = 0;
@@ -80,7 +81,8 @@ try {
   lua_pushinteger = lua.cwrap('lua_pushinteger', null,
     ['number', 'number']);
   lua_pushnumber = lua.cwrap('lua_pushnumber', null,
-    ['number', 'number']);
+    ['number', 'number']); 
+  lua_gettop = lua.cwrap('lua_gettop', 'number', ['number']);
 } catch(e) {
   // OK, running in dev without build.sh
 }
@@ -263,4 +265,28 @@ exports.js_to_lua = function(L, obj) {
   } else {
     throw new Error("Unsupported type to convert to Lua!");
   }
+};
+
+// Returns a function that wraps f but is compatible with the Lua C function
+// call interface. All arguments to the function will be converted into JS
+// objects, and the return value (if not undefined) will be converted back
+// into a Lua object. At this time, it is only possible to return one value.
+exports.luaify = function(f) {
+  return function(L) {
+    let num_args = lua_gettop(L);
+    let args = [];
+
+    for (let i = 0; i < num_args; i++) {
+      args[i] = exports.lua_to_js(L, i + 1);
+    }
+    lua_settop(L, 0);
+
+    let ret = f.apply(null, args);
+    if (ret !== undefined) {
+      exports.js_to_lua(L, ret);
+      return 1;
+    } else {
+      return 0;
+    }
+  };
 };
