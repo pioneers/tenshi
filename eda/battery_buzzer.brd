@@ -130,7 +130,7 @@
 <wire x1="46.99" y1="26.67" x2="0" y2="26.67" width="0.254" layer="20"/>
 <wire x1="0" y1="26.67" x2="0" y2="0" width="0.254" layer="20"/>
 <text x="16.9672" y="0.8382" size="1.1684" layer="1" font="vector" ratio="15">v1 revA 20 June 2014</text>
-<text x="38.354" y="1.016" size="0.762" layer="22" font="vector" ratio="20" rot="MR0">(c) Pioneers in Engineering
+<text x="38.608" y="1.27" size="0.762" layer="22" font="vector" ratio="20" rot="MR0">(c) Pioneers in Engineering
 Design by:
 Vincent Donato, Devin He, and Krystyn Neisess
 This design is open source hardware.
@@ -140,7 +140,7 @@ pioneers.berkeley.edu/opensource</text>
 Version 1
 Rev. A</text>
 <text x="7.366" y="23.368" size="0.762" layer="27" font="vector" ratio="20" align="top-left">130</text>
-<text x="6.6802" y="19.7104" size="0.762" layer="27" font="vector" ratio="20" align="top-left">110k</text>
+<text x="6.6802" y="19.5834" size="0.762" layer="27" font="vector" ratio="20" align="top-left">10k</text>
 </plain>
 <libraries>
 <library name="pie">
@@ -1164,8 +1164,8 @@ design rules under a new name.</description>
 </element>
 <element name="LED1" library="pie" package="LED-0805" value="RED" x="4.572" y="24.3205" smashed="yes" rot="R180">
 <attribute name="PIE-INT-REF-NUM" value="LED" x="4.572" y="24.3205" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="NAME" x="0.41275" y="25.43175" size="0.762" layer="25" font="vector" ratio="20"/>
-<attribute name="VALUE" x="0.381" y="24.1935" size="0.762" layer="25" font="vector" ratio="20"/>
+<attribute name="NAME" x="0.4064" y="25.4" size="0.762" layer="25" font="vector" ratio="20"/>
+<attribute name="VALUE" x="0.381" y="24.384" size="0.762" layer="25" font="vector" ratio="20"/>
 </element>
 <element name="U$11" library="pie" package="XH_CONNECTOR_4POS_2.5MM" value="XH_CONNECTOR_4POS" x="29.464" y="21.844" smashed="yes">
 <attribute name="PIE_DIGIKEY-PN" value="455-2249-ND" x="29.464" y="21.844" size="1.778" layer="27" display="off"/>
@@ -1224,10 +1224,10 @@ design rules under a new name.</description>
 <attribute name="NAME" x="16.002" y="4.064" size="0.762" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="16.002" y="2.921" size="0.762" layer="27" font="vector" ratio="20"/>
 </element>
-<element name="LED2" library="pie" package="LED-0805" value="RED" x="40.132" y="5.588" smashed="yes">
-<attribute name="PIE-INT-REF-NUM" value="LED" x="40.132" y="5.588" size="1.778" layer="27" display="off"/>
-<attribute name="NAME" x="42.672" y="4.826" size="0.762" layer="25" font="vector" ratio="20"/>
-<attribute name="VALUE" x="42.672" y="5.969" size="0.762" layer="25" font="vector" ratio="20"/>
+<element name="LED2" library="pie" package="LED-0805" value="RED" x="39.878" y="5.842" smashed="yes" rot="R180">
+<attribute name="PIE-INT-REF-NUM" value="LED" x="39.878" y="5.842" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="NAME" x="37.846" y="6.731" size="0.762" layer="25" font="vector" ratio="20" rot="R180"/>
+<attribute name="VALUE" x="37.846" y="5.715" size="0.762" layer="25" font="vector" ratio="20" rot="R180"/>
 </element>
 <element name="Q2" library="pie" package="SOT23-3" value="IRFML8244" x="32.512" y="6.096" smashed="yes" rot="R270">
 <attribute name="NAME" x="30.9245" y="7.874" size="0.762" layer="25" font="vector" ratio="20"/>
@@ -1337,16 +1337,7 @@ design rules under a new name.</description>
 <wire x1="21.51" y1="19.685" x2="21.971" y2="19.685" width="0.3048" layer="1"/>
 <contactref element="Q2" pad="2"/>
 <contactref element="R10" pad="1"/>
-<wire x1="31.512" y1="5.146" x2="31.01" y2="5.146" width="0.3048" layer="1"/>
-<wire x1="31.01" y1="5.146" x2="29.298" y2="6.858" width="0.3048" layer="1"/>
-<wire x1="41.1734" y1="5.588" x2="41.148" y2="5.588" width="0.3048" layer="1"/>
-<wire x1="41.148" y1="5.588" x2="39.878" y2="6.858" width="0.3048" layer="1"/>
-<wire x1="39.878" y1="6.858" x2="38.1" y2="6.858" width="0.3048" layer="1"/>
-<wire x1="38.1" y1="6.858" x2="36.322" y2="5.08" width="0.3048" layer="1"/>
-<wire x1="36.322" y1="5.08" x2="31.578" y2="5.08" width="0.3048" layer="1"/>
 <wire x1="31.578" y1="5.08" x2="31.512" y2="5.146" width="0.3048" layer="1"/>
-<wire x1="39.878" y1="2.54" x2="39.878" y2="4.2926" width="0.3048" layer="1"/>
-<wire x1="39.878" y1="4.2926" x2="41.1734" y2="5.588" width="0.3048" layer="1"/>
 <via x="29.21" y="9.271" extent="1-16" drill="0.508"/>
 <via x="25.4" y="9.271" extent="1-16" drill="0.508"/>
 <wire x1="23.876" y1="10.326" x2="24.218" y2="10.326" width="0.3048" layer="1"/>
@@ -1374,6 +1365,17 @@ design rules under a new name.</description>
 <wire x1="28.741" y1="9.271" x2="27.686" y2="10.326" width="0.3048" layer="1"/>
 <wire x1="33.02" y1="9.271" x2="32.551" y2="9.271" width="0.3048" layer="1"/>
 <wire x1="32.551" y1="9.271" x2="31.496" y2="10.326" width="0.3048" layer="1"/>
+<wire x1="39.878" y1="2.54" x2="39.878" y2="4.8006" width="0.3048" layer="1"/>
+<wire x1="39.878" y1="4.8006" x2="38.8366" y2="5.842" width="0.3048" layer="1"/>
+<wire x1="29.298" y1="6.858" x2="29.298" y2="6.135" width="0.3048" layer="1"/>
+<wire x1="29.298" y1="6.135" x2="30.353" y2="5.08" width="0.3048" layer="1"/>
+<wire x1="30.353" y1="5.08" x2="31.446" y2="5.08" width="0.3048" layer="1"/>
+<wire x1="31.446" y1="5.08" x2="31.512" y2="5.146" width="0.3048" layer="1"/>
+<wire x1="29.298" y1="6.858" x2="29.972" y2="6.858" width="0.3048" layer="1"/>
+<wire x1="29.972" y1="6.858" x2="30.734" y2="6.096" width="0.3048" layer="1"/>
+<wire x1="30.734" y1="6.096" x2="32.004" y2="6.096" width="0.3048" layer="1"/>
+<wire x1="32.004" y1="6.096" x2="33.02" y2="7.112" width="0.3048" layer="1"/>
+<wire x1="33.02" y1="7.112" x2="33.02" y2="9.271" width="0.3048" layer="1"/>
 </signal>
 <signal name="TX">
 <contactref element="U2" pad="1"/>
@@ -1612,8 +1614,10 @@ design rules under a new name.</description>
 <contactref element="LED2" pad="A"/>
 <wire x1="18.122" y1="5.842" x2="28.956" y2="5.842" width="0.2032" layer="1"/>
 <wire x1="28.956" y1="5.842" x2="30.48" y2="4.318" width="0.2032" layer="1"/>
-<wire x1="30.48" y1="4.318" x2="37.8206" y2="4.318" width="0.2032" layer="1"/>
-<wire x1="37.8206" y1="4.318" x2="39.0906" y2="5.588" width="0.2032" layer="1"/>
+<wire x1="30.48" y1="4.318" x2="35.56" y2="4.318" width="0.2032" layer="1"/>
+<wire x1="35.56" y1="4.318" x2="38.1" y2="6.858" width="0.2032" layer="1"/>
+<wire x1="38.1" y1="6.858" x2="39.9034" y2="6.858" width="0.2032" layer="1"/>
+<wire x1="39.9034" y1="6.858" x2="40.9194" y2="5.842" width="0.2032" layer="1"/>
 </signal>
 <signal name="LED_BUZZER">
 <contactref element="R11" pad="2"/>
@@ -1637,9 +1641,9 @@ design rules under a new name.</description>
 <approved hash="7,39,e01371b431bca01b"/>
 <approved hash="7,39,45f5beca9bdf525f"/>
 <approved hash="4,1,ea7159f1cd5de0a9"/>
+<approved hash="4,1,e42a223fb6cf96c6"/>
 <approved hash="4,1,9fd83177a593fe10"/>
 <approved hash="4,1,f2833aadae3d9a9f"/>
-<approved hash="4,1,e42a223fb6cf96c6"/>
 <approved hash="4,16,e42a223fb6cf96c6"/>
 <approved hash="4,16,ea7159f1cd5de0a9"/>
 <approved hash="4,16,9fd83177a593fe10"/>
