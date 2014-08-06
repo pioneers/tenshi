@@ -161,4 +161,37 @@ describe("Lua/Javascript type conversion", function() {
 
     expect(val[1][1]).toEqual(42);
   });
+
+  it("should roundtrip convert string", function() {
+    let L = luaL_newstate();
+    lua_langsupp.js_to_lua(L, "Miku x Kaito");
+    let val = lua_langsupp.lua_to_js(L, -1);
+    lua_close(L);
+
+    expect(val).toEqual("Miku x Kaito");
+  });
+  it("should roundtrip convert int", function() {
+    let L = luaL_newstate();
+    lua_langsupp.js_to_lua(L, 6969);
+    let val = lua_langsupp.lua_to_js(L, -1);
+    lua_close(L);
+
+    expect(val).toEqual(6969);
+  });
+  it("should roundtrip convert float", function() {
+    let L = luaL_newstate();
+    lua_langsupp.js_to_lua(L, 1.125);
+    let val = lua_langsupp.lua_to_js(L, -1);
+    lua_close(L);
+
+    expect(val).toEqual(1.125);
+  });
+  it("should roundtrip convert null", function() {
+    let L = luaL_newstate();
+    lua_langsupp.js_to_lua(L, null);
+    let val = lua_langsupp.lua_to_js(L, -1);
+    lua_close(L);
+
+    expect(val).toEqual(null);
+  });
 });
