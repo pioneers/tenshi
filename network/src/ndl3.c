@@ -408,8 +408,8 @@ static void pop_data(NDL3Net * restrict net,
     size = max_size;
   }
 
-  /* Must send at least one byte. */
-  if (size <= sizeof(L2_data_packet)) {
+  /* Must send at least the header. */
+  if (size < sizeof(L2_data_packet)) {
     net->last_error = NDL3_ERROR_L2_PACKET_TOO_SMALL;
     return;
   }
