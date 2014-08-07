@@ -510,36 +510,72 @@ int main() {
   NDL3Net * host = NDL3_new(NULL, NULL, NULL);
   NDL3_open(target, 1);
   NDL3_open(host, 1);
-  char * in_msg = strdup(test_msg);
+  int good = 0;
+  int total = 128;
   srand(time(NULL));
-  NDL3_send(host, 1, in_msg, 1 + strlen(in_msg));
-  char * out_msg = NULL;
+  for (int i = 0; i < total; i++) {
+  start:
+    printf("loop start\n");
+    char * in_msg = strdup(test_msg);
+    NDL3_send(host, 1, in_msg, 1 + strlen(in_msg));
+    char * out_msg = NULL;
 
-  uint8_t buffer[256];
-  while (out_msg == NULL) {
-    NDL3_recv(target, 1, (void **) &out_msg, NULL);
-    NDL3_L2_pop(host, buffer, sizeof(buffer), NULL);
-    if (rand() & 0xff) {  /* NOLINT(runtime/threadsafe_fn) */
+    uint8_t buffer[256];
+    while (out_msg == NULL) {
+      NDL3_error e = NDL3_pop_error(target);
+      if (e == NDL3_ERROR_PACKET_LOST) {
+        break;
+      } else if (e == 7) {
+        goto start;
+      } else if (e != 0 && e != 1 && e != 2 && e != 5) {
+        printf("error = %d\n", e);
+      }
+      NDL3_recv(target, 1, (void **) &out_msg, NULL);
+      NDL3_L2_pop(host, buffer, sizeof(buffer), NULL);
+      if ((rand() >> 16) & 0x3) {  /* NOLINT(runtime/threadsafe_fn) */
+        memset(buffer, 0, sizeof(buffer));
+      }
+      NDL3_elapse_time(host, 100);
+      NDL3_elapse_time(target, 100);
+      NDL3_L2_push(target, buffer, sizeof(buffer));
       memset(buffer, 0, sizeof(buffer));
-    }
-    /*if (rand() & 0xff) {*/
-      /*int r = rand() & 0xff;*/
-      /*memset(buffer + r, 0, sizeof(buffer) - r);*/
-    /*}*/
-    NDL3_L2_push(target, buffer, sizeof(buffer));
-    NDL3_L2_pop(target, buffer, sizeof(buffer), NULL);
-    if (rand() & 0xff) {  /* NOLINT(runtime/threadsafe_fn) */
+      NDL3_L2_pop(target, buffer, sizeof(buffer), NULL);
+      if ((rand() >> 16) & 0x3) {  /* NOLINT(runtime/threadsafe_fn) */
+        memset(buffer, 0, sizeof(buffer));
+      }
+      NDL3_L2_push(host, buffer, sizeof(buffer));
       memset(buffer, 0, sizeof(buffer));
-    }
-    /*if (rand() & 0xff) {*/
-      /*int r = rand() & 0xff;*/
-      /*memset(buffer + r, 0, sizeof(buffer) - r);*/
-    /*}*/
-    NDL3_L2_push(host, buffer, sizeof(buffer));
 
-    NDL3_elapse_time(host, 100);
-    NDL3_elapse_time(target, 100);
+      NDL3_elapse_time(host, 100);
+      NDL3_elapse_time(target, 100);
+    }
+    if (out_msg != NULL) {
+      ++good;
+      printf("Got message:\n");
+      printf("%s\n", out_msg);
+    }
+    free(out_msg);
+    for (int i = 0; i < 8; i++) {
+      memset(buffer, 0, sizeof(buffer));
+      NDL3_L2_pop(host, buffer, sizeof(buffer), NULL);
+      NDL3_L2_push(target, buffer, sizeof(buffer));
+
+      memset(buffer, 0, sizeof(buffer));
+      NDL3_L2_pop(target, buffer, sizeof(buffer), NULL);
+      NDL3_L2_push(host, buffer, sizeof(buffer));
+    }
   }
-  printf("%s\n", out_msg);
+  for (int i = 0; i < 16; i++) {
+    char * out_msg = NULL;
+    NDL3_recv(target, 1, (void **) &out_msg, NULL);
+    if (out_msg != NULL) {
+      ++good;
+      printf("Got message:\n");
+      printf("%s\n", out_msg);
+    }
+    free(out_msg);
+  }
+  printf("Received %d/%d (%02f%%) packets\n",
+         good, total, 100 * (float) good / total);
   return 0;
 }
