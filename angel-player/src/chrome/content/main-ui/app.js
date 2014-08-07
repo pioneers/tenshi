@@ -3,6 +3,7 @@ const texteditor = require('tenshi/texteditor/editor');
 const ioports = require('tenshi/welcome/ioports');
 const radio = require('tenshi/common/radio');
 const global_state = require('tenshi/common/global_state');
+const apihelp = require('tenshi/apihelp/apihelp');
 
 exports.init = function(_window) {
   _window.$(function() {
@@ -12,6 +13,7 @@ exports.init = function(_window) {
     studentconsole.consoleController(app);
     texteditor.texteditorController(app);
     ioports.ioportController(app);
+    apihelp.apiHelpController(app);
 
     angular.bootstrap(_window.document, [app.name]);
 

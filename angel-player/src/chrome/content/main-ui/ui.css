@@ -118,3 +118,11 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+#leftSidebar {
+    max-width: 25%;
+}
+
+#rightSidebar {
+    max-width: 25%;
+}
