@@ -88,7 +88,8 @@ typedef struct semi_packet {
   NDL3_size last_offset;
   NDL3_size last_acked_offset;
   NDL3_size total_size;
-  NDL3_time time_last_ack; /* milliseconds */
+  NDL3_time time_last_out; /* milliseconds */
+  NDL3_time time_last_in;
   uint16_t number;
   int state;
 } semi_packet;
@@ -259,8 +260,9 @@ void  NDL3_send(NDL3Net * restrict net, NDL3_port port,
         net->ports[i].out_pkts[j].total_size = size;
         net->ports[i].out_pkts[j].last_offset = 0;
         net->ports[i].out_pkts[j].last_acked_offset = 0;
-        net->ports[i].out_pkts[j].time_last_ack = net->time;
         net->ports[i].out_pkts[j].number = 1;
+        net->ports[i].out_pkts[j].time_last_out = net->time;
+        net->ports[i].out_pkts[j].time_last_in = net->time;
         return;
       }
     }
@@ -342,7 +344,7 @@ static void pop_ack(NDL3Net * restrict net,
   rdest->checksum = checksum_packet((L2_data_packet *) rdest, size);
 
   pkt->last_acked_offset = pkt->last_offset;
-  pkt->time_last_ack = net->time;
+  pkt->time_last_out = net->time;
 }
 
 /*
@@ -379,7 +381,6 @@ static void pop_start(NDL3Net * restrict net,
   memcpy((void *) (rdest->bytes), (void *) pkt->data, rdest->size);
   rdest->checksum = checksum_packet((L2_data_packet *) rdest, size);
   pkt->last_offset += rdest->size;
-  return;
 }
 
 /*
@@ -416,7 +417,13 @@ static void pop_data(NDL3Net * restrict net,
   rdest->checksum = checksum_packet(rdest, size);
 
   pkt->last_offset += rdest->size;
-  return;
+}
+
+static void close_pkt(NDL3Net * net,
+                      semi_packet * pkt) {
+  net->free(pkt->data, net->userdata);
+  pkt->data = NULL;
+  pkt->state = PACKET_EMPTY;
 }
 
 /*
@@ -450,6 +457,16 @@ static void pop_end(NDL3Net * restrict net,
                                     sizeof(L2_end_packet));
 }
 
+static int timeout_out_pkt(NDL3Net * net,
+                           semi_packet * pkt) {
+  if (pkt->state & PACKET_CLOSING) {
+    close_pkt(net, pkt);
+    return 1;
+  }
+  pkt->last_offset = pkt->last_acked_offset;
+  return 0;
+}
+
 /**
  * Get an L2 packet to send.
  * dest is the destination to fill, with at most max_size bytes.
@@ -480,6 +497,13 @@ void NDL3_L2_pop(NDL3Net * restrict net,
         if (pkt->state & PACKET_CLOSING) {
           /* If we are closing (have received END), send FIN. */
           pop_end(net, FIN_PACKET, port, pkt, dest, max_size, actual_size);
+          close_pkt(net, pkt);
+          return;
+        }
+
+        if (net->time - pkt->time_last_in > NDL3_ACK_TIMEDIE) {
+          close_pkt(net, pkt);
+          net->last_error = NDL3_ERROR_PACKET_LOST;
           return;
         }
 
@@ -489,7 +513,7 @@ void NDL3_L2_pop(NDL3Net * restrict net,
          * or we've reached the end of the packet and haven't acked that.
          */
 
-        if (pkt->time_last_ack - net->time > NDL3_ACK_TIMEIN ||
+        if (net->time - pkt->time_last_out > NDL3_ACK_TIMEIN ||
             pkt->last_offset - pkt->last_acked_offset > NDL3_ACK_SPACEIN ||
             (pkt->last_offset == pkt->total_size &&
              pkt->last_offset != pkt->last_acked_offset)) {
@@ -505,12 +529,24 @@ void NDL3_L2_pop(NDL3Net * restrict net,
 
       if (pkt->state & PACKET_OPEN) {
         /*
+         * We've gone way over the time limit since the last packet in.
+         * Kill the connection.
+         */
+        if (net->time - pkt->time_last_in > NDL3_ACK_TIMEDIE) {
+          close_pkt(net, pkt);
+          net->last_error = NDL3_ERROR_INCOMPLETE_SEND;
+          return;
+        }
+
+        /*
          * If we've timed out or spaced out, reset back to the last ACKed
          * offset.
          */
-        if (pkt->time_last_ack - net->time > NDL3_ACK_TIMEOUT ||
+        if (net->time - pkt->time_last_in > NDL3_ACK_TIMEOUT ||
             pkt->last_offset - pkt->last_acked_offset > NDL3_ACK_SPACEOUT) {
-          pkt->last_offset = pkt->last_acked_offset;
+          if (timeout_out_pkt(net, pkt)) {
+            continue;
+          }
         }
 
         /*
@@ -540,6 +576,7 @@ void NDL3_L2_pop(NDL3Net * restrict net,
 
 static void NDL3_L2_push_in_pkt(NDL3Net * restrict net, semi_packet * pkt,
                          L2_data_packet * L2pkt) {
+  pkt->time_last_in = net->time;
   /*
    * Called for packets that are being received. Does not handle START packets,
    * because those are somewhat more complicated and thus have their own
@@ -570,17 +607,15 @@ static void NDL3_L2_push_in_pkt(NDL3Net * restrict net, semi_packet * pkt,
 
 static void NDL3_L2_push_out_pkt(NDL3Net * restrict net, semi_packet * pkt,
                          L2_data_packet * L2pkt) {
+  pkt->time_last_in = net->time;
   /* Called for packets that are being sent. */
   if (L2pkt->type == ACK_PACKET) {
     pkt->last_acked_offset = L2pkt->offset;
-    pkt->time_last_ack = net->time;
   } else if (L2pkt->type == BACK_PACKET) {
     pkt->last_offset = L2pkt->offset;
     pkt->last_acked_offset = L2pkt->offset;
-    pkt->time_last_ack = net->time;
   } else if (L2pkt->type == FIN_PACKET) {
-    pkt->state |= PACKET_CLOSING;
-    net->free(pkt->data, net->userdata);
+    close_pkt(net, pkt);
   } else {
     assert(0 && "Should not be reachable.");
   }
@@ -608,7 +643,8 @@ static void push_start(NDL3Net * restrict net, NDL3_port port,
       pkt->last_offset = L2pkt->size;
       pkt->last_acked_offset = 0;
       pkt->total_size = L2pkt->offset;
-      pkt->time_last_ack = net->time;
+      pkt->time_last_in = net->time;
+      pkt->time_last_out = net->time;
       pkt->number = L2pkt->number;
 
       memcpy((void *) pkt->data, (void *) L2pkt->bytes, L2pkt->size);
