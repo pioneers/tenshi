@@ -101,6 +101,7 @@ typedef struct port {
   NDL3_port num;
   uint16_t last_packet_num;
   NDL3_options opt;
+  int pkt_last_serviced;
 } port;
 
 struct NDL3Net {
@@ -110,6 +111,7 @@ struct NDL3Net {
   NDAlloc * alloc;
   NDFree * free;
   int time;
+  int port_idx_last_serviced;
 };
 
 /* Find the offset of a field. This will be optimized out anyways. */
@@ -156,6 +158,7 @@ NDL3Net * NDL3_new(NDAlloc alloc_fn, NDFree free_fn, void * userdata) {
   net->alloc = alloc_fn;
   net->free = free_fn;
   net->time = 0;
+  net->port_idx_last_serviced = 0;
   return net;
 }
 
@@ -186,6 +189,8 @@ void NDL3_open(NDL3Net * restrict net, NDL3_port port) {
   int i;
   if ((i = port_idx(net, 0)) >= 0) {
     net->ports[i].num = port;
+    net->ports[i].pkt_last_serviced = 0;
+    net->ports[i].opt = 0;
     for (int j = 0; j < NDL3_PACKETS_PER_PORT; j++) {
       net->ports[i].in_pkts[j].state = PACKET_EMPTY;
       net->ports[i].out_pkts[j].state = PACKET_EMPTY;
@@ -484,14 +489,21 @@ void NDL3_L2_pop(NDL3Net * restrict net,
     actual_size = &fake_size;
   }
 
-  for (int i = 0; i < NDL3_MAXPORTS; i++) {
+  net->port_idx_last_serviced = (net->port_idx_last_serviced + 1) %
+    NDL3_MAXPORTS;
+  for (int i_base = 0; i_base < NDL3_MAXPORTS; i_base++) {
+    int i = (i_base + net->port_idx_last_serviced) % NDL3_MAXPORTS;
     /* Skip closed ports. */
     if (net->ports[i].num == 0) {
       continue;
     }
 
     NDL3_port port = net->ports[i].num;
-    for (int j = 0; j < NDL3_PACKETS_PER_PORT; j++) {
+    net->ports[i].pkt_last_serviced = (net->ports[i].pkt_last_serviced + 1) %
+        NDL3_PACKETS_PER_PORT;
+    for (int j_base = 0; j_base < NDL3_PACKETS_PER_PORT; j_base++) {
+      int j = (j_base + net->ports[i].pkt_last_serviced) %
+        NDL3_PACKETS_PER_PORT;
       /* Service incoming packets. */
       semi_packet * pkt = &net->ports[i].in_pkts[j];
       if (pkt->state & PACKET_OPEN) {
