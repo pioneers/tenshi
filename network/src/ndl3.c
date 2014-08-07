@@ -285,6 +285,7 @@ void NDL3_recv(NDL3Net * restrict net, NDL3_port port,
       /* If we have all the data and it hasn't been popped. */
       if (pkt->last_offset == pkt->total_size &&
           !(pkt->state & PACKET_POPPED)) {
+        pkt->state |= PACKET_POPPED;
         *msg = pkt->data;
         if (size != NULL) {
           *size = pkt->total_size;
@@ -585,7 +586,6 @@ static void NDL3_L2_push_in_pkt(NDL3Net * restrict net, semi_packet * pkt,
    */
   if (L2pkt->type == END_PACKET) {
     pkt->state |= PACKET_CLOSING;
-    net->free(pkt->data, net->userdata);
   } else if (L2pkt->type == DATA_PACKET) {
     if (L2pkt->offset != pkt->last_offset) {
       /*
