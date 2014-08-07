@@ -189,6 +189,7 @@ void NDL3_open(NDL3Net * restrict net, NDL3_port port) {
   int i;
   if ((i = port_idx(net, 0)) >= 0) {
     net->ports[i].num = port;
+    net->ports[i].last_packet_num = 0;
     net->ports[i].pkt_last_serviced = 0;
     net->ports[i].opt = 0;
     for (int j = 0; j < NDL3_PACKETS_PER_PORT; j++) {
@@ -265,9 +266,10 @@ void  NDL3_send(NDL3Net * restrict net, NDL3_port port,
         net->ports[i].out_pkts[j].total_size = size;
         net->ports[i].out_pkts[j].last_offset = 0;
         net->ports[i].out_pkts[j].last_acked_offset = 0;
-        net->ports[i].out_pkts[j].number = 1;
         net->ports[i].out_pkts[j].time_last_out = net->time;
         net->ports[i].out_pkts[j].time_last_in = net->time;
+        net->ports[i].out_pkts[j].number = net->ports[i].last_packet_num;
+        ++net->ports[i].last_packet_num;
         return;
       }
     }
@@ -416,6 +418,7 @@ static void pop_data(NDL3Net * restrict net,
 
   rdest->port = port;
   rdest->type = DATA_PACKET;
+  rdest->number = pkt->number;
   rdest->offset = pkt->last_offset;
   rdest->size = size - sizeof(L2_data_packet);
   memcpy((void *) (rdest->bytes), (void *) (pkt->data + pkt->last_offset),
