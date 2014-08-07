@@ -679,6 +679,14 @@ void NDL3_L2_push(NDL3Net * restrict net, void * msg, NDL3_size size) {
   int i;
   if ((i = port_idx(net, L2pkt->port)) >= 0) {
     if (L2pkt->type == START_PACKET) {
+      for (int j = 0; j < NDL3_PACKETS_PER_PORT; j++) {
+        semi_packet * pkt = &net->ports[i].in_pkts[j];
+        if (!(pkt->state & PACKET_EMPTY) && pkt->number == L2pkt->number) {
+          /* Skip start packets for already started packets. */
+          net->last_error = NDL3_ERROR_L2_PACKET_IGNORED;
+          return;
+        }
+      }
       push_start(net, i, (L2_data_packet *) L2pkt);
       return;
     }
