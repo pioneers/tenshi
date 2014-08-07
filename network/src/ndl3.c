@@ -159,6 +159,7 @@ NDL3Net * NDL3_new(NDAlloc alloc_fn, NDFree free_fn, void * userdata) {
   net->free = free_fn;
   net->time = 0;
   net->port_idx_last_serviced = 0;
+  net->last_error = 0;
   return net;
 }
 
