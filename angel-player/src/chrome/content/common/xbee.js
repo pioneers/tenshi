@@ -80,3 +80,17 @@ exports.createPacket = function (payload, address) {
 
   return buf;
 };
+
+exports.extractPayload = function (rxPacket) {
+  let api_packet = typpo.read('xbee_api_packet', rxPacket);
+  let payload = api_packet.get_slot('payload');
+  let api_type = payload.get_slot('xbee_api_type').unwrap();
+  if (api_type !== typpo.get_const('XBEE_API_TYPE_RX64')) {
+    throw "Attempt to extract the payload from a non-rx64 packet.";
+  }
+  let rx = api_packet.get_slot('payload').get_slot('rx64');
+  let data = rx.get_slot('data').unwrap();
+
+  // Don't ouput checksum.
+  return data.slice(0, -1);
+};

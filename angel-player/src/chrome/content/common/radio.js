@@ -131,13 +131,15 @@ function send_L2 () {
 
 function read_handler(evt) {
   /* jshint validthis: true */
-  this.emit('data', evt.data);
+  this.emit('data', buffer.Buffer(evt.data));
 }
 
 function recv_L2 (rxbuf) {
   /* jshint validthis: true */
-  var ptr = emcc_tools.buffer_to_ptr(ndl3, rxbuf);
-  call('NDL3_L2_push', this.net, ptr, rxbuf.length);
+  // We need to extract the payload from the xbee packet.
+  var data = xbee.extractPayload(rxbuf);
+  var ptr = emcc_tools.buffer_to_ptr(ndl3, data);
+  call('NDL3_L2_push', this.net, ptr, data.length);
   call('free', ptr);
 
   check_L3.apply(this);

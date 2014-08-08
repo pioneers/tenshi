@@ -10,6 +10,14 @@ let typpo = typpo_module.make();
 typpo.set_target_type('ARM');
 typpo.load_type_file(url.toFilename(PIEMOS_FRAMING_YAML_FILE), false);
 
+function buf_to_hex(buf) {
+  let hex = '';
+  for (var i = 0; i < buf.length; i++) {
+    hex = hex + buf[i].toString(16);
+  }
+  return hex;
+}
+
 
 describe("XBee createPacket", function () {
 
@@ -19,11 +27,7 @@ describe("XBee createPacket", function () {
                                 'deadbeefdeadbeef');
     // More or less manually calculated.
     let e_hex = '7e01700deadbeefdeadbeef074657374207061796c6f6164c5';
-    let hex = '';
-    for (var i = 0; i < buf.length; i++) {
-      hex = hex + buf[i].toString(16);
-    }
-    expect(hex).toEqual(e_hex);
+    expect(buf_to_hex(buf)).toEqual(e_hex);
 
   });
 
@@ -42,12 +46,17 @@ describe("XBee createPacket", function () {
                                 'deadbeefdeadbeef');
     // More or less manually calculated.
     let e_hex = '7e01600deadbeefdeadbeef0fe007f7f7f7f7f7f7f018';
-    let hex = '';
-    for (var i = 0; i < buf.length; i++) {
-      hex = hex + buf[i].toString(16);
-    }
-    expect(hex).toEqual(e_hex);
+    expect(buf_to_hex(buf)).toEqual(e_hex);
 
+  });
+
+  it ("should extract payloads correctly", function () {
+    let input = buffer.Buffer([126, 0, 22, 128, 0, 19, 162, 0, 64, 165, 128,
+                              196, 75, 0, 100, 240, 128, 78, 2, 3, 0, 60, 0, 0,
+                              0, 243]);
+    let output = xbee.extractPayload(input);
+    let e_hex = '64f0804e2303c000';
+    expect(buf_to_hex(output)).toEqual(e_hex);
   });
 
 });
