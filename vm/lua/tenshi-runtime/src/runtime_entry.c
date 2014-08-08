@@ -156,7 +156,7 @@ static int tenshi_open_runtimeinternal(lua_State *L) {
 }
 
 // Tenshi modules (omits some Lua modules, adds some new modules)
-static const luaL_Reg tenshi_loadedlibs[] = {
+static const luaL_Reg tenshi_loadedlibs_phase1[] = {
   {"_G", tenshi_open_base},
   {LUA_TABLIBNAME, luaopen_table},
   {LUA_STRLIBNAME, tenshi_open_string},
@@ -164,6 +164,22 @@ static const luaL_Reg tenshi_loadedlibs[] = {
   {LUA_UTF8LIBNAME, luaopen_utf8},
   {"units", tenshi_open_units},
   {"__runtimeinternal", tenshi_open_runtimeinternal},
+  {NULL, NULL}
+};
+
+// We specifically expose only a subset of the normal Lua standard library.
+// This function loads only the functions we want.
+static void TenshiRuntime_openlibs_phase1(lua_State *L) {
+  const luaL_Reg *lib;
+  for (lib = tenshi_loadedlibs_phase1; lib->func; lib++) {
+    luaL_requiref(L, lib->name, lib->func, 1);
+    lua_pop(L, 1);  /* remove lib */
+  }
+}
+
+// Phase2 libraries are libraries that depend on native code functionality
+// like actors/mailboxes
+static const luaL_Reg tenshi_loadedlibs_phase2[] = {
   {"__actuators", tenshi_open_actuators},
   {"triggers", tenshi_open_triggers},
   {"pieles", tenshi_open_pieles},
@@ -171,11 +187,9 @@ static const luaL_Reg tenshi_loadedlibs[] = {
   {NULL, NULL}
 };
 
-// We specifically expose only a subset of the normal Lua standard library.
-// This function loads only the functions we want.
-static void TenshiRuntime_openlibs(lua_State *L) {
+static void TenshiRuntime_openlibs_phase2(lua_State *L) {
   const luaL_Reg *lib;
-  for (lib = tenshi_loadedlibs; lib->func; lib++) {
+  for (lib = tenshi_loadedlibs_phase2; lib->func; lib++) {
     luaL_requiref(L, lib->name, lib->func, 1);
     lua_pop(L, 1);  /* remove lib */
   }
@@ -207,7 +221,7 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   }
 
   // Load libraries
-  TenshiRuntime_openlibs(ret->L);
+  TenshiRuntime_openlibs_phase1(ret->L);
 
   // Load actor library. This is special because it loads into the global
   // scope and not into a specific module.
@@ -218,6 +232,8 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   tenshi_open_get_device(ret->L);
   // Load install_trap_global implementation.
   tenshi_open_trap_global(ret->L);
+
+  TenshiRuntime_openlibs_phase2(ret->L);
 
   // Set up actor scheduler
   lua_pushcfunction(ret->L, ActorSchedulerInit);

@@ -21,16 +21,7 @@ local actuators = {}
 -- actuator (allowing students to bypass the messaging API).
 
 actuators.metatable = {
-    __index = function(t, k)
-        -- There is a problem here where we get loaded before mboxlib
-        -- and it is hard to refactor it to be otherwise. Therefore we use
-        -- this hack solution where as soon as this function gets called, we
-        -- replace ourselves with the actual mboxlib metatable.
-        local mboxlib_meta =
-            __runtimeinternal.get_registry()['tenshi.mboxlib.metatable']
-        actuators.metatable.__index = mboxlib_meta
-        return t[k]
-    end,
+    __index = __runtimeinternal.get_registry()['tenshi.mboxlib.metatable'],
     __newindex = function(t, k, v)
         if k == 'value' then
             t:send({v})
