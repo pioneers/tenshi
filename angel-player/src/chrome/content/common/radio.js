@@ -58,6 +58,7 @@ var Radio = function(address, serportObj) {
     this.address = null;
     this.serportObj = null;
   }
+  this._send_data = send_data.bind(this);
 
   
   if (RADIO_DEBUG) {
@@ -94,14 +95,15 @@ Radio.prototype.connectXBee = function (address, serportObj) {
   serportObj.setReadHandler = function () {
     throw 'Radio already attached to serial port.';
   };
-  this._send_data = send_data.bind(this);
   this.on('send_data', this._send_data);
 };
 
 Radio.prototype.disconnectXBee = function () {
   this.off('send_data', this._send_data);
-  delete this.serportObj.setReadHandler;
-  this.serportObj.setReadHandler(null);
+  if (this.serportObj) {
+    delete this.serportObj.setReadHandler;
+    this.serportObj.setReadHandler(null);
+  }
   this.address = null;
   this.serportObj = null;
 };
