@@ -15,6 +15,8 @@ const UBJSON_PORT = typpo.get_const('NDL3_UBJSON_PORT');
 const STRING_PORT = typpo.get_const('NDL3_STRING_PORT');
 const CODE_PORT = typpo.get_const('NDL3_CODE_PORT');
 
+const RADIO_DEBUG = false;
+
 try {
   var ndl3 = require('tenshi/vendor-js/ndl3');
 } catch (_) {
@@ -57,20 +59,24 @@ var Radio = function(address, serportObj) {
     this.serportObj = null;
   }
 
-  // Print out every message in or out of the radio, for debugging
-  // purposes.
-  var events = ['data', 'object', 'string', 'code'];
-  function make_evt_callback(evt) {
-    return function (data) {
-      console.log('radio: ', evt, ':', data);
-    };
-  }
-  for (var e = 0; e < events.length; e++) {
-    var evt = events[e];
-    this.on(evt, make_evt_callback(evt));
-    this.on('send_' + evt, make_evt_callback('send_' + evt));
+  
+  if (RADIO_DEBUG) {
+    // Print out every message in or out of the radio, for debugging
+    // purposes.
+    var events = ['data', 'object', 'string', 'code'];
+    for (var e = 0; e < events.length; e++) {
+      var evt = events[e];
+      this.on(evt, make_evt_callback(evt));
+      this.on('send_' + evt, make_evt_callback('send_' + evt));
+    }
   }
 };
+
+function make_evt_callback(evt) {
+  return function (data) {
+    console.log('radio: ', evt, ':', data);
+  };
+}
 
 Radio.prototype = Object.create(EventEmitter.prototype);
 
@@ -170,7 +176,9 @@ function check_port(port, callback) {
 function throw_on_NDL3_error(net) {
   var err = call('NDL3_pop_error', net);
   if (err !== 0) {
-    throw 'Error number ' + err + ' in NDL3.';
+    if (RADIO_DEBUG) {
+      throw 'Error number ' + err + ' in NDL3.';
+    }
   }
 }
 
