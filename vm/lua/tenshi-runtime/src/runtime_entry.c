@@ -231,6 +231,8 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   // Load libraries
   TenshiRuntime_openlibs_phase1(ret->L);
 
+  lua_gc(ret->L, LUA_GCCOLLECT, 0);
+
   // Load actor library. This is special because it loads into the global
   // scope and not into a specific module.
   tenshi_open_actor(ret->L);
@@ -301,6 +303,8 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   lua_pushvalue(ret->L, -1);
   lua_setmetatable(ret->L, -2);
   lua_settable(ret->L, LUA_REGISTRYINDEX);
+
+  lua_gc(ret->L, LUA_GCCOLLECT, 0);
 
   return ret;
 }
