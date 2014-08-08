@@ -12,6 +12,7 @@
 #include "inc/driver_glue.h"
 #include "inc/i2c_master.h"
 #include "inc/led_driver.h"
+#include "inc/malloc_lock.h"
 #include "inc/pindef.h"
 #include "inc/stm32f4xx.h"
 #include "inc/core_cm4.h"
@@ -277,6 +278,8 @@ int main(int argc, char **argv) {
   // Not useful
   (void) argc;
   (void) argv;
+
+  init_malloc_lock();
 
   led_driver_init();
   button_driver_init();
