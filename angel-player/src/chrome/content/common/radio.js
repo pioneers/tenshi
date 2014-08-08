@@ -121,14 +121,13 @@ function send_L2 () {
   throw_on_NDL3_error(this.net);
 }
 
-function read_handler(data) {
+function read_handler(evt) {
   /* jshint validthis: true */
-  this.emit('data', data);
+  this.emit('data', evt.data);
 }
 
-function recv_L2 (evt) {
+function recv_L2 (rxbuf) {
   /* jshint validthis: true */
-  var rxbuf = evt.data;
   var ptr = emcc_tools.buffer_to_ptr(ndl3, rxbuf);
   call('NDL3_L2_push', this.net, ptr, rxbuf.length);
   call('free', ptr);
