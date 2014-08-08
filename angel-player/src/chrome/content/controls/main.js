@@ -9,7 +9,8 @@ let naive_packetizer = require('tenshi/common/naive_packetizer'),
     texteditor = require('tenshi/texteditor/editor'),
     studentconsole = require('tenshi/console/console'),
     pieles = require('tenshi/pieles/pieles'),
-    lua = require('tenshi/lang-support/lua');
+    lua = require('tenshi/lang-support/lua'),
+    telemetry = require('tenshi/common/telemetry');
 
 let current_vm = null,
     vm_generator = function () {return null;};
@@ -84,6 +85,8 @@ function compile_ngl() {
 
 function compile_lua() {
     var text = texteditor.get_text();
+
+    telemetry.sendTelemetry(text);
 
     let ret = lua.compile_lua(text);
     if (!ret.success) {
