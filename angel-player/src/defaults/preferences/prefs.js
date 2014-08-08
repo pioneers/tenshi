@@ -15,3 +15,6 @@ pref("dom.gamepad.enabled", true);
 // This allows us to use events to handle buttons/axes, rather than polling
 // for them. This is Mozilla-only!
 pref("dom.gamepad.non_standard_events.enabled", true);
+
+// Data telemetry. To be changed later
+pref("tenshi.telemetryUrl", "https://rqou.com/bigbrother.sh");

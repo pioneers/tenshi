@@ -9,6 +9,7 @@ const { Cu } = require("chrome");
 const { Services } = Cu.import("resource://gre/modules/Services.jsm");
 
 const DEBUG_MODE_PREF = "tenshi.enableDebug";
+const TELEMETRY_URL_PREF = "tenshi.telemetryUrl";
 
 function isDebugEnabled() {
     return Services.prefs.getBoolPref(DEBUG_MODE_PREF);
@@ -25,3 +26,10 @@ function toggleDebug() {
 
 exports.isDebugEnabled = isDebugEnabled;
 exports.toggleDebug = toggleDebug;
+exports.telemetryUrl = function() {
+    try {
+        return Services.prefs.getCharPref(TELEMETRY_URL_PREF);
+    } catch(e) {
+        return undefined;
+    }
+};
