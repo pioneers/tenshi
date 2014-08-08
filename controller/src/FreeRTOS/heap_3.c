@@ -93,12 +93,9 @@ void *pvPortMalloc( size_t xWantedSize )
 {
 void *pvReturn;
 
-	vTaskSuspendAll();
-	{
-		pvReturn = malloc( xWantedSize );
-		traceMALLOC( pvReturn, xWantedSize );
-	}
-	( void ) xTaskResumeAll();
+	// Our malloc already calls FreeRTOS to synchronize properly
+	pvReturn = malloc( xWantedSize );
+	traceMALLOC( pvReturn, xWantedSize );
 
 	#if( configUSE_MALLOC_FAILED_HOOK == 1 )
 	{
@@ -118,12 +115,8 @@ void vPortFree( void *pv )
 {
 	if( pv )
 	{
-		vTaskSuspendAll();
-		{
-			free( pv );
-			traceFREE( pv, 0 );
-		}
-		( void ) xTaskResumeAll();
+		free( pv );
+		traceFREE( pv, 0 );
 	}
 }
 
