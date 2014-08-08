@@ -17,7 +17,12 @@
 
 local game = {}
 
-game.gamestate = get_device('forseti-gamestate')
-game.color = get_device('forseti-color')
+function game.gamestate()
+    return get_device('forseti-gamestate')
+end
+
+function game.color()
+    return get_device('forseti-color')
+end
 
 return game
