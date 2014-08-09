@@ -18,10 +18,13 @@
 /* jshint globalstrict: true */
 "use strict";
 
+const EventEmitter = require('tenshi/vendor-js/EventEmitter');
 const typpo_module = require('tenshi/common/factory');
 const Int64 = require('Int64.js');
 const buffer = require('sdk/io/buffer');
 const url = require('sdk/url');
+
+const MAX_XBEE_PACKET_SIZE = 256;
 
 const XBEE_FRAMING_YAML_FILE =
     'chrome://angel-player/content/common_defs/xbee_typpo.yaml';
@@ -31,14 +34,75 @@ let typpo = typpo_module.make();
 typpo.set_target_type('ARM');
 typpo.load_type_file(url.toFilename(XBEE_FRAMING_YAML_FILE), false);
 
+const XBEE_MAGIC = typpo.get_const('XBEE_MAGIC');
+
+
+// TODO(kzentner): Don't hard code this.
+var LENGTH_OFFSET = 2;
+
+// TODO(kzentner): Don't hard code this.
+var EXTRA_XBEE_BYTES = 4;
+
+var Accumulator = function(serportObj) {
+  EventEmitter.apply(this);
+  this.buf = buffer.Buffer(MAX_XBEE_PACKET_SIZE);
+  this.offset = 0;
+  this.target_length = null;
+  this._on_recv = on_recv.bind(this);
+  this.serportObj = serportObj;
+  serportObj.on('data', this._on_recv);
+};
+
+exports.Accumulator = Accumulator;
+
+Accumulator.prototype = Object.create(EventEmitter.prototype);
+
+Accumulator.prototype.destroy = function () {
+  this.serportObj.off('data', this._on_recv);
+};
+
+var on_recv = function (data) {
+  if (this.offset === 0) {
+    while (data[0] !== XBEE_MAGIC) {
+      data = data.slice(1);
+      if (data.length === 0) {
+        return;
+      }
+    }
+  }
+  data.copy(this.buf, this.offset, 0, data.length);
+  this.offset += data.length;
+  if (this.offset > LENGTH_OFFSET && this.target_length === null) {
+    this.target_length = this.buf[LENGTH_OFFSET] + EXTRA_XBEE_BYTES;
+  }
+
+  if (this.target_length !== null && this.offset >= this.target_length) {
+    var buf = this.buf.slice(0, this.target_length);
+    var new_buf = buffer.Buffer(MAX_XBEE_PACKET_SIZE);
+    new_buf.fill(0xff);
+    this.buf.copy(new_buf, 0, this.target_length, this.offset);
+    this.buf = new_buf;
+    this.offset = 0;
+    this.target_length = null;
+    this.emit('data', buf);
+  }
+};
 
 // This module contains utilities for using an XBee radio.
 // TODO(kzentner): Move other, duplicated xbee functionality here.
 
 exports.computeChecksum = function (buf, start, len) {
-    let sum = 0;
+    if (start === undefined) {
+      start = typpo.get_size('xbee_api_packet', true) -
+              typpo.get_size('xbee_tx64_header', true);
+    }
+    if (len === undefined) {
+      // -1 for checksum byte at the end.
+      len = buf.length - start - 1;
+    }
+    var sum = 0;
 
-    for (let i = start; i < start + len; i++) {
+    for (var i = start; i < start + len; i++) {
         sum += buf[i];
     }
 
@@ -86,16 +150,35 @@ exports.createPacket = function (payload, address) {
 
   xbee_packet.write(buf);
 
-  // Note, this is kinda jank. Checksum is last byte. Getting the length
-  // is also kinda borked due to the union.
-  // TODO(rqou): Don't hardcode 3 here!
-  // Note: 3 is because the checksum is defined to skip the magic and length 
-  // fields (a total of 3 bytes).
-  buf[buf.length - 1] = exports.computeChecksum(buf,
-      3,
-      buf.length - 1 - (3));
+  // Note, this is kinda jank.
+  buf[buf.length - 1] = exports.computeChecksum(buf);
 
   return buf;
+};
+
+// Returns true if buf contains *exactly* a single valid XBee packet.
+// Extra space at the end of the buffer is not allowed.
+exports.isFullPacket = function (buf) {
+  var header_size = typpo.get_size('xbee_api_packet', true);
+  if (buf.length < header_size) {
+    return false;
+  }
+  try {
+    var xbee_packet = typpo.read('xbee_api_packet', buf);
+    var payload_header_size = typpo.get_size('xbee_tx64_header', true);
+    var length = xbee_packet.get_slot('length').val;
+    var checksum_size = 1;
+    if (buf.length === length + header_size + checksum_size - payload_header_size) {
+      var checksum = exports.computeChecksum(buf);
+      if (checksum === buf[buf.length - 1]) {
+        return true;
+      }
+    }
+  } catch (_) {
+    // The packet caused an error, so it was almost certainly corrupt (and thus
+    // not a full packet).
+  }
+  return false;
 };
 
 exports.extractPayload = function (rxPacket) {
