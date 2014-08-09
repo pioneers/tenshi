@@ -115,6 +115,9 @@ function send_L2 () {
   if (out_size_ptr === 0 || send_block === 0) {
     throw 'malloc failed';
   }
+
+  emcc_tools.set_ptr(ndl3, out_size_ptr, 0);
+
   call('NDL3_elapse_time', this.net, SEND_INTERVAL);
   call('NDL3_L2_pop', this.net, send_block, MAX_XBEE_PAYLOAD_SIZE, out_size_ptr);
   var length = emcc_tools.get_ptr(ndl3, out_size_ptr);
