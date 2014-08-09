@@ -40,10 +40,19 @@ void activeAnalogInRec(uint8_t *data, uint8_t len, uint8_t inband) {
   // I'll need this for the analog out code, though.
 }
 void activeAnalogInSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
-  *outLen = 2;
-  int val = adc_read();  // 10 bit resolution
-  outData[0] = val;
-  outData[1] = val >> 8;
+  *outLen = 8;
+  int val0 = adc_read((1 << MUX3) | (1 << MUX1));  // 10 bit resolution
+  int val1 = adc_read((1 << MUX3) | (1 << MUX1));
+  int val2 = adc_read((1 << MUX3) | (1 << MUX1));
+  int val3 = adc_read((1 << MUX3) | (1 << MUX1));
+  outData[0] = val0;
+  outData[1] = val0 >> 8;
+  outData[2] = val1;
+  outData[3] = val1 >> 8;
+  outData[4] = val2;
+  outData[5] = val2 >> 8;
+  outData[6] = val3;
+  outData[7] = val3 >> 8;
 }
 
 // Private helper functions
@@ -51,7 +60,10 @@ void activeAnalogInSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
 // Taken from http://www.adnbr.co.uk/articles/adc-and-pwm-basics
 // by Sumita because I can't code.
 // It's for the ATtiny13, though.
-int adc_read(void) {
+int adc_read(uint8_t mux) {
+    // Set the read pin
+    ADMUX = mux;
+
     // I actually use this one. It's the analog in version of DIGITAL_READ.
     // Start the conversion
     ADCSRA |= (1 << ADSC);

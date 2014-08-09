@@ -29,7 +29,22 @@ allDescriptors = {
     "chunksDenom": 0xFF,
     "channels": [
       gameModeChannel,
-      { "description": "This is the only analog channel.",
+      { "description": "This is the first analog channel.",
+        "type"  : 0x01,
+        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+        # "additional" value should also contain n bytes of calibration data
+      },
+      { "description": "This is the second analog channel.",
+        "type"  : 0x01,
+        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+        # "additional" value should also contain n bytes of calibration data
+      },
+      { "description": "This is the third analog channel.",
+        "type"  : 0x01,
+        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+        # "additional" value should also contain n bytes of calibration data
+      },
+      { "description": "This is the fourth analog channel.",
         "type"  : 0x01,
         "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
         # "additional" value should also contain n bytes of calibration data
