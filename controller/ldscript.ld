@@ -142,6 +142,9 @@ SECTIONS
 		   to free up main ram space */
 		*-mallocr.o(.data)
 		*-locale.o(.data)
+		*-impure.o(.data)
+		*-gettzinfo.o(.data)
+		*iosupport.o(.data)
 
 		*(.ccmram)
 		*(.ccmram.*)
@@ -154,8 +157,11 @@ SECTIONS
 		__ccmbss_start = ABSOLUTE(.);
 		/* This is a hacky way to force move some data into ccmram to try
 		   to free up main ram space */
+		*-mallocr.o(.bss)
 		*-locale.o(.bss)
 		*-timelocal.o(.bss)
+		*tasks.c.*.o(.bss*)
+		*handle_manager.o(.bss)
 
 		*(.ccmbss)
 		*(.ccmbss.*)
