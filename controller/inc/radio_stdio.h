@@ -15,41 +15,9 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_RUNTIME_H_
-#define INC_RUNTIME_H_
+#ifndef INC_RADIO_STDIO_H_
+#define INC_RADIO_STDIO_H_
 
-#include "inc/FreeRTOS.h"
+extern void radio_stdio_init(void);
 
-#define RUNTIME_OK LUA_OK
-
-typedef enum {
-  RuntimeMessageNone = 0,
-  RuntimeMessageNewCode,
-  RuntimeMessageUbjson,
-  RuntimeMessageGameMode,
-} RuntimeMessageType;
-
-typedef enum {
-  RuntimeModeUninitialized = 0,
-  RuntimeModeDisabled      = 1,
-  RuntimeModeAutonomous    = 2,
-  RuntimeModePaused        = 3,
-  RuntimeModeTeleop        = 4,
-} RuntimeMode;
-
-
-
-extern volatile int gameMode;
-
-
-
-BaseType_t runtimeInit();
-void runtimeSendRadioMsg(RuntimeMessageType type, void* info, size_t infoLen);
-// Takes responsibility for freeing
-void runtimeRecieveUbjson(char *ubjson, size_t len);
-void runtimeRecieveCode(char *code, size_t len);
-
-char *readLastUbjson(size_t *len);  // Not thread safe
-
-
-#endif  // INC_RUNTIME_H_
+#endif  // INC_RADIO_STDIO_H_

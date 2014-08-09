@@ -23,6 +23,8 @@
 #include <ngl_buffer.h>
 #include <ngl_package.h>
 
+#include "inc/FreeRTOS.h"
+
 #include "inc/runtime_interface.h"
 #include "inc/runtime.h"
 #include "inc/smartsensor/smartsensor.h"
@@ -30,9 +32,15 @@
 #include "inc/smartsensor/sstype.h"
 #include "inc/led_driver.h"
 #include "inc/button_driver.h"
+#include "inc/radio.h"
 
 #define LUA_REGISTER(FUNC) lua_register(L, #FUNC, lua_ ## FUNC)
 #define LUA_REG(FUNC) {.name = #FUNC, .func = lua_ ## FUNC}
+
+// Sensor modes
+#define MODE_DISABLED 0x00
+#define MODE_PAUSED   0x01
+#define MODE_ACTIVE   0x02
 
 
 
@@ -46,6 +54,9 @@ void runtime_register(TenshiRuntimeState s) {
     LUA_REG(get_device),
     LUA_REG(del_device),
     LUA_REG(query_dev_info),
+
+    LUA_REG(set_radio_val),
+    LUA_REG(get_radio_val),
 
     LUA_REG(set_status_led_val),
     LUA_REG(get_button_val),
@@ -76,7 +87,7 @@ void lua_register_all(lua_State *L) {
 //  Runtime required
 
 int lua_get_device(lua_State *L) {
-  const char *str = lua_tolstring(L, -1, NULL);
+  const char *str = lua_tolstring(L, 1, NULL);
   lua_pop(L, 1);
 
   uint8_t id[SMART_ID_LEN];
@@ -97,13 +108,15 @@ int lua_get_device(lua_State *L) {
     // Skip all protected (not accessable by students) channels
     for (int i = 0, n = 0; i < sensor->channelsNum && channel == NULL; i++) {
       if (sensor->channels[i]->isProtected) continue;
-      if (n == chan) channel = sensor->channels[n];
+      if (n == chan) channel = sensor->channels[i];
       n++;
     }
   }
 
   if (channel) {
-    lua_pushlightuserdata(L, channel);
+    SSChannel *copy = channel;  // malloc(sizeof(SSChannel));
+    // memcpy(copy, channel, sizeof(SSChannel));
+    lua_pushlightuserdata(L, copy);
   } else {
     lua_pushnil(L);
   }
@@ -153,6 +166,36 @@ int isDeviceValid(SSChannel *dev) {
   return dev != NULL && !dev->isProtected;
 }
 
+int lua_set_radio_val(lua_State *L) {
+  SSChannel *dev = lua_touserdata(L, 1);
+  size_t ubjsonLen = 0;
+  char *ubjson = lua_tolstring(L, 2, &ubjsonLen);
+
+  char *ubjsonMalloc = pvPortMalloc(ubjsonLen);
+  memcpy(ubjsonMalloc, ubjson, ubjsonLen);
+  radioPushUbjson(ubjsonMalloc, ubjsonLen);
+
+  lua_pop(L, 2);
+  return 0;
+}
+int lua_get_radio_val(lua_State *L) {
+  SSChannel *dev = lua_touserdata(L, 1);
+  lua_pop(L, 1);
+
+  size_t ubjsonLen = 0;
+  char *ubjson = readLastUbjson(&ubjsonLen);
+
+  if (ubjson) {
+    lua_pushlstring(L, ubjson, ubjsonLen);
+    vPortFree(ubjson);
+    ubjson = NULL;
+    ubjsonLen = 0;
+  } else {
+    lua_pushnil(L);
+  }
+  return 1;
+}
+
 int lua_set_status_led_val(lua_State *L) {
   SSChannel *dev = lua_touserdata(L, 1);
   int val = lua_tointeger(L, 2);
@@ -176,7 +219,7 @@ int lua_get_button_val(lua_State *L) {
 int lua_get_switch_val(lua_State *L) {
   SSChannel *dev = lua_touserdata(L, 1);
   lua_pop(L, 1);
-  if (isDeviceValid(dev)) {
+  if (!isDeviceValid(dev)) {
     lua_pushnil(L);
     return 1;
   }
@@ -188,7 +231,7 @@ int lua_set_led_val(lua_State *L) {
   SSChannel *dev = lua_touserdata(L, 1);
   uint8_t val = (uint8_t)lua_tointeger(L, 2);
   lua_pop(L, 2);
-  if (isDeviceValid(dev)) {
+  if (!isDeviceValid(dev)) {
     return 0;
   }
 
@@ -200,7 +243,7 @@ int lua_set_led_val(lua_State *L) {
 int lua_get_analog_val(lua_State *L) {
   SSChannel *dev = lua_touserdata(L, 1);
   lua_pop(L, 1);
-  if (isDeviceValid(dev)) {
+  if (!isDeviceValid(dev)) {
     lua_pushnil(L);
     return 1;
   }
@@ -212,7 +255,7 @@ int lua_set_analog_val(lua_State *L) {
   SSChannel *dev = lua_touserdata(L, 1);
   double val = (uint8_t)lua_tonumber(L, 2);
   lua_pop(L, 2);
-  if (isDeviceValid(dev)) {
+  if (!isDeviceValid(dev)) {
     return 0;
   }
 
@@ -227,7 +270,7 @@ int lua_set_grizzly_val(lua_State *L) {
   int hasMode = 0;
   uint8_t mode = (uint8_t)lua_tointegerx(L, 3, &hasMode);  // Optional argument
   lua_pop(L, 2);
-  if (isDeviceValid(dev)) {
+  if (!isDeviceValid(dev)) {
     return 0;
   }
 
@@ -243,7 +286,23 @@ int lua_set_grizzly_val(lua_State *L) {
 
 // Not hooked up to lua
 // Sets the game mode channel on all smart sensors
-void setAllSmartSensorGameMode(uint8_t mode) {
+void setAllSmartSensorGameMode(RuntimeMode mode) {
+  uint8_t sMode;
+  switch (mode) {
+    case RuntimeModeAutonomous:
+    case RuntimeModeTeleop:
+      sMode = MODE_ACTIVE;
+      break;
+    case RuntimeModePaused:
+      sMode = MODE_PAUSED;
+      break;
+    case RuntimeModeUninitialized:
+    case RuntimeModeDisabled:
+    default:
+      sMode = MODE_DISABLED;
+      break;
+  }
+
   for (int i = 0; i < numSensors; i++) {
     SSState *sensor = sensorArr[i];
     SSChannel *channel = NULL;
@@ -253,7 +312,7 @@ void setAllSmartSensorGameMode(uint8_t mode) {
       }
     }
     if (channel) {
-      ss_set_mode_val(channel, mode);
+      ss_set_mode_val(channel, sMode);
     }
   }
 }
