@@ -184,11 +184,49 @@ exports.load_and_run = function(blob) {
 //////////////////// Functions to be called by student code ////////////////////
 
 const runtime_funcs = [
-  ['herptest', herptest],
+  ['get_device', get_device],
+  ['del_device', del_device],
+  ['query_dev_info', query_dev_info],
+  ['set_testdeviceclass_val', set_testdeviceclass_val],
 ];
 
-function herptest(str) {
-  console.log(str);
+const supported_devices = {
+  'testdevice': 1,
+}
+
+const supported_devices_reverse = {
+  1: 'testdevice',
+}
+
+function get_device(str) {
+  console.log('get_device called with ' + str);
+
+  if (supported_devices[str]) {
+    return {type: 'lightuserdata', 'func': supported_devices[str]};
+  } else {
+    return null;
+  }
+}
+
+function del_device(obj) {
+  console.log("del_device called with " + obj.func);
+}
+
+function query_dev_info(obj, query_type) {
+  console.log("query_dev_info called with " + obj.func + ", " + query_type);
+  let dev_name = supported_devices_reverse[obj.func];
+
+  if (dev_name === 'testdevice') {
+    if (query_type === 'type') {
+      return "actuator";
+    } else if (query_type === 'dev') {
+      return "testdeviceclass";
+    }
+  }
+}
+
+function set_testdeviceclass_val(obj, val) {
+  console.log("set_testdeviceclass_val called with " + obj.func + ", " + val);
 }
 
 ////////////////////////////////// Init stuff //////////////////////////////////
