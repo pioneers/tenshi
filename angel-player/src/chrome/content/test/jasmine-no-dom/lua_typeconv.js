@@ -196,6 +196,15 @@ describe("Lua/Javascript type conversion", function() {
 
     expect(val).toEqual(null);
   });
+  it("should roundtrip convert lightuserdata", function() {
+    let L = luaL_newstate();
+    lua_langsupp.js_to_lua(L, {type: 'lightuserdata', func: 0x12345678});
+    let val = lua_langsupp.lua_to_js(L, -1);
+    lua_close(L);
+
+    expect(val.type).toEqual('lightuserdata');
+    expect(val.func).toEqual(0x12345678);
+  });
 
   it("should be able to use luaify", function() {
     function testfunc(a, b, c) {
