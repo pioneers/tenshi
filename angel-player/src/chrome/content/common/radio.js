@@ -8,7 +8,8 @@ const emcc_tools = require('tenshi/common/emcc_tools');
 const xbee = require('tenshi/common/xbee');
 const typpo = require('tenshi/common/typpo');
 
-const MAX_XBEE_PAYLOAD_SIZE = 256;
+// 1 byte lost to the PiEMOS framing.
+const MAX_XBEE_PAYLOAD_SIZE = 100 - 1;
 const SEND_INTERVAL = 100;
 
 const UBJSON_PORT = typpo.get_const('NDL3_UBJSON_PORT');
