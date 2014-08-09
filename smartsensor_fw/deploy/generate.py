@@ -57,12 +57,13 @@ def main(argv):
   # Decide the new sensor's ID
   try:
     firstType = descriptor["channels"][0]["type"]
+    if firstType == 0xFE:
+      firstType = descriptor["channels"][1]["type"]
   except IndexError:
     firstType = 0xFF
   # TODO(nikita): Proper ID generation
   idNew = array('B', [0, 0, 0, 0, 0, firstType, random.randint(0,255),
                       random.randint(0,255), firstType])
-
 
 
   # Create the new sensor's descriptor
@@ -119,6 +120,13 @@ def main(argv):
   newIh.fromdict(ihDict)
 
   newIh.tofile(sys.stdout, format='hex')  # Print new hex file to stdout
+
+
+  idStr = ''
+  for i, b in zip(range(len(idNew)), idNew.tolist()):
+    if i < len(idNew)-1:
+      idStr += '%02X' % b
+  sys.stderr.write('Sensor ID: ' + idStr + '\n')
 
 
 
