@@ -200,24 +200,46 @@ const runtime_funcs = [
   ['get_device', get_device],
   ['del_device', del_device],
   ['query_dev_info', query_dev_info],
-  ['set_testdeviceclass_val', set_testdeviceclass_val],
+  ['set_simmotor_val', set_simmotor_val],
   ['get_analogsensor_val', get_analogsensor_val],
 ];
 
 const supported_devices = {
-  'testdevice': 1,
-  'sim-rangefinder': 2,
+  'sim-motor0': 1,
+  'sim-motor1': 2,
+  'sim-motor2': 3,
+  'sim-motor3': 4,
+  'sim-rangefinder': 5,
 };
 
 const supported_devices_reverse = {
-  1: 'testdevice',
-  2: 'sim-rangefinder',
+  1: 'sim-motor0',
+  2: 'sim-motor1',
+  3: 'sim-motor2',
+  4: 'sim-motor3',
+  5: 'sim-rangefinder',
 };
 
 const supported_device_info = {
-  'testdevice': {
+  'sim-motor0': {
     'type': 'actuator',
-    'dev': 'testdeviceclass',
+    'dev': 'simmotor',
+    '__portidx': 0,
+  },
+  'sim-motor1': {
+    'type': 'actuator',
+    'dev': 'simmotor',
+    '__portidx': 1,
+  },
+  'sim-motor2': {
+    'type': 'actuator',
+    'dev': 'simmotor',
+    '__portidx': 2,
+  },
+  'sim-motor3': {
+    'type': 'actuator',
+    'dev': 'simmotor',
+    '__portidx': 3,
   },
   'sim-rangefinder': {
     'type': 'sensor',
@@ -250,8 +272,11 @@ function query_dev_info(obj, query_type) {
   }
 }
 
-function set_testdeviceclass_val(obj, val) {
-  console.log("set_testdeviceclass_val called with " + obj.func + ", " + val);
+function set_simmotor_val(obj, val) {
+  let idx =
+    supported_device_info[supported_devices_reverse[obj.func]].__portidx;
+  simmy.robot.setMotor(idx, val);
+  // TODO(ericnguyen): increment the version
 }
 
 function get_analogsensor_val(obj) {
