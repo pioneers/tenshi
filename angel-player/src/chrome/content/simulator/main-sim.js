@@ -17,7 +17,8 @@ let tenshiRuntimeInit,
     loadStudentcode,
     actorSetRunnable,
     tenshiRunQuanta,
-    tenshiRegisterCFunctions;
+    tenshiRegisterCFunctions,
+    tenshiFlagSensor;
 try {
   lua_core = require('tenshi/vendor-js/lua');
 
@@ -31,6 +32,8 @@ try {
   tenshiRunQuanta = lua_core.cwrap('TenshiRunQuanta', 'number',
     ['number']);
   tenshiRegisterCFunctions = lua_core.cwrap('TenshiRegisterCFunctions', null,
+    ['number', 'number']);
+  tenshiFlagSensor = lua_core.cwrap('TenshiFlagSensor', 'number',
     ['number', 'number']);
 } catch(e) {
   // OK, running in dev without build.sh
@@ -81,6 +84,16 @@ function onResume() {
 ///////////////////////// New Lua runtime integration /////////////////////////
 
 function runRuntimeQuanta(timestamp) {
+  // Really hacky, flag all sensors for updates
+  for (let name in supported_devices) {
+    if (supported_device_info[name].type === 'sensor') {
+      let ret = tenshiFlagSensor(runtime, supported_devices[name]);
+      if (ret !== 0) {
+        console.error("TenshiFlagSensor error!");
+      }
+    }
+  }
+
   let ret = tenshiRunQuanta(runtime); 
   if (ret !== 0) {
     console.error("TenshiRunQuanta error!");
@@ -188,15 +201,30 @@ const runtime_funcs = [
   ['del_device', del_device],
   ['query_dev_info', query_dev_info],
   ['set_testdeviceclass_val', set_testdeviceclass_val],
+  ['get_analogsensor_val', get_analogsensor_val],
 ];
 
 const supported_devices = {
   'testdevice': 1,
-}
+  'sim-rangefinder': 2,
+};
 
 const supported_devices_reverse = {
   1: 'testdevice',
-}
+  2: 'sim-rangefinder',
+};
+
+const supported_device_info = {
+  'testdevice': {
+    'type': 'actuator',
+    'dev': 'testdeviceclass',
+  },
+  'sim-rangefinder': {
+    'type': 'sensor',
+    'dev': 'analogsensor',
+    '__portidx': 0,
+  },
+};
 
 function get_device(str) {
   console.log('get_device called with ' + str);
@@ -214,19 +242,22 @@ function del_device(obj) {
 
 function query_dev_info(obj, query_type) {
   console.log("query_dev_info called with " + obj.func + ", " + query_type);
-  let dev_name = supported_devices_reverse[obj.func];
 
-  if (dev_name === 'testdevice') {
-    if (query_type === 'type') {
-      return "actuator";
-    } else if (query_type === 'dev') {
-      return "testdeviceclass";
-    }
+  let dev_name = supported_devices_reverse[obj.func];
+  let dev_block = supported_device_info[dev_name];
+  if (dev_block) {
+    return dev_block[query_type];
   }
 }
 
 function set_testdeviceclass_val(obj, val) {
   console.log("set_testdeviceclass_val called with " + obj.func + ", " + val);
+}
+
+function get_analogsensor_val(obj) {
+  let idx =
+    supported_device_info[supported_devices_reverse[obj.func]].__portidx;
+  return simmy.robot.sensors[idx].getVal();
 }
 
 ////////////////////////////////// Init stuff //////////////////////////////////
