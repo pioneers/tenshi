@@ -29,7 +29,8 @@ let luaL_newstate,
     lua_pushstring,
     lua_pushnumber,
     lua_pushinteger,
-    lua_gettop;
+    lua_gettop,
+    lua_pushlightuserdata;
 
 const LUA_TNONE           = (-1);
 const LUA_TNIL            = 0;
@@ -83,6 +84,8 @@ try {
   lua_pushnumber = lua.cwrap('lua_pushnumber', null,
     ['number', 'number']); 
   lua_gettop = lua.cwrap('lua_gettop', 'number', ['number']);
+  lua_pushlightuserdata = lua.cwrap('lua_pushlightuserdata', null,
+    ['number', 'number']);
 } catch(e) {
   // OK, running in dev without build.sh
 }
@@ -246,8 +249,8 @@ exports.lua_to_js = function(L, i) {
 };
 
 // Pushes obj onto the Lua stack, automatically converting it to the correct
-// Lua type. Currently only supports strings, numbers, and null -- everything
-// else will raise an error.
+// Lua type. Currently only supports strings, numbers, lightuserdata, and null.
+// Everything else will raise an error.
 exports.js_to_lua = function(L, obj) {
   if (typeof(obj) === 'string') {
     lua_pushstring(L, obj);
@@ -262,6 +265,12 @@ exports.js_to_lua = function(L, obj) {
     }
   } else if (obj === null) {
     lua_pushnil(L);
+  } else if (typeof(obj) === 'object') {
+    if (obj.type === "lightuserdata") {
+      lua_pushlightuserdata(L, obj.func);
+    } else {
+      throw new Error("Unsupported type to convert to Lua!");
+    }
   } else {
     throw new Error("Unsupported type to convert to Lua!");
   }
