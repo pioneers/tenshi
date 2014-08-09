@@ -13,6 +13,7 @@
 #include "inc/i2c_master.h"
 #include "inc/led_driver.h"
 #include "inc/pindef.h"
+#include "inc/radio_stdio.h"
 #include "inc/stm32f4xx.h"
 #include "inc/core_cm4.h"
 #include "inc/core_cmInstr.h"
@@ -289,6 +290,7 @@ int main(int argc, char **argv) {
 
   // Setup radio
   radio_driver_init();
+  radio_stdio_init();
 
   #ifdef TEST_STATIC_LUA
   xTaskCreate(angelicTask, "Angelic", 2048, NULL,
