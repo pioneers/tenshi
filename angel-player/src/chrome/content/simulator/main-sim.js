@@ -7,7 +7,41 @@ const { saveFrame, loadFrame } = require('tenshi/simulator/miscFuncs');
 const window = require('tenshi/common/window')();
 let {$, Ammo, document} = window;
 
+const lua_supp = require('tenshi/lang-support/lua');
+const emcc_tools = require('tenshi/common/emcc_tools');
+// TODO(rqou): Unify this?
+let lua_core;
+
+let tenshiRuntimeInit,
+    tenshiRuntimeDeinit,
+    loadStudentcode,
+    actorSetRunnable,
+    tenshiRunQuanta,
+    tenshiRegisterCFunctions;
+try {
+  lua_core = require('tenshi/vendor-js/lua');
+
+  tenshiRuntimeInit = lua_core.cwrap('TenshiRuntimeInit', 'number');
+  tenshiRuntimeDeinit = lua_core.cwrap('TenshiRuntimeDeinit', null,
+    ['number']);
+  loadStudentcode = lua_core.cwrap('LoadStudentcode', 'number',
+    ['number', 'number', 'number', 'number']);
+  actorSetRunnable = lua_core.cwrap('ActorSetRunnable', 'number',
+    ['number', 'number']);
+  tenshiRunQuanta = lua_core.cwrap('TenshiRunQuanta', 'number',
+    ['number']);
+  tenshiRegisterCFunctions = lua_core.cwrap('TenshiRegisterCFunctions', null,
+    ['number', 'number']);
+} catch(e) {
+  // OK, running in dev without build.sh
+}
+
 let simmy;
+let runtime;
+// Things like function pointers have to stick around
+let lual_reg_data;
+
+////////////////////////// Bitrotted? Angelic support //////////////////////////
 
 // TODO(rqou): This has probably bitrotted
 function gen_vm() {
@@ -44,6 +78,120 @@ function onResume() {
   controls.set_vm_generator(gen_vm);
 }
 
+///////////////////////// New Lua runtime integration /////////////////////////
+
+function runRuntimeQuanta(timestamp) {
+  let ret = tenshiRunQuanta(runtime); 
+  if (ret !== 0) {
+    console.error("TenshiRunQuanta error!");
+  }
+
+  window.requestAnimationFrame(runRuntimeQuanta);
+}
+
+function alloc_luaL_Reg(arr) {
+  // arr should be an array of arrays, as if it was C. However, we will
+  // automatically add the {NULL, NULL} entry
+  let lual_reg_addr =
+    lua_core._malloc(2 * emcc_tools.PTR_SIZE * (arr.length + 1));
+
+  for (let i = 0; i < arr.length; i++) {
+    let name = arr[i][0];
+    let func = lua_supp.luaify(arr[i][1]);
+
+    let str_addr = emcc_tools.buffer_to_ptr(lua_core,
+      lua_core.intArrayFromString(name));
+    let func_addr = lua_core.Runtime.addFunction(func);
+
+    emcc_tools.set_ptr(
+      lua_core,
+      lual_reg_addr + i * (2 * emcc_tools.PTR_SIZE) + 0 * emcc_tools.PTR_SIZE,
+      str_addr);
+    emcc_tools.set_ptr(
+      lua_core,
+      lual_reg_addr + i * (2 * emcc_tools.PTR_SIZE) + 1 * emcc_tools.PTR_SIZE,
+      func_addr);
+  }
+
+  emcc_tools.set_ptr(
+    lua_core,
+    lual_reg_addr +
+      arr.length * (2 * emcc_tools.PTR_SIZE) + 0 * emcc_tools.PTR_SIZE,
+    0);
+  emcc_tools.set_ptr(
+    lua_core,
+    lual_reg_addr +
+      arr.length * (2 * emcc_tools.PTR_SIZE) + 1 * emcc_tools.PTR_SIZE,
+    0);
+
+  return lual_reg_addr;
+}
+
+function free_luaL_Reg(lual_reg_addr) {
+  let i = 0;
+  while (true) {
+    let str_addr = emcc_tools.get_ptr(lua_core,
+      lual_reg_addr + i * (2 * emcc_tools.PTR_SIZE) + 0 * emcc_tools.PTR_SIZE);
+    let func_addr = emcc_tools.get_ptr(lua_core,
+      lual_reg_addr + i * (2 * emcc_tools.PTR_SIZE) + 1 * emcc_tools.PTR_SIZE);
+
+    i = i + 1;
+
+    if (str_addr && func_addr) {
+      lua_core._free(str_addr);
+      lua_core.Runtime.removeFunction(func_addr);
+    } else {
+      break;
+    }
+  }
+  lua_core._free(lual_reg_addr);
+}
+
+exports.load_and_run = function(blob) {
+  if (!tenshiRuntimeInit) {
+    console.log("No Emscripten output, not running.");
+    return;
+  } else {
+    if (runtime) {
+      tenshiRuntimeDeinit(runtime);
+      free_luaL_Reg(lual_reg_data);
+    }
+
+    let ret;
+
+    runtime = tenshiRuntimeInit();
+
+    lual_reg_data = alloc_luaL_Reg(runtime_funcs);
+    tenshiRegisterCFunctions(runtime, lual_reg_data);
+
+    let mainactor_buf = lua_core._malloc(emcc_tools.PTR_SIZE);
+    let code_buf = emcc_tools.buffer_to_ptr(lua_core, blob);
+
+    ret = loadStudentcode(runtime, code_buf, blob.length, mainactor_buf);
+    if (ret !== 0) throw new Error("LoadStudentcode failed!");
+
+    let mainactor = emcc_tools.get_ptr(lua_core, mainactor_buf);
+    lua_core._free(mainactor_buf);
+    lua_core._free(code_buf);
+
+    ret = actorSetRunnable(mainactor, 1);
+    if (ret !== 0) throw new Error("ActorSetRunnable failed!");
+
+    window.requestAnimationFrame(runRuntimeQuanta);
+  }
+};
+
+//////////////////// Functions to be called by student code ////////////////////
+
+const runtime_funcs = [
+  ['herptest', herptest],
+];
+
+function herptest(str) {
+  console.log(str);
+}
+
+////////////////////////////////// Init stuff //////////////////////////////////
 
 exports.init = function(_window) {
   $(function() {

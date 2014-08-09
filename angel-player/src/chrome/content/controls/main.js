@@ -10,7 +10,8 @@ let naive_packetizer = require('tenshi/common/naive_packetizer'),
     studentconsole = require('tenshi/console/console'),
     pieles = require('tenshi/pieles/pieles'),
     lua = require('tenshi/lang-support/lua'),
-    telemetry = require('tenshi/common/telemetry');
+    telemetry = require('tenshi/common/telemetry'),
+    simulator = require('tenshi/simulator/main-sim');
 
 let current_vm = null,
     vm_generator = function () {return null;};
@@ -23,6 +24,7 @@ exports.init = function() {
     $("#toggle").click(toggle_running);
     $("#compile_ngl").click(compile_ngl);
     $("#compile_lua").click(compile_lua);
+    $("#run_lua").click(run_lua);
 
     pieles.attachToPage(window);
 };
@@ -83,9 +85,7 @@ function compile_ngl() {
     main_radio.send(pkg, 'code');
 }
 
-function compile_lua() {
-    var text = texteditor.get_text();
-
+function compile_lua_to_bytecode(text) {
     telemetry.sendTelemetry(text);
 
     let ret = lua.compile_lua(text);
@@ -95,11 +95,21 @@ function compile_lua() {
     }
 
     studentconsole.report_message("Compiled successfully!");
-    for (let i = 0; i < ret.bytecode.length; i++) {
-        console.log(ret.bytecode[i]);
-    }
+    return ret.bytecode;
+}
 
-    naive_packetizer.sendPacketizedData(ret.bytecode);
+function compile_lua() {
+    var text = texteditor.get_text();
+    var bytecode = compile_lua_to_bytecode(text);
+
+    naive_packetizer.sendPacketizedData(bytecode);
     let main_radio = global_state.get('main_radio');
-    main_radio.send(ret.bytecode, 'code');
+    main_radio.send(bytecode, 'code');
+}
+
+function run_lua() {
+    let text = texteditor.get_text();
+    let bytecode = compile_lua_to_bytecode(text);
+
+    simulator.load_and_run(bytecode);
 }
