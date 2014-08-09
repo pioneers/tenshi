@@ -138,6 +138,13 @@ function recv_L2 (rxbuf) {
   /* jshint validthis: true */
   // We need to extract the payload from the xbee packet.
   var data = xbee.extractPayload(rxbuf);
+  if (data[0] !== typpo.get_const('NDL3_IDENT')) {
+    // Not an NDL3 packet.
+    return;
+  } else {
+    // Remove the framing.
+    data = data.slice(1);
+  }
   var ptr = emcc_tools.buffer_to_ptr(ndl3, data);
   call('NDL3_L2_push', this.net, ptr, data.length);
   call('free', ptr);
