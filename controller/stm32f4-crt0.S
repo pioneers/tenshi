@@ -142,6 +142,10 @@ _reset:
     ldr r0, =0x20000000
     ldr r1, =0x00020000
     bl ClearData
+
+    ldr r0, =0x10000000
+    ldr r1, =0x00010000
+    bl ClearData
 #endif
 
     @ Stack is already set up
@@ -159,7 +163,7 @@ _reset:
     subs r2, r2, r1
     bl CopyData
 
-    @ Clear BSS and SBSS
+    @ Clear BSS and SBSS and CCM BSS
     movs r4, #0
     movs r5, #0
     movs r6, #0
@@ -170,6 +174,10 @@ _reset:
     bl ClearData
     ldr r0, =__sbss_start
     ldr r1, =__sbss_end
+    subs r1, r1, r0
+    bl ClearData
+    ldr r0, =__ccmbss_start
+    ldr r1, =__ccmbss_end
     subs r1, r1, r0
     bl ClearData
 

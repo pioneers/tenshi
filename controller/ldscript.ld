@@ -138,11 +138,30 @@ SECTIONS
 	.ccmram : AT(__ccmram_lma)
 	{
 		__ccmram_start = ABSOLUTE(.);
+		/* This is a hacky way to force move some data into ccmram to try
+		   to free up main ram space */
+		*-mallocr.o(.data)
+		*-locale.o(.data)
+
 		*(.ccmram)
 		*(.ccmram.*)
 		. = ALIGN(4);
 	} >ccmram = 0xff
 	__ccmram_end = ABSOLUTE(.);
+
+	.ccmbss (NOLOAD):
+	{
+		__ccmbss_start = ABSOLUTE(.);
+		/* This is a hacky way to force move some data into ccmram to try
+		   to free up main ram space */
+		*-locale.o(.bss)
+		*-timelocal.o(.bss)
+
+		*(.ccmbss)
+		*(.ccmbss.*)
+		. = ALIGN(4);
+		__ccmbss_end = ABSOLUTE(.);
+	} >ccmram
 
 
 
