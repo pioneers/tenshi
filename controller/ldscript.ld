@@ -161,7 +161,11 @@ SECTIONS
 		*-locale.o(.bss)
 		*-timelocal.o(.bss)
 		*tasks.c.*.o(.bss*)
+		*port.c.*.o(.bss*)
+		*timers.c.*.o(.bss*)
+		*queue.c.*.o(COMMON)
 		*handle_manager.o(.bss)
+		*-gethex.o(COMMON)
 
 		*(.ccmbss)
 		*(.ccmbss.*)
