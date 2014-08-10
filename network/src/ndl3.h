@@ -32,7 +32,7 @@
 #define NDL3_ACK_SPACEIN 100
 #define NDL3_ACK_TIMEOUT 500
 #define NDL3_ACK_SPACEOUT 500
-#define NDL3_ACK_TIMEDIE 50000
+#define NDL3_ACK_TIMEDIE 5000
 
 #define NDL3_ERROR_L2_PACKET_CORRUPT   1
 #define NDL3_ERROR_L2_PACKET_IGNORED   2
@@ -47,6 +47,8 @@
 #define NDL3_ERROR_BAD_MSG             11
 #define NDL3_ERROR_PACKET_LOST         12
 #define NDL3_ERROR_INCOMPLETE_SEND     13
+
+#define NDL3_PORT_UNRELIABLE           1
 
 struct NDL3Net;
 typedef struct NDL3Net NDL3Net;
