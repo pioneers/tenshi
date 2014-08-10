@@ -320,7 +320,8 @@ local function decode_str(str, offset, depth)
   local str_length, str_start = decode_int(str, offset,
                                            depth + 1,
                                            "String at offset " .. offset)
-  return str:sub(str_start, str_start + str_length), str_start + str_length
+  -- -1 since str:sub includes the end address.
+  return str:sub(str_start, str_start + str_length - 1), str_start + str_length
 end
 
 -- Recursive function used to decode object.
@@ -436,6 +437,9 @@ local function decode_inner(str, offset, depth)
 end
 
 local function decode(str, offset)
+  if offset == nil then
+    offset = 1
+  end
   return decode_inner(str, offset, 1)
 end
 
