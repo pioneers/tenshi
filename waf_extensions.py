@@ -83,6 +83,7 @@ def configure_emscripten(conf):
     conf.env['COMPILER_CC'] = 'emcc'
     conf.env['LINK_CC'] = 'emcc'
     conf.env.append_value('CFLAGS', '-Wno-warn-absolute-paths')
+    conf.env.append_value('CFLAGS', '-O3')
     conf.load('compiler_c')
     conf.env['cprogram_PATTERN'] = '%s.js'
     conf.env['AR'] = 'llvm-ar'
