@@ -92,7 +92,7 @@ int ss_get_value(int sensorIndex, uint8_t *data, size_t len) {
 
 // Helper functions for smartsensor.c
 SSState *ss_init_sensor(uint8_t id[SMART_ID_LEN], uint8_t busNum) {
-  SSState *s = pvPortMalloc(sizeof(SSState));
+  SSState *s = malloc(sizeof(SSState));
   s->busNum = busNum;
   s->outLock = xSemaphoreCreateBinary();
   s->outgoingLen = 0;
@@ -115,10 +115,10 @@ size_t ss_add_sensor(SSState *sensor) {
 
   const int numAllocAtOnce = 10;
   if (numSensorsAlloc <= numSensors) {
-    SSState **newPtr = pvPortMalloc((numSensorsAlloc+numAllocAtOnce) *
+    SSState **newPtr = malloc((numSensorsAlloc+numAllocAtOnce) *
                                    sizeof(SSState*));
     memcpy(newPtr, sensorArr, numSensorsAlloc*sizeof(SSState*));
-    vPortFree(sensorArr);
+    free(sensorArr);
     sensorArr = newPtr;
     numSensorsAlloc += numAllocAtOnce;
   }
@@ -134,10 +134,10 @@ size_t ss_add_sensors(KnownIDs *sensors) {
   if (xSemaphoreTake(sensorArrLock, SENSOR_WAIT_TIME) != pdTRUE) return -1;
 
   if (numSensorsAlloc < numSensors+sensors->len) {
-    SSState **newPtr = pvPortMalloc((numSensors+sensors->len) *
+    SSState **newPtr = malloc((numSensors+sensors->len) *
                                    sizeof(SSState*));
     memcpy(newPtr, sensorArr, numSensors*sizeof(SSState*));
-    vPortFree(sensorArr);
+    free(sensorArr);
     sensorArr = newPtr;
     numSensorsAlloc = numSensors+sensors->len;
   }
@@ -163,12 +163,12 @@ void ss_recieved_data_for_sensor(SSState *s, uint8_t *data, size_t len,
 void allocIncomingBytes(SSState *sensor, uint8_t requiredLen) {
   if (sensor->incomingBytes == NULL) {
     sensor->incomingLen = requiredLen;
-    sensor->incomingBytes = pvPortMalloc(requiredLen);
+    sensor->incomingBytes = malloc(requiredLen);
   }
   if (sensor->incomingLen < requiredLen) {
-    vPortFree(sensor->incomingBytes);
+    free(sensor->incomingBytes);
     sensor->incomingLen = requiredLen;
-    sensor->incomingBytes = pvPortMalloc(requiredLen);
+    sensor->incomingBytes = malloc(requiredLen);
   }
 }
 // Assuming the sensor is already locked
@@ -180,12 +180,12 @@ int checkOutgoingBytes(SSState *sensor, uint8_t requiredLen) {
 void allocOutgoingBytes(SSState *sensor, uint8_t requiredLen) {
   if (sensor->outgoingBytes == NULL) {
     sensor->outgoingLen = requiredLen;
-    sensor->outgoingBytes = pvPortMalloc(requiredLen);
+    sensor->outgoingBytes = malloc(requiredLen);
   }
   if (sensor->outgoingLen < requiredLen) {
-    vPortFree(sensor->outgoingBytes);
+    free(sensor->outgoingBytes);
     sensor->outgoingLen = requiredLen;
-    sensor->outgoingBytes = pvPortMalloc(requiredLen);
+    sensor->outgoingBytes = malloc(requiredLen);
   }
 }
 // Assuming the sensor is already locked
@@ -243,7 +243,7 @@ int ss_send_maintenance(uart_serial_module *module, uint8_t type,
   const uint8_t *data, uint8_t len) {
   if (len > 255-4)return 0;
 
-  uint8_t *data_cobs = (uint8_t*)pvPortMalloc(4+len);
+  uint8_t *data_cobs = (uint8_t*)malloc(4+len);
   // Four extra for 0x00, type, len, and extra COBS byte.
 
   data_cobs[0] = 0x00;
@@ -252,23 +252,23 @@ int ss_send_maintenance(uart_serial_module *module, uint8_t type,
   cobs_encode(data_cobs+3, data, len);
 
   int r = ss_uart_serial_send_and_finish_data(module, data_cobs, len+4);
-  vPortFree(data_cobs);
+  free(data_cobs);
   return r;
 }
 int ss_send_maintenance_to_sensor(SSState *sensor, uint8_t type,
   const uint8_t *data, uint8_t len) {
-  uint8_t *buffer = pvPortMalloc(SMART_ID_LEN+len);
+  uint8_t *buffer = malloc(SMART_ID_LEN+len);
   memcpy(buffer, sensor->id, SMART_ID_LEN);
   memcpy(buffer+SMART_ID_LEN, data, len);
   int ret = ss_send_maintenance(ssBusses[sensor->busNum], type, buffer,
     SMART_ID_LEN+len);
-  vPortFree(buffer);
+  free(buffer);
   return ret;
 }
 int ss_all_send_maintenance(uint8_t type, const uint8_t *data, uint8_t len) {
   if (len > 255-4)return 0;
 
-  uint8_t *data_cobs = (uint8_t*)pvPortMalloc(4+len);
+  uint8_t *data_cobs = (uint8_t*)malloc(4+len);
   // Four extra for 0x00, type, len, and extra COBS byte.
 
   data_cobs[0] = 0x00;
@@ -277,13 +277,13 @@ int ss_all_send_maintenance(uint8_t type, const uint8_t *data, uint8_t len) {
   cobs_encode(data_cobs+3, data, len);
 
   int r = ss_all_uart_serial_send_and_finish_data(data_cobs, len+4);
-  vPortFree(data_cobs);
+  free(data_cobs);
   return r;
 }
 int ss_send_ping_pong(SSState *sensor, const uint8_t *data, uint8_t len) {
   if (len > 255-4-SMART_ID_LEN)return 0;
 
-  uint8_t *temp = (uint8_t*)pvPortMalloc(len+SMART_ID_LEN);
+  uint8_t *temp = (uint8_t*)malloc(len+SMART_ID_LEN);
   for (uint8_t i = 0; i < SMART_ID_LEN; i++) {
     temp[i] = sensor->id[i];
   }
@@ -293,7 +293,7 @@ int ss_send_ping_pong(SSState *sensor, const uint8_t *data, uint8_t len) {
 
   int r = ss_send_maintenance(ssBusses[sensor->busNum], 0xFE, temp,
     len+SMART_ID_LEN);
-  vPortFree(temp);
+  free(temp);
   return r;
 }
 
@@ -364,7 +364,7 @@ transmit_allocations ss_send_active(uart_serial_module *module, uint8_t inband,
   if (len > 12)return allocs;  // Too long for active packet
   if ((frame & 7) == 0)return allocs;  // Frame can never be zero
 
-  uint8_t *data_cobs = (uint8_t*)pvPortMalloc(4+len);
+  uint8_t *data_cobs = (uint8_t*)malloc(4+len);
   // Four extra for 0x00, sample/frame, len, and extra COBS byte.
 
   data_cobs[0] = 0x00;
@@ -384,7 +384,7 @@ void ss_wait_until_done(uart_serial_module *module,
         UART_SERIAL_SEND_ERROR)) {}
 }
 void ss_send_finish(uart_serial_module *module, transmit_allocations allocs) {
-  if (allocs.data) vPortFree(allocs.data);
+  if (allocs.data) free(allocs.data);
   if (allocs.txn) uart_serial_send_finish(module, allocs.txn);
 }
 
