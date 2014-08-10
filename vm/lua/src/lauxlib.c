@@ -587,6 +587,8 @@ typedef struct LoadF {
 static const char *getF (lua_State *L, void *ud, size_t *size) {
   LoadF *lf = (LoadF *)ud;
   (void)L;  /* not used */
+  if (L == NULL && size == NULL) // direct mode check
+    return NULL;
   if (lf->n > 0) {  /* are there pre-read characters to be read? */
     *size = lf->n;  /* return them (chars already in buffer) */
     lf->n = 0;  /* no more pre-read characters */
@@ -690,6 +692,8 @@ typedef struct LoadS {
 static const char *getS (lua_State *L, void *ud, size_t *size) {
   LoadS *ls = (LoadS *)ud;
   (void)L;  /* not used */
+  if (L == NULL && size == NULL) // direct mode check
+    return NULL;
   if (ls->size == 0) return NULL;
   *size = ls->size;
   ls->size = 0;
