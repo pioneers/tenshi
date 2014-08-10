@@ -253,7 +253,9 @@ void NDL3_close(NDL3Net * restrict net, NDL3_port port) {
  * Set a port option. There are currently no supported options.
  */
 void NDL3_setopt(NDL3Net * restrict net, NDL3_port port, NDL3_options opt) {
-  if (port_idx(net, port) >= 0) {
+  int i;
+  if ((i = port_idx(net, port)) >= 0) {
+    net->ports[i].opt |= opt;
     return;
   }
   net->last_error = NDL3_ERROR_PORT_NOT_OPEN;
@@ -498,6 +500,136 @@ static int timeout_out_pkt(NDL3Net * net,
 }
 
 /**
+ * Service a normal, outgoing packet.
+ * Returns if the calling function should return as well.
+ */
+static int pop_normal_outgoing(
+    NDL3Net * restrict net,
+    NDL3_port port,
+    semi_packet * pkt,
+    void * dest,
+    NDL3_size max_size,
+    NDL3_size * actual_size) {
+  /*
+   * We've gone way over the time limit since the last packet in.
+   * Kill the connection.
+   */
+  if (net->time - pkt->time_last_in > NDL3_ACK_TIMEDIE) {
+    close_pkt(net, pkt);
+    net->last_error = NDL3_ERROR_INCOMPLETE_SEND;
+    return 0;
+  }
+
+  /*
+   * If we've timed out or spaced out, reset back to the last ACKed
+   * offset.
+   */
+  if (net->time - pkt->time_last_in > NDL3_ACK_TIMEOUT ||
+      pkt->last_offset - pkt->last_acked_offset > NDL3_ACK_SPACEOUT) {
+    if (timeout_out_pkt(net, pkt)) {
+      return 1;
+    }
+  }
+
+  /*
+   * If we're at the beginning of a packet, send START. Note that this
+   * can be effected by the reset above.
+   */
+  if (pkt->last_offset == 0) {
+    pop_start(net, port, pkt, (L2_data_packet *) dest,
+              max_size, actual_size);
+    return 1;
+  }
+
+  if (pkt->total_size == pkt->last_acked_offset) {
+    /* Everything has been acked, send END. */
+    pop_end(net, END_PACKET, port, pkt,
+            (L2_end_packet *) dest, max_size, actual_size);
+    return 1;
+  }
+
+  /* None of the above was needed, send data. */
+  pop_data(net, port, pkt, (L2_data_packet *) dest,
+           max_size, actual_size);
+  return 1;
+}
+
+/**
+ * Service an unreliable, outgoing packet.
+ * Returns if the calling function should return as well.
+ */
+static int pop_unreliable_outgoing(
+    NDL3Net * restrict net,
+    NDL3_port port,
+    semi_packet * pkt,
+    void * dest,
+    NDL3_size max_size,
+    NDL3_size * actual_size) {
+  /*
+   * If we're at the beginning of a packet, send START.
+   */
+  if (pkt->last_offset == 0) {
+    pop_start(net, port, pkt, (L2_data_packet *) dest,
+              max_size, actual_size);
+    return 1;
+  }
+
+  if (pkt->total_size == pkt->last_offset) {
+    /* Everything has been sent, send END and close. */
+    pop_end(net, END_PACKET, port, pkt,
+            (L2_end_packet *) dest, max_size, actual_size);
+    close_pkt(net, pkt);
+    return 1;
+  }
+
+  /* None of the above was needed, send data. */
+  pop_data(net, port, pkt, (L2_data_packet *) dest,
+           max_size, actual_size);
+  return 1;
+}
+
+/**
+ * Service a normal, incoming packet.
+ * Returns if the calling function should return as well.
+ */
+static int service_normal_incoming(
+    NDL3Net * restrict net,
+    NDL3_port port,
+    semi_packet * pkt,
+    void * dest,
+    NDL3_size max_size,
+    NDL3_size * actual_size) {
+  if (pkt->state & PACKET_CLOSING) {
+    /* If we are closing (have received END), send FIN. */
+    pop_end(net, FIN_PACKET, port, pkt, dest, max_size, actual_size);
+    close_pkt(net, pkt);
+    return 1;
+  }
+
+  if (net->time - pkt->time_last_in > NDL3_ACK_TIMEDIE) {
+    close_pkt(net, pkt);
+    net->last_error = NDL3_ERROR_PACKET_LOST;
+    return 1;
+  }
+
+  /*
+   * If it has been NDL3_ACK_TIMEIN since last ack,
+   * or NDL3_ACK_SPACEIN bytes have been sent since the last ack,
+   * or we've reached the end of the packet and haven't acked that.
+   */
+
+  if (net->time - pkt->time_last_out > NDL3_ACK_TIMEIN ||
+      pkt->last_offset - pkt->last_acked_offset > NDL3_ACK_SPACEIN ||
+      (pkt->last_offset == pkt->total_size &&
+       pkt->last_offset != pkt->last_acked_offset)) {
+    /* Send ack. */
+    pop_ack(net, port, pkt, (L2_ack_packet *) dest,
+            max_size, actual_size);
+    return 1;
+  }
+}
+
+/**
  * Get an L2 packet to send.
  * dest is the destination to fill, with at most max_size bytes.
  * If actual_size is not NULL, its target is set to the number of bytes
@@ -523,6 +655,7 @@ void NDL3_L2_pop(NDL3Net * restrict net,
     }
 
     NDL3_port port = net->ports[i].num;
+    NDL3_options opt = net->ports[i].opt;
     net->ports[i].pkt_last_serviced = (net->ports[i].pkt_last_serviced + 1) %
         NDL3_PACKETS_PER_PORT;
     for (int j_base = 0; j_base < NDL3_PACKETS_PER_PORT; j_base++) {
@@ -531,33 +664,13 @@ void NDL3_L2_pop(NDL3Net * restrict net,
       /* Service incoming packets. */
       semi_packet * pkt = &net->ports[i].in_pkts[j];
       if (pkt->state & PACKET_OPEN) {
-        if (pkt->state & PACKET_CLOSING) {
-          /* If we are closing (have received END), send FIN. */
-          pop_end(net, FIN_PACKET, port, pkt, dest, max_size, actual_size);
-          close_pkt(net, pkt);
-          return;
-        }
-
-        if (net->time - pkt->time_last_in > NDL3_ACK_TIMEDIE) {
-          close_pkt(net, pkt);
-          net->last_error = NDL3_ERROR_PACKET_LOST;
-          return;
-        }
-
-        /*
-         * If it has been NDL3_ACK_TIMEIN since last ack,
-         * or NDL3_ACK_SPACEIN bytes have been sent since the last ack,
-         * or we've reached the end of the packet and haven't acked that.
-         */
-
-        if (net->time - pkt->time_last_out > NDL3_ACK_TIMEIN ||
-            pkt->last_offset - pkt->last_acked_offset > NDL3_ACK_SPACEIN ||
-            (pkt->last_offset == pkt->total_size &&
-             pkt->last_offset != pkt->last_acked_offset)) {
-          /* Send ack. */
-          pop_ack(net, net->ports[i].num, pkt, (L2_ack_packet *) dest,
-                  max_size, actual_size);
-          return;
+        if (opt & NDL3_PORT_UNRELIABLE) {
+          /* No action necessary. */
+        } else {
+          if (service_normal_incoming(net, port, pkt, dest, max_size,
+                actual_size)) {
+            return;
+          }
         }
       }
 
@@ -565,47 +678,17 @@ void NDL3_L2_pop(NDL3Net * restrict net,
       pkt = &net->ports[i].out_pkts[j];
 
       if (pkt->state & PACKET_OPEN) {
-        /*
-         * We've gone way over the time limit since the last packet in.
-         * Kill the connection.
-         */
-        if (net->time - pkt->time_last_in > NDL3_ACK_TIMEDIE) {
-          close_pkt(net, pkt);
-          net->last_error = NDL3_ERROR_INCOMPLETE_SEND;
-          return;
-        }
-
-        /*
-         * If we've timed out or spaced out, reset back to the last ACKed
-         * offset.
-         */
-        if (net->time - pkt->time_last_in > NDL3_ACK_TIMEOUT ||
-            pkt->last_offset - pkt->last_acked_offset > NDL3_ACK_SPACEOUT) {
-          if (timeout_out_pkt(net, pkt)) {
-            continue;
+        if (opt & NDL3_PORT_UNRELIABLE) {
+          if (pop_unreliable_outgoing(net, port, pkt, dest,
+                                      max_size, actual_size)) {
+            return;
+          }
+        } else {
+          if (pop_normal_outgoing(net, port, pkt, dest,
+                                  max_size, actual_size)) {
+            return;
           }
         }
-
-        /*
-         * If we're at the beginning of a packet, send START. Note that this
-         * can be effected by the reset above.
-         */
-        if (pkt->last_offset == 0) {
-          pop_start(net, port, pkt, (L2_data_packet *) dest,
-                    max_size, actual_size);
-          return;
-        }
-
-        if (pkt->total_size == pkt->last_acked_offset) {
-          /* Everything has been acked, send END. */
-          pop_end(net, END_PACKET, port, pkt,
-                  (L2_end_packet *) dest, max_size, actual_size);
-          return;
-        }
-
-        /* None of the above was needed, send data. */
-        pop_data(net, port, pkt, (L2_data_packet *) dest,
-                 max_size, actual_size);
       }
     }
   }
