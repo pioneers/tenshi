@@ -19,7 +19,10 @@
 -- to run and then exit. It converts updated sensors into messages sent into
 -- mailboxes.
 
-for s,_ in pairs(__runtimeinternal.get_registry()['tenshi.changed_sensors']) do
+local changed_sensors =
+    __runtimeinternal.get_registry()['tenshi.changed_sensors']
+
+for s,_ in pairs(changed_sensors) do
     -- s is a dev_raw lightuserdata
     local dev = __runtimeinternal.get_registry()['tenshi.sensorDevMap'][s]
     -- dev is the sensor object
@@ -34,6 +37,8 @@ for s,_ in pairs(__runtimeinternal.get_registry()['tenshi.changed_sensors']) do
             dev.__downstream:send({val})
         end
     end
+
+    changed_sensors[s] = nil
 end
 
 pieles.__process_radio()

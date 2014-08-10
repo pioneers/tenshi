@@ -87,6 +87,7 @@ TenshiActorState ActorCreate(TenshiRuntimeState s) {
 
   ret->s = s;
   ret->isblocked = 0;
+  ret->woke_timeout = 0;
   ret->L = lua_newthread(s->L);
   if (!ret->L) {
     ActorDestroy(ret);
