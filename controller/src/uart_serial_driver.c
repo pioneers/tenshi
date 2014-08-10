@@ -158,9 +158,9 @@ static portTASK_FUNCTION_PROTO(uart_rx_task, pvParameters) {
     // A packet just came in. We now need to allocate a new buffer.
     // We will block in this task if we can't.
 
-    uart_txn *txn = pvPortMalloc(sizeof(uart_txn));
+    uart_txn *txn = malloc(sizeof(uart_txn));
     txn->len = 0;
-    txn->data = pvPortMalloc(UART_RX_BUFFER_SIZE);
+    txn->data = malloc(UART_RX_BUFFER_SIZE);
 
     module->currentRxTxn = txn;
   }
@@ -170,7 +170,7 @@ uart_serial_module *uart_serial_init_module(int uart_num,
   ssize_t (*length_finder_fn)(uart_serial_module *, uint8_t),
   void (*txen_fn)(int), int baud) {
   uart_serial_module_private *module =
-    pvPortMalloc(sizeof(uart_serial_module_private));
+    malloc(sizeof(uart_serial_module_private));
 
   USART_TypeDef *periph_base = periph_info[uart_num - 1].periph;
   DMA_TypeDef *dma_base = periph_info[uart_num - 1].dma;
@@ -248,9 +248,9 @@ uart_serial_module *uart_serial_init_module(int uart_num,
   vSemaphoreCreateBinary(module->rxSignal);
 
   // Allocate a buffer for RX
-  uart_txn *rxTxn = pvPortMalloc(sizeof(uart_txn));
+  uart_txn *rxTxn = malloc(sizeof(uart_txn));
   rxTxn->len = 0;
-  rxTxn->data = pvPortMalloc(UART_RX_BUFFER_SIZE);
+  rxTxn->data = malloc(UART_RX_BUFFER_SIZE);
   module->currentRxTxn = rxTxn;
   module->currentTxTxn = NULL;
 
@@ -263,7 +263,7 @@ uart_serial_module *uart_serial_init_module(int uart_num,
 
 void *uart_serial_send_data(uart_serial_module *module, uint8_t *data,
   size_t len) {
-  uart_txn *txn = pvPortMalloc(sizeof(uart_txn));
+  uart_txn *txn = malloc(sizeof(uart_txn));
 
   txn->data = data;
   txn->len = len;
@@ -291,7 +291,7 @@ int uart_serial_send_finish(uart_serial_module *module, void *_transaction) {
     return 0;
   }
 
-  vPortFree(transaction);
+  free(transaction);
 
   return 1;
 }
@@ -328,7 +328,7 @@ uint8_t *uart_serial_receive_packet(uart_serial_module *module,
 
   uint8_t *outBuf = txn->data;
 
-  vPortFree(txn);
+  free(txn);
 
   return outBuf;
 }

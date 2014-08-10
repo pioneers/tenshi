@@ -42,7 +42,7 @@ static portTASK_FUNCTION_PROTO(i2c_master_task, pvParameters) {
 
 i2c_master_module *i2c_master_init_module(void *periph_base) {
   i2c_master_module_private *module_obj =
-    pvPortMalloc(sizeof(i2c_master_module_private));
+    malloc(sizeof(i2c_master_module_private));
   I2C_TypeDef *i2c = (I2C_TypeDef *)periph_base;
 
   // TODO(rqou): Figure out magic to make pin init and clock init work
@@ -83,7 +83,7 @@ i2c_master_module *i2c_master_init_module(void *periph_base) {
 
 void *i2c_issue_transaction(i2c_master_module *module, uint8_t addr,
   uint8_t *data_out, size_t len_out, uint8_t *data_in, size_t len_in) {
-  i2c_transaction_obj *obj = pvPortMalloc(sizeof(i2c_transaction_obj));
+  i2c_transaction_obj *obj = malloc(sizeof(i2c_transaction_obj));
 
   obj->data_out = data_out;
   obj->data_in = data_in;
@@ -222,7 +222,7 @@ int i2c_transaction_finish(i2c_master_module *module,
     return 0;
   }
 
-  vPortFree(transaction);
+  free(transaction);
 
   return 1;
 }

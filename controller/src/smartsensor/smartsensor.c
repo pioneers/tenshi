@@ -59,7 +59,7 @@ void smartsensor_init() {
   sensorArrLock = xSemaphoreCreateBinary();
 
   numSensorsAlloc = numSensors = 0;
-  sensorArr = pvPortMalloc(numSensorsAlloc*sizeof(SSState*));
+  sensorArr = malloc(numSensorsAlloc*sizeof(SSState*));
 
   xSemaphoreGive(sensorArrLock);
 
@@ -86,7 +86,7 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
       led_driver_set_mode(PATTERN_ENUMERATING);
 
       KnownIDs enumIDs = {
-        .arr = pvPortMalloc(SS_MAX_SENSORS_PER_BUS * sizeof(SSState*)),
+        .arr = malloc(SS_MAX_SENSORS_PER_BUS * sizeof(SSState*)),
         .len = 0,
         .maxLen = SS_MAX_SENSORS_PER_BUS,
       };
@@ -129,7 +129,7 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
       led_driver_set_mode(PATTERN_JUST_RED);
       led_driver_set_fixed(enumIDs.len, 0b111);
 
-      vPortFree(enumIDs.arr);
+      free(enumIDs.arr);
 
       busState = SS_BUS_ACTIVE;  // //////////
     }
@@ -257,7 +257,7 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
             if (recLen > 2) {
               uint8_t prefixLen = 3;
               uint8_t decodeLen = recLen-prefixLen-1;
-              uint8_t *data_decode = pvPortMalloc(decodeLen);
+              uint8_t *data_decode = malloc(decodeLen);
               uint8_t freeData = 1;
               cobs_decode(data_decode, data+prefixLen, decodeLen+1);
 
@@ -270,9 +270,9 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
               }
 
               // Only free if not assigned to a sensor.
-              if (data_decode && freeData) vPortFree(data_decode);
+              if (data_decode && freeData) free(data_decode);
             }
-            vPortFree(data);
+            free(data);
           }
         }
 */
@@ -319,11 +319,11 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
           uint8_t frameNumber = (data[1] & 0b111) - SS_FIRST_FRAME;
           uint8_t inband = data[1] >> 7;
           uint8_t decodeLen = recLen-prefixLen-1;
-          uint8_t *data_decode = pvPortMalloc(decodeLen);
+          uint8_t *data_decode = malloc(decodeLen);
           cobs_decode(data_decode, data+prefixLen, decodeLen+1);
 
           // led_driver_set_mode(PATTERN_JUST_RED);
-          // led_driver_set_fixed(sampleNumber, 0b111);
+          // led_driver_set_fixed(sampleNumber, 0b11s1);
 
           if (frameNumber < SS_NUM_FRAMES && sampleNumber < SS_NUM_SAMPLES) {
             int16_t sensorIndex =
@@ -336,9 +336,9 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
             }
           }
 
-          if (data_decode) vPortFree(data_decode);
+          if (data_decode) free(data_decode);
         }
-        vPortFree(data);
+        free(data);
       }
     }
   }
