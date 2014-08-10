@@ -26,7 +26,7 @@
 #define NDL3_PACKED
 #endif
 
-#define NDL3_MAXPORTS 4
+#define NDL3_MAXPORTS 5
 #define NDL3_PACKETS_PER_PORT 4
 #define NDL3_ACK_TIMEIN 100
 #define NDL3_ACK_SPACEIN 100
