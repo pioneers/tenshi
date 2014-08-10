@@ -146,15 +146,13 @@ Rev. B</text>
 <rectangle x1="12.954" y1="2.54" x2="14.224" y2="3.81" layer="22"/>
 <text x="6.35" y="2.54" size="1.27" layer="22" font="vector" ratio="15" rot="MR0">SPI</text>
 <rectangle x1="6.731" y1="2.54" x2="8.001" y2="3.81" layer="22"/>
-<text x="19.939" y="6.477" size="0.6096" layer="22" ratio="20" rot="MR90">(c) Pioneers in Engineering.  Design 
-by: Vincent Donato and Devin He.  
-This design is open source hardware.  
+<text x="25.019" y="0.635" size="0.762" layer="22" font="vector" ratio="20" rot="MR90">(c) Pioneers in Engineering. 
+Design by:  Vincent Donato and Devin He.  
 
 
-For more info, 
-visit pioneers.
-berkeley.edu/
-opensource</text>
+This design is open source hardware.
+hardware.  For more info, visit
+pioneers.berkeley.edu/opensource.</text>
 <wire x1="0.381" y1="0.381" x2="21.844" y2="0.381" width="0.2032" layer="22"/>
 <wire x1="21.844" y1="0.381" x2="21.844" y2="5.969" width="0.2032" layer="22"/>
 <wire x1="21.844" y1="5.969" x2="16.891" y2="5.969" width="0.2032" layer="22"/>

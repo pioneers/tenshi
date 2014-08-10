@@ -129,12 +129,11 @@
 <wire x1="46.99" y1="0" x2="46.99" y2="26.67" width="0.254" layer="20"/>
 <wire x1="46.99" y1="26.67" x2="0" y2="26.67" width="0.254" layer="20"/>
 <wire x1="0" y1="26.67" x2="0" y2="0" width="0.254" layer="20"/>
-<text x="33.655" y="24.765" size="0.762" layer="22" font="vector" ratio="20" rot="SMR0" align="top-left">(c) Pioneers in Engineering
-Design by:
-Krystyn Neisess
+<text x="23.495" y="18.415" size="0.889" layer="22" font="vector" ratio="15" rot="SMR0" align="top-center">(c) Pioneers in Engineering.
+Design by:  Krystyn Neisess.
 This design is open source hardware.
-For more information visit
-pioneers.berkeley.edu/opensource</text>
+For more information, visit
+pioneers.berkeley.edu/opensource.</text>
 <text x="23.495" y="25.273" size="1.6764" layer="21" font="vector" ratio="15" align="top-center">Battery Buzzer Jig</text>
 <text x="23.495" y="22.86" size="1.4224" layer="21" font="vector" ratio="15" align="top-center">For Battery Buzzer
 Board V1 Rev. A</text>
@@ -917,7 +916,7 @@ design rules under a new name.</description>
 <attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="7.112" y="2.54" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
 <element name="U$1" library="pie" package="OSHW-LOGO-M" value="" x="23.622" y="16.383"/>
-<element name="U$2" library="pie" package="PIE-LOGO-SMALL" value="" x="23.495" y="5.08" rot="MR0"/>
+<element name="U$2" library="pie" package="PIE-LOGO-SMALL" value="" x="23.495" y="5.715" rot="MR0"/>
 <element name="U$3" library="pie" package="STAND-OFF" value="" x="43.815" y="3.175"/>
 <element name="U$4" library="pie" package="STAND-OFF" value="" x="3.175" y="23.495"/>
 <element name="U$5" library="pie" package="STAND-OFF" value="" x="43.815" y="23.495"/>

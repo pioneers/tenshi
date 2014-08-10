@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.025" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -135,11 +135,11 @@
 <text x="16.764" y="39.624" size="1.4224" layer="21" font="vector" ratio="15" rot="R180" align="bottom-center">Pioneers in Engineering
 Team Flag
 Version 3 Rev. A</text>
-<text x="-1.778" y="29.972" size="1.016" layer="21" font="vector" ratio="15" align="top-left">Copyright (c) 2013, Pioneers in Engineering
-All rights reserved
-Designed by: Jared P., Aravind K., Sumita G.
+<text x="16.764" y="30.099" size="0.889" layer="21" font="vector" ratio="15" rot="R180" align="bottom-center">(c) Pioneers in Engineering.
+Design by:  Jared P., Aravind K., and Sumita G.
 This design is open source hardware.
-pioneers.berkeley.edu/opensource</text>
+For more information, visit
+pioneers.berkeley.edu/opensource.</text>
 <text x="22.606" y="0.762" size="0.9144" layer="1" font="vector" ratio="20">  v3  revA
 20 June 2014</text>
 </plain>

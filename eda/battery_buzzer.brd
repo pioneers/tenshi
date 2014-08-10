@@ -130,12 +130,11 @@
 <wire x1="46.99" y1="26.67" x2="0" y2="26.67" width="0.254" layer="20"/>
 <wire x1="0" y1="26.67" x2="0" y2="0" width="0.254" layer="20"/>
 <text x="16.9672" y="0.8382" size="1.1684" layer="1" font="vector" ratio="15">v1 revA 20 June 2014</text>
-<text x="38.608" y="1.27" size="0.762" layer="22" font="vector" ratio="20" rot="MR0">(c) Pioneers in Engineering
-Design by:
-Vincent Donato, Devin He, and Krystyn Neisess
+<text x="38.227" y="1.397" size="0.762" layer="22" font="vector" ratio="20" rot="MR0">(c) Pioneers in Engineering.
+Design by:  Vincent Donato, Devin He, and Krystyn Neisess.
 This design is open source hardware.
 For more information, visit 
-pioneers.berkeley.edu/opensource</text>
+pioneers.berkeley.edu/opensource.</text>
 <text x="16.764" y="22.352" size="1.0922" layer="21" font="vector" ratio="15" distance="25" align="bottom-center">Battery Buzzer
 Version 1
 Rev. A</text>

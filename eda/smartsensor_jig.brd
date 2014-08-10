@@ -29,7 +29,7 @@
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="yes"/>
-<layer number="22" name="bPlace" color="17" fill="1" visible="no" active="yes"/>
+<layer number="22" name="bPlace" color="17" fill="1" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="18" fill="1" visible="yes" active="yes"/>
@@ -129,13 +129,11 @@
 <wire x1="33.02" y1="0" x2="33.02" y2="27.94" width="0.254" layer="20"/>
 <wire x1="33.02" y1="27.94" x2="0" y2="27.94" width="0.254" layer="20"/>
 <wire x1="0" y1="27.94" x2="0" y2="0" width="0.254" layer="20"/>
-<text x="22.86" y="23.495" size="0.762" layer="22" font="vector" ratio="20" rot="SMR0" align="top-left">(c) Pioneers in Engineering
-Design by:
-Krystyn Neisess
-This design is
-open source hardware.
-For more information visit
-pioneers.berkeley.edu/opensource</text>
+<text x="16.51" y="19.685" size="0.889" layer="22" font="vector" ratio="15" rot="SMR0" align="top-center">(c) Pioneers in Engineering.
+Design by:  Krystyn Neisess.
+This design is open source hardware.
+For more information, visit
+pioneers.berkeley.edu/opensource.</text>
 <text x="16.51" y="24.13" size="1.6764" layer="21" font="vector" ratio="15" align="top-center">Smartsensor Jig</text>
 <text x="16.51" y="22.098" size="1.27" layer="21" font="vector" ratio="15" align="top-center">For
 Smartsensor 
@@ -920,7 +918,7 @@ design rules under a new name.</description>
 <attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="8.89" y="2.54" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
 <element name="U$1" library="pie" package="OSHW-LOGO-M" value="" x="16.51" y="14.097"/>
-<element name="U$2" library="pie" package="PIE-LOGO-SMALL" value="" x="16.51" y="10.795" rot="MR0"/>
+<element name="U$2" library="pie" package="PIE-LOGO-SMALL" value="" x="16.51" y="6.985" rot="MR0"/>
 <element name="U$3" library="pie" package="STAND-OFF" value="" x="29.845" y="3.175"/>
 <element name="U$4" library="pie" package="STAND-OFF" value="" x="3.175" y="24.765"/>
 <element name="U$5" library="pie" package="STAND-OFF" value="" x="29.845" y="24.765"/>
