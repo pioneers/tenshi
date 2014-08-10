@@ -16,7 +16,7 @@ const UBJSON_PORT = typpo.get_const('NDL3_UBJSON_PORT');
 const STRING_PORT = typpo.get_const('NDL3_STRING_PORT');
 const CODE_PORT = typpo.get_const('NDL3_CODE_PORT');
 
-const RADIO_DEBUG = false;
+exports.debug = false;
 
 try {
   var ndl3 = require('tenshi/vendor-js/ndl3');
@@ -62,7 +62,7 @@ var Radio = function(address, serportObj) {
   this._send_data = send_data.bind(this);
 
   
-  if (RADIO_DEBUG) {
+  if (exports.debug) {
     // Print out every message in or out of the radio, for debugging
     // purposes.
     var events = ['data', 'object', 'string', 'code'];
@@ -191,7 +191,7 @@ function check_port(port, callback) {
 function throw_on_NDL3_error(net) {
   var err = call('NDL3_pop_error', net);
   if (err !== 0) {
-    if (RADIO_DEBUG) {
+    if (exports.debug) {
       throw 'Error number ' + err + ' in NDL3.';
     }
   }
