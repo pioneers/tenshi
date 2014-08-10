@@ -7,6 +7,15 @@ STUFF
 - Hints for compiling and running                                              -
 --------------------------------------------------------------------------------
 
+Are you on Ubuntu? Use install_build_deps.sh! (You must be connected to the
+Internet for this to work.) After running install_build_deps.sh, you also need
+to manually:
+1) Run emcc. This creates some config files necessary for it to work.
+2) Run EAGLE. This creates a directory in your home so that it doesn't prompt
+   you while building (and stalling the build).
+
+Compile using ./build.sh. Build results are in build/artifacts.
+
 Things needed for compiling:
 * coreutils, build-essential, etc.
 * tar, bz2, etc.
