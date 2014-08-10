@@ -129,12 +129,11 @@
 <wire x1="40.64" y1="0" x2="40.64" y2="40.64" width="0.254" layer="20"/>
 <wire x1="40.64" y1="40.64" x2="0" y2="40.64" width="0.254" layer="20"/>
 <wire x1="0" y1="40.64" x2="0" y2="0" width="0.254" layer="20"/>
-<text x="30.48" y="34.925" size="0.762" layer="22" font="vector" ratio="20" rot="SMR0" align="top-left">(c) Pioneers in Engineering
-Design by:
-Krystyn Neisess
+<text x="20.32" y="34.925" size="0.889" layer="22" font="vector" ratio="15" distance="48" rot="SMR0" align="top-center">(c) Pioneers in Engineering.
+Design by:  Krystyn Neisess.
 This design is open source hardware.
-For more information visit
-pioneers.berkeley.edu/opensource</text>
+For more information, visit
+pioneers.berkeley.edu/opensource.</text>
 <text x="20.32" y="38.1" size="1.6764" layer="21" font="vector" ratio="15" align="top-center">Team Flag Jig</text>
 <text x="20.32" y="35.56" size="1.4224" layer="21" font="vector" ratio="15" align="top-center">For Battery Buzzer
 Board V3 Rev. A</text>
