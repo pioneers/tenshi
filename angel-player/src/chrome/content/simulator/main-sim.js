@@ -7,6 +7,9 @@ const { saveFrame, loadFrame } = require('tenshi/simulator/miscFuncs');
 const window = require('tenshi/common/window')();
 let {$, Ammo, document} = window;
 
+const global_state = require('tenshi/common/global_state');
+const ubjson = require('tenshi/common/ubjson');
+
 const lua_supp = require('tenshi/lang-support/lua');
 const emcc_tools = require('tenshi/common/emcc_tools');
 // TODO(rqou): Unify this?
@@ -194,6 +197,28 @@ exports.load_and_run = function(blob) {
   }
 };
 
+//////////////////////////////// Kludgey radio ////////////////////////////////
+
+let last_radio_packet;
+let last_radio_packet_new;
+
+function attach_new_radio() {
+  global_state.get('main_radio').on('send_object', function(obj) {
+    let buf = ubjson.encode(obj);
+    last_radio_packet = String.fromCharCode.apply(null, buf);
+    last_radio_packet_new = true;
+  });
+}
+
+function get_radio_val() {
+  if (last_radio_packet_new) {
+    last_radio_packet_new = false;
+    return last_radio_packet;
+  } else {
+    return null;
+  }
+}
+
 //////////////////// Functions to be called by student code ////////////////////
 
 const runtime_funcs = [
@@ -202,6 +227,7 @@ const runtime_funcs = [
   ['query_dev_info', query_dev_info],
   ['set_simmotor_val', set_simmotor_val],
   ['get_analogsensor_val', get_analogsensor_val],
+  ['get_radio_val', get_radio_val],
 ];
 
 const supported_devices = {
@@ -290,6 +316,8 @@ function get_analogsensor_val(obj) {
 exports.init = function(_window) {
   $(function() {
     simmy = new Simulator(document.getElementById("sim-mainScreen"), null, "testMap");
+
+    attach_new_radio();
 
     // TODO (ericnguyen): wrap all these test functions and organize them elsewhere
     var keyMan = new KeyManager(document);

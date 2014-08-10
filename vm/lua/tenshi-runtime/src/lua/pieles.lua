@@ -17,11 +17,42 @@
 
 local pieles = {}
 
--- PiELES channels are implemented as sensors with an id of pieles-<name>.
--- TODO(rqou): Figure out how to handle errors like unknown channels.
+local watched_channels = {}
+setmetatable(watched_channels, {__mode = 'k'})
 
 function pieles.get_channel(name)
-    return get_device('pieles-' .. name)
+    -- This is currently really hardcoded. The name passed in here is of the
+    -- form <arrname>-<idx>, where arrname can be either PiELESAnalogVals or
+    -- PiELESDigitalVals and idx can be from 0-7 for digital and 0-6 for analog
+
+    local dashidx = name:find("-")
+
+    ret = {
+        __arr = name:sub(1, dashidx - 1),
+        __idx = tonumber(name:sub(dashidx + 1))
+    }
+
+    watched_channels[ret] = 1
+
+    return ret
+end
+
+function pieles.__process_radio()
+    local packet = __runtimeinternal.get_radio_val()
+    if packet ~= nil then
+        local obj = ubjson.decode(packet, 1)
+
+        for s,_ in pairs(watched_channels) do
+            local val = obj[s.__arr][s.__idx]
+
+            -- Update value
+            s.value = val
+            -- If there is a __downstream mailbox, send data to it
+            if s.__downstream then
+                s.__downstream:send({val})
+            end
+        end
+    end
 end
 
 return pieles

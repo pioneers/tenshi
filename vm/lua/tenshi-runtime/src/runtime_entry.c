@@ -36,6 +36,7 @@
 #include "../sensor_actor.lua.h"    // NOLINT(build/include)
 #include "../trap_global.lua.h"     // NOLINT(build/include)
 #include "../triggers.lua.h"        // NOLINT(build/include)
+#include "../ubjson.lua.h"          // NOLINT(build/include)
 #include "../units.lua.h"           // NOLINT(build/include)
 
 // Custom version of baselib with some functions omitted
@@ -138,6 +139,12 @@ static int tenshi_open_game(lua_State *L) {
   return 1;
 }
 
+static int tenshi_open_ubjson(lua_State *L) {
+  luaL_loadbuffer(L, ubjson_lua, sizeof(ubjson_lua), "ubjson.lua");
+  lua_pcall(L, 0, LUA_MULTRET, 0);
+  return 1;
+}
+
 static int get_registry(lua_State *L) {
   lua_pushvalue(L, LUA_REGISTRYINDEX);
   return 1;
@@ -184,6 +191,7 @@ static const luaL_Reg tenshi_loadedlibs_phase2[] = {
   {"triggers", tenshi_open_triggers},
   {"pieles", tenshi_open_pieles},
   {"game", tenshi_open_game},
+  {"ubjson", tenshi_open_ubjson},
   {NULL, NULL}
 };
 
@@ -331,6 +339,20 @@ int LoadStudentcode(TenshiRuntimeState s, const char *data, size_t len,
   return LUA_OK;
 }
 
+void print_traceback(lua_State *L) {
+  const char *msg = lua_tostring(L, -1);
+  if (msg)  /* is error object a string? */
+    luaL_traceback(L, L, msg, 0);  /* use standard traceback */
+  else if (!lua_isnoneornil(L, -1)) {  /* non-string error object? */
+    /* try its 'tostring' metamethod */
+    if (!luaL_callmeta(L, -1, "__tostring"))
+      lua_pushliteral(L, "(no error message)");
+  }  /* else no error object, does nothing */
+
+  const char *err_w_traceback = lua_tostring(L, -1);
+  printf("%s\n", err_w_traceback);
+}
+
 int TenshiRunQuanta(TenshiRuntimeState s) {
   // Do timeouts
   ActorProcessTimeouts(s);
@@ -342,6 +364,7 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
   int ret = threading_run_ops(s->sensor_actor->L, 1000, NULL);
   if (ret != THREADING_EXITED) {
     printf("There was an error running the sensor actor!\n");
+    print_traceback(s->sensor_actor->L);
     return ret;
   }
 
@@ -360,18 +383,8 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
     ret = threading_run_ops(a->L, ops_left, &ops_left);
     if (ret == THREADING_ERROR) {
       printf("THERE WAS AN ERROR!\n");
+      print_traceback(a->L);
 
-      const char *msg = lua_tostring(a->L, -1);
-      if (msg)  /* is error object a string? */
-        luaL_traceback(a->L, a->L, msg, 0);  /* use standard traceback */
-      else if (!lua_isnoneornil(a->L, -1)) {  /* non-string error object? */
-        /* try its 'tostring' metamethod */
-        if (!luaL_callmeta(a->L, -1, "__tostring"))
-          lua_pushliteral(a->L, "(no error message)");
-      }  /* else no error object, does nothing */
-
-      const char *err_w_traceback = lua_tostring(a->L, -1);
-      printf("%s\n", err_w_traceback);
       return LUA_ERRRUN;
     }
 
@@ -396,6 +409,7 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
   ret = threading_run_ops(s->actuator_actor->L, 1000, NULL);
   if (ret != THREADING_EXITED) {
     printf("There was an error running the actuator actor!\n");
+    print_traceback(s->actuator_actor->L);
     return ret;
   }
 
