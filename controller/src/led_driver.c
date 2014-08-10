@@ -42,16 +42,16 @@ typedef struct tag_led_driver_pattern_entry {
 
 typedef struct tag_led_driver_pattern {
   uint8_t len;
-  led_driver_pattern_entry *entries;
+  const led_driver_pattern_entry *entries;
 } led_driver_pattern;
 
-static led_driver_pattern driver_patterns[] = {
+static const led_driver_pattern const driver_patterns[] = {
   {
     // PATTERN_DEFAULT_CHASER
     // Each LED on for 1 second
     .len = 4,
     .entries =
-    (led_driver_pattern_entry[]) {
+    (const led_driver_pattern_entry[]) {
       {
         .led_states = LED_YELLOW,
         .num_ticks = 4,
@@ -72,7 +72,7 @@ static led_driver_pattern driver_patterns[] = {
     // Note that to make looping smooth red and yellow are not repeated.
     .len = 6,
     .entries =
-    (led_driver_pattern_entry[]) {
+    (const led_driver_pattern_entry[]) {
       {
         .led_states = LED_YELLOW,
         .num_ticks = 1,
@@ -98,7 +98,7 @@ static led_driver_pattern driver_patterns[] = {
     // Just red flashes
     .len = 2,
     .entries =
-    (led_driver_pattern_entry[]) {
+    (const led_driver_pattern_entry[]) {
       {
         .led_states = LED_RED,
         .num_ticks = 1,
@@ -112,7 +112,7 @@ static led_driver_pattern driver_patterns[] = {
     // Flashes pairs of LEDs during sensor enumeration
     .len = 2,
     .entries =
-    (led_driver_pattern_entry[]) {
+    (const led_driver_pattern_entry[]) {
       {
         .led_states = LED_YELLOW | LED_RED,
         .num_ticks = 1,
