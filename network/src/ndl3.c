@@ -249,7 +249,8 @@ void NDL3_setopt(NDL3Net * restrict net, NDL3_port port, NDL3_options opt) {
  * is opened.
  *
  * msg becomes owned by NDL3Net, and will be freed using the user supplied free
- * function when the packet has been sent or the port is closed.
+ * function when the packet has been sent, the port is closed, or an error
+ * occurs.
  */
 void  NDL3_send(NDL3Net * restrict net, NDL3_port port,
                 void * msg, NDL3_size size) {
@@ -274,9 +275,11 @@ void  NDL3_send(NDL3Net * restrict net, NDL3_port port,
         return;
       }
     }
+    net->free(msg, net->userdata);
     net->last_error = NDL3_ERROR_NO_PACKETS_LEFT;
     return;
   }
+  net->free(msg, net->userdata);
   net->last_error = NDL3_ERROR_PORT_NOT_OPEN;
 }
 
