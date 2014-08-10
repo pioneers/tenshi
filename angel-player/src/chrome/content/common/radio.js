@@ -217,6 +217,9 @@ function send_string(string) {
 
 function send_code(buf) {
   /* jshint validthis: true */
+  if (typeof buf === 'string') {
+    buf = buffer.Buffer(buf);
+  }
   send(this.net, CODE_PORT, buf);
 }
 
