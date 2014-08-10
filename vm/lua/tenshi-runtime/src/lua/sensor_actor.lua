@@ -35,3 +35,5 @@ for s,_ in pairs(__runtimeinternal.get_registry()['tenshi.changed_sensors']) do
         end
     end
 end
+
+pieles.__process_radio()
