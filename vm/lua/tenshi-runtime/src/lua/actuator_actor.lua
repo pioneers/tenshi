@@ -19,8 +19,10 @@
 -- and then exit. It converts messages sent to mailboxes into functions that
 -- update actuators.
 
-for a,_ in
-    pairs(__runtimeinternal.get_registry()['tenshi.changed_actuators']) do
+local changed_actuators =
+    __runtimeinternal.get_registry()['tenshi.changed_actuators']
+
+for a,_ in pairs(changed_actuators) do
     -- a is an actual raw actuator object
     local set_func = __runtimeinternal['set_' .. a.__lua_dev.__dev .. '_val']
 
@@ -29,4 +31,6 @@ for a,_ in
         set_func(a.__lua_dev.__raw, val)
         val = a:recv({timeout=0})
     end
+
+    changed_actuators[a] = nil
 end
