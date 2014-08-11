@@ -13,10 +13,15 @@ Pioneers in Engineering Control System Next
 If you're on Windows and can't run `dev.sh`, run `dev.bat`
 
 
-## UI Development Slow-Start
-1. Install dependencies below.
-2. Run `build.sh` once.
-3. Run `./run-angel-player` without `build.sh` to see changes.
+## UI Development Slow-Start (and release build instructions)
+1. Install essential and angel-player dependencies below.
+2. Run `build-angel-player.sh` once.
+3. Run `./run-angel-player` or `./dev.sh` without `build.sh` to see changes.
+
+
+## Building the Whole System
+1. Install all dependencies below.
+2. Run `build.sh`.
 
 
 ## Setting up Angel Player debugger
