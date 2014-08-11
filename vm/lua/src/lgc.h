@@ -79,6 +79,7 @@
 #define WHITE1BIT	1  /* object is white (type 1) */
 #define BLACKBIT	2  /* object is black */
 #define FINALIZEDBIT	3  /* object has been marked for finalization */
+#define READONLYBIT	4  /* object is (partially) stored in read-only memory */
 /* bit 7 is currently used by tests (luaL_checkmemory) */
 
 #define WHITEBITS	bit2mask(WHITE0BIT, WHITE1BIT)
