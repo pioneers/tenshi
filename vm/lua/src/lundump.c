@@ -31,6 +31,7 @@ typedef struct {
   ZIO *Z;
   Mbuffer *b;
   const char *name;
+  size_t total;
 } LoadState;
 
 
@@ -49,6 +50,7 @@ static l_noret error(LoadState *S, const char *why) {
 static void LoadBlock (LoadState *S, void *b, size_t size) {
   if (luaZ_read(S->Z, b, size) != 0)
     error(S, "truncated");
+  S->total += size;
 }
 
 
@@ -59,6 +61,12 @@ static lu_byte LoadByte (LoadState *S) {
   lu_byte x;
   LoadVar(S, x);
   return x;
+}
+
+static void Align4(LoadState* S)
+{
+  while(S->total & 3)
+    LoadByte(S);
 }
 
 
@@ -98,6 +106,7 @@ static TString *LoadString (LoadState *S) {
 
 
 static void LoadCode (LoadState *S, Proto *f) {
+  Align4(S);
   int n = LoadInt(S);
   f->code = luaM_newvector(S->L, n, Instruction);
   f->sizecode = n;
@@ -172,6 +181,7 @@ static void LoadUpvalues (LoadState *S, Proto *f) {
 
 static void LoadDebug (LoadState *S, Proto *f) {
   int i, n;
+  Align4(S);
   n = LoadInt(S);
   f->lineinfo = luaM_newvector(S->L, n, int);
   f->sizelineinfo = n;
@@ -261,6 +271,7 @@ LClosure *luaU_undump(lua_State *L, ZIO *Z, Mbuffer *buff,
   S.L = L;
   S.Z = Z;
   S.b = buff;
+  S.total = 1;
   checkHeader(&S);
   cl = luaF_newLclosure(L, LoadByte(&S));
   setclLvalue(L, L->top, cl);
