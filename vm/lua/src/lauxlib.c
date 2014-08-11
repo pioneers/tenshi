@@ -710,6 +710,27 @@ LUALIB_API int luaL_loadbufferx (lua_State *L, const char *buff, size_t size,
 }
 
 
+static const char *getS_ro (lua_State *L, void *ud, size_t *size) {
+  LoadS *ls = (LoadS *)ud;
+  (void)L;  /* not used */
+  if (L == NULL && size == NULL) // direct mode check
+    return ls->s;
+  if (ls->size == 0) return NULL;
+  *size = ls->size;
+  ls->size = 0;
+  return ls->s;
+}
+
+
+LUALIB_API int luaL_loadbufferxro (lua_State *L, const char *buff, size_t size,
+                                 const char *name, const char *mode) {
+  LoadS ls;
+  ls.s = buff;
+  ls.size = size;
+  return lua_load(L, getS_ro, &ls, name, mode);
+}
+
+
 LUALIB_API int luaL_loadstring (lua_State *L, const char *s) {
   return luaL_loadbuffer(L, s, strlen(s), s);
 }
