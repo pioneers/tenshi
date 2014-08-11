@@ -63,18 +63,36 @@ equivalents of the dependencies below.
 
 
 ## Full System Dependencies
+
+For the time being, `build.sh` is not modular enough, and needs all of these
+dependencies to exist to do anything.
+
+### To do anything besides Angel-Player development
+* PyYAML
 * coreutils, build-essential, etc.
-* tar, bz2, etc.
 * python (2.7 recommended)
-* nodejs (currently using v0.10.26, from the chris-lea/node.js PPA)
+* tar, bz2, etc.
 * wget
-* pep8
+
+### To build release Angel-Player
+* emscripten (get from http://rqou.com/emscripten-bin-18apr2014.tar.bz2)
+
+### To lint Angel-Player
+* nodejs (currently using v0.10.26, from the chris-lea/node.js PPA)
 * jshint (install from npm, currently using 2.1.11)
 * csslint (install from npm, currently using 0.10.0)
-* project-tenshi-tools (get from Jenkins)
-* emscripten (get from http://rqou.com/emscripten-bin-18apr2014.tar.bz2)
-* avr-gcc (currently using the nonolith/avr-toolchain PPA)
-* libX11, Xvfb
-* EAGLE (currently using v6.5.0)
 * Java JRE
-* PyYAML
+
+### To test Angel-Player
+* libX11, Xvfb (also used to build eda)
+
+### To build eda
+* EAGLE (currently using v6.5.0)
+* libX11, Xvfb (also used to test Angel-Player)
+
+### To build embedded software
+* project-tenshi-tools (get from Jenkins)
+* avr-gcc (currently using the nonolith/avr-toolchain PPA)
+
+### To lint the build system itself
+* pep8
