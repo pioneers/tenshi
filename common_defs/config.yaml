@@ -1,0 +1,34 @@
+# Contains datastructures sent across the radio configuration port.
+# Configuration is done through typpo since the complexity of ubjson is
+# unhelpful in these contexts.
+
+- name: uint8_t
+  kind: alien
+  size: 1
+  repr: unsigned
+
+- name: char
+  kind: alien
+  size: 1
+  repr: signed
+
+- name: uint64_t
+  kind: alien
+  size: 8
+  repr: unsigned
+
+- name: CONFIG_HOST_INFO
+  kind: const
+  value: 0x68
+
+- name: host_info
+  kind: struct
+  packed: true
+  slots:
+    - name: ident
+      type: uint8_t
+    - name: version
+      type: uint8_t
+    - name: address
+      type: uint64_t
+      endian: big
