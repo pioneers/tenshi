@@ -18,17 +18,18 @@
 # under the License
 
 
-. tools/begin-build.sh
+export PROJECT_ROOT_DIR=`pwd`
 
-ARGS="$@"
-if [ -z "$ARGS" ]; then
-  ARGS='--emcc-only
-        configure
-        build_network/release_emscripten
-        build_lua/release_emscripten
-        build_vm/release_emscripten'
+# Set up or download tools
+./tools/extract-tools.sh
+
+# TODO(rqou): Less hacky
+export PATH=$PATH:$PROJECT_ROOT_DIR/tools/arm-toolchain/bin:$PROJECT_ROOT_DIR/tools/emscripten-bin:$PROJECT_ROOT_DIR/tools/emscripten-bin/llvm/bin
+
+if [[ -z "LLVM" ]] ; then
+	export LLVM_DIR="$PROJECT_ROOT_DIR/emscripten-bin/llvm"
+	export LLVM="$LLVM_DIR/bin"
+	export PATH="$PATH:$PROJECT_ROOT_DIR/emscripten-bin:$LLVM"
 fi
 
-./waf $ARGS
-
-./angel-player/build.sh
+mkdir -p build/artifacts

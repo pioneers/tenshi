@@ -17,21 +17,7 @@
 # specific language governing permissions and limitations
 # under the License
 
-export PROJECT_ROOT_DIR=`pwd`
-
-# Set up or download tools
-./tools/extract-tools.sh
-
-# TODO(rqou): Less hacky
-export PATH=$PATH:$PROJECT_ROOT_DIR/tools/arm-toolchain/bin:$PROJECT_ROOT_DIR/tools/emscripten-bin:$PROJECT_ROOT_DIR/tools/emscripten-bin/llvm/bin
-
-if [[ -z "LLVM" ]] ; then
-	export LLVM_DIR="$PROJECT_ROOT_DIR/emscripten-bin/llvm"
-	export LLVM="$LLVM_DIR/bin"
-	export PATH="$PATH:$PROJECT_ROOT_DIR/emscripten-bin:$LLVM"
-fi
-
-mkdir -p build/artifacts
+. tools/begin-build.sh
 
 # Run linters
 linter_status=0
@@ -52,17 +38,7 @@ fi
 
 ./waf $WAF_ARGS
 
-# TODO(kzentner): Fix this hack?
-VENDOR_JS=angel-player/src/chrome/content/vendor-js/
-cp build/vm/release_emscripten/vm/angelic/src/ngl_vm.js $VENDOR_JS
-cp build/lua/release_emscripten/vm/lua/lua.js $VENDOR_JS
-cp build/network/release_emscripten/network/ndl3.js $VENDOR_JS
-
-# Main build
-for dir in angel-player
-do
-	./$dir/build.sh
-done
+./angel-player/build.sh
 
 # Run unit test for Angel Player
 # TODO(rqou): Fix the fact that this has to be run at the end of the build

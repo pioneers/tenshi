@@ -67,7 +67,10 @@ equivalents of the dependencies below.
 For the time being, `build.sh` is not modular enough, and needs all of these
 dependencies to exist to do anything.
 
-### To do anything besides Angel-Player development
+However, Angel-Player can be built with only its listed dependencies using
+`./build-angel-player.sh`.
+
+### To do anything
 * PyYAML
 * coreutils, build-essential, etc.
 * python (2.7 recommended)

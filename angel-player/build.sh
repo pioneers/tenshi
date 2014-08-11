@@ -19,6 +19,12 @@
 
 ANGEL_PLAYER_MAIN_DIR=$PROJECT_ROOT_DIR/angel-player
 
+# TODO(kzentner): Fix this hack?
+VENDOR_JS=$PROJECT_ROOT_DIR/angel-player/src/chrome/content/vendor-js/
+cp $PROJECT_ROOT_DIR/build/vm/release_emscripten/vm/angelic/src/ngl_vm.js $VENDOR_JS
+cp $PROJECT_ROOT_DIR/build/lua/release_emscripten/vm/lua/lua.js $VENDOR_JS
+cp $PROJECT_ROOT_DIR/build/network/release_emscripten/network/ndl3.js $VENDOR_JS
+
 mkdir -p $PROJECT_ROOT_DIR/build/angel-player
 pushd $PROJECT_ROOT_DIR/build/angel-player
 

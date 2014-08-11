@@ -249,7 +249,8 @@ def configure(conf):
     conf.env['ngl_root'] = conf.path.abspath()
     conf.env['check_compiler_options'] = conf.options.check_compiler_options
     configure_release_emscripten(conf)
-    configure_debug_native(conf)
+    if not getattr(conf.options, 'emcc_only', False):
+        configure_debug_native(conf)
     recurse(conf)
 
 
