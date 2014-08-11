@@ -12,7 +12,7 @@ then
     then
         cp ~/tenshi-cache/xulrunner-30.0.en-US.linux-x86_64.tar.bz2 .
     else
-        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/30.0/runtimes/xulrunner-30.0.en-US.linux-x86_64.tar.bz2
+        wget http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/30.0/runtimes/xulrunner-30.0.en-US.linux-x86_64.tar.bz2
     fi
 fi
 if [ ! -e xulrunner-30.0.en-US.win32.zip ]
@@ -21,7 +21,7 @@ then
     then
         cp ~/tenshi-cache/xulrunner-30.0.en-US.win32.zip .
     else
-        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/30.0/runtimes/xulrunner-30.0.en-US.win32.zip
+        wget http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/30.0/runtimes/xulrunner-30.0.en-US.win32.zip
     fi
 fi
 if [ ! -e xulrunner-30.0.en-US.mac.tar.bz2 ]
@@ -30,7 +30,7 @@ then
     then
         cp ~/tenshi-cache/xulrunner-30.0.en-US.mac.tar.bz2 .
     else
-        wget ftp://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/30.0/runtimes/xulrunner-30.0.en-US.mac.tar.bz2
+        wget http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/30.0/runtimes/xulrunner-30.0.en-US.mac.tar.bz2
     fi
 fi
 
