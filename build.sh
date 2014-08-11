@@ -45,7 +45,12 @@ if [ $linter_status != 0 ] ; then
   exit $linter_status
 fi
 
-./waf configure build
+WAF_ARGS="$@"
+if [ -z "$WAF_ARGS" ]; then
+  WAF_ARGS="configure build"
+fi
+
+./waf $WAF_ARGS
 
 # TODO(kzentner): Fix this hack?
 VENDOR_JS=angel-player/src/chrome/content/vendor-js/
