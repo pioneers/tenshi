@@ -3,14 +3,17 @@ Pioneers in Engineering Control System Next
 
 
 ## UI Development Quick-Start (Angel-Player)
-1. Install `firefox` (v30+), `git`
+The following steps should work on Linux, OS X, and Windows (cygwin).
+
+1. Install `firefox` (v30+), `git` (which comes with cygwin / git bash on
+Windows).
 2. `git clone [this repo]`
 3. Run `dev.sh`
 4. There's no need to run `build.sh`
 
 
 ## Windows
-If you're on Windows and can't run `dev.sh`, run `dev.bat`
+If you're on Windows and can't run `dev.sh` (not using cygwin), run `dev.bat`
 
 
 ## UI Development Slow-Start (and release build instructions)
