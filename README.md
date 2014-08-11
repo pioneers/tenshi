@@ -46,10 +46,8 @@ to an alternate port.
 
 To connect the remote debugger, restart firefox and select `Tools->Web
 Developer->Connect...` in Firefox. Set the host to localhost and the port to
-6000 (unless you changed the port above) and click connect. Until this is
-fixed, to debug JS, select `Main Process` and to debug CSS select
-`chrome://angel-player/content/main.html`
-
+6000 (unless you changed the port above) and click connect. Select `Main
+Process` from the list that appears.
 
 
 ## Full System Setup (i.e. how to run build.sh)
