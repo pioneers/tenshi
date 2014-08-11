@@ -45,8 +45,9 @@ def configure(conf):
                                         os.pardir)
     with sub_conf(conf, 'network/release_emscripten'):
         configure_emscripten(conf)
-    with sub_conf(conf, 'network/debug_native'):
-        configure_debug_native(conf)
+    if not getattr(conf.options, 'emcc_only', False):
+        with sub_conf(conf, 'network/debug_native'):
+            configure_debug_native(conf)
 
 
 def build(bld):
