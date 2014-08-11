@@ -16,6 +16,9 @@ to manually:
 
 Compile using ./build.sh. Build results are in build/artifacts.
 
+Run angel-player using ./run-angel-player (build.sh is not needed in this
+case).
+
 Things needed for compiling:
 * coreutils, build-essential, etc.
 * tar, bz2, etc.
