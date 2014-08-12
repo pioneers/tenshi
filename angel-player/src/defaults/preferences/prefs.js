@@ -34,4 +34,4 @@ pref("dom.gamepad.enabled", true);
 pref("dom.gamepad.non_standard_events.enabled", true);
 
 // Data telemetry. To be changed later
-pref("tenshi.telemetryUrl", "https://rqou.com/bigbrother.sh");
+pref("tenshi.telemetryUrl", "");
