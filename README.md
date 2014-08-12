@@ -10,6 +10,8 @@ Windows).
 2. `git clone [this repo]`
 3. Run `dev.sh`
 4. There's no need to run `build.sh`
+5. Reload Angel-Player without restarting it by clicking the square at the
+   bottom right, and clicking the `Reload` text that appears.
 
 
 ## Windows
