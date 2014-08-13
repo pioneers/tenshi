@@ -12,6 +12,8 @@ Windows).
 4. There's no need to run `build.sh`
 5. Reload Angel-Player without restarting it by clicking the square at the
    bottom right, and clicking the `Reload` text that appears.
+6. To interact with a robot or run code in the simulator, for the time being
+   the Slow-Start is needed (or the artifacts from it).
 
 
 ## Windows
