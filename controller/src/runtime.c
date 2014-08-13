@@ -74,7 +74,7 @@ BaseType_t runtimeInit() {
   // Get updates from smart sensor protocol
   registerSensorUpdateCallback(&sensorUpdateCallback);
 
-  return xTaskCreate(runtimeTask, "Runtime", 3596, NULL, tskIDLE_PRIORITY,
+  return xTaskCreate(runtimeTask, "Runtime", 2048, NULL, tskIDLE_PRIORITY,
                      NULL);
 }
 
@@ -134,6 +134,7 @@ void sensorUpdateCallback(uint16_t index, SSState *sensor) {
 }
 
 void setLedError(int err) {
+  setGameMode(RuntimeModeDisabled);
   led_driver_set_mode(PATTERN_RUNTIME_ERROR);
   led_driver_set_fixed(err, 0);  // Press button 0 to view this error code
 }
@@ -211,8 +212,9 @@ static portTASK_FUNCTION_PROTO(runtimeTask, pvParameters) {
 
   ret = restartTenshiRuntime(&s, &a, studentCode, studentCodeLen);
   if (ret != RUNTIME_OK && firstErr == RUNTIME_OK) firstErr = ret;
-  if (firstErr != RUNTIME_OK )
-    led_driver_set_fixed(firstErr, 0b111);
+  if (firstErr != RUNTIME_OK) {
+    setLedError(firstErr);
+  }
 
   setGameMode(RuntimeModeDisabled);
 
@@ -248,8 +250,9 @@ static portTASK_FUNCTION_PROTO(runtimeTask, pvParameters) {
             printf("Reloading code.\n");
             restartTenshiRuntime(&s, &a, studentCode, studentCodeLen);
             if (ret != RUNTIME_OK && firstErr == RUNTIME_OK) firstErr = ret;
-            if (firstErr != RUNTIME_OK )
-              led_driver_set_fixed(firstErr, 0b111);
+            if (firstErr != RUNTIME_OK) {
+              setLedError(firstErr);
+            }
 
             firstErr = RUNTIME_OK;
             ret = RUNTIME_OK;
@@ -270,8 +273,9 @@ static portTASK_FUNCTION_PROTO(runtimeTask, pvParameters) {
     if (firstErr == RUNTIME_OK && a != NULL && s != NULL) {
       ret = TenshiRunQuanta(s);
       if (ret != RUNTIME_OK && firstErr == RUNTIME_OK) firstErr = ret;
-      if (firstErr != RUNTIME_OK )
-        led_driver_set_fixed(firstErr, 0b111);
+      if (firstErr != RUNTIME_OK) {
+        setLedError(firstErr);
+      }
     }
     if (button_driver_get_button_state(1)) {
       RuntimeMode newMode;
@@ -293,8 +297,9 @@ static portTASK_FUNCTION_PROTO(runtimeTask, pvParameters) {
       if (shouldRestart) {
         ret = restartTenshiRuntime(&s, &a, studentCode, studentCodeLen);
         if (ret != RUNTIME_OK && firstErr == RUNTIME_OK) firstErr = ret;
-        if (firstErr != RUNTIME_OK )
-          led_driver_set_fixed(firstErr, 0b111);
+        if (firstErr != RUNTIME_OK) {
+          setLedError(firstErr);
+        }
 
         printf("Restarting code.\nNew mode: %d\n", gameMode);
       } else {
