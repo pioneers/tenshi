@@ -98,9 +98,17 @@ static TString *LoadString (LoadState *S) {
   if (size == 0)
     return NULL;
   else {
-    char *s = luaZ_openspace(S->L, S->b, --size);
-    LoadVector(S, s, size);
-    return luaS_newlstr(S->L, s, size);
+    char *s;
+    if (!luaZ_direct_mode(S->Z)) {
+      s = luaZ_openspace(S->L, S->b, --size);
+      LoadVector(S, s, size);
+      return luaS_newlstr(S->L, s, size);
+    } else {
+      s = (char*)luaZ_get_crt_address(S->Z);
+      --size;
+      LoadBlock(S, NULL, size);
+      return luaS_newlstr(S->L, s, size);
+    }
   }
 }
 

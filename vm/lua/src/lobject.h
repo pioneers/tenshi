@@ -27,6 +27,9 @@
 */
 #define LUA_TOTALTAGS	(LUA_TPROTO + 2)
 
+/* mask for 'read-only' objects. must match READONLYBIT in lgc.h */
+#define READONLYMASK (1 << 4)
+
 
 /*
 ** tags for Tagged Values have the following use of bits:
@@ -313,7 +316,7 @@ typedef union TString {
 
 
 /* get the actual string (array of bytes) from a TString */
-#define getstr(ts)	cast(const char *, (ts) + 1)
+#define getstr(ts)	(((ts)->tsv.marked & READONLYMASK) ? cast(const char *, *(const char**)((ts) + 1)) : cast(const char *, (ts) + 1))
 
 /* get the actual string (array of bytes) from a Lua value */
 #define svalue(o)       getstr(rawtsvalue(o))
