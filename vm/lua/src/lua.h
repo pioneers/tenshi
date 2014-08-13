@@ -79,6 +79,12 @@ typedef void * (*lua_Alloc) (void *ud, void *ptr, size_t osize, size_t nsize);
 
 
 /*
+** Type for special function for testing if a pointer is in an XIP region
+*/
+typedef int (*lua_XIPTester) (const void *ptr);
+
+
+/*
 ** basic types
 */
 #define LUA_TNONE		(-1)
@@ -141,6 +147,8 @@ LUA_API void       (lua_close) (lua_State *L);
 LUA_API lua_State *(lua_newthread) (lua_State *L);
 
 LUA_API lua_CFunction (lua_atpanic) (lua_State *L, lua_CFunction panicf);
+
+LUA_API void       (lua_setcheckxip) (lua_State *L, lua_XIPTester xt);
 
 
 LUA_API const lua_Number *(lua_version) (lua_State *L);

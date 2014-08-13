@@ -134,6 +134,7 @@ typedef struct global_State {
   TString *memerrmsg;  /* memory-error message */
   TString *tmname[TM_N];  /* array with tag-method names */
   struct Table *mt[LUA_NUMTAGS];  /* metatables for basic types */
+  lua_XIPTester xipcheck; /* used for XIP patches */
 } global_State;
 
 
