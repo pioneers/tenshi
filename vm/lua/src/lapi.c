@@ -1291,3 +1291,6 @@ LUA_API void lua_upvaluejoin (lua_State *L, int fidx1, int n1,
 }
 
 
+LUA_API void lua_setcheckxip (lua_State *L, lua_XIPTester xt) {
+  G(L)->xipcheck = xt;
+}
