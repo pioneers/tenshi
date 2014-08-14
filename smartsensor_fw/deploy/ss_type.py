@@ -49,6 +49,16 @@ allDescriptors = {
         "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
         # "additional" value should also contain n bytes of calibration data
       },
+      #{ "description": "sm",
+      #  "type"  : 0x01,
+      #  "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+      #  # "additional" value should also contain n bytes of calibration data
+      #},
+      #{ "description": "sm",
+      #  "type"  : 0x01,
+      #  "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+      #  # "additional" value should also contain n bytes of calibration data
+      #},
     ]
   },
 
