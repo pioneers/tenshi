@@ -26,9 +26,8 @@
 #include <ngl_buffer.h>
 #include <ngl_package.h>
 
-// Interpreter runtime
-#include <inc/mboxlib.h>
-#include <inc/runtime_entry.h>
+#include "inc/runtime.h"
+#include "inc/runtime_interface.h"
 
 #include "inc/FreeRTOS.h"
 #include "inc/button_driver.h"
@@ -46,8 +45,6 @@
 
 #include "legacy_piemos_framing.h"   // NOLINT(build/include)
 #include "ngl_types.h"   // NOLINT(build/include)
-
-#include "inc/lua_interface.h"
 
 
 
@@ -315,10 +312,7 @@ int main(int argc, char **argv) {
   // Setup radio
   radio_driver_init();
 
-  #ifdef TEST_STATIC_LUA
-  xTaskCreate(angelicTask, "Angelic", 2048, NULL,
-              tskIDLE_PRIORITY, NULL);
-  #endif
+  runtimeInit();
 
   xTaskCreate(radioTask, "Radio", 2048, NULL, tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();
