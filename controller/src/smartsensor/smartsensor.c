@@ -127,6 +127,9 @@ void smartsensor_init() {
       tskIDLE_PRIORITY, NULL);
   }
 }
+int ssIsActive() {
+  return allActive;
+}
 void ssBlockUntilActive() {
   if (!allActive) {
     EventBits_t waitBits = ~((~0) << (SS_BUS_COUNT));
