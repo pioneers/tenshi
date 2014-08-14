@@ -181,6 +181,7 @@ static void TenshiRuntime_openlibs_phase1(lua_State *L) {
   for (lib = tenshi_loadedlibs_phase1; lib->func; lib++) {
     luaL_requiref(L, lib->name, lib->func, 1);
     lua_pop(L, 1);  /* remove lib */
+    lua_gc(L, LUA_GCCOLLECT, 0);
   }
 }
 
@@ -416,6 +417,8 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
     print_traceback(s->actuator_actor->L);
     return ret;
   }
+
+  lua_gc(s->L, LUA_GCCOLLECT, 0);
 
   return LUA_OK;
 }
