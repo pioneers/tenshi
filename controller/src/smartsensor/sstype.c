@@ -151,8 +151,8 @@ void ss_set_analog_val(SSChannel *channel, double num) {
 double ss_get_analog_val(SSChannel *channel) {
   uint8_t bitsPerSample = 8;
   if (channel->additionalLen >= 3) bitsPerSample = channel->additional[2];
-  if (bitsPerSample < 1) bitsPerSample = 8;
-  if (bitsPerSample > 64) bitsPerSample = 8;
+  if (bitsPerSample < 1) bitsPerSample = 10;
+  if (bitsPerSample > 64) bitsPerSample = 10;
   double factor = (1 << bitsPerSample) - 1;
 
   uint8_t val_len = (bitsPerSample + 7) / 8;
