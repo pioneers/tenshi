@@ -21,6 +21,7 @@
 #include "inc/pindef.h"
 #include "inc/stm32f4xx.h"
 #include "inc/task.h"
+#include "inc/button_driver.h"
 
 static volatile uint8_t led_driver_current_mode = 0;
 static volatile uint8_t led_driver_fixed_pattern = 0;  // The states of the
@@ -266,7 +267,7 @@ static portTASK_FUNCTION_PROTO(led_driver_task, pvParameters) {
     uint8_t led_states = driver_patterns[current_led_pattern]
       .entries[pattern_step_index].led_states;
     led_states &= ~led_driver_fixed_mask;
-    led_states |= led_driver_fixed_pattern;
+    led_states |= led_driver_fixed_pattern & led_driver_fixed_mask;
     if (button_driver_get_button_state(0))
       led_states = led_driver_fixed_pattern;
     if (button_driver_get_button_state(1)) led_states = ~led_states;
@@ -332,7 +333,7 @@ uint8_t led_driver_get_mode(void) {
 
 // TODO(cduck): Make thread safe
 void led_driver_set_fixed(uint8_t pattern, uint8_t mask) {
-  led_driver_fixed_pattern = pattern & mask;
+  led_driver_fixed_pattern = pattern;
   led_driver_fixed_mask = mask;
 }
 uint8_t led_driver_get_fixed_pattern() {
