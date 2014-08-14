@@ -25,7 +25,7 @@
 typedef enum {
   RuntimeMessageNone = 0,
   RuntimeMessageNewCode,
-  RuntimeMessageRemoteValue,
+  RuntimeMessageUbjson,
   RuntimeMessageGameMode,
 } RuntimeMessageType;
 
@@ -33,7 +33,8 @@ typedef enum {
   RuntimeModeUninitialized = 0,
   RuntimeModeDisabled      = 1,
   RuntimeModeAutonomous    = 2,
-  RuntimeModeTeleop        = 3,
+  RuntimeModePaused        = 3,
+  RuntimeModeTeleop        = 4,
 } RuntimeMode;
 
 
@@ -43,7 +44,12 @@ extern volatile int gameMode;
 
 
 BaseType_t runtimeInit();
-void runtimeSendRadioMsg(RuntimeMessageType type, void* info);
+void runtimeSendRadioMsg(RuntimeMessageType type, void* info, size_t infoLen);
+// Takes responsibility for freeing
+void runtimeRecieveUbjson(char *ubjson, size_t len);
+void runtimeRecieveCode(char *code, size_t len);
+
+char *readLastUbjson(size_t *len);  // Not thread safe
 
 
 #endif  // INC_RUNTIME_H_

@@ -22,6 +22,8 @@
 
 
 BaseType_t radioInit();
+void radioPushUbjson(const char *ubjson, size_t len);
+void radioPushString(const char *str, size_t len);
 
 
 #endif  // INC_RADIO_H_
