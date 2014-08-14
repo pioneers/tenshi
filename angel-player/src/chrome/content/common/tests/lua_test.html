@@ -1,0 +1,29 @@
+<!doctype html>
+
+<html>
+    <head>
+        <script type='application/javascript;version=1.7'
+            src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+        <script src="../../common/require_stub.js"></script>
+        <script src="../../vendor-js/jquery.js"></script>
+    </head>
+    <body onload="">
+        <textarea id="text">fastCallJSFunction(log, 1)
+i=0
+while true do
+  i = i + 1
+end</textarea>
+        <button id="submit">Run</button>
+        <script type="text/javascript">
+          $("#submit").click(function() {
+          var lua_interface = require('tenshi/common/lua_interface');
+          var vm = lua_interface.make();
+
+          vm.add_fn("log", function(x) {alert(x);});
+
+          vm.load_text($("#text").val());
+          vm.start();
+          });
+        </script>
+    </body>
+</html>
