@@ -35,6 +35,14 @@ typedef struct tag_uart_serial_module {
 extern uart_serial_module *uart_serial_init_module(int uart_num,
   ssize_t (*length_finder_fn)(uart_serial_module *, uint8_t),
   void (*txen_fn)(int), int baud);
+
+// Returns 1 if there are any packets in the queue
+extern int uart_serial_is_busy(uart_serial_module *module);
+// Returns how many packets are in the queue
+extern int uart_serial_packets_waiting(uart_serial_module *module);
+// Returns 1 if the queue is full
+extern int uart_serial_is_full(uart_serial_module *module);
+
 extern void *uart_serial_send_data(uart_serial_module *module, uint8_t *data,
   size_t len);
 extern int uart_serial_send_status(uart_serial_module *module,

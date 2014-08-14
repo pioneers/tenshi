@@ -292,7 +292,7 @@ static portTASK_FUNCTION_PROTO(radioNewTask, pvParameters) {
       printf("Radio error c%d\n", err);
     }
 
-    if (host_addr != 0) {
+    if (host_addr != 0 && uart_serial_packets_waiting(radio_driver) <= 1) {
       popSize = 0;
       NDL3_L2_pop(target, buffer, NDL3_PACKET_SIZE, &popSize);
       if (popSize > 0) {

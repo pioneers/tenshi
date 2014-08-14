@@ -25,6 +25,7 @@
 #include "inc/task.h"
 
 #define UART_RX_BUFFER_SIZE   256
+#define UART_QUEUE_SIZE 8
 
 typedef struct tag_uart_txn {
   uint8_t *data;
@@ -260,8 +261,8 @@ uart_serial_module *uart_serial_init_module(int uart_num,
     (dma_channel_rx << 25) | DMA_SxCR_MINC | DMA_SxCR_TCIE | DMA_SxCR_TEIE;
 
   // Allocate queues (max 8 entries each)
-  module->txQueue = xQueueCreate(8, sizeof(module->txQueue));
-  module->rxQueue = xQueueCreate(8, sizeof(module->rxQueue));
+  module->txQueue = xQueueCreate(UART_QUEUE_SIZE, sizeof(module->txQueue));
+  module->rxQueue = xQueueCreate(UART_QUEUE_SIZE, sizeof(module->rxQueue));
 
   // Allocate semaphores
   vSemaphoreCreateBinary(module->txInUse);
@@ -280,6 +281,21 @@ uart_serial_module *uart_serial_init_module(int uart_num,
   xTaskCreate(uart_tx_task, "UART_TX", 128, module, tskIDLE_PRIORITY, NULL);
 
   return (uart_serial_module *)module;
+}
+
+// Returns 1 if there are any packets in the queue
+int uart_serial_is_busy(uart_serial_module *module) {
+  return uart_serial_packets_waiting(module) != 0;
+}
+// Returns how many packets are in the queue
+int uart_serial_packets_waiting(uart_serial_module *module) {
+  return UART_QUEUE_SIZE -
+    uxQueueSpacesAvailable(((uart_serial_module_private *)module)->txQueue);
+}
+// Returns 1 if the queue is full
+int uart_serial_is_full(uart_serial_module *module) {
+  return 0 >=
+    uxQueueSpacesAvailable(((uart_serial_module_private *)module)->txQueue);
 }
 
 void *uart_serial_send_data(uart_serial_module *module, uint8_t *data,
