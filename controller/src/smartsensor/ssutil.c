@@ -361,6 +361,8 @@ void ss_recieved_data_for_sensor(SSState *s, uint8_t *data, size_t len,
     if (xSemaphoreTake(s->inLock, SENSOR_WAIT_TIME) == pdTRUE) {
       if (len <= s->incomingLen) {
         memcpy(s->incomingBytes, data, len);
+      } else {
+        memcpy(s->incomingBytes, data, s->incomingLen);
       }
       xSemaphoreGive(s->inLock);
     }
