@@ -15,16 +15,20 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_CONFIG_H_
-#define INC_CONFIG_H_
+#ifndef INC_FLAG_H_
+#define INC_FLAG_H_
 
-#define SENSOR_TYPE_DIGITAL 0x00
-#define SENSOR_TYPE_ANALOG_IN 0x01
-#define SENSOR_TYPE_BUZZER 0x81
-#define SENSOR_TYPE_FLAG 0x82
+#include "inc/smartsensor/common.h"
+
+#define BLUE_LED IN2
+#define YELLOW_LED IN3
+
+#define FLAG_MODE_1 0x80
 // ...
 
-#define SENSOR_TYPE SENSOR_TYPE_ANALOG_IN
+// Public functions called from main.c
+void initFlag();
+void activeFlagRec(uint8_t *data, uint8_t len, uint8_t inband);
+void activeFlagSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband);
 
-
-#endif  // INC_CONFIG_H_
+#endif  // INC_FLAG_H_
