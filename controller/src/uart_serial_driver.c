@@ -179,6 +179,10 @@ static portTASK_FUNCTION_PROTO(uart_rx_task, pvParameters) {
     txn->len = 0;
     txn->data = pvPortMalloc(UART_RX_BUFFER_SIZE);
 
+    if (!txn->data) {
+      continue;
+    }
+
     module->currentRxTxn = txn;
   }
 }
@@ -525,6 +529,9 @@ void uart_serial_handle_uart_interrupt(uart_serial_module *_module) {
             // TODO(rqou): Can this break length finders?
             module->currentRxTxn->len = 0;
             return;
+          }
+          if (!module->currentRxTxn->data) {
+            while (1) {}
           }
           module->currentRxTxn->data[module->currentRxTxn->len++] = dr;
           break;
