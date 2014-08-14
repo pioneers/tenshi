@@ -19,6 +19,7 @@
 #include <string.h>
 
 #include "inc/smartsensor/ssutil.h"
+#include "inc/smartsensor/sstype.h"
 #include "inc/smartsensor/cobs.h"
 #include "inc/smartsensor/crc.h"
 
@@ -36,72 +37,25 @@ xSemaphoreHandle sensorArrLock;
 
 
 // Functions to enable external code to set and read sensors
-
-void ss_set_digital_value(int sensorIndex, uint8_t val) {
-  ss_set_value(sensorIndex, &val, 1);
-}
-uint8_t ss_get_digital_value(int sensorIndex) {
-  // If no value has been recieved yet default to 0.
-  uint8_t result = 0;
-  ss_get_value(sensorIndex, &result, 1);
-  return result;
-}
-
-void ss_set_analog_value(int sensorIndex, unsigned int val) {
-  #define val_len 4
-  uint8_t data[val_len] = {val, val>>8, val>>16, val>>24};
-  ss_set_value(sensorIndex, data, val_len);
-  #undef val_len
-}
-double ss_get_analog_value(int sensorIndex) {
-  #define val_len 4
-  // If no value has been recieved yet default to 0.
-  uint8_t data[val_len] = {0};
-  ss_get_value(sensorIndex, data, val_len);
-
-  uint32_t result = 0;
-  for (uint8_t i = 0; i < val_len; ++i) {
-    result |= ((uint32_t)data[i]) << (i*8);
-  }
-  return result/((double)SS_MAX_ANALOG_VAL);
-  #undef val_len
-}
-
-void ss_set_motor_value(int sensorIndex, uint8_t mode, double speed) {
-  uint8_t data[5];
-  data[0] = mode;
-  int32_t speed32 = (int32_t)(speed * 65536.f);
-  data[1] = speed32;
-  data[2] = speed32 >> 8;
-  data[3] = speed32 >> 16;
-  data[4] = speed32 >> 24;
-  ss_set_value(sensorIndex, data, 5);
-}
-
-void ss_set_value(int sensorIndex, uint8_t *data, size_t len) {
-  if (numSensors > sensorIndex) {
-    SSState *sensor = sensorArr[sensorIndex];
-    if (xSemaphoreTake(sensor->outLock, SENSOR_WAIT_TIME) == pdTRUE) {
-      allocOutgoingBytes(sensor, len);
-      memcpy(sensor->outgoingBytes, data, len);
-
-      xSemaphoreGive(sensor->outLock);
+void ss_set_value(SSChannel *channel, uint8_t *data, size_t len) {
+  if (xSemaphoreTake(channel->outLock, SENSOR_WAIT_TIME) == pdTRUE) {
+    if (checkOutgoingBytes(channel, len)) {
+      memcpy(channel->outgoingBytes, data, len);
     }
+
+    xSemaphoreGive(channel->outLock);
   }
 }
-int ss_get_value(int sensorIndex, uint8_t *data, size_t len) {
+int ss_get_value(SSChannel *channel, uint8_t *data, size_t len) {
   int lenDiff = 0;
-  if (numSensors > sensorIndex) {
-    SSState *sensor = sensorArr[sensorIndex];
-    if (xSemaphoreTake(sensor->inLock, SENSOR_WAIT_TIME) == pdTRUE) {
-      lenDiff = -((int)len);
-      if (sensor->incomingBytes != NULL) {
-        lenDiff += sensor->incomingLen;
-        memcpy(data, sensor->incomingBytes,
-          len < sensor->incomingLen ? len : sensor->incomingLen);
-      }
-      xSemaphoreGive(sensor->inLock);
+  if (xSemaphoreTake(channel->inLock, SENSOR_WAIT_TIME) == pdTRUE) {
+    lenDiff = -((int)len);
+    if (channel->incomingBytes != NULL) {
+      lenDiff += channel->incomingLen;
+      memcpy(data, channel->incomingBytes,
+        len < channel->incomingLen ? len : channel->incomingLen);
     }
+    xSemaphoreGive(channel->inLock);
   }
   return lenDiff;
 }
@@ -173,7 +127,8 @@ uint8_t *ss_read_descriptor(SSState *sensor, uint32_t *readLen) {
   }
 
   // TODO(cduck): Check the CRC
-  uint8_t crc = crc8(0, allData, allLen);
+  uint8_t crc = crc8(0, allData, allLen-1);
+  if (crc != allData[allLen-1]) return NULL;
 
   *readLen = allLen;
   return allData;
@@ -210,6 +165,13 @@ int ss_interpret_descriptor(SSState *sensor, uint8_t *data, uint32_t len) {
   sensor->channels = pvPortMalloc(sensor->channelsNum * sizeof(SSChannel*));
   if (!sensor->channels) return 0;
 
+  sensor->outgoingLen = 0;
+  sensor->incomingLen = 0;
+  vPortFree(sensor->outgoingBytes);
+  vPortFree(sensor->incomingBytes);
+  sensor->outgoingBytes = NULL;
+  sensor->incomingBytes = NULL;
+
   for (sensor->channelsNum = 0; sensor->channelsNum < channelsNum;
       ++sensor->channelsNum) {
     if (data + 3 > end) return 0;
@@ -242,16 +204,52 @@ int ss_interpret_descriptor(SSState *sensor, uint8_t *data, uint32_t len) {
     memcpy(channel->additional, data, channel->additionalLen);
     data += channel->additionalLen;
 
+    channel->isActuator = ss_channel_is_actuator(channel);
+    channel->isSensor = ss_channel_is_sensor(channel);
+    channel->isProtected = ss_channel_is_protected(channel);
+
+    channel->outLock = sensor->outLock;
+    channel->outgoingLen = ss_channel_out_length(channel);
+    channel->outgoingBytes = NULL;
+    sensor->outgoingLen += channel->outgoingLen;
+    channel->inLock = sensor->inLock;
+    channel->incomingLen = ss_channel_in_length(channel);;
+    channel->incomingBytes = NULL;
+    sensor->incomingLen += channel->incomingLen;
+
     sensor->channels[sensor->channelsNum] = channel;
 
     if (sensor->channelsNum == 0) {
-      sensor->primaryType = channel->type;
-      sensor->hasReadDescriptor = 1;  // If it fails after this it is still
-                                      // good enough.
+      if (channel->type != CHANNEL_TYPE_MODE) {
+        sensor->primaryType = channel->type;
+      }
     }
   }
 
-  // Assumeing CRC has already been checked in ss_read_descriptor()
+  if (sensor->outgoingLen) {
+    sensor->outgoingBytes = pvPortMalloc(sensor->outgoingLen);
+  }
+  if (sensor->incomingLen) {
+    sensor->incomingBytes = pvPortMalloc(sensor->incomingLen);
+  }
+  if (sensor->outgoingBytes) {
+    memset(sensor->outgoingBytes, 0, sensor->outgoingLen);
+    uint8_t *current = sensor->outgoingBytes;
+    for (int i = 0; i < sensor->channelsNum; ++i) {
+      sensor->channels[i]->outgoingBytes = current;
+      current += sensor->channels[i]->outgoingLen;
+    }
+  }
+  if (sensor->incomingBytes) {
+    memset(sensor->incomingBytes, 0, sensor->incomingLen);
+    uint8_t *current = sensor->incomingBytes;
+    for (int i = 0; i < sensor->channelsNum; ++i) {
+      sensor->channels[i]->incomingBytes = current;
+      current += sensor->channels[i]->incomingLen;
+    }
+  }
+
+  // Assuming CRC has already been checked in ss_read_descriptor()
 
   sensor->hasReadDescriptor = 1;
   return 1;
@@ -276,10 +274,13 @@ int ss_update_descriptor(SSState *sensor) {
 SSState *ss_init_sensor(uint8_t id[SMART_ID_LEN], uint8_t busNum) {
   SSState *s = pvPortMalloc(sizeof(SSState));
   s->busNum = busNum;
+
   s->outLock = xSemaphoreCreateBinary();
+  xSemaphoreGive(s->outLock);
   s->outgoingLen = 0;
   s->outgoingBytes = NULL;
   s->inLock = xSemaphoreCreateBinary();
+  xSemaphoreGive(s->inLock);
   s->incomingLen = 0;
   s->incomingBytes = NULL;
 
@@ -293,9 +294,6 @@ SSState *ss_init_sensor(uint8_t id[SMART_ID_LEN], uint8_t busNum) {
   s->primaryType = 0;
 
   memcpy(s->id, id, SMART_ID_LEN);
-
-  xSemaphoreGive(s->outLock);
-  xSemaphoreGive(s->inLock);
 
   return s;
 }
@@ -340,50 +338,44 @@ size_t ss_add_sensors(KnownIDs *sensors) {
   xSemaphoreGive(sensorArrLock);
   return index;
 }
+SSState *ss_find_sensor(uint8_t id[SMART_ID_LEN]) {
+  for (int i = 0; i < numSensors; i++) {
+    uint8_t *id2 = sensorArr[i]->id;
+    int match = 1;
+    for (int j = SMART_ID_LEN-1; j >= 0; j--) {
+      if (id[j] != id2[j]) match = 0;
+      if (match == 0) break;
+    }
+    if (match) {
+      return sensorArr[i];
+    }
+  }
+  return NULL;
+}
+
+
 void ss_recieved_data_for_sensor(SSState *s, uint8_t *data, size_t len,
   uint8_t inband) {
-  // TODO(cduck): Handle in band signalling
-  if (xSemaphoreTake(s->inLock, SENSOR_WAIT_TIME) == pdTRUE) {
-    allocIncomingBytes(s, len);
-    s->incomingLen = len;
-    memcpy(s->incomingBytes, data, len);
-
-    xSemaphoreGive(s->inLock);
+  if (!inband) {
+    if (xSemaphoreTake(s->inLock, SENSOR_WAIT_TIME) == pdTRUE) {
+      if (len <= s->incomingLen) {
+        memcpy(s->incomingBytes, data, len);
+      }
+      xSemaphoreGive(s->inLock);
+    }
+  } else {
+    // TODO(cduck): Handle in band signalling
   }
 }
 // Assuming the sensor is already locked
-void allocIncomingBytes(SSState *sensor, uint8_t requiredLen) {
-  if (sensor->incomingBytes == NULL) {
-    sensor->incomingLen = requiredLen;
-    sensor->incomingBytes = pvPortMalloc(requiredLen);
-  }
-  if (sensor->incomingLen < requiredLen) {
-    vPortFree(sensor->incomingBytes);
-    sensor->incomingLen = requiredLen;
-    sensor->incomingBytes = pvPortMalloc(requiredLen);
-  }
+int checkOutgoingBytes(SSChannel *channel, uint8_t requiredLen) {
+  return (channel->outgoingBytes != NULL) &&
+         (channel->outgoingLen >= requiredLen);
 }
 // Assuming the sensor is already locked
-int checkOutgoingBytes(SSState *sensor, uint8_t requiredLen) {
-  return (sensor->outgoingBytes != NULL) &&
-         (sensor->outgoingLen >= requiredLen);
-}
-// Assuming the sensor is already locked
-void allocOutgoingBytes(SSState *sensor, uint8_t requiredLen) {
-  if (sensor->outgoingBytes == NULL) {
-    sensor->outgoingLen = requiredLen;
-    sensor->outgoingBytes = pvPortMalloc(requiredLen);
-  }
-  if (sensor->outgoingLen < requiredLen) {
-    vPortFree(sensor->outgoingBytes);
-    sensor->outgoingLen = requiredLen;
-    sensor->outgoingBytes = pvPortMalloc(requiredLen);
-  }
-}
-// Assuming the sensor is already locked
-int checkIncomingBytes(SSState *sensor, uint8_t requiredLen) {
-  return (sensor->incomingBytes != NULL) &&
-         (sensor->incomingLen >= requiredLen);
+int checkIncomingBytes(SSChannel *channel, uint8_t requiredLen) {
+  return (channel->incomingBytes != NULL) &&
+         (channel->incomingLen >= requiredLen);
 }
 
 
