@@ -276,8 +276,8 @@ uart_serial_module *uart_serial_init_module(int uart_num,
   module->currentTxTxn = NULL;
 
   // Start tasks
-  xTaskCreate(uart_rx_task, "UART_RX", 256, module, tskIDLE_PRIORITY, NULL);
-  xTaskCreate(uart_tx_task, "UART_TX", 256, module, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(uart_rx_task, "UART_RX", 128, module, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(uart_tx_task, "UART_TX", 128, module, tskIDLE_PRIORITY, NULL);
 
   return (uart_serial_module *)module;
 }
