@@ -26,6 +26,7 @@
 #include <ngl_buffer.h>
 #include <ngl_package.h>
 
+#include "inc/radio.h"
 #include "inc/runtime.h"
 #include "inc/runtime_interface.h"
 
@@ -310,10 +311,15 @@ int main(int argc, char **argv) {
   smartsensor_init();
 
   // Setup radio
-  radio_driver_init();
+  const int oldRadio = 0;
+  if (oldRadio) {
+    radio_driver_init();
+    xTaskCreate(radioTask, "Radio", 2048, NULL, tskIDLE_PRIORITY, NULL);
+  } else {
+    radioInit();
+  }
 
   runtimeInit();
 
-  xTaskCreate(radioTask, "Radio", 2048, NULL, tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();
 }
