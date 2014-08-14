@@ -18,8 +18,46 @@
 #include <stdio.h>
 #include <sys/iosupport.h>
 
+#include "inc/radio_stdio.h"
+
+#include "inc/FreeRTOS.h"
+
+#include "inc/radio.h"
+
+
+#define MAX_PRINTS_PER_PERIOD 20
+#define TICKS_PER_PERIOD 1000
+#define PRINT_OVERFLOW_ERROR "Error: Too many prints.  %u dropped.\n"
+
+
 ssize_t radio_write(struct _reent *r, int fd, const char *ptr, size_t len) {
-  // send_buf(ptr, len);
+  static portTickType time = 0;
+  static portTickType lastTime = 0;
+  static unsigned int count = 0;
+  unsigned int oldCount = 0;
+  time = xTaskGetTickCount();
+
+  if (time - lastTime > TICKS_PER_PERIOD) {
+    oldCount = count;
+    count = 0;
+    lastTime = time;
+  }
+  if (count < MAX_PRINTS_PER_PERIOD) {
+    if (oldCount > MAX_PRINTS_PER_PERIOD) {
+      char *str = malloc(len + sizeof(PRINT_OVERFLOW_ERROR) + 12);
+      int c = snprintf(str, sizeof(PRINT_OVERFLOW_ERROR) + 12,
+                       PRINT_OVERFLOW_ERROR, oldCount-MAX_PRINTS_PER_PERIOD);
+      if (c < 0) c = 0;
+      memcpy(str+c, ptr, len);
+      radioPushString(str, len+c);
+    } else {
+      char *str = malloc(len);
+      memcpy(str, ptr, len);
+      radioPushString(str, len);
+    }
+  }
+
+  count++;
   return len;
 }
 
