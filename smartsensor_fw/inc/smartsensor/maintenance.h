@@ -27,5 +27,7 @@ void maintenancePingPong(uint8_t *data, uint8_t len,
   uint8_t *outData, uint8_t *outLen);
 void maintenanceSlaveConfig(uint8_t *data, uint8_t len,
   uint8_t *outData, uint8_t *outLen);
+void maintenanceDescriptor(uint8_t *data, uint8_t len,
+  uint8_t *outData, uint8_t *outLen);
 
 #endif  // INC_SMARTSENSOR_MAINTENANCE_H_

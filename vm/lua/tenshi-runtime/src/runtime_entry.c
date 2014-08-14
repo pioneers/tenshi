@@ -181,6 +181,7 @@ static void TenshiRuntime_openlibs_phase1(lua_State *L) {
   for (lib = tenshi_loadedlibs_phase1; lib->func; lib++) {
     luaL_requiref(L, lib->name, lib->func, 1);
     lua_pop(L, 1);  /* remove lib */
+    lua_gc(L, LUA_GCCOLLECT, 0);
   }
 }
 
@@ -230,6 +231,8 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
 
   // Load libraries
   TenshiRuntime_openlibs_phase1(ret->L);
+
+  lua_gc(ret->L, LUA_GCCOLLECT, 0);
 
   // Load actor library. This is special because it loads into the global
   // scope and not into a specific module.
@@ -301,6 +304,8 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
   lua_pushvalue(ret->L, -1);
   lua_setmetatable(ret->L, -2);
   lua_settable(ret->L, LUA_REGISTRYINDEX);
+
+  lua_gc(ret->L, LUA_GCCOLLECT, 0);
 
   return ret;
 }
@@ -412,6 +417,8 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
     print_traceback(s->actuator_actor->L);
     return ret;
   }
+
+  lua_gc(s->L, LUA_GCCOLLECT, 0);
 
   return LUA_OK;
 }

@@ -1,0 +1,79 @@
+name: New Robot Application
+text_code: "while true do\n  joy_stick1 = get_remote(1)  -- a value from -100 to 100\n  sensor1 = get_analog(0)  -- a value from 0 to 1\n  switch1 = get_digital(1)  -- either 0 or 1\n  \n  speed1 = joy_stick1\n  speed2 = sensor1\n  \n  set_motor(2, speed1)  -- a value from -100 to 100\n  set_motor(3, speed2)  -- a value from -100 to 100\nend\n"
+radio_pairing_info: 0013A20040A580C4
+PiELES_config:
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESAnalogVals0
+    type: analog
+    axis: 0
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESAnalogVals1
+    type: analog
+    axis: 1
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESAnalogVals2
+    type: analog
+    axis: 2
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESAnalogVals3
+    type: analog
+    axis: 3
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESAnalogVals4
+    type: analog
+    axis: 4
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESAnalogVals5
+    type: analog
+    axis: 5
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESAnalogVals6
+    type: analog
+    axis: 6
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESDigitalVals0
+    type: digital
+    button: 0
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESDigitalVals1
+    type: digital
+    button: 1
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESDigitalVals2
+    type: digital
+    button: 2
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESDigitalVals3
+    type: digital
+    button: 3
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESDigitalVals4
+    type: digital
+    button: 4
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESDigitalVals5
+    type: digital
+    button: 5
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESDigitalVals6
+    type: digital
+    button: 6
+  - controller_type: 045e-028e-Microsoft X-Box 360 pad
+    controller_index: 0
+    name: PiELESDigitalVals7
+    type: digital
+    button: 7

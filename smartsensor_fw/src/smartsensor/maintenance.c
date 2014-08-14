@@ -18,10 +18,14 @@
 // This file handles maintenance packets
 
 #include <string.h>
+#include <avr/pgmspace.h>
+
 #include "inc/smartsensor/maintenance.h"
+#include "inc/smartsensor/common.h"
 
 #define TYPE_PING_PONG    0xFE
 #define TYPE_SLAVE_CONFIG 0xD0
+#define TYPE_DESCRIPTOR 0xD1
 
 uint8_t compare_ID(uint8_t *data);
 
@@ -32,6 +36,8 @@ void maintenancePacket(uint8_t type, uint8_t *data, uint8_t len,
   switch (type) {
     case TYPE_PING_PONG: maintenancePingPong(data, len, outData, outLen); break;
     case TYPE_SLAVE_CONFIG: maintenanceSlaveConfig(data, len, outData, outLen);
+      break;
+    case TYPE_DESCRIPTOR: maintenanceDescriptor(data, len, outData, outLen);
       break;
     default: break;
     // TODO(cduck): Add more maintenance packets
@@ -78,13 +84,33 @@ void maintenanceSlaveConfig(uint8_t *data, uint8_t len,
   }
 }
 
+// Function for responding to a 0xD1 command
+void maintenanceDescriptor(uint8_t *data, uint8_t len,
+  uint8_t *outData, uint8_t *outLen) {
+  // Bad packet b/c len + start_address + len;
+  if (len < SMART_ID_LEN + 3) return;
+  if (compare_ID(data)) {
+    uint16_t start = data[SMART_ID_LEN] |
+                     (((uint16_t)data[SMART_ID_LEN + 1]) << 8);
+    uint8_t returnLen = data[SMART_ID_LEN + 2];
+    if (returnLen > 0xFF-4) returnLen = 0xFF-4;  // Too much for a packet
+    uint16_t descriptorLen = pgm_read_byte(&descriptor[0])
+                             | (((uint16_t)pgm_read_byte(&descriptor[1])) << 8);
+    if (start > descriptorLen) return;  // Past the end of the descriptor
+    if (start + returnLen > descriptorLen) returnLen = descriptorLen - start;
+    const uint8_t *returnData = descriptor + start;
+    *outLen = returnLen;
+    memcpy_P(outData, returnData, returnLen);
+  }
+  return;
+}
 
 
 // Check if its my ID.
 uint8_t compare_ID(uint8_t *data) {
   uint8_t val = 1;
   for (uint8_t i = 0; i < SMART_ID_LEN; i++) {
-    val &= (smartID[i] == data[i]);
+    val &= (pgm_read_byte(&smartID[i]) == data[i]);
   }
   return val;
 }

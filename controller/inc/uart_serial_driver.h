@@ -21,6 +21,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 #include "inc/stm32f4xx.h"
+#include "inc/FreeRTOS.h"
 
 #define UART_SERIAL_SEND_QUEUED   1
 #define UART_SERIAL_SEND_SENDING  2
@@ -34,6 +35,14 @@ typedef struct tag_uart_serial_module {
 extern uart_serial_module *uart_serial_init_module(int uart_num,
   ssize_t (*length_finder_fn)(uart_serial_module *, uint8_t),
   void (*txen_fn)(int), int baud);
+
+// Returns 1 if there are any packets in the queue
+extern int uart_serial_is_busy(uart_serial_module *module);
+// Returns how many packets are in the queue
+extern int uart_serial_packets_waiting(uart_serial_module *module);
+// Returns 1 if the queue is full
+extern int uart_serial_is_full(uart_serial_module *module);
+
 extern void *uart_serial_send_data(uart_serial_module *module, uint8_t *data,
   size_t len);
 extern int uart_serial_send_status(uart_serial_module *module,
@@ -45,6 +54,8 @@ extern int uart_serial_send_and_finish_data(uart_serial_module *module,
   uint8_t *data, size_t len);
 extern uint8_t *uart_serial_receive_packet(uart_serial_module *module,
   size_t *len_out, int shouldBlock);
+extern uint8_t *uart_serial_receive_packet_timeout(uart_serial_module *module,
+  size_t *len_out, TickType_t timeout);
 
 extern int uart_bus_logic_level(uart_serial_module *module);
 

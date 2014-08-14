@@ -21,6 +21,7 @@
 #include "inc/pindef.h"
 #include "inc/stm32f4xx.h"
 #include "inc/task.h"
+#include "inc/button_driver.h"
 
 static volatile uint8_t led_driver_current_mode = 0;
 static volatile uint8_t led_driver_fixed_pattern = 0;  // The states of the
@@ -120,6 +121,98 @@ static led_driver_pattern driver_patterns[] = {
         .num_ticks = 1,
       },
     },
+  }, {
+    // PATTERN_RUNTIME_ERROR
+    // Flashes all LEDs on and off
+    .len = 2,
+    .entries =
+    (led_driver_pattern_entry[]) {
+      {
+        .led_states = LED_YELLOW | LED_BLUE | LED_GREEN | LED_RED,
+        .num_ticks = 1,
+      }, {
+        .led_states = 0,
+        .num_ticks = 1,
+      },
+    },
+  }, {
+    // PATTERN_RUNTIME_DISABLED
+    // Single LED chase with pause
+    .len = 5,
+    .entries =
+    (led_driver_pattern_entry[]) {
+      {
+        .led_states = LED_RED,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_GREEN,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_BLUE,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_YELLOW,
+        .num_ticks = 1,
+      }, {
+        .led_states = 0,
+        .num_ticks = 2,
+      },
+    },
+  }, {
+    // PATTERN_RUNTIME_AUTONOMOUS
+    // Double LED chase with pause
+    .len = 6,
+    .entries =
+    (led_driver_pattern_entry[]) {
+      {
+        .led_states = LED_RED,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_GREEN | LED_RED,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_BLUE | LED_GREEN,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_YELLOW | LED_BLUE,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_YELLOW,
+        .num_ticks = 1,
+      }, {
+        .led_states = 0,
+        .num_ticks = 2,
+      },
+    },
+  }, {
+    // PATTERN_RUNTIME_TELEOP
+    // Triple LED chase with pause
+    .len = 7,
+    .entries =
+    (led_driver_pattern_entry[]) {
+      {
+        .led_states = LED_RED,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_GREEN | LED_RED,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_BLUE | LED_GREEN | LED_RED,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_YELLOW | LED_BLUE | LED_GREEN,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_YELLOW | LED_BLUE,
+        .num_ticks = 1,
+      }, {
+        .led_states = LED_YELLOW,
+        .num_ticks = 1,
+      }, {
+        .led_states = 0,
+        .num_ticks = 2,
+      },
+    },
   },
 };
 
@@ -174,7 +267,9 @@ static portTASK_FUNCTION_PROTO(led_driver_task, pvParameters) {
     uint8_t led_states = driver_patterns[current_led_pattern]
       .entries[pattern_step_index].led_states;
     led_states &= ~led_driver_fixed_mask;
-    led_states |= led_driver_fixed_pattern;
+    led_states |= led_driver_fixed_pattern & led_driver_fixed_mask;
+    if (button_driver_get_button_state(0))
+      led_states = led_driver_fixed_pattern;
     if (button_driver_get_button_state(1)) led_states = ~led_states;
 
     if (led_states & LED_YELLOW) {
@@ -238,7 +333,7 @@ uint8_t led_driver_get_mode(void) {
 
 // TODO(cduck): Make thread safe
 void led_driver_set_fixed(uint8_t pattern, uint8_t mask) {
-  led_driver_fixed_pattern = pattern & mask;
+  led_driver_fixed_pattern = pattern;
   led_driver_fixed_mask = mask;
 }
 uint8_t led_driver_get_fixed_pattern() {

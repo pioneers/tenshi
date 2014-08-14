@@ -25,6 +25,7 @@
 #include "inc/task.h"
 
 #define UART_RX_BUFFER_SIZE   256
+#define UART_QUEUE_SIZE 8
 
 typedef struct tag_uart_txn {
   uint8_t *data;
@@ -179,6 +180,10 @@ static portTASK_FUNCTION_PROTO(uart_rx_task, pvParameters) {
     txn->len = 0;
     txn->data = pvPortMalloc(UART_RX_BUFFER_SIZE);
 
+    if (!txn->data) {
+      continue;
+    }
+
     module->currentRxTxn = txn;
   }
 }
@@ -256,8 +261,8 @@ uart_serial_module *uart_serial_init_module(int uart_num,
     (dma_channel_rx << 25) | DMA_SxCR_MINC | DMA_SxCR_TCIE | DMA_SxCR_TEIE;
 
   // Allocate queues (max 8 entries each)
-  module->txQueue = xQueueCreate(8, sizeof(module->txQueue));
-  module->rxQueue = xQueueCreate(8, sizeof(module->rxQueue));
+  module->txQueue = xQueueCreate(UART_QUEUE_SIZE, sizeof(module->txQueue));
+  module->rxQueue = xQueueCreate(UART_QUEUE_SIZE, sizeof(module->rxQueue));
 
   // Allocate semaphores
   vSemaphoreCreateBinary(module->txInUse);
@@ -272,10 +277,25 @@ uart_serial_module *uart_serial_init_module(int uart_num,
   module->currentTxTxn = NULL;
 
   // Start tasks
-  xTaskCreate(uart_rx_task, "UART_RX", 256, module, tskIDLE_PRIORITY, NULL);
-  xTaskCreate(uart_tx_task, "UART_TX", 256, module, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(uart_rx_task, "UART_RX", 128, module, tskIDLE_PRIORITY, NULL);
+  xTaskCreate(uart_tx_task, "UART_TX", 128, module, tskIDLE_PRIORITY, NULL);
 
   return (uart_serial_module *)module;
+}
+
+// Returns 1 if there are any packets in the queue
+int uart_serial_is_busy(uart_serial_module *module) {
+  return uart_serial_packets_waiting(module) != 0;
+}
+// Returns how many packets are in the queue
+int uart_serial_packets_waiting(uart_serial_module *module) {
+  return UART_QUEUE_SIZE -
+    uxQueueSpacesAvailable(((uart_serial_module_private *)module)->txQueue);
+}
+// Returns 1 if the queue is full
+int uart_serial_is_full(uart_serial_module *module) {
+  return 0 >=
+    uxQueueSpacesAvailable(((uart_serial_module_private *)module)->txQueue);
 }
 
 void *uart_serial_send_data(uart_serial_module *module, uint8_t *data,
@@ -329,11 +349,15 @@ int uart_serial_send_and_finish_data(uart_serial_module *module, uint8_t *data,
 
 uint8_t *uart_serial_receive_packet(uart_serial_module *module,
   size_t *len_out, int shouldBlock) {
+  return uart_serial_receive_packet_timeout(module, len_out,
+    shouldBlock ? portMAX_DELAY : 0);
+}
+uint8_t *uart_serial_receive_packet_timeout(uart_serial_module *module,
+  size_t *len_out, TickType_t timeout) {
   uart_txn *txn;
 
   int ret = xQueueReceive(
-    ((uart_serial_module_private *)module)->rxQueue, &txn,
-    shouldBlock ? portMAX_DELAY : 0);
+    ((uart_serial_module_private *)module)->rxQueue, &txn, timeout);
 
   if (!ret) {
     return NULL;
@@ -521,6 +545,9 @@ void uart_serial_handle_uart_interrupt(uart_serial_module *_module) {
             // TODO(rqou): Can this break length finders?
             module->currentRxTxn->len = 0;
             return;
+          }
+          if (!module->currentRxTxn->data) {
+            while (1) {}
           }
           module->currentRxTxn->data[module->currentRxTxn->len++] = dr;
           break;

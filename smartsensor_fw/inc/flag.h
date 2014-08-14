@@ -15,32 +15,20 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_SMARTSENSOR_SMARTSENSOR_H_
-#define INC_SMARTSENSOR_SMARTSENSOR_H_
+#ifndef INC_FLAG_H_
+#define INC_FLAG_H_
 
-#include "inc/FreeRTOS.h"
-#include "inc/smartsensor/ssutil.h"
-#include "inc/uart_serial_driver.h"
+#include "inc/smartsensor/common.h"
 
-#define SS_NUM_SAMPLES 8  // 3 bits of resolution
-#define SS_NUM_FRAMES 6
-#define SS_FIRST_FRAME 1  // 1 indexed frame numbers
+#define BLUE_LED IN2
+#define YELLOW_LED IN3
 
-// Set to whatever
-#define SS_MAX_SENSORS_PER_BUS 32
+#define FLAG_MODE_1 0x80
+// ...
 
-// Max 4 dependent on hardware
-#define SS_BUS_COUNT 2
+// Public functions called from main.c
+void initFlag();
+void activeFlagRec(uint8_t *data, uint8_t len, uint8_t inband);
+void activeFlagSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband);
 
-
-void smartsensor_init();
-
-int ssIsActive();
-void ssBlockUntilActive();
-void registerSensorUpdateCallback(void(*func)(uint16_t i, SSState *sensor));
-
-
-portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters);
-portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters);
-
-#endif  // INC_SMARTSENSOR_SMARTSENSOR_H_
+#endif  // INC_FLAG_H_

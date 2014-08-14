@@ -15,32 +15,41 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_SMARTSENSOR_SMARTSENSOR_H_
-#define INC_SMARTSENSOR_SMARTSENSOR_H_
+#ifndef INC_RUNTIME_H_
+#define INC_RUNTIME_H_
 
 #include "inc/FreeRTOS.h"
-#include "inc/smartsensor/ssutil.h"
-#include "inc/uart_serial_driver.h"
 
-#define SS_NUM_SAMPLES 8  // 3 bits of resolution
-#define SS_NUM_FRAMES 6
-#define SS_FIRST_FRAME 1  // 1 indexed frame numbers
+#define RUNTIME_OK LUA_OK
 
-// Set to whatever
-#define SS_MAX_SENSORS_PER_BUS 32
+typedef enum {
+  RuntimeMessageNone = 0,
+  RuntimeMessageNewCode,
+  RuntimeMessageUbjson,
+  RuntimeMessageGameMode,
+} RuntimeMessageType;
 
-// Max 4 dependent on hardware
-#define SS_BUS_COUNT 2
-
-
-void smartsensor_init();
-
-int ssIsActive();
-void ssBlockUntilActive();
-void registerSensorUpdateCallback(void(*func)(uint16_t i, SSState *sensor));
+typedef enum {
+  RuntimeModeUninitialized = 0,
+  RuntimeModeDisabled      = 1,
+  RuntimeModeAutonomous    = 2,
+  RuntimeModePaused        = 3,
+  RuntimeModeTeleop        = 4,
+} RuntimeMode;
 
 
-portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters);
-portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters);
 
-#endif  // INC_SMARTSENSOR_SMARTSENSOR_H_
+extern volatile int gameMode;
+
+
+
+BaseType_t runtimeInit();
+void runtimeSendRadioMsg(RuntimeMessageType type, void* info, size_t infoLen);
+// Takes responsibility for freeing
+void runtimeRecieveUbjson(char *ubjson, size_t len);
+void runtimeRecieveCode(char *code, size_t len);
+
+char *readLastUbjson(size_t *len);  // Not thread safe
+
+
+#endif  // INC_RUNTIME_H_

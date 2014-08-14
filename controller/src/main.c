@@ -18,12 +18,18 @@
 #include <stdio.h>
 #include <string.h>
 
+// Interpreter
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
 #include <ngl_vm.h>
 #include <ngl_buffer.h>
 #include <ngl_package.h>
+
+#include "inc/radio.h"
+#include "inc/runtime.h"
+#include "inc/runtime_interface.h"
+
 #include "inc/FreeRTOS.h"
 #include "inc/button_driver.h"
 #include "inc/driver_glue.h"
@@ -40,8 +46,6 @@
 
 #include "legacy_piemos_framing.h"   // NOLINT(build/include)
 #include "ngl_types.h"   // NOLINT(build/include)
-
-#include "inc/lua_interface.h"
 
 
 
@@ -66,9 +70,8 @@ static int lua_get_sensor(lua_State *L) {
   ngl_float out;
   ngl_error *ret = ngl_get_sensor(lua_tonumber(L, 1), &out);
   // TODO(rqou): Um, I don't think this is how it's supposed to work?
-  lua_pushnumber(L, ret == ngl_ok);
   lua_pushnumber(L, out);
-  return 2;
+  return 1;
 }
 
 static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
@@ -95,7 +98,7 @@ static portTASK_FUNCTION_PROTO(angelicTask, pvParameters) {
 
     // Register builtins
     lua_register(L, "set_motor_old", lua_set_motor_old);
-    lua_register(L, "get_sensor", lua_get_sensor);
+    lua_register(L, "get_remote", lua_get_sensor);
     lua_register_all(L);
 
     // Load the code blob into the Lua state
@@ -308,13 +311,15 @@ int main(int argc, char **argv) {
   smartsensor_init();
 
   // Setup radio
-  radio_driver_init();
+  const int oldRadio = 0;
+  if (oldRadio) {
+    radio_driver_init();
+    xTaskCreate(radioTask, "Radio", 2048, NULL, tskIDLE_PRIORITY, NULL);
+  } else {
+    radioInit();
+  }
 
-  #ifdef TEST_STATIC_LUA
-  xTaskCreate(angelicTask, "Angelic", 2048, NULL,
-              tskIDLE_PRIORITY, NULL);
-  #endif
+  runtimeInit();
 
-  xTaskCreate(radioTask, "Radio", 2048, NULL, tskIDLE_PRIORITY, NULL);
   vTaskStartScheduler();
 }

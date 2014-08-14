@@ -107,7 +107,7 @@ Type 0xDD, payload of length 1 containing "0xDD":
 0x00 0xDD 0x05 0x01 0xDD
 
 Type 0xDD, payload of length 2 containng "0x00 0xEE":
-0x00 0xDD 0x06 0x01 0x01 0xEE
+0x00 0xDD 0x06 0x01 0x02 0xEE
 
 Maintainance frames do not contain link layer CRCs, but CRCs may (will likely)
 be implemented by higher layers of the protocol.
@@ -247,7 +247,7 @@ The 0xD0 command is idempotent (not cumulative) so a slave must stop using its
 previous allocation of subchunks upon receiving a new 0xD0 command.
 
 Slave descriptor data can be retrieved using the 0xD1 command. The payload
-consists of an 8-byte slave unique ID, a 16-bit start address, and a 16-bit
+consists of an 8-byte slave unique ID, a 16-bit start address, and a 8-bit
 length. The slave reply payload consists of only the descriptor data. The
 format of the descriptor data is TBD.
 
@@ -262,7 +262,7 @@ descriptor are null-terminated UTF-8 English. There is currently no support for
 true i18n. The structure of the data is as follows:
 
             ----------------------------------------------------
-            | length (4 bytes)                                 |
+            | length (2 bytes)                                 |
             ----------------------------------------------------
             | length of human-readable description (1 byte)    |
             ----------------------------------------------------
@@ -303,6 +303,9 @@ The following types of channels are currently defined:
     * 0x41 -- generic SPI
     * 0x42 -- generic UART
     * 0x80 -- Grizzly Bear v3
+    * 0x81 -- Battery Buzzer
+    * 0x82 -- Team Flag
+    * 0xFE -- Actuator Mode
     * 0xFF -- debugger
 
 The structure of the additional information block varies according to the type.
@@ -410,7 +413,42 @@ Type 0x42 -- generic UART
             TODO
 
 Type 0x80 -- Grizzly Bear v3
-            TODO
+            ----------------------------------------------------
+            | mode (1 byte)                                    |
+            ----------------------------------------------------
+            | speed (4 byte)                                   |
+            ----------------------------------------------------
+
+For mode explanation, see Grizzly Documentation packet at:
+https://pioneers.berkeley.edu/staff/wiki/File:Grizzly_doc.pdf
+
+Type 0x81 -- Battery Buzzer
+            For now, Battery Buzzer additional information block is identical
+            to analog in.
+
+Type 0x82 -- Team Flag
+            For now, Team Flag additional information block is identical
+            to digital.
+
+Type 0xFE -- Actuator Mode
+            ----------------------------------------------------
+            | mode (1 byte)                                    |
+            ----------------------------------------------------
+
+Controls the mode of actuators and active sensors.  All other channels on the
+sensor must obey the mode.  It is recommended for devices to have this channel
+and as the first one.
+
+Possible modes are:
+* 0x00 - Disabled: No power to actuators and possibly some active sensors.
+* 0x01 - Paused/Stunned: Most actuators are still powered such that they
+             maintain their last position.  Some actuators like a motor
+             controller in velocity mode should stop.
+* 0x02 - Active: Actuators respond to values normally.  If a value was set
+             during an inactive mode, this value should be used upon mode
+             change.
+
+Devices can still be read and configured in inactive modes.
 
 Type 0xFF -- debugger
             No calibration data is present

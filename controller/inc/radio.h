@@ -15,32 +15,15 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_SMARTSENSOR_SMARTSENSOR_H_
-#define INC_SMARTSENSOR_SMARTSENSOR_H_
+#ifndef INC_RADIO_H_
+#define INC_RADIO_H_
 
 #include "inc/FreeRTOS.h"
-#include "inc/smartsensor/ssutil.h"
-#include "inc/uart_serial_driver.h"
-
-#define SS_NUM_SAMPLES 8  // 3 bits of resolution
-#define SS_NUM_FRAMES 6
-#define SS_FIRST_FRAME 1  // 1 indexed frame numbers
-
-// Set to whatever
-#define SS_MAX_SENSORS_PER_BUS 32
-
-// Max 4 dependent on hardware
-#define SS_BUS_COUNT 2
 
 
-void smartsensor_init();
-
-int ssIsActive();
-void ssBlockUntilActive();
-void registerSensorUpdateCallback(void(*func)(uint16_t i, SSState *sensor));
+BaseType_t radioInit();
+void radioPushUbjson(const char *ubjson, size_t len);
+void radioPushString(const char *str, size_t len);
 
 
-portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters);
-portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters);
-
-#endif  // INC_SMARTSENSOR_SMARTSENSOR_H_
+#endif  // INC_RADIO_H_

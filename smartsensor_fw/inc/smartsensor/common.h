@@ -20,16 +20,32 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <avr/pgmspace.h>
 #include "inc/pindef.h"
-#include "inc/id.h"
-#include "inc/config.h"
 
 
 #define SMART_BAUD 500000  // Smartsensor baud rate
 #define SMART_ID_LEN 8   // Length of smartsensor personal ID
 
+// Sensor types
+#define SENSOR_TYPE_DIGITAL 0x00
+#define SENSOR_TYPE_ANALOG_IN 0x01
+#define SENSOR_TYPE_GRIZZLY3 0x80
+#define SENSOR_TYPE_BUZZER 0x81
+#define SENSOR_TYPE_FLAG 0x82
+
+// The sensor type is stored in flash memory directly after the ID.
+#define SENSOR_TYPE pgm_read_byte(smartID+SMART_ID_LEN)
+
+// Sensor modes
+#define MODE_DISABLED 0x00
+#define MODE_PAUSED   0x01
+#define MODE_ACTIVE   0x02
+#define MAX_MODE MODE_ACTIVE
+
 // May change
 #define ACTIVE_PACKET_MAX_LEN 10  // Not including prefix or extra COBS byte
+#define DESCRIPTOR_MAX_LEN 1024
 
 #define SS_NUM_SAMPLES 8  // 3 bits of resolution
 #define SS_NUM_FRAMES 6
@@ -37,10 +53,12 @@
 
 
 
-// ****Sensor Personal Data*** // to be a struct later.
-extern uint8_t smartID[SMART_ID_LEN];
-uint8_t my_frames[SS_NUM_FRAMES];
-extern uint32_t sample_rate;  // hardcoded for now;
+extern const uint8_t smartID[SMART_ID_LEN+1] PROGMEM;
+extern const uint8_t descriptor[DESCRIPTOR_MAX_LEN] PROGMEM;
+
+extern volatile uint8_t my_frames[SS_NUM_FRAMES];
+extern volatile uint8_t gameMode;
+
 
 
 
