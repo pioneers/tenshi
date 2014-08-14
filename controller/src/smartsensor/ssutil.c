@@ -173,7 +173,9 @@ uint8_t *ss_read_descriptor(SSState *sensor, uint32_t *readLen) {
   }
 
   // TODO(cduck): Check the CRC
-  uint8_t crc = crc8(0, allData, allLen);
+  uint8_t crc = crc8(0, allData, allLen-1);
+  // TODO(cduck): Make CRC work again
+  // //////if (crc != allData[allLen-1]) return NULL;
 
   *readLen = allLen;
   return allData;
