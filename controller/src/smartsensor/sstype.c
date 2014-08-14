@@ -104,7 +104,7 @@ uint8_t ss_channel_in_length(SSChannel *channel) {
     case SENSOR_TYPE_DIGITAL:
       return 1;  // TODO(cduck): More logic
     case SENSOR_TYPE_ANALOG_IN:
-      return 1;
+      return 2;
     case SENSOR_TYPE_GRIZZLY3:
       return 0;
     case SENSOR_TYPE_BUZZER:
