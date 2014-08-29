@@ -19,20 +19,13 @@
 from __future__ import print_function
 import traceback
 
-def run_dir(ctx, name):
-    try:
-        ctx.recurse(name, mandatory=False)
-    except:
-        print('Exception in build system in subdirectory ', name, ':')
-        traceback.print_exc()
-
 
 def recurse(ctx, dirs=None):
     if dirs is None:
         dirs = ['eda', 'controller', 'smartsensor_fw', 'grizzly_firmware',
                 'network', 'vm/angelic', 'vm/lua']
     for d in dirs:
-        run_dir(ctx, d)
+        ctx.recurse(d, mandatory=False)
 
 
 def options(ctx):
