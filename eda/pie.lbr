@@ -8952,6 +8952,7 @@ Vertical</description>
 <wire x1="5.715" y1="-2.54" x2="4.445" y2="-2.54" width="0.127" layer="51"/>
 <wire x1="4.445" y1="-2.54" x2="3.81" y2="-1.905" width="0.127" layer="51"/>
 <wire x1="3.81" y1="-1.905" x2="3.175" y2="-2.54" width="0.127" layer="51"/>
+<wire x1="5.715" y1="2.54" x2="6.35" y2="1.905" width="0.127" layer="21"/>
 </package>
 <package name="2X5-EDGE">
 <smd name="1" x="-2.54" y="5.08" dx="3.81" dy="2.032" layer="1"/>
@@ -13809,7 +13810,7 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 </device>
 </devices>
 </deviceset>
-<deviceset name="SENSOR_CON_5PIN">
+<deviceset name="SENSOR_CON_5PIN" prefix="CONN" uservalue="yes">
 <gates>
 <gate name="G$1" symbol="PINHD-2X5" x="0" y="2.54"/>
 </gates>
