@@ -891,10 +891,10 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="36.195" y="-0.889" size="1.27" layer="27" font="vector"/>
 <attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="37.465" y="1.651" size="1.778" layer="27" display="off"/>
 </element>
-<element name="SCK" library="pie" package="POGO_PIN_394" value="" x="38.227" y="18.923" smashed="yes">
-<attribute name="NAME" x="39.497" y="17.907" size="1.4224" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="36.957" y="16.383" size="1.27" layer="27" font="vector"/>
-<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="38.227" y="18.923" size="1.778" layer="27" display="off"/>
+<element name="SCK" library="pie" package="POGO_PIN_394" value="" x="38.227" y="19.939" smashed="yes">
+<attribute name="NAME" x="39.497" y="18.923" size="1.4224" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="36.957" y="17.399" size="1.27" layer="27" font="vector"/>
+<attribute name="PIE-INT-REF-NUM" value="POGO-PIN" x="38.227" y="19.939" size="1.778" layer="27" display="off"/>
 </element>
 <element name="RESET" library="pie" package="POGO_PIN_394" value="" x="36.83" y="21.59" smashed="yes" rot="R270">
 <attribute name="NAME" x="38.1635" y="22.86" size="1.4224" layer="25" font="vector" ratio="15" rot="R180" align="top-left"/>
@@ -952,8 +952,8 @@ design rules under a new name.</description>
 <signal name="SCK">
 <contactref element="J2" pad="3"/>
 <contactref element="SCK" pad="POGO_PIN"/>
-<wire x1="4.445" y1="4.445" x2="23.749" y2="4.445" width="0.3048" layer="1"/>
-<wire x1="23.749" y1="4.445" x2="38.227" y2="18.923" width="0.3048" layer="1"/>
+<wire x1="4.445" y1="4.445" x2="22.733" y2="4.445" width="0.3048" layer="1"/>
+<wire x1="22.733" y1="4.445" x2="38.227" y2="19.939" width="0.3048" layer="1"/>
 </signal>
 <signal name="MISO">
 <contactref element="J2" pad="1"/>
@@ -973,6 +973,9 @@ design rules under a new name.</description>
 <contactref element="GND" pad="POGO_PIN"/>
 </signal>
 </signals>
+<errors>
+<approved hash="7,39,6d641500550d2d69"/>
+</errors>
 </board>
 </drawing>
 <compatibility>

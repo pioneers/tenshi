@@ -4264,6 +4264,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <wire x1="208.28" y1="134.62" x2="220.98" y2="134.62" width="0.1524" layer="91"/>
 <pinref part="U$9" gate="G$1" pin="4"/>
 <wire x1="233.68" y1="137.16" x2="228.6" y2="137.16" width="0.1524" layer="91"/>
+<pinref part="GND" gate="G$1" pin="P$1"/>
+<wire x1="175.26" y1="116.84" x2="167.64" y2="116.84" width="0.1524" layer="91"/>
+<junction x="167.64" y="116.84"/>
 </segment>
 </net>
 <net name="BLUE" class="0">
@@ -4353,6 +4356,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <junction x="205.74" y="137.16"/>
 <pinref part="U$9" gate="G$1" pin="6"/>
 <wire x1="233.68" y1="134.62" x2="228.6" y2="134.62" width="0.1524" layer="91"/>
+<pinref part="5V" gate="G$1" pin="P$1"/>
+<wire x1="175.26" y1="152.4" x2="167.64" y2="152.4" width="0.1524" layer="91"/>
+<junction x="167.64" y="152.4"/>
 </segment>
 <segment>
 <wire x1="40.64" y1="170.18" x2="45.72" y2="170.18" width="0.1524" layer="91"/>
