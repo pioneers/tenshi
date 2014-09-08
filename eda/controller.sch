@@ -6401,10 +6401,10 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <part name="SUPPLY19" library="pie" deviceset="GND" device=""/>
 <part name="U$12" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY20" library="pie" deviceset="GND" device=""/>
-<part name="CONN1" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH"/>
-<part name="CONN2" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH"/>
-<part name="CONN3" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH"/>
-<part name="CONN4" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH"/>
+<part name="CONN1" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH" value="SENSOR_CON_5PINPTH"/>
+<part name="CONN2" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH" value="SENSOR_CON_5PINPTH"/>
+<part name="CONN3" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH" value="SENSOR_CON_5PINPTH"/>
+<part name="CONN4" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH" value="SENSOR_CON_5PINPTH"/>
 <part name="U$17" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY21" library="pie" deviceset="GND" device=""/>
 <part name="R8" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
