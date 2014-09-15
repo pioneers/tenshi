@@ -23,6 +23,11 @@
 
 #include "lauxlib.h"
 
+/* TODO(rqou): This violates the abstraction of lauxlib. We pull in lstate.h
+** so that we can call xipcheck.
+*/
+#include "lstate.h"
+
 
 /*
 ** {======================================================
@@ -587,6 +592,8 @@ typedef struct LoadF {
 static const char *getF (lua_State *L, void *ud, size_t *size) {
   LoadF *lf = (LoadF *)ud;
   (void)L;  /* not used */
+  if (L == NULL && size == NULL) // direct mode check
+    return NULL;
   if (lf->n > 0) {  /* are there pre-read characters to be read? */
     *size = lf->n;  /* return them (chars already in buffer) */
     lf->n = 0;  /* no more pre-read characters */
@@ -690,6 +697,20 @@ typedef struct LoadS {
 static const char *getS (lua_State *L, void *ud, size_t *size) {
   LoadS *ls = (LoadS *)ud;
   (void)L;  /* not used */
+  if (L == NULL && size == NULL) // direct mode check
+    return NULL;
+  if (ls->size == 0) return NULL;
+  *size = ls->size;
+  ls->size = 0;
+  return ls->s;
+}
+
+
+static const char *getS_ro (lua_State *L, void *ud, size_t *size) {
+  LoadS *ls = (LoadS *)ud;
+  (void)L;  /* not used */
+  if (L == NULL && size == NULL) // direct mode check
+    return ls->s;
   if (ls->size == 0) return NULL;
   *size = ls->size;
   ls->size = 0;
@@ -702,7 +723,10 @@ LUALIB_API int luaL_loadbufferx (lua_State *L, const char *buff, size_t size,
   LoadS ls;
   ls.s = buff;
   ls.size = size;
-  return lua_load(L, getS, &ls, name, mode);
+  if (G(L)->xipcheck && G(L)->xipcheck(buff))
+    return lua_load(L, getS_ro, &ls, name, mode);
+  else
+    return lua_load(L, getS, &ls, name, mode);
 }
 
 

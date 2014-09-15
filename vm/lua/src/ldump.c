@@ -22,6 +22,7 @@ typedef struct {
   void *data;
   int strip;
   int status;
+  size_t wrote;
 } DumpState;
 
 
@@ -38,6 +39,7 @@ static void DumpBlock (const void *b, size_t size, DumpState *D) {
   if (D->status == 0) {
     lua_unlock(D->L);
     D->status = (*D->writer)(D->L, b, size, D->data);
+    D->wrote += size;
     lua_lock(D->L);
   }
 }
@@ -82,8 +84,15 @@ static void DumpString (const TString *s, DumpState *D) {
   }
 }
 
+static void Align4(DumpState *D)
+{
+  while(D->wrote & 3)
+    DumpByte(0, D);
+}
+
 
 static void DumpCode (const Proto *f, DumpState *D) {
+  Align4(D);
   DumpInt(f->sizecode, D);
   DumpVector(f->code, f->sizecode, D);
 }
@@ -143,6 +152,7 @@ static void DumpUpvalues (const Proto *f, DumpState *D) {
 static void DumpDebug (const Proto *f, DumpState *D) {
   int i, n;
   n = (D->strip) ? 0 : f->sizelineinfo;
+  Align4(D);
   DumpInt(n, D);
   DumpVector(f->lineinfo, n, D);
   n = (D->strip) ? 0 : f->sizelocvars;
@@ -203,6 +213,7 @@ int luaU_dump(lua_State *L, const Proto *f, lua_Writer w, void *data,
   D.data = data;
   D.strip = strip;
   D.status = 0;
+  D.wrote = 0;
   DumpHeader(&D);
   DumpByte(f->sizeupvalues, &D);
   DumpFunction(f, NULL, &D);

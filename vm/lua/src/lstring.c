@@ -88,18 +88,23 @@ void luaS_resize (lua_State *L, int newsize) {
 ** creates a new string object
 */
 static TString *createstrobj (lua_State *L, const char *str, size_t l,
-                              int tag, unsigned int h) {
+                              int tag, unsigned int h, int readonly) {
   TString *ts;
   GCObject *o;
   size_t totalsize;  /* total size of TString object */
-  totalsize = sizeof(TString) + ((l + 1) * sizeof(char));
+  totalsize = readonly ? sizeof(TString) + sizeof(char**) : sizeof(TString) + ((l + 1) * sizeof(char));
   o = luaC_newobj(L, tag, totalsize);
   ts = rawgco2ts(o);
   ts->tsv.len = l;
   ts->tsv.hash = h;
   ts->tsv.extra = 0;
-  memcpy(ts+1, str, l*sizeof(char));
-  ((char *)(ts+1))[l] = '\0';  /* ending 0 */
+  if (!readonly) {
+    memcpy(ts+1, str, l*sizeof(char));
+    ((char *)(ts+1))[l] = '\0';  /* ending 0 */
+  } else {
+    *(char **)(ts+1) = (char *)str;
+    luaS_readonly(ts);
+  }
   return ts;
 }
 
@@ -117,7 +122,7 @@ void luaS_remove (lua_State *L, TString *ts) {
 /*
 ** checks whether short string exists and reuses it or creates a new one
 */
-static TString *internshrstr (lua_State *L, const char *str, size_t l) {
+static TString *internshrstr (lua_State *L, const char *str, size_t l, int is_ro_area) {
   TString *ts;
   global_State *g = G(L);
   unsigned int h = luaS_hash(str, l, g->seed);
@@ -135,7 +140,7 @@ static TString *internshrstr (lua_State *L, const char *str, size_t l) {
     luaS_resize(L, g->strt.size * 2);
     list = &g->strt.hash[lmod(h, g->strt.size)];  /* recompute with new size */
   }
-  ts = createstrobj(L, str, l, LUA_TSHRSTR, h);
+  ts = createstrobj(L, str, l, LUA_TSHRSTR, h, is_ro_area && l+1 > sizeof(char**));
   ts->tsv.hnext = *list;
   *list = ts;
   g->strt.nuse++;
@@ -147,12 +152,13 @@ static TString *internshrstr (lua_State *L, const char *str, size_t l) {
 ** new string (with explicit length)
 */
 TString *luaS_newlstr (lua_State *L, const char *str, size_t l) {
+  int is_ro_area = G(L)->xipcheck && G(L)->xipcheck(str);
   if (l <= LUAI_MAXSHORTLEN)  /* short string? */
-    return internshrstr(L, str, l);
+    return internshrstr(L, str, l, is_ro_area);
   else {
     if (l + 1 > (MAX_SIZE - sizeof(TString))/sizeof(char))
       luaM_toobig(L);
-    return createstrobj(L, str, l, LUA_TLNGSTR, G(L)->seed);
+    return createstrobj(L, str, l, LUA_TLNGSTR, G(L)->seed, is_ro_area);
   }
 }
 

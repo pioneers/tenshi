@@ -457,12 +457,13 @@ static int traverseproto (global_State *g, Proto *f) {
     markobject(g, f->p[i]);
   for (i = 0; i < f->sizelocvars; i++)  /* mark local-variable names */
     markobject(g, f->locvars[i].varname);
-  return sizeof(Proto) + sizeof(Instruction) * f->sizecode +
-                         sizeof(Proto *) * f->sizep +
+  return sizeof(Proto) + sizeof(Proto *) * f->sizep +
                          sizeof(TValue) * f->sizek +
-                         sizeof(int) * f->sizelineinfo +
                          sizeof(LocVar) * f->sizelocvars +
-                         sizeof(Upvaldesc) * f->sizeupvalues;
+                         sizeof(Upvaldesc) * f->sizeupvalues +
+                         (proto_is_readonly(f) ? 0 :
+                          sizeof(Instruction) * f->sizecode +
+                          sizeof(int) * f->sizelineinfo);
 }
 
 

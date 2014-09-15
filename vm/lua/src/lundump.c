@@ -31,6 +31,7 @@ typedef struct {
   ZIO *Z;
   Mbuffer *b;
   const char *name;
+  size_t total;
 } LoadState;
 
 
@@ -49,6 +50,7 @@ static l_noret error(LoadState *S, const char *why) {
 static void LoadBlock (LoadState *S, void *b, size_t size) {
   if (luaZ_read(S->Z, b, size) != 0)
     error(S, "truncated");
+  S->total += size;
 }
 
 
@@ -59,6 +61,12 @@ static lu_byte LoadByte (LoadState *S) {
   lu_byte x;
   LoadVar(S, x);
   return x;
+}
+
+static void Align4(LoadState* S)
+{
+  while(S->total & 3)
+    LoadByte(S);
 }
 
 
@@ -90,18 +98,32 @@ static TString *LoadString (LoadState *S) {
   if (size == 0)
     return NULL;
   else {
-    char *s = luaZ_openspace(S->L, S->b, --size);
-    LoadVector(S, s, size);
-    return luaS_newlstr(S->L, s, size);
+    char *s;
+    if (!luaZ_direct_mode(S->Z)) {
+      s = luaZ_openspace(S->L, S->b, --size);
+      LoadVector(S, s, size);
+      return luaS_newlstr(S->L, s, size);
+    } else {
+      s = (char*)luaZ_get_crt_address(S->Z);
+      --size;
+      LoadBlock(S, NULL, size);
+      return luaS_newlstr(S->L, s, size);
+    }
   }
 }
 
 
 static void LoadCode (LoadState *S, Proto *f) {
+  Align4(S);
   int n = LoadInt(S);
-  f->code = luaM_newvector(S->L, n, Instruction);
+  if (!luaZ_direct_mode(S->Z)) {
+    f->code = luaM_newvector(S->L, n, Instruction);
+    LoadVector(S, f->code, n);
+  } else {
+    f->code = (Instruction*)luaZ_get_crt_address(S->Z);
+    LoadBlock(S, NULL, n * sizeof(Instruction));
+  }
   f->sizecode = n;
-  LoadVector(S, f->code, n);
 }
 
 
@@ -172,10 +194,16 @@ static void LoadUpvalues (LoadState *S, Proto *f) {
 
 static void LoadDebug (LoadState *S, Proto *f) {
   int i, n;
+  Align4(S);
   n = LoadInt(S);
-  f->lineinfo = luaM_newvector(S->L, n, int);
+  if (!luaZ_direct_mode(S->Z)) {
+    f->lineinfo = luaM_newvector(S->L, n, int);
+    LoadVector(S, f->lineinfo, n);
+  } else {
+    f->lineinfo = (int*)luaZ_get_crt_address(S->Z);
+    LoadBlock(S, NULL, n * sizeof(int));
+  }
   f->sizelineinfo = n;
-  LoadVector(S, f->lineinfo, n);
   n = LoadInt(S);
   f->locvars = luaM_newvector(S->L, n, LocVar);
   f->sizelocvars = n;
@@ -193,6 +221,7 @@ static void LoadDebug (LoadState *S, Proto *f) {
 
 
 static void LoadFunction (LoadState *S, Proto *f, TString *psource) {
+  if (luaZ_direct_mode(S->Z)) proto_readonly(f);
   f->source = LoadString(S);
   if (f->source == NULL)  /* no source in dump? */
     f->source = psource;  /* reuse parent's source */
@@ -261,6 +290,13 @@ LClosure *luaU_undump(lua_State *L, ZIO *Z, Mbuffer *buff,
   S.L = L;
   S.Z = Z;
   S.b = buff;
+  S.total = 1;
+  /* This is somewhat of a kludge. In Lua 5.3, the header checking no longer
+     checks the first byte here (it is checked in ldo.c). However, the logic to
+     determine where we are in the buffer (S.total, Z->i) doesn't get updated
+     when ldo.c calls zgetc. Instead of fixing it (it is only used there and
+     the lexer) we add this kludge instead. */
+  S.Z->i++;
   checkHeader(&S);
   cl = luaF_newLclosure(L, LoadByte(&S));
   setclLvalue(L, L->top, cl);

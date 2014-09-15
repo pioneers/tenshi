@@ -12,12 +12,15 @@
 #include "lstate.h"
 
 
-#define sizestring(s)	(sizeof(union TString)+((s)->len+1)*sizeof(char))
+#define sizestring(s)	(sizeof(union TString)+(luaS_isreadonly(s) ? sizeof(char **) : ((s)->len+1)*sizeof(char)))
 
 #define sizeudata(u)	(sizeof(union Udata)+(u)->len)
 
 #define luaS_newliteral(L, s)	(luaS_newlstr(L, "" s, \
                                  (sizeof(s)/sizeof(char))-1))
+
+#define luaS_readonly(s)  l_setbit((s)->tsv.marked, READONLYBIT)
+#define luaS_isreadonly(s) testbit((s)->marked, READONLYBIT)
 
 
 /*
