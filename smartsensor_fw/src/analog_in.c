@@ -41,10 +41,10 @@ void activeAnalogInRec(uint8_t *data, uint8_t len, uint8_t inband) {
 }
 void activeAnalogInSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
   *outLen = 8;
-  int val0 = adc_read((1 << MUX3) | (1 << MUX1));  // 10 bit resolution
-  int val1 = adc_read((1 << MUX3) | (1 << MUX1));
-  int val2 = adc_read((1 << MUX3) | (1 << MUX1));
-  int val3 = adc_read((1 << MUX3) | (1 << MUX1));
+  int val0 = adc_read(A_IN0);  // 10 bit resolution
+  int val1 = adc_read(A_IN1);
+  int val2 = adc_read(A_IN2);
+  int val3 = adc_read(A_IN3);
   outData[0] = val0;
   outData[1] = val0 >> 8;
   outData[2] = val1;
