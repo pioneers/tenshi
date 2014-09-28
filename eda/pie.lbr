@@ -10500,10 +10500,10 @@ Vertical</description>
 <pin name="4" x="2.54" y="0" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
 <pin name="5" x="-5.08" y="-2.54" visible="pad" length="short" direction="pas" function="dot"/>
 <pin name="6" x="2.54" y="-2.54" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
-<pin name="7" x="-5.08" y="-7.62" visible="pad" length="short" direction="pas" function="dot"/>
-<pin name="8" x="2.54" y="-7.62" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
-<pin name="9" x="-5.08" y="-5.08" visible="pad" length="short" direction="pas" function="dot"/>
-<pin name="10" x="2.54" y="-5.08" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
+<pin name="9" x="-5.08" y="-7.62" visible="pad" length="short" direction="pas" function="dot"/>
+<pin name="10" x="2.54" y="-7.62" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
+<pin name="7" x="-5.08" y="-5.08" visible="pad" length="short" direction="pas" function="dot"/>
+<pin name="8" x="2.54" y="-5.08" visible="pad" length="short" direction="pas" function="dot" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
