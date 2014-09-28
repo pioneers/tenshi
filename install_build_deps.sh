@@ -137,8 +137,13 @@ rm -rf $TMPDIR
 ## Pre-run tool extraction to avoid downloads later
 [ -f "tools/extract-tools.sh" ] && tools/extract-tools.sh
 
-## Create the eagle directory so that BOM generation doesn't get stuck.
-mkdir -p ~/eagle
+## Run eagle
+which ealge && eagle
+[ -x /opt/eagle-6.5.0/bin/eagle ] && /opt/eagle-6.5.0/bin/eagle
+
+## Run emcc
+. tools/begin-build.sh
+emcc
 
 ## Done
 echo "Done: build dependencies have been installed"
