@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License
 
+from __future__ import print_function
 from collections import defaultdict
 import waflib.Build
 
@@ -49,9 +50,9 @@ def declare_variants(args=None, subdir=''):
                 variants[a].add(new_variant)
 
 
-def run_all(kind):
+def run_all(kind, key_func=lambda v: 0):
     from waflib.Scripting import run_command
-    for cmd in cmds[kind]:
+    for cmd in sorted(cmds[kind], key=key_func, reverse=True):
         run_command(cmd)
 
 
