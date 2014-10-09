@@ -18,6 +18,7 @@
 
 from __future__ import print_function
 import traceback
+from waf_extensions import declare_variants, sub_conf, run_all
 
 
 def recurse(ctx, dirs=None):
@@ -43,5 +44,9 @@ def configure(ctx):
         recurse(ctx)
 
 
-def build(ctx):
-    recurse(ctx)
+def build(bld):
+    if not bld.variant:
+        print('Building all variants.')
+        run_all('build', lambda v: 'lua/debug_native' in v)
+    else:
+        recurse(bld)
