@@ -243,6 +243,7 @@ def build(bld):
                  "version_obj",
                  "angelic_static",
                  "lua_objects",
+                 "lua_runtime_objects",
                  "lua_lua_objects",
                  "ndl3_objects"]
         )

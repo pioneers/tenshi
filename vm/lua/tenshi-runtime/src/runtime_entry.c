@@ -28,16 +28,16 @@
 #include "lbaselib.h"   // NOLINT(build/include)
 #include "lstrlib.h"    // NOLINT(build/include)
 #include "threading.h"  // NOLINT(build/include)
-#include "../actuator_actor.lua.h"  // NOLINT(build/include)
-#include "../actuators.lua.h"       // NOLINT(build/include)
-#include "../game.lua.h"            // NOLINT(build/include)
-#include "../get_device.lua.h"      // NOLINT(build/include)
-#include "../pieles.lua.h"          // NOLINT(build/include)
-#include "../sensor_actor.lua.h"    // NOLINT(build/include)
-#include "../trap_global.lua.h"     // NOLINT(build/include)
-#include "../triggers.lua.h"        // NOLINT(build/include)
-#include "../ubjson.lua.h"          // NOLINT(build/include)
-#include "../units.lua.h"           // NOLINT(build/include)
+#include "../actuator_actor.lc.h"   // NOLINT(build/include)
+#include "../actuators.lc.h"        // NOLINT(build/include)
+#include "../game.lc.h"             // NOLINT(build/include)
+#include "../get_device.lc.h"       // NOLINT(build/include)
+#include "../pieles.lc.h"           // NOLINT(build/include)
+#include "../sensor_actor.lc.h"     // NOLINT(build/include)
+#include "../trap_global.lc.h"      // NOLINT(build/include)
+#include "../triggers.lc.h"         // NOLINT(build/include)
+#include "../ubjson.lc.h"           // NOLINT(build/include)
+#include "../units.lc.h"            // NOLINT(build/include)
 
 // Custom version of baselib with some functions omitted
 static const luaL_Reg tenshi_base_funcs[] = {
@@ -110,37 +110,37 @@ static int tenshi_open_string(lua_State *L) {
 }
 
 static int tenshi_open_units(lua_State *L) {
-  luaL_loadbuffer(L, units_lua, sizeof(units_lua), "units.lua");
+  luaL_loadbuffer(L, units_lc, sizeof(units_lc), "units.lua");
   lua_pcall(L, 0, LUA_MULTRET, 0);
   return 1;
 }
 
 static int tenshi_open_actuators(lua_State *L) {
-  luaL_loadbuffer(L, actuators_lua, sizeof(actuators_lua), "actuators.lua");
+  luaL_loadbuffer(L, actuators_lc, sizeof(actuators_lc), "actuators.lua");
   lua_pcall(L, 0, LUA_MULTRET, 0);
   return 1;
 }
 
 static int tenshi_open_triggers(lua_State *L) {
-  luaL_loadbuffer(L, triggers_lua, sizeof(triggers_lua), "triggers.lua");
+  luaL_loadbuffer(L, triggers_lc, sizeof(triggers_lc), "triggers.lua");
   lua_pcall(L, 0, LUA_MULTRET, 0);
   return 1;
 }
 
 static int tenshi_open_pieles(lua_State *L) {
-  luaL_loadbuffer(L, pieles_lua, sizeof(pieles_lua), "pieles.lua");
+  luaL_loadbuffer(L, pieles_lc, sizeof(pieles_lc), "pieles.lua");
   lua_pcall(L, 0, LUA_MULTRET, 0);
   return 1;
 }
 
 static int tenshi_open_game(lua_State *L) {
-  luaL_loadbuffer(L, game_lua, sizeof(game_lua), "game.lua");
+  luaL_loadbuffer(L, game_lc, sizeof(game_lc), "game.lua");
   lua_pcall(L, 0, LUA_MULTRET, 0);
   return 1;
 }
 
 static int tenshi_open_ubjson(lua_State *L) {
-  luaL_loadbuffer(L, ubjson_lua, sizeof(ubjson_lua), "ubjson.lua");
+  luaL_loadbuffer(L, ubjson_lc, sizeof(ubjson_lc), "ubjson.lua");
   lua_pcall(L, 0, LUA_MULTRET, 0);
   return 1;
 }
@@ -205,13 +205,13 @@ static void TenshiRuntime_openlibs_phase2(lua_State *L) {
 }
 
 static int tenshi_open_get_device(lua_State *L) {
-  luaL_loadbuffer(L, get_device_lua, sizeof(get_device_lua), "get_device.lua");
+  luaL_loadbuffer(L, get_device_lc, sizeof(get_device_lc), "get_device.lua");
   lua_pcall(L, 0, 0, 0);
   return 0;
 }
 
 static int tenshi_open_trap_global(lua_State *L) {
-  luaL_loadbuffer(L, trap_global_lua, sizeof(trap_global_lua),
+  luaL_loadbuffer(L, trap_global_lc, sizeof(trap_global_lc),
     "trap_global.lua");
   lua_pcall(L, 0, 0, 0);
   return 0;
@@ -285,7 +285,7 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
     return NULL;
   }
   int ret_ = luaL_loadbuffer(ret->sensor_actor->L,
-    sensor_actor_lua, sizeof(sensor_actor_lua), "sensor_actor.lua");
+    sensor_actor_lc, sizeof(sensor_actor_lc), "sensor_actor.lua");
   if (ret_ != LUA_OK) {
     TenshiRuntimeDeinit(ret);
     return NULL;
@@ -299,7 +299,7 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
     return NULL;
   }
   ret_ = luaL_loadbuffer(ret->actuator_actor->L,
-    actuator_actor_lua, sizeof(actuator_actor_lua), "actuator_actor.lua");
+    actuator_actor_lc, sizeof(actuator_actor_lc), "actuator_actor.lua");
   if (ret_ != LUA_OK) {
     TenshiRuntimeDeinit(ret);
     return NULL;

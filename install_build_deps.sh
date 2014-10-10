@@ -68,7 +68,7 @@ pushd "$TMPDIR"
 trap 'popd; rm -rf $TMPDIR; exit 15' 1 2 3 15
 
 ## Install misc dependencies
-sudo apt-get install xvfb openjdk-7-jre-headless coreutils build-essential
+sudo apt-get install xvfb openjdk-7-jre-headless coreutils build-essential gcc-multilib
 
 ## Install Python and related
 which pip >/dev/null || {
