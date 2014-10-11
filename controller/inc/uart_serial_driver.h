@@ -43,6 +43,8 @@ extern int uart_serial_packets_waiting(uart_serial_module *module);
 // Returns 1 if the queue is full
 extern int uart_serial_is_full(uart_serial_module *module);
 
+// This function makes a copy of the data. It is not necessary to retain it
+// past the call.
 extern void *uart_serial_send_data(uart_serial_module *module, uint8_t *data,
   size_t len);
 extern int uart_serial_send_status(uart_serial_module *module,
