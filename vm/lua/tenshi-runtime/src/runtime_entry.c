@@ -217,6 +217,17 @@ static int tenshi_open_trap_global(lua_State *L) {
   return 0;
 }
 
+#ifdef __arm__
+
+// Check if the passed-in address is in flash memory or not
+extern const char __flash_start;
+extern const char __flash_end;
+int lua_arm_checkxip(const void *ptr) {
+  return (ptr >= &__flash_start) && (ptr < &__flash_end);
+}
+
+#endif
+
 TenshiRuntimeState TenshiRuntimeInit(void) {
   TenshiRuntimeState ret;
 
@@ -228,6 +239,11 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
     TenshiRuntimeDeinit(ret);
     return NULL;
   }
+
+  // Register checkxip function on ARM
+  #ifdef __arm__
+  lua_setcheckxip(ret->L, lua_arm_checkxip);
+  #endif
 
   // Load libraries
   TenshiRuntime_openlibs_phase1(ret->L);
