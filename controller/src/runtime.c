@@ -203,7 +203,7 @@ static portTASK_FUNCTION_PROTO(runtimeTask, pvParameters) {
   int ret = RUNTIME_OK, firstErr = RUNTIME_OK;
   TenshiRuntimeState s = NULL;
   TenshiActorState a = NULL;
-  char *studentCode = pvPortMalloc(sizeof(studentCodeTemplate));
+  char *studentCode = malloc(sizeof(studentCodeTemplate));
   memcpy(studentCode, studentCodeTemplate, sizeof(studentCodeTemplate));
   size_t studentCodeLen = sizeof(studentCodeTemplate)-1;
 
@@ -234,12 +234,12 @@ static portTASK_FUNCTION_PROTO(runtimeTask, pvParameters) {
       } else {
         switch (msg.type) {
           case RuntimeMessageUbjson:
-            vPortFree(lastUbjson);
+            free(lastUbjson);
             lastUbjson = msg.info;
             lastUbjsonLen = msg.infoLen;
             break;
           case RuntimeMessageNewCode:
-            vPortFree(studentCode);
+            free(studentCode);
             studentCode = msg.info;
             studentCodeLen = msg.infoLen;
 
@@ -264,7 +264,7 @@ static portTASK_FUNCTION_PROTO(runtimeTask, pvParameters) {
             setGameMode(RuntimeModeDisabled);
             break;
           default:
-            vPortFree(msg.info);
+            free(msg.info);
             break;
         }
       }
