@@ -396,7 +396,32 @@ static int MBoxUnpackGroups(lua_State *L, int num_mboxes, int is_send) {
 
   return num_mboxes;
 }
-
+// Checks that all values are tables that are mailboxes
+// If fails, pushes an error message to the stack and returns 0
+// Else returns 1
+static int MBoxCheckMisc(lua_State *L, int num_mboxes) {
+  int counter = 0;
+  for (int i = 0; i < num_mboxes; i++) {
+    // Check that all the values are tables
+    if (lua_istable(L, i+1) != 1) {
+      for (int j = 0; j < counter; j++)
+        lua_pop(L, counter);
+      lua_pushstring(L, "Error: MBoxSendReal expects tables.");
+      return 0;
+    }
+    lua_pushstring(L, "__mbox");
+    lua_gettable(L, i + 1);
+    counter++;
+    // Check that all the values are mailboxes
+    if (lua_isnil(L, 1) != 0) {
+      for (int j = 0; j < counter; j++)
+        lua_pop(L, counter);
+      lua_pushstring(L, "Error: MBoxSendReal expects mailboxes.");
+      return 0;
+    }
+  }
+  return 1;
+}
 static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // Called either on initial attempt to send or when we tried, failed,
   // yielded, and came back.
@@ -431,9 +456,15 @@ static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // Yes, the flooring division is intentional and ok here. If we get an odd
   // number of arguments, the last one is interpreted as options.
   int num_mboxes = lua_gettop(L) / 2;
+  // Checks that all values are tables and mailboxes
+  int check = MBoxCheckMisc(L, num_mboxes);
+  if (check == 0) {
+    lua_error(L);
+  }
 
   // Handle groups
   num_mboxes = MBoxUnpackGroups(L, num_mboxes, 1);
+
 
   // Check if all mailboxes have space
   // stack is ...args...
@@ -584,6 +615,7 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
   for (int i = 0; i < num_mboxes; i++) {
     lua_pushstring(L, "__mbox");
     lua_gettable(L, i + 1);
+
     lua_pushstring(L, "count");
     lua_gettable(L, -2);
     // stack is ...args..., mboxinternal, count
