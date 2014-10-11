@@ -400,7 +400,7 @@ static int MBoxUnpackGroups(lua_State *L, int num_mboxes, int is_send) {
 static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // Called either on initial attempt to send or when we tried, failed,
   // yielded, and came back.
-
+  
   // Check if timeout happened
   lua_pushcfunction(L, ActorGetOwnActor);
   lua_call(L, 0, 1);
@@ -431,9 +431,9 @@ static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // Yes, the flooring division is intentional and ok here. If we get an odd
   // number of arguments, the last one is interpreted as options.
   int num_mboxes = lua_gettop(L) / 2;
-
   // Handle groups
   num_mboxes = MBoxUnpackGroups(L, num_mboxes, 1);
+
 
   // Check if all mailboxes have space
   // stack is ...args...
@@ -582,8 +582,19 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
 
   // Check if any mailboxes have data
   for (int i = 0; i < num_mboxes; i++) {
+    //Check that all the values are tables
+    if(lua_istable(L, i+1) != 1){
+      lua_pushstring("Error: Send/receive expect tables.");
+      lua_error(L);
+    }
     lua_pushstring(L, "__mbox");
     lua_gettable(L, i + 1);
+
+    //Check that all the values are mailboxes
+    if(lua_isnil(L, 1) != 0){
+      lua_pushstring("Error: Send/receive expect mailboxes.");
+      lua_error(L);
+    }
     lua_pushstring(L, "count");
     lua_gettable(L, -2);
     // stack is ...args..., mboxinternal, count
