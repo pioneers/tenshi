@@ -349,11 +349,14 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
     while (busState[busNum] == SS_BUS_ACTIVE) {
       // Recieve the response to the packet
       // 1 means wait for packet
-      uint8_t *data = uart_serial_receive_packet(bus, &recLen, 0);
+      // TODO(rqou): Ugly hardcoded size
+      uint8_t data[256];
+      recLen = sizeof(data);
+      int ret = uart_serial_receive_packet(bus, data, &recLen, 0);
 
       if (busState[busNum] != SS_BUS_ACTIVE) break;
 
-      if (data) {
+      if (!ret) {
         uint8_t prefixLen = 3;
         if (recLen > prefixLen) {
           uint8_t sampleNumber = (data[1] >> 3) & 0b111;
@@ -381,7 +384,6 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
 
           if (data_decode) free(data_decode);
         }
-        free(data);
       }
     }
   }

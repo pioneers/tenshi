@@ -302,7 +302,7 @@ int uart_serial_is_full(uart_serial_module *module) {
     uxQueueSpacesAvailable(((uart_serial_module_private *)module)->txQueue);
 }
 
-void *uart_serial_send_data(uart_serial_module *module, uint8_t *data,
+void *uart_serial_send_data(uart_serial_module *module, const uint8_t *data,
   size_t len) {
   uart_txn *txn = pool_alloc_block(
     ((uart_serial_module_private *)module)->txPacketPool);
@@ -352,31 +352,32 @@ int uart_serial_send_and_finish_data(uart_serial_module *module, uint8_t *data,
   return uart_serial_send_finish(module, txn);
 }
 
-uint8_t *uart_serial_receive_packet(uart_serial_module *module,
-  size_t *len_out, int shouldBlock) {
-  return uart_serial_receive_packet_timeout(module, len_out,
+int uart_serial_receive_packet(uart_serial_module *module,
+  uint8_t *buf, size_t *len, int shouldBlock) {
+  return uart_serial_receive_packet_timeout(module, buf, len,
     shouldBlock ? portMAX_DELAY : 0);
 }
-uint8_t *uart_serial_receive_packet_timeout(uart_serial_module *module,
-  size_t *len_out, TickType_t timeout) {
+int uart_serial_receive_packet_timeout(uart_serial_module *module,
+  uint8_t *buf, size_t *len, TickType_t timeout) {
   uart_txn *txn;
 
   int ret = xQueueReceive(
     ((uart_serial_module_private *)module)->rxQueue, &txn, timeout);
 
   if (!ret) {
-    return NULL;
+    return 1;
   }
 
-  if (len_out) {
-    *len_out = txn->len;
+  if (*len < txn->len) {
+    return 2;
   }
 
-  uint8_t *outBuf = txn->data;
+  memcpy(buf, txn->data, txn->len);
+  *len = txn->len;
 
   pool_alloc_free(txn);
 
-  return outBuf;
+  return 0;
 }
 
 extern int uart_bus_logic_level(uart_serial_module *_module) {

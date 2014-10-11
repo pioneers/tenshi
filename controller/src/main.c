@@ -144,7 +144,9 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
   int started_angelic = 0;
 
   while (1) {
-    uint8_t *buf;
+    // TODO(rqou): Size is hardcoded. Yuck.
+    uint8_t buf[256];
+    int ret;
     size_t len;
 
     if (!got_a_packet && should_harass) {
@@ -181,21 +183,20 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
     }
     got_a_packet = 0;
 
-    buf = uart_serial_receive_packet(radio_driver, &len, 0);
-    if (!buf) {
+    len = sizeof(buf);
+    ret = uart_serial_receive_packet(radio_driver, buf, &len, 0);
+    if (ret) {
       // TODO(rqou): Proper timer, why the f*ck do I need to copy this here?
       vTaskDelay(20 / portTICK_RATE_MS);
       continue;
     }
     xbee_api_packet *packetIn = (xbee_api_packet *)buf;
     if (!xbee_verify_checksum(packetIn)) {
-      free(buf);
       // TODO(rqou): Proper timer, why the f*ck do I need to copy this here?
       vTaskDelay(20 / portTICK_RATE_MS);
       continue;
     }
     if (packetIn->payload.xbee_api_type != XBEE_API_TYPE_RX64) {
-      free(buf);
       // TODO(rqou): Proper timer, why the f*ck do I need to copy this here?
       vTaskDelay(20 / portTICK_RATE_MS);
       continue;
@@ -286,8 +287,6 @@ static portTASK_FUNCTION_PROTO(radioTask, pvParameters) {
       // TODO(rqou): Report error or something?
       break;
     }
-
-    free(buf);
 
     // TODO(rqou): Proper timer
     vTaskDelay(20 / portTICK_RATE_MS);

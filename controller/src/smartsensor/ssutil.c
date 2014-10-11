@@ -72,7 +72,9 @@ uint8_t *ss_read_descriptor(SSState *sensor, uint32_t *readLen) {
   const uint8_t requestLen = 3;
   uint8_t request[3] = {0, 0, 2};  // Request two length bytes
   size_t recLen = 0;
-  uint8_t *recData;
+  // TODO(rqou): Ugly hardcoded size
+  uint8_t recData[256];
+  int ret;
   const uint8_t prefixLen = 3;
 
   uint8_t temp[4];
@@ -80,21 +82,23 @@ uint8_t *ss_read_descriptor(SSState *sensor, uint32_t *readLen) {
   uint8_t *allData = NULL;
 
   // Clear missed packets
-  while (uart_serial_receive_packet(bus, &recLen, 0)) {}
+  do {
+    recLen = sizeof(recData);
+  } while (uart_serial_receive_packet(bus, recData, &recLen, 0) == 0);
 
   int success = ss_send_maintenance_to_sensor(sensor, SS_PACKET_DESCRIPTOR,
                   request, requestLen);  // Request two length bytes
   if (!success) return NULL;
-  recData = uart_serial_receive_packet_timeout(bus, &recLen,
+  recLen = sizeof(recData);
+  ret = uart_serial_receive_packet_timeout(bus, recData, &recLen,
               SENSOR_REPLY_TIMEOUT);
-  if (!recData) return NULL;
+  if (ret) return NULL;
   if (recLen < prefixLen+3 || recData[1] != SS_PACKET_DESCRIPTOR) {
     free(recData);
     return NULL;
   }
   // At least two bytes decoded, at most 3 if extra data was recieved.
   cobs_decode(temp, recData+prefixLen, 4);
-  free(recData);
 
   allLen = temp[0] + temp[1]*0x100;  // Little endian
   allData = malloc(allLen);
@@ -110,18 +114,17 @@ uint8_t *ss_read_descriptor(SSState *sensor, uint32_t *readLen) {
       free(allData);
       return NULL;
     }
-    recData = uart_serial_receive_packet_timeout(bus, &recLen,
+    recLen = sizeof(recData);
+    ret = uart_serial_receive_packet_timeout(bus, recData, &recLen,
                 SENSOR_REPLY_TIMEOUT);
-    if (!recData || recLen < prefixLen+2  // Minimum 1 byte of descriptor data
+    if (ret || recLen < prefixLen+2  // Minimum 1 byte of descriptor data
         || recData[1] != SS_PACKET_DESCRIPTOR) {
       free(allData);
-      free(recData);
       return NULL;
     }
     if (partLen + (recLen-prefixLen-1) > allLen)  // If too much data recieved
       recLen = allLen-partLen + prefixLen+1;
     cobs_decode(allData + partLen, recData+prefixLen, recLen-prefixLen);
-    free(recData);
 
     partLen += recLen-prefixLen-1;
   }

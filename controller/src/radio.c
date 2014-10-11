@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License
 
+#include <stdio.h>
 #include <string.h>
 
 #include <ndl3.h>
@@ -189,7 +190,9 @@ static portTASK_FUNCTION_PROTO(radioNewTask, pvParameters) {
   char * recvMsg = NULL;
 
   const uint8_t prefixLen = 1;
-  xbee_api_packet *recXbeePacket;
+  // TODO(rqou): Ugly
+  uint8_t recXbeePacket_buf[256];
+  xbee_api_packet *recXbeePacket = (xbee_api_packet *)(recXbeePacket_buf);
   xbee_rx64_header *recXbeeHeader;
   uint8_t buffer[NDL3_PACKET_SIZE];
   NDL3_size popSize = 0;
@@ -272,9 +275,10 @@ static portTASK_FUNCTION_PROTO(radioNewTask, pvParameters) {
       printf("Radio error b%d\n", err);
     }
 
-    recXbeePacket = (xbee_api_packet*)uart_serial_receive_packet(radio_driver,
+    uartRecvSize = sizeof(recXbeePacket_buf);
+    int ret = uart_serial_receive_packet(radio_driver, recXbeePacket,
       &uartRecvSize, 0);
-    if (recXbeePacket) {
+    if (!ret) {
       recXbeePacket->length = __REV16(recXbeePacket->length);
       recXbeeHeader = (xbee_rx64_header*)&(recXbeePacket->payload);
       if (recXbeeHeader->xbee_api_type == XBEE_API_TYPE_RX64) {
@@ -284,7 +288,6 @@ static portTASK_FUNCTION_PROTO(radioNewTask, pvParameters) {
             recXbeePacket->length-sizeof(xbee_rx64_header)-prefixLen);
         }
       }
-      free(recXbeePacket);
     }
 
     err = NDL3_pop_error(target);
