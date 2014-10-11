@@ -15,6 +15,7 @@ SECTIONS
 {
 	.vectors :
 	{
+		__flash_start = . ;
 		__text_start = . ;
 		KEEP (*(.vectors))
 		. = ALIGN(4);
@@ -131,6 +132,8 @@ SECTIONS
 		KEEP (*(.jcr))
 		. = ALIGN(4);
 	} >flash = 0
+
+	__flash_end = . ;
 
 
 
