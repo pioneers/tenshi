@@ -74,7 +74,7 @@ BaseType_t runtimeInit() {
   // Get updates from smart sensor protocol
   registerSensorUpdateCallback(&sensorUpdateCallback);
 
-  return xTaskCreate(runtimeTask, "Runtime", 2048, NULL, tskIDLE_PRIORITY,
+  return xTaskCreate(runtimeTask, "Runtime", 512, NULL, tskIDLE_PRIORITY,
                      NULL);
 }
 

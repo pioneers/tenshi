@@ -119,7 +119,7 @@ void smartsensor_init() {
     tskIDLE_PRIORITY, NULL);
   for (int i = 0; i < SS_BUS_COUNT; i++) {
     busState[i] = SS_BUS_ENUMERATION;
-    xTaskCreate(smartSensorTX, (const char *)"SensorTX", 1024, (void*)i,
+    xTaskCreate(smartSensorTX, (const char *)"SensorTX", 512, (void*)i,
       tskIDLE_PRIORITY, NULL);
   }
   for (int i = 0; i < SS_BUS_COUNT; i++) {

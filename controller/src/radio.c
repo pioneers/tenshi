@@ -103,7 +103,7 @@ BaseType_t radioInit() {
 
   radioQueue = xQueueCreate(100, sizeof(RadioMessage));
 
-  return xTaskCreate(radioNewTask, "Radio", 1024, NULL, tskIDLE_PRIORITY,
+  return xTaskCreate(radioNewTask, "Radio", 512, NULL, tskIDLE_PRIORITY,
                      NULL);
 }
 void radioPushUbjson(const char *ubjson, size_t len) {
