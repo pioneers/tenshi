@@ -400,7 +400,7 @@ static int MBoxUnpackGroups(lua_State *L, int num_mboxes, int is_send) {
 static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // Called either on initial attempt to send or when we tried, failed,
   // yielded, and came back.
-  
+
   // Check if timeout happened
   lua_pushcfunction(L, ActorGetOwnActor);
   lua_call(L, 0, 1);
@@ -582,16 +582,16 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
 
   // Check if any mailboxes have data
   for (int i = 0; i < num_mboxes; i++) {
-    //Check that all the values are tables
-    if(lua_istable(L, i+1) != 1){
+    // Check that all the values are tables
+    if (lua_istable(L, i+1) != 1){
       lua_pushstring("Error: Send/receive expect tables.");
       lua_error(L);
     }
     lua_pushstring(L, "__mbox");
     lua_gettable(L, i + 1);
 
-    //Check that all the values are mailboxes
-    if(lua_isnil(L, 1) != 0){
+    // Check that all the values are mailboxes
+    if (lua_isnil(L, 1) != 0){
       lua_pushstring("Error: Send/receive expect mailboxes.");
       lua_error(L);
     }
