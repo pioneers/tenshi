@@ -583,7 +583,7 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
   // Check if any mailboxes have data
   for (int i = 0; i < num_mboxes; i++) {
     // Check that all the values are tables
-    if (lua_istable(L, i+1) != 1){
+    if (lua_istable(L, i+1) != 1) {
       lua_pushstring("Error: Send/receive expect tables.");
       lua_error(L);
     }
@@ -591,7 +591,7 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
     lua_gettable(L, i + 1);
 
     // Check that all the values are mailboxes
-    if (lua_isnil(L, 1) != 0){
+    if (lua_isnil(L, 1) != 0) {
       lua_pushstring("Error: Send/receive expect mailboxes.");
       lua_error(L);
     }
