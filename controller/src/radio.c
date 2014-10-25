@@ -54,46 +54,6 @@ void ndFree(void * to_free, void * userdata);
 
 
 
-// Redirect printf, etc. to the radio
-
-// con_write
-// devoptab_t
-// consoleInit
-/*
-ssize_t nocash_write(struct _reent *r, int fd, const char *ptr, size_t len) {
-  nocashWrite(ptr, len);
-  return len;
-}
-
-ssize_t con_write(struct _reent *r, int fd, const char *ptr, size_t len) {
-}
-
-static const devoptab_t dotab_stdout = {
-  "con",
-  0,
-  NULL,
-  NULL,
-  con_write,
-  NULL,
-  NULL,
-  NULL
-};
-
-
-void consoleInit() {
-  static uint8_t firstConsoleInit = true;
-
-  if (firstConsoleInit) {
-    devoptab_list[STD_OUT] = &dotab_stdout;
-    devoptab_list[STD_ERR] = &dotab_stdout;
-    setvbuf(stdout, NULL , _IONBF, 0);
-    setvbuf(stderr, NULL , _IONBF, 0);
-    firstConsoleInit = false;
-  }
-}
-*/
-
-
 static portTASK_FUNCTION_PROTO(radioNewTask, pvParameters);
 
 BaseType_t radioInit() {
