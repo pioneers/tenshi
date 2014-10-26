@@ -44,6 +44,7 @@ extern volatile int gameMode;
 
 
 BaseType_t runtimeInit();
+void setGameMode(RuntimeMode mode);
 void runtimeSendRadioMsg(RuntimeMessageType type, void* info, size_t infoLen);
 // Takes responsibility for freeing
 void runtimeRecieveUbjson(char *ubjson, size_t len);
