@@ -23,6 +23,7 @@
 #include "inc/task.h"
 #include "inc/queue.h"
 #include "inc/smartsensor/ssutil.h"
+#include "inc/runtime.h"
 
 typedef struct {
   config_port *port;
@@ -72,7 +73,7 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
   while (1) {
     ConfigMessage msg;
     while (xQueueReceive(configMessageQueue, &msg, portMAX_DELAY) == pdTRUE) {
-      switch (msg.port->id) {
+      switch (msg.port->id) {  // TODO(vdonato): Implement the rest
         case ID_START_VM:
           break;
         case ID_STOP_VM:
@@ -80,14 +81,19 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
         case ID_LOAD_MAIN_THREAD:
           break;
         case ID_CONTROL_UNFREEZE:
+          // TODO(vdonato): Figure out what to do
           break;
         case ID_CONTROL_STOP:
+          setGameMode(RuntimeModePaused);
           break;
         case ID_CONTROL_UNPOWERED:
+          setGameMode(RuntimeModeDisabled);
           break;
         case ID_CONTROL_SET_AUTON:
+          setGameMode(RuntimeModeAutonomous);
           break;
         case ID_CONTROL_SET_TELEOP:
+          setGameMode(RuntimeModeTeleop);
           break;
         case ID_DEVICE_GET_LIST: {
             config_port *deviceList = getDeviceList();
