@@ -1,11 +1,11 @@
-========================= Tenshi Smart Sensor Protocol =========================
+========================= Tenshi Smart Device Protocol =========================
 
 Layer 1 - Physical layer
 ########################
 
-The Tenshi Smart Sensor Protocol is arranged as a shared multi-drop bus. The
-standard connector used for the bus is a 4 row x 2 column 0.1" x 0.1" pitch
-IDC ribbon cable connector with a notch, and the standard cabling is 8 pin flat
+The Tenshi Smart Device Protocol is arranged as a shared multi-drop bus. The
+standard connector used for the bus is a 4 row x 2 column 0.1" x 0.1" pitch IDC
+ribbon cable connector with a notch, and the standard cabling is 8 pin flat
 0.05" pitch 28 AWG ribbon cable. The impedance of the cable should be
 reasonably around 120 ohms, but the exact value is not critical (most ribbon
 cable of these dimensions is suitable). The pinout of the connector is as
@@ -25,20 +25,20 @@ The two +5 and GND lines are connected together. They are capable of supplying
 an estimated maximum of 1.5A combined. Voltage output may vary by an estimated
 +-10%. The A+/A- and B+/B- lines are RS-485 differential pairs with an output
 swing of 5V under no load. The "A" differential pair is always an output from
-the master controller to the smart sensors. The "B" differential pair is always
-an input from the smart sensors to the main controller. The RS-485 lines do not
+the master controller to the smart devices. The "B" differential pair is always
+an input from the smart devices to the main controller. The RS-485 lines do not
 have the standard biasing resistors and therefore idle at 0V/0V. This requires
 "failsafe" capable transceivers. 120 ohm terminators are present on the main
 controller board. It is currently TBD whether bus terminators must be attached
 to the far end of the cable.
 
 Cables must originate at the main controller board and terminate at either a
-smart sensor or a (TBD if required) bus terminator. The main controller board
+smart device or a (TBD if required) bus terminator. The main controller board
 should not be connected in the middle of a multidrop cable. Cables must have
 all connectors crimped with the notch facing the same direction (left/right)
 and the same side (top/bottom).
 
-At this point, there is no support for crossover cables to allow smart sensors
+At this point, there is no support for crossover cables to allow smart devices
 to talk to each other independently of the main controller or for robots to
 talk to each other. There is also currently no provision for active repeaters
 or hubs.
@@ -56,8 +56,8 @@ Layer 2 - Link Layer
 ####################
 
 The Tenshi protocol link layer consists of a stream of packets or frames.
-Frames are delimited with 0x00 bytes. All multi-byte values are transmitted
-in little-endian byte order (LSB first). bit0 is used to refer to the LSB and
+Frames are delimited with 0x00 bytes. All multi-byte values are transmitted in
+little-endian byte order (LSB first). bit0 is used to refer to the LSB and
 bit7/bit15/bit31/bit63 are used to refer to the MSB.
 
 The Tenshi protocol bus has the following possible states:
@@ -77,9 +77,11 @@ maintainance operation using the bus. The protocol used in this state is
 half-duplex and controlled by the main controller. The main controller can send
 request frames to the bus and one particular device may optionally transmit a
 response. Devices cannot transmit data to the master without the master
-initiating the request for data. Responses will time out after TBD milliseconds.
-Both TX (from controller) and RX (to controller) frames are encoded using
-Consistent Overhead Byte Stuffing (COBS). The frame format is as follows:
+initiating the request for data. Responses will time out after TBD
+milliseconds.  Both TX (from controller) and RX (to controller) frames are
+encoded using Consistent Overhead Byte Stuffing (COBS).
+
+The frame format is as follows:
 
     Maintainance state frame format:
     |---------------------------------------|
@@ -127,8 +129,8 @@ accidentally triggering bus resets, the payload of 0xFF-type packets must be
 0xE6 0x88 0xA6 0xE7 0xB7 0x9A."
 
 Upon reception of a 0xFE-type maintainance packet, the addressed slave device
-should reply with the same payload data. The structure of a ping request is
-8 bytes of device unique ID followed by an arbitrary amount of data (can be 0).
+should reply with the same payload data. The structure of a ping request is 8
+bytes of device unique ID followed by an arbitrary amount of data (can be 0).
 Devices should respond with a 0xFE packet with the same data without the 8
 bytes of unique ID.
 
@@ -136,9 +138,9 @@ bytes of unique ID.
 Enumeration state: The master controller is trying to identify all the
 connected devices. All devices on the bus must be assigned a unique 64-bit
 serial number during manufacturing. The purpose of enumeration is to discover
-the serial numbers of all attached smart sensor devices. Note that enumeration
-must be explicitly requested. At this time, there is no ability to dynamically
-detect new devices on the bus without trying to enumerate them.
+the serial numbers of all attached smart devices. Note that enumeration must be
+explicitly requested. At this time, there is no ability to dynamically detect
+new devices on the bus without trying to enumerate them.
 
 Enumeration state uses maintainance frames to perform various enumeration
 operations. The following type IDs are defined:
@@ -155,9 +157,9 @@ type 0xF0. The payload must contain a COBS-encoded version of the magic bytes
 enumeration mode is not accidentally entered because enumeration mode operates
 the bus in a different manner.
 
-Upon receiving the command to enter enumeration mode, a slave device must
-turn on its transmitter and drive a logic level 0 onto the bus. The device
-should only respond to enumeration select, enumeration exit, and bus reset type
+Upon receiving the command to enter enumeration mode, a slave device must turn
+on its transmitter and drive a logic level 0 onto the bus. The device should
+only respond to enumeration select, enumeration exit, and bus reset type
 packets until it leaves enumeration mode. The slave device should reset
 internal protocol-related state. This command must have its payload set to
 "0xE6 0xAD 0xBB 0xE3 0x82 0x93 0xE3 0x81 0xA0 0xE4 0xB8 0x96 0xE7 0x95 0x8C
@@ -175,9 +177,9 @@ transmitter iff its unique 64-bit ID bitwise-anded with the transmitted mask is
 equal to the transmitted value. The structure of the payload is 8 bytes of
 unique ID mask followd by 8 bytes of unique ID value. The slave device should
 perform the test "<my ID> & <mask> == <value>" and disable its transmitter iff
-this test is true. Note that once all slaves have their transmitters off,
-the bus is no longer driven and returns to an idle logic high. This allows
-binary searching through the address space.
+this test is true. Note that once all slaves have their transmitters off, the
+bus is no longer driven and returns to an idle logic high. This allows binary
+searching through the address space.
 
 Upon receiving the enumeration unselect command, a slave device must turn its
 transmitter back on again iff the same condition used by enumeration select
@@ -355,12 +357,11 @@ The following types are supported:
 * 0x04 - LUT (Look Up Table) scaling
 
 Scaling is currently expected to be performed by the master device, not the
-smart sensor device. The data to/from the smart sensor device is always in
-units of ADC/DAC LSBs. It is currently not possible to offload the scaling
-computation.
+smart device. The data to/from the smart device is always in units of ADC/DAC
+LSBs. It is currently not possible to offload the scaling computation.
 
 The calibration data format is as follows:
-    Type 0x00 -- no calibration data. Data sent to/from sensor is in LSBs.
+    Type 0x00 -- no calibration data. Data sent to/from device is in LSBs.
     Type 0x01 -- calibration data contains two IEEE 754 floats, a and b. The
         following operation is performed on the input: y = a * x + b.
     Type 0x02 -- calibration data contains three IEEE 754 floats: a, b, and c.
@@ -435,12 +436,12 @@ Type 0xFE -- Actuator Mode
             | mode (1 byte)                                    |
             ----------------------------------------------------
 
-Controls the mode of actuators and active sensors.  All other channels on the
-sensor must obey the mode.  It is recommended for devices to have this channel
+Controls the mode of actuators and active devices.  All other channels on the
+device must obey the mode.  It is recommended for devices to have this channel
 and as the first one.
 
 Possible modes are:
-* 0x00 - Disabled: No power to actuators and possibly some active sensors.
+* 0x00 - Disabled: No power to actuators and possibly some active devices.
 * 0x01 - Paused/Stunned: Most actuators are still powered such that they
              maintain their last position.  Some actuators like a motor
              controller in velocity mode should stop.
@@ -454,12 +455,12 @@ Type 0xFF -- debugger
             No calibration data is present
 
 Payload formats:
-The structure of payloads to send to/from each smart sensor device is derived
-by parsing its descriptors. The exact number of bytes that will be allocated
+The structure of payloads to send to/from each smart device is derived by
+parsing its descriptors. The exact number of bytes that will be allocated
 depends on each channel type. Bytes in payloads are allocated to each channel
-sequentially (so that channel 0 in the descriptor appears first in the payload).
-If the channel descriptors end up defining more data than is requested in the
-chunks per sample field, the behavior is undefined.
+sequentially (so that channel 0 in the descriptor appears first in the
+payload).  If the channel descriptors end up defining more data than is
+requested in the chunks per sample field, the behavior is undefined.
 
 Type 0x00 -- digital in/out
     First, the number of samples per subchunk is calculated given the samples
