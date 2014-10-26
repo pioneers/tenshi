@@ -14,10 +14,11 @@ follows:
     Top view looking down at PCB:
      ___________
     |¯¯¯¯¯¯¯¯¯¯¯|
-    | +5    GND |
-    | A+    A-  ¯¯|
-    | B-    B+  |¯¯
-    | GND   +5  |
+    | +A    -A  |
+    | GND   GND |
+    | 5V    5V  ¯¯|
+    | GND   GND |¯¯
+    | -B    +B  |
     |___________|
      ¯¯¯¯¯¯¯¯¯¯¯
 
