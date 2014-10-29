@@ -4214,7 +4214,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <busses>
 </busses>
 <nets>
-<net name="YELLOW" class="0">
+<net name="IO3(YELLOW)" class="0">
 <segment>
 <pinref part="Q2" gate="G$1" pin="G"/>
 <label x="55.88" y="147.32" size="1.778" layer="95" rot="R180"/>
@@ -4297,7 +4297,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <junction x="170.18" y="116.84"/>
 </segment>
 </net>
-<net name="BLUE" class="0">
+<net name="IO2(BLUE)" class="0">
 <segment>
 <pinref part="Q1" gate="G$1" pin="G"/>
 <label x="27.94" y="147.32" size="1.778" layer="95" rot="R180"/>
@@ -4519,7 +4519,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <pinref part="U$9" gate="G$1" pin="10"/>
 </segment>
 </net>
-<net name="IO3" class="0">
+<net name="IO0" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PC1(ADC10/PCINT13)"/>
 <wire x1="81.28" y1="106.68" x2="93.98" y2="106.68" width="0.1524" layer="91"/>
@@ -4527,7 +4527,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <pinref part="SCK" gate="G$1" pin="P$1"/>
 </segment>
 </net>
-<net name="IO4" class="0">
+<net name="IO1" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB3(ADC8/PCINT11)"/>
 <wire x1="81.28" y1="111.76" x2="88.9" y2="111.76" width="0.1524" layer="91"/>

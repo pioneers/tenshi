@@ -17,40 +17,73 @@
 
 // This file has battery buzzer related functions
 
+#include <avr/interrupt.h>
 #include "inc/buzzer.h"
+#include "inc/smartsensor_utility.h"
+#include "inc/pindef.h"
 
 // Private global variables
 
 // Private helper functions
-int adc_read(void);
 
 // Public functions called from main.c
 void initBuzzer() {
   // Does everything to set up the analog stuffs.
   // Turn on pin PC1 (which maps to IN0)
   ADMUX |= (1 << MUX3) | (1 << MUX1);
+  #if F_CPU != 8000000
+  #error Clock speed not correct
+  #endif
   // Enable the ADC and set the division factor between
   // the system clock frequency and the input clock to the ADC.
-  ADCSRA |= (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
+  // Division factor: 111 = 128
+  ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
+
+  // Set PA6 pin as output in order to see PWM signal
+  // Set pulse width to 1/2 of entire duration.
+  OCR1BH = 0x00;
+  OCR1BL = 0x7F;
+  DIGITAL_SET_OUT(PWM0);
+  
+  // Testing
+  DIGITAL_SET_OUT(PWM1);
+  DIGITAL_SET_HIGH(PWM1);
+  // End Testing 
+
+  // Set PWM to Fast PWM Mode Operation, with non-inverting PWM
+  TCCR1A = 0x21;
+  TCCR1B = 0x0B;
+
+  // Enable Timer/Counter1 Overflow Interrupt
+  TIMSK = 0x80;
+
+  sei();
 }
+
 void activeBuzzerRec(uint8_t *data, uint8_t len, uint8_t inband) {
 }
+
 void activeBuzzerSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
   // TODO(cduck): Write this function
 }
 
+
+// Interrupt that checks whether to buzz the battery
+ISR(TIMER1_OVF_vect){
+  static unsigned char counter = 0;
+
+  DIGITAL_TOGGLE(PWM1);
+  
+  if (counter > 40){
+    if ((TCCR1A >> 4) != 0x00){
+      TCCR1A = 0x01;
+    }else{
+      TCCR1A = 0x21;
+    }
+    counter = 0;
+  }
+  counter++;
+}
+
 // Private helper functions
 
-// Taken from http://www.adnbr.co.uk/articles/adc-and-pwm-basics
-// by Sumita because I can't code.
-// It's for the ATtiny13, though.
-/*int adc_read(void) {
-    // I actually use this one. It's the analog in version of DIGITAL_READ.
-    // Start the conversion
-    ADCSRA |= (1 << ADSC);
-
-    // Wait for it to finish
-    while (ADCSRA & (1 << ADSC)) {}
-
-    return ADC;  // For 10-bit resolution
-}*/

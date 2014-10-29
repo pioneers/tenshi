@@ -1,0 +1,2 @@
+./waf build_smartsensor_fw/opt
+./smartsensor_fw/deploy/deploy.sh "$@"

@@ -4624,26 +4624,26 @@ C=0.1u</text>
 </net>
 <net name="TXE" class="0">
 <segment>
-<pinref part="U2" gate="G$1" pin="(PCINT6/ADC3)PA6"/>
-<wire x1="22.86" y1="73.66" x2="17.78" y2="73.66" width="0.1524" layer="91"/>
-<label x="17.78" y="73.66" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="U1" gate="G$1" pin="DE"/>
 <wire x1="25.4" y1="124.46" x2="20.32" y2="124.46" width="0.1524" layer="91"/>
 <label x="20.32" y="124.46" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U2" gate="G$1" pin="(PCINT4/ADC1)PA4"/>
+<wire x1="22.86" y1="68.58" x2="17.78" y2="68.58" width="0.1524" layer="91"/>
+<label x="17.78" y="68.58" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="!RXE" class="0">
-<segment>
-<pinref part="U2" gate="G$1" pin="(PCINT5/ADC2)PA5"/>
-<wire x1="22.86" y1="71.12" x2="17.78" y2="71.12" width="0.1524" layer="91"/>
-<label x="17.78" y="71.12" size="1.778" layer="95"/>
-</segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="!RE"/>
 <wire x1="25.4" y1="129.54" x2="20.32" y2="129.54" width="0.1524" layer="91"/>
 <label x="20.32" y="129.54" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U2" gate="G$1" pin="(PCINT3/ADC0)PA3"/>
+<wire x1="22.86" y1="66.04" x2="17.78" y2="66.04" width="0.1524" layer="91"/>
+<label x="17.78" y="66.04" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RESET" class="0">

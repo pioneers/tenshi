@@ -57,19 +57,3 @@ void activeAnalogInSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
 
 // Private helper functions
 
-// Taken from http://www.adnbr.co.uk/articles/adc-and-pwm-basics
-// by Sumita because I can't code.
-// It's for the ATtiny13, though.
-int adc_read(uint8_t mux) {
-    // Set the read pin
-    ADMUX = mux;
-
-    // I actually use this one. It's the analog in version of DIGITAL_READ.
-    // Start the conversion
-    ADCSRA |= (1 << ADSC);
-
-    // Wait for it to finish
-    while (ADCSRA & (1 << ADSC)) {}
-
-    return ADC;  // For 10-bit resolution
-}
