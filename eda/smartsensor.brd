@@ -1545,7 +1545,7 @@ design rules under a new name.</description>
 <wire x1="6.731" y1="22.987" x2="8.0552375" y2="22.987" width="0.2032" layer="1"/>
 <wire x1="8.0552375" y1="22.987" x2="8.2686" y2="22.7736375" width="0.2032" layer="1"/>
 </signal>
-<signal name="IO2">
+<signal name="IO1">
 <contactref element="U2" pad="20"/>
 <contactref element="R4" pad="2"/>
 <wire x1="11.51" y1="9.1948" x2="11.51" y2="7.7813" width="0.2032" layer="1"/>
@@ -1565,7 +1565,7 @@ design rules under a new name.</description>
 <wire x1="11.684" y1="5.334" x2="12.8977" y2="5.334" width="0.2032" layer="1"/>
 <wire x1="12.8977" y1="5.334" x2="13.012" y2="5.4483" width="0.2032" layer="1"/>
 </signal>
-<signal name="IO3">
+<signal name="IO2">
 <contactref element="U2" pad="19"/>
 <contactref element="R5" pad="2"/>
 <contactref element="C6" pad="1"/>
@@ -1620,7 +1620,7 @@ design rules under a new name.</description>
 <wire x1="14.859" y1="8.509" x2="14.859" y2="12.319" width="0.2032" layer="16"/>
 <wire x1="14.859" y1="12.319" x2="15.24" y2="12.7" width="0.2032" layer="16"/>
 </signal>
-<signal name="IO1">
+<signal name="IO3">
 <contactref element="U2" pad="18"/>
 <contactref element="R3" pad="2"/>
 <contactref element="C4" pad="1"/>

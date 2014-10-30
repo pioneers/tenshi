@@ -41,9 +41,12 @@ void initBuzzer() {
 
   // Set PA6 pin as output in order to see PWM signal
   // Set pulse width to 1/2 of entire duration.
-  OCR1BH = 0x00;
   OCR1BL = 0x7F;
   DIGITAL_SET_OUT(PWM0);
+  // DIGITAL_SET is also ANALOG_SET apparently...
+  DIGITAL_SET_IN(IN1);
+  DIGITAL_SET_IN(IN2);
+  DIGITAL_SET_IN(IN3);
   
   // Testing
   DIGITAL_SET_OUT(PWM1);
@@ -51,11 +54,13 @@ void initBuzzer() {
   // End Testing 
 
   // Set PWM to Fast PWM Mode Operation, with non-inverting PWM
-  TCCR1A = 0x21;
-  TCCR1B = 0x0B;
+  // Clear OC1B on Compare Match
+  // Clock prescaler = 1/64
+  TCCR1A = (1 << COM1B1) | (1 << WGM10);
+  TCCR1B = (1 << WGM12) | (1 << CS11) | (1 << CS10);
 
   // Enable Timer/Counter1 Overflow Interrupt
-  TIMSK = 0x80;
+  TIMSK = (1 << TOIE1);
 
   sei();
 }
@@ -72,15 +77,35 @@ void activeBuzzerSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
 ISR(TIMER1_OVF_vect){
   static unsigned char counter = 0;
 
-  DIGITAL_TOGGLE(PWM1);
-  
+  DIGITAL_TOGGLE(PWM1); // Testing
+
+  // Read input from pin. Use Vcc as analog reference
+  // Pins PB1,2,3 correspond to IO1,2,3
+  uint8_t ref = 0x0F;  //
+  uint8_t muxPB1 = (ref & A_IN1);  // PB1
+  uint8_t muxPB2 = (ref & A_IN2);  // PB2
+  uint8_t muxPB3 = (ref & A_IN3);  // PB3
+
+  // Return value ranges from 0x000 to 0x3FF
+  int IO1 = adc_read(muxPB1);
+  int IO2 = adc_read(muxPB2);
+  int IO3 = adc_read(muxPB3);
+  int testThreshold = 0x200;  // Half of full range
+
+  // Run this code once every 40 interrupts
   if (counter > 40){
-    if ((TCCR1A >> 4) != 0x00){
-      TCCR1A = 0x01;
+    if (IO1 >= testThreshold){
+      TCCR1A = (1 << COM1B1) | (1 << WGM10); // Turn on PWM
+      // // Check if we are currently generating a PWM pulse
+      // if ((TCCR1A >> 4) != 0x00){ 
+      //   TCCR1A = (1 << WGM10); // Turn off PWM
+      // }else{
+      //   TCCR1A = (1 << COM1B1) | (1 << WGM10); // Turn on PWM
+      // }
     }else{
-      TCCR1A = 0x21;
+      TCCR1A = (1 << WGM10); // Turn off PWM
     }
-    counter = 0;
+    counter = 0; 
   }
   counter++;
 }

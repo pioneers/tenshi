@@ -4726,7 +4726,7 @@ C=0.1u</text>
 <pinref part="U$8" gate="G$1" pin="10"/>
 </segment>
 </net>
-<net name="IO2" class="0">
+<net name="IO1" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB1(ADC6/PCINT9)"/>
 <wire x1="83.82" y1="78.74" x2="91.44" y2="78.74" width="0.1524" layer="91"/>
@@ -4746,7 +4746,7 @@ C=0.1u</text>
 <junction x="170.18" y="114.3"/>
 </segment>
 </net>
-<net name="IO3" class="0">
+<net name="IO2" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB2(ADC7/PCINT10)"/>
 <wire x1="83.82" y1="76.2" x2="91.44" y2="76.2" width="0.1524" layer="91"/>
@@ -4786,7 +4786,7 @@ C=0.1u</text>
 <wire x1="170.18" y1="180.34" x2="172.72" y2="180.34" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="IO1" class="0">
+<net name="IO3" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB3(ADC8/PCINT11)"/>
 <wire x1="83.82" y1="73.66" x2="91.44" y2="73.66" width="0.1524" layer="91"/>

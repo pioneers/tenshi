@@ -4627,7 +4627,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <wire x1="218.44" y1="142.24" x2="226.06" y2="142.24" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="IO2" class="0">
+<net name="IO1" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB1(ADC6/PCINT9)"/>
 <wire x1="81.28" y1="38.1" x2="88.9" y2="38.1" width="0.1524" layer="91"/>
@@ -4644,7 +4644,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <wire x1="30.48" y1="139.7" x2="35.56" y2="139.7" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="IO3" class="0">
+<net name="IO2" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB2(ADC7/PCINT10)"/>
 <wire x1="81.28" y1="35.56" x2="88.9" y2="35.56" width="0.1524" layer="91"/>
@@ -4673,7 +4673,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="15.24" y="33.02" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="IO1" class="0">
+<net name="IO3" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB3(ADC8/PCINT11)"/>
 <wire x1="81.28" y1="33.02" x2="88.9" y2="33.02" width="0.1524" layer="91"/>

@@ -25,17 +25,17 @@
 
 // Pin definitions
 #define IN0        PIN_DEFINITION(C, 1)
-#define IN1        PIN_DEFINITION(B, 3)
-#define IN2        PIN_DEFINITION(B, 1)
-#define IN3        PIN_DEFINITION(B, 2)
+#define IN1        PIN_DEFINITION(B, 1)
+#define IN2        PIN_DEFINITION(B, 2)
+#define IN3        PIN_DEFINITION(B, 3)
 #define PWM0       PIN_DEFINITION(A, 6)
 #define PWM1       PIN_DEFINITION(A, 5)
 #define PWM2       PIN_DEFINITION(B, 3)
 #define PWM3       PIN_DEFINITION(C, 0)
 #define A_IN0      ((1 << MUX3) | (1 << MUX1))  // ADC 10
-#define A_IN1      ((1 << MUX3))  // ADC 8
-#define A_IN2      ((1 << MUX2) | (1 << MUX1))  // ADC 6
-#define A_IN3      ((1 << MUX2) | (1 << MUX1) | (1 << MUX0))  // ADC 7
+#define A_IN1      ((1 << MUX2) | (1 << MUX1))  // ADC 6
+#define A_IN2      ((1 << MUX2) | (1 << MUX1) | (1 << MUX0))  // ADC 7
+#define A_IN3      ((1 << MUX3))  // ADC 8
 
 
 #define SS_UART_TX   PIN_DEFINITION(B, 0)
