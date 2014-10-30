@@ -399,29 +399,32 @@ static int MBoxUnpackGroups(lua_State *L, int num_mboxes, int is_send) {
 // Checks that all values are tables that are mailboxes
 // If fails, pushes an error message to the stack and returns 0
 // Else returns 1
-static int MBoxCheckMisc(lua_State *L, int num_mboxes) {
-  int counter = 0;
-  for (int i = 0; i < num_mboxes; i++) {
+// is_send is 0 or 1; if true, only checks every other value
+static int MBoxCheckMisc(lua_State *L, int num_mboxes,
+                         const char *func_name, int is_send) {
+  int adder = 1;
+  if (is_send)
+    adder = 2;
+  for (int i = 0; i < num_mboxes; i+=adder) {
     // Check that all the values are tables
     if (lua_istable(L, i+1) != 1) {
-      for (int j = 0; j < counter; j++)
-        lua_pop(L, counter);
-      lua_pushstring(L, "Error: MBoxSendReal expects tables.");
+      lua_settop(L, lua_gettop(L) - num_mboxes);
+      lua_pushfstring(L, "Error: %s expects mailboxes", func_name);
       return 0;
     }
     lua_pushstring(L, "__mbox");
     lua_gettable(L, i + 1);
-    counter++;
     // Check that all the values are mailboxes
-    if (lua_isnil(L, 1) != 0) {
-      for (int j = 0; j < counter; j++)
-        lua_pop(L, counter);
-      lua_pushstring(L, "Error: MBoxSendReal expects mailboxes.");
+    if (lua_isnil(L, 1)) {
+      lua_settop(L, lua_gettop(L) - num_mboxes + 1);
+      lua_pushfstring(L, "Error: %s expects mailboxes", func_name);
       return 0;
     }
+    lua_pop(L, 1);
   }
   return 1;
 }
+
 static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // Called either on initial attempt to send or when we tried, failed,
   // yielded, and came back.
@@ -457,7 +460,7 @@ static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // number of arguments, the last one is interpreted as options.
   int num_mboxes = lua_gettop(L) / 2;
   // Checks that all values are tables and mailboxes
-  int check = MBoxCheckMisc(L, num_mboxes);
+  int check = MBoxCheckMisc(L, num_mboxes, "MBoxSendReal", 1);
   if (check == 0) {
     lua_error(L);
   }
@@ -585,7 +588,11 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
   }
 
   int num_mboxes = lua_gettop(L);
-
+  // Checks that all values are tables and mailboxes
+  int check = MBoxCheckMisc(L, num_mboxes, "MBoxRecvReal", 0);
+  if (check == 0) {
+    lua_error(L);
+  }
   // Check for options by checking if TOS is a mailbox with a __mbox field.
   lua_pushstring(L, "__mbox");
   lua_gettable(L, -2);
