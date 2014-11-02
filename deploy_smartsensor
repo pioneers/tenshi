@@ -1,2 +1,3 @@
+./tools/run-style-tool.py cpplint 2>&1 | grep ':'
 ./waf build_smartsensor_fw/opt
 ./smartsensor_fw/deploy/deploy.sh "$@"

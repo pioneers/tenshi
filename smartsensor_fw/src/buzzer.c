@@ -25,6 +25,7 @@
 // Private global variables
 
 // Private helper functions
+int batteryUnsafe();
 
 // Public functions called from main.c
 void initBuzzer() {
@@ -47,11 +48,11 @@ void initBuzzer() {
   DIGITAL_SET_IN(IN1);
   DIGITAL_SET_IN(IN2);
   DIGITAL_SET_IN(IN3);
-  
+
   // Testing
   DIGITAL_SET_OUT(PWM1);
   DIGITAL_SET_HIGH(PWM1);
-  // End Testing 
+  // End Testing
 
   // Set PWM to Fast PWM Mode Operation, with non-inverting PWM
   // Clear OC1B on Compare Match
@@ -69,15 +70,52 @@ void activeBuzzerRec(uint8_t *data, uint8_t len, uint8_t inband) {
 }
 
 void activeBuzzerSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
-  // TODO(cduck): Write this function
+  // outData[0] = 1 if safe, 0 if unsafe
+  // outData[x-1:x] = IO[x/2] voltage * 17
+  *outLen = 7;
+
+  // Read input from pin. Use Vcc as analog reference
+  // Pins PB1,2,3 correspond to IO1,2,3
+  uint8_t ref = 0x0F;  //
+  uint8_t muxPB1 = (ref & A_IN1);  // PB1
+  uint8_t muxPB2 = (ref & A_IN2);  // PB2
+  uint8_t muxPB3 = (ref & A_IN3);  // PB3
+  int IO1 = adc_read(muxPB1) / 6;
+  int IO2 = adc_read(muxPB2) / 3;
+  int IO3 = adc_read(muxPB3) / 2;
+
+  outData[0] = 1 - batteryUnsafe();
+  outData[1] = IO1 >> 8;
+  outData[2] = IO1;
+  outData[3] = IO2 >> 8;
+  outData[4] = IO2;
+  outData[5] = IO3 >> 8;
+  outData[6] = IO3;
 }
 
 
 // Interrupt that checks whether to buzz the battery
-ISR(TIMER1_OVF_vect){
+ISR(TIMER1_OVF_vect) {
   static unsigned char counter = 0;
 
-  DIGITAL_TOGGLE(PWM1); // Testing
+  DIGITAL_TOGGLE(PWM1);  // Testing
+
+
+  // Run this code once every 40 interrupts
+  if (counter > 40) {
+    if (batteryUnsafe()) {
+      TCCR1A = (1 << COM1B1) | (1 << WGM10);  // Turn on PWM
+    } else {
+      TCCR1A = (1 << WGM10);  // Turn off PWM
+    }
+    counter = 0;
+  }
+  counter++;
+}
+
+// Private helper functions
+int batteryUnsafe() {
+  // Returns 1 if the battery is unsafe, 0 if safe.
 
   // Read input from pin. Use Vcc as analog reference
   // Pins PB1,2,3 correspond to IO1,2,3
@@ -86,29 +124,19 @@ ISR(TIMER1_OVF_vect){
   uint8_t muxPB2 = (ref & A_IN2);  // PB2
   uint8_t muxPB3 = (ref & A_IN3);  // PB3
 
-  // Return value ranges from 0x000 to 0x3FF
-  int IO1 = adc_read(muxPB1);
-  int IO2 = adc_read(muxPB2);
-  int IO3 = adc_read(muxPB3);
-  int testThreshold = 0x200;  // Half of full range
+  // Return value ranges from 0x000 to 0x3FF;
+  // Division converts everything to same scaling
+  // If voltage = V, input I = (V*1024)/(V_ref*12) ~= 17*V
+  int IO1 = adc_read(muxPB1) / 6;
+  int IO2 = adc_read(muxPB2) / 3;
+  int IO3 = adc_read(muxPB3) / 2;
 
-  // Run this code once every 40 interrupts
-  if (counter > 40){
-    if (IO1 >= testThreshold){
-      TCCR1A = (1 << COM1B1) | (1 << WGM10); // Turn on PWM
-      // // Check if we are currently generating a PWM pulse
-      // if ((TCCR1A >> 4) != 0x00){ 
-      //   TCCR1A = (1 << WGM10); // Turn off PWM
-      // }else{
-      //   TCCR1A = (1 << COM1B1) | (1 << WGM10); // Turn on PWM
-      // }
-    }else{
-      TCCR1A = (1 << WGM10); // Turn off PWM
-    }
-    counter = 0; 
+  // Check if any cell voltages are above threshold = 3.5V
+  int threshold = 60;  // 17*3.5 ~= 60
+  int numBatteryCells = 3;
+  if ((IO1 < threshold) | (IO2 - IO1 < threshold) | (IO3 - IO2 < threshold)) {
+    return 1;
   }
-  counter++;
+
+  return 0;
 }
-
-// Private helper functions
-
