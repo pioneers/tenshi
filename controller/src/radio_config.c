@@ -41,7 +41,7 @@ BaseType_t radioConfigInit() {
   // Get updates from smart sensor protocol
   registerSensorUpdateCallback(&sensorUpdateCallback);
   */
-  return xTaskCreate(radioConfigTask, "Radio Config", 2048, NULL,
+  return xTaskCreate(radioConfigTask, "Radio Config", 256, NULL,
                      tskIDLE_PRIORITY, NULL);
 }
 
