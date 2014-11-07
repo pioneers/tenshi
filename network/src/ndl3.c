@@ -630,6 +630,22 @@ static int service_normal_incoming(
 }
 
 /**
+ * Service an unreliable, incoming packet.
+ */
+static void service_unreliable_incoming(
+    NDL3Net * restrict net,
+    NDL3_port port,
+    semi_packet * pkt) {
+  if (pkt->state & PACKET_CLOSING) {
+    close_pkt(net, pkt);
+  }
+
+  if (net->time - pkt->time_last_in > NDL3_ACK_UNRELIABLE_TIMEDIE) {
+    close_pkt(net, pkt);
+  }
+}
+
+/**
  * Get an L2 packet to send.
  * dest is the destination to fill, with at most max_size bytes.
  * If actual_size is not NULL, its target is set to the number of bytes
@@ -665,7 +681,7 @@ void NDL3_L2_pop(NDL3Net * restrict net,
       semi_packet * pkt = &net->ports[i].in_pkts[j];
       if (pkt->state & PACKET_OPEN) {
         if (opt & NDL3_PORT_UNRELIABLE) {
-          /* No action necessary. */
+          service_unreliable_incoming(net, port, pkt);
         } else {
           if (service_normal_incoming(net, port, pkt, dest, max_size,
                 actual_size)) {
@@ -746,32 +762,55 @@ static void push_start(NDL3Net * restrict net, NDL3_port port,
    * Handle receiving START packet. Only place where memory is currently
    * allocated by this system.
    */
+  semi_packet * pkt = NULL;
   for (int j = 0; j < NDL3_PACKETS_PER_PORT; j++) {
-    semi_packet * pkt = &net->ports[port].in_pkts[j];
-    if (pkt->state == PACKET_EMPTY) {
-      /* Race point. */
-      pkt->state = PACKET_OPEN;
-      uint8_t * data = (uint8_t *) net->alloc(L2pkt->offset,
-                                              net->userdata);
-      if (data == NULL) {
-        net->last_error = NDL3_ERROR_NO_MEMORY_LEFT;
-        pkt->state = PACKET_EMPTY;
-        return;
-      }
-      pkt->data = data;
-      pkt->last_offset = L2pkt->size;
-      pkt->last_acked_offset = 0;
-      pkt->total_size = L2pkt->offset;
-      pkt->time_last_in = net->time;
-      pkt->time_last_out = net->time;
-      pkt->number = L2pkt->number;
+    semi_packet * candidate = &net->ports[port].in_pkts[j];
+    if (candidate->state == PACKET_EMPTY) {
+      pkt = candidate;
+      break;
+    }
+  }
 
-      memcpy((void *) pkt->data, (void *) L2pkt->bytes, L2pkt->size);
+  if (!pkt) {
+    if (net->ports[port].opt & NDL3_PORT_UNRELIABLE) {
+      /* 
+       * If we're an unreliable port, make space for the new packet by dropping
+       * the newest one.
+       *
+       * TODO(kzentner): Consider effect of dropping newest / oldest packet.
+       */
+      pkt = &net->ports[port].in_pkts[0];
+      for (int j = 0; j < NDL3_PACKETS_PER_PORT; j++) {
+        semi_packet * candidate = &net->ports[port].in_pkts[j];
+        if (candidate->number > pkt->number) {
+          pkt = candidate;
+        }
+      }
+      close_pkt(net, pkt);
+    } else {
+      net->last_error = NDL3_ERROR_NO_PACKETS_LEFT;
       return;
     }
   }
-  net->last_error = NDL3_ERROR_NO_PACKETS_LEFT;
-  return;
+
+  /* Race point. */
+  pkt->state = PACKET_OPEN;
+  uint8_t * data = (uint8_t *) net->alloc(L2pkt->offset,
+                                          net->userdata);
+  if (data == NULL) {
+    net->last_error = NDL3_ERROR_NO_MEMORY_LEFT;
+    pkt->state = PACKET_EMPTY;
+    return;
+  }
+  pkt->data = data;
+  pkt->last_offset = L2pkt->size;
+  pkt->last_acked_offset = 0;
+  pkt->total_size = L2pkt->offset;
+  pkt->time_last_in = net->time;
+  pkt->time_last_out = net->time;
+  pkt->number = L2pkt->number;
+
+  memcpy((void *) pkt->data, (void *) L2pkt->bytes, L2pkt->size);
 }
 
 /*
