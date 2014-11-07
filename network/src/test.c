@@ -552,8 +552,8 @@ int main() {
       if ((rand() >> 16) & 0x3) {  /* NOLINT(runtime/threadsafe_fn) */
         memset(buffer, 0, sizeof(buffer));
       }
-      NDL3_elapse_time(host, 100);
-      NDL3_elapse_time(target, 100);
+      NDL3_elapse_time(host, 5);
+      NDL3_elapse_time(target, 5);
       NDL3_L2_push(target, buffer, sizeof(buffer));
       memset(buffer, 0, sizeof(buffer));
       NDL3_L2_pop(target, buffer, sizeof(buffer), NULL);
@@ -563,8 +563,8 @@ int main() {
       NDL3_L2_push(host, buffer, sizeof(buffer));
       memset(buffer, 0, sizeof(buffer));
 
-      NDL3_elapse_time(host, 100);
-      NDL3_elapse_time(target, 100);
+      NDL3_elapse_time(host, 5);
+      NDL3_elapse_time(target, 5);
     }
     if (out_msg != NULL) {
       ++good;
