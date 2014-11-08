@@ -104,6 +104,21 @@ allDescriptors = {
         "additional": array('B', [0x01, 0xFF, 0xFF])
       },
     ]
+  },
+
+  "linescan": {
+    "description": "This is a linescan camera. For now its channel has the" + \
+                   " same format as analog in.",
+    "chunksNumer": 0xFF,
+    "chunksDenom": 0xFF,
+    "channels": [
+      gameModeChannel,
+      { "description": "This is the only linescan channel.",
+        "type": 0x83,
+        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+        # "additional" value should also contain n bytes of calibration data
+      },
+    ]
   }
 }
 

@@ -15,6 +15,8 @@
 // specific language governing permissions and limitations
 // under the License
 
+#include <avr/interrupt.h>
+
 #include "inc/smartsensor/ss_type.h"
 #include "inc/smartsensor/common.h"
 
@@ -22,6 +24,7 @@
 #include "inc/analog_in.h"
 #include "inc/buzzer.h"
 #include "inc/flag.h"
+#include "inc/linescan.h"
 
 void ssInitType() {
   switch (SENSOR_TYPE) {
@@ -36,6 +39,9 @@ void ssInitType() {
       break;
     case SENSOR_TYPE_FLAG:
       initFlag();
+      break;
+    case SENSOR_TYPE_LINESCAN:
+      initLinescan();
       break;
     default: break;
     // TODO(cduck): Add more smart sensors types
@@ -56,6 +62,9 @@ void ssActiveSend(uint8_t *decodedBuffer, uint8_t *pacLen, uint8_t *inband) {
     case SENSOR_TYPE_FLAG:
       activeFlagSend(decodedBuffer, pacLen, inband);
       break;
+    case SENSOR_TYPE_LINESCAN:
+      activeLinescanSend(decodedBuffer, pacLen, inband);
+      break;
     default: break;
     // TODO(cduck): Add more smart sensors types
   }
@@ -75,7 +84,37 @@ void ssActiveInRec(uint8_t *decodedBuffer, uint8_t dataLen, uint8_t inband) {
     case SENSOR_TYPE_FLAG:
       activeFlagRec(decodedBuffer, dataLen, inband);
       break;
+    case SENSOR_TYPE_LINESCAN:
+      activeLinescanRec(decodedBuffer, dataLen, inband);
+      break;
     default: break;
     // TODO(cduck): Add more smart sensors types
+  }
+}
+
+ISR(TIMER1_OVF_vect) {
+  switch (SENSOR_TYPE) {
+    case SENSOR_TYPE_BUZZER:
+      interruptTimer1OverflowBuzzer();
+      break;
+    default: break;
+  }
+}
+
+ISR(TIMER1_COMPA_vect) {
+  switch (SENSOR_TYPE) {
+    case SENSOR_TYPE_LINESCAN:
+      interruptTimer1CompareALinescan();
+      break;
+    default: break;
+  }
+}
+
+ISR(TIMER1_COMPB_vect) {
+  switch (SENSOR_TYPE) {
+    case SENSOR_TYPE_LINESCAN:
+      interruptTimer1CompareBLinescan();
+      break;
+    default: break;
   }
 }
