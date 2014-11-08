@@ -72,7 +72,9 @@ config_port *getValueUpdate() {
   for(i=0;i<sizeof(sensorArr);i++){
     total_number_of_channels += sizeof(sensorArr[i]->channels)
   }
-  config_port *port = pvPortMalloc( sizeof(uint8_t) + sizeof(TickType_t) +sizeof(uint32_t) + numSensors*SMART_ID_LEN + numSensors*sizeof(uint8_t) + total_number_of_channels*sizeof(uint64_t)); //TODO(sirblobfish): uint64_t is probably not the correct size for sensor values
+  config_port *port = pvPortMalloc( sizeof(uint8_t) + sizeof(TickType_t) 
+                                    + sizeof(uint32_t) + numSensors*SMART_ID_LEN + numSensors*sizeof(uint32_t) 
+                                    + total_number_of_channels*sizeof(channel_value));
   port->id = ID_DEVICE_VALUE_UPDATE;
   port->data.device_value_update.timestamp = xTaskGetTickCount();
   port->data.device_value_update.count = numSensors;
