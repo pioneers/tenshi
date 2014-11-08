@@ -37,6 +37,9 @@ void ssInitType() {
     case SENSOR_TYPE_FLAG:
       initFlag();
       break;
+    case SENSOR_TYPE_LINESCAN:
+      initLinescan();
+      break;
     default: break;
     // TODO(cduck): Add more smart sensors types
   }

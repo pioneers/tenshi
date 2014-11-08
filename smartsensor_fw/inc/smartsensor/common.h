@@ -33,6 +33,7 @@
 #define SENSOR_TYPE_GRIZZLY3 0x80
 #define SENSOR_TYPE_BUZZER 0x81
 #define SENSOR_TYPE_FLAG 0x82
+#define SENSOR_TYPE_LINESCAN 0x83
 
 // The sensor type is stored in flash memory directly after the ID.
 #define SENSOR_TYPE pgm_read_byte(smartID+SMART_ID_LEN)
