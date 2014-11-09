@@ -78,15 +78,16 @@ config_port *getDeviceList() {
 }
 
 config_port *getValueUpdate() {
-  if (ssIsActive()){
+  if (ssIsActive()) {
     uint8_t total_number_of_channels = 0;
-    for(i=0;i<sizeof(sensorArr);i++){
+    for (i = 0;i < sizeof(sensorArr);i++) {
       total_number_of_channels += sizeof(sensorArr[i]->channels);
     }
     
     if (data_size == sizeof(uint8_t) + sizeof(TickType_t) + sizeof(uint32_t)){
       data_size = sizeof(uint8_t) + sizeof(TickType_t) 
-                                  + sizeof(uint32_t) + numSensors*SMART_ID_LEN + numSensors*sizeof(uint32_t) 
+                                  + sizeof(uint32_t) 
+                                  + numSensors*SMART_ID_LEN + numSensors*sizeof(uint32_t) 
                                   + total_number_of_channels*sizeof(channel_value);
     }
     config_port *port = pvPortMalloc(data_size);
@@ -101,10 +102,12 @@ config_port *getValueUpdate() {
       port->data.device_value_update.devices[i].did = temp;
       port->data.device_value_update.devices[i].count =  sensorArr[i]->channelsNum;
       for (int k = 0; k < port->sensorArr[i]->channelsNum; k++){
-        ss_get_value(sensorArr[i]->channels[k], port->data.device_value_update.devices[i].values[k], sensorArr[i]->channels[k].outgoingLen);
+        ss_get_value(sensorArr[i]->channels[k], 
+        port->data.device_value_update.devices[i].values[k], 
+        sensorArr[i]->channels[k].outgoingLen);
       }
   }
-  else{
+  else {
     config_port *port = pvPortMalloc(data_size);
     port->id = ID_DEVICE_VALUE_UPDATE;
     port->data.device_value_update.timestamp = xTaskGetTickCount();
@@ -124,12 +127,12 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
     if (send_messages_toggle == 1){
       current_time_stamp = xTaskGetTickCount();
       time_difference = current_time_stamp - next_time_stamp;
-      if (time_difference > offset) //if time_difference (unsigned) is negative, hence, super big
+      if (time_difference > offset) // if time_difference (unsigned) is negative, hence, super big
       {
         wait_time = next_time_stamp - current_time_stamp;
         next_time_stamp = current_time_stamp + time_offset;
       }
-      else {wait_time = 1} //Just a really small wait time so that the signal can be sent almost immediately
+      else {wait_time = 1} // Just a really small wait time so that the signal can be sent almost immediately
       }
     }
     while (xQueueReceive(configMessageQueue, &msg, wait_time) == pdTRUE) {
@@ -181,7 +184,7 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
           break;
 
         default:
-          if(send_messages_toggle==1){
+          if (send_messages_toggle==1) {
             config_port *device_value_update = getValueUpdate();
             radioPushConfig(device_value_update, data_size);
             break;
