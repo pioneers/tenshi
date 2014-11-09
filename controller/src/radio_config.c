@@ -156,11 +156,11 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
           break;
 
         case ID_DEVICE_START_UPDATES:
-            send_messages_toggle = 1
-            initial_time_stamp = xTaskGetTickCount()
+            send_messages_toggle = 1;
+            initial_time_stamp = xTaskGetTickCount();
           break;
         case ID_DEVICE_STOP_UPDATES:
-            send_messages_toggle = 0
+            send_messages_toggle = 0;
           break;
         case ID_DEVICE_VALUE_UPDATE: {
           config_port *device_value_update = getValueUpdate();
