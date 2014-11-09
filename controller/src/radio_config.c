@@ -25,6 +25,8 @@
 #include "inc/smartsensor/ssutil.h"
 #include "inc/runtime.h"
 
+size_t data_size = sizeof(uint8_t) + sizeof(TickType_t) + sizeof(uint32_t);
+size_t device_list_data_size = sizeof(uint8_t) + sizeof(uint32_t);
 typedef struct {
   config_port *port;
   size_t len;
@@ -54,8 +56,16 @@ void receiveConfigPort(config_port *port, size_t len) {
 }
 
 config_port *getDeviceList() {
-  config_port *port = pvPortMalloc( sizeof(uint8_t) + sizeof(uint32_t) + SMART_ID_LEN*numSensors);
+  if(ssIsActive() && device_list_data_size == sizeof(uint8_t) + sizeof(uint32_t)){
+    device_list_data_size += SMART_ID_LEN*numSensors;
+  }
+  config_port *port = pvPortMalloc(device_list_data_size);
   port->id = ID_DEVICE_GET_LIST;
+  if (!ssIsActive()) {
+    port->data.device_list.count = 0;
+    return port;
+  }
+
   port->data.device_list.count = numSensors;
   for (int i = 0; i < numSensors; i++) {
     uint64_t temp = 0;
@@ -73,9 +83,13 @@ config_port *getValueUpdate() {
     for(i=0;i<sizeof(sensorArr);i++){
       total_number_of_channels += sizeof(sensorArr[i]->channels);
     }
-    config_port *port = pvPortMalloc( sizeof(uint8_t) + sizeof(TickType_t) 
-                                      + sizeof(uint32_t) + numSensors*SMART_ID_LEN + numSensors*sizeof(uint32_t) 
-                                      + total_number_of_channels*sizeof(channel_value));
+    
+    if (data_size == sizeof(uint8_t) + sizeof(TickType_t) + sizeof(uint32_t)){
+      data_size = sizeof(uint8_t) + sizeof(TickType_t) 
+                                  + sizeof(uint32_t) + numSensors*SMART_ID_LEN + numSensors*sizeof(uint32_t) 
+                                  + total_number_of_channels*sizeof(channel_value);
+    }
+    config_port *port = pvPortMalloc(data_size);
     port->id = ID_DEVICE_VALUE_UPDATE;
     port->data.device_value_update.timestamp = xTaskGetTickCount();
     port->data.device_value_update.count = numSensors;
@@ -91,7 +105,7 @@ config_port *getValueUpdate() {
       }
   }
   else{
-    config_port *port = pvPortMalloc(sizeof(uint8_t) + sizeof(TickType_t) + sizeof(uint32_t));
+    config_port *port = pvPortMalloc(data_size);
     port->id = ID_DEVICE_VALUE_UPDATE;
     port->data.device_value_update.timestamp = xTaskGetTickCount();
     port->data.device_value_update.count = 0;
@@ -142,12 +156,10 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
           setGameMode(RuntimeModeTeleop);
           break;
         case ID_DEVICE_GET_LIST: {
-              if(send_messages_toggle == 1){
                 config_port *deviceList = getDeviceList();
                 size_t size = sizeof(uint8_t) + sizeof(uint32_t) +
                               SMART_ID_LEN*numSensors;
                 radioPushConfig(deviceList, size);
-              }
           }
           break;
         case ID_DEVICE_READ_DESCRIPTOR:
@@ -164,16 +176,16 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
           break;
         case ID_DEVICE_VALUE_UPDATE: {
           config_port *device_value_update = getValueUpdate();
-          size_t value_size = sizeof(device_value_update);
-          radioPushConfig(device_value_update, value_size);
+          radioPushConfig(device_value_update, data_size);
           }
           break;
 
         default:
-          config_port *device_value_update = getValueUpdate();
-          size_t value_size = sizeof(device_value_update);
-          radioPushConfig(device_value_update, value_size);
-          break;
+          if(send_messages_toggle==1){
+            config_port *device_value_update = getValueUpdate();
+            radioPushConfig(device_value_update, data_size);
+            break;
+          }
       }
       vPortFree(msg.port);
     }
