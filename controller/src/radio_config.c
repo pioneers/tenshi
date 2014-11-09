@@ -80,7 +80,7 @@ config_port *getDeviceList() {
 config_port *getValueUpdate() {
   if (ssIsActive()) {
     uint8_t total_number_of_channels = 0;
-    for (i = 0;i < sizeof(sensorArr);i++) {
+    for (i = 0; i < sizeof(sensorArr); i++) {
       total_number_of_channels += sizeof(sensorArr[i]->channels);
     }
     
@@ -119,7 +119,7 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
   (void) pvParameters;
   int send_messages_toggle = 0;
   TickType_t time_offset = 100;
-  TickType_t next_time_stamp=0;
+  TickType_t next_time_stamp = 0;
   TickType_t wait_time = portMAX_DELAY;
 
   while (1) {
@@ -184,7 +184,7 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
           break;
 
         default:
-          if (send_messages_toggle==1) {
+          if (send_messages_toggle == 1) {
             config_port *device_value_update = getValueUpdate();
             radioPushConfig(device_value_update, data_size);
             break;
