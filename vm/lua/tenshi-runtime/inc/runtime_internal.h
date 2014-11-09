@@ -38,6 +38,8 @@ struct _TenshiActorState {
   int isblocked;
   // Set to true if this actor woke because of a timeout.
   int woke_timeout;
+  // Used for scheduler linked lists (run queue)
+  TenshiActorState next;
 };
 
 #endif  // INC_RUNTIME_INTERNAL_H_
