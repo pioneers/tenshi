@@ -22,6 +22,7 @@
 #include "inc/analog_in.h"
 #include "inc/buzzer.h"
 #include "inc/flag.h"
+#include "inc/linescan.h"
 
 void ssInitType() {
   switch (SENSOR_TYPE) {

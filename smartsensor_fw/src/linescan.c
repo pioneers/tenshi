@@ -39,13 +39,16 @@ void initLinescan() {
   // Division factor: 011 = 8
   ADCSRA |= (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
 
-  // Set TOP to 500
-  ICR1H = 0x01;
-  ICR1L = 0xF4;
-  // Set Compare Match A to 250; CLK
-  OCR1AL = 0xFA;
-  // Set Compare Match B to 125; SI
-  OCR1BL = 0x7D;
+  // Set TOP to 250
+  ICR1H = 0x00;
+  ICR1L = 0xFA;
+  // Following lines ensure CLK is offset from SI
+  // Set Compare Match A to 125; CLK
+  OCR1AH = 0x00;
+  OCR1AL = 0x7D;
+  // Set Compare Match B to 0; SI
+  OCR1BH = 0x00;
+  OCR1BL = 0x00;
 
   // Set PA6 pin as output; to be used as CLK to linescan camera
   // Set PB3 pin as output; to be used as SI to linescan camera
@@ -56,13 +59,10 @@ void initLinescan() {
   // DIGITAL_SET is also ANALOG_SET apparently...
   DIGITAL_SET_IN(IN1);
 
-  // Testing
-  DIGITAL_SET_OUT(PWM1);
-  DIGITAL_SET_HIGH(PWM1);
 
   // Set PWM to Fast PWM Mode Operation
   // Clock prescaler = 1/8
-  TCCR1A = (1 << COM1B1) | (1 << WGM11);
+  TCCR1A = (1 << WGM11);
   TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11);
 
   // Enable Timer/Counter1 Match A and Match B Interrupts
@@ -109,12 +109,15 @@ ISR(TIMER1_COMPA_vect) {
 
 // Interrupt used for manipulating SI
 ISR(TIMER1_COMPB_vect) {
-  static unsigned char counter = 0;
+  static unsigned int counter = 0;
 
-  if ((counter == 1) | (counter == 3)) {
-    DIGITAL_TOGGLE(PWM2);
+  if (counter == 1) {
+    DIGITAL_SET_HIGH(PWM2);
   }
-  if (counter == 130) {
+  if (counter == 2) {
+    DIGITAL_SET_LOW(PWM2);
+  }
+  if (counter == 300) {
     counter = 0;
   }
   counter++;

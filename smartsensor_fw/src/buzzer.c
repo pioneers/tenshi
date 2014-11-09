@@ -133,7 +133,6 @@ int batteryUnsafe() {
 
   // Check if any cell voltages are above threshold = 3.5V
   int threshold = 60;  // 17*3.5 ~= 60
-  int numBatteryCells = 3;
   if ((IO1 < threshold) | (IO2 - IO1 < threshold) | (IO3 - IO2 < threshold)) {
     return 1;
   }
