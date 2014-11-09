@@ -19,10 +19,6 @@ def build(bld):
     if 'boards' not in bld.variant:
         return
 
-    # HACK: If pdftk is not installed, don't generate documentation
-    # packets (instead of failing the build)
-    build_docu_packets = have_pdftk()
-
     for board in glob.glob('eda/*.brd'):
         base_name = os.path.split(board)[-1]
         outfile = ('../../artifacts/boards/' +
@@ -42,9 +38,31 @@ def build(bld):
             source=base_name,
             target=outfile)
         add_dependency(bld, outfile, '${root}/tools/parts-db.yaml')
-        if build_docu_packets:
-            pdffile = ('../../artifacts/boards/' +
-                       os.path.splitext(base_name)[0] + '.pdf')
-            bld(rule='${root}/tools/docu-packet-gen.py ${SRC} ${TGT} ',
-                source=base_name,
-                target=pdffile)
+
+    # HACK: If pdftk is not installed, don't generate documentation
+    # packets (instead of failing the build)
+    if not have_pdftk():
+                print("""Warning: pdftk is not available.
+Documentation packet PDFs will not be generated""")
+    else:
+        for schematic in glob.glob('eda/*.sch'):
+            dir_name = os.path.dirname(schematic)
+            base_name = os.path.basename(schematic)
+            design_name = os.path.splitext(base_name)[0]
+
+            sch_file = os.path.join(design_name + ".sch")
+            csv_file = os.path.join("../../artifacts/boards/",
+                                    design_name + ".csv")
+            brd_file = os.path.join(design_name + ".brd")
+            pdf_file = os.path.join("../../artifacts/boards/",
+                                    design_name + ".pdf")
+
+            if not os.path.isfile(os.path.join(dir_name, brd_file)):
+                brd_file = None
+
+            source = [f for f in [sch_file, csv_file, brd_file] if f is not None]
+
+            bld(rule='${root}/tools/docu-packet-gen.py ${SRC} ${TGT}',
+                source=source,
+                target=pdf_file)
+            add_dependency(bld, pdf_file, '${root}/tools/docu-packet-gen.py')

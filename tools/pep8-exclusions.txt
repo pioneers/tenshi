@@ -4,3 +4,4 @@ tools/arm-toolchain/*
 tools/emscripten-bin/*
 # This is Google's own problem
 tools/cpplint.py
+eda/wscript
