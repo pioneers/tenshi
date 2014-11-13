@@ -19,7 +19,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "inc/radio_config.h"
 #include "inc/task.h"
 #include "inc/queue.h"
 #include "inc/smartsensor/smartsensor.h"
@@ -103,12 +102,10 @@ config_port *getValueUpdate() {
       }
       port->data.device_value_update.devices[i].did = temp;
       port->data.device_value_update.devices[i].count =  sensorArr[i]->channelsNum;
-      for (int k = 0; k < sensorArr[i]->channelsNum; k++){
-        ss_get_value(sensorArr[i]->channels[k], 
-                     port->data.device_value_update.devices[i].values[k], 
-                     (size_t)sensorArr[i]->channels[k]->outgoingLen);
+      for (int k = 0; k < sensorArr[i]->channelsNum; k++){ 
+                 port->data.device_value_update.devices[i].values[k].value = ss_get_generic_value(sensorArr[i]->channels[k]) ;
       }
-  }
+  }}
   else {
     port = pvPortMalloc(data_size);
     port->id = ID_DEVICE_VALUE_UPDATE;
@@ -123,6 +120,8 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
   int send_messages_toggle = 0;
   TickType_t time_offset = 100;
   TickType_t next_time_stamp = 0;
+  TickType_t current_time_stamp = 0;
+  TickType_t time_difference = 0;
   TickType_t wait_time = portMAX_DELAY;
 
   while (1) {
@@ -130,12 +129,12 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
     if (send_messages_toggle == 1){
       current_time_stamp = xTaskGetTickCount();
       time_difference = current_time_stamp - next_time_stamp;
-      if (time_difference > offset) // if time_difference (unsigned) is negative, hence, super big
+      if (time_difference > time_offset) // if time_difference (unsigned) is negative, hence, super big
       {
         wait_time = next_time_stamp - current_time_stamp;
         next_time_stamp = current_time_stamp + time_offset;
       }
-      else {wait_time = 1} // Just a really small wait time so that the signal can be sent almost immediately
+      else {wait_time = 1;} // Just a really small wait time so that the signal can be sent almost immediately
       }
     }
     while (xQueueReceive(configMessageQueue, &msg, wait_time) == pdTRUE) {

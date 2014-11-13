@@ -121,6 +121,17 @@ uint8_t ss_channel_in_length(SSChannel *channel) {
 void ss_set_mode_val(SSChannel *channel, uint8_t val) {
   ss_set_value(channel, &val, 1);
 }
+float ss_get_generic_val(SSChannel *channel) {
+    switch (channel->type){
+        case SENSOR_TYPE_DIGITAL:
+            return ss_get_switch_val(channel);
+        case SENSOR_TYPE_ANALOG_IN:
+            return ss_get_analog_val(channel);
+        default:
+            return NAN;
+    
+    }
+}
 void ss_set_led_val(SSChannel *channel, uint8_t val) {
   ss_set_value(channel, &val, 1);
 }
