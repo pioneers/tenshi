@@ -23,6 +23,10 @@
 #include "inc/pindef.h"
 
 // Private global variables
+// 0: dataBuffer0; 1: dataBuffer1; 2: don't write
+static int bufferWriteSelect = 0;
+static uint8_t dataBuffer0[8];
+static uint8_t dataBuffer1[8];
 
 // Private helper functions
 
@@ -75,50 +79,62 @@ void activeLinescanRec(uint8_t *data, uint8_t len, uint8_t inband) {
 }
 
 void activeLinescanSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
-  // outData[0] = 1 if safe, 0 if unsafe
-  // outData[x-1:x] = IO[x/2] voltage * 17
-  *outLen = 7;
+  *outLen = 8;
 
-  // Read input from pin. Use Vcc as analog reference
-  // Pins PB1,2,3 correspond to IO1,2,3
-  uint8_t ref = 0x0F;  //
-  uint8_t muxPB1 = (ref & A_IN1);  // PB1
-  uint8_t muxPB2 = (ref & A_IN2);  // PB2
-  uint8_t muxPB3 = (ref & A_IN3);  // PB3
-  int IO1 = adc_read(muxPB1) / 6;
-  int IO2 = adc_read(muxPB2) / 3;
-  int IO3 = adc_read(muxPB3) / 2;
-
-  outData[0] = 1;
-  outData[1] = IO1 >> 8;
-  outData[2] = IO1;
-  outData[3] = IO2 >> 8;
-  outData[4] = IO2;
-  outData[5] = IO3 >> 8;
-  outData[6] = IO3;
+  for (int i = 0; i < 8; i++) {
+    uint8_t out = 0;
+    if (bufferWriteSelect == 1) {
+      out = dataBuffer0[i];
+    } else if (bufferWriteSelect == 0) {
+      out = dataBuffer1[i];
+    }
+    outData[i] = out;
+  }
 }
 
 // Interrupt used for manipulating CLK
-ISR(TIMER1_COMPA_vect) {
+void interruptTimer1CompareALinescan() {
+  static unsigned int dataBufferCount = 0;
+
+  if (dataBufferCount >= 8) {
+    dataBufferCount = 0;
+    bufferWriteSelect = 1 - bufferWriteSelect;
+  }
+
   DIGITAL_TOGGLE(PWM0);
 
   uint8_t ref = 0x0F;
   uint8_t muxPB1 = (ref & A_IN1);  // PB1
   int IO1 = adc_read(muxPB1);
+
+  if (bufferWriteSelect != 2) {
+    if (bufferWriteSelect == 0) {
+      dataBuffer0[dataBufferCount] = IO1 >> 8;
+      dataBufferCount++;
+      dataBuffer0[dataBufferCount] = IO1;
+    } else if (bufferWriteSelect == 1) {
+      dataBuffer1[dataBufferCount] = IO1 >> 8;
+      dataBufferCount++;
+      dataBuffer1[dataBufferCount] = IO1;
+    }
+  }
 }
 
+
 // Interrupt used for manipulating SI
-ISR(TIMER1_COMPB_vect) {
+void interruptTimer1CompareBLinescan() {
   static unsigned int counter = 0;
 
   if (counter == 1) {
     DIGITAL_SET_HIGH(PWM2);
+    bufferWriteSelect = 0;
   }
   if (counter == 2) {
     DIGITAL_SET_LOW(PWM2);
   }
-  if (counter == 300) {
+  if (counter == 350) {
     counter = 0;
+    bufferWriteSelect = 2;
   }
   counter++;
 }

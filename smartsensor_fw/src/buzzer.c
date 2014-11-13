@@ -93,9 +93,8 @@ void activeBuzzerSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
   outData[6] = IO3;
 }
 
-
 // Interrupt that checks whether to buzz the battery
-ISR(TIMER1_OVF_vect) {
+void interruptTimer1OverflowBuzzer() {
   static unsigned char counter = 0;
 
   DIGITAL_TOGGLE(PWM1);  // Testing
@@ -112,6 +111,7 @@ ISR(TIMER1_OVF_vect) {
   }
   counter++;
 }
+
 
 // Private helper functions
 int batteryUnsafe() {

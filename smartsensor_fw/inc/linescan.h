@@ -24,5 +24,7 @@
 void initLinescan();
 void activeLinescanRec(uint8_t *data, uint8_t len, uint8_t inband);
 void activeLinescanSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband);
+void interruptTimer1CompareALinescan();
+void interruptTimer1CompareBLinescan();
 
 #endif  // INC_LINESCAN_H_
