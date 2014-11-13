@@ -121,7 +121,7 @@
     - name: data
       type: uint8_t[1]
 
-- name: device_value_update
+- name: device_value_update_t
   kind: struct
   packed: true
   slots:
@@ -170,6 +170,8 @@
       type: device_read_descriptor_resp_t
     - name: device_blink
       type: device_blink_t
+    - name: device_value_update
+      type: device_value_update_t
     - name: nothing
       type: uint8_t
 

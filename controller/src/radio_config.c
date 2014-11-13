@@ -22,6 +22,7 @@
 #include "inc/radio_config.h"
 #include "inc/task.h"
 #include "inc/queue.h"
+#include "inc/smartsensor/smartsensor.h"
 #include "inc/smartsensor/ssutil.h"
 #include "inc/runtime.h"
 
@@ -56,7 +57,7 @@ void receiveConfigPort(config_port *port, size_t len) {
 }
 
 config_port *getDeviceList() {
-  if(ssIsActive() && device_list_data_size == sizeof(uint8_t) + sizeof(uint32_t)){
+  if (ssIsActive() && device_list_data_size == sizeof(uint8_t) + sizeof(uint32_t)){
     device_list_data_size += SMART_ID_LEN*numSensors;
   }
   config_port *port = pvPortMalloc(device_list_data_size);
@@ -78,9 +79,10 @@ config_port *getDeviceList() {
 }
 
 config_port *getValueUpdate() {
+  config_port *port;
   if (ssIsActive()) {
     uint8_t total_number_of_channels = 0;
-    for (i = 0; i < sizeof(sensorArr); i++) {
+    for (int i = 0; i < sizeof(sensorArr); i++) {
       total_number_of_channels += sizeof(sensorArr[i]->channels);
     }
     
@@ -90,7 +92,7 @@ config_port *getValueUpdate() {
                                   + numSensors*SMART_ID_LEN + numSensors*sizeof(uint32_t) 
                                   + total_number_of_channels*sizeof(channel_value);
     }
-    config_port *port = pvPortMalloc(data_size);
+    port = pvPortMalloc(data_size);
     port->id = ID_DEVICE_VALUE_UPDATE;
     port->data.device_value_update.timestamp = xTaskGetTickCount();
     port->data.device_value_update.count = numSensors;
@@ -101,19 +103,20 @@ config_port *getValueUpdate() {
       }
       port->data.device_value_update.devices[i].did = temp;
       port->data.device_value_update.devices[i].count =  sensorArr[i]->channelsNum;
-      for (int k = 0; k < port->sensorArr[i]->channelsNum; k++){
+      for (int k = 0; k < sensorArr[i]->channelsNum; k++){
         ss_get_value(sensorArr[i]->channels[k], 
-        port->data.device_value_update.devices[i].values[k], 
-        sensorArr[i]->channels[k].outgoingLen);
+                     port->data.device_value_update.devices[i].values[k], 
+                     (size_t)sensorArr[i]->channels[k]->outgoingLen);
       }
   }
   else {
-    config_port *port = pvPortMalloc(data_size);
+    port = pvPortMalloc(data_size);
     port->id = ID_DEVICE_VALUE_UPDATE;
     port->data.device_value_update.timestamp = xTaskGetTickCount();
     port->data.device_value_update.count = 0;
   }
   return port;
+}
 
 static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
   (void) pvParameters;
