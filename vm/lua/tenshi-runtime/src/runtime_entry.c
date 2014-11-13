@@ -240,6 +240,12 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
     return NULL;
   }
 
+  ret->timeout_ticks_queue = priority_queue_create(realloc, 0);
+  if (!ret->timeout_ticks_queue) {
+    TenshiRuntimeDeinit(ret);
+    return NULL;
+  }
+
   // Register checkxip function on ARM
   #ifdef __arm__
   lua_setcheckxip(ret->L, lua_arm_checkxip);
@@ -323,6 +329,8 @@ TenshiRuntimeState TenshiRuntimeInit(void) {
 
   lua_gc(ret->L, LUA_GCCOLLECT, 0);
 
+  ret->time_ticks = 0;
+
   return ret;
 }
 
@@ -333,6 +341,10 @@ void TenshiRuntimeDeinit(TenshiRuntimeState s) {
 
   if (s->L) {
     lua_close(s->L);
+  }
+
+  if (s->timeout_ticks_queue) {
+    priority_queue_free(s->timeout_ticks_queue, free);
   }
 
   free(s);
@@ -436,6 +448,9 @@ int TenshiRunQuanta(TenshiRuntimeState s) {
 
   lua_gc(s->L, LUA_GCCOLLECT, 0);
 
+  // Increment tick count
+  s->time_ticks++;
+
   return LUA_OK;
 }
 
@@ -462,4 +477,8 @@ int TenshiFlagSensor(TenshiRuntimeState s, const void *const dev) {
   lua_pushcfunction(s->L, _TenshiFlagSensor);
   lua_pushlightuserdata(s->L, dev);
   return lua_pcall(s->L, 1, 0, 0);
+}
+
+uint32_t TenshiGetTickTime(TenshiRuntimeState s) {
+  return s->time_ticks;
 }

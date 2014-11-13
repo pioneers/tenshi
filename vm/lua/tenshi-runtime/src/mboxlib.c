@@ -170,11 +170,18 @@ int MBoxCreate(lua_State *L) {
 // room. Input stack is alternating mailbox and value (only mailbox will be
 // read).
 // NOT A LUA C FUNCTION.
-static int MBoxSendCheckSpace(lua_State *L, int num_mboxes, int timeout) {
+static int MBoxSendCheckSpace(lua_State *L, int num_mboxes, int timeout,
+  TenshiActorState a) {
   // In order to handle sending to the same mailbox multiple times, here we
   // total up the number of times each mailbox is referenced. We will then
   // check whether there is enough space to push all of that data into the
   // mailbox at once.
+
+  // Get the global state
+  lua_pushstring(L, RIDX_RUNTIMESTATE);
+  lua_gettable(L, LUA_REGISTRYINDEX);
+  TenshiRuntimeState s = (TenshiRuntimeState)lua_topointer(L, -1);
+  lua_pop(L, 1);
 
   // Total up references to each mailbox
   // stack is ...args...
@@ -252,15 +259,10 @@ static int MBoxSendCheckSpace(lua_State *L, int num_mboxes, int timeout) {
   lua_pop(L, 1);
   // stack is ...args...
 
-  if (!enough_space && (timeout > 0)) {
+  if (!enough_space && a && (timeout > 0)) {
     // Add ourselves to the global timeout list
-    lua_pushstring(L, RIDX_TIMEOUTQUEUE);
-    lua_gettable(L, LUA_REGISTRYINDEX);
-    lua_pushcfunction(L, ActorGetOwnActor);
-    lua_call(L, 0, 1);
-    lua_pushinteger(L, timeout);
-    lua_settable(L, -3);
-    lua_pop(L, 1);
+    priority_queue_insert(s->timeout_ticks_queue, a,
+      TenshiGetTickTime(s) + timeout);
   }
 
   return enough_space;
@@ -427,6 +429,7 @@ static int MBoxSendReal(lua_State *L, int status, int ctx) {
   // yielded, and came back.
 
   // Check if timeout happened
+  TenshiActorState a = NULL;
   lua_pushcfunction(L, ActorGetOwnActor);
   lua_call(L, 0, 1);
   // We can have no actor if the external code is sending/receiving. Assume
@@ -434,7 +437,7 @@ static int MBoxSendReal(lua_State *L, int status, int ctx) {
   if (lua_isnil(L, -1)) {
     lua_pop(L, 1);
   } else {
-    TenshiActorState a = ActorObjectGetCState(L);
+    a = ActorObjectGetCState(L);
     lua_pop(L, 1);
     if (ActorWasWokenTimeout(a)) {
       // It was due to a timeout
@@ -468,7 +471,7 @@ static int MBoxSendReal(lua_State *L, int status, int ctx) {
 
   // Check if all mailboxes have space
   // stack is ...args...
-  if (!MBoxSendCheckSpace(L, num_mboxes, timeout)) {
+  if (!MBoxSendCheckSpace(L, num_mboxes, timeout, a)) {
     if (timeout == 0) {
       // No timeout, so we return immediately
       lua_pop(L, lua_gettop(L));
@@ -567,7 +570,14 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
   // Called either on initial attempt to recv or when we tried, failed,
   // yielded, and came back.
 
+  // Get the global state
+  lua_pushstring(L, RIDX_RUNTIMESTATE);
+  lua_gettable(L, LUA_REGISTRYINDEX);
+  TenshiRuntimeState s = (TenshiRuntimeState)lua_topointer(L, -1);
+  lua_pop(L, 1);
+
   // Check if timeout happened
+  TenshiActorState a = NULL;
   lua_pushcfunction(L, ActorGetOwnActor);
   lua_call(L, 0, 1);
   // We can have no actor if the external code is sending/receiving. Assume
@@ -575,7 +585,7 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
   if (lua_isnil(L, -1)) {
     lua_pop(L, 1);
   } else {
-    TenshiActorState a = ActorObjectGetCState(L);
+    a = ActorObjectGetCState(L);
     lua_pop(L, 1);
     if (ActorWasWokenTimeout(a)) {
       // It was due to a timeout
@@ -696,15 +706,10 @@ static int MBoxRecvReal(lua_State *L, int status, int ctx) {
       lua_pop(L, 2);
     }
 
-    if (timeout > 0) {
+    if (timeout > 0 && a) {
       // Add ourselves to the global timeout list
-      lua_pushstring(L, RIDX_TIMEOUTQUEUE);
-      lua_gettable(L, LUA_REGISTRYINDEX);
-      lua_pushcfunction(L, ActorGetOwnActor);
-      lua_call(L, 0, 1);
-      lua_pushinteger(L, timeout);
-      lua_settable(L, -3);
-      lua_pop(L, 1);
+      priority_queue_insert(s->timeout_ticks_queue, a,
+        TenshiGetTickTime(s) + timeout);
     }
 
     // stack is ...args...

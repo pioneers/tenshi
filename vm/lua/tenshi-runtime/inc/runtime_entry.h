@@ -18,6 +18,7 @@
 #ifndef INC_RUNTIME_ENTRY_H_
 #define INC_RUNTIME_ENTRY_H_
 
+#include <stdint.h>
 #include <stdlib.h>
 #include "lua.h"      // NOLINT(build/include)
 #include "lauxlib.h"  // NOLINT(build/include)
@@ -75,5 +76,9 @@ extern void TenshiRegisterCFunctions(TenshiRuntimeState s, const luaL_Reg *l);
 // runtime will then call the appropriate get_<dev>_val function. Returns
 // LUA_OK on success.
 extern int TenshiFlagSensor(TenshiRuntimeState s, const void *const dev);
+
+// Get the current tick time of the runtime (incremetns when TenshiRunQuanta
+// is called).
+extern uint32_t TenshiGetTickTime(TenshiRuntimeState s);
 
 #endif  // INC_RUNTIME_ENTRY_H_
