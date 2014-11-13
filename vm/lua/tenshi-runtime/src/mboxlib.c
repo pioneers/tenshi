@@ -401,7 +401,7 @@ static int MBoxUnpackGroups(lua_State *L, int num_mboxes, int is_send) {
 // Else returns 1
 // is_send is 0 or 1; if true, only checks every other value
 static int MBoxCheckMisc(lua_State *L, int num_mboxes,
-                         char *func_name, int is_send) {
+                         const char *func_name, int is_send) {
   int adder = 1;
   if (is_send)
     adder = 2;
