@@ -23,8 +23,8 @@ allDescriptors = {
   },
 
   "analog-in": {
-    "description": "This is a digital sensor.  It can be used to get the " + \
-                   "state of up to four switches.",
+    "description": "This is a analog sensor.  It can be used to get the " + \
+                   "state of up to four inputs.",
     "chunksNumer": 0xFF,
     "chunksDenom": 0xFF,
     "channels": [
@@ -104,7 +104,50 @@ allDescriptors = {
         "additional": array('B', [0x01, 0xFF, 0xFF])
       },
     ]
-  }
+  },
+
+    "solenoid": {
+    "description": "This is a solenoid.  It can be used to control " + \
+                   "up to four solenoids.",
+    "chunksNumer": 0xFF,  # TODO(cduck): What is this?
+    "chunksDenom": 0xFF,
+    "channels": [
+      gameModeChannel,
+      { "description": "This is the first digital channel.",
+        "type": 0x04,
+        "additional": array('B', [0x01, 0xFF, 0xFF])
+      },
+      { "description": "This is the second digital channel.",
+        "type": 0x04,
+        "additional": array('B', [0x01, 0xFF, 0xFF])
+      },
+      { "description": "This is the third digital channel.",
+        "type": 0x04,
+        "additional": array('B', [0x01, 0xFF, 0xFF])
+      },
+      { "description": "This is the fourth digital channel.",
+        "type": 0x04,
+        "additional": array('B', [0x01, 0xFF, 0xFF])
+      },
+    ]
+  },
+  "servo": {
+    "description": "This is a servo. It can be used to control " + \
+                   "up to two servos.",
+    "chunksNumer": 0xFF,
+    "chunksDenom": 0xFF,
+    "channels": [
+      gameModeChannel,
+      { "description": "This is the first analog channel.",
+        "type"  : 0x03,
+        "additional": array('B', [0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x1F, 0x00, 0x00, 0x01])
+      },
+      { "description": "This is the second analog channel.",
+        "type"  : 0x03,
+        "additional": array('B', [0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x1F, 0x00, 0x00, 0x01])
+      }
+    ]
+  }, 
 }
 
 def allTypes():
