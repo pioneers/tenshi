@@ -128,7 +128,7 @@ float ss_get_generic_val(SSChannel *channel) {
         case SENSOR_TYPE_ANALOG_IN:
             return ss_get_analog_val(channel);
         default:
-            return NAN;
+            return 0;
     
     }
 }

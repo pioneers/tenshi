@@ -82,15 +82,15 @@
 - name: ID_DEVICE_ENABLE_BLINK
   kind: const
   value: 0x22
-  name: ID_DEVICE_START_UPDATES
+- name: ID_DEVICE_START_UPDATES
   kind: const
   value: 0x23
-  name: ID_DEVICE_STOP_UPDATES
+- name: ID_DEVICE_STOP_UPDATES
   kind: const
   value: 0x24
-  name: ID_DEVICE_VALUE_UPDATE
+- name: ID_DEVICE_VALUE_UPDATE
   kind: const
-  value: 0x23
+  value: 0x25
 
 - name: device_list_t
   kind: struct

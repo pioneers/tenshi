@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "inc/radio_config.h"
 #include "inc/task.h"
 #include "inc/queue.h"
 #include "inc/smartsensor/smartsensor.h"
@@ -119,15 +120,14 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
   (void) pvParameters;
   int send_messages_toggle = 0;
   TickType_t time_offset = 100;
-  TickType_t next_time_stamp = 0;
-  TickType_t current_time_stamp = 0;
   TickType_t time_difference = 0;
+  TickType_t next_time_stamp = 0;
   TickType_t wait_time = portMAX_DELAY;
 
   while (1) {
     ConfigMessage msg;
     if (send_messages_toggle == 1){
-      current_time_stamp = xTaskGetTickCount();
+      TickType_t current_time_stamp = xTaskGetTickCount();
       time_difference = current_time_stamp - next_time_stamp;
       if (time_difference > time_offset) // if time_difference (unsigned) is negative, hence, super big
       {
@@ -135,7 +135,6 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
         next_time_stamp = current_time_stamp + time_offset;
       }
       else {wait_time = 1;} // Just a really small wait time so that the signal can be sent almost immediately
-      }
     }
     while (xQueueReceive(configMessageQueue, &msg, wait_time) == pdTRUE) {
       switch (msg.port->id) {  // TODO(vdonato): Implement the rest
@@ -174,8 +173,9 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
 
         case ID_DEVICE_START_UPDATES:
             send_messages_toggle = 1;
-            initial_time_stamp = xTaskGetTickCount();
-          break;
+	    TickType_t current_time_stamp = xTaskGetTickCount();
+            TickType_t next_time_stamp = time_offset + current_time_stamp;
+            break;
         case ID_DEVICE_STOP_UPDATES:
             send_messages_toggle = 0;
           break;
