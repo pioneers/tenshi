@@ -27,7 +27,6 @@ typedef struct _TenshiActorState* TenshiActorState;
 #define RIDX_ALLACTORS    "tenshi.allActors"
 #define RIDX_RUNQUEUELO   "tenshi.runQueueLo"
 #define RIDX_RUNQUEUEHI   "tenshi.runQueueHi"
-#define RIDX_TIMEOUTQUEUE "tenshi.timeoutQueue"
 
 // To be called in protected mode.
 extern int ActorSchedulerInit(lua_State *L);

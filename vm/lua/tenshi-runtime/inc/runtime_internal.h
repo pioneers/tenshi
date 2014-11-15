@@ -18,6 +18,10 @@
 #ifndef INC_RUNTIME_INTERNAL_H_
 #define INC_RUNTIME_INTERNAL_H_
 
+#include <stdint.h>
+
+#include "inc/priority_queue.h"
+
 struct _TenshiRuntimeState {
   // Lua state object -- refers to "main" thread (that never executes)
   lua_State *L;
@@ -27,6 +31,10 @@ struct _TenshiRuntimeState {
   // Thread called after "main" part of loop that translates data sent into
   // mailboxes into actuator update functions
   TenshiActorState actuator_actor;
+  // Time in "ticks" -- incremented every time TenshiRunQuanta is called
+  uint32_t time_ticks;
+  // A priority queue for threads blocking on some number of ticks to elapse
+  priority_queue_t timeout_ticks_queue;
 };
 
 struct _TenshiActorState {
@@ -38,6 +46,8 @@ struct _TenshiActorState {
   int isblocked;
   // Set to true if this actor woke because of a timeout.
   int woke_timeout;
+  // Used for scheduler linked lists (run queue)
+  TenshiActorState next;
 };
 
 #endif  // INC_RUNTIME_INTERNAL_H_
