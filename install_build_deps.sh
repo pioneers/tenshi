@@ -20,45 +20,6 @@
 # This script will install packages required to build tenshi on Ubuntu
 #
 
-## Ubuntu version checking
-
-[[ -f /etc/lsb-release ]] || {
-	cat <<EOF
-This script is designed to run on Ubuntu only.
-
-Ubuntu version detection failed, so it cannot run. Please install build
-dependencies manually.
-EOF
-	exit 1
-}
-
-source /etc/lsb-release
-
-[[ "$DISTRIB_ID" = "Ubuntu" ]] || {
-	cat <<EOF
-This script is designed to run on Ubuntu only.
-
-Please install build dependencies manually on your system.
-EOF
-	exit 1
-}
-
-case "$DISTRIB_CODENAME" in
-	trusty|saucy)
-		echo "Installing build dependencies for $DISTRIB_ID $DISTRIB_RELEASE ($DISTRIB_CODENAME)"
-		;;
-	*)
-		echo "This script has not been tested on $DISTRIB_ID $DISTRIB_RELEASE ($DISTRIB_CODENAME)"
-		echo -n "Continue? [y/N]"
-		read answer
-		if [ "x$answer" = "xY" ] || [ "x$answer" = "xy" ]; then
-			:
-		else
-			exit 1
-		fi
-		;;
-esac
-
 ## Set up temporary directory for downloads
 TMPDIR="/tmp/tenshi-build-dep.$$"
 mkdir "$TMPDIR"
