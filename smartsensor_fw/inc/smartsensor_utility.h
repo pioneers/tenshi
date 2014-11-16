@@ -15,14 +15,13 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_ANALOG_IN_H_
-#define INC_ANALOG_IN_H_
+#ifndef INC_SMARTSENSOR_UTILITY_H_
+#define INC_SMARTSENSOR_UTILITY_H_
 
-#include "inc/smartsensor/common.h"
 #include "inc/smartsensor_utility.h"
-// Public functions called from main.c
-void initAnalogIn();
-void activeAnalogInRec(uint8_t *data, uint8_t len, uint8_t inband);
-void activeAnalogInSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband);
 
-#endif  // INC_ANALOG_IN_H_
+// Public functions called from main.c
+int adc_read(uint8_t mux);
+
+
+#endif  // INC_SMARTSENSOR_UTILITY_H_
