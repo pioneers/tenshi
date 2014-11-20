@@ -249,7 +249,7 @@ int ss_interpret_descriptor(SSState *sensor, uint8_t *data, uint32_t len) {
       current += sensor->channels[i]->incomingLen;
     }
   }
-
+  sensor->totalDescriptorLength = len; //TODO(utkarsh) : Figure out if this actually works
   // Assuming CRC has already been checked in ss_read_descriptor()
 
   sensor->hasReadDescriptor = 1;
@@ -257,6 +257,35 @@ int ss_interpret_descriptor(SSState *sensor, uint8_t *data, uint32_t len) {
 }
 // Does both of the above functions
 // Returns 0 on fail
+
+// Takes in a sensor state and converts into a descriptor, and
+// Also takes a pointer (pre-malloced) and stores the descriptor there
+int ss_make_descriptor(SSState *sensor, uint8_t *pointer_location) {
+  uint8_t *original_pointer;
+  original_pointer = pointer_location;
+  
+  void add_byte(uint8_t byte_pointer){
+    pointer_location[0]=*byte_pointer;
+    pointer_location += 1;
+  }
+  
+  add_byte(&sensor->totalDescriptorLength);
+  add_byte(&sensor->descriptionLen); 
+  add_byte(&sensor->description);
+  add_byte(&sensor->chunksNumerator);
+  add_byte(&sensor->chunksDenominator);
+  add_byte(&sensor->channelsNum);
+  for(int i=0; i < sensor->channelsNum; i++){
+    add_byte(channel_descriptor_length);
+    add_byte(human_descriptor_length);
+    add_byte(human_descriptor);
+    add_byte(type);
+    add_byte(additional_info); //TODO(utkarsh): Some of these are not implemented completely. Work on that
+  }
+  pointer_location += 1; // add_byte(&sensor->crc8); TODO (utkarsh): add bytes for crc8
+// TODO(utkarsh): Edit radio_config.c to include this function
+}
+
 int ss_update_descriptor(SSState *sensor) {
   uint32_t len = 0;
   uint8_t *data = ss_read_descriptor(sensor, &len);

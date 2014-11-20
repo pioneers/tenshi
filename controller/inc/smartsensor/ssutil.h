@@ -107,6 +107,7 @@ typedef struct {
   SSChannel **channels;  // TODO(cduck): Currently only know how to handle one
   uint8_t primaryType;  // Used until I figure out what to do about mutiple
                         //   channels
+  uint8_t totalDescriptorLength;
 } SSState;
 
 
