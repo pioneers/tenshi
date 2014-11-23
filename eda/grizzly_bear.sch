@@ -3998,6 +3998,53 @@ This is the "EZ" version, which has limited top masking for improved ease of ass
 <smd name="10" x="-2.54" y="-5.08" dx="3.81" dy="2.032" layer="1"/>
 <rectangle x1="-4.572" y1="-6.223" x2="-0.508" y2="6.223" layer="40"/>
 </package>
+<package name="2X5_SHROUDED">
+<description>&lt;b&gt; 2x5 Shrouded Connector &lt;/b&gt;
+&lt;p&gt; 0.1" pitch. &lt;/p&gt;</description>
+<pad name="1" x="-5.08" y="-1.27" drill="1.016" diameter="1.524"/>
+<pad name="2" x="-5.08" y="1.27" drill="1.016" diameter="1.524"/>
+<pad name="3" x="-2.54" y="-1.27" drill="1.016" diameter="1.524"/>
+<pad name="4" x="-2.54" y="1.27" drill="1.016" diameter="1.524"/>
+<pad name="5" x="0" y="-1.27" drill="1.016" diameter="1.524"/>
+<pad name="6" x="0" y="1.27" drill="1.016" diameter="1.524"/>
+<pad name="7" x="2.54" y="-1.27" drill="1.016" diameter="1.524"/>
+<pad name="8" x="2.54" y="1.27" drill="1.016" diameter="1.524"/>
+<text x="-10.16" y="5.08" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-10.16" y="-6.35" size="1.27" layer="27" font="vector">&gt;VALUE</text>
+<rectangle x1="-5.334" y1="-1.524" x2="-4.826" y2="-1.016" layer="51"/>
+<rectangle x1="-5.334" y1="1.016" x2="-4.826" y2="1.524" layer="51"/>
+<rectangle x1="-2.794" y1="1.016" x2="-2.286" y2="1.524" layer="51"/>
+<rectangle x1="-2.794" y1="-1.524" x2="-2.286" y2="-1.016" layer="51"/>
+<rectangle x1="-0.254" y1="1.016" x2="0.254" y2="1.524" layer="51"/>
+<rectangle x1="-0.254" y1="-1.524" x2="0.254" y2="-1.016" layer="51"/>
+<rectangle x1="2.286" y1="1.016" x2="2.794" y2="1.524" layer="51"/>
+<rectangle x1="2.286" y1="-1.524" x2="2.794" y2="-1.016" layer="51"/>
+<wire x1="-5.715" y1="-4.7625" x2="-4.445" y2="-4.7625" width="0.127" layer="21"/>
+<rectangle x1="-6.35" y1="-2.54" x2="6.35" y2="2.54" layer="40"/>
+<rectangle x1="-10.668" y1="-4.907990625" x2="10.668" y2="4.907990625" layer="39"/>
+<pad name="9" x="5.08" y="-1.27" drill="1.016" diameter="1.524"/>
+<pad name="10" x="5.08" y="1.27" drill="1.016" diameter="1.524"/>
+<rectangle x1="4.826" y1="1.016" x2="5.334" y2="1.524" layer="51"/>
+<rectangle x1="4.826" y1="-1.524" x2="5.334" y2="-1.016" layer="51"/>
+<wire x1="-9.009990625" y1="3.25000625" x2="9.009990625" y2="3.25000625" width="0.127" layer="21"/>
+<wire x1="-9.009990625" y1="-3.25000625" x2="-2.54" y2="-3.25000625" width="0.127" layer="21"/>
+<wire x1="-2.54" y1="-3.25000625" x2="2.54" y2="-3.25000625" width="0.127" layer="21"/>
+<wire x1="2.54" y1="-3.25000625" x2="9.009990625" y2="-3.25000625" width="0.127" layer="21"/>
+<wire x1="9.009990625" y1="3.25000625" x2="9.009990625" y2="-3.25000625" width="0.127" layer="21"/>
+<wire x1="-9.009990625" y1="3.25000625" x2="-9.009990625" y2="-3.25000625" width="0.127" layer="21"/>
+<wire x1="-10.16" y1="4.399990625" x2="10.16" y2="4.399990625" width="0.127" layer="21"/>
+<wire x1="-10.16" y1="-4.399990625" x2="-2.54" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="-2.54" y1="-4.399990625" x2="2.54" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="2.54" y1="-4.399990625" x2="10.16" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="-10.16" y1="4.399990625" x2="-10.16" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="10.16" y1="4.399990625" x2="10.16" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="-2.54" y1="-3.25000625" x2="-2.54" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="2.54" y1="-3.25000625" x2="2.54" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="-10.16" y1="4.399990625" x2="10.16" y2="4.399990625" width="0.127" layer="51"/>
+<wire x1="10.16" y1="4.399990625" x2="10.16" y2="-4.399990625" width="0.127" layer="51"/>
+<wire x1="-10.16" y1="4.399990625" x2="-10.16" y2="-4.399990625" width="0.127" layer="51"/>
+<wire x1="-10.16" y1="-4.399990625" x2="10.16" y2="-4.399990625" width="0.127" layer="51"/>
+</package>
 </packages>
 <symbols>
 <symbol name="ACS714">
@@ -6503,6 +6550,23 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <technology name=""/>
 </technologies>
 </device>
+<device name="PTH-SHROUDED" package="2X5_SHROUDED">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="10" pad="10"/>
+<connect gate="G$1" pin="2" pad="2"/>
+<connect gate="G$1" pin="3" pad="3"/>
+<connect gate="G$1" pin="4" pad="4"/>
+<connect gate="G$1" pin="5" pad="5"/>
+<connect gate="G$1" pin="6" pad="6"/>
+<connect gate="G$1" pin="7" pad="7"/>
+<connect gate="G$1" pin="8" pad="8"/>
+<connect gate="G$1" pin="9" pad="9"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
 </devices>
 </deviceset>
 </devicesets>
@@ -7253,7 +7317,7 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <part name="U5" library="pie" deviceset="ISL83491" device="SOIC"/>
 <part name="SUPPLY9" library="pie" deviceset="GND" device=""/>
 <part name="U$15" library="pie" deviceset="5V" device=""/>
-<part name="SV2" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH"/>
+<part name="SV2" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH-SHROUDED"/>
 <part name="C17" library="pie" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 <part name="JP1" library="SparkFun-Connectors" deviceset="M02" device="PTH"/>
 </parts>
