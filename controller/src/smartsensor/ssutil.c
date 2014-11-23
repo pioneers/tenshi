@@ -259,29 +259,29 @@ int ss_interpret_descriptor(SSState *sensor, uint8_t *data, uint32_t len) {
 // Returns 0 on fail
 
 // Takes a pointer location (pre-malloced) and fills it with sensor state descriptor
-int ss_make_descriptor(SSState *sensor, uint8_t *pointer_location) {
-  original_pointer = pointer_location;
+uint8_t *ss_make_descriptor(SSState *sensor, uint8_t *p) {
+  uint8_t *original_pointer = p;
   
-  void add_byte(uint8_t byte_pointer){
-    pointer_location[0]=*byte_pointer;
-    pointer_location += 1;
-  }
-  
-  add_byte(&sensor->totalDescriptorLength);
-  add_byte(&sensor->descriptionLen); 
-  add_byte(&sensor->description);
-  add_byte(&sensor->chunksNumerator);
-  add_byte(&sensor->chunksDenominator);
-  add_byte(&sensor->channelsNum);
+  *p++ = sensor->totalDescriptorLength;
+  *p++ = sensor->descriptionLen;
+  memcpy(p, sensor->description, sensor->descriptionLen);
+  p += sensor->descriptionLen;
+  *p++ = sensor->chunksNumerator;
+  *p++ = sensor->chunksDenominator;
+
+  *p++ = sensor->channelsNum;
   for(int i=0; i < sensor->channelsNum; i++){
-    add_byte(1 + &sensor->channels[i].descriptionLen + 1 + sensor->channels[i].additionalLen);
-    add_byte(&sensor->channels[i].descriptionLen);
-    add_byte(&sensor->channels[i].description);
-    add_byte(&sensor->channels[i].type);
-    add_byte(&sensor->channels[i].additional);
+    *p++ = 1+sensor->channels[i]->descriptionLen+1+sensor->channels[i]->additionalLen;
+    *p++ = sensor->channels[i]->descriptionLen;
+    memcpy(p, sensor->channels[i]->description, sensor->channels[i]->descriptionLen);
+    p += sensor->channels[i]->descriptionLen;
+    *p++ = sensor->channels[i]->type;
+    memcpy(p, sensor->channels[i]->additional, sensor->channels[i]->additionalLen);
+    p += sensor->channels[i]->additionalLen;
   }
-  add_byte(255); // TODO (utkarsh): add bytes for crc8
-// TODO(utkarsh): Edit radio_config.c to include this function
+  *p++ = 255;  // TODO (utkarsh): add bytes for crc8
+  // TODO(utkarsh): Edit radio_config.c to include this function
+  return original_pointer;
 }
 
 int ss_update_descriptor(SSState *sensor) {
