@@ -137,7 +137,7 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
       else {wait_time = 1;} // Just a really small wait time so that the signal can be sent almost immediately
     }
     while (xQueueReceive(configMessageQueue, &msg, wait_time) == pdTRUE) {
-      switch (msg.port->id) {  // TODO(vdonato): Implement the rest
+      switch (msg.port->id) { 
         case ID_START_VM:
           break;
         case ID_STOP_VM:
@@ -145,7 +145,6 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
         case ID_LOAD_MAIN_THREAD:
           break;
         case ID_CONTROL_UNFREEZE:
-          // TODO(vdonato): Figure out what to do
           break;
         case ID_CONTROL_STOP:
           setGameMode(RuntimeModePaused);
@@ -167,6 +166,28 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
           }
           break;
         case ID_DEVICE_READ_DESCRIPTOR:
+          uint64_t sensor_id = msg.port->data.device_read_descriptor_req.did;
+
+          for(int i=0; i < numSensors; i++){
+            uint64_t temp_id = 0;
+            for (int j = SMART_ID_LEN-1; j > 0; j--) {
+              temp_id = ((temp_id << 8) | sensorArr[i]->id[j]);
+            }
+            if(temp_id == sensor_id){
+              uint8_t *sensor_descriptor = malloc(sensorArr[i]->totalDescriptorLength);
+              ss_make_descriptor(sensorArr[i], sensor_descriptor);
+
+              size_t response_size = sizeof(uint8_t) + SMART_ID_LEN + sensorArr[i]->totalDescriptorLength;
+              config_port *response = malloc(response_size);
+
+              response->id = ID_DEVICE_READ_DESCRIPTOR;
+              response->data.device_read_descriptor_resp.did = sensor_id;
+              memcpy(response->data.device_read_descriptor_resp.data, sensor_descriptor, sensorArr[i]->totalDescriptorLength);
+
+              radioPushConfig(response, response_size);
+              break;
+            }
+          }
           break;
         case ID_DEVICE_ENABLE_BLINK:
           break;

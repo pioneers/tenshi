@@ -259,9 +259,7 @@ int ss_interpret_descriptor(SSState *sensor, uint8_t *data, uint32_t len) {
 // Returns 0 on fail
 
 // Takes a pointer location (pre-malloced) and fills it with sensor state descriptor
-uint8_t *ss_make_descriptor(SSState *sensor, uint8_t *p) {
-  uint8_t *original_pointer = p;
-  
+void ss_make_descriptor(SSState *sensor, uint8_t *p) {
   *p++ = sensor->totalDescriptorLength;
   *p++ = sensor->descriptionLen;
   memcpy(p, sensor->description, sensor->descriptionLen);
@@ -280,8 +278,6 @@ uint8_t *ss_make_descriptor(SSState *sensor, uint8_t *p) {
     p += sensor->channels[i]->additionalLen;
   }
   *p++ = 255;  // TODO (utkarsh): add bytes for crc8
-  // TODO(utkarsh): Edit radio_config.c to include this function
-  return original_pointer;
 }
 
 int ss_update_descriptor(SSState *sensor) {
