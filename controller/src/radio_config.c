@@ -165,7 +165,7 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
                 radioPushConfig(deviceList, size);
           }
           break;
-        case ID_DEVICE_READ_DESCRIPTOR:
+        case ID_DEVICE_READ_DESCRIPTOR: {
           uint64_t sensor_id = msg.port->data.device_read_descriptor_req.did;
 
           for(int i=0; i < numSensors; i++){
@@ -189,6 +189,7 @@ static portTASK_FUNCTION_PROTO(radioConfigTask, pvParameters) {
             }
           }
           break;
+        }
         case ID_DEVICE_ENABLE_BLINK:
           break;
 
