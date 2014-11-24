@@ -52,10 +52,6 @@
 uint8_t *code_buffer;
 uint32_t code_buffer_len;
 
-// TODO(rqou): This really doesn't go here.
-int8_t PiEMOSAnalogVals[7];
-uint8_t PiEMOSDigitalVals[8];
-
 // TODO(rqou): Wat r abstraction?
 // TODO(rqou): My macro-fu is not up to par
 extern ngl_error *ngl_set_motor(ngl_float motor, ngl_float val);
