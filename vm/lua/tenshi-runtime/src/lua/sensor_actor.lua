@@ -41,4 +41,5 @@ for s,_ in pairs(changed_sensors) do
     changed_sensors[s] = nil
 end
 
+piemos.__process_radio()
 pieles.__process_radio()

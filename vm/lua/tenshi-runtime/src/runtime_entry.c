@@ -33,6 +33,7 @@
 #include "../game.lc.h"             // NOLINT(build/include)
 #include "../get_device.lc.h"       // NOLINT(build/include)
 #include "../pieles.lc.h"           // NOLINT(build/include)
+#include "../piemos.lc.h"           // NOLINT(build/include)
 #include "../sensor_actor.lc.h"     // NOLINT(build/include)
 #include "../trap_global.lc.h"      // NOLINT(build/include)
 #include "../triggers.lc.h"         // NOLINT(build/include)
@@ -133,6 +134,12 @@ static int tenshi_open_pieles(lua_State *L) {
   return 1;
 }
 
+static int tenshi_open_piemos(lua_State *L) {
+  luaL_loadbuffer(L, piemos_lc, sizeof(piemos_lc), "piemos.lua");
+  lua_pcall(L, 0, LUA_MULTRET, 0);
+  return 1;
+}
+
 static int tenshi_open_game(lua_State *L) {
   luaL_loadbuffer(L, game_lc, sizeof(game_lc), "game.lua");
   lua_pcall(L, 0, LUA_MULTRET, 0);
@@ -191,6 +198,7 @@ static const luaL_Reg tenshi_loadedlibs_phase2[] = {
   {"__actuators", tenshi_open_actuators},
   {"triggers", tenshi_open_triggers},
   {"pieles", tenshi_open_pieles},
+  {"piemos", tenshi_open_piemos},
   {"game", tenshi_open_game},
   {"ubjson", tenshi_open_ubjson},
   {NULL, NULL}
