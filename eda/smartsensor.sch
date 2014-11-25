@@ -2497,6 +2497,53 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <smd name="10" x="-2.54" y="-5.08" dx="3.81" dy="2.032" layer="1"/>
 <rectangle x1="-4.572" y1="-6.223" x2="-0.508" y2="6.223" layer="40"/>
 </package>
+<package name="2X5_SHROUDED">
+<description>&lt;b&gt; 2x5 Shrouded Connector &lt;/b&gt;
+&lt;p&gt; 0.1" pitch. &lt;/p&gt;</description>
+<pad name="1" x="-5.08" y="-1.27" drill="1.016" diameter="1.524"/>
+<pad name="2" x="-5.08" y="1.27" drill="1.016" diameter="1.524"/>
+<pad name="3" x="-2.54" y="-1.27" drill="1.016" diameter="1.524"/>
+<pad name="4" x="-2.54" y="1.27" drill="1.016" diameter="1.524"/>
+<pad name="5" x="0" y="-1.27" drill="1.016" diameter="1.524"/>
+<pad name="6" x="0" y="1.27" drill="1.016" diameter="1.524"/>
+<pad name="7" x="2.54" y="-1.27" drill="1.016" diameter="1.524"/>
+<pad name="8" x="2.54" y="1.27" drill="1.016" diameter="1.524"/>
+<text x="-10.16" y="5.08" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-10.16" y="-6.35" size="1.27" layer="27" font="vector">&gt;VALUE</text>
+<rectangle x1="-5.334" y1="-1.524" x2="-4.826" y2="-1.016" layer="51"/>
+<rectangle x1="-5.334" y1="1.016" x2="-4.826" y2="1.524" layer="51"/>
+<rectangle x1="-2.794" y1="1.016" x2="-2.286" y2="1.524" layer="51"/>
+<rectangle x1="-2.794" y1="-1.524" x2="-2.286" y2="-1.016" layer="51"/>
+<rectangle x1="-0.254" y1="1.016" x2="0.254" y2="1.524" layer="51"/>
+<rectangle x1="-0.254" y1="-1.524" x2="0.254" y2="-1.016" layer="51"/>
+<rectangle x1="2.286" y1="1.016" x2="2.794" y2="1.524" layer="51"/>
+<rectangle x1="2.286" y1="-1.524" x2="2.794" y2="-1.016" layer="51"/>
+<wire x1="-5.715" y1="-4.7625" x2="-4.445" y2="-4.7625" width="0.127" layer="21"/>
+<rectangle x1="-6.35" y1="-2.54" x2="6.35" y2="2.54" layer="40"/>
+<rectangle x1="-10.668" y1="-4.907990625" x2="10.668" y2="4.907990625" layer="39"/>
+<pad name="9" x="5.08" y="-1.27" drill="1.016" diameter="1.524"/>
+<pad name="10" x="5.08" y="1.27" drill="1.016" diameter="1.524"/>
+<rectangle x1="4.826" y1="1.016" x2="5.334" y2="1.524" layer="51"/>
+<rectangle x1="4.826" y1="-1.524" x2="5.334" y2="-1.016" layer="51"/>
+<wire x1="-9.009990625" y1="3.25000625" x2="9.009990625" y2="3.25000625" width="0.127" layer="21"/>
+<wire x1="-9.009990625" y1="-3.25000625" x2="-2.54" y2="-3.25000625" width="0.127" layer="21"/>
+<wire x1="-2.54" y1="-3.25000625" x2="2.54" y2="-3.25000625" width="0.127" layer="21"/>
+<wire x1="2.54" y1="-3.25000625" x2="9.009990625" y2="-3.25000625" width="0.127" layer="21"/>
+<wire x1="9.009990625" y1="3.25000625" x2="9.009990625" y2="-3.25000625" width="0.127" layer="21"/>
+<wire x1="-9.009990625" y1="3.25000625" x2="-9.009990625" y2="-3.25000625" width="0.127" layer="21"/>
+<wire x1="-10.16" y1="4.399990625" x2="10.16" y2="4.399990625" width="0.127" layer="21"/>
+<wire x1="-10.16" y1="-4.399990625" x2="-2.54" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="-2.54" y1="-4.399990625" x2="2.54" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="2.54" y1="-4.399990625" x2="10.16" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="-10.16" y1="4.399990625" x2="-10.16" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="10.16" y1="4.399990625" x2="10.16" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="-2.54" y1="-3.25000625" x2="-2.54" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="2.54" y1="-3.25000625" x2="2.54" y2="-4.399990625" width="0.127" layer="21"/>
+<wire x1="-10.16" y1="4.399990625" x2="10.16" y2="4.399990625" width="0.127" layer="51"/>
+<wire x1="10.16" y1="4.399990625" x2="10.16" y2="-4.399990625" width="0.127" layer="51"/>
+<wire x1="-10.16" y1="4.399990625" x2="-10.16" y2="-4.399990625" width="0.127" layer="51"/>
+<wire x1="-10.16" y1="-4.399990625" x2="10.16" y2="-4.399990625" width="0.127" layer="51"/>
+</package>
 </packages>
 <symbols>
 <symbol name="LETTER_L">
@@ -3918,6 +3965,23 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <technology name=""/>
 </technologies>
 </device>
+<device name="PTH-SHROUDED" package="2X5_SHROUDED">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="10" pad="10"/>
+<connect gate="G$1" pin="2" pad="2"/>
+<connect gate="G$1" pin="3" pad="3"/>
+<connect gate="G$1" pin="4" pad="4"/>
+<connect gate="G$1" pin="5" pad="5"/>
+<connect gate="G$1" pin="6" pad="6"/>
+<connect gate="G$1" pin="7" pad="7"/>
+<connect gate="G$1" pin="8" pad="8"/>
+<connect gate="G$1" pin="9" pad="9"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
 </devices>
 </deviceset>
 <deviceset name="WIRE_WITH_HOLE">
@@ -4187,12 +4251,10 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="SUPPLY3" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY4" library="pie" deviceset="GND" device=""/>
 <part name="R1" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
-<part name="U$7" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH" value="SENSOR_CON_5PINPTH"/>
+<part name="U$7" library="pie" deviceset="SENSOR_CON_5PIN" device="PTH-SHROUDED" value="SENSOR_CON_5PINPTH"/>
 <part name="U$8" library="pie" deviceset="SENSOR_CON_5PIN" device="SMD-EDGE" value="SENSOR_CON_5PINSMD-EDGE"/>
 <part name="IN2" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
 <part name="IN3" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
-<part name="GND" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
-<part name="5V" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
 <part name="IN1" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
 <part name="IN0" library="pie" deviceset="WIRE_WITH_HOLE" device=""/>
 <part name="U$16" library="pie" deviceset="5V" device=""/>
@@ -4245,6 +4307,8 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="SCK" library="pie" deviceset="POGO_PIN" device=""/>
 <part name="SUPPLY19" library="pie" deviceset="GND" device=""/>
 <part name="U$17" library="pie" deviceset="5V" device=""/>
+<part name="5V" library="pie" deviceset="POGO_PIN" device=""/>
+<part name="GND" library="pie" deviceset="POGO_PIN" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4311,8 +4375,6 @@ C=0.1u</text>
 <attribute name="VALUE" x="223.52" y="78.74" size="1.778" layer="96" rot="MR0"/>
 <attribute name="NAME" x="215.9" y="87.122" size="1.778" layer="95" rot="MR0"/>
 </instance>
-<instance part="GND" gate="G$1" x="53.34" y="172.72"/>
-<instance part="5V" gate="G$1" x="5.08" y="172.72"/>
 <instance part="IN1" gate="G$1" x="213.36" y="144.78" smashed="yes" rot="MR0">
 <attribute name="VALUE" x="223.52" y="139.7" size="1.778" layer="96" rot="MR0"/>
 <attribute name="NAME" x="215.9" y="148.082" size="1.778" layer="95" rot="MR0"/>
@@ -4424,6 +4486,8 @@ C=0.1u</text>
 </instance>
 <instance part="SUPPLY19" gate="GND" x="76.2" y="104.14"/>
 <instance part="U$17" gate="G$1" x="147.32" y="144.78"/>
+<instance part="5V" gate="G$1" x="10.16" y="172.72"/>
+<instance part="GND" gate="G$1" x="58.42" y="172.72"/>
 </instances>
 <busses>
 </busses>
@@ -4442,7 +4506,7 @@ C=0.1u</text>
 <wire x1="12.7" y1="172.72" x2="15.24" y2="172.72" width="0.1524" layer="91"/>
 <pinref part="U$16" gate="G$1" pin="5V"/>
 <wire x1="15.24" y1="172.72" x2="15.24" y2="177.8" width="0.1524" layer="91"/>
-<pinref part="5V" gate="G$1" pin="2"/>
+<pinref part="5V" gate="G$1" pin="P$1"/>
 </segment>
 <segment>
 <pinref part="U$12" gate="G$1" pin="5V"/>
@@ -4500,7 +4564,7 @@ C=0.1u</text>
 <wire x1="60.96" y1="172.72" x2="63.5" y2="172.72" width="0.1524" layer="91"/>
 <pinref part="SUPPLY6" gate="GND" pin="GND"/>
 <wire x1="63.5" y1="172.72" x2="63.5" y2="167.64" width="0.1524" layer="91"/>
-<pinref part="GND" gate="G$1" pin="2"/>
+<pinref part="GND" gate="G$1" pin="P$1"/>
 </segment>
 <segment>
 <pinref part="C4" gate="G$1" pin="2"/>
@@ -4624,26 +4688,26 @@ C=0.1u</text>
 </net>
 <net name="TXE" class="0">
 <segment>
-<pinref part="U2" gate="G$1" pin="(PCINT6/ADC3)PA6"/>
-<wire x1="22.86" y1="73.66" x2="17.78" y2="73.66" width="0.1524" layer="91"/>
-<label x="17.78" y="73.66" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="U1" gate="G$1" pin="DE"/>
 <wire x1="25.4" y1="124.46" x2="20.32" y2="124.46" width="0.1524" layer="91"/>
 <label x="20.32" y="124.46" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U2" gate="G$1" pin="(PCINT4/ADC1)PA4"/>
+<wire x1="22.86" y1="68.58" x2="17.78" y2="68.58" width="0.1524" layer="91"/>
+<label x="17.78" y="68.58" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="!RXE" class="0">
-<segment>
-<pinref part="U2" gate="G$1" pin="(PCINT5/ADC2)PA5"/>
-<wire x1="22.86" y1="71.12" x2="17.78" y2="71.12" width="0.1524" layer="91"/>
-<label x="17.78" y="71.12" size="1.778" layer="95"/>
-</segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="!RE"/>
 <wire x1="25.4" y1="129.54" x2="20.32" y2="129.54" width="0.1524" layer="91"/>
 <label x="20.32" y="129.54" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U2" gate="G$1" pin="(PCINT3/ADC0)PA3"/>
+<wire x1="22.86" y1="66.04" x2="17.78" y2="66.04" width="0.1524" layer="91"/>
+<label x="17.78" y="66.04" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RESET" class="0">
@@ -4726,7 +4790,7 @@ C=0.1u</text>
 <pinref part="U$8" gate="G$1" pin="10"/>
 </segment>
 </net>
-<net name="IO2" class="0">
+<net name="IO1" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB1(ADC6/PCINT9)"/>
 <wire x1="83.82" y1="78.74" x2="91.44" y2="78.74" width="0.1524" layer="91"/>
@@ -4746,7 +4810,7 @@ C=0.1u</text>
 <junction x="170.18" y="114.3"/>
 </segment>
 </net>
-<net name="IO3" class="0">
+<net name="IO2" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB2(ADC7/PCINT10)"/>
 <wire x1="83.82" y1="76.2" x2="91.44" y2="76.2" width="0.1524" layer="91"/>
@@ -4786,7 +4850,7 @@ C=0.1u</text>
 <wire x1="170.18" y1="180.34" x2="172.72" y2="180.34" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="IO1" class="0">
+<net name="IO3" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="PB3(ADC8/PCINT11)"/>
 <wire x1="83.82" y1="73.66" x2="91.44" y2="73.66" width="0.1524" layer="91"/>
