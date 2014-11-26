@@ -48,6 +48,7 @@ void initBuzzer() {
   DIGITAL_SET_IN(IN1);
   DIGITAL_SET_IN(IN2);
   DIGITAL_SET_IN(IN3);
+  DIGITAL_PULLUP_OFF(IN3);
 
   // Testing
   DIGITAL_SET_OUT(PWM1);
@@ -127,13 +128,36 @@ int batteryUnsafe() {
   // Return value ranges from 0x000 to 0x3FF;
   // Division converts everything to same scaling
   // If voltage = V, input I = (V*1024)/(V_ref*12) ~= 17*V
-  int IO1 = adc_read(muxPB1) / 6;
-  int IO2 = adc_read(muxPB2) / 3;
-  int IO3 = adc_read(muxPB3) / 2;
+  int IO1 = adc_read(muxPB1);
+  int IO2 = adc_read(muxPB2);
+  int IO3 = adc_read(muxPB3);
+
+
+  int IO2 = adc_read(muxPB2);
+  // This pin reads things wrong, so scale up and separate threshold
+  IO1 = adc_read(muxPB1);
+  int IO3 = adc_read(muxPB3);  // I DONT KNOW WHY I HAVE TO DO THIS
+
+  // Temp hack because 51k resistor is weird
+  // if (IO3 > 132) {
+  //   IO3 -= 132;
+  //   IO3 <<= 1;
+  //   IO3 += 132;
+  // }
+  // IO3 = IO3 + (IO3 >> 1) - IO2;
+  // IO2 = IO2 - (IO1 >> 1);
+
+  // IO3 thresholds:
+  // 4V = 130
+  // 8V = 160
+  // 10.5V = 167
 
   // Check if any cell voltages are above threshold = 3.5V
-  int threshold = 60;  // 17*3.5 ~= 60
-  if ((IO1 < threshold) | (IO2 - IO1 < threshold) | (IO3 - IO2 < threshold)) {
+  int threshold = 160;  // 17*3.5 ~= 60
+  IO2 = IO2 - (IO1 >> 1);
+  // if ((IO1 < threshold) |
+  // (IO2 - IO1 < threshold) | (IO3 - IO2 < threshold)) {
+  if ((IO3 < threshold)) {
     return 1;
   }
 
