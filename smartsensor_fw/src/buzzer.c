@@ -132,12 +132,6 @@ int batteryUnsafe() {
   int IO2 = adc_read(muxPB2);
   int IO3 = adc_read(muxPB3);
 
-
-  int IO2 = adc_read(muxPB2);
-  // This pin reads things wrong, so scale up and separate threshold
-  IO1 = adc_read(muxPB1);
-  int IO3 = adc_read(muxPB3);  // I DONT KNOW WHY I HAVE TO DO THIS
-
   // Temp hack because 51k resistor is weird
   // if (IO3 > 132) {
   //   IO3 -= 132;
