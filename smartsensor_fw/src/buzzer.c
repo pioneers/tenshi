@@ -86,12 +86,12 @@ void activeBuzzerSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
   int IO3 = adc_read(muxPB3) / 2;
 
   outData[0] = 1 - batteryUnsafe();
-  outData[1] = IO1 >> 8;
-  outData[2] = IO1;
-  outData[3] = IO2 >> 8;
-  outData[4] = IO2;
-  outData[5] = IO3 >> 8;
-  outData[6] = IO3;
+  outData[1] = IO1;
+  outData[2] = IO1 >> 8;
+  outData[3] = IO2;
+  outData[4] = IO2 >> 8;
+  outData[5] = IO3;
+  outData[6] = IO3 >> 8;
 }
 
 // Interrupt that checks whether to buzz the battery
@@ -153,11 +153,9 @@ int batteryUnsafe() {
   // 10.5V = 167
 
   // Check if any cell voltages are above threshold = 3.5V
-  int threshold = 160;  // 17*3.5 ~= 60
+  int threshold = 120;  // 17*3.5 ~= 60
   IO2 = IO2 - (IO1 >> 1);
-  // if ((IO1 < threshold) |
-  // (IO2 - IO1 < threshold) | (IO3 - IO2 < threshold)) {
-  if ((IO3 < threshold)) {
+  if ((IO1 < threshold) | (IO2 - IO1 < threshold) | (IO3 < 167)) {
     return 1;
   }
 
