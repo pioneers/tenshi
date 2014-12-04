@@ -51,6 +51,8 @@ int isDeviceValid(SSChannel *dev);
 
 void runtime_register(TenshiRuntimeState s) {
   luaL_Reg I[] = {
+    LUA_REG(time),
+
     LUA_REG(get_device),
     LUA_REG(del_device),
     LUA_REG(query_dev_info),
@@ -71,6 +73,8 @@ void runtime_register(TenshiRuntimeState s) {
   TenshiRegisterCFunctions(s, I);
 }
 void lua_register_all(lua_State *L) {
+  LUA_REGISTER(time);
+
   LUA_REGISTER(get_device);
   LUA_REGISTER(del_device);
   LUA_REGISTER(query_dev_info);
@@ -85,6 +89,14 @@ void lua_register_all(lua_State *L) {
 }
 
 //  Runtime required
+
+// Returns time in milliseconds
+int lua_time(lua_State *L) {
+  portTickType now = xTaskGetTickCount() / portTICK_RATE_MS;
+
+  lua_pushunsigned(L, now);
+  return 1;
+}
 
 int lua_get_device(lua_State *L) {
   const char *str = lua_tolstring(L, 1, NULL);

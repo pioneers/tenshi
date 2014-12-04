@@ -31,6 +31,8 @@
 void runtime_register(TenshiRuntimeState s);
 void lua_register_all(lua_State *L);
 
+int lua_time(lua_State *L);
+
 int lua_get_device(lua_State *L);
 int lua_del_device(lua_State *L);
 int lua_query_dev_info(lua_State *L);
