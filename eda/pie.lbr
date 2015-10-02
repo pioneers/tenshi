@@ -9182,6 +9182,14 @@ Vertical</description>
 <wire x1="5.08" y1="1.27" x2="4.572" y2="1.27" width="0.127" layer="51"/>
 <wire x1="-4.572" y1="1.27" x2="-5.08" y2="1.27" width="0.127" layer="21"/>
 </package>
+<package name="POWER-WIRE">
+<description>A connection for a pair of power and ground wires to solder directly to a board with a strain relief hole.</description>
+<pad name="GND" x="-1.27" y="0" drill="1.1" shape="square"/>
+<pad name="VCC" x="1.27" y="0" drill="1.1"/>
+<hole x="0" y="-3.81" drill="3.81"/>
+<text x="3.81" y="1.27" size="1.27" layer="27" rot="R90" align="bottom-right">&gt;VALUE</text>
+<text x="-2.54" y="1.27" size="1.27" layer="25" rot="R90" align="bottom-right">&gt;NAME</text>
+</package>
 </packages>
 <symbols>
 <symbol name="SJ">
@@ -14116,6 +14124,22 @@ Standard 7805 5V regulator. IGO (Input Ground Output). Spark Fun Electronics SKU
 <connect gate="G$1" pin="GND" pad="GND"/>
 <connect gate="G$1" pin="IN" pad="IN"/>
 <connect gate="G$1" pin="OUT" pad="OUT"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="POWER-WIRE">
+<gates>
+<gate name="G$1" symbol="ANDERSON" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="POWER-WIRE">
+<connects>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="VCC" pad="VCC"/>
 </connects>
 <technologies>
 <technology name=""/>
