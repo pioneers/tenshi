@@ -9138,6 +9138,50 @@ Vertical</description>
 <hole x="3.81" y="-2.54" drill="2"/>
 <hole x="6.35" y="-2.54" drill="2"/>
 </package>
+<package name="TO-220">
+<description>&lt;b&gt;VOLTAGE REGULATOR&lt;/b&gt;</description>
+<wire x1="-5.207" y1="-6.35" x2="5.207" y2="-6.35" width="0.1524" layer="21"/>
+<wire x1="5.207" y1="-6.35" x2="5.207" y2="1.651" width="0.1524" layer="21"/>
+<wire x1="-5.207" y1="-6.35" x2="-5.207" y2="1.651" width="0.1524" layer="21"/>
+<wire x1="-4.572" y1="-5.715" x2="4.572" y2="-5.715" width="0.1524" layer="21"/>
+<wire x1="4.572" y1="1.27" x2="4.572" y2="-5.715" width="0.1524" layer="21"/>
+<wire x1="-4.572" y1="-5.715" x2="-4.572" y2="1.27" width="0.1524" layer="21"/>
+<pad name="IN" x="-2.54" y="-8.89" drill="1.016" diameter="1.524" shape="long" rot="R90"/>
+<pad name="GND" x="0" y="-8.89" drill="1.016" diameter="1.524" shape="long" rot="R90"/>
+<pad name="OUT" x="2.54" y="-8.89" drill="1.016" diameter="1.524" shape="long" rot="R90"/>
+<text x="-6.985" y="2.54" size="1.27" layer="25" font="vector" ratio="10" rot="R90">&gt;NAME</text>
+<text x="8.255" y="2.413" size="1.27" layer="27" font="vector" rot="R90">&gt;VALUE</text>
+<text x="-0.508" y="-5.08" size="1.27" layer="51" ratio="10">-</text>
+<text x="-3.048" y="-5.08" size="1.27" layer="51" ratio="10">I</text>
+<text x="2.032" y="-5.08" size="1.27" layer="51" ratio="10">O</text>
+<rectangle x1="1.905" y1="-7.239" x2="3.175" y2="-6.35" layer="21"/>
+<rectangle x1="-0.635" y1="-7.239" x2="0.635" y2="-6.35" layer="21"/>
+<rectangle x1="-3.175" y1="-7.239" x2="-1.905" y2="-6.35" layer="21"/>
+<wire x1="5.08" y1="1.27" x2="4.572" y2="1.27" width="0.127" layer="21"/>
+<smd name="PAD" x="0.127" y="6.35" dx="12.7" dy="8.255" layer="1"/>
+<rectangle x1="-3.556" y1="-10.541" x2="3.556" y2="-7.239" layer="40"/>
+<rectangle x1="-6.35" y1="-10.541" x2="6.604" y2="10.541" layer="39"/>
+<rectangle x1="-3.175" y1="-9.525" x2="-1.905" y2="-8.255" layer="51"/>
+<rectangle x1="-0.635" y1="-9.525" x2="0.635" y2="-8.255" layer="51"/>
+<rectangle x1="1.905" y1="-9.525" x2="3.175" y2="-8.255" layer="51"/>
+<text x="-3.048" y="-5.08" size="1.27" layer="21" ratio="10">I</text>
+<text x="-0.508" y="-5.08" size="1.27" layer="21" ratio="10">-</text>
+<text x="2.032" y="-5.08" size="1.27" layer="21" ratio="10">O</text>
+<rectangle x1="-3.175" y1="-7.239" x2="-1.905" y2="-6.35" layer="51"/>
+<rectangle x1="-0.635" y1="-7.239" x2="0.635" y2="-6.35" layer="51"/>
+<rectangle x1="1.905" y1="-7.239" x2="3.175" y2="-6.35" layer="51"/>
+<wire x1="4.572" y1="1.27" x2="-4.572" y2="1.27" width="0.127" layer="21"/>
+<wire x1="-4.572" y1="1.27" x2="-5.08" y2="1.27" width="0.127" layer="51"/>
+<wire x1="-5.207" y1="-6.35" x2="5.207" y2="-6.35" width="0.1524" layer="51"/>
+<wire x1="5.207" y1="-6.35" x2="5.207" y2="1.651" width="0.1524" layer="51"/>
+<wire x1="-5.207" y1="-6.35" x2="-5.207" y2="1.651" width="0.1524" layer="51"/>
+<wire x1="-4.572" y1="-5.715" x2="-4.572" y2="1.27" width="0.1524" layer="51"/>
+<wire x1="-4.572" y1="-5.715" x2="4.572" y2="-5.715" width="0.1524" layer="51"/>
+<wire x1="4.572" y1="1.27" x2="4.572" y2="-5.715" width="0.1524" layer="51"/>
+<wire x1="4.572" y1="1.27" x2="-4.572" y2="1.27" width="0.127" layer="51"/>
+<wire x1="5.08" y1="1.27" x2="4.572" y2="1.27" width="0.127" layer="51"/>
+<wire x1="-4.572" y1="1.27" x2="-5.08" y2="1.27" width="0.127" layer="21"/>
+</package>
 </packages>
 <symbols>
 <symbol name="SJ">
@@ -14053,6 +14097,25 @@ http://www.alliedelec.com/images/products/datasheets/bm/ANDERSON_POWER_PRODUCTS/
 <connect gate="G$1" pin="4" pad="4"/>
 <connect gate="G$1" pin="5" pad="5"/>
 <connect gate="G$1" pin="6" pad="6"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="V_REG_LT323A" prefix="IC" uservalue="yes">
+<description>&lt;b&gt;Voltage Regulator&lt;/b&gt;
+Standard 7805 5V regulator. IGO (Input Ground Output). Spark Fun Electronics SKU : COM-00107</description>
+<gates>
+<gate name="G$1" symbol="78XX" x="0" y="1.27"/>
+</gates>
+<devices>
+<device name="" package="TO-220">
+<connects>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="IN" pad="IN"/>
+<connect gate="G$1" pin="OUT" pad="OUT"/>
 </connects>
 <technologies>
 <technology name=""/>
