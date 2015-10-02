@@ -152,6 +152,17 @@ For more information, visit pioners.berkeley.edu/opensource.</text>
 <wire x1="0" y1="38.735" x2="8.89" y2="38.735" width="0.4064" layer="21"/>
 <wire x1="8.89" y1="38.735" x2="8.89" y2="20.955" width="0.4064" layer="21"/>
 <wire x1="8.89" y1="20.955" x2="0" y2="20.955" width="0.4064" layer="21"/>
+<hole x="8.89" y="39.37" drill="3.175"/>
+<hole x="5.334" y="39.37" drill="3.175"/>
+<hole x="8.89" y="35.56" drill="3.175"/>
+<hole x="8.89" y="31.75" drill="3.175"/>
+<hole x="8.89" y="27.94" drill="3.175"/>
+<hole x="8.89" y="24.13" drill="3.175"/>
+<hole x="8.89" y="24.13" drill="3.175"/>
+<hole x="8.89" y="20.32" drill="3.175"/>
+<hole x="5.334" y="20.32" drill="3.175"/>
+<hole x="1.778" y="20.32" drill="3.175"/>
+<hole x="1.778" y="39.37" drill="3.175"/>
 </plain>
 <libraries>
 <library name="pie">
