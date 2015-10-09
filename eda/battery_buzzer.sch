@@ -3639,7 +3639,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <attribute name="REVISION" value="4A"/>
 </part>
 <part name="U$3" library="pie" deviceset="5V" device=""/>
-<part name="SUPPLY1" library="pie" deviceset="GND" device=""/>
 <part name="U$11" library="pie" deviceset="XH_CONNECTOR_4POS" device=""/>
 <part name="R2" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="R3" library="pie" deviceset="R-US_" device="R0603" value="30k"/>
@@ -3667,6 +3666,10 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <sheets>
 <sheet>
 <plain>
+<text x="58.42" y="53.34" size="2.54" layer="97" font="vector">HEADER CIRCUIT</text>
+<text x="106.68" y="106.68" size="2.54" layer="97" font="vector">LED CIRCUIT</text>
+<text x="25.4" y="106.68" size="2.54" layer="97" font="vector">BUZZER CIRCUIT</text>
+<text x="27.94" y="175.26" size="2.54" layer="97" font="vector">BATTERY CIRCUIT</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0">
@@ -3681,7 +3684,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <attribute name="REVISION" x="236.22" y="6.985" size="2.7432" layer="94" font="vector"/>
 </instance>
 <instance part="U$3" gate="G$1" x="88.9" y="43.18"/>
-<instance part="SUPPLY1" gate="GND" x="15.24" y="10.16"/>
 <instance part="U$11" gate="G$1" x="12.7" y="167.64"/>
 <instance part="R2" gate="G$1" x="30.48" y="149.86" smashed="yes" rot="R90">
 <attribute name="NAME" x="35.56" y="152.4254" size="1.778" layer="95" rot="R180"/>
@@ -3716,7 +3718,10 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <attribute name="VALUE" x="53.34" y="91.44" size="1.778" layer="94" align="top-left"/>
 </instance>
 <instance part="R9" gate="G$1" x="25.4" y="83.82"/>
-<instance part="R10" gate="G$1" x="30.48" y="76.2" rot="R90"/>
+<instance part="R10" gate="G$1" x="30.48" y="76.2" smashed="yes" rot="R90">
+<attribute name="NAME" x="27.94" y="73.66" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="36.83" y="73.66" size="1.778" layer="96" rot="R180"/>
+</instance>
 <instance part="U$12" gate="G$1" x="40.64" y="99.06"/>
 <instance part="SUPPLY11" gate="GND" x="40.64" y="60.96"/>
 <instance part="R11" gate="G$1" x="109.22" y="91.44" smashed="yes" rot="R90">
@@ -3750,11 +3755,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </segment>
 </net>
 <net name="GND" class="0">
-<segment>
-<pinref part="SUPPLY1" gate="GND" pin="GND"/>
-<wire x1="15.24" y1="12.7" x2="15.24" y2="15.24" width="0.1524" layer="91"/>
-<wire x1="15.24" y1="15.24" x2="20.32" y2="15.24" width="0.1524" layer="91"/>
-</segment>
 <segment>
 <pinref part="R5" gate="G$1" pin="1"/>
 <pinref part="SUPPLY8" gate="GND" pin="GND"/>
@@ -3793,30 +3793,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <segment>
 <wire x1="88.9" y1="30.48" x2="76.2" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="SUPPLY2" gate="GND" pin="GND"/>
-</segment>
-</net>
-<net name="TX" class="0">
-<segment>
-<wire x1="20.32" y1="38.1" x2="15.24" y2="38.1" width="0.1524" layer="91"/>
-<label x="15.24" y="38.1" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="RX" class="0">
-<segment>
-<wire x1="20.32" y1="35.56" x2="15.24" y2="35.56" width="0.1524" layer="91"/>
-<label x="15.24" y="35.56" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="TXE" class="0">
-<segment>
-<wire x1="20.32" y1="27.94" x2="15.24" y2="27.94" width="0.1524" layer="91"/>
-<label x="15.24" y="27.94" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="!RXE" class="0">
-<segment>
-<wire x1="20.32" y1="25.4" x2="15.24" y2="25.4" width="0.1524" layer="91"/>
-<label x="15.24" y="25.4" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IO1" class="0">
@@ -3867,28 +3843,31 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <wire x1="30.48" y1="139.7" x2="35.56" y2="139.7" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$1" class="0">
+<net name="BCELL1" class="0">
 <segment>
 <pinref part="U$11" gate="G$1" pin="2"/>
 <pinref part="R2" gate="G$1" pin="2"/>
 <wire x1="20.32" y1="165.1" x2="30.48" y2="165.1" width="0.1524" layer="91"/>
 <wire x1="30.48" y1="165.1" x2="30.48" y2="154.94" width="0.1524" layer="91"/>
+<label x="40.64" y="165.1" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
-<net name="N$2" class="0">
+<net name="BCELL2" class="0">
 <segment>
 <pinref part="U$11" gate="G$1" pin="3"/>
 <pinref part="R3" gate="G$1" pin="2"/>
 <wire x1="20.32" y1="167.64" x2="40.64" y2="167.64" width="0.1524" layer="91"/>
 <wire x1="40.64" y1="167.64" x2="40.64" y2="154.94" width="0.1524" layer="91"/>
+<label x="50.8" y="167.64" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
-<net name="N$4" class="0">
+<net name="BCELL3" class="0">
 <segment>
 <pinref part="U$11" gate="G$1" pin="4"/>
 <pinref part="R4" gate="G$1" pin="2"/>
 <wire x1="20.32" y1="170.18" x2="50.8" y2="170.18" width="0.1524" layer="91"/>
 <wire x1="50.8" y1="170.18" x2="50.8" y2="154.94" width="0.1524" layer="91"/>
+<label x="63.5" y="167.64" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="N$6" class="0">
@@ -3943,6 +3922,11 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="111,1,76.2,30.48,GND,,,,,"/>
+<approved hash="113,1,58.6571,38.5487,JP1,,,,,"/>
+<approved hash="113,1,75.9629,38.5487,JP2,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>
