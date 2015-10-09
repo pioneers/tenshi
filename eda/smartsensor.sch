@@ -5589,17 +5589,17 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="P+1" library="supply1" deviceset="VCC" device=""/>
 <part name="USB1" library="pie" deviceset="USB-OTG" device="MICRO-AB"/>
 <part name="L1" library="pie" deviceset="INDUCTOR" device="0603"/>
-<part name="C1" library="pie" deviceset="CAP_POL" device="1206"/>
-<part name="C2" library="pie" deviceset="CAP" device="0603-CAP"/>
-<part name="C4" library="pie" deviceset="CAP" device="0603-CAP"/>
+<part name="C1" library="pie" deviceset="CAP_POL" device="1206" value="10 uF"/>
+<part name="C2" library="pie" deviceset="CAP" device="0603-CAP" value="10nF"/>
+<part name="C4" library="pie" deviceset="CAP" device="0603-CAP" value="0.1 uF"/>
 <part name="SUPPLY5" library="pie" deviceset="GND" device=""/>
 <part name="R6" library="pie" deviceset="R-US_" device="R0603" value="130"/>
 <part name="LED1" library="pie" deviceset="LED" device="0805" value="RED"/>
 <part name="SUPPLY15" library="pie" deviceset="GND" device=""/>
-<part name="U$1" library="pie" deviceset="ATMEGA32U4-AU" device=""/>
+<part name="IC2" library="pie" deviceset="ATMEGA32U4-AU" device=""/>
 <part name="ISP" library="pie" deviceset="MA03-2" device=""/>
 <part name="R1" library="pie" deviceset="R-US_" device="R0603" value="10k"/>
-<part name="TBD_IO" library="pie" deviceset="PINHD-1X6" device=""/>
+<part name="IO_2" library="pie" deviceset="PINHD-1X6" device=""/>
 <part name="SENSORS_IO" library="pie" deviceset="PINHD-1X6" device="STRAIN-RELIEF"/>
 <part name="AT_D-" library="pie" deviceset="SOLDERJUMPER" device="NO"/>
 <part name="FT_DM" library="pie" deviceset="SOLDERJUMPER" device="NC" value="SOLDERJUMPERNC"/>
@@ -5619,7 +5619,10 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <instance part="L1" gate="G$1" x="-76.2" y="40.64"/>
 <instance part="C1" gate="G$1" x="-58.42" y="20.32" rot="R270"/>
 <instance part="C2" gate="G$1" x="-86.36" y="22.86" rot="R90"/>
-<instance part="C4" gate="G$1" x="-66.04" y="22.86" rot="R90"/>
+<instance part="C4" gate="G$1" x="-66.04" y="22.86" smashed="yes" rot="R90">
+<attribute name="NAME" x="-68.58" y="19.05" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="-68.58" y="24.13" size="1.778" layer="96" rot="R90"/>
+</instance>
 <instance part="SUPPLY5" gate="GND" x="-50.8" y="-12.7"/>
 <instance part="R6" gate="G$1" x="91.44" y="83.82" rot="R180"/>
 <instance part="LED1" gate="G$1" x="102.87" y="83.82" smashed="yes">
@@ -5627,10 +5630,10 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <attribute name="VALUE" x="106.68" y="89.916" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="SUPPLY15" gate="GND" x="111.76" y="83.82" rot="R90"/>
-<instance part="U$1" gate="G$1" x="30.48" y="48.26"/>
+<instance part="IC2" gate="G$1" x="30.48" y="48.26"/>
 <instance part="ISP" gate="1" x="101.6" y="0" rot="R180"/>
 <instance part="R1" gate="G$1" x="-12.7" y="88.9"/>
-<instance part="TBD_IO" gate="A" x="109.22" y="22.86"/>
+<instance part="IO_2" gate="A" x="109.22" y="22.86"/>
 <instance part="SENSORS_IO" gate="A" x="109.22" y="57.15"/>
 <instance part="AT_D-" gate="1" x="-88.9" y="83.82"/>
 <instance part="FT_DM" gate="1" x="-88.9" y="73.66"/>
@@ -5647,7 +5650,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="-15.24" y="45.72" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(RXD1/INT2)PD2"/>
+<pinref part="IC2" gate="G$1" pin="(RXD1/INT2)PD2"/>
 <wire x1="60.96" y1="43.18" x2="68.58" y2="43.18" width="0.1524" layer="91"/>
 <label x="66.04" y="43.18" size="1.778" layer="95"/>
 </segment>
@@ -5698,16 +5701,16 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="-25.4" y="88.9" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="VCC2"/>
+<pinref part="IC2" gate="G$1" pin="VCC2"/>
 <wire x1="2.54" y1="76.2" x2="-7.62" y2="76.2" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="AVCC2"/>
+<pinref part="IC2" gate="G$1" pin="AVCC2"/>
 <wire x1="2.54" y1="55.88" x2="-7.62" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="-7.62" y1="55.88" x2="-7.62" y2="58.42" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="AVCC"/>
+<pinref part="IC2" gate="G$1" pin="AVCC"/>
 <wire x1="2.54" y1="58.42" x2="-7.62" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="-7.62" y1="58.42" x2="-7.62" y2="76.2" width="0.1524" layer="91"/>
 <junction x="-7.62" y="58.42"/>
-<pinref part="U$1" gate="G$1" pin="VCC"/>
+<pinref part="IC2" gate="G$1" pin="VCC"/>
 <wire x1="-7.62" y1="76.2" x2="-7.62" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="2.54" y1="78.74" x2="-7.62" y2="78.74" width="0.1524" layer="91"/>
 <junction x="-7.62" y="76.2"/>
@@ -5768,18 +5771,18 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="114.3" y="-2.54" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="GND"/>
+<pinref part="IC2" gate="G$1" pin="GND"/>
 <wire x1="2.54" y1="71.12" x2="-5.08" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="-5.08" y1="71.12" x2="-5.08" y2="68.58" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="GND2"/>
+<pinref part="IC2" gate="G$1" pin="GND2"/>
 <wire x1="-5.08" y1="68.58" x2="2.54" y2="68.58" width="0.1524" layer="91"/>
 <wire x1="-5.08" y1="68.58" x2="-5.08" y2="66.04" width="0.1524" layer="91"/>
 <junction x="-5.08" y="68.58"/>
-<pinref part="U$1" gate="G$1" pin="GND3"/>
+<pinref part="IC2" gate="G$1" pin="GND3"/>
 <wire x1="-5.08" y1="66.04" x2="2.54" y2="66.04" width="0.1524" layer="91"/>
 <wire x1="-5.08" y1="66.04" x2="-5.08" y2="63.5" width="0.1524" layer="91"/>
 <junction x="-5.08" y="66.04"/>
-<pinref part="U$1" gate="G$1" pin="GND4"/>
+<pinref part="IC2" gate="G$1" pin="GND4"/>
 <wire x1="-5.08" y1="63.5" x2="2.54" y2="63.5" width="0.1524" layer="91"/>
 <label x="-5.08" y="71.12" size="1.778" layer="95"/>
 </segment>
@@ -5804,7 +5807,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="-15.24" y="43.18" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(TXD1/INT3)PD3"/>
+<pinref part="IC2" gate="G$1" pin="(TXD1/INT3)PD3"/>
 <wire x1="60.96" y1="40.64" x2="68.58" y2="40.64" width="0.1524" layer="91"/>
 <label x="66.04" y="40.64" size="1.778" layer="95"/>
 </segment>
@@ -5816,7 +5819,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="93.98" y="58.42" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(ADC6/TDO)PF6"/>
+<pinref part="IC2" gate="G$1" pin="(ADC6/TDO)PF6"/>
 <wire x1="60.96" y1="7.62" x2="68.58" y2="7.62" width="0.1524" layer="91"/>
 <label x="66.04" y="7.62" size="1.778" layer="95"/>
 </segment>
@@ -5828,7 +5831,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="93.98" y="55.88" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(ADC5/TMS)PF5"/>
+<pinref part="IC2" gate="G$1" pin="(ADC5/TMS)PF5"/>
 <wire x1="60.96" y1="10.16" x2="68.58" y2="10.16" width="0.1524" layer="91"/>
 <label x="66.04" y="10.16" size="1.778" layer="95"/>
 </segment>
@@ -5840,7 +5843,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="93.98" y="60.96" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(ADC7/TDI)PF7"/>
+<pinref part="IC2" gate="G$1" pin="(ADC7/TDI)PF7"/>
 <wire x1="60.96" y1="5.08" x2="68.58" y2="5.08" width="0.1524" layer="91"/>
 <label x="66.04" y="5.08" size="1.778" layer="95"/>
 </segment>
@@ -5852,14 +5855,14 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="93.98" y="53.34" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(ADC4/TCK)PF4"/>
+<pinref part="IC2" gate="G$1" pin="(ADC4/TCK)PF4"/>
 <wire x1="60.96" y1="12.7" x2="68.58" y2="12.7" width="0.1524" layer="91"/>
 <label x="66.04" y="12.7" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="LED" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="(ICP3/CLK0/OC4A)PC7"/>
+<pinref part="IC2" gate="G$1" pin="(ICP3/CLK0/OC4A)PC7"/>
 <wire x1="60.96" y1="53.34" x2="68.58" y2="53.34" width="0.1524" layer="91"/>
 <label x="66.04" y="53.34" size="1.778" layer="95"/>
 </segment>
@@ -5883,7 +5886,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="83.82" y="2.54" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(PDO/PCINT3/MISO)PB3"/>
+<pinref part="IC2" gate="G$1" pin="(PDO/PCINT3/MISO)PB3"/>
 <wire x1="60.96" y1="71.12" x2="68.58" y2="71.12" width="0.1524" layer="91"/>
 <label x="66.04" y="71.12" size="1.778" layer="95"/>
 </segment>
@@ -5895,7 +5898,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="83.82" y="0" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(PCINT1/SCLK)PB1"/>
+<pinref part="IC2" gate="G$1" pin="(PCINT1/SCLK)PB1"/>
 <wire x1="60.96" y1="76.2" x2="68.58" y2="76.2" width="0.1524" layer="91"/>
 <label x="66.04" y="76.2" size="1.778" layer="95"/>
 </segment>
@@ -5907,7 +5910,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="83.82" y="-2.54" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="RESET"/>
+<pinref part="IC2" gate="G$1" pin="RESET"/>
 <wire x1="2.54" y1="83.82" x2="-5.08" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="-5.08" y1="83.82" x2="-5.08" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="-5.08" y1="88.9" x2="2.54" y2="88.9" width="0.1524" layer="91"/>
@@ -5924,7 +5927,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="114.3" y="0" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(PDI/PCINT2/MOSI)PB2"/>
+<pinref part="IC2" gate="G$1" pin="(PDI/PCINT2/MOSI)PB2"/>
 <wire x1="60.96" y1="73.66" x2="68.58" y2="73.66" width="0.1524" layer="91"/>
 <label x="66.04" y="73.66" size="1.778" layer="95"/>
 </segment>
@@ -5962,7 +5965,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="-68.58" y="83.82" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="D-"/>
+<pinref part="IC2" gate="G$1" pin="D-"/>
 <wire x1="2.54" y1="35.56" x2="-5.08" y2="35.56" width="0.1524" layer="91"/>
 <label x="-10.16" y="35.56" size="1.778" layer="95"/>
 </segment>
@@ -5986,7 +5989,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="-68.58" y="60.96" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="D+"/>
+<pinref part="IC2" gate="G$1" pin="D+"/>
 <wire x1="2.54" y1="33.02" x2="-5.08" y2="33.02" width="0.1524" layer="91"/>
 <label x="-10.16" y="33.02" size="1.778" layer="95"/>
 </segment>
@@ -6005,72 +6008,72 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </net>
 <net name="IO4" class="0">
 <segment>
-<pinref part="TBD_IO" gate="A" pin="1"/>
+<pinref part="IO_2" gate="A" pin="1"/>
 <wire x1="109.22" y1="29.21" x2="96.52" y2="29.21" width="0.1524" layer="91"/>
 <label x="95.25" y="29.21" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(SDA/INT1)PD1"/>
+<pinref part="IC2" gate="G$1" pin="(SDA/INT1)PD1"/>
 <wire x1="60.96" y1="45.72" x2="68.58" y2="45.72" width="0.1524" layer="91"/>
 <label x="66.04" y="45.72" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IO5" class="0">
 <segment>
-<pinref part="TBD_IO" gate="A" pin="2"/>
+<pinref part="IO_2" gate="A" pin="2"/>
 <wire x1="109.22" y1="26.67" x2="96.52" y2="26.67" width="0.1524" layer="91"/>
 <label x="95.25" y="26.67" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(OSC0B/SCL/INT0)PD0"/>
+<pinref part="IC2" gate="G$1" pin="(OSC0B/SCL/INT0)PD0"/>
 <wire x1="60.96" y1="48.26" x2="68.58" y2="48.26" width="0.1524" layer="91"/>
 <label x="66.04" y="48.26" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IO6" class="0">
 <segment>
-<pinref part="TBD_IO" gate="A" pin="3"/>
+<pinref part="IO_2" gate="A" pin="3"/>
 <wire x1="109.22" y1="24.13" x2="96.52" y2="24.13" width="0.1524" layer="91"/>
 <label x="95.25" y="24.13" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(T0/OC4D/ADC10)PD7"/>
+<pinref part="IC2" gate="G$1" pin="(T0/OC4D/ADC10)PD7"/>
 <wire x1="60.96" y1="30.48" x2="68.58" y2="30.48" width="0.1524" layer="91"/>
 <label x="66.04" y="30.48" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IO7" class="0">
 <segment>
-<pinref part="TBD_IO" gate="A" pin="4"/>
+<pinref part="IO_2" gate="A" pin="4"/>
 <wire x1="109.22" y1="21.59" x2="96.52" y2="21.59" width="0.1524" layer="91"/>
 <label x="95.25" y="21.59" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(PCINT5/OC1A/OC4B/ADC12)PB5"/>
+<pinref part="IC2" gate="G$1" pin="(PCINT5/OC1A/OC4B/ADC12)PB5"/>
 <wire x1="60.96" y1="66.04" x2="68.58" y2="66.04" width="0.1524" layer="91"/>
 <label x="66.04" y="66.04" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IO8" class="0">
 <segment>
-<pinref part="TBD_IO" gate="A" pin="5"/>
+<pinref part="IO_2" gate="A" pin="5"/>
 <wire x1="109.22" y1="19.05" x2="96.52" y2="19.05" width="0.1524" layer="91"/>
 <label x="95.25" y="19.05" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(PCINT6/OC1B/OC4B/ADC13)PB6"/>
+<pinref part="IC2" gate="G$1" pin="(PCINT6/OC1B/OC4B/ADC13)PB6"/>
 <wire x1="60.96" y1="63.5" x2="68.58" y2="63.5" width="0.1524" layer="91"/>
 <label x="66.04" y="63.5" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IO9" class="0">
 <segment>
-<pinref part="TBD_IO" gate="A" pin="6"/>
+<pinref part="IO_2" gate="A" pin="6"/>
 <wire x1="109.22" y1="16.51" x2="96.52" y2="16.51" width="0.1524" layer="91"/>
 <label x="95.25" y="16.51" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="(PCINT7/OC0A/OC1C/RTS)PB7"/>
+<pinref part="IC2" gate="G$1" pin="(PCINT7/OC0A/OC1C/RTS)PB7"/>
 <wire x1="60.96" y1="60.96" x2="68.58" y2="60.96" width="0.1524" layer="91"/>
 <label x="66.04" y="60.96" size="1.778" layer="95"/>
 </segment>
@@ -6078,6 +6081,14 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="113,1,-56.6632,19.05,C1,,,,,"/>
+<approved hash="113,1,-87.7993,24.13,C2,,,,,"/>
+<approved hash="113,1,-67.4793,24.13,C4,,,,,"/>
+<approved hash="113,1,101.6,-1.71873,ISP,,,,,"/>
+<approved hash="113,1,110.049,24.5787,TBD_IO,,,,,"/>
+<approved hash="113,1,113.323,58.8687,SENSORS_IO,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>
