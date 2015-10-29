@@ -154,7 +154,7 @@ pioners.berkeley.edu/opensource.</text>
 <text x="7.62" y="10.16" size="1.27" layer="27" font="vector" ratio="15" align="bottom-right">12V</text>
 <text x="7.62" y="15.24" size="1.27" layer="27" font="vector" ratio="15" align="top-right">GND</text>
 <text x="71.12" y="17.78" size="0.9144" layer="1" font="vector" ratio="20" rot="R90" align="bottom-center">v1  revB
-3 Oct 2015</text>
+28 Oct 2015</text>
 <hole x="1.524" y="20.701" drill="1.905"/>
 <hole x="3.81" y="20.701" drill="1.905"/>
 <hole x="6.096" y="20.701" drill="1.905"/>
