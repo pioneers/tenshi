@@ -4358,9 +4358,8 @@ In this library the device names are the same as the pin names of the symbols, t
 </classes>
 <parts>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
-<attribute name="AUTHOR" value="Vincent D, Devin H, Kate R,
-Andrew H, Sumita G, Tobin H, Casey D."/>
-<attribute name="REVISION" value="4A"/>
+<attribute name="AUTHOR" value="Vincent D, Devin H, Kate R, Andrew H, Sumita G, Tobin H, Casey D."/>
+<attribute name="REVISION" value="4B"/>
 </part>
 <part name="SUPPLY10" library="pie" deviceset="GND" device=""/>
 <part name="Q1" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
@@ -5020,6 +5019,14 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="113,1,81.9573,140.521,JP1,,,,,"/>
+<approved hash="113,1,81.9573,115.121,JP2,,,,,"/>
+<approved hash="113,1,84.4973,92.2613,JP3,,,,,"/>
+<approved hash="113,1,81.9573,66.8613,JP4,,,,,"/>
+<approved hash="113,1,172.957,58.8687,JP5,,,,,"/>
+<approved hash="113,1,193.277,58.8687,JP6,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>
