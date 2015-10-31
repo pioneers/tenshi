@@ -4696,7 +4696,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="SUPPLY14" gate="GND" pin="GND"/>
 </segment>
 </net>
-<net name="N$1" class="0">
+<net name="6V_IF_SERVO1" class="0">
 <segment>
 <pinref part="JP1" gate="G$1" pin="1"/>
 <wire x1="78.74" y1="144.78" x2="78.74" y2="150.622" width="0.1524" layer="91"/>
@@ -4719,7 +4719,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="58.674" y1="144.272" x2="57.404" y2="144.272" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$4" class="0">
+<net name="6V_IF_SERVO2" class="0">
 <segment>
 <pinref part="JP2" gate="G$1" pin="1"/>
 <wire x1="78.74" y1="119.38" x2="78.74" y2="125.222" width="0.1524" layer="91"/>
@@ -4742,7 +4742,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="58.674" y1="118.872" x2="57.404" y2="118.872" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$7" class="0">
+<net name="6V_IF_SERVO3" class="0">
 <segment>
 <pinref part="JP3" gate="G$1" pin="1"/>
 <wire x1="81.28" y1="96.52" x2="81.28" y2="102.362" width="0.1524" layer="91"/>
@@ -4765,7 +4765,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="58.674" y1="96.012" x2="57.404" y2="96.012" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$10" class="0">
+<net name="6V_IF_SERVO4" class="0">
 <segment>
 <pinref part="JP4" gate="G$1" pin="1"/>
 <wire x1="78.74" y1="71.12" x2="78.74" y2="76.962" width="0.1524" layer="91"/>
