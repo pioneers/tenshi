@@ -4009,7 +4009,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <sheets>
 <sheet>
 <plain>
-<text x="27.94" y="175.26" size="3.81" layer="94" font="vector">MOSFETs and LEDs</text>
+<text x="27.94" y="177.8" size="3.81" layer="94" font="vector">MOSFETs and LEDs</text>
 <wire x1="0" y1="127" x2="109.22" y2="127" width="0.1524" layer="94"/>
 <wire x1="147.32" y1="35.56" x2="147.32" y2="0" width="0.1524" layer="94"/>
 <wire x1="147.32" y1="0" x2="96.52" y2="0" width="0.1524" layer="94"/>
@@ -4023,13 +4023,13 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <wire x1="109.22" y1="27.94" x2="0" y2="27.94" width="0.1524" layer="94"/>
 </plain>
 <instances>
-<instance part="LED5_" gate="G$1" x="20.32" y="166.37" smashed="yes" rot="R270">
-<attribute name="NAME" x="22.86" y="165.1" size="1.778" layer="95"/>
-<attribute name="VALUE" x="22.86" y="162.56" size="1.778" layer="96"/>
+<instance part="LED5_" gate="G$1" x="20.32" y="168.91" smashed="yes" rot="R270">
+<attribute name="NAME" x="22.86" y="167.64" size="1.778" layer="95"/>
+<attribute name="VALUE" x="22.86" y="165.1" size="1.778" layer="96"/>
 </instance>
-<instance part="LED6_" gate="G$1" x="55.88" y="166.37" smashed="yes" rot="R270">
-<attribute name="NAME" x="58.42" y="165.1" size="1.778" layer="95"/>
-<attribute name="VALUE" x="58.42" y="162.56" size="1.778" layer="96"/>
+<instance part="LED6_" gate="G$1" x="55.88" y="168.91" smashed="yes" rot="R270">
+<attribute name="NAME" x="58.42" y="167.64" size="1.778" layer="95"/>
+<attribute name="VALUE" x="58.42" y="165.1" size="1.778" layer="96"/>
 </instance>
 <instance part="R1" gate="G$1" x="20.32" y="157.48" smashed="yes" rot="R90">
 <attribute name="NAME" x="18.8214" y="161.29" size="1.778" layer="95" rot="R180"/>
@@ -4067,8 +4067,8 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <attribute name="NAME" x="92.71" y="154.94" size="1.778" layer="95"/>
 <attribute name="VALUE" x="92.71" y="149.86" size="1.778" layer="96"/>
 </instance>
-<instance part="U$6" gate="G$1" x="91.44" y="157.48"/>
-<instance part="SUPPLY4" gate="GND" x="91.44" y="147.32"/>
+<instance part="U$6" gate="G$1" x="91.44" y="160.02"/>
+<instance part="SUPPLY4" gate="GND" x="91.44" y="144.78"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0" smashed="yes"/>
 <instance part="JP1" gate="A" x="63.5" y="102.87" rot="MR0"/>
 <instance part="JP2" gate="A" x="27.94" y="102.87"/>
@@ -4133,6 +4133,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <segment>
 <pinref part="C2" gate="G$1" pin="2"/>
 <pinref part="SUPPLY4" gate="GND" pin="GND"/>
+<wire x1="91.44" y1="147.32" x2="91.44" y2="149.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="JP1" gate="A" pin="6"/>
@@ -4185,12 +4186,14 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
 <pinref part="LED5_" gate="G$1" pin="C"/>
+<wire x1="20.32" y1="165.1" x2="20.32" y2="162.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$3" class="0">
 <segment>
 <pinref part="LED6_" gate="G$1" pin="C"/>
 <pinref part="R2" gate="G$1" pin="2"/>
+<wire x1="55.88" y1="165.1" x2="55.88" y2="162.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="YSOURCE" class="0">
@@ -4204,15 +4207,16 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <segment>
 <pinref part="C2" gate="G$1" pin="1"/>
 <pinref part="U$6" gate="G$1" pin="5V"/>
+<wire x1="91.44" y1="160.02" x2="91.44" y2="157.48" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="55.88" y1="170.18" x2="60.96" y2="170.18" width="0.1524" layer="91"/>
-<label x="60.96" y="172.72" size="1.778" layer="95" rot="R180"/>
+<wire x1="55.88" y1="172.72" x2="60.96" y2="172.72" width="0.1524" layer="91"/>
+<label x="60.96" y="175.26" size="1.778" layer="95" rot="R180"/>
 <pinref part="LED6_" gate="G$1" pin="A"/>
 </segment>
 <segment>
-<wire x1="20.32" y1="170.18" x2="25.4" y2="170.18" width="0.1524" layer="91"/>
-<label x="25.4" y="172.72" size="1.778" layer="95" rot="R180"/>
+<wire x1="20.32" y1="172.72" x2="25.4" y2="172.72" width="0.1524" layer="91"/>
+<label x="25.4" y="175.26" size="1.778" layer="95" rot="R180"/>
 <pinref part="LED5_" gate="G$1" pin="A"/>
 </segment>
 <segment>

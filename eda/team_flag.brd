@@ -148,7 +148,7 @@ pioneers.berkeley.edu/opensource.</text>
 <wire x1="6.35" y1="33.02" x2="34.29" y2="33.02" width="0.3048" layer="51"/>
 <wire x1="34.29" y1="33.02" x2="34.29" y2="0" width="0.3048" layer="51"/>
 <wire x1="34.29" y1="0" x2="6.35" y2="0" width="0.3048" layer="51"/>
-<text x="20.32" y="0.254" size="1.27" layer="51" font="vector" ratio="15" align="bottom-center">Smart device</text>
+<text x="20.32" y="0.254" size="1.27" layer="51" font="vector" ratio="15" align="bottom-center">Smart Device</text>
 </plain>
 <libraries>
 <library name="pie">
