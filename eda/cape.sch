@@ -4484,7 +4484,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="BATT" library="pie" deviceset="ANDERSON" device="HORIZONTAL" value="12V"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Casey Duckering"/>
-<attribute name="REVISION" value="1C"/>
+<attribute name="REVISION" value="1B"/>
 </part>
 <part name="C1" library="pie" deviceset="CAP_POL" device="1206" value="2.2 uF TANT"/>
 <part name="C2" library="pie" deviceset="CAP_POL" device="1206" value="2.2 uF TANT"/>
@@ -4522,13 +4522,13 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <attribute name="SHEET" x="233.68" y="1.27" size="2.54" layer="94" font="vector" ratio="15"/>
 <attribute name="DRAWING_NAME" x="162.814" y="17.78" size="2.7432" layer="94" font="vector" ratio="15"/>
 </instance>
-<instance part="C1" gate="G$1" x="45.72" y="160.02" smashed="yes" rot="R90">
-<attribute name="NAME" x="43.18" y="163.83" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="52.07" y="157.226" size="1.778" layer="96" rot="R180"/>
+<instance part="C1" gate="G$1" x="43.18" y="162.56" smashed="yes" rot="R270">
+<attribute name="NAME" x="38.862" y="164.592" size="1.778" layer="95"/>
+<attribute name="VALUE" x="44.45" y="158.75" size="1.778" layer="96"/>
 </instance>
-<instance part="C2" gate="G$1" x="76.2" y="160.02" smashed="yes" rot="R90">
-<attribute name="NAME" x="73.66" y="163.83" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="83.312" y="157.988" size="1.778" layer="96" rot="R180"/>
+<instance part="C2" gate="G$1" x="76.2" y="162.56" smashed="yes" rot="R270">
+<attribute name="NAME" x="71.12" y="163.83" size="1.778" layer="95"/>
+<attribute name="VALUE" x="90.678" y="159.766" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="VREG" gate="G$1" x="60.96" y="168.91" smashed="yes">
 <attribute name="NAME" x="55.88" y="176.53" size="1.778" layer="95"/>
@@ -4582,25 +4582,25 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <nets>
 <net name="GND" class="0">
 <segment>
-<pinref part="C1" gate="G$1" pin="+"/>
-<wire x1="45.72" y1="152.4" x2="45.72" y2="157.48" width="0.1524" layer="91"/>
 <pinref part="BATT" gate="G$1" pin="GND"/>
 <wire x1="35.56" y1="165.1" x2="38.1" y2="165.1" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="165.1" x2="38.1" y2="152.4" width="0.1524" layer="91"/>
-<wire x1="38.1" y1="152.4" x2="45.72" y2="152.4" width="0.1524" layer="91"/>
-<junction x="45.72" y="152.4"/>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
 <pinref part="VREG" gate="G$1" pin="GND"/>
 <wire x1="58.42" y1="152.4" x2="58.42" y2="162.56" width="0.1524" layer="91"/>
-<wire x1="45.72" y1="152.4" x2="58.42" y2="152.4" width="0.1524" layer="91"/>
+<wire x1="38.1" y1="152.4" x2="43.18" y2="152.4" width="0.1524" layer="91"/>
 <junction x="58.42" y="152.4"/>
-<pinref part="C2" gate="G$1" pin="+"/>
-<wire x1="76.2" y1="152.4" x2="76.2" y2="157.48" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="152.4" x2="58.42" y2="152.4" width="0.1524" layer="91"/>
 <wire x1="58.42" y1="152.4" x2="63.5" y2="152.4" width="0.1524" layer="91"/>
 <pinref part="VREG" gate="G$1" pin="BDY"/>
 <wire x1="63.5" y1="152.4" x2="76.2" y2="152.4" width="0.1524" layer="91"/>
 <wire x1="63.5" y1="162.56" x2="63.5" y2="152.4" width="0.1524" layer="91"/>
 <junction x="63.5" y="152.4"/>
+<pinref part="C1" gate="G$1" pin="-"/>
+<wire x1="43.18" y1="157.48" x2="43.18" y2="152.4" width="0.1524" layer="91"/>
+<junction x="43.18" y="152.4"/>
+<pinref part="C2" gate="G$1" pin="-"/>
+<wire x1="76.2" y1="157.48" x2="76.2" y2="152.4" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="SUPPLY2" gate="GND" pin="GND"/>
@@ -4640,12 +4640,12 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </net>
 <net name="5V" class="0">
 <segment>
-<pinref part="C2" gate="G$1" pin="-"/>
 <pinref part="U$1" gate="G$1" pin="5V"/>
 <wire x1="76.2" y1="175.26" x2="76.2" y2="170.18" width="0.1524" layer="91"/>
 <pinref part="VREG" gate="G$1" pin="OUT"/>
-<wire x1="76.2" y1="170.18" x2="76.2" y2="165.1" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="170.18" x2="76.2" y2="170.18" width="0.1524" layer="91"/>
+<pinref part="C2" gate="G$1" pin="+"/>
+<wire x1="76.2" y1="170.18" x2="76.2" y2="165.1" width="0.1524" layer="91"/>
 <junction x="76.2" y="170.18"/>
 </segment>
 <segment>
@@ -4673,12 +4673,12 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <segment>
 <pinref part="BATT" gate="G$1" pin="VCC"/>
 <pinref part="VREG" gate="G$1" pin="IN"/>
-<wire x1="35.56" y1="170.18" x2="45.72" y2="170.18" width="0.1524" layer="91"/>
-<pinref part="C1" gate="G$1" pin="-"/>
-<wire x1="45.72" y1="170.18" x2="53.34" y2="170.18" width="0.1524" layer="91"/>
-<wire x1="45.72" y1="165.1" x2="45.72" y2="170.18" width="0.1524" layer="91"/>
-<junction x="45.72" y="170.18"/>
+<wire x1="35.56" y1="170.18" x2="43.18" y2="170.18" width="0.1524" layer="91"/>
 <label x="38.1" y="170.18" size="1.778" layer="95" font="vector" ratio="15"/>
+<pinref part="C1" gate="G$1" pin="+"/>
+<wire x1="43.18" y1="170.18" x2="53.34" y2="170.18" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="165.1" x2="43.18" y2="170.18" width="0.1524" layer="91"/>
+<junction x="43.18" y="170.18"/>
 </segment>
 <segment>
 <pinref part="J2" gate="G$1" pin="VCC"/>

@@ -145,7 +145,7 @@
 <wire x1="0" y1="54.6" x2="0" y2="0" width="0.254" layer="20"/>
 <text x="44.45" y="46.99" size="1.4224" layer="21" font="vector" ratio="15" align="top-center">Pioneers in Engineering
 Woodstock
-Version 1 Rev. C</text>
+Version 1 Rev. B</text>
 <text x="44.45" y="13.97" size="0.889" layer="21" font="vector" ratio="15" align="top-center">(c) Pioneers in Engineering.
 Design by: Casey Duckering
 This design is open source hardware.
@@ -1158,12 +1158,12 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="C1" library="pie" package="EIA3216" value="2.2 uF TANT" x="22.987" y="8.89" smashed="yes">
-<attribute name="NAME" x="26.416" y="8.255" size="1.27" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="17.018" y="6.096" size="1.27" layer="27" font="vector" ratio="15"/>
+<element name="C1" library="pie" package="EIA3216" value="2.2 uF TANT" x="22.987" y="8.89" smashed="yes" rot="R180">
+<attribute name="NAME" x="17.018" y="8.255" size="1.27" layer="25" font="vector" ratio="15"/>
+<attribute name="VALUE" x="28.702" y="7.112" size="1.27" layer="27" font="vector" ratio="15" rot="R180"/>
 </element>
-<element name="C2" library="pie" package="EIA3216" value="2.2 uF TANT" x="22.987" y="12.7" smashed="yes">
-<attribute name="NAME" x="28.829" y="13.208" size="1.27" layer="25" font="vector" ratio="15" align="top-right"/>
+<element name="C2" library="pie" package="EIA3216" value="2.2 uF TANT" x="22.987" y="12.7" smashed="yes" rot="R180">
+<attribute name="NAME" x="17.145" y="12.192" size="1.27" layer="25" font="vector" ratio="15" rot="R180" align="top-right"/>
 </element>
 <element name="BATT" library="pie" package="ANDERSON_HORIZONTAL" value="12V" x="9.906" y="12.7" smashed="yes">
 <attribute name="PIE-INT-REF-NUM" value="Anderson" x="9.906" y="12.7" size="1.778" layer="27" display="off"/>
@@ -1195,10 +1195,8 @@ design rules under a new name.</description>
 </elements>
 <signals>
 <signal name="GND">
-<contactref element="C1" pad="A"/>
 <contactref element="BATT" pad="PIN1"/>
 <contactref element="VREG" pad="GND"/>
-<contactref element="C2" pad="A"/>
 <contactref element="CAPE" pad="P9.1"/>
 <contactref element="CAPE" pad="P9.2"/>
 <contactref element="J2" pad="GND"/>
@@ -1220,9 +1218,10 @@ design rules under a new name.</description>
 <wire x1="12.7" y1="35.941" x2="14.986" y2="35.941" width="1.27" layer="1"/>
 <wire x1="14.986" y1="35.941" x2="19.177" y2="31.75" width="1.27" layer="1"/>
 <contactref element="BATT" pad="PIN1-LEAD"/>
+<contactref element="C1" pad="C"/>
+<contactref element="C2" pad="C"/>
 </signal>
 <signal name="5V">
-<contactref element="C2" pad="C"/>
 <contactref element="VREG" pad="OUT"/>
 <contactref element="J3" pad="VCC"/>
 <polygon width="0.4064" layer="16" isolate="0.3048">
@@ -1235,18 +1234,17 @@ design rules under a new name.</description>
 <contactref element="R1" pad="2"/>
 <via x="12.7" y="45.72" extent="1-16" drill="0.6"/>
 <wire x1="11.01" y1="45.72" x2="12.7" y2="45.72" width="0.4064" layer="1"/>
-<wire x1="21.59" y1="16.513" x2="21.59" y2="12.703" width="0.6096" layer="1"/>
-<wire x1="21.59" y1="12.703" x2="21.587" y2="12.7" width="0.6096" layer="1"/>
 <contactref element="CAPE" pad="P9.5"/>
 <contactref element="CAPE" pad="P9.6"/>
+<contactref element="C2" pad="A"/>
+<wire x1="21.59" y1="16.513" x2="21.587" y2="16.513" width="1.524" layer="1"/>
+<wire x1="21.587" y1="16.513" x2="21.587" y2="12.7" width="1.524" layer="1"/>
 </signal>
 <signal name="12V">
 <contactref element="BATT" pad="PIN2"/>
 <contactref element="VREG" pad="IN"/>
-<contactref element="C1" pad="C"/>
 <contactref element="J2" pad="VCC"/>
 <wire x1="16.51" y1="16.51" x2="16.51" y2="15.367" width="1.524" layer="1"/>
-<wire x1="21.587" y1="8.89" x2="10.287" y2="8.89" width="0.508" layer="1"/>
 <wire x1="63.5" y1="29.21" x2="60.96" y2="29.21" width="1.524" layer="16"/>
 <wire x1="10.287" y1="9.144" x2="16.51" y2="15.367" width="1.524" layer="1"/>
 <wire x1="11.938" y1="8.89" x2="10.033" y2="8.89" width="0.6096" layer="16"/>
@@ -1257,7 +1255,10 @@ design rules under a new name.</description>
 <wire x1="10.033" y1="8.89" x2="9.906" y2="8.763" width="0.6096" layer="1"/>
 <wire x1="9.906" y1="8.763" x2="40.513" y2="8.763" width="1.524" layer="16"/>
 <wire x1="40.513" y1="8.763" x2="60.96" y2="29.21" width="1.524" layer="16"/>
-<wire x1="4.572" y1="8.763" x2="9.906" y2="8.763" width="0" layer="19" extent="1-1"/>
+<contactref element="C1" pad="A"/>
+<wire x1="9.906" y1="8.763" x2="21.587" y2="8.763" width="0.508" layer="1"/>
+<wire x1="21.587" y1="8.763" x2="21.587" y2="8.89" width="0.508" layer="1"/>
+<wire x1="4.572" y1="8.763" x2="9.906" y2="8.763" width="0" layer="19" extent="1-16"/>
 </signal>
 <signal name="N$1">
 <contactref element="R1" pad="1"/>
