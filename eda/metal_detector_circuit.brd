@@ -8,7 +8,7 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
 <layer number="3" name="Route3" color="20" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="21" fill="4" visible="no" active="no"/>
@@ -28,13 +28,13 @@
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="14" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="16" fill="1" visible="no" active="yes"/>
 <layer number="22" name="bPlace" color="17" fill="1" visible="yes" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="25" name="tNames" color="18" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="18" fill="1" visible="no" active="yes"/>
 <layer number="26" name="bNames" color="19" fill="1" visible="yes" active="yes"/>
-<layer number="27" name="tValues" color="18" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="18" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="19" fill="1" visible="yes" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="yes" active="yes"/>
@@ -150,7 +150,7 @@
 <wire x1="0" y1="27.94" x2="0" y2="0" width="0.254" layer="20"/>
 <text x="32.2072" y="23.1902" size="0.9144" layer="16" font="vector" ratio="20" rot="MR0">v1 revA
 11 Nov 2015</text>
-<text x="32.258" y="6.223" size="0.762" layer="22" font="vector" ratio="20" rot="MR0">(c) Pioneers in Engineering.
+<text x="26.67" y="26.416" size="0.762" layer="22" font="vector" ratio="20" rot="MR270">(c) Pioneers in Engineering.
 Design by:  Jaron Armiger
 Abhishyant Khare
 This design is open source hardware.
