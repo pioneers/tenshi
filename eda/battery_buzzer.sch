@@ -3636,7 +3636,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <parts>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Devin H, Krystyn N, Jaron A, Abhishyant K"/>
-<attribute name="REVISION" value="4A"/>
+<attribute name="REVISION" value="4B"/>
 </part>
 <part name="U$3" library="pie" deviceset="5V" device=""/>
 <part name="U$11" library="pie" deviceset="XH_CONNECTOR_4POS" device=""/>
@@ -3793,6 +3793,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <segment>
 <wire x1="88.9" y1="30.48" x2="76.2" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="SUPPLY2" gate="GND" pin="GND"/>
+<pinref part="JP2" gate="A" pin="6"/>
 </segment>
 </net>
 <net name="IO1" class="0">
@@ -3923,7 +3924,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </sheet>
 </sheets>
 <errors>
-<approved hash="111,1,76.2,30.48,GND,,,,,"/>
 <approved hash="113,1,58.6571,38.5487,JP1,,,,,"/>
 <approved hash="113,1,75.9629,38.5487,JP2,,,,,"/>
 </errors>
