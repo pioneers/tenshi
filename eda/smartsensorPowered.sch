@@ -4358,9 +4358,8 @@ In this library the device names are the same as the pin names of the symbols, t
 </classes>
 <parts>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
-<attribute name="AUTHOR" value="Vincent D, Devin H, Kate R,
-Andrew H, Sumita G, Tobin H, Casey D."/>
-<attribute name="REVISION" value="4A"/>
+<attribute name="AUTHOR" value="Vincent D, Devin H, Kate R, Andrew H, Sumita G, Tobin H, Casey D."/>
+<attribute name="REVISION" value="4B"/>
 </part>
 <part name="SUPPLY10" library="pie" deviceset="GND" device=""/>
 <part name="Q1" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
@@ -4440,11 +4439,11 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <instance part="SUPPLY10" gate="GND" x="78.74" y="134.62"/>
 <instance part="Q1" gate="G$1" x="66.294" y="144.272" smashed="yes">
 <attribute name="NAME" x="62.992" y="148.082" size="1.778" layer="95" font="vector"/>
-<attribute name="VALUE" x="54.356" y="139.192" size="1.778" layer="96" font="vector"/>
+<attribute name="VALUE" x="51.308" y="138.938" size="1.778" layer="96" font="vector"/>
 </instance>
 <instance part="D4" gate="G$1" x="72.898" y="72.39" smashed="yes" rot="R270">
-<attribute name="NAME" x="77.9526" y="72.644" size="1.778" layer="95" font="vector" rot="R180"/>
-<attribute name="VALUE" x="70.5866" y="69.85" size="1.778" layer="96" font="vector" rot="R270"/>
+<attribute name="NAME" x="77.9526" y="74.168" size="1.778" layer="95" font="vector" rot="R180"/>
+<attribute name="VALUE" x="73.3806" y="74.676" size="1.778" layer="96" font="vector"/>
 </instance>
 <instance part="JP1" gate="G$1" x="86.36" y="142.24" rot="R180"/>
 <instance part="SJ1" gate="1" x="52.832" y="150.622" smashed="yes">
@@ -4458,11 +4457,11 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <instance part="SUPPLY7" gate="GND" x="78.74" y="109.22"/>
 <instance part="Q2" gate="G$1" x="66.294" y="118.872" smashed="yes">
 <attribute name="NAME" x="62.992" y="122.682" size="1.778" layer="95" font="vector"/>
-<attribute name="VALUE" x="36.576" y="113.792" size="1.778" layer="96" font="vector"/>
+<attribute name="VALUE" x="52.07" y="113.792" size="1.778" layer="96" font="vector"/>
 </instance>
 <instance part="D1" gate="G$1" x="72.898" y="146.304" smashed="yes" rot="R270">
-<attribute name="NAME" x="77.9526" y="146.558" size="1.778" layer="95" font="vector" rot="R180"/>
-<attribute name="VALUE" x="70.5866" y="143.764" size="1.778" layer="96" font="vector" rot="R270"/>
+<attribute name="NAME" x="77.9526" y="148.082" size="1.778" layer="95" font="vector" rot="R180"/>
+<attribute name="VALUE" x="73.3806" y="148.336" size="1.778" layer="96" font="vector"/>
 </instance>
 <instance part="JP2" gate="G$1" x="86.36" y="116.84" rot="R180"/>
 <instance part="SJ2" gate="1" x="52.832" y="125.222" smashed="yes">
@@ -4473,14 +4472,14 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <attribute name="NAME" x="46.736" y="119.3546" size="1.778" layer="95" font="vector"/>
 <attribute name="VALUE" x="54.864" y="119.38" size="1.778" layer="96" font="vector"/>
 </instance>
-<instance part="SUPPLY8" gate="GND" x="78.74" y="86.36"/>
+<instance part="SUPPLY8" gate="GND" x="81.28" y="87.63"/>
 <instance part="Q3" gate="G$1" x="66.294" y="96.012" smashed="yes">
 <attribute name="NAME" x="62.992" y="99.822" size="1.778" layer="95" font="vector"/>
-<attribute name="VALUE" x="36.576" y="90.932" size="1.778" layer="96" font="vector"/>
+<attribute name="VALUE" x="52.07" y="90.678" size="1.778" layer="96" font="vector"/>
 </instance>
 <instance part="D2" gate="G$1" x="72.898" y="120.65" smashed="yes" rot="R270">
-<attribute name="NAME" x="77.9526" y="120.904" size="1.778" layer="95" font="vector" rot="R180"/>
-<attribute name="VALUE" x="70.5866" y="118.11" size="1.778" layer="96" font="vector" rot="R270"/>
+<attribute name="NAME" x="77.6986" y="122.174" size="1.778" layer="95" font="vector" rot="R180"/>
+<attribute name="VALUE" x="73.8886" y="122.682" size="1.778" layer="96" font="vector"/>
 </instance>
 <instance part="JP3" gate="G$1" x="88.9" y="93.98" rot="R180"/>
 <instance part="SJ3" gate="1" x="52.832" y="102.362" smashed="yes">
@@ -4491,16 +4490,16 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <attribute name="NAME" x="46.736" y="96.4946" size="1.778" layer="95" font="vector"/>
 <attribute name="VALUE" x="54.864" y="96.52" size="1.778" layer="96" font="vector"/>
 </instance>
-<instance part="SUPPLY9" gate="GND" x="78.74" y="60.96"/>
+<instance part="SUPPLY9" gate="GND" x="81.28" y="60.96"/>
 <instance part="Q4" gate="G$1" x="66.294" y="70.612" smashed="yes">
 <attribute name="NAME" x="62.992" y="74.422" size="1.778" layer="95" font="vector"/>
-<attribute name="VALUE" x="36.576" y="65.532" size="1.778" layer="96" font="vector"/>
+<attribute name="VALUE" x="51.562" y="65.532" size="1.778" layer="96" font="vector"/>
 </instance>
 <instance part="D3" gate="G$1" x="72.898" y="97.79" smashed="yes" rot="R270">
 <attribute name="NAME" x="77.9526" y="98.044" size="1.778" layer="95" font="vector" rot="R180"/>
 <attribute name="VALUE" x="73.406" y="99.2886" size="1.778" layer="96" font="vector"/>
 </instance>
-<instance part="JP4" gate="G$1" x="86.36" y="68.58" rot="R180"/>
+<instance part="JP4" gate="G$1" x="88.9" y="68.58" rot="R180"/>
 <instance part="SJ4" gate="1" x="52.832" y="76.962" smashed="yes">
 <attribute name="NAME" x="50.546" y="73.406" size="1.778" layer="95" font="vector"/>
 <attribute name="VALUE" x="43.18" y="78.74" size="1.778" layer="96" font="vector"/>
@@ -4514,8 +4513,8 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <instance part="SUPPLY3" gate="GND" x="152.4" y="134.62" smashed="yes">
 <attribute name="VALUE" x="150.495" y="131.445" size="1.27" layer="96" font="vector"/>
 </instance>
-<instance part="SUPPLY1" gate="GND" x="139.7" y="86.36" smashed="yes">
-<attribute name="VALUE" x="137.795" y="83.185" size="1.27" layer="96" font="vector"/>
+<instance part="SUPPLY1" gate="GND" x="139.7" y="81.28" smashed="yes">
+<attribute name="VALUE" x="137.795" y="78.105" size="1.27" layer="96" font="vector"/>
 </instance>
 <instance part="SUPPLY2" gate="GND" x="152.4" y="147.32" smashed="yes">
 <attribute name="VALUE" x="150.495" y="144.145" size="1.27" layer="96" font="vector"/>
@@ -4626,22 +4625,20 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <pinref part="JP3" gate="G$1" pin="3"/>
 <pinref part="SUPPLY8" gate="GND" pin="GND"/>
 <pinref part="Q3" gate="G$1" pin="S"/>
-<wire x1="78.74" y1="90.17" x2="78.74" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="66.294" y1="90.932" x2="66.294" y2="90.17" width="0.1524" layer="91"/>
-<wire x1="66.294" y1="90.17" x2="78.74" y2="90.17" width="0.1524" layer="91"/>
-<wire x1="81.28" y1="91.44" x2="78.74" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="78.74" y1="91.44" x2="78.74" y2="88.9" width="0.1524" layer="91"/>
-<junction x="78.74" y="88.9"/>
+<wire x1="66.294" y1="90.17" x2="81.28" y2="90.17" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="91.44" x2="81.28" y2="90.17" width="0.1524" layer="91"/>
+<junction x="81.28" y="90.17"/>
 </segment>
 <segment>
 <pinref part="JP4" gate="G$1" pin="3"/>
 <pinref part="SUPPLY9" gate="GND" pin="GND"/>
-<wire x1="78.74" y1="66.04" x2="78.74" y2="64.77" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="66.04" x2="81.28" y2="64.77" width="0.1524" layer="91"/>
 <pinref part="Q4" gate="G$1" pin="S"/>
-<wire x1="78.74" y1="64.77" x2="78.74" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="64.77" x2="81.28" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="66.294" y1="65.532" x2="66.294" y2="64.77" width="0.1524" layer="91"/>
-<wire x1="66.294" y1="64.77" x2="78.74" y2="64.77" width="0.1524" layer="91"/>
-<junction x="78.74" y="64.77"/>
+<wire x1="66.294" y1="64.77" x2="81.28" y2="64.77" width="0.1524" layer="91"/>
+<junction x="81.28" y="64.77"/>
 </segment>
 <segment>
 <pinref part="SUPPLY11" gate="GND" pin="GND"/>
@@ -4674,6 +4671,7 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <segment>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
 <pinref part="CIN" gate="G$1" pin="2"/>
+<wire x1="139.7" y1="83.82" x2="139.7" y2="88.9" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="SUPPLY3" gate="GND" pin="GND"/>
@@ -4697,7 +4695,7 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <pinref part="SUPPLY14" gate="GND" pin="GND"/>
 </segment>
 </net>
-<net name="N$1" class="0">
+<net name="6V_IF_SERVO1" class="0">
 <segment>
 <pinref part="JP1" gate="G$1" pin="1"/>
 <wire x1="78.74" y1="144.78" x2="78.74" y2="150.622" width="0.1524" layer="91"/>
@@ -4720,7 +4718,7 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <wire x1="58.674" y1="144.272" x2="57.404" y2="144.272" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$4" class="0">
+<net name="6V_IF_SERVO2" class="0">
 <segment>
 <pinref part="JP2" gate="G$1" pin="1"/>
 <wire x1="78.74" y1="119.38" x2="78.74" y2="125.222" width="0.1524" layer="91"/>
@@ -4743,7 +4741,7 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <wire x1="58.674" y1="118.872" x2="57.404" y2="118.872" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$7" class="0">
+<net name="6V_IF_SERVO3" class="0">
 <segment>
 <pinref part="JP3" gate="G$1" pin="1"/>
 <wire x1="81.28" y1="96.52" x2="81.28" y2="102.362" width="0.1524" layer="91"/>
@@ -4766,15 +4764,15 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <wire x1="58.674" y1="96.012" x2="57.404" y2="96.012" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$10" class="0">
+<net name="6V_IF_SERVO4" class="0">
 <segment>
 <pinref part="JP4" gate="G$1" pin="1"/>
-<wire x1="78.74" y1="71.12" x2="78.74" y2="76.962" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="71.12" x2="81.28" y2="76.962" width="0.1524" layer="91"/>
 <pinref part="Q4" gate="G$1" pin="D"/>
 <wire x1="66.294" y1="75.692" x2="66.294" y2="76.962" width="0.1524" layer="91"/>
 <wire x1="66.294" y1="76.962" x2="72.898" y2="76.962" width="0.1524" layer="91"/>
 <pinref part="SJ4" gate="1" pin="2"/>
-<wire x1="72.898" y1="76.962" x2="78.74" y2="76.962" width="0.1524" layer="91"/>
+<wire x1="72.898" y1="76.962" x2="81.28" y2="76.962" width="0.1524" layer="91"/>
 <wire x1="57.912" y1="76.962" x2="66.294" y2="76.962" width="0.1524" layer="91"/>
 <junction x="66.294" y="76.962"/>
 <pinref part="D4" gate="G$1" pin="A"/>
@@ -4921,7 +4919,7 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 <segment>
 <pinref part="JP4" gate="G$1" pin="2"/>
 <label x="78.486" y="68.326" size="1.778" layer="95" font="vector" rot="R180"/>
-<wire x1="78.74" y1="68.58" x2="72.898" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="68.58" x2="72.898" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="D4" gate="G$1" pin="C"/>
 <wire x1="72.898" y1="69.85" x2="72.898" y2="68.58" width="0.1524" layer="91"/>
 </segment>
@@ -5020,6 +5018,14 @@ Andrew H, Sumita G, Tobin H, Casey D."/>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="113,1,81.9573,140.521,JP1,,,,,"/>
+<approved hash="113,1,81.9573,115.121,JP2,,,,,"/>
+<approved hash="113,1,84.4973,92.2613,JP3,,,,,"/>
+<approved hash="113,1,81.9573,66.8613,JP4,,,,,"/>
+<approved hash="113,1,172.957,58.8687,JP5,,,,,"/>
+<approved hash="113,1,193.277,58.8687,JP6,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>
