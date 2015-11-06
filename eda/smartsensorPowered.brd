@@ -129,8 +129,8 @@
 <wire x1="59.69" y1="0" x2="59.69" y2="27.94" width="0.254" layer="20"/>
 <wire x1="59.69" y1="27.94" x2="0" y2="27.94" width="0.254" layer="20"/>
 <wire x1="0" y1="27.94" x2="0" y2="0" width="0.254" layer="20"/>
-<text x="52.8574" y="0.762" size="0.889" layer="16" font="vector" ratio="20" rot="MR0">v4 rev C
-31 Oct 2015</text>
+<text x="52.8574" y="0.762" size="0.889" layer="16" font="vector" ratio="20" rot="MR0">v4 rev B
+5 Nov 2015</text>
 <text x="44.196" y="26.162" size="0.762" layer="22" font="vector" ratio="20" rot="MR270">(c) Pioneers in Engineering.
 Design by: Vincent D, Devin H, Kate R,
 Andrew H, Sumita G, Tobin H, Casey D.

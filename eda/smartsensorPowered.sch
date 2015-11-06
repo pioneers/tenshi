@@ -4513,8 +4513,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="SUPPLY3" gate="GND" x="152.4" y="134.62" smashed="yes">
 <attribute name="VALUE" x="150.495" y="131.445" size="1.27" layer="96" font="vector"/>
 </instance>
-<instance part="SUPPLY1" gate="GND" x="139.7" y="86.36" smashed="yes">
-<attribute name="VALUE" x="137.795" y="83.185" size="1.27" layer="96" font="vector"/>
+<instance part="SUPPLY1" gate="GND" x="139.7" y="81.28" smashed="yes">
+<attribute name="VALUE" x="137.795" y="78.105" size="1.27" layer="96" font="vector"/>
 </instance>
 <instance part="SUPPLY2" gate="GND" x="152.4" y="147.32" smashed="yes">
 <attribute name="VALUE" x="150.495" y="144.145" size="1.27" layer="96" font="vector"/>
@@ -4671,6 +4671,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <segment>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
 <pinref part="CIN" gate="G$1" pin="2"/>
+<wire x1="139.7" y1="83.82" x2="139.7" y2="88.9" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="SUPPLY3" gate="GND" pin="GND"/>
