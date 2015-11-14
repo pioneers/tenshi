@@ -14248,6 +14248,21 @@ OTG connector with ID pin</description>
 </technology>
 </technologies>
 </device>
+<device name="" package="USB-MICRO-AB-VERT">
+<connects>
+<connect gate="G$1" pin="D+" pad="P$3"/>
+<connect gate="G$1" pin="D-" pad="P$2"/>
+<connect gate="G$1" pin="GND" pad="P$5"/>
+<connect gate="G$1" pin="ID" pad="P$4"/>
+<connect gate="G$1" pin="SHIELD" pad="P$6 P$7"/>
+<connect gate="G$1" pin="VBUS" pad="P$1"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PIE_DIGIKEY-PN" value="732-5959-1-ND" constant="no"/>
+</technology>
+</technologies>
+</device>
 </devices>
 </deviceset>
 <deviceset name="BLE-HM-10" prefix="U">
