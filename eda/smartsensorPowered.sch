@@ -4359,7 +4359,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <parts>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Vincent D, Devin H, Kate R, Andrew H, Sumita G, Tobin H, Casey D."/>
-<attribute name="REVISION" value="4B"/>
+<attribute name="REVISION" value="4C"/>
 </part>
 <part name="SUPPLY10" library="pie" deviceset="GND" device=""/>
 <part name="Q1" library="pie" deviceset="MOSFET-NCHANNEL" device="SMD" value="IRFML8244"/>
