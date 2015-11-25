@@ -14,14 +14,14 @@
 <layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
-<layer number="21" name="tPlace" color="16" fill="1" visible="no" active="no"/>
-<layer number="22" name="bPlace" color="17" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
-<layer number="25" name="tNames" color="18" fill="1" visible="no" active="no"/>
-<layer number="26" name="bNames" color="19" fill="1" visible="no" active="no"/>
-<layer number="27" name="tValues" color="18" fill="1" visible="no" active="no"/>
-<layer number="28" name="bValues" color="19" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -44,8 +44,8 @@
 <layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="6" fill="1" visible="no" active="no"/>
-<layer number="52" name="bDocu" color="6" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
 <layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
@@ -244,57 +244,42 @@ Vertical</description>
 </package>
 <package name="POWER-WIRE">
 <description>A connection for a pair of power and ground wires to solder directly to a board with a strain relief hole.</description>
-<pad name="GND" x="-1.27" y="0" drill="1.1" shape="square"/>
-<pad name="VCC" x="1.27" y="0" drill="1.1"/>
-<hole x="0" y="-3.81" drill="4.445"/>
-<text x="4.445" y="1.27" size="1.27" layer="27" rot="R90" align="bottom-right">&gt;VALUE</text>
-<text x="-3.175" y="1.27" size="1.27" layer="25" rot="R90" align="bottom-right">&gt;NAME</text>
-<wire x1="-2.54" y1="0.635" x2="-1.905" y2="1.27" width="0.127" layer="51"/>
-<wire x1="-1.905" y1="1.27" x2="-0.635" y2="1.27" width="0.127" layer="51"/>
-<wire x1="-0.635" y1="1.27" x2="0" y2="0.635" width="0.127" layer="51"/>
-<wire x1="0" y1="0.635" x2="0.635" y2="1.27" width="0.127" layer="51"/>
-<wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.127" layer="51"/>
-<wire x1="1.905" y1="1.27" x2="2.54" y2="0.635" width="0.127" layer="51"/>
-<wire x1="2.54" y1="0.635" x2="2.54" y2="-0.635" width="0.127" layer="51"/>
-<wire x1="2.54" y1="-0.635" x2="1.905" y2="-1.27" width="0.127" layer="51"/>
-<wire x1="1.905" y1="-1.27" x2="0.635" y2="-1.27" width="0.127" layer="51"/>
-<wire x1="0.635" y1="-1.27" x2="0" y2="-0.635" width="0.127" layer="51"/>
-<wire x1="0" y1="-0.635" x2="-0.635" y2="-1.27" width="0.127" layer="51"/>
-<wire x1="-0.635" y1="-1.27" x2="-1.905" y2="-1.27" width="0.127" layer="51"/>
-<wire x1="-1.905" y1="-1.27" x2="-2.54" y2="-0.635" width="0.127" layer="51"/>
-<wire x1="-2.54" y1="-0.635" x2="-2.54" y2="0.635" width="0.127" layer="51"/>
-<wire x1="-2.54" y1="0.635" x2="-1.905" y2="1.27" width="0.127" layer="21"/>
-<wire x1="-1.905" y1="1.27" x2="-0.635" y2="1.27" width="0.127" layer="21"/>
-<wire x1="-0.635" y1="1.27" x2="0" y2="0.635" width="0.127" layer="21"/>
-<wire x1="0" y1="0.635" x2="0.635" y2="1.27" width="0.127" layer="21"/>
-<wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.127" layer="21"/>
-<wire x1="1.905" y1="1.27" x2="2.54" y2="0.635" width="0.127" layer="21"/>
-<wire x1="2.54" y1="0.635" x2="2.54" y2="-0.635" width="0.127" layer="21"/>
-<wire x1="2.54" y1="-0.635" x2="1.905" y2="-1.27" width="0.127" layer="21"/>
-<wire x1="1.905" y1="-1.27" x2="0.635" y2="-1.27" width="0.127" layer="21"/>
-<wire x1="0.635" y1="-1.27" x2="0" y2="-0.635" width="0.127" layer="21"/>
-<wire x1="0" y1="-0.635" x2="-0.635" y2="-1.27" width="0.127" layer="21"/>
-<wire x1="-0.635" y1="-1.27" x2="-1.905" y2="-1.27" width="0.127" layer="21"/>
-<wire x1="-1.905" y1="-1.27" x2="-2.54" y2="-0.635" width="0.127" layer="21"/>
-<wire x1="-2.54" y1="-0.635" x2="-2.54" y2="0.635" width="0.127" layer="21"/>
-<wire x1="-2.54" y1="0.635" x2="-1.905" y2="1.27" width="0.127" layer="22"/>
-<wire x1="-1.905" y1="1.27" x2="-0.635" y2="1.27" width="0.127" layer="22"/>
-<wire x1="-0.635" y1="1.27" x2="0" y2="0.635" width="0.127" layer="22"/>
-<wire x1="0" y1="0.635" x2="0.635" y2="1.27" width="0.127" layer="22"/>
-<wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.127" layer="22"/>
-<wire x1="1.905" y1="1.27" x2="2.54" y2="0.635" width="0.127" layer="22"/>
-<wire x1="2.54" y1="0.635" x2="2.54" y2="-0.635" width="0.127" layer="22"/>
-<wire x1="2.54" y1="-0.635" x2="1.905" y2="-1.27" width="0.127" layer="22"/>
-<wire x1="1.905" y1="-1.27" x2="0.635" y2="-1.27" width="0.127" layer="22"/>
-<wire x1="0.635" y1="-1.27" x2="0" y2="-0.635" width="0.127" layer="22"/>
-<wire x1="0" y1="-0.635" x2="-0.635" y2="-1.27" width="0.127" layer="22"/>
-<wire x1="-0.635" y1="-1.27" x2="-1.905" y2="-1.27" width="0.127" layer="22"/>
-<wire x1="-1.905" y1="-1.27" x2="-2.54" y2="-0.635" width="0.127" layer="22"/>
-<wire x1="-2.54" y1="-0.635" x2="-2.54" y2="0.635" width="0.127" layer="22"/>
-<rectangle x1="-2.54" y1="-6.35" x2="2.54" y2="1.27" layer="39"/>
-<rectangle x1="-2.54" y1="-6.35" x2="2.54" y2="1.27" layer="40"/>
-<rectangle x1="-1.524" y1="-0.254" x2="-1.016" y2="0.254" layer="51"/>
-<rectangle x1="1.016" y1="-0.254" x2="1.524" y2="0.254" layer="51"/>
+<pad name="GND" x="0" y="-2.159" drill="2.2" diameter="2.794" shape="long" rot="R180"/>
+<pad name="VCC" x="0" y="2.159" drill="2.2" diameter="2.794" shape="long" rot="R180"/>
+<hole x="5.588" y="0" drill="4.445"/>
+<text x="3.175" y="2.54" size="1.27" layer="27" font="vector" rot="R180" align="top-right">&gt;VALUE</text>
+<text x="3.175" y="-2.54" size="1.27" layer="25" font="vector" rot="R180" align="bottom-right">&gt;NAME</text>
+<rectangle x1="-0.254" y1="-2.413" x2="0.254" y2="-1.905" layer="51" rot="R90"/>
+<rectangle x1="-0.254" y1="1.905" x2="0.254" y2="2.413" layer="51" rot="R90"/>
+<wire x1="-1.905" y1="-4.064" x2="1.905" y2="-4.064" width="0.254" layer="21"/>
+<wire x1="-1.016" y1="4.064" x2="-0.762" y2="4.064" width="0.254" layer="21"/>
+<wire x1="-0.127" y1="4.064" x2="0.127" y2="4.064" width="0.254" layer="21"/>
+<wire x1="0.762" y1="4.064" x2="1.016" y2="4.064" width="0.254" layer="21"/>
+<rectangle x1="3.81" y1="-1.905" x2="13.97" y2="1.905" layer="51"/>
+<wire x1="5.715" y1="0.381" x2="0" y2="2.159" width="1.524" layer="51"/>
+<wire x1="0" y1="-2.159" x2="5.715" y2="-0.381" width="1.524" layer="51"/>
+<wire x1="-1.905" y1="4.064" x2="-1.651" y2="4.064" width="0.254" layer="21"/>
+<wire x1="1.651" y1="4.064" x2="1.905" y2="4.064" width="0.254" layer="21"/>
+<polygon width="0" layer="39">
+<vertex x="-3.175" y="3.81"/>
+<vertex x="3.175" y="3.81"/>
+<vertex x="4.445" y="2.54"/>
+<vertex x="8.255" y="2.54"/>
+<vertex x="8.255" y="-2.54"/>
+<vertex x="4.445" y="-2.54"/>
+<vertex x="3.175" y="-3.81"/>
+<vertex x="-3.175" y="-3.81"/>
+</polygon>
+<polygon width="0" layer="40">
+<vertex x="-3.175" y="3.81"/>
+<vertex x="3.175" y="3.81"/>
+<vertex x="4.445" y="2.54"/>
+<vertex x="8.255" y="2.54"/>
+<vertex x="8.255" y="-2.54"/>
+<vertex x="4.445" y="-2.54"/>
+<vertex x="3.175" y="-3.81"/>
+<vertex x="-3.175" y="-3.81"/>
+</polygon>
 </package>
 <package name="R0402">
 <description>&lt;b&gt;RESISTOR&lt;/b&gt;</description>
@@ -4484,7 +4469,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="BATT" library="pie" deviceset="ANDERSON" device="HORIZONTAL" value="12V"/>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device="">
 <attribute name="AUTHOR" value="Casey Duckering"/>
-<attribute name="REVISION" value="1B"/>
+<attribute name="REVISION" value="1C"/>
 </part>
 <part name="C1" library="pie" deviceset="CAP_POL" device="1206" value="2.2 uF TANT"/>
 <part name="C2" library="pie" deviceset="CAP_POL" device="1206" value="2.2 uF TANT"/>
@@ -4499,7 +4484,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="J2" library="pie" deviceset="POWER-WIRE" device="" value="12V"/>
 <part name="J3" library="pie" deviceset="POWER-WIRE" device="" value="5V"/>
 <part name="R1" library="pie" deviceset="R-US_" device="R0603" value="130"/>
-<part name="ON" library="pie" deviceset="LED" device="0805" value="RED"/>
+<part name="ON" library="pie" deviceset="LED" device="0805" value="YELLOW"/>
 <part name="SUPPLY12" library="pie" deviceset="GND" device=""/>
 <part name="U$7" library="pie" deviceset="5V" device=""/>
 <part name="SUPPLY4" library="pie" deviceset="GND" device=""/>
