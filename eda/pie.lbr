@@ -13396,6 +13396,19 @@ Source:  FDD4141.pdf</description>
 </technology>
 </technologies>
 </device>
+<device name="SOT23-3" package="SOT23-3">
+<connects>
+<connect gate="G$1" pin="D" pad="3"/>
+<connect gate="G$1" pin="G" pad="1"/>
+<connect gate="G$1" pin="S" pad="2"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PIE-DIGIKEY-PN-PRI" value="IRLML6402PBFCT-ND" constant="no"/>
+<attribute name="PIE-INT-REF-NUM" value="PMOS" constant="no"/>
+</technology>
+</technologies>
+</device>
 </devices>
 </deviceset>
 <deviceset name="STAND-OFF" prefix="STANDOFF">
