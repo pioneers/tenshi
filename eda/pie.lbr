@@ -9301,7 +9301,7 @@ Vertical</description>
 <text x="1.27" y="-2.54" size="1.27" layer="27" font="vector" ratio="15" align="top-center">&gt;VALUE2</text>
 </package>
 <package name="1X06-SMD-C">
-<description>Package for 6pin SMD Header in the "C" orientation. Reference drawing: http://www.sullinscorp.com/images/C10058.pdf</description>
+<description>Package for 6-pin 0.1-inch SMD Header in the "C" orientation. Reference drawing: http://www.sullinscorp.com/images/C10058.pdf</description>
 <wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.1524" layer="21"/>
 <wire x1="1.905" y1="1.27" x2="2.54" y2="0.635" width="0.1524" layer="21"/>
 <wire x1="5.08" y1="-0.635" x2="4.445" y2="-1.27" width="0.1524" layer="21"/>
@@ -9550,6 +9550,45 @@ Vertical</description>
 <rectangle x1="-3.556" y1="-1.778" x2="3.556" y2="1.778" layer="39"/>
 <text x="-3.429" y="2.286" size="1.27" layer="25" ratio="15">&gt;NAME</text>
 <text x="-3.429" y="-3.429" size="1.27" layer="27" ratio="15">&gt;VALUE</text>
+</package>
+<package name="USB-MICRO-AB-VERT">
+<description>USB Micro-AB vertical connector. Source: http://www.digikey.com/product-detail/en/614105150621/732-5959-2-ND/5047748</description>
+<pad name="P$1" x="-1.3" y="0.5" drill="0.5" diameter="0.7"/>
+<pad name="P$2" x="-0.65" y="-0.5" drill="0.5" diameter="0.7"/>
+<pad name="P$3" x="0" y="0.5" drill="0.5" diameter="0.7"/>
+<pad name="P$4" x="0.65" y="-0.5" drill="0.5" diameter="0.7"/>
+<pad name="P$5" x="1.3" y="0.5" drill="0.5" diameter="0.7"/>
+<wire x1="-2.8" y1="1.175" x2="2.8" y2="1.175" width="0.127" layer="51"/>
+<pad name="P$6" x="-3.575" y="0.28" drill="1.175"/>
+<pad name="P$7" x="3.575" y="0.28" drill="1.175"/>
+<wire x1="0" y1="-1" x2="-0.2" y2="-1.175" width="0.127" layer="51" curve="-90"/>
+<wire x1="-2.8" y1="-1.175" x2="-0.2" y2="-1.175" width="0.127" layer="51"/>
+<wire x1="-3" y1="1" x2="-2.8" y2="1.175" width="0.127" layer="51" curve="-90"/>
+<wire x1="2.8" y1="1.175" x2="3" y2="1" width="0.127" layer="51" curve="-90"/>
+<wire x1="0.2" y1="-1.175" x2="2.8" y2="-1.175" width="0.127" layer="51"/>
+<wire x1="3" y1="-1" x2="2.8" y2="-1.175" width="0.127" layer="51" curve="-90"/>
+<wire x1="-2.8" y1="-1.175" x2="-3" y2="-1" width="0.127" layer="51" curve="-90"/>
+<wire x1="0.2" y1="-1.175" x2="0" y2="-1" width="0.127" layer="51" curve="-90"/>
+<wire x1="-3" y1="1" x2="-3.556" y2="0.444" width="0.127" layer="51" curve="90"/>
+<wire x1="-3.556" y1="0.444" x2="-3.556" y2="-0.444" width="0.127" layer="51"/>
+<wire x1="-3.556" y1="-0.444" x2="-3" y2="-1" width="0.127" layer="51" curve="90"/>
+<wire x1="3" y1="1" x2="3.556" y2="0.444" width="0.127" layer="51" curve="-90"/>
+<wire x1="3.556" y1="0.444" x2="3.556" y2="-0.444" width="0.127" layer="51"/>
+<wire x1="3.556" y1="-0.444" x2="3" y2="-1" width="0.127" layer="51" curve="-90"/>
+<wire x1="1.75" y1="0.575" x2="1.75" y2="-0.175" width="0.127" layer="51"/>
+<wire x1="1.75" y1="-0.175" x2="-1.75" y2="-0.175" width="0.127" layer="51"/>
+<wire x1="-1.75" y1="-0.175" x2="-1.75" y2="0.575" width="0.127" layer="51"/>
+<wire x1="-1.75" y1="0.575" x2="1.75" y2="0.575" width="0.127" layer="51"/>
+<rectangle x1="-4.8" y1="-1.5" x2="4.8" y2="1.5" layer="40"/>
+<rectangle x1="-4.8" y1="-1.5" x2="4.8" y2="1.5" layer="39"/>
+<wire x1="-2.8" y1="1.175" x2="2.8" y2="1.175" width="0.127" layer="21"/>
+<wire x1="0" y1="-1" x2="-0.2" y2="-1.175" width="0.127" layer="21" curve="-90"/>
+<wire x1="-2.8" y1="-1.175" x2="-0.2" y2="-1.175" width="0.127" layer="21"/>
+<wire x1="0.2" y1="-1.175" x2="2.8" y2="-1.175" width="0.127" layer="21"/>
+<wire x1="3" y1="-1" x2="2.8" y2="-1.175" width="0.127" layer="21" curve="-90"/>
+<wire x1="-2.8" y1="-1.175" x2="-3" y2="-1" width="0.127" layer="21" curve="-90"/>
+<wire x1="0.2" y1="-1.175" x2="0" y2="-1" width="0.127" layer="21" curve="-90"/>
+<text x="-3" y="1.5" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
 </package>
 </packages>
 <symbols>
@@ -14205,7 +14244,23 @@ OTG connector with ID pin</description>
 </connects>
 <technologies>
 <technology name="">
+<attribute name="DIGIKEY-PN" value="H11635CT-ND" constant="no"/>
 <attribute name="PIE-INT-REF-NUM" value="USB"/>
+</technology>
+</technologies>
+</device>
+<device name="" package="USB-MICRO-AB-VERT">
+<connects>
+<connect gate="G$1" pin="D+" pad="P$3"/>
+<connect gate="G$1" pin="D-" pad="P$2"/>
+<connect gate="G$1" pin="GND" pad="P$5"/>
+<connect gate="G$1" pin="ID" pad="P$4"/>
+<connect gate="G$1" pin="SHIELD" pad="P$6 P$7"/>
+<connect gate="G$1" pin="VBUS" pad="P$1"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PIE_DIGIKEY-PN" value="732-5959-1-ND" constant="no"/>
 </technology>
 </technologies>
 </device>
