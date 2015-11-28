@@ -247,8 +247,8 @@ Vertical</description>
 <pad name="GND" x="0" y="-2.159" drill="2.2" diameter="2.794" shape="long" rot="R180"/>
 <pad name="VCC" x="0" y="2.159" drill="2.2" diameter="2.794" shape="long" rot="R180"/>
 <hole x="5.588" y="0" drill="4.445"/>
-<text x="3.175" y="2.54" size="1.27" layer="27" rot="R180" align="top-right">&gt;VALUE</text>
-<text x="3.175" y="-2.54" size="1.27" layer="25" rot="R180" align="bottom-right">&gt;NAME</text>
+<text x="3.175" y="2.54" size="1.27" layer="27" font="vector" rot="R180" align="top-right">&gt;VALUE</text>
+<text x="3.175" y="-2.54" size="1.27" layer="25" font="vector" rot="R180" align="bottom-right">&gt;NAME</text>
 <rectangle x1="-0.254" y1="-2.413" x2="0.254" y2="-1.905" layer="51" rot="R90"/>
 <rectangle x1="-0.254" y1="1.905" x2="0.254" y2="2.413" layer="51" rot="R90"/>
 <wire x1="-1.905" y1="-4.064" x2="1.905" y2="-4.064" width="0.254" layer="21"/>
