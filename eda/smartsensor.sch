@@ -5314,7 +5314,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 </sheets>
 <errors>
 <approved hash="113,1,101.6,-1.71873,ISP,,,,,"/>
-<approved hash="113,1,113.323,58.8687,SENSORS_IO,,,,,"/>
+<approved hash="113,1,113.68,58.8687,SENSORS_IO,,,,,"/>
 </errors>
 </schematic>
 </drawing>
