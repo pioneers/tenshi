@@ -4372,7 +4372,14 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="-2.413" y1="-1.905" x2="2.413" y2="1.905" layer="39"/>
 </package>
 <package name="1X02">
-<description>2-pin 0.1-inch header</description>
+<description>2-pin 0.1-inch header
+
+3-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/965/pictures"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <pad name="1" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <text x="-2.54" y="1.905" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
@@ -4507,7 +4514,12 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="-4.572" y1="-5.08" x2="3.937" y2="8.255" layer="39"/>
 </package>
 <package name="1X03">
-<description>3-pin 0.1-inch header</description>
+<description>3-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/965/pictures"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <pad name="1" x="-2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="0" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="3" x="2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
@@ -4564,7 +4576,13 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <wire x1="1.27" y1="0.635" x2="1.27" y2="-0.635" width="0.127" layer="21"/>
 </package>
 <package name="1X04">
-<description>4-pin 0.1-inch header</description>
+<description>4-pin 0.1-inch header
+
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/965/pictures"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <pad name="1" x="-3.81" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="3" x="1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
@@ -4637,7 +4655,9 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <wire x1="2.54" y1="0.635" x2="2.54" y2="-0.635" width="0.127" layer="51"/>
 </package>
 <package name="1X05-MTA">
-<description>5-pin MTA connector</description>
+<description>5-pin MTA connector
+&lt;a href="http://www.digikey.com/product-search/en?WT.z_header=search_go&amp;lang=en&amp;site=us&amp;keywords=A19471-ND&amp;x=-1137&amp;y=-51&amp;formaction=on
+"&gt; Digikey page &lt;/a&gt;</description>
 <pad name="1" x="-5.08" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="-2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="3" x="0" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
@@ -4671,7 +4691,9 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="-6.35" y1="-2.54" x2="6.35" y2="3.302" layer="39"/>
 </package>
 <package name="1X03-MTA">
-<description>3-pin MTA connector</description>
+<description>3-pin MTA connector
+
+&lt;a href="http://www.digikey.com/product-search/en?WT.z_header=search_go&amp;lang=en&amp;site=us&amp;keywords=A19470-ND&amp;x=-1137&amp;y=-51&amp;formaction=on"&gt; Digikey page &lt;/a&gt;</description>
 <wire x1="-3.81" y1="0.635" x2="-3.81" y2="-0.635" width="0.2032" layer="21"/>
 <wire x1="3.81" y1="0.635" x2="3.81" y2="-0.635" width="0.2032" layer="21"/>
 <pad name="1" x="-2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
@@ -4701,7 +4723,11 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="-3.81" y1="-2.54" x2="3.81" y2="3.302" layer="39"/>
 </package>
 <package name="1X04-MTA">
-<description>4-pin MTA connector</description>
+<description>4-pin MTA connector
+
+
+&lt;a href="http://www.digikey.com/product-search/en?WT.z_header=search_go&amp;lang=en&amp;site=us&amp;keywords=A1922-ND&amp;x=-1137&amp;y=-51&amp;formaction=on
+"&gt; Digikey page &lt;/a&gt;</description>
 <pad name="1" x="-3.81" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="3" x="1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
@@ -4759,7 +4785,8 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <rectangle x1="-2.54" y1="-1.27" x2="2.54" y2="1.27" layer="40"/>
 </package>
 <package name="1X06-MTA">
-<description>6-pin MTA connector</description>
+<description>6-pin MTA connector
+&lt;a href="http://www.digikey.com/product-detail/en/te-connectivity-amp-connectors/640456-6/A1923-ND/109008"&gt; Digikey page &lt;/a&gt;</description>
 <pad name="1" x="-6.35" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="-3.81" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="3" x="-1.27" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
@@ -5907,6 +5934,12 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 </polygon>
 </package>
 <package name="2X3">
+<description>2x3-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/966"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <wire x1="0.635" y1="-1.605" x2="-0.635" y2="-1.605" width="0.127" layer="21"/>
 <pad name="1" x="0" y="0" drill="1.016" diameter="1.8796" shape="octagon"/>
 <pad name="2" x="0" y="2.54" drill="1.016" diameter="1.8796" shape="octagon"/>
@@ -6192,7 +6225,8 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <rectangle x1="-2.286" y1="-1.27" x2="2.286" y2="1.27" layer="39"/>
 </package>
 <package name="1X07-MTA">
-<description>7-pin MTA connector</description>
+<description>7-pin MTA connector
+&lt;a href="http://www.digikey.com/product-search/en?WT.z_header=search_go&amp;lang=en&amp;site=us&amp;keywords=A19472-ND&amp;x=-1137&amp;y=-51&amp;formaction=on"&gt; Digikey page &lt;/a&gt;</description>
 <pad name="1" x="-7.62" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="-5.08" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="3" x="-2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
@@ -6469,7 +6503,12 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <text x="-4.445" y="3.81" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
 </package>
 <package name="1X06">
-<description>6-pin 0.1-inch header</description>
+<description>6-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/965/pictures"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.1524" layer="21"/>
 <wire x1="1.905" y1="1.27" x2="2.54" y2="0.635" width="0.1524" layer="21"/>
 <wire x1="2.54" y1="-0.635" x2="1.905" y2="-1.27" width="0.1524" layer="21"/>
@@ -6574,7 +6613,12 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <wire x1="5.08" y1="0.635" x2="5.08" y2="-0.635" width="0.127" layer="51"/>
 </package>
 <package name="1X08">
-<description>8-pin 0.1-inch header</description>
+<description>8-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/965/pictures"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <wire x1="5.715" y1="1.27" x2="6.985" y2="1.27" width="0.1524" layer="21"/>
 <wire x1="6.985" y1="1.27" x2="7.62" y2="0.635" width="0.1524" layer="21"/>
 <wire x1="7.62" y1="-0.635" x2="6.985" y2="-1.27" width="0.1524" layer="21"/>
@@ -6711,7 +6755,13 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <wire x1="7.62" y1="0.635" x2="7.62" y2="-0.635" width="0.127" layer="21"/>
 </package>
 <package name="2X20">
-<description>2x20-pin 0.1-inch header</description>
+<description>2x20-pin 0.1-inch header
+
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/966"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <pad name="1" x="-24.13" y="-1.27" drill="1.016" diameter="1.524"/>
 <pad name="2" x="-24.13" y="1.27" drill="1.016" diameter="1.524"/>
 <pad name="3" x="-21.59" y="-1.27" drill="1.016" diameter="1.524"/>
@@ -7082,7 +7132,12 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <wire x1="-24.765" y1="-2.54" x2="-25.4" y2="-1.905" width="0.127" layer="51"/>
 </package>
 <package name="1X05">
-<description>5-pin 0.1-inch header</description>
+<description>5-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/965/pictures"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <pad name="1" x="-5.08" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="-2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="3" x="0" y="0" drill="1.016" diameter="1.8796" rot="R270"/>
@@ -7390,6 +7445,12 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <rectangle x1="-3.81" y1="-4.826" x2="3.81" y2="4.826" layer="39"/>
 </package>
 <package name="2X8">
+<description>2x8-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/966"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <pad name="1" x="-8.89" y="-1.27" drill="1.016" diameter="1.524"/>
 <pad name="2" x="-8.89" y="1.27" drill="1.016" diameter="1.524"/>
 <pad name="3" x="-6.35" y="-1.27" drill="1.016" diameter="1.524"/>
@@ -7578,6 +7639,12 @@ This is the mechanical footprint for a #4 phillips button head screw. Use the ke
 <rectangle x1="-2.032" y1="-10.033" x2="2.032" y2="10.033" layer="39"/>
 </package>
 <package name="2X4">
+<description>2x4-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/966"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <pad name="1" x="-3.81" y="-1.27" drill="1.016" diameter="1.524"/>
 <pad name="2" x="-3.81" y="1.27" drill="1.016" diameter="1.524"/>
 <pad name="3" x="-1.27" y="-1.27" drill="1.016" diameter="1.524"/>
@@ -8856,6 +8923,12 @@ Vertical</description>
 <rectangle x1="-5.08" y1="-2.54" x2="5.08" y2="2.54" layer="40" rot="R180"/>
 </package>
 <package name="2X5">
+<description>2x5-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/966"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <pad name="1" x="-5.08" y="-1.27" drill="1.016" diameter="1.524"/>
 <pad name="2" x="-5.08" y="1.27" drill="1.016" diameter="1.524"/>
 <pad name="3" x="-2.54" y="-1.27" drill="1.016" diameter="1.524"/>
@@ -9223,7 +9296,9 @@ Vertical</description>
 </polygon>
 </package>
 <package name="1X03-JMP-OPTION">
-<description>A 3 pin header with silk screen indicating jumper positions to select an option.</description>
+<description>A 3 pin header with silk screen indicating jumper positions to select an option.
+&lt;br&gt;
+Probably Obsolete</description>
 <pad name="1" x="-2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="2" x="0" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <pad name="3" x="2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
@@ -9410,7 +9485,12 @@ Vertical</description>
 <wire x1="-1.905" y1="4.064" x2="-1.905" y2="1.27" width="0.127" layer="51"/>
 </package>
 <package name="1X07">
-<description>7-pin 0.1-inch header</description>
+<description>7-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/965/pictures"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <wire x1="-0.635" y1="1.27" x2="0.635" y2="1.27" width="0.1524" layer="21"/>
 <wire x1="0.635" y1="1.27" x2="1.27" y2="0.635" width="0.1524" layer="21"/>
 <wire x1="1.27" y1="-0.635" x2="0.635" y2="-1.27" width="0.1524" layer="21"/>
