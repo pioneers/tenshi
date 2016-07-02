@@ -1,0 +1,173 @@
+// Licensed to Pioneers in Engineering under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  Pioneers in Engineering licenses
+// this file to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+//  with the License.  You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License
+
+#include <stdio.h>
+#include <string.h>
+
+#include "inc/mboxlib.h"
+#include "inc/runtime_entry.h"
+
+// Dummy get_device, just takes the id and stores it
+const char *hax_dev_sensor = "stestsensor";
+const char *hax_dev_actuator = "atestactuator";
+const char *hax_dev_gamestate = "forseti-gamestate";
+static int get_device(lua_State *L) {
+  size_t id_len;
+  const char *id = lua_tolstring(L, -1, &id_len);
+  lua_pop(L, 1);
+  printf("get_device: %s\n", id);
+  // Awful hax
+  if (strcmp(id, hax_dev_sensor) == 0) {
+    lua_pushlightuserdata(L, hax_dev_sensor);
+  } else if (strcmp(id, hax_dev_actuator) == 0) {
+    lua_pushlightuserdata(L, hax_dev_actuator);
+  } else if (strcmp(id, hax_dev_gamestate) == 0) {
+    lua_pushlightuserdata(L, hax_dev_gamestate);
+  } else {
+    lua_pushnil(L);
+  }
+  return 1;
+}
+
+static int del_device(lua_State *L) {
+  const char *dev = lua_touserdata(L, 1);
+  lua_pop(L, 1);
+
+  printf("del_device: %s\n", dev);
+
+  return 0;
+}
+
+static int query_dev_info(lua_State *L) {
+  const char *dev = lua_touserdata(L, 1);
+  const char *query_type = lua_tostring(L, 2);
+  lua_pop(L, 2);
+
+  if (strcmp(query_type, "type") == 0) {
+    // Are we a sensor or an actuator? In this test program, if id[0] is 's'
+    // or 'f' (for forseti-*) we are a sensor. Otherwise it's an actuator.
+    if (dev[0] == 's' || dev[0] == 'f') {
+      lua_pushstring(L, "sensor");
+    } else {
+      lua_pushstring(L, "actuator");
+    }
+  } else if (strcmp(query_type, "dev") == 0) {
+    // What is our device type? In this test program, it is id[1] to the first
+    // embedded null or the end if it isn't f*
+    if (dev[0] != 'f') {
+      lua_pushstring(L, dev + 1);
+    } else {
+      // We assume it starts with forseti-
+      lua_pushstring(L, dev + 8);
+    }
+  } else {
+    // Not supported
+    lua_pushnil(L);
+  }
+
+  return 1;
+}
+
+static int global_sensor_data = 0;
+static int get_testsensor_val(lua_State *L) {
+  // Return this global for now
+  lua_pop(L, 1);
+  lua_pushinteger(L, global_sensor_data);
+
+  return 1;
+}
+
+static int set_testactuator_val(lua_State *L) {
+  const char *dev = lua_touserdata(L, 1);
+  int val = lua_tointeger(L, 2);
+  printf("<----- Got data out: %s = %d\n", dev, val);
+  lua_pop(L, 2);
+
+  return 0;
+}
+
+static int get_gamestate_val(lua_State *L) {
+  lua_pop(L, 1);
+  lua_pushstring(L, "selftest");
+
+  return 1;
+}
+
+static const luaL_Reg testprogram_runtimeentries[] = {
+  {"get_device", get_device},
+  {"del_device", del_device},
+  {"query_dev_info", query_dev_info},
+  {"get_testsensor_val", get_testsensor_val},
+  {"set_testactuator_val", set_testactuator_val},
+  {"get_gamestate_val", get_gamestate_val},
+  {NULL, NULL}
+};
+
+int main(int argc, char **argv) {
+  printf("Hello world!\n");
+
+  TenshiRuntimeState s = TenshiRuntimeInit();
+
+  printf("Allocated state: %p\n", s);
+
+  TenshiRegisterCFunctions(s, testprogram_runtimeentries);
+
+  const char studentcode[] =
+    "sensor = get_device('stestsensor')\n"
+    "actuator = get_device('atestactuator')\n"
+    "sensor_sampled = triggers.sampled(sensor)\n"
+    "\n"
+    "gamestate = game.gamestate()\n"
+    "\n"
+    "while true do\n"
+    "    local val = sensor_sampled:recv()\n"
+    "    print('sensor is ' .. tostring(val))\n"
+    "    actuator:send({val})\n"
+    "    print('gamestate is ' .. tostring(gamestate.value))\n"
+    "end";
+
+  TenshiActorState a;
+
+  int ret = LoadStudentcode(s, studentcode, strlen(studentcode), &a);
+  printf("LoadStudentcode: %d, TenshiActorState: %p\n", ret, a);
+
+  ret = ActorSetRunnable(a, 1);
+  printf("ActorSetRunnable: %d\n", ret);
+
+  ret = TenshiFlagSensor(s, hax_dev_gamestate);
+  printf("TenshiFlagSensor: %d\n", ret);
+
+  int i = 0;
+
+  while (i < 100) {
+    printf("-----> Sent into sensor: %d\n", i);
+    global_sensor_data = i;
+    ret = TenshiFlagSensor(s, hax_dev_sensor);
+    printf("TenshiFlagSensor: %d\n", ret);
+
+    ret = TenshiRunQuanta(s);
+    printf("Ran quanta %d, ret = %d\n", i, ret);
+
+    i++;
+  }
+
+  TenshiRuntimeDeinit(s);
+
+  printf("Done!\n");
+
+  return 0;
+}

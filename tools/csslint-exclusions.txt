@@ -1,0 +1,8 @@
+# Vendor
+angel-player/src/chrome/content/vendor-js/*
+
+# XRegExp
+angel-player/src/chrome/content/angelic/xregexp/*
+
+#Foundation css
+angel-player/src/chrome/content/tenshi-frontend/stylesheets/app.css

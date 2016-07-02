@@ -1,0 +1,63 @@
+<!doctype html>
+
+<!--
+    Licensed to Pioneers in Engineering under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  Pioneers in Engineering licenses
+    this file to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+     with the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License
+-->
+
+<html>
+    <head>
+        <script src="vendor-js/jquery.js"></script>
+        <script type='application/javascript;version=1.7'
+            src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+        <script src="common/create_commonjs.js"></script>
+        <script>
+            // Set up globals object. This globals object lives inside the main
+            // page document. The main page does not normally reload, and
+            // subpages can add and reference items in here. However, the
+            // "super-reload" function will wipe this scope. "Super-reload"
+            // will not wipe anything in a JSM context.
+            document.tenshiGlobals = {};
+
+            // Set up main loader object. ("loader" comes from loader.js)
+            document.tenshiGlobals.loader = createCommonJsEnv(loader);
+        </script>
+        <!-- We can now load require_stub.js to load the rest of our JS in
+             the CommonJS environment -->
+        <script src="common/require_stub.js"></script>
+        <script>
+            requireStub('tenshi/main');
+        </script>
+        <link rel="stylesheet" type="text/css" href="main.css">
+    </head>
+    <body>
+        <iframe id="mainContent">
+          <!-- main-ui/ui.html will be loaded here -->
+        </iframe>
+        <!-- Footer only contains debug things -->
+        <div id="footer">
+            <div id="toggle-debug"></div>
+            <div id="footer-debug-container">
+                <a id="backButton">Back</a>
+                <a id="forwardButton">Forward</a>
+                <a id="reloadButton">Reload</a>
+                <a id="superReloadButton">Super-reload</a>
+                <span id="version-data">VERSIONINFO</span>
+            </div>
+        </div>
+    </body>
+</html>

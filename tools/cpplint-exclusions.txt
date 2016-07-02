@@ -1,0 +1,19 @@
+# These files are imported from STMicro and don't meet style
+controller/inc/core_*
+controller/inc/stm32f4xx.h
+# These files are from FreeRTOS
+controller/src/FreeRTOS/*
+controller/inc/FreeRTOS.h
+controller/inc/FreeRTOSConfig.h
+controller/inc/StackMacros.h
+controller/inc/croutine.h
+controller/inc/event_groups.h
+controller/inc/list.h
+controller/inc/mpu_wrappers.h
+controller/inc/portable.h
+controller/inc/portmacro.h
+controller/inc/projdefs.h
+controller/inc/queue.h
+controller/inc/semphr.h
+controller/inc/task.h
+controller/inc/timers.h

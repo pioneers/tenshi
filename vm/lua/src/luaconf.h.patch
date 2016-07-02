@@ -1,0 +1,13 @@
+--- luaconf.h.original	2014-05-01 01:07:56.569583474 -0700
++++ luaconf.h	2014-05-01 01:00:14.336223251 -0700
+@@ -33,8 +33,8 @@
+ ** hardware).
+ ** =====================================================================
+ */
+-#define LUA_INT_LONGLONG
+-#define LUA_REAL_DOUBLE
++#define LUA_INT_INT
++#define LUA_REAL_FLOAT
+ 
+ 
+ /*

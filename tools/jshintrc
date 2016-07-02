@@ -1,0 +1,22 @@
+{
+    "esnext": true,
+    "predef": {
+        "require": true,
+        "exports": true,
+        "dump": true,
+        "Uint8Array": true,
+        "ctypes": true,
+        // TODO(rqou): Really figure this shit out
+        "importScripts": true,
+        "postMessage": true,
+        "onmessage": true,
+        "ChromeWorker": true,
+        "close": true,
+        "console": true,
+        "setInterval": true,
+        "clearInterval": true,
+        "setTimeout": true,
+        "clearTimeout": true,
+        "module": true
+    }
+}

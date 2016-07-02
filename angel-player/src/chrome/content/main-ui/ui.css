@@ -1,0 +1,147 @@
+/*
+  Licensed to Pioneers in Engineering under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  Pioneers in Engineering licenses
+  this file to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+   with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License
+*/
+
+@import url(chrome://angel-player/content/common/assets/common.css);
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0 0 0 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#header {
+    height: 100%;
+    background-color: #1b1464;
+}
+
+#logo {
+    float: left;
+}
+
+#appLogo {
+    padding: 5px 5px 0 5px;
+    height: 1.5em;
+}
+
+#title {
+    float: left;
+    left: 0;
+    font-family: 'Open Sans';
+    font-weight: 300;
+}
+
+
+#appTitle {
+    font-size: 1.3em;
+    font-weight: 300;
+    color: #dbdbdb;
+}
+
+#currentEnvironment {
+    font-size: 1.3em;
+}
+
+.emphasize {
+    color: white !important;
+    font-weight: 400 !important;
+}
+
+
+#tabsDiv {
+    float: right;
+    right: 0;
+    padding: 5px 0 0 0;
+}
+
+#header a {
+    margin: 5px 5px 5px 5px;
+    color: #dbdbdb;
+    font-family: 'Open Sans';
+    font-weight: 300;
+    text-decoration: none;
+}
+
+#header a.tabActive {
+    color: white;
+    font-weight: 400;
+}
+
+#mainContent {
+    /* Note: this flex makes the main content take up all the remaining space
+       but is aware of the tabs above it. */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#mainCenter {
+    display: flex;
+    flex-direction: row;
+}
+
+/* TODO(rqou): This is duplicated in a bunch of places */
+.absolutelyNoSpace {
+    border: 0 none transparent;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.module-div {
+    display: none;
+    /* TODO(rqou): Why is this needed? */;
+    width: 100%;
+    height: 100%;
+}
+
+/* TODO(rqou): Clean up this mess of flexboxes */
+
+#middleRegion {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+#centerRegion {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+#bottomFooter {
+    display: flex;
+    flex-direction: column;
+}
+
+#leftSidebar {
+    max-width: 25%;
+}
+
+#rightSidebar {
+    max-width: 25%;
+}

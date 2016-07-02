@@ -1,0 +1,31 @@
+--- cpplint.py.orig	2013-12-16 14:48:54.000000000 -0800
++++ cpplint.py	2014-04-05 10:00:32.446936210 -0700
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ #
+ # Copyright (c) 2009 Google Inc. All rights reserved.
+ #
+@@ -899,16 +899,20 @@
+ 
+       # Not SVN <= 1.6? Try to find a git, hg, or svn top level directory by
+       # searching up from the current path.
++      # Note: Tenshi hacks this to make cpplint handle multiple projects
++      # in the same git repo.
+       root_dir = os.path.dirname(fullname)
+       while (root_dir != os.path.dirname(root_dir) and
+              not os.path.exists(os.path.join(root_dir, ".git")) and
+              not os.path.exists(os.path.join(root_dir, ".hg")) and
+-             not os.path.exists(os.path.join(root_dir, ".svn"))):
++             not os.path.exists(os.path.join(root_dir, ".svn")) and
++             not os.path.exists(os.path.join(root_dir, ".tenshi_cpp_root"))):
+         root_dir = os.path.dirname(root_dir)
+ 
+       if (os.path.exists(os.path.join(root_dir, ".git")) or
+           os.path.exists(os.path.join(root_dir, ".hg")) or
+-          os.path.exists(os.path.join(root_dir, ".svn"))):
++          os.path.exists(os.path.join(root_dir, ".svn")) or
++          os.path.exists(os.path.join(root_dir, ".tenshi_cpp_root"))):
+         prefix = os.path.commonprefix([root_dir, project_dir])
+         return fullname[len(prefix) + 1:]
+ 

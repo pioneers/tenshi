@@ -1,0 +1,258 @@
+#!/usr/bin/env python
+
+# Licensed to Pioneers in Engineering under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  Pioneers in Engineering licenses
+# this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+#  with the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License
+
+ARM_CROSS_COMPILER_C = 'arm-none-eabi-gcc'
+ARM_CROSS_COMPILER_CXX = 'arm-none-eabi-g++'
+
+import os.path
+from waf_extensions import declare_variants, sub_conf, run_all
+declare_variants(['deb', 'rel', 'debopt', 'relopt'], subdir='controller')
+
+
+def recurse(ctxt):
+    ctxt.recurse('../vm/angelic', mandatory=False)
+    ctxt.recurse('../vm/lua', mandatory=False)
+
+
+def options(opt):
+    recurse(opt)
+    opt.load('compiler_c')
+    opt.load('compiler_cxx')
+    opt.load('gas')
+
+# Configure fragments used for variants
+
+
+def common_configure(conf, root=None):
+    if root is None:
+        root = conf.path.abspath()
+    conf.env['CC'] = ARM_CROSS_COMPILER_C
+    conf.env['CC_NAME'] = ARM_CROSS_COMPILER_C
+    conf.env['COMPILER_CC'] = ARM_CROSS_COMPILER_C
+    conf.env['LINK_CC'] = ARM_CROSS_COMPILER_C
+    conf.env['CXX'] = ARM_CROSS_COMPILER_CXX
+    conf.env['CXX_NAME'] = ARM_CROSS_COMPILER_CXX
+    conf.env['COMPILER_CXX'] = ARM_CROSS_COMPILER_CXX
+    conf.env['LINK_CXX'] = ARM_CROSS_COMPILER_CXX
+    conf.env['AS'] = ARM_CROSS_COMPILER_C
+    conf.env.append_value('CFLAGS', [
+        '-g',                       # Debug symbols
+        '-Wall',                    # All warnings
+        '-mthumb',                  # Cortex-M4 only supports Thumb
+        '-mcpu=cortex-m4',          # Compile for Cortex-M4
+        '-mfpu=fpv4-sp-d16',        # Enable FPU opcodes
+        '-mfloat-abi=hard',         # Pass arguments via FPU registers
+        '-fshort-double',           # sizeof(double) == sizeof(float)
+        '-ffunction-sections',      # Each function in individual section
+        '-fdata-sections',          # Same for data
+        '-std=gnu99',               # C code is gnu99 standard
+        ])
+    conf.env.append_value('CXXFLAGS', [
+        '-g',                       # Debug symbols
+        '-Wall',                    # All warnings
+        '-mthumb',                  # Cortex-M4 only supports Thumb
+        '-mcpu=cortex-m4',          # Compile for Cortex-M4
+        '-mfpu=fpv4-sp-d16',        # Enable FPU opcodes
+        '-mfloat-abi=hard',         # Pass arguments via FPU registers
+        '-fshort-double',           # sizeof(double) == sizeof(float)
+        '-ffunction-sections',      # Each function in individual section
+        '-fdata-sections',          # Same for data
+        '-std=gnu++98',             # C++ code is gnu++98 standard
+        ])
+    conf.env.append_value('ASFLAGS', [
+        '-g',                        # Debug symbols
+        '-mthumb',                   # Cortex-M4 only supports Thumb
+        '-mcpu=cortex-m4',           # Compile for Cortex-M4
+        '-mfpu=fpv4-sp-d16',         # Enable FPU opcodes
+        '-mfloat-abi=hard',          # Pass arguments via FPU registers
+        '-x', 'assembler-with-cpp',  # Compile assembly
+        '-c',                        # Don't link
+        ])
+    conf.env.append_value('LINKFLAGS', [
+        '-g',                         # Debug symbols
+        '-mthumb',                    # Cortex-M4 only supports Thumb
+        '-mcpu=cortex-m4',            # Compile for Cortex-M4
+        '-mfpu=fpv4-sp-d16',          # Enable FPU opcodes
+        '-mfloat-abi=hard',           # Pass arguments via FPU registers
+        '-fshort-double',           # sizeof(double) == sizeof(float)
+        '-Wl,--gc-sections',          # Discard unused sections
+        '-Wl,-uVERSION_INFORMATION',  # Force retain VERSION_INFORMATION
+        '-B' + root,                  # For finding .ld file
+        # Linker rules + crt0
+        '-specs=' + root + '/linkspec.specs',
+        ])
+    conf.load('compiler_c')
+    conf.load('compiler_cxx')
+    conf.load('gas')
+    conf.env.append_value('CFLAGS', '-DNGL_32_BIT')
+    conf.env.append_value('CFLAGS', '-DNGL_ARM')
+
+
+def debug_configure(conf):
+    conf.env.append_value('CFLAGS', ['-DDEBUG'])
+    conf.env.append_value('CXXFLAGS', ['-DDEBUG'])
+    conf.env.append_value('ASFLAGS', ['-DDEBUG'])
+
+
+def release_configure(conf):
+    conf.env.append_value('CFLAGS', ['-DRELEASE'])
+    conf.env.append_value('CXXFLAGS', ['-DRELEASE'])
+    conf.env.append_value('ASFLAGS', ['-DRELEASE'])
+
+
+def noopt_configure(conf):
+    conf.env.append_value('CFLAGS', ['-O0'])
+    conf.env.append_value('CXXFLAGS', ['-O0'])
+    conf.env.append_value('ASFLAGS', ['-O0'])
+
+
+def opt_configure(conf):
+    conf.env.append_value('CFLAGS', ['-O2'])
+    conf.env.append_value('CXXFLAGS', ['-O2'])
+    conf.env.append_value('ASFLAGS', ['-O2'])
+
+# Actual configure rules for variants
+
+
+def configure_deb(conf):
+    with sub_conf(conf, 'controller/deb'):
+        common_configure(conf)
+        debug_configure(conf)
+        noopt_configure(conf)
+    with sub_conf(conf, 'controller/debopt'):
+        common_configure(conf)
+        debug_configure(conf)
+        opt_configure(conf)
+
+
+def configure_rel(conf):
+    with sub_conf(conf, 'controller/rel'):
+        common_configure(conf)
+        release_configure(conf)
+        noopt_configure(conf)
+    with sub_conf(conf, 'controller/relopt'):
+        common_configure(conf)
+        release_configure(conf)
+        opt_configure(conf)
+
+
+def configure(conf):
+    if not conf.env['root']:
+        conf.env['root'] = os.path.join(conf.path.abspath(), os.pardir)
+    recurse(conf)
+    conf.env['build-tests'] = False
+    configure_deb(conf)
+    configure_rel(conf)
+
+# Build step
+
+
+from waflib import TaskGen
+TaskGen.declare_chain(
+    name='typpo',
+    rule='${root}/tools/typpo_c_generator.py ${SRC} ${TGT}',
+    shell=True,
+    ext_in='.yaml',
+    ext_out='.h',
+)
+
+
+def build(bld):
+    recurse(bld)
+    if not bld.variant:
+        print('Building all variants.')
+        run_all('build')
+    else:
+        if 'controller' not in bld.variant:
+            return
+
+        def bld_path(path):
+            output_dir = os.path.join(bld.out_dir + "/artifacts/", bld.variant)
+            return bld.root.make_node(output_dir).make_node(path)
+
+        def add_dependency(tgt, src):
+            src_node = bld.path.find_resource(src)
+            if src_node is None:
+                bld.fatal("Could not find manual dependency '{}'".format(src))
+            bld.add_manual_dependency(tgt, src_node)
+
+        bld.objects(
+            source="stm32f4-crt0.S",
+            target="crt0",
+        )
+
+        bld(
+            rule='${root}/tools/inject-version-controller.py ${SRC} ${TGT}',
+            source='src/version.c.template',
+            target='version.c',
+            always=True,
+            update_outputs=True,
+        )
+        add_dependency('version.c', 'version.txt')
+
+        bld.objects(
+            source='version.c',
+            target='version_obj',
+            includes=". inc",
+        )
+
+        bld(
+            name="typpo_includes",
+            source=bld.path.ant_glob("common_defs/*.yaml")
+        )
+
+        bld.objects(
+            source=bld.path.ant_glob("src/**/*.c"),
+            target="c_objects",
+            includes=". inc common_defs ../vm/angelic/src ../vm/lua/src " +
+            "../vm/lua/tenshi-runtime " + "../network/src ",
+            use="typpo_includes"
+        )
+
+        bld.objects(
+            source=bld.path.ant_glob("src/**/*.cpp"),
+            target="cpp_objects",
+            includes=". inc common_defs ../vm/angelic/src ../vm/lua/src " +
+            "../vm/lua/tenshi-runtime",
+            use="typpo_includes"
+        )
+
+        bld.program(
+            source="",
+            target=bld_path("tenshi.elf"),
+            features="cxx cxxprogram",
+            use=["crt0",
+                 "c_objects",
+                 "cpp_objects",
+                 "version_obj",
+                 "angelic_static",
+                 "lua_objects",
+                 "lua_runtime_objects",
+                 "lua_lua_objects",
+                 "ndl3_objects"]
+        )
+
+        bld(
+            rule='arm-none-eabi-objcopy -O binary ${SRC} ${TGT}',
+            source=bld_path("tenshi.elf"),
+            target=bld_path("tenshi.bin"),
+        )
+
+        add_dependency(bld_path("tenshi.elf"), "ldscript.ld")
+        add_dependency(bld_path("tenshi.elf"), "linkspec.specs")

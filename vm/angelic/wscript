@@ -1,0 +1,274 @@
+#! /usr/bin/env python3
+# encoding: utf-8
+
+# Licensed to Pioneers in Engineering under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  Pioneers in Engineering licenses
+# this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+#  with the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License
+
+APPNAME = 'angelic'
+VERSION = '0.0'
+top = '.'
+out = 'build'
+
+from waf_extensions import declare_variants, run_all, sub_conf
+import os
+import os.path
+
+declare_variants(['debug_native', 'release_emscripten'],
+                 subdir='vm')
+
+
+def recurse(ctxt):
+    ctxt.recurse('src', mandatory=False)
+    ctxt.recurse('tests', mandatory=False)
+
+
+def options(opt):
+    opt.add_option('--cc',
+                   action='store',
+                   default='clang',
+                   help='The C Compiler to use.')
+    opt.add_option('--cflags',
+                   action='store',
+                   default='',
+                   help='Extra cflags.')
+    opt.add_option('--strip-micro',
+                   action='store',
+                   default='yes',
+                   choices=['yes', 'no', 'try'],
+                   help='Strip micro library.')
+    opt.add_option('--strip',
+                   action='store',
+                   default='strip',
+                   help='Program to use to strip micro library.')
+    # TODO(kzentner): Change this to 'try' once computed gotos are fixed.
+    opt.add_option('--computed-gotos',
+                   '--use-computed-gotos',
+                   action='store',
+                   default='no',
+                   choices=['yes', 'no', 'try'],
+                   help='Whether to use computed gotos or not.')
+    opt.add_option('--build-tests',
+                   action='store',
+                   default='yes',
+                   choices=['yes', 'no', 'try'],
+                   help='Build the tests.')
+    opt.add_option('--check-compiler-options',
+                   action='store_true',
+                   help='Check compiler options before using them.')
+    opt.add_option('--build-emcc',
+                   action='store',
+                   default='yes',
+                   choices=['yes', 'no', 'try'],
+                   help='Build a variant using emscripten.')
+    opt.load('compiler_c')
+    recurse(opt)
+
+
+profiling = False
+
+
+def configure_mingw(conf):
+    conf.env['cprogram_PATTERN'] = '%s.exe'
+
+
+def has_cflag(conf, flag):
+    try:
+        # Check that the flag works without producing warnings.
+        # This prevents using flags which are not implemented by e.g. clang
+        # and emcc, would thus produce warnings without any beneficial
+        # effects.
+        conf.check(feature='cc cprogram cstdlib', cflags=flag + ' -Werror')
+        return True
+    except Exception as e:
+        return False
+
+
+def add_cflags(conf, flags, alternatives=tuple()):
+    if not conf.env['check_compiler_options']:
+        conf.env.append_value('CFLAGS', flags)
+        return
+    try:
+        conf.check(feature='cc cprogram cstdlib', cflags=flags)
+    except Exception as e:
+        if alternatives:
+            add_cflags(conf, alternatives[0], alternatives[1:])
+    else:
+        conf.env.append_value('CFLAGS', flags)
+
+
+def configure_native(conf):
+    try:
+        if conf.find_program(conf.options.cc):
+            conf.env['CC'] = conf.options.cc
+            conf.env['CC_NAME'] = conf.options.cc
+            conf.env['COMPILER_CC'] = conf.options.cc
+            conf.env['LINK_CC'] = conf.options.cc
+    except Exception:
+        pass
+    conf.env.append_value('DEFINES', 'NGL_64_BIT')
+    conf.env.append_value('DEFINES', 'NGL_NATIVE')
+    conf.env.append_value('DEFINES', 'NGL_X86_64')
+
+
+def configure_arm(conf):
+    namespace = {}
+    here = conf.env['ngl_root']
+    exec(open(os.path.join(here, os.pardir, 'wscript')).read(), namespace)
+    namespace['common_configure'](conf, os.path.join(here, os.pardir))
+    conf.env.append_value('DEFINES', 'NGL_32_BIT')
+    conf.env.append_value('DEFINES', 'NGL_ARM')
+
+
+def configure_emscripten(conf):
+    conf.env['CC'] = 'emcc'
+    conf.env['CC_NAME'] = 'emcc'
+    conf.env['COMPILER_CC'] = 'emcc'
+    conf.env['LINK_CC'] = 'emcc'
+    conf.env.append_value('DEFINES', 'NGL_32_BIT')
+    conf.env.append_value('DEFINES', 'NGL_EMCC')
+    conf.env.append_value('CFLAGS', '-Wno-warn-absolute-paths')
+
+
+def configure_common(conf):
+    conf.load('compiler_c')
+    cc = conf.env['CC'][0]
+    if 'emcc' in cc:
+        conf.env['cprogram_PATTERN'] = '%s.js'
+    else:
+        conf.check_cc(lib='m', uselib_store='math', mandatory=False)
+    if 'emcc' in cc or 'clang' in cc:
+        conf.env['AR'] = 'llvm-ar'
+    conf.load('ar')
+    if 'mingw' in cc:
+        configure_mingw(conf)
+    else:
+        add_cflags(conf, '-fPIC')
+    conf.env['core_cflags'] = ''
+    if has_cflag(conf, '-fno-gcse'):
+        conf.env.append_value('core_cflags', ['-fno-gcse'])
+    for flag in conf.options.cflags.split(' '):
+        add_cflags(conf, flag)
+    warning_flags = [
+        '-Wall',
+        '-Wextra',
+    ]
+    add_cflags(conf, '-std=gnu99', ['-std=c99', '-std=gnu89', '-std=c89'])
+    add_cflags(conf, warning_flags)
+
+    conf.env['build-tests'] = conf.options.build_tests in ['yes', 'try']
+
+    if conf.options.computed_gotos in ['yes', 'try']:
+        need_computed_gotos = conf.options.computed_gotos == 'yes'
+        have_computed_gotos = conf.check_cc(
+            msg='Checking for computed gotos',
+            fragment='int main() {'
+            'void * target_val;'
+            'target: target_val = &&target;'
+            'goto *target_val;'
+            'return 0;}',
+            define_name='HAVE_COMPUTED_GOTOS',
+            mandatory=need_computed_gotos
+        )
+        if have_computed_gotos:
+            conf.define('USE_COMPUTED_GOTOS', '')
+    if profiling:
+        try:
+            conf.check(feature='cc cprogram cstdlib', cflags=['-pg'],
+                       linkflags=['-pg'])
+        except Exception:
+            pass
+        else:
+            conf.env.append_value('LINKFLAGS', ['-pg'])
+            conf.env.append_value('CFLAGS', ['-pg'])
+
+
+def configure_release_emscripten(conf):
+    with sub_conf(conf, 'vm/release_emscripten'):
+        configure_emscripten(conf)
+        configure_common(conf)
+        configure_release(conf)
+
+
+def configure_debug_native(conf):
+    with sub_conf(conf, 'vm/debug_native'):
+        configure_native(conf)
+        configure_common(conf)
+        configure_debug(conf)
+
+
+def configure_debug_arm(conf):
+    with sub_conf(conf, 'vm/debug_arm'):
+        configure_arm(conf)
+        configure_common(conf)
+        configure_debug(conf)
+
+
+def configure_debug(conf):
+    conf.env.append_value('DEFINES', 'ANGELIC_DEBUG')
+    add_cflags(conf, '-g')
+
+
+def configure_release_native(conf):
+    with sub_conf(conf, 'vm/release_native'):
+        configure_native(conf)
+        configure_common(conf)
+        configure_release(conf)
+
+
+def configure_release_arm(conf):
+    with sub_conf(conf, 'vm/release_arm'):
+        configure_arm(conf)
+        configure_common(conf)
+        configure_release(conf)
+
+
+def configure_release(conf):
+    conf.env.append_value('DEFINES', 'NDEBUG')
+    conf.env.append_value('DEFINES', 'ANGELIC_RELEASE')
+    add_cflags(conf, '-O3')
+
+
+def configure(conf):
+    if not conf.env['root']:
+        conf.env['root'] = os.path.join(conf.path.abspath(), os.pardir,
+                                        os.pardir)
+    conf.env['ngl_root'] = conf.path.abspath()
+    conf.env['check_compiler_options'] = conf.options.check_compiler_options
+    configure_release_emscripten(conf)
+    if not getattr(conf.options, 'emcc_only', False):
+        configure_debug_native(conf)
+    recurse(conf)
+
+
+def build(bld):
+    if not bld.variant:
+        print('Building all variants.')
+        run_all('build')
+    else:
+        if 'vm' not in bld.variant and 'controller' not in bld.variant:
+            return
+        if (bld.options.build_emcc == 'no' and
+                'emscripten' in bld.variant):
+            return
+        bld.recurse('src')
+        if 'native' in bld.variant:
+            if bld.env['build-tests']:
+                bld.recurse('tests')
+
+
+def test(context):
+    context.recurse('tests')

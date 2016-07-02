@@ -1,0 +1,9 @@
+controller/inc/*
+controller/src/*
+smartsensor_fw/inc/*
+smartsensor_fw/src/*
+vm/angelic/src/*
+grizzly_firmware/inc/*
+grizzly_firmware/src/*
+vm/lua/tenshi-runtime/*
+network/src/*

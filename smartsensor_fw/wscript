@@ -1,0 +1,177 @@
+#!/usr/bin/env python
+
+# Licensed to Pioneers in Engineering under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  Pioneers in Engineering licenses
+# this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+#  with the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License
+
+AVR_CROSS_COMPILER_C = 'avr-gcc'
+AVR_CROSS_COMPILER_CXX = 'avr-g++'
+
+import os.path
+from waf_extensions import declare_variants, sub_conf, run_all, add_dependency
+declare_variants(['opt', 'noopt'], subdir='smartsensor_fw')
+
+
+def options(opt):
+    opt.load('compiler_c')
+    opt.load('compiler_cxx')
+    opt.load('gas')
+
+# Configure fragments used for variants
+
+
+def common_configure(conf):
+    MCU = 'attiny1634'
+
+    conf.env['CC'] = AVR_CROSS_COMPILER_C
+    conf.env['CC_NAME'] = AVR_CROSS_COMPILER_C
+    conf.env['COMPILER_CC'] = AVR_CROSS_COMPILER_C
+    conf.env['LINK_CC'] = AVR_CROSS_COMPILER_C
+    conf.env['CXX'] = AVR_CROSS_COMPILER_CXX
+    conf.env['CXX_NAME'] = AVR_CROSS_COMPILER_CXX
+    conf.env['COMPILER_CXX'] = AVR_CROSS_COMPILER_CXX
+    conf.env['LINK_CXX'] = AVR_CROSS_COMPILER_CXX
+    conf.env['AS'] = AVR_CROSS_COMPILER_C
+    conf.env.append_value('CFLAGS', [
+        '-gdwarf-2',                # Debug symbols
+        '-Wall',                    # All warnings
+        '-mmcu=' + MCU,             # Compile for ATtiny
+        '-funsigned-char',          # Default char unsigned -- AVR convention
+        '-funsigned-bitfields',     # AVR convention
+        '-fpack-struct',            # AVR convention
+        '-fshort-enums',            # AVR convention
+        '-ffunction-sections',      # Each function in individual section
+        '-fdata-sections',          # Same for data
+        '-std=gnu99',               # C code is gnu99 standard
+        ])
+    conf.env.append_value('CXXFLAGS', [
+        '-gdwarf-2',                # Debug symbols
+        '-Wall',                    # All warnings
+        '-mmcu=' + MCU,             # Compile for ATtiny
+        '-funsigned-char',          # Default char unsigned -- AVR convention
+        '-funsigned-bitfields',     # AVR convention
+        '-fpack-struct',            # AVR convention
+        '-fshort-enums',            # AVR convention
+        '-fno-rtti',                # Too bloated for AVR
+        '-fno-exceptions',          # Too bloated for AVR
+        '-ffunction-sections',      # Each function in individual section
+        '-fdata-sections',          # Same for data
+        '-std=gnu++98',             # C++ code is gnu++98 standard
+        ])
+    conf.env.append_value('ASFLAGS', [
+        '-gdwarf-2',                 # Debug symbols
+        '-Wall',                     # All warnings
+        '-mmcu=' + MCU,              # Compile for ATtiny
+        '-x', 'assembler-with-cpp',  # Compile assembly
+        '-c',                        # Don't link
+        ])
+    conf.env.append_value('LINKFLAGS', [
+        '-gdwarf-2',                  # Debug symbols
+        '-mmcu=' + MCU,               # Compile for ATtiny
+        '-Wl,--gc-sections',          # Discard unused sections
+        '-Wl,-uVERSION_INFORMATION',  # Force retain VERSION_INFORMATION
+        ])
+    conf.load('compiler_c')
+    conf.load('compiler_cxx')
+    conf.load('gas')
+
+
+def noopt_configure(conf):
+    conf.env.append_value('CFLAGS', ['-O0'])
+    conf.env.append_value('CXXFLAGS', ['-O0'])
+    conf.env.append_value('ASFLAGS', ['-O0'])
+
+
+def opt_configure(conf):
+    conf.env.append_value('CFLAGS', ['-Os'])
+    conf.env.append_value('CXXFLAGS', ['-Os'])
+    conf.env.append_value('ASFLAGS', ['-Os'])
+
+# Actual configure rules for variants
+
+
+def configure_opt(conf):
+    if not conf.env['root']:
+        conf.env['root'] = os.path.join(conf.path.abspath(), os.pardir)
+    with sub_conf(conf, 'smartsensor_fw/opt'):
+        common_configure(conf)
+        opt_configure(conf)
+
+
+def configure_noopt(conf):
+    with sub_conf(conf, 'smartsensor_fw/noopt'):
+        common_configure(conf)
+        noopt_configure(conf)
+
+
+def configure(conf):
+    configure_opt(conf)
+    configure_noopt(conf)
+
+# Build step
+
+
+def build(bld):
+    if not bld.variant:
+        print('Building all variants.')
+        run_all('build')
+    else:
+        if 'smartsensor_fw' not in bld.variant:
+            return
+
+        def bld_path(path):
+            output_dir = os.path.join(bld.out_dir + "/artifacts/", bld.variant)
+            return bld.root.make_node(output_dir).make_node(path)
+
+        bld(
+            rule='${root}/tools/inject-version-controller.py ${SRC} ${TGT}',
+            source='src/version.c.template',
+            target='version.c',
+            always=True,
+            update_outputs=True,
+        )
+        add_dependency(bld, 'version.c', 'version.txt')
+
+        bld.objects(
+            source='version.c',
+            target='version_obj',
+            includes=". inc",
+        )
+
+        bld.objects(
+            source=bld.path.ant_glob("src/**/*.c"),
+            target="c_objects",
+            includes=". inc",
+        )
+
+        bld.objects(
+            source=bld.path.ant_glob("src/**/*.cpp"),
+            target="cpp_objects",
+            includes=". inc",
+        )
+
+        bld.program(
+            source="",
+            target=bld_path("smartsensor_fw.elf"),
+            features="cxx cxxprogram",
+            use="crt0 c_objects cpp_objects version_obj",
+        )
+
+        bld(
+            rule='avr-objcopy -j .text -j .data -O ihex ${SRC} ${TGT}',
+            source=bld_path("smartsensor_fw.elf"),
+            target=bld_path("smartsensor_fw.hex"),
+        )

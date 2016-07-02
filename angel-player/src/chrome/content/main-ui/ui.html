@@ -1,0 +1,121 @@
+<!doctype html>
+
+<!--
+    Licensed to Pioneers in Engineering under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  Pioneers in Engineering licenses
+    this file to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+     with the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License
+-->
+
+<html>
+    <head>
+        <!-- GLOBAL LIBRARY SECTION -->
+        <!-- All globally available libraries that use the DOM must be
+             included here -->
+
+        <!-- jQuery must be loaded before angular.
+             Otherwise angular activates a no-jQuery mode with less features -->
+        <script src="../vendor-js/jquery.js"></script>
+        <script src="../vendor-js/angular.js"></script>
+        <script src="../vendor-js/ace/ace.js"></script>
+        <script src="../vendor-js/ui-ace.js"></script>
+        <script src="../vendor-js/ammo.js"></script>
+        <script src="../vendor-js/three.min.js"></script>
+
+        <!-- GLOBAL STYLE SECTION -->
+        <link rel="stylesheet" type="text/css" href="ui.css">
+
+        <!-- Load application logic inside the CommonJS environment -->
+        <script type='application/javascript;version=1.7'
+            src='resource://gre/modules/commonjs/toolkit/loader.js'></script>
+        <script src="../common/require_stub.js"></script>
+        <script>
+            requireStub('tenshi/main-ui/ui.js');
+            requireStub('tenshi/main-ui/app.js');
+        </script>
+    </head>
+    <body>
+      <!-- The UI contains modules that take up some set of the following
+           regions:
+
+           ####################################################################
+           # Top header                                                       #
+           ####################################################################
+           #         #                                              #         #
+           # Left    #  Center region                               #   Right #
+           # sidebar #                                              # sidebar #
+           #         #                                              #         #
+           #         #                                              #         #
+           #         #                                              #         #
+           #         #                                              #         #
+           ####################################################################
+           # Bottom footer                                                    #
+           ####################################################################
+
+           Each region contains all of the modules that could possibly exist
+           there. Javascript will hide/show the appropriate modules. -->
+      <div id="topHeader">
+        <div id="header">
+          <div id="logo">
+              <img id="appLogo" src="../common/assets/svg/pie-sprocket-color.svg"></img>
+          </div>
+          <div id="title">
+            <span id="appTitle">
+              Angel Player
+            </span>
+            <span id="currentEnvironment"></span>
+          </div>
+          <div id="tabsDiv">
+            <!--Added dynamically-->
+          </div>
+        </div>
+      </div>
+      <div id="middleRegion">
+        <div id="leftSidebar">
+        </div>
+        <div id="centerRegion">
+          <div ng-include id="welcome-div" class="module-div"
+               src="'../welcome/welcome.html'">
+          </div>
+          <div ng-include id="texteditor-div" class="module-div"
+               src="'../texteditor/editor.html'">
+          </div>
+          <div ng-include id="simulator-div" class="module-div"
+            src="'../simulator/main.html'">
+          </div>
+          <div ng-include id="maker-div" class="module-div"
+               src="'../simulator/maker.html'">
+          </div>
+          <div id="stargate-div" class="module-div">
+            <iframe src="../debug-main.html" class="absolutelyNoSpace">
+            </iframe>
+          </div>
+        </div>
+        <div id="rightSidebar">
+          <div ng-include id="apihelp-div" class="module-div"
+               src="'../apihelp/apihelp.html'">
+          </div>
+        </div>
+      </div>
+      <div id="bottomFooter">
+        <div ng-include id="console-div" class="module-div"
+             src="'../console/console.html'">
+        </div>
+        <div ng-include id="controls-div" class="module-div"
+             src="'../controls/main.html'">
+        </div>
+      </div>
+    </body>
+</html>

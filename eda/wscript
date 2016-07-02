@@ -1,0 +1,112 @@
+#!/usr/bin/env python
+from __future__ import print_function
+
+import glob
+import os.path
+from waflib import Utils
+from waflib.Task import Task
+from waf_extensions import declare_variants, add_dependency
+
+declare_variants(subdir='boards')
+
+
+def have_pdftk():
+    import subprocess
+    if subprocess.call(['which', 'pdftk']) != 0:
+        return False
+    return True
+
+
+class EdaTask(Task):
+        def run(self):
+            brd = None
+            sch = None
+            grb = None
+            csv = None
+            pdf = None
+
+            for input in self.inputs:
+                if input.abspath().endswith("sch"):
+                    sch = input.abspath()
+                if input.abspath().endswith("brd"):
+                    brd = input.abspath()
+
+            for output in self.outputs:
+                if output.abspath().endswith("zip"):
+                    grb = output.abspath()
+                if output.abspath().endswith("csv"):
+                    csv = output.abspath()
+                if output.abspath().endswith("pdf"):
+                    pdf = output.abspath()
+
+            cmds = []
+            if brd is not None and grb is not None:
+                cmd = Utils.subst_vars(
+                    '${root}/tools/run-eagle-cam-v2.py '
+                    '${root}/tools/gerber_rules.yaml '
+                    '%s %s' % (brd, grb),
+                    self.env)
+                cmds.append(cmd)
+
+            if sch is not None and csv is not None:
+                cmd = Utils.subst_vars(
+                    '${root}/tools/generate_bom.py '
+                    '%s %s '
+                    '${root}/tools/parts-db.yaml' % (sch, csv),
+                    self.env)
+                cmds.append(cmd)
+
+            if (brd is not None or sch is not None) and pdf is not None:
+                args = []
+                if sch:
+                    args.append(sch)
+                    args.append(csv)
+                if brd:
+                    args.append(brd)
+
+                cmd = Utils.subst_vars(
+                    '${root}/tools/docu-packet-gen.py ' +
+                    ' '.join(args) + ' ' +
+                    pdf,
+                    self.env)
+                cmds.append(cmd)
+
+            for cmd in cmds:
+                res = self.exec_command(cmd)
+                if res:
+                    return res
+
+
+def build(bld):
+    if 'boards' not in bld.variant:
+        return
+
+    if not have_pdftk():
+        print("""Warning: pdftk is not available.
+Documentation packet PDFs will not be generated""")
+
+    board_names = []
+    sch_names = []
+    for board in glob.glob('eda/*.brd'):
+        base_name = os.path.splitext(os.path.basename(board))[0]
+        board_names.append(base_name)
+
+    for sch in glob.glob('eda/*.sch'):
+        base_name = os.path.splitext(os.path.basename(sch))[0]
+        sch_names.append(base_name)
+
+    for name in set(board_names + sch_names):
+        task = EdaTask(env=bld.env)
+        if name in board_names:
+            task.set_inputs(bld.path.find_resource(name + ".brd"))
+        if name in sch_names:
+            task.set_inputs(bld.path.find_resource(name + ".sch"))
+
+        task.set_outputs(bld.path.find_or_declare(
+            '../../artifacts/boards/{}.zip'.format(name)))
+        task.set_outputs(bld.path.find_or_declare(
+            '../../artifacts/boards/{}.csv'.format(name)))
+        if have_pdftk():
+            task.set_outputs(bld.path.find_or_declare(
+                '../../artifacts/boards/{}.pdf'.format(name)))
+        bld.add_to_group(task)

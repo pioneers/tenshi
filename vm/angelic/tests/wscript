@@ -1,0 +1,105 @@
+#! /usr/bin/env python3
+# encoding: utf-8
+
+# Licensed to Pioneers in Engineering under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  Pioneers in Engineering licenses
+# this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+#  with the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License
+
+from __future__ import print_function
+import glob
+import os
+from fnmatch import fnmatch
+from os.path import relpath, split, join
+from functools import reduce
+from subprocess import Popen, PIPE
+import sys
+
+all_tests = []
+
+
+def options(opt):
+    pass
+
+
+def configure(conf):
+    pass
+
+
+def build(bld):
+    global all_tests
+    test_cflags = bld.env['CFLAGS']
+    test_cflags.append('-DANGELIC_TEST')
+    try:
+        test_cflags.remove('-DNDEBUG')
+    except Exception:
+        pass
+    for root, _, files in os.walk(bld.path.abspath()):
+        for filename in files:
+            if fnmatch(filename, '*.c'):
+                rel_path = relpath(root, bld.path.abspath())
+                target_filename = join(rel_path, filename[:-2])
+                bld.program(source=join(rel_path, filename),
+                            target=target_filename,
+                            includes=[join(os.pardir, 'src'),
+                                      join(os.pardir, 'src',
+                                           'common_defs')],
+                            use='angelic',
+                            rpath='$ORIGIN/../../src',
+                            linkflags='-Wl,-R ' + join(bld.path.bldpath(),
+                                                       '..', 'src')
+                            )
+                target_abspath = join(bld.variant_dir, 'tests',
+                                      target_filename)
+                all_tests.append(target_abspath)
+
+
+def test(ctxt):
+    if not all_tests:
+        from waflib.Scripting import run_command
+        run_command('build')
+    print('Tests:', end='')
+    total_tests = len(all_tests)
+    failed_tests = []
+    stdout_logs = dict()
+    for filename in all_tests:
+        p = Popen(filename, stdout=PIPE, stderr=PIPE)
+        output = p.communicate()
+        ret = p.returncode
+        if ret == 0:
+            print('.', end='')
+        else:
+            failed_tests.append(filename)
+            stdout_logs[filename] = output
+            print('x', end='')
+        # Flush out the . or x we just printed, instead of waiting for a
+        # newline to flush them.
+        sys.stdout.flush()
+    if not failed_tests:
+        print()
+        print('OK (Ran {0} test)'.format(total_tests))
+    else:
+        print()
+        for failure in failed_tests:
+            print('FAILED:', failure)
+            print(' BEGIN TEST STDOUT '.center(80, '*'))
+            print(stdout_logs[failure][0].decode(), end='')
+            print(' END TEST STDOUT '.center(80, '*'))
+            print(' BEGIN TEST STDERR '.center(80, '*'))
+            print(stdout_logs[failure][1].decode(), end='')
+            print(' END TEST STDERR '.center(80, '*'))
+            print()
+        print('TEST FAILED ({0}/{1} tests failed)'
+              .format(len(failed_tests), total_tests))
