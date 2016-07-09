@@ -324,6 +324,13 @@ BREAKER</text>
 <pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
 <pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
 </symbol>
+<symbol name="GND">
+<wire x1="-1.27" y1="0" x2="1.27" y2="0" width="0.254" layer="94"/>
+<wire x1="1.27" y1="0" x2="0" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="0" y1="-1.27" x2="-1.27" y2="0" width="0.254" layer="94"/>
+<text x="-1.27" y="-3.81" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="FRAME-LETTER" prefix="FRAME">
@@ -433,30 +440,10 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 </device>
 </devices>
 </deviceset>
-</devicesets>
-</library>
-<library name="SparkFun-Aesthetics">
-<description>&lt;h3&gt;SparkFun Electronics' preferred foot prints&lt;/h3&gt;
-In this library you'll find non-functional items- supply symbols, logos, notations, frame blocks, etc.&lt;br&gt;&lt;br&gt;
-We've spent an enormous amount of time creating and checking these footprints and parts, but it is the end user's responsibility to ensure correctness and suitablity for a given componet or application. If you enjoy using this library, please buy one of our products at www.sparkfun.com.
-&lt;br&gt;&lt;br&gt;
-&lt;b&gt;Licensing:&lt;/b&gt; Creative Commons ShareAlike 4.0 International - https://creativecommons.org/licenses/by-sa/4.0/ 
-&lt;br&gt;&lt;br&gt;
-You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
-<packages>
-</packages>
-<symbols>
-<symbol name="DGND">
-<wire x1="-1.905" y1="0" x2="1.905" y2="0" width="0.254" layer="94"/>
-<text x="-2.54" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="GND" prefix="GND">
+<deviceset name="GND" prefix="SUPPLY">
 <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
 <gates>
-<gate name="1" symbol="DGND" x="0" y="0"/>
+<gate name="GND" symbol="GND" x="0" y="0"/>
 </gates>
 <devices>
 <device name="">
@@ -484,11 +471,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="CONN2" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
 <part name="CONN4" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
 <part name="CONN5" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
-<part name="GND1" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="GND2" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="GND3" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="GND4" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="GND5" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="CIRCUIT_BREAKER" library="pie" deviceset="CIRC_BREAKER" device=""/>
 <part name="FUSE2" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
 <part name="FUSE1" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
@@ -498,72 +480,46 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="FUSE6" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
 <part name="CONN3" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
 <part name="CONN6" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
-<part name="GND6" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="GND7" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
+<part name="SUPPLY1" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY2" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY3" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY4" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY5" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY6" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY7" library="pie" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 </plain>
 <instances>
-<instance part="FRAME1" gate="G$1" x="-15.24" y="-38.1"/>
-<instance part="FRAME1" gate="G$2" x="132.08" y="-38.1"/>
+<instance part="FRAME1" gate="G$1" x="0" y="0"/>
+<instance part="FRAME1" gate="G$2" x="147.32" y="0"/>
 <instance part="U$1" gate="G$1" x="12.7" y="111.76" rot="R180"/>
 <instance part="CONN1" gate="G$1" x="10.16" y="48.26"/>
 <instance part="CONN2" gate="G$1" x="10.16" y="66.04"/>
 <instance part="CONN4" gate="G$1" x="53.34" y="66.04" rot="MR0"/>
 <instance part="CONN5" gate="G$1" x="53.34" y="48.26" rot="MR0"/>
-<instance part="GND1" gate="1" x="10.16" y="93.98"/>
-<instance part="GND2" gate="1" x="17.78" y="58.42"/>
-<instance part="GND3" gate="1" x="17.78" y="40.64"/>
-<instance part="GND4" gate="1" x="45.72" y="38.1"/>
-<instance part="GND5" gate="1" x="45.72" y="55.88"/>
 <instance part="CIRCUIT_BREAKER" gate="G$1" x="30.48" y="91.44"/>
 <instance part="FUSE2" gate="G$1" x="35.56" y="66.04"/>
 <instance part="FUSE1" gate="G$1" x="25.4" y="73.66"/>
 <instance part="FUSE3" gate="G$1" x="25.4" y="50.8"/>
 <instance part="FUSE4" gate="G$1" x="35.56" y="43.18"/>
-<instance part="FUSE5" gate="G$1" x="15.24" y="27.94"/>
+<instance part="FUSE5" gate="G$1" x="20.32" y="27.94"/>
 <instance part="FUSE6" gate="G$1" x="43.18" y="27.94"/>
-<instance part="CONN3" gate="G$1" x="2.54" y="25.4"/>
+<instance part="CONN3" gate="G$1" x="7.62" y="25.4"/>
 <instance part="CONN6" gate="G$1" x="55.88" y="25.4" rot="MR0"/>
-<instance part="GND6" gate="1" x="12.7" y="17.78"/>
-<instance part="GND7" gate="1" x="45.72" y="17.78"/>
+<instance part="SUPPLY1" gate="GND" x="17.78" y="58.42"/>
+<instance part="SUPPLY2" gate="GND" x="45.72" y="55.88"/>
+<instance part="SUPPLY3" gate="GND" x="10.16" y="93.98"/>
+<instance part="SUPPLY4" gate="GND" x="17.78" y="40.64"/>
+<instance part="SUPPLY5" gate="GND" x="45.72" y="35.56"/>
+<instance part="SUPPLY6" gate="GND" x="15.24" y="17.78"/>
+<instance part="SUPPLY7" gate="GND" x="45.72" y="17.78"/>
 </instances>
 <busses>
 </busses>
 <nets>
-<net name="GND" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="GND"/>
-<pinref part="GND1" gate="1" pin="GND"/>
-<wire x1="10.16" y1="104.14" x2="10.16" y2="96.52" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="GND2" gate="1" pin="GND"/>
-<pinref part="CONN2" gate="G$1" pin="GND"/>
-<wire x1="17.78" y1="60.96" x2="17.78" y2="63.5" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="CONN5" gate="G$1" pin="GND"/>
-<wire x1="45.72" y1="45.72" x2="45.72" y2="40.64" width="0.1524" layer="91"/>
-<pinref part="GND4" gate="1" pin="GND"/>
-<wire x1="45.72" y1="40.64" x2="45.72" y2="38.1" width="0.1524" layer="91"/>
-<junction x="45.72" y="40.64"/>
-</segment>
-<segment>
-<pinref part="CONN3" gate="G$1" pin="GND"/>
-<wire x1="10.16" y1="22.86" x2="12.7" y2="22.86" width="0.1524" layer="91"/>
-<pinref part="GND6" gate="1" pin="GND"/>
-<wire x1="12.7" y1="22.86" x2="12.7" y2="20.32" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="CONN6" gate="G$1" pin="GND"/>
-<wire x1="48.26" y1="22.86" x2="45.72" y2="22.86" width="0.1524" layer="91"/>
-<pinref part="GND7" gate="1" pin="GND"/>
-<wire x1="45.72" y1="22.86" x2="45.72" y2="20.32" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="12V" class="0">
 <segment>
 <pinref part="FUSE1" gate="G$1" pin="2"/>
@@ -577,7 +533,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="30.48" y1="66.04" x2="30.48" y2="73.66" width="0.1524" layer="91"/>
 <wire x1="30.48" y1="43.18" x2="30.48" y2="27.94" width="0.1524" layer="91"/>
 <wire x1="30.48" y1="27.94" x2="38.1" y2="27.94" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="27.94" x2="20.32" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="27.94" x2="25.4" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="FUSE5" gate="G$1" pin="2"/>
 <pinref part="FUSE6" gate="G$1" pin="1"/>
 <pinref part="CIRCUIT_BREAKER" gate="G$1" pin="P$2"/>
@@ -600,24 +556,12 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <pinref part="FUSE3" gate="G$1" pin="1"/>
 </segment>
 </net>
-<net name="N$8" class="0">
-<segment>
-<pinref part="CONN1" gate="G$1" pin="GND"/>
-<wire x1="17.78" y1="40.64" x2="17.78" y2="45.72" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$5" class="0">
 <segment>
 <pinref part="CONN4" gate="G$1" pin="VCC"/>
 <wire x1="45.72" y1="68.58" x2="40.64" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="FUSE2" gate="G$1" pin="2"/>
 <wire x1="40.64" y1="68.58" x2="40.64" y2="66.04" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$6" class="0">
-<segment>
-<pinref part="CONN4" gate="G$1" pin="GND"/>
-<wire x1="45.72" y1="63.5" x2="45.72" y2="55.88" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -643,12 +587,57 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </net>
 <net name="BAT" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="12V"/>
-<wire x1="15.24" y1="104.14" x2="15.24" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="15.24" y1="96.52" x2="22.86" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="22.86" y1="96.52" x2="22.86" y2="104.14" width="0.1524" layer="91"/>
 <pinref part="CIRCUIT_BREAKER" gate="G$1" pin="P$1"/>
-<wire x1="22.86" y1="104.14" x2="30.48" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="104.14" x2="25.4" y2="104.14" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="12V"/>
+<wire x1="25.4" y1="104.14" x2="30.48" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="15.24" y1="104.14" x2="22.86" y2="104.14" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="GND" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="GND"/>
+<wire x1="10.16" y1="104.14" x2="10.16" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="SUPPLY3" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="CONN2" gate="G$1" pin="GND"/>
+<wire x1="17.78" y1="60.96" x2="17.78" y2="63.5" width="0.1524" layer="91"/>
+<pinref part="SUPPLY1" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="CONN4" gate="G$1" pin="GND"/>
+<wire x1="45.72" y1="63.5" x2="45.72" y2="58.42" width="0.1524" layer="91"/>
+<pinref part="SUPPLY2" gate="GND" pin="GND"/>
+<wire x1="45.72" y1="58.42" x2="45.72" y2="55.88" width="0.1524" layer="91"/>
+<junction x="45.72" y="58.42"/>
+</segment>
+<segment>
+<pinref part="CONN1" gate="G$1" pin="GND"/>
+<wire x1="17.78" y1="40.64" x2="17.78" y2="43.18" width="0.1524" layer="91"/>
+<pinref part="SUPPLY4" gate="GND" pin="GND"/>
+<wire x1="17.78" y1="43.18" x2="17.78" y2="45.72" width="0.1524" layer="91"/>
+<junction x="17.78" y="43.18"/>
+</segment>
+<segment>
+<pinref part="CONN5" gate="G$1" pin="GND"/>
+<wire x1="45.72" y1="45.72" x2="45.72" y2="38.1" width="0.1524" layer="91"/>
+<pinref part="SUPPLY5" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="CONN3" gate="G$1" pin="GND"/>
+<wire x1="15.24" y1="22.86" x2="12.7" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="15.24" y1="22.86" x2="15.24" y2="20.32" width="0.1524" layer="91"/>
+<junction x="15.24" y="22.86"/>
+<pinref part="SUPPLY6" gate="GND" pin="GND"/>
+<wire x1="15.24" y1="20.32" x2="15.24" y2="17.78" width="0.1524" layer="91"/>
+<junction x="15.24" y="20.32"/>
+</segment>
+<segment>
+<pinref part="CONN6" gate="G$1" pin="GND"/>
+<wire x1="48.26" y1="22.86" x2="45.72" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="22.86" x2="45.72" y2="20.32" width="0.1524" layer="91"/>
+<pinref part="SUPPLY7" gate="GND" pin="GND"/>
 </segment>
 </net>
 </nets>
