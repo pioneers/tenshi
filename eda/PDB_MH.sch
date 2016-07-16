@@ -467,16 +467,16 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <parts>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device=""/>
 <part name="U$1" library="pie" deviceset="XT60CONNECTOR" device=""/>
-<part name="CONN1" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
 <part name="CONN2" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
+<part name="CONN1" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
 <part name="CONN4" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
 <part name="CONN5" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
 <part name="CIRCUIT_BREAKER" library="pie" deviceset="CIRC_BREAKER" device=""/>
-<part name="FUSE2" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
-<part name="FUSE1" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
-<part name="FUSE3" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
 <part name="FUSE4" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
+<part name="FUSE1" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
+<part name="FUSE2" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
 <part name="FUSE5" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
+<part name="FUSE3" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
 <part name="FUSE6" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
 <part name="CONN3" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
 <part name="CONN6" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
@@ -491,31 +491,32 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <sheets>
 <sheet>
 <plain>
+<text x="25.4" y="160.02" size="10.16" layer="97" font="vector">12V RAIL</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0"/>
-<instance part="U$1" gate="G$1" x="12.7" y="111.76" rot="R180"/>
-<instance part="CONN1" gate="G$1" x="10.16" y="48.26"/>
-<instance part="CONN2" gate="G$1" x="10.16" y="66.04"/>
-<instance part="CONN4" gate="G$1" x="53.34" y="66.04" rot="MR0"/>
-<instance part="CONN5" gate="G$1" x="53.34" y="48.26" rot="MR0"/>
-<instance part="CIRCUIT_BREAKER" gate="G$1" x="30.48" y="91.44"/>
-<instance part="FUSE2" gate="G$1" x="35.56" y="66.04"/>
-<instance part="FUSE1" gate="G$1" x="25.4" y="73.66"/>
-<instance part="FUSE3" gate="G$1" x="25.4" y="50.8"/>
-<instance part="FUSE4" gate="G$1" x="35.56" y="43.18"/>
-<instance part="FUSE5" gate="G$1" x="20.32" y="33.02"/>
-<instance part="FUSE6" gate="G$1" x="38.1" y="25.4"/>
-<instance part="CONN3" gate="G$1" x="7.62" y="25.4"/>
-<instance part="CONN6" gate="G$1" x="55.88" y="25.4" rot="MR0"/>
-<instance part="SUPPLY1" gate="GND" x="17.78" y="58.42"/>
-<instance part="SUPPLY2" gate="GND" x="45.72" y="55.88"/>
-<instance part="SUPPLY3" gate="GND" x="10.16" y="93.98"/>
-<instance part="SUPPLY4" gate="GND" x="17.78" y="40.64"/>
-<instance part="SUPPLY5" gate="GND" x="45.72" y="35.56"/>
-<instance part="SUPPLY6" gate="GND" x="15.24" y="17.78"/>
-<instance part="SUPPLY7" gate="GND" x="45.72" y="17.78"/>
+<instance part="U$1" gate="G$1" x="33.02" y="149.86" rot="R180"/>
+<instance part="CONN2" gate="G$1" x="27.94" y="88.9"/>
+<instance part="CONN1" gate="G$1" x="27.94" y="111.76"/>
+<instance part="CONN4" gate="G$1" x="83.82" y="101.6" rot="MR0"/>
+<instance part="CONN5" gate="G$1" x="83.82" y="78.74" rot="MR0"/>
+<instance part="CIRCUIT_BREAKER" gate="G$1" x="50.8" y="129.54"/>
+<instance part="FUSE4" gate="G$1" x="55.88" y="104.14"/>
+<instance part="FUSE1" gate="G$1" x="45.72" y="114.3"/>
+<instance part="FUSE2" gate="G$1" x="45.72" y="91.44"/>
+<instance part="FUSE5" gate="G$1" x="55.88" y="81.28"/>
+<instance part="FUSE3" gate="G$1" x="45.72" y="71.12"/>
+<instance part="FUSE6" gate="G$1" x="55.88" y="63.5"/>
+<instance part="CONN3" gate="G$1" x="27.94" y="68.58"/>
+<instance part="CONN6" gate="G$1" x="83.82" y="60.96" rot="MR0"/>
+<instance part="SUPPLY1" gate="GND" x="38.1" y="106.68"/>
+<instance part="SUPPLY2" gate="GND" x="68.58" y="96.52"/>
+<instance part="SUPPLY3" gate="GND" x="30.48" y="132.08"/>
+<instance part="SUPPLY4" gate="GND" x="38.1" y="83.82"/>
+<instance part="SUPPLY5" gate="GND" x="68.58" y="73.66"/>
+<instance part="SUPPLY6" gate="GND" x="38.1" y="63.5"/>
+<instance part="SUPPLY7" gate="GND" x="68.58" y="55.88"/>
 </instances>
 <busses>
 </busses>
@@ -523,126 +524,109 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <net name="12V" class="0">
 <segment>
 <pinref part="FUSE1" gate="G$1" pin="2"/>
-<wire x1="30.48" y1="66.04" x2="30.48" y2="43.18" width="0.1524" layer="91"/>
-<junction x="30.48" y="66.04"/>
-<pinref part="FUSE2" gate="G$1" pin="1"/>
-<pinref part="FUSE3" gate="G$1" pin="2"/>
+<wire x1="50.8" y1="104.14" x2="50.8" y2="91.44" width="0.1524" layer="91"/>
+<junction x="50.8" y="104.14"/>
 <pinref part="FUSE4" gate="G$1" pin="1"/>
-<junction x="30.48" y="43.18"/>
-<wire x1="30.48" y1="43.18" x2="30.48" y2="50.8" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="66.04" x2="30.48" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="43.18" x2="30.48" y2="33.02" width="0.1524" layer="91"/>
+<pinref part="FUSE5" gate="G$1" pin="1"/>
+<junction x="50.8" y="81.28"/>
+<wire x1="50.8" y1="91.44" x2="50.8" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="104.14" x2="50.8" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="81.28" x2="50.8" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="CIRCUIT_BREAKER" gate="G$1" pin="P$2"/>
-<wire x1="30.48" y1="33.02" x2="30.48" y2="25.4" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="78.74" x2="30.48" y2="73.66" width="0.1524" layer="91"/>
-<junction x="30.48" y="73.66"/>
-<pinref part="FUSE5" gate="G$1" pin="2"/>
-<wire x1="25.4" y1="33.02" x2="30.48" y2="33.02" width="0.1524" layer="91"/>
-<junction x="30.48" y="33.02"/>
+<wire x1="50.8" y1="71.12" x2="50.8" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="116.84" x2="50.8" y2="114.3" width="0.1524" layer="91"/>
+<junction x="50.8" y="114.3"/>
+<pinref part="FUSE3" gate="G$1" pin="2"/>
+<junction x="50.8" y="71.12"/>
 <pinref part="FUSE6" gate="G$1" pin="1"/>
-<wire x1="30.48" y1="25.4" x2="33.02" y2="25.4" width="0.1524" layer="91"/>
+<pinref part="FUSE2" gate="G$1" pin="2"/>
+<junction x="50.8" y="91.44"/>
 </segment>
 </net>
 <net name="VOUT1" class="0">
 <segment>
-<pinref part="CONN2" gate="G$1" pin="VCC"/>
-<wire x1="20.32" y1="73.66" x2="20.32" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="20.32" y1="68.58" x2="17.78" y2="68.58" width="0.1524" layer="91"/>
-<pinref part="FUSE1" gate="G$1" pin="1"/>
-</segment>
-</net>
-<net name="VOUT3" class="0">
-<segment>
 <pinref part="CONN1" gate="G$1" pin="VCC"/>
-<wire x1="20.32" y1="50.8" x2="17.78" y2="50.8" width="0.1524" layer="91"/>
-<pinref part="FUSE3" gate="G$1" pin="1"/>
+<wire x1="40.64" y1="114.3" x2="35.56" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="FUSE1" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="VOUT2" class="0">
 <segment>
-<pinref part="CONN4" gate="G$1" pin="VCC"/>
-<wire x1="45.72" y1="68.58" x2="40.64" y2="68.58" width="0.1524" layer="91"/>
-<pinref part="FUSE2" gate="G$1" pin="2"/>
-<wire x1="40.64" y1="68.58" x2="40.64" y2="66.04" width="0.1524" layer="91"/>
+<pinref part="CONN2" gate="G$1" pin="VCC"/>
+<wire x1="40.64" y1="91.44" x2="35.56" y2="91.44" width="0.1524" layer="91"/>
+<pinref part="FUSE2" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="VOUT4" class="0">
 <segment>
+<pinref part="CONN4" gate="G$1" pin="VCC"/>
+<wire x1="76.2" y1="104.14" x2="60.96" y2="104.14" width="0.1524" layer="91"/>
 <pinref part="FUSE4" gate="G$1" pin="2"/>
-<wire x1="40.64" y1="43.18" x2="43.18" y2="43.18" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="43.18" x2="43.18" y2="50.8" width="0.1524" layer="91"/>
-<pinref part="CONN5" gate="G$1" pin="VCC"/>
-<wire x1="43.18" y1="50.8" x2="45.72" y2="50.8" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VOUT5" class="0">
 <segment>
-<pinref part="FUSE5" gate="G$1" pin="1"/>
+<pinref part="FUSE5" gate="G$1" pin="2"/>
+<pinref part="CONN5" gate="G$1" pin="VCC"/>
+<wire x1="60.96" y1="81.28" x2="76.2" y2="81.28" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="VOUT3" class="0">
+<segment>
+<pinref part="FUSE3" gate="G$1" pin="1"/>
 <pinref part="CONN3" gate="G$1" pin="VCC"/>
-<wire x1="15.24" y1="33.02" x2="15.24" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="71.12" x2="35.56" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="BAT" class="0">
 <segment>
 <pinref part="CIRCUIT_BREAKER" gate="G$1" pin="P$1"/>
-<wire x1="22.86" y1="104.14" x2="25.4" y2="104.14" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="12V"/>
-<wire x1="25.4" y1="104.14" x2="30.48" y2="104.14" width="0.1524" layer="91"/>
-<wire x1="15.24" y1="104.14" x2="22.86" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="35.56" y1="142.24" x2="50.8" y2="142.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GND" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="GND"/>
-<wire x1="10.16" y1="104.14" x2="10.16" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="142.24" x2="30.48" y2="134.62" width="0.1524" layer="91"/>
 <pinref part="SUPPLY3" gate="GND" pin="GND"/>
 </segment>
 <segment>
-<pinref part="CONN2" gate="G$1" pin="GND"/>
-<wire x1="17.78" y1="60.96" x2="17.78" y2="63.5" width="0.1524" layer="91"/>
+<pinref part="CONN1" gate="G$1" pin="GND"/>
+<wire x1="38.1" y1="109.22" x2="35.56" y2="109.22" width="0.1524" layer="91"/>
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
 </segment>
 <segment>
 <pinref part="CONN4" gate="G$1" pin="GND"/>
-<wire x1="45.72" y1="63.5" x2="45.72" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="99.06" x2="68.58" y2="99.06" width="0.1524" layer="91"/>
 <pinref part="SUPPLY2" gate="GND" pin="GND"/>
-<wire x1="45.72" y1="58.42" x2="45.72" y2="55.88" width="0.1524" layer="91"/>
-<junction x="45.72" y="58.42"/>
 </segment>
 <segment>
-<pinref part="CONN1" gate="G$1" pin="GND"/>
-<wire x1="17.78" y1="40.64" x2="17.78" y2="43.18" width="0.1524" layer="91"/>
+<pinref part="CONN2" gate="G$1" pin="GND"/>
 <pinref part="SUPPLY4" gate="GND" pin="GND"/>
-<wire x1="17.78" y1="43.18" x2="17.78" y2="45.72" width="0.1524" layer="91"/>
-<junction x="17.78" y="43.18"/>
+<wire x1="38.1" y1="86.36" x2="35.56" y2="86.36" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="CONN5" gate="G$1" pin="GND"/>
-<wire x1="45.72" y1="45.72" x2="45.72" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="76.2" x2="68.58" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="SUPPLY5" gate="GND" pin="GND"/>
 </segment>
 <segment>
 <pinref part="CONN3" gate="G$1" pin="GND"/>
-<wire x1="15.24" y1="22.86" x2="12.7" y2="22.86" width="0.1524" layer="91"/>
-<wire x1="15.24" y1="22.86" x2="15.24" y2="20.32" width="0.1524" layer="91"/>
-<junction x="15.24" y="22.86"/>
+<wire x1="35.56" y1="66.04" x2="38.1" y2="66.04" width="0.1524" layer="91"/>
 <pinref part="SUPPLY6" gate="GND" pin="GND"/>
-<wire x1="15.24" y1="20.32" x2="15.24" y2="17.78" width="0.1524" layer="91"/>
-<junction x="15.24" y="20.32"/>
 </segment>
 <segment>
 <pinref part="CONN6" gate="G$1" pin="GND"/>
-<wire x1="48.26" y1="22.86" x2="45.72" y2="22.86" width="0.1524" layer="91"/>
-<wire x1="45.72" y1="22.86" x2="45.72" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="58.42" x2="68.58" y2="58.42" width="0.1524" layer="91"/>
 <pinref part="SUPPLY7" gate="GND" pin="GND"/>
 </segment>
 </net>
 <net name="VOUT6" class="0">
 <segment>
 <pinref part="FUSE6" gate="G$1" pin="2"/>
-<wire x1="43.18" y1="25.4" x2="48.26" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="63.5" x2="76.2" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="CONN6" gate="G$1" pin="VCC"/>
-<wire x1="48.26" y1="25.4" x2="48.26" y2="27.94" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
