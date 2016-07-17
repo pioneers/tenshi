@@ -1273,6 +1273,7 @@ Source: www.irf.com .. ir2520.pdf</description>
 <rectangle x1="-2.921" y1="-2.921" x2="2.921" y2="2.921" layer="39"/>
 </package>
 <package name="8-PIN_SOIC">
+<description>&lt;a href="http://glacier.lbl.gov/gtp/DOM/dataSheets/soic8_dim.pdf"&gt; Drawings &lt;/a&gt;</description>
 <smd name="7" x="2.8" y="0.635" dx="1.75" dy="0.65" layer="1"/>
 <smd name="8" x="2.8" y="1.905" dx="1.75" dy="0.65" layer="1"/>
 <smd name="6" x="2.8" y="-0.635" dx="1.75" dy="0.65" layer="1"/>
@@ -6068,6 +6069,12 @@ Drawings &lt;/a&gt;</description>
 <rectangle x1="-3.81" y1="-2.54" x2="3.81" y2="2.54" layer="39"/>
 </package>
 <package name="2X3_OFFSET">
+<description>2x3-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/966"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <wire x1="-3.81" y1="-1.905" x2="-3.81" y2="1.905" width="0.2032" layer="21"/>
 <wire x1="-1.27" y1="1.905" x2="-1.27" y2="-1.905" width="0.2032" layer="21"/>
 <wire x1="1.27" y1="1.905" x2="1.27" y2="-1.905" width="0.2032" layer="21"/>
@@ -6091,6 +6098,12 @@ Drawings &lt;/a&gt;</description>
 <rectangle x1="-3.81" y1="-4.318" x2="3.81" y2="4.318" layer="40"/>
 </package>
 <package name="2X3_LOCK">
+<description>2x3-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/966"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <wire x1="0.635" y1="-1.605" x2="-0.635" y2="-1.605" width="0.127" layer="21"/>
 <pad name="1" x="0" y="0" drill="1.016" diameter="1.8796" shape="octagon"/>
 <pad name="2" x="0" y="2.54" drill="1.016" diameter="1.8796" shape="octagon"/>
@@ -7605,6 +7618,12 @@ Drawings &lt;/a&gt;</description>
 <rectangle x1="-10.16" y1="-2.54" x2="10.16" y2="2.54" layer="40"/>
 </package>
 <package name="2X8-EDGE">
+<description>2x8-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/966"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <smd name="1" x="0" y="8.89" dx="3.81" dy="2.032" layer="1"/>
 <smd name="3" x="0" y="6.35" dx="3.81" dy="2.032" layer="1"/>
 <smd name="5" x="0" y="3.81" dx="3.81" dy="2.032" layer="1"/>
@@ -7727,6 +7746,12 @@ Drawings &lt;/a&gt;</description>
 <rectangle x1="-5.08" y1="-2.54" x2="5.08" y2="2.54" layer="40"/>
 </package>
 <package name="2X4-EDGE">
+<description>2x4-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/966"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <smd name="1" x="-2.54" y="3.81" dx="3.81" dy="2.032" layer="1"/>
 <smd name="3" x="-2.54" y="1.27" dx="3.81" dy="2.032" layer="1"/>
 <smd name="5" x="-2.54" y="-1.27" dx="3.81" dy="2.032" layer="1"/>
@@ -9029,6 +9054,12 @@ Drawings &lt;/a&gt;</description>
 <wire x1="5.715" y1="2.54" x2="6.35" y2="1.905" width="0.127" layer="21"/>
 </package>
 <package name="2X5-EDGE">
+<description>2x5-pin 0.1-inch header
+&lt;br&gt;
+&lt;a href="https://www.pololu.com/product/966"&gt; Pololu page&lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://multimedia.3m.com/mws/media/548112O/3mtm-pin-strip-header-ts2181.pdf"&gt; 
+Drawings &lt;/a&gt;</description>
 <smd name="1" x="-2.54" y="5.08" dx="3.81" dy="2.032" layer="1"/>
 <smd name="3" x="-2.54" y="2.54" dx="3.81" dy="2.032" layer="1"/>
 <smd name="5" x="-2.54" y="0" dx="3.81" dy="2.032" layer="1"/>
@@ -9102,7 +9133,8 @@ Drawings &lt;/a&gt;</description>
 <wire x1="-10.16" y1="-4.399990625" x2="10.16" y2="-4.399990625" width="0.127" layer="51"/>
 </package>
 <package name="1X06-STRAINRELIEF">
-<description>6-pin 0.1-inch header</description>
+<description>6-pin 0.1-inch header
+&lt;a href="http://www.digikey.com/product-search/en/connectors-interconnects/rectangular-connectors-headers-male-pins/1442547?k=header+pin+strain+relief&amp;k=&amp;pkeyword=header+pin+strain+relief&amp;pv88=7&amp;pv90=1&amp;pv5=4247&amp;FV=fff40016%2Cfff802f3&amp;mnonly=0&amp;newproducts=0&amp;ColumnSort=0&amp;page=1&amp;quantity=0&amp;ptm=0&amp;fid=0&amp;pageSize=25"&gt; DigiKey Page &lt;/a&gt;</description>
 <wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.1524" layer="21"/>
 <wire x1="1.905" y1="1.27" x2="2.54" y2="0.635" width="0.1524" layer="21"/>
 <wire x1="2.54" y1="-0.635" x2="1.905" y2="-1.27" width="0.1524" layer="21"/>
@@ -9362,7 +9394,9 @@ Probably Obsolete</description>
 <text x="1.27" y="-2.54" size="1.27" layer="27" font="vector" ratio="15" align="top-center">&gt;VALUE2</text>
 </package>
 <package name="1X06-SMD-C">
-<description>Package for 6pin SMD Header in the "C" orientation. Reference drawing: http://www.sullinscorp.com/images/C10058.pdf</description>
+<description>Package for 6pin SMD Header in the "C" orientation. &lt;br&gt;
+&lt;a href="http://www.sullinscorp.com/images/C10058.pdf"&gt; Reference Drawing &lt;/a&gt; &lt;br&gt;
+&lt;a href="http://www.digikey.com/product-search/en?keywords=GBC06SABN%20-%20M30"&gt; DigiKey Page &lt;/a&gt;</description>
 <wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.1524" layer="21"/>
 <wire x1="1.905" y1="1.27" x2="2.54" y2="0.635" width="0.1524" layer="21"/>
 <wire x1="5.08" y1="-0.635" x2="4.445" y2="-1.27" width="0.1524" layer="21"/>
