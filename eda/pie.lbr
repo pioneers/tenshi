@@ -1273,7 +1273,9 @@ Source: www.irf.com .. ir2520.pdf</description>
 <rectangle x1="-2.921" y1="-2.921" x2="2.921" y2="2.921" layer="39"/>
 </package>
 <package name="8-PIN_SOIC">
-<description>&lt;a href="http://glacier.lbl.gov/gtp/DOM/dataSheets/soic8_dim.pdf"&gt; Drawings &lt;/a&gt;</description>
+<description>Generic SOIC package
+
+&lt;a href="http://glacier.lbl.gov/gtp/DOM/dataSheets/soic8_dim.pdf"&gt; Drawings &lt;/a&gt;</description>
 <smd name="7" x="2.8" y="0.635" dx="1.75" dy="0.65" layer="1"/>
 <smd name="8" x="2.8" y="1.905" dx="1.75" dy="0.65" layer="1"/>
 <smd name="6" x="2.8" y="-0.635" dx="1.75" dy="0.65" layer="1"/>
@@ -1294,6 +1296,7 @@ Source: www.irf.com .. ir2520.pdf</description>
 <rectangle x1="-3.81" y1="-3.048" x2="3.81" y2="3.048" layer="39"/>
 </package>
 <package name="24-PIN_TSSOP">
+<description>General TSSOP package  &lt;a href="http://pdfserv.maximintegrated.com/arpdf/Packages/24tssop.pdf"&gt; Drawings &lt;/a&gt;</description>
 <smd name="19" x="3.05" y="0.325" dx="1.65" dy="0.45" layer="1"/>
 <smd name="PAD" x="0" y="0" dx="4.32" dy="3" layer="1" rot="R90" cream="no"/>
 <smd name="20" x="3.05" y="0.975" dx="1.65" dy="0.45" layer="1"/>
@@ -4358,8 +4361,7 @@ Source: http://www.vishay.com .. dcrcw.pdf</description>
 <rectangle x1="-2.54" y1="-2.54" x2="2.54" y2="2.54" layer="39"/>
 </package>
 <package name="1812X7R">
-<description>&lt;b&gt;Chip Monolithic Ceramic Capacitors&lt;/b&gt; Medium Voltage High Capacitance for General Use&lt;p&gt;
-Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
+<description>&lt;b&gt;Chip Monolithic Ceramic Capacitors&lt;/b&gt; Medium Voltage High Capacitance for General Use&lt;p&gt;&lt;br&gt;&lt;a href="http://psearch.en.murata.com/capacitor/product/GRM43DR72E224KW01%23.pdf"&gt; Data Sheet &lt;/a&gt;</description>
 <wire x1="-1.1" y1="1.5" x2="1.1" y2="1.5" width="0.2032" layer="51"/>
 <wire x1="1.1" y1="-1.5" x2="-1.1" y2="-1.5" width="0.2032" layer="51"/>
 <wire x1="-0.6" y1="1.5" x2="0.6" y2="1.5" width="0.2032" layer="21"/>
@@ -5819,7 +5821,8 @@ Drawings &lt;/a&gt;</description>
 <wire x1="0.381" y1="0.635" x2="0.381" y2="-0.635" width="0.1016" layer="51" curve="-118.072487"/>
 </package>
 <package name="78XXL">
-<description>&lt;b&gt;VOLTAGE REGULATOR&lt;/b&gt;</description>
+<description>&lt;b&gt;VOLTAGE REGULATOR&lt;/b&gt;
+&lt;a href="http://www.vishay.com/docs/91359/to220fp.pdf"&gt; Drawings &lt;/a&gt;</description>
 <wire x1="-5.207" y1="-6.35" x2="5.207" y2="-6.35" width="0.1524" layer="21"/>
 <wire x1="5.207" y1="-6.35" x2="5.207" y2="1.651" width="0.1524" layer="21"/>
 <wire x1="-5.207" y1="-6.35" x2="-5.207" y2="1.651" width="0.1524" layer="21"/>
@@ -8102,7 +8105,8 @@ Designed for Hirose ZX62-AB-5PA</description>
 </package>
 <package name="BLE-HM-10">
 <description>&lt;b&gt;HM-10 module&lt;/b&gt;
-CC2540-based BTLE module</description>
+CC2540-based BTLE module
+&lt;a href="http://www.ti.com/lit/ds/symlink/cc2540.pdf"&gt; Datasheet &lt;/a&gt;</description>
 <wire x1="-6.5" y1="-12" x2="-6.5" y2="14.9" width="0.127" layer="51"/>
 <wire x1="6.5" y1="-12" x2="6.5" y2="14.9" width="0.127" layer="51"/>
 <wire x1="-6.5" y1="-12" x2="6.5" y2="-12" width="0.127" layer="51"/>
@@ -8238,7 +8242,10 @@ TI PowerPAD(TM) Plastic Small Outline (8-pin)</description>
 </package>
 <package name="ANDERSON_HORIZONTAL">
 <description>2-pin 25A Anderson Connector
-Horizontal</description>
+Horizontal &lt;br&gt;
+&lt;a href="http://www.alliedelec.com/anderson-power-products-1377g2-bk/70162020/"&gt; Connector &lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://www.alliedelec.com/anderson-power-products-1327g6-bk/70162000/"&gt; Plastic &lt;/a&gt;</description>
 <pad name="PIN1" x="0" y="3.937" drill="1.778" diameter="3.175" rot="R270"/>
 <pad name="PIN2" x="0" y="-3.937" drill="1.778" diameter="3.175" rot="R270"/>
 <wire x1="-34.544" y1="8.128" x2="-34.544" y2="0" width="0.127" layer="51"/>
@@ -8261,7 +8268,11 @@ Horizontal</description>
 </package>
 <package name="ANDERSON_VERTICAL">
 <description>2-pin 25A Anderson Connector
-Vertical</description>
+Vertical
+&lt;br&gt;
+&lt;a href="http://www.alliedelec.com/anderson-power-products-1377g4-bk/70162018/"&gt; Connector &lt;/a&gt;
+&lt;br&gt;
+&lt;a href="http://www.alliedelec.com/anderson-power-products-1327g6-bk/70162000/"&gt; Plastic &lt;/a&gt;</description>
 <pad name="PIN1" x="0" y="-3.937" drill="1.778" diameter="3.175" rot="R90"/>
 <pad name="PIN2" x="0" y="3.937" drill="1.778" diameter="3.175" rot="R90"/>
 <rectangle x1="-7.874" y1="-3.937" x2="7.874" y2="3.937" layer="39" rot="R90"/>
