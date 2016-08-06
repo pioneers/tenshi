@@ -467,10 +467,10 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <parts>
 <part name="FRAME1" library="pie" deviceset="FRAME-LETTER" device=""/>
 <part name="U$1" library="pie" deviceset="XT60CONNECTOR" device=""/>
-<part name="CONN2" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
-<part name="CONN1" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
-<part name="CONN4" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
-<part name="CONN5" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
+<part name="CONN2" library="pie" deviceset="ANDERSON" device="VERTICAL" value="ANDERSONVERTICAL"/>
+<part name="CONN1" library="pie" deviceset="ANDERSON" device="VERTICAL" value="ANDERSONVERTICAL"/>
+<part name="CONN4" library="pie" deviceset="ANDERSON" device="VERTICAL" value="ANDERSONVERTICAL"/>
+<part name="CONN5" library="pie" deviceset="ANDERSON" device="VERTICAL" value="ANDERSONVERTICAL"/>
 <part name="CIRCUIT_BREAKER" library="pie" deviceset="CIRC_BREAKER" device=""/>
 <part name="FUSE4" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
 <part name="FUSE1" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
@@ -478,8 +478,8 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <part name="FUSE5" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
 <part name="FUSE3" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
 <part name="FUSE6" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
-<part name="CONN3" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
-<part name="CONN6" library="pie" deviceset="ANDERSON" device="HORIZONTAL"/>
+<part name="CONN3" library="pie" deviceset="ANDERSON" device="VERTICAL" value="ANDERSONVERTICAL"/>
+<part name="CONN6" library="pie" deviceset="ANDERSON" device="VERTICAL" value="ANDERSONVERTICAL"/>
 <part name="SUPPLY1" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY2" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY3" library="pie" deviceset="GND" device=""/>
