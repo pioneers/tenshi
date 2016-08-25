@@ -9616,16 +9616,19 @@ Vertical</description>
 <hole x="19.9898" y="0" drill="4.572"/>
 </package>
 <package name="BUCK_CONVERTER_5V">
-<pad name="P$3" x="1.27" y="46.482" drill="2.032" diameter="3.048"/>
-<pad name="P$4" x="5.08" y="46.482" drill="2.032" diameter="3.048" rot="R90"/>
-<pad name="P$5" x="-2.54" y="46.482" drill="2.032" diameter="3.048" rot="R90"/>
-<pad name="P$6" x="-6.35" y="46.482" drill="2.032" diameter="3.048" rot="R90"/>
+<description>5V Buck Converter. For PDB. &lt;a href ="https://www.amazon.com/dp/B00GQ032DK/?psc=1"&gt; Product Detail &lt;/a&gt;</description>
+<pad name="P$3" x="1.27" y="31.75" drill="2.032" diameter="3.048"/>
+<pad name="P$4" x="5.08" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
+<pad name="P$5" x="-2.54" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
+<pad name="P$6" x="-6.35" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
 <hole x="-26.924" y="0" drill="5.08"/>
 <hole x="26.924" y="0" drill="5.08"/>
-<wire x1="-31.75" y1="49.53" x2="31.75" y2="49.53" width="0.127" layer="21"/>
-<wire x1="31.75" y1="49.53" x2="31.75" y2="-26.67" width="0.127" layer="21"/>
-<wire x1="-31.75" y1="49.53" x2="-31.75" y2="-26.67" width="0.127" layer="21"/>
+<wire x1="-31.75" y1="34.29" x2="31.75" y2="34.29" width="0.127" layer="21"/>
+<wire x1="31.75" y1="34.29" x2="31.75" y2="-26.67" width="0.127" layer="21"/>
+<wire x1="-31.75" y1="34.29" x2="-31.75" y2="-26.67" width="0.127" layer="21"/>
 <wire x1="-31.75" y1="-26.67" x2="31.75" y2="-26.67" width="0.127" layer="21"/>
+<text x="-3.81" y="29.21" size="1.778" layer="25" font="vector" rot="R180">Buck Converter 5V</text>
+<rectangle x1="-31.75" y1="-26.67" x2="31.75" y2="34.29" layer="39"/>
 </package>
 </packages>
 <symbols>
