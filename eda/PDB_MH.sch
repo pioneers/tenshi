@@ -9,6 +9,10 @@
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
+<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
+<layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
+<layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
@@ -238,6 +242,21 @@ Vertical</description>
 <wire x1="6.35" y1="1.27" x2="6.35" y2="-1.27" width="0.127" layer="25" curve="-180"/>
 <rectangle x1="-10.16" y1="-7.62" x2="10.16" y2="7.62" layer="39"/>
 </package>
+<package name="BUCK_CONVERTER_5V">
+<description>5V Buck Converter. For PDB. &lt;a href ="https://www.amazon.com/dp/B00GQ032DK/?psc=1"&gt; Product Detail &lt;/a&gt;</description>
+<pad name="P$3" x="1.27" y="31.75" drill="2.032" diameter="3.048"/>
+<pad name="P$4" x="5.08" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
+<pad name="P$5" x="-2.54" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
+<pad name="P$6" x="-6.35" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
+<hole x="-26.924" y="0" drill="5.08"/>
+<hole x="26.924" y="0" drill="5.08"/>
+<wire x1="-31.75" y1="34.29" x2="31.75" y2="34.29" width="0.127" layer="21"/>
+<wire x1="31.75" y1="34.29" x2="31.75" y2="-26.67" width="0.127" layer="21"/>
+<wire x1="-31.75" y1="34.29" x2="-31.75" y2="-26.67" width="0.127" layer="21"/>
+<wire x1="-31.75" y1="-26.67" x2="31.75" y2="-26.67" width="0.127" layer="21"/>
+<text x="-3.81" y="29.21" size="1.778" layer="25" font="vector" rot="R180">Buck Converter 5V</text>
+<rectangle x1="-31.75" y1="-26.67" x2="31.75" y2="34.29" layer="39"/>
+</package>
 </packages>
 <symbols>
 <symbol name="LETTER_L">
@@ -330,6 +349,18 @@ BREAKER</text>
 <wire x1="0" y1="-1.27" x2="-1.27" y2="0" width="0.254" layer="94"/>
 <text x="-1.27" y="-3.81" size="1.778" layer="96">&gt;VALUE</text>
 <pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
+</symbol>
+<symbol name="BUCK_CONVERTER_5V">
+<description>Symbol for 5V buck regulator: &lt;a href="https://www.amazon.com/DROK-Converter-Step-down-Transformer-Waterproof/dp/B00CE75K0W/"&gt;product link&lt;/a&gt;</description>
+<wire x1="-7.62" y1="5.08" x2="-7.62" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-5.08" x2="7.62" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-5.08" x2="7.62" y2="5.08" width="0.254" layer="94"/>
+<wire x1="7.62" y1="5.08" x2="-7.62" y2="5.08" width="0.254" layer="94"/>
+<pin name="IN+" x="-12.7" y="2.54" length="middle"/>
+<pin name="OUT+" x="12.7" y="2.54" length="middle" rot="R180"/>
+<pin name="IN-" x="-12.7" y="-2.54" length="middle"/>
+<pin name="OUT-" x="12.7" y="-2.54" length="middle" rot="R180"/>
+<circle x="-5.08" y="2.54" radius="1.27" width="0.254" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -453,6 +484,25 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 </device>
 </devices>
 </deviceset>
+<deviceset name="BUCK_CONVERTER_5V">
+<description>5V Buck Converter. For PDB. &lt;a href ="https://www.amazon.com/dp/B00GQ032DK/?psc=1"&gt; Product Detail &lt;/a&gt;</description>
+<gates>
+<gate name="G$1" symbol="BUCK_CONVERTER_5V" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="BUCK_CONVERTER_5V">
+<connects>
+<connect gate="G$1" pin="IN+" pad="P$4"/>
+<connect gate="G$1" pin="IN-" pad="P$3"/>
+<connect gate="G$1" pin="OUT+" pad="P$6"/>
+<connect gate="G$1" pin="OUT-" pad="P$5"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -487,6 +537,21 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <part name="SUPPLY5" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY6" library="pie" deviceset="GND" device=""/>
 <part name="SUPPLY7" library="pie" deviceset="GND" device=""/>
+<part name="U$7" library="pie" deviceset="BUCK_CONVERTER_5V" device=""/>
+<part name="FUSE7" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
+<part name="FUSE8" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
+<part name="FUSE9" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
+<part name="FUSE10" library="pie" deviceset="FUSE_HOLDER_SMD" device=""/>
+<part name="CONN7" library="pie" deviceset="ANDERSON" device="VERTICAL" value="ANDERSONVERTICAL"/>
+<part name="CONN9" library="pie" deviceset="ANDERSON" device="VERTICAL" value="ANDERSONVERTICAL"/>
+<part name="CONN10" library="pie" deviceset="ANDERSON" device="VERTICAL" value="ANDERSONVERTICAL"/>
+<part name="CONN8" library="pie" deviceset="ANDERSON" device="VERTICAL" value="ANDERSONVERTICAL"/>
+<part name="SUPPLY8" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY9" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY10" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY11" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY12" library="pie" deviceset="GND" device=""/>
+<part name="SUPPLY13" library="pie" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -517,6 +582,21 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <instance part="SUPPLY5" gate="GND" x="68.58" y="73.66"/>
 <instance part="SUPPLY6" gate="GND" x="38.1" y="63.5"/>
 <instance part="SUPPLY7" gate="GND" x="68.58" y="55.88"/>
+<instance part="U$7" gate="G$1" x="127" y="129.54" rot="R270"/>
+<instance part="FUSE7" gate="G$1" x="134.62" y="111.76"/>
+<instance part="FUSE8" gate="G$1" x="124.46" y="104.14"/>
+<instance part="FUSE9" gate="G$1" x="134.62" y="91.44"/>
+<instance part="FUSE10" gate="G$1" x="124.46" y="81.28"/>
+<instance part="CONN7" gate="G$1" x="165.1" y="109.22" rot="MR0"/>
+<instance part="CONN9" gate="G$1" x="165.1" y="88.9" rot="MR0"/>
+<instance part="CONN10" gate="G$1" x="101.6" y="78.74"/>
+<instance part="CONN8" gate="G$1" x="101.6" y="101.6"/>
+<instance part="SUPPLY8" gate="GND" x="111.76" y="73.66"/>
+<instance part="SUPPLY9" gate="GND" x="111.76" y="96.52"/>
+<instance part="SUPPLY10" gate="GND" x="154.94" y="104.14"/>
+<instance part="SUPPLY11" gate="GND" x="154.94" y="83.82"/>
+<instance part="SUPPLY12" gate="GND" x="116.84" y="134.62"/>
+<instance part="SUPPLY13" gate="GND" x="124.46" y="114.3"/>
 </instances>
 <busses>
 </busses>
@@ -541,6 +621,20 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <pinref part="FUSE6" gate="G$1" pin="1"/>
 <pinref part="FUSE2" gate="G$1" pin="2"/>
 <junction x="50.8" y="91.44"/>
+</segment>
+<segment>
+<pinref part="U$7" gate="G$1" pin="OUT+"/>
+<wire x1="129.54" y1="116.84" x2="129.54" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="111.76" x2="129.54" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="104.14" x2="129.54" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="91.44" x2="129.54" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="FUSE10" gate="G$1" pin="2"/>
+<pinref part="FUSE9" gate="G$1" pin="1"/>
+<junction x="129.54" y="91.44"/>
+<pinref part="FUSE8" gate="G$1" pin="2"/>
+<junction x="129.54" y="104.14"/>
+<pinref part="FUSE7" gate="G$1" pin="1"/>
+<junction x="129.54" y="111.76"/>
 </segment>
 </net>
 <net name="VOUT1" class="0">
@@ -583,6 +677,11 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <pinref part="CIRCUIT_BREAKER" gate="G$1" pin="P$1"/>
 <pinref part="U$1" gate="G$1" pin="12V"/>
 <wire x1="35.56" y1="142.24" x2="50.8" y2="142.24" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="142.24" x2="50.8" y2="147.32" width="0.1524" layer="91"/>
+<junction x="50.8" y="142.24"/>
+<pinref part="U$7" gate="G$1" pin="IN+"/>
+<wire x1="50.8" y1="147.32" x2="129.54" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="147.32" x2="129.54" y2="142.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -621,12 +720,70 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <wire x1="76.2" y1="58.42" x2="68.58" y2="58.42" width="0.1524" layer="91"/>
 <pinref part="SUPPLY7" gate="GND" pin="GND"/>
 </segment>
+<segment>
+<pinref part="CONN10" gate="G$1" pin="GND"/>
+<pinref part="SUPPLY8" gate="GND" pin="GND"/>
+<wire x1="109.22" y1="76.2" x2="111.76" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="CONN8" gate="G$1" pin="GND"/>
+<pinref part="SUPPLY9" gate="GND" pin="GND"/>
+<wire x1="109.22" y1="99.06" x2="111.76" y2="99.06" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="CONN7" gate="G$1" pin="GND"/>
+<pinref part="SUPPLY10" gate="GND" pin="GND"/>
+<wire x1="157.48" y1="106.68" x2="154.94" y2="106.68" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="CONN9" gate="G$1" pin="GND"/>
+<pinref part="SUPPLY11" gate="GND" pin="GND"/>
+<wire x1="157.48" y1="86.36" x2="154.94" y2="86.36" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U$7" gate="G$1" pin="IN-"/>
+<wire x1="124.46" y1="142.24" x2="116.84" y2="142.24" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="142.24" x2="116.84" y2="137.16" width="0.1524" layer="91"/>
+<pinref part="SUPPLY12" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="U$7" gate="G$1" pin="OUT-"/>
+<pinref part="SUPPLY13" gate="GND" pin="GND"/>
+</segment>
 </net>
 <net name="VOUT6" class="0">
 <segment>
 <pinref part="FUSE6" gate="G$1" pin="2"/>
 <wire x1="60.96" y1="63.5" x2="76.2" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="CONN6" gate="G$1" pin="VCC"/>
+</segment>
+</net>
+<net name="VOUT7" class="0">
+<segment>
+<pinref part="FUSE7" gate="G$1" pin="2"/>
+<pinref part="CONN7" gate="G$1" pin="VCC"/>
+<wire x1="139.7" y1="111.76" x2="157.48" y2="111.76" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="VOUT8" class="0">
+<segment>
+<pinref part="FUSE8" gate="G$1" pin="1"/>
+<pinref part="CONN8" gate="G$1" pin="VCC"/>
+<wire x1="119.38" y1="104.14" x2="109.22" y2="104.14" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="VOUT9" class="0">
+<segment>
+<pinref part="FUSE9" gate="G$1" pin="2"/>
+<pinref part="CONN9" gate="G$1" pin="VCC"/>
+<wire x1="139.7" y1="91.44" x2="157.48" y2="91.44" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="VOUT10" class="0">
+<segment>
+<pinref part="FUSE10" gate="G$1" pin="1"/>
+<pinref part="CONN10" gate="G$1" pin="VCC"/>
+<wire x1="119.38" y1="81.28" x2="109.22" y2="81.28" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
