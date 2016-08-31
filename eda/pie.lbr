@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.6.0">
+<eagle version="7.4.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -9617,18 +9617,22 @@ Vertical</description>
 </package>
 <package name="BUCK_CONVERTER_5V">
 <description>5V Buck Converter. For PDB. &lt;a href ="https://www.amazon.com/dp/B00GQ032DK/?psc=1"&gt; Product Detail &lt;/a&gt;</description>
-<pad name="P$3" x="1.27" y="31.75" drill="2.032" diameter="3.048"/>
-<pad name="P$4" x="5.08" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
-<pad name="P$5" x="-2.54" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
-<pad name="P$6" x="-6.35" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
+<pad name="IN-" x="1.27" y="31.75" drill="2.032" diameter="3.048"/>
+<pad name="IN+" x="5.08" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
+<pad name="OUT-" x="-2.54" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
+<pad name="OUT+" x="-6.35" y="31.75" drill="2.032" diameter="3.048" rot="R90"/>
 <hole x="-26.924" y="0" drill="5.08"/>
 <hole x="26.924" y="0" drill="5.08"/>
 <wire x1="-31.75" y1="34.29" x2="31.75" y2="34.29" width="0.127" layer="21"/>
 <wire x1="31.75" y1="34.29" x2="31.75" y2="-26.67" width="0.127" layer="21"/>
 <wire x1="-31.75" y1="34.29" x2="-31.75" y2="-26.67" width="0.127" layer="21"/>
 <wire x1="-31.75" y1="-26.67" x2="31.75" y2="-26.67" width="0.127" layer="21"/>
-<text x="-3.81" y="29.21" size="1.778" layer="25" font="vector" rot="R180">Buck Converter 5V</text>
+<text x="-3.81" y="-22.86" size="1.778" layer="25" font="vector" rot="R180">Buck Converter 5V</text>
 <rectangle x1="-31.75" y1="-26.67" x2="31.75" y2="34.29" layer="39"/>
+<text x="-5.08" y="35.56" size="1.778" layer="21" font="vector" ratio="10" rot="R90">OUT+</text>
+<text x="-1.27" y="35.56" size="1.778" layer="21" font="vector" ratio="10" rot="R90">OUT-</text>
+<text x="2.54" y="35.56" size="1.778" layer="21" font="vector" ratio="10" rot="R90">IN-</text>
+<text x="6.35" y="35.56" size="1.778" layer="21" font="vector" ratio="10" rot="R90">IN+</text>
 </package>
 </packages>
 <symbols>
@@ -11053,6 +11057,7 @@ Vertical</description>
 <wire x1="5.08" y1="0" x2="-7.62" y2="0" width="0.254" layer="94"/>
 <pin name="VCC" x="7.62" y="2.54" visible="pin" length="middle" rot="R180"/>
 <pin name="GND" x="7.62" y="-2.54" visible="pin" length="middle" rot="R180"/>
+<text x="-7.62" y="6.096" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 <symbol name="POGO_PIN">
 <description>&lt;b&gt; Pogo Pin Mounting/Probing Pad &lt;/b&gt;</description>
@@ -11234,8 +11239,8 @@ BREAKER</text>
 <wire x1="0" y1="-7.62" x2="10.16" y2="0" width="0.254" layer="94"/>
 <wire x1="10.16" y1="0" x2="0" y2="7.62" width="0.254" layer="94"/>
 <wire x1="0" y1="7.62" x2="-10.16" y2="0" width="0.254" layer="94"/>
-<pin name="P$1" x="0" y="12.7" length="middle" rot="R270"/>
-<pin name="P$2" x="0" y="-12.7" length="middle" rot="R90"/>
+<pin name="P$1" x="0" y="12.7" visible="off" length="middle" rot="R270"/>
+<pin name="P$2" x="0" y="-12.7" visible="off" length="middle" rot="R90"/>
 </symbol>
 <symbol name="BUCK_CONVERTER_5V">
 <description>Symbol for 5V buck regulator: &lt;a href="https://www.amazon.com/DROK-Converter-Step-down-Transformer-Waterproof/dp/B00CE75K0W/"&gt;product link&lt;/a&gt;</description>
@@ -11248,6 +11253,7 @@ BREAKER</text>
 <pin name="IN-" x="-12.7" y="-2.54" length="middle"/>
 <pin name="OUT-" x="12.7" y="-2.54" length="middle" rot="R180"/>
 <circle x="-5.08" y="2.54" radius="1.27" width="0.254" layer="94"/>
+<text x="-7.62" y="6.096" size="1.778" layer="95" ratio="10">&gt;VALUE</text>
 </symbol>
 <symbol name="FUSE">
 <description>Symbol for fuse taken from EAGLE's "fuses" library</description>
@@ -11257,7 +11263,6 @@ BREAKER</text>
 <wire x1="-3.81" y1="0.762" x2="-3.81" y2="-0.762" width="0.254" layer="94"/>
 <wire x1="-2.54" y1="0" x2="2.54" y2="0" width="0.1524" layer="94"/>
 <text x="-3.81" y="1.397" size="1.778" layer="95" font="vector">&gt;NAME</text>
-<text x="-3.81" y="-2.921" size="1.778" layer="96" font="vector">&gt;VALUE</text>
 <pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
 <pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
 </symbol>
@@ -14861,10 +14866,10 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <devices>
 <device name="" package="BUCK_CONVERTER_5V">
 <connects>
-<connect gate="G$1" pin="IN+" pad="P$4"/>
-<connect gate="G$1" pin="IN-" pad="P$3"/>
-<connect gate="G$1" pin="OUT+" pad="P$6"/>
-<connect gate="G$1" pin="OUT-" pad="P$5"/>
+<connect gate="G$1" pin="IN+" pad="IN+"/>
+<connect gate="G$1" pin="IN-" pad="IN-"/>
+<connect gate="G$1" pin="OUT+" pad="OUT+"/>
+<connect gate="G$1" pin="OUT-" pad="OUT-"/>
 </connects>
 <technologies>
 <technology name=""/>
