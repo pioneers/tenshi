@@ -608,21 +608,21 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <instance part="SUPPLY5" gate="GND" x="88.9" y="86.36"/>
 <instance part="SUPPLY6" gate="GND" x="68.58" y="76.2"/>
 <instance part="SUPPLY7" gate="GND" x="88.9" y="68.58"/>
-<instance part="U$7" gate="G$1" x="162.56" y="132.08"/>
-<instance part="FUSE7" gate="G$1" x="190.5" y="109.22" rot="MR0"/>
-<instance part="FUSE8" gate="G$1" x="200.66" y="101.6" rot="MR0"/>
-<instance part="FUSE9" gate="G$1" x="190.5" y="88.9" rot="MR0"/>
-<instance part="FUSE10" gate="G$1" x="200.66" y="78.74" rot="MR0"/>
-<instance part="CONN7" gate="G$1" x="172.72" y="106.68"/>
-<instance part="CONN9" gate="G$1" x="172.72" y="86.36"/>
-<instance part="CONN10" gate="G$1" x="218.44" y="76.2" rot="MR0"/>
-<instance part="CONN8" gate="G$1" x="218.44" y="99.06" rot="MR0"/>
-<instance part="SUPPLY8" gate="GND" x="208.28" y="71.12" rot="MR0"/>
-<instance part="SUPPLY9" gate="GND" x="205.74" y="93.98" rot="MR0"/>
-<instance part="SUPPLY10" gate="GND" x="182.88" y="101.6" rot="MR0"/>
-<instance part="SUPPLY11" gate="GND" x="182.88" y="81.28" rot="MR0"/>
-<instance part="SUPPLY12" gate="GND" x="142.24" y="127"/>
-<instance part="SUPPLY13" gate="GND" x="185.42" y="127"/>
+<instance part="U$7" gate="G$1" x="167.64" y="124.46" rot="R90"/>
+<instance part="FUSE7" gate="G$1" x="160.02" y="91.44" rot="MR0"/>
+<instance part="FUSE8" gate="G$1" x="170.18" y="83.82" rot="MR0"/>
+<instance part="FUSE9" gate="G$1" x="160.02" y="71.12" rot="MR0"/>
+<instance part="FUSE10" gate="G$1" x="170.18" y="60.96" rot="MR0"/>
+<instance part="CONN7" gate="G$1" x="142.24" y="88.9"/>
+<instance part="CONN9" gate="G$1" x="142.24" y="68.58"/>
+<instance part="CONN10" gate="G$1" x="187.96" y="58.42" rot="MR0"/>
+<instance part="CONN8" gate="G$1" x="187.96" y="81.28" rot="MR0"/>
+<instance part="SUPPLY8" gate="GND" x="177.8" y="53.34" rot="MR0"/>
+<instance part="SUPPLY9" gate="GND" x="175.26" y="76.2" rot="MR0"/>
+<instance part="SUPPLY10" gate="GND" x="152.4" y="83.82" rot="MR0"/>
+<instance part="SUPPLY11" gate="GND" x="152.4" y="63.5" rot="MR0"/>
+<instance part="SUPPLY12" gate="GND" x="187.96" y="109.22"/>
+<instance part="SUPPLY13" gate="GND" x="187.96" y="134.62"/>
 </instances>
 <busses>
 </busses>
@@ -647,9 +647,12 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <pinref part="FUSE6" gate="G$1" pin="1"/>
 <pinref part="FUSE2" gate="G$1" pin="2"/>
 <junction x="81.28" y="104.14"/>
-<pinref part="U$7" gate="G$1" pin="IN+"/>
-<wire x1="81.28" y1="134.62" x2="149.86" y2="134.62" width="0.1524" layer="91"/>
-<junction x="81.28" y="134.62"/>
+</segment>
+<segment>
+<wire x1="165.1" y1="137.16" x2="81.28" y2="137.16" width="0.1524" layer="91"/>
+<pinref part="U$7" gate="G$1" pin="OUT+"/>
+<junction x="81.28" y="137.16"/>
+<label x="96.52" y="139.7" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VOUT1" class="0">
@@ -726,32 +729,32 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <segment>
 <pinref part="CONN10" gate="G$1" pin="GND"/>
 <pinref part="SUPPLY8" gate="GND" pin="GND"/>
-<wire x1="210.82" y1="73.66" x2="208.28" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="180.34" y1="55.88" x2="177.8" y2="55.88" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="CONN8" gate="G$1" pin="GND"/>
 <pinref part="SUPPLY9" gate="GND" pin="GND"/>
-<wire x1="210.82" y1="96.52" x2="205.74" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="180.34" y1="78.74" x2="175.26" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="CONN7" gate="G$1" pin="GND"/>
 <pinref part="SUPPLY10" gate="GND" pin="GND"/>
-<wire x1="180.34" y1="104.14" x2="182.88" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="149.86" y1="86.36" x2="152.4" y2="86.36" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="CONN9" gate="G$1" pin="GND"/>
 <pinref part="SUPPLY11" gate="GND" pin="GND"/>
-<wire x1="180.34" y1="83.82" x2="182.88" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="149.86" y1="66.04" x2="152.4" y2="66.04" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$7" gate="G$1" pin="IN-"/>
+<wire x1="170.18" y1="111.76" x2="187.96" y2="111.76" width="0.1524" layer="91"/>
 <pinref part="SUPPLY12" gate="GND" pin="GND"/>
-<wire x1="149.86" y1="129.54" x2="142.24" y2="129.54" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$7" gate="G$1" pin="OUT-"/>
 <pinref part="SUPPLY13" gate="GND" pin="GND"/>
-<wire x1="185.42" y1="129.54" x2="175.26" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="170.18" y1="137.16" x2="187.96" y2="137.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VOUT6" class="0">
@@ -765,46 +768,45 @@ and &lt;a href="http://www.digikey.com/product-detail/en/keystone-electronics/35
 <segment>
 <pinref part="FUSE7" gate="G$1" pin="2"/>
 <pinref part="CONN7" gate="G$1" pin="VCC"/>
-<wire x1="185.42" y1="109.22" x2="180.34" y2="109.22" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="91.44" x2="149.86" y2="91.44" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VOUT8" class="0">
 <segment>
 <pinref part="FUSE8" gate="G$1" pin="1"/>
 <pinref part="CONN8" gate="G$1" pin="VCC"/>
-<wire x1="205.74" y1="101.6" x2="210.82" y2="101.6" width="0.1524" layer="91"/>
+<wire x1="175.26" y1="83.82" x2="180.34" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VOUT9" class="0">
 <segment>
 <pinref part="FUSE9" gate="G$1" pin="2"/>
 <pinref part="CONN9" gate="G$1" pin="VCC"/>
-<wire x1="185.42" y1="88.9" x2="180.34" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="71.12" x2="149.86" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VOUT10" class="0">
 <segment>
 <pinref part="FUSE10" gate="G$1" pin="1"/>
 <pinref part="CONN10" gate="G$1" pin="VCC"/>
-<wire x1="205.74" y1="78.74" x2="210.82" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="175.26" y1="60.96" x2="180.34" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="5V" class="0">
 <segment>
+<wire x1="165.1" y1="111.76" x2="165.1" y2="91.44" width="0.1524" layer="91"/>
 <pinref part="FUSE10" gate="G$1" pin="2"/>
-<wire x1="195.58" y1="109.22" x2="195.58" y2="101.6" width="0.1524" layer="91"/>
-<wire x1="195.58" y1="101.6" x2="195.58" y2="88.9" width="0.1524" layer="91"/>
-<wire x1="195.58" y1="88.9" x2="195.58" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="165.1" y1="91.44" x2="165.1" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="165.1" y1="83.82" x2="165.1" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="165.1" y1="71.12" x2="165.1" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="FUSE9" gate="G$1" pin="1"/>
 <pinref part="FUSE8" gate="G$1" pin="2"/>
 <pinref part="FUSE7" gate="G$1" pin="1"/>
-<junction x="195.58" y="101.6"/>
-<junction x="195.58" y="88.9"/>
-<label x="195.58" y="139.7" size="1.778" layer="91" ratio="10" rot="R180"/>
-<pinref part="U$7" gate="G$1" pin="OUT+"/>
-<wire x1="175.26" y1="134.62" x2="195.58" y2="134.62" width="0.1524" layer="91"/>
-<wire x1="195.58" y1="134.62" x2="195.58" y2="109.22" width="0.1524" layer="91"/>
-<junction x="195.58" y="109.22"/>
+<junction x="165.1" y="91.44"/>
+<junction x="165.1" y="83.82"/>
+<junction x="165.1" y="71.12"/>
+<label x="162.56" y="101.6" size="1.778" layer="91" ratio="10" rot="R180"/>
+<pinref part="U$7" gate="G$1" pin="IN+"/>
 </segment>
 </net>
 <net name="BAT" class="0">

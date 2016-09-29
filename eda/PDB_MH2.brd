@@ -142,10 +142,10 @@
 </layers>
 <board>
 <plain>
-<wire x1="0" y1="0" x2="142.24" y2="0" width="0.254" layer="20"/>
-<wire x1="142.24" y1="0" x2="142.24" y2="99.06" width="0.254" layer="20"/>
-<wire x1="142.24" y1="99.06" x2="0" y2="99.06" width="0.254" layer="20"/>
-<wire x1="0" y1="99.06" x2="0" y2="0" width="0.254" layer="20"/>
+<wire x1="0" y1="0" x2="142.24" y2="0" width="0" layer="20"/>
+<wire x1="142.24" y1="0" x2="142.24" y2="99.06" width="0" layer="20"/>
+<wire x1="142.24" y1="99.06" x2="0" y2="99.06" width="0" layer="20"/>
+<wire x1="0" y1="99.06" x2="0" y2="0" width="0" layer="20"/>
 <text x="132.08" y="63.5" size="1.524" layer="22" font="vector" rot="MR0">Copyright (c) 2013, Pioneers in Engineering
 
 All rights reserved.
@@ -956,9 +956,9 @@ design rules under a new name.</description>
 <attribute name="PIE-INT-REF-NUM" value="Anderson" x="69.85" y="10.16" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
 <element name="U$2" library="pie" package="STAND-OFF" value="" x="5.08" y="6.35"/>
-<element name="U$3" library="pie" package="STAND-OFF" value="" x="5.08" y="88.9" rot="MR0"/>
-<element name="U$4" library="pie" package="STAND-OFF" value="" x="132.08" y="38.1" rot="R180"/>
-<element name="U$5" library="pie" package="STAND-OFF" value="" x="132.08" y="6.35"/>
+<element name="U$3" library="pie" package="STAND-OFF" value="" x="5.08" y="93.98" rot="MR0"/>
+<element name="U$4" library="pie" package="STAND-OFF" value="" x="135.89" y="40.64" rot="R180"/>
+<element name="U$5" library="pie" package="STAND-OFF" value="" x="135.89" y="6.35"/>
 <element name="U$6" library="pie" package="PIE-LOGO-SMALL" value="" x="121.92" y="21.59"/>
 <element name="U$7" library="pie" package="BUCK_CONVERTER_5V" value="BUCK_CONVERTER_5V" x="110.49" y="72.39" rot="R180"/>
 <element name="FUSE7" library="pie" package="FUSE_HOLDER_SMD" value="FUSE_HOLDER_SMD" x="16.51" y="76.2" rot="R90">
@@ -1085,24 +1085,20 @@ design rules under a new name.</description>
 <contactref element="FUSE6" pad="P$1_UP"/>
 <contactref element="FUSE6" pad="P$1_DOWN"/>
 <contactref element="CIRCUIT_BREAKER" pad="P$2"/>
+<contactref element="U$7" pad="OUT+"/>
+<wire x1="101.6" y1="31.75" x2="100.33" y2="31.75" width="4.572" layer="1"/>
 <polygon width="1.1938" layer="1">
-<vertex x="7.62" y="25.4"/>
-<vertex x="114.3" y="25.4"/>
+<vertex x="7.62" y="29.21"/>
+<vertex x="114.3" y="29.21"/>
 <vertex x="114.3" y="34.29"/>
 <vertex x="59.69" y="34.29"/>
 <vertex x="59.69" y="48.26"/>
 <vertex x="7.62" y="48.26"/>
 </polygon>
-<contactref element="U$7" pad="IN+"/>
-<wire x1="100.965" y1="32.131" x2="100.965" y2="35.941" width="4.572" layer="1"/>
-<wire x1="100.965" y1="35.941" x2="105.156" y2="40.132" width="4.572" layer="1"/>
-<polygon width="0.3556" layer="1">
-<vertex x="99.06" y="36.83"/>
-<vertex x="96.52" y="34.29"/>
-<vertex x="110.49" y="34.29"/>
-<vertex x="106.68" y="40.64"/>
-<vertex x="102.87" y="40.64"/>
-</polygon>
+<wire x1="101.6" y1="31.75" x2="100.965" y2="32.131" width="0" layer="19" extent="1-1"/>
+<wire x1="116.84" y1="40.64" x2="116.84" y2="33.02" width="4.572" layer="1"/>
+<wire x1="116.84" y1="33.02" x2="110.49" y2="33.02" width="4.572" layer="1"/>
+<wire x1="110.49" y1="33.02" x2="109.855" y2="32.131" width="4.572" layer="1"/>
 </signal>
 <signal name="BAT">
 <polygon width="1.1938" layer="16" isolate="1.27" rank="3">
@@ -1184,13 +1180,12 @@ design rules under a new name.</description>
 <vertex x="78.74" y="67.31"/>
 <vertex x="6.35" y="67.31"/>
 </polygon>
-<contactref element="U$7" pad="OUT+"/>
-<wire x1="116.84" y1="40.64" x2="116.84" y2="48.26" width="4.572" layer="1"/>
-<wire x1="116.84" y1="48.26" x2="107.95" y2="57.15" width="4.572" layer="1"/>
-<wire x1="107.95" y1="57.15" x2="85.09" y2="57.15" width="4.572" layer="1"/>
-<wire x1="85.09" y1="57.15" x2="73.66" y2="68.58" width="4.572" layer="1"/>
-<wire x1="74.295" y1="69.469" x2="74.295" y2="69.215" width="4.572" layer="1"/>
-<wire x1="74.295" y1="69.215" x2="73.66" y2="68.58" width="4.572" layer="1"/>
+<contactref element="U$7" pad="IN+"/>
+<wire x1="74.93" y1="57.15" x2="74.93" y2="69.85" width="4.572" layer="1"/>
+<wire x1="74.93" y1="69.85" x2="74.676" y2="69.85" width="4.572" layer="1"/>
+<wire x1="74.676" y1="69.85" x2="74.295" y2="69.469" width="4.572" layer="1"/>
+<wire x1="105.41" y1="40.64" x2="91.44" y2="40.64" width="4.572" layer="1"/>
+<wire x1="91.44" y1="40.64" x2="74.93" y2="57.15" width="4.572" layer="1"/>
 </signal>
 </signals>
 <errors>
