@@ -15,23 +15,14 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_RADIO_H_
-#define INC_RADIO_H_
+#ifndef INC_RADIO_CONFIG_H_
+#define INC_RADIO_CONFIG_H_
 
 #include "inc/FreeRTOS.h"
-
+#include "inc/radio.h"
+#include "inc/smartsensor/ssutil.h"
 #include "radio_protocol_ng.h"   // NOLINT(build/include)
 
-
-BaseType_t radioInit();
-
-// Do not modify or release the data after calling these.
-// The radio takes ownership of releasing the memeory.
-void radioPushUbjson(const char *ubjson, size_t len);
-void radioPushString(const char *str, size_t len);
-void radioPushBulk(const code_port *data, size_t len);
-void radioPushConfig(const config_port *data, size_t len);
-void radioPushFast(const char *ubjson, size_t len);
-
-
-#endif  // INC_RADIO_H_
+BaseType_t radioConfigInit();
+void receiveConfigPort(config_port *port, size_t len);
+#endif  // INC_RADIO_CONFIG_H_
