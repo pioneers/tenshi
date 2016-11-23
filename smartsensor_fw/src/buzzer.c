@@ -48,6 +48,7 @@ void initBuzzer() {
   DIGITAL_SET_IN(IN1);
   DIGITAL_SET_IN(IN2);
   DIGITAL_SET_IN(IN3);
+  DIGITAL_PULLUP_OFF(IN3);
 
   // Testing
   DIGITAL_SET_OUT(PWM1);
@@ -85,12 +86,12 @@ void activeBuzzerSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
   int IO3 = adc_read(muxPB3) / 2;
 
   outData[0] = 1 - batteryUnsafe();
-  outData[1] = IO1 >> 8;
-  outData[2] = IO1;
-  outData[3] = IO2 >> 8;
-  outData[4] = IO2;
-  outData[5] = IO3 >> 8;
-  outData[6] = IO3;
+  outData[1] = IO1;
+  outData[2] = IO1 >> 8;
+  outData[3] = IO2;
+  outData[4] = IO2 >> 8;
+  outData[5] = IO3;
+  outData[6] = IO3 >> 8;
 }
 
 // Interrupt that checks whether to buzz the battery
@@ -127,13 +128,28 @@ int batteryUnsafe() {
   // Return value ranges from 0x000 to 0x3FF;
   // Division converts everything to same scaling
   // If voltage = V, input I = (V*1024)/(V_ref*12) ~= 17*V
-  int IO1 = adc_read(muxPB1) / 6;
-  int IO2 = adc_read(muxPB2) / 3;
-  int IO3 = adc_read(muxPB3) / 2;
+  int IO1 = adc_read(muxPB1);
+  int IO2 = adc_read(muxPB2);
+  int IO3 = adc_read(muxPB3);
+
+  // Temp hack because 51k resistor is weird
+  // if (IO3 > 132) {
+  //   IO3 -= 132;
+  //   IO3 <<= 1;
+  //   IO3 += 132;
+  // }
+  // IO3 = IO3 + (IO3 >> 1) - IO2;
+  // IO2 = IO2 - (IO1 >> 1);
+
+  // IO3 thresholds:
+  // 4V = 130
+  // 8V = 160
+  // 10.5V = 167
 
   // Check if any cell voltages are above threshold = 3.5V
-  int threshold = 60;  // 17*3.5 ~= 60
-  if ((IO1 < threshold) | (IO2 - IO1 < threshold) | (IO3 - IO2 < threshold)) {
+  int threshold = 120;  // 17*3.5 ~= 60
+  IO2 = IO2 - (IO1 >> 1);
+  if ((IO1 < threshold) | (IO2 - IO1 < threshold) | (IO3 < 167)) {
     return 1;
   }
 
