@@ -16,6 +16,7 @@
 // under the License
 
 #include <string.h>
+#include <stdio.h>
 
 #include <ndl3.h>
 
@@ -77,6 +78,30 @@ void radioPushString(const char *str, size_t len) {
   RadioMessage msg = {
     .port = NDL3_STRING_PORT,
     .str = str,
+    .len = len
+  };
+  xQueueSend(radioQueue, &msg, 0);
+}
+void radioPushBulk(const code_port *data, size_t len) {
+  RadioMessage msg = {
+    .port = NDL3_CODE_PORT,
+    .str = (const char*)data,
+    .len = len
+  };
+  xQueueSend(radioQueue, &msg, 0);
+}
+void radioPushConfig(const config_port *data, size_t len) {
+  RadioMessage msg = {
+    .port = NDL3_CONFIG_PORT,
+    .str = (const char*)data,
+    .len = len
+  };
+  xQueueSend(radioQueue, &msg, 0);
+}
+void radioPushFast(const char *ubjson, size_t len) {
+  RadioMessage msg = {
+    .port = NDL3_FAST_PORT,
+    .str = ubjson,
     .len = len
   };
   xQueueSend(radioQueue, &msg, 0);
@@ -146,6 +171,7 @@ static portTASK_FUNCTION_PROTO(radioNewTask, pvParameters) {
   NDL3_open(target, NDL3_CODE_PORT);
   NDL3_open(target, NDL3_CONFIG_PORT);
   NDL3_open(target, NDL3_FAST_PORT);
+  NDL3_setopt(target, NDL3_FAST_PORT, NDL3_PORT_UNRELIABLE);
   char * recvMsg = NULL;
 
   const uint8_t prefixLen = 1;
@@ -206,7 +232,16 @@ static portTASK_FUNCTION_PROTO(radioNewTask, pvParameters) {
     // Send code to runtime
     if (recvMsg && recvSize >= 1) {
       // Trust this to free recvMsg
-      // TODO(cduck): Do something
+      // TODO(cduck): Send to radio config thread instead
+      switch (recvMsg[0]) {
+        case ID_CONTROL_UNFREEZE: setGameMode(4); break;
+        case ID_CONTROL_STOP: setGameMode(3); break;
+        case ID_CONTROL_UNPOWERED: setGameMode(1); break;
+        case ID_CONTROL_SET_AUTON: setGameMode(2); break;
+        case ID_CONTROL_SET_TELEOP: setGameMode(4); break;
+        default: break;
+      }
+
       printf("Got config data\n");
       vPortFree(recvMsg);
     } else {

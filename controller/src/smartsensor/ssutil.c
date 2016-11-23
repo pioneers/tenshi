@@ -249,7 +249,7 @@ int ss_interpret_descriptor(SSState *sensor, uint8_t *data, uint32_t len) {
       current += sensor->channels[i]->incomingLen;
     }
   }
-
+  sensor->totalDescriptorLength = len; //TODO(utkarsh) : Figure out if this actually works
   // Assuming CRC has already been checked in ss_read_descriptor()
 
   sensor->hasReadDescriptor = 1;
@@ -257,6 +257,29 @@ int ss_interpret_descriptor(SSState *sensor, uint8_t *data, uint32_t len) {
 }
 // Does both of the above functions
 // Returns 0 on fail
+
+// Takes a pointer location (pre-malloced) and fills it with sensor state descriptor
+void ss_make_descriptor(SSState *sensor, uint8_t *p) {
+  *p++ = sensor->totalDescriptorLength;
+  *p++ = sensor->descriptionLen;
+  memcpy(p, sensor->description, sensor->descriptionLen);
+  p += sensor->descriptionLen;
+  *p++ = sensor->chunksNumerator;
+  *p++ = sensor->chunksDenominator;
+
+  *p++ = sensor->channelsNum;
+  for(int i=0; i < sensor->channelsNum; i++){
+    *p++ = 1+sensor->channels[i]->descriptionLen+1+sensor->channels[i]->additionalLen;
+    *p++ = sensor->channels[i]->descriptionLen;
+    memcpy(p, sensor->channels[i]->description, sensor->channels[i]->descriptionLen);
+    p += sensor->channels[i]->descriptionLen;
+    *p++ = sensor->channels[i]->type;
+    memcpy(p, sensor->channels[i]->additional, sensor->channels[i]->additionalLen);
+    p += sensor->channels[i]->additionalLen;
+  }
+  *p++ = 255;  // TODO (utkarsh): add bytes for crc8
+}
+
 int ss_update_descriptor(SSState *sensor) {
   uint32_t len = 0;
   uint8_t *data = ss_read_descriptor(sensor, &len);

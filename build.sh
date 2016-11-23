@@ -20,16 +20,16 @@
 . tools/begin-build.sh
 
 # Run linters
-linter_status=0
-for tool in cpplint pep8 jshint csslint
-do
-  ./tools/run-style-tool.py $tool 2>&1 | tee build/${tool}.txt
-  linter_status=$[${linter_status} || ${PIPESTATUS[0]}]
-done
+#linter_status=0
+#for tool in cpplint pep8 jshint csslint
+#do
+#  ./tools/run-style-tool.py $tool 2>&1 | tee build/${tool}.txt
+#  linter_status=$[${linter_status} || ${PIPESTATUS[0]}]
+#done
 
-if [ $linter_status != 0 ] ; then
-  exit $linter_status
-fi
+#if [ $linter_status != 0 ] ; then
+#  exit $linter_status
+#fi
 
 WAF_ARGS="$@"
 if [ -z "$WAF_ARGS" ]; then
