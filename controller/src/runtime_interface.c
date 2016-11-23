@@ -183,7 +183,7 @@ int lua_set_radio_val(lua_State *L) {
   size_t ubjsonLen = 0;
   char *ubjson = lua_tolstring(L, 2, &ubjsonLen);
 
-  char *ubjsonMalloc = pvPortMalloc(ubjsonLen);
+  char *ubjsonMalloc = malloc(ubjsonLen);
   memcpy(ubjsonMalloc, ubjson, ubjsonLen);
   radioPushUbjson(ubjsonMalloc, ubjsonLen);
 
@@ -199,7 +199,7 @@ int lua_get_radio_val(lua_State *L) {
 
   if (ubjson) {
     lua_pushlstring(L, ubjson, ubjsonLen);
-    vPortFree(ubjson);
+    free(ubjson);
     ubjson = NULL;
     ubjsonLen = 0;
   } else {

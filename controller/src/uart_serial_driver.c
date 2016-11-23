@@ -17,8 +17,11 @@
 
 #include "inc/uart_serial_driver.h"
 
+#include <stdlib.h>
+
 #include "inc/FreeRTOS.h"
 #include "inc/pindef.h"
+#include "inc/pool_alloc.h"
 #include "inc/portable.h"
 #include "inc/queue.h"
 #include "inc/semphr.h"
@@ -28,10 +31,10 @@
 #define UART_QUEUE_SIZE 8
 
 typedef struct tag_uart_txn {
-  uint8_t *data;
   size_t len;
   // Used only for TX
   int status;
+  uint8_t data[UART_RX_BUFFER_SIZE];
 } uart_txn;
 
 typedef struct tag_uart_serial_module_private {
@@ -45,6 +48,8 @@ typedef struct tag_uart_serial_module_private {
   xSemaphoreHandle rxSignal;
   uart_txn *currentTxTxn;
   uart_txn *currentRxTxn;
+  pool_alloc_t txPacketPool;
+  pool_alloc_t rxPacketPool;
 } uart_serial_module_private;
 
 typedef struct tag_uart_periph_info {
@@ -176,14 +181,8 @@ static portTASK_FUNCTION_PROTO(uart_rx_task, pvParameters) {
     // A packet just came in. We now need to allocate a new buffer.
     // We will block in this task if we can't.
 
-    uart_txn *txn = pvPortMalloc(sizeof(uart_txn));
+    uart_txn *txn = pool_alloc_block(module->rxPacketPool);
     txn->len = 0;
-    txn->data = pvPortMalloc(UART_RX_BUFFER_SIZE);
-
-    if (!txn->data) {
-      continue;
-    }
-
     module->currentRxTxn = txn;
   }
 }
@@ -192,7 +191,7 @@ uart_serial_module *uart_serial_init_module(int uart_num,
   ssize_t (*length_finder_fn)(uart_serial_module *, uint8_t),
   void (*txen_fn)(int), int baud) {
   uart_serial_module_private *module =
-    pvPortMalloc(sizeof(uart_serial_module_private));
+    malloc(sizeof(uart_serial_module_private));
 
   USART_TypeDef *periph_base = periph_info[uart_num - 1].periph;
   DMA_TypeDef *dma_base = periph_info[uart_num - 1].dma;
@@ -269,10 +268,15 @@ uart_serial_module *uart_serial_init_module(int uart_num,
   xSemaphoreGive(module->txInUse);
   vSemaphoreCreateBinary(module->rxSignal);
 
-  // Allocate a buffer for RX
-  uart_txn *rxTxn = pvPortMalloc(sizeof(uart_txn));
+  // Allocate a packet pool for RX and TX
+  module->txPacketPool = pool_alloc_create(sizeof(uart_txn), UART_QUEUE_SIZE,
+    malloc);
+  module->rxPacketPool = pool_alloc_create(sizeof(uart_txn), UART_QUEUE_SIZE,
+    malloc);
+
+  // Preallocate an RX transaction object
+  uart_txn *rxTxn = pool_alloc_block(module->rxPacketPool);
   rxTxn->len = 0;
-  rxTxn->data = pvPortMalloc(UART_RX_BUFFER_SIZE);
   module->currentRxTxn = rxTxn;
   module->currentTxTxn = NULL;
 
@@ -298,11 +302,12 @@ int uart_serial_is_full(uart_serial_module *module) {
     uxQueueSpacesAvailable(((uart_serial_module_private *)module)->txQueue);
 }
 
-void *uart_serial_send_data(uart_serial_module *module, uint8_t *data,
+void *uart_serial_send_data(uart_serial_module *module, const uint8_t *data,
   size_t len) {
-  uart_txn *txn = pvPortMalloc(sizeof(uart_txn));
+  uart_txn *txn = pool_alloc_block(
+    ((uart_serial_module_private *)module)->txPacketPool);
 
-  txn->data = data;
+  memcpy(txn->data, data, len);
   txn->len = len;
   txn->status = UART_SERIAL_SEND_QUEUED;
 
@@ -328,7 +333,7 @@ int uart_serial_send_finish(uart_serial_module *module, void *_transaction) {
     return 0;
   }
 
-  vPortFree(transaction);
+  pool_alloc_free(transaction);
 
   return 1;
 }
@@ -347,31 +352,32 @@ int uart_serial_send_and_finish_data(uart_serial_module *module, uint8_t *data,
   return uart_serial_send_finish(module, txn);
 }
 
-uint8_t *uart_serial_receive_packet(uart_serial_module *module,
-  size_t *len_out, int shouldBlock) {
-  return uart_serial_receive_packet_timeout(module, len_out,
+int uart_serial_receive_packet(uart_serial_module *module,
+  uint8_t *buf, size_t *len, int shouldBlock) {
+  return uart_serial_receive_packet_timeout(module, buf, len,
     shouldBlock ? portMAX_DELAY : 0);
 }
-uint8_t *uart_serial_receive_packet_timeout(uart_serial_module *module,
-  size_t *len_out, TickType_t timeout) {
+int uart_serial_receive_packet_timeout(uart_serial_module *module,
+  uint8_t *buf, size_t *len, TickType_t timeout) {
   uart_txn *txn;
 
   int ret = xQueueReceive(
     ((uart_serial_module_private *)module)->rxQueue, &txn, timeout);
 
   if (!ret) {
-    return NULL;
+    return 1;
   }
 
-  if (len_out) {
-    *len_out = txn->len;
+  if (*len < txn->len) {
+    return 2;
   }
 
-  uint8_t *outBuf = txn->data;
+  memcpy(buf, txn->data, txn->len);
+  *len = txn->len;
 
-  vPortFree(txn);
+  pool_alloc_free(txn);
 
-  return outBuf;
+  return 0;
 }
 
 extern int uart_bus_logic_level(uart_serial_module *_module) {

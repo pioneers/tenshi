@@ -43,8 +43,10 @@ extern int uart_serial_packets_waiting(uart_serial_module *module);
 // Returns 1 if the queue is full
 extern int uart_serial_is_full(uart_serial_module *module);
 
-extern void *uart_serial_send_data(uart_serial_module *module, uint8_t *data,
-  size_t len);
+// This function makes a copy of the data. It is not necessary to retain it
+// past the call.
+extern void *uart_serial_send_data(uart_serial_module *module,
+  const uint8_t *data, size_t len);
 extern int uart_serial_send_status(uart_serial_module *module,
   void *transaction);
 extern int uart_serial_send_finish(uart_serial_module *module,
@@ -52,10 +54,14 @@ extern int uart_serial_send_finish(uart_serial_module *module,
 
 extern int uart_serial_send_and_finish_data(uart_serial_module *module,
   uint8_t *data, size_t len);
-extern uint8_t *uart_serial_receive_packet(uart_serial_module *module,
-  size_t *len_out, int shouldBlock);
-extern uint8_t *uart_serial_receive_packet_timeout(uart_serial_module *module,
-  size_t *len_out, TickType_t timeout);
+
+// The packet will be written into buf. len should contain the max size of the
+// buffer on input and will be replaced with the actual number of bytes written
+// on output. This function returns 0 on success.
+extern int uart_serial_receive_packet(uart_serial_module *module,
+  uint8_t *buf, size_t *len, int shouldBlock);
+extern int uart_serial_receive_packet_timeout(uart_serial_module *module,
+  uint8_t *buf, size_t *len, TickType_t timeout);
 
 extern int uart_bus_logic_level(uart_serial_module *module);
 

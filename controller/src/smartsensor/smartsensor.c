@@ -110,7 +110,7 @@ void smartsensor_init() {
   sensorArrLock = xSemaphoreCreateBinary();
 
   numSensorsAlloc = numSensors = 0;
-  sensorArr = pvPortMalloc(numSensorsAlloc*sizeof(SSState*));
+  sensorArr = malloc(numSensorsAlloc*sizeof(SSState*));
 
   xSemaphoreGive(sensorArrLock);
 
@@ -119,7 +119,7 @@ void smartsensor_init() {
     tskIDLE_PRIORITY, NULL);
   for (int i = 0; i < SS_BUS_COUNT; i++) {
     busState[i] = SS_BUS_ENUMERATION;
-    xTaskCreate(smartSensorTX, (const char *)"SensorTX", 1024, (void*)i,
+    xTaskCreate(smartSensorTX, (const char *)"SensorTX", 512, (void*)i,
       tskIDLE_PRIORITY, NULL);
   }
   for (int i = 0; i < SS_BUS_COUNT; i++) {
@@ -139,7 +139,7 @@ void ssBlockUntilActive() {
 void registerSensorUpdateCallback(void(*func)(uint16_t i, SSState *sensor)) {
   if (xSemaphoreTake(sensorCallbackLock, SEMAPHORE_WAIT_TIME) == pdTRUE) {
     struct SensorCallback *callback =
-                                  pvPortMalloc(sizeof(struct SensorCallback));
+                                  malloc(sizeof(struct SensorCallback));
     callback->func = func,
     callback->next = NULL;
 
@@ -172,7 +172,7 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
     led_driver_set_mode(PATTERN_ENUMERATING);
 
     KnownIDs enumIDs = {
-      .arr = pvPortMalloc(SS_MAX_SENSORS_PER_BUS * sizeof(SSState*)),
+      .arr = malloc(SS_MAX_SENSORS_PER_BUS * sizeof(SSState*)),
       .len = 0,
       .maxLen = SS_MAX_SENSORS_PER_BUS,
     };
@@ -207,7 +207,7 @@ portTASK_FUNCTION_PROTO(smartSensorTX, pvParameters) {
       ss_select_delay();
     }
 
-    vPortFree(enumIDs.arr);
+    free(enumIDs.arr);
 
     busState[busNum] = SS_BUS_ACTIVE;
   }
@@ -349,11 +349,14 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
     while (busState[busNum] == SS_BUS_ACTIVE) {
       // Recieve the response to the packet
       // 1 means wait for packet
-      uint8_t *data = uart_serial_receive_packet(bus, &recLen, 0);
+      // TODO(rqou): Ugly hardcoded size
+      uint8_t data[256];
+      recLen = sizeof(data);
+      int ret = uart_serial_receive_packet(bus, data, &recLen, 0);
 
       if (busState[busNum] != SS_BUS_ACTIVE) break;
 
-      if (data) {
+      if (!ret) {
         uint8_t prefixLen = 3;
         if (recLen > prefixLen) {
           uint8_t sampleNumber = (data[1] >> 3) & 0b111;
@@ -361,7 +364,7 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
           uint8_t frameNumber = (data[1] & 0b111) - SS_FIRST_FRAME;
           uint8_t inband = data[1] >> 7;
           uint8_t decodeLen = recLen-prefixLen-1;
-          uint8_t *data_decode = pvPortMalloc(decodeLen);
+          uint8_t *data_decode = malloc(decodeLen);
           cobs_decode(data_decode, data+prefixLen, decodeLen+1);
 
           // led_driver_set_mode(PATTERN_JUST_RED);
@@ -379,9 +382,8 @@ portTASK_FUNCTION_PROTO(smartSensorRX, pvParameters) {
             }
           }
 
-          if (data_decode) vPortFree(data_decode);
+          if (data_decode) free(data_decode);
         }
-        vPortFree(data);
       }
     }
   }

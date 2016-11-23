@@ -65,16 +65,12 @@
 
 
 /*
- * Implementation of pvPortMalloc() and vPortFree() that relies on the
- * compilers own malloc() and free() implementations.
+ * The simplest possible implementation of pvPortMalloc().  Note that this
+ * implementation does NOT allow allocated memory to be freed again.
  *
- * This file can only be used if the linker is configured to to generate
- * a heap memory area.
- *
- * See heap_1.c, heap_2.c and heap_4.c for alternative implementations, and the
+ * See heap_2.c, heap_3.c and heap_4.c for alternative implementations, and the
  * memory management pages of http://www.FreeRTOS.org for more information.
  */
-
 #include <stdlib.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
@@ -87,15 +83,52 @@ task.h is included from an application file. */
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
+#include "inc/lowlevel_misc.h"
+
+/* A few bytes might be lost to byte aligning the heap start address. */
+#define configADJUSTED_HEAP_SIZE	( configTOTAL_HEAP_SIZE - portBYTE_ALIGNMENT )
+
+/* Allocate the memory for the heap. */
+static uint8_t ucHeap[ configTOTAL_HEAP_SIZE ] CCM_BSS;
+static size_t xNextFreeByte = ( size_t ) 0;
+
 /*-----------------------------------------------------------*/
 
 void *pvPortMalloc( size_t xWantedSize )
 {
-void *pvReturn;
+void *pvReturn = NULL;
+static uint8_t *pucAlignedHeap = NULL;
 
-	// Our malloc already calls FreeRTOS to synchronize properly
-	pvReturn = malloc( xWantedSize );
-	traceMALLOC( pvReturn, xWantedSize );
+	/* Ensure that blocks are always aligned to the required number of bytes. */
+	#if portBYTE_ALIGNMENT != 1
+		if( xWantedSize & portBYTE_ALIGNMENT_MASK )
+		{
+			/* Byte alignment required. */
+			xWantedSize += ( portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK ) );
+		}
+	#endif
+
+	vTaskSuspendAll();
+	{
+		if( pucAlignedHeap == NULL )
+		{
+			/* Ensure the heap starts on a correctly aligned boundary. */
+			pucAlignedHeap = ( uint8_t * ) ( ( ( portPOINTER_SIZE_TYPE ) &ucHeap[ portBYTE_ALIGNMENT ] ) & ( ( portPOINTER_SIZE_TYPE ) ~portBYTE_ALIGNMENT_MASK ) );
+		}
+
+		/* Check there is enough room left for the allocation. */
+		if( ( ( xNextFreeByte + xWantedSize ) < configADJUSTED_HEAP_SIZE ) &&
+			( ( xNextFreeByte + xWantedSize ) > xNextFreeByte )	)/* Check for overflow. */
+		{
+			/* Return the next free byte then increment the index past this
+			block. */
+			pvReturn = pucAlignedHeap + xNextFreeByte;
+			xNextFreeByte += xWantedSize;
+		}
+
+		traceMALLOC( pvReturn, xWantedSize );
+	}
+	( void ) xTaskResumeAll();
 
 	#if( configUSE_MALLOC_FAILED_HOOK == 1 )
 	{
@@ -113,11 +146,26 @@ void *pvReturn;
 
 void vPortFree( void *pv )
 {
-	if( pv )
-	{
-		free( pv );
-		traceFREE( pv, 0 );
-	}
+	/* Memory cannot be freed using this scheme.  See heap_2.c, heap_3.c and
+	heap_4.c for alternative implementations, and the memory management pages of
+	http://www.FreeRTOS.org for more information. */
+	( void ) pv;
+
+	/* Force an assert as it is invalid to call this function. */
+	configASSERT( pv == NULL );
+}
+/*-----------------------------------------------------------*/
+
+void vPortInitialiseBlocks( void )
+{
+	/* Only required when static memory is not cleared. */
+	xNextFreeByte = ( size_t ) 0;
+}
+/*-----------------------------------------------------------*/
+
+size_t xPortGetFreeHeapSize( void )
+{
+	return ( configADJUSTED_HEAP_SIZE - xNextFreeByte );
 }
 
 
