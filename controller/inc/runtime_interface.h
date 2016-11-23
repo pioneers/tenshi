@@ -48,6 +48,8 @@ int lua_set_led_val(lua_State *L);
 int lua_get_analog_val(lua_State *L);
 int lua_set_analog_val(lua_State *L);
 int lua_set_grizzly_val(lua_State *L);
+int lua_get_piemos_analog_val(lua_State *L);
+int lua_get_piemos_digital_val(lua_State *L);
 
 
 

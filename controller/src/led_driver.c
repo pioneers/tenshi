@@ -245,6 +245,45 @@ void led_driver_panic(void) {
     (1 << GPIO_PIN(PINDEF_YELLOW_LED));
 }
 
+static void update_hardware(uint8_t change_mask, uint8_t led_states) {
+  if (change_mask & LED_YELLOW) {
+    if (led_states & LED_YELLOW) {
+      GPIO_BANK(PINDEF_YELLOW_LED)->BSRRL =
+        (1 << GPIO_PIN(PINDEF_YELLOW_LED));
+    } else {
+      GPIO_BANK(PINDEF_YELLOW_LED)->BSRRH =
+        (1 << GPIO_PIN(PINDEF_YELLOW_LED));
+    }
+  }
+  if (change_mask & LED_BLUE) {
+    if (led_states & LED_BLUE) {
+      GPIO_BANK(PINDEF_BLUE_LED)->BSRRL =
+        (1 << GPIO_PIN(PINDEF_BLUE_LED));
+    } else {
+      GPIO_BANK(PINDEF_BLUE_LED)->BSRRH =
+        (1 << GPIO_PIN(PINDEF_BLUE_LED));
+    }
+  }
+  if (change_mask & LED_GREEN) {
+    if (led_states & LED_GREEN) {
+      GPIO_BANK(PINDEF_GREEN_LED)->BSRRL =
+        (1 << GPIO_PIN(PINDEF_GREEN_LED));
+    } else {
+      GPIO_BANK(PINDEF_GREEN_LED)->BSRRH =
+        (1 << GPIO_PIN(PINDEF_GREEN_LED));
+    }
+  }
+  if (change_mask & LED_RED) {
+    if (led_states & LED_RED) {
+      GPIO_BANK(PINDEF_RED_LED)->BSRRL =
+        (1 << GPIO_PIN(PINDEF_RED_LED));
+    } else {
+      GPIO_BANK(PINDEF_RED_LED)->BSRRH =
+        (1 << GPIO_PIN(PINDEF_RED_LED));
+    }
+  }
+}
+
 static portTASK_FUNCTION_PROTO(led_driver_task, pvParameters) {
   (void) pvParameters;
 
@@ -272,34 +311,7 @@ static portTASK_FUNCTION_PROTO(led_driver_task, pvParameters) {
       led_states = led_driver_fixed_pattern;
     if (button_driver_get_button_state(1)) led_states = ~led_states;
 
-    if (led_states & LED_YELLOW) {
-      GPIO_BANK(PINDEF_YELLOW_LED)->BSRRL =
-        (1 << GPIO_PIN(PINDEF_YELLOW_LED));
-    } else {
-      GPIO_BANK(PINDEF_YELLOW_LED)->BSRRH =
-        (1 << GPIO_PIN(PINDEF_YELLOW_LED));
-    }
-    if (led_states & LED_BLUE) {
-      GPIO_BANK(PINDEF_BLUE_LED)->BSRRL =
-        (1 << GPIO_PIN(PINDEF_BLUE_LED));
-    } else {
-      GPIO_BANK(PINDEF_BLUE_LED)->BSRRH =
-        (1 << GPIO_PIN(PINDEF_BLUE_LED));
-    }
-    if (led_states & LED_GREEN) {
-      GPIO_BANK(PINDEF_GREEN_LED)->BSRRL =
-        (1 << GPIO_PIN(PINDEF_GREEN_LED));
-    } else {
-      GPIO_BANK(PINDEF_GREEN_LED)->BSRRH =
-        (1 << GPIO_PIN(PINDEF_GREEN_LED));
-    }
-    if (led_states & LED_RED) {
-      GPIO_BANK(PINDEF_RED_LED)->BSRRL =
-        (1 << GPIO_PIN(PINDEF_RED_LED));
-    } else {
-      GPIO_BANK(PINDEF_RED_LED)->BSRRH =
-        (1 << GPIO_PIN(PINDEF_RED_LED));
-    }
+    update_hardware(0xff, led_states);
 
     // Increment tick/advance step
     if (++current_step_ticks ==
@@ -335,6 +347,7 @@ uint8_t led_driver_get_mode(void) {
 void led_driver_set_fixed(uint8_t pattern, uint8_t mask) {
   led_driver_fixed_pattern = pattern;
   led_driver_fixed_mask = mask;
+  update_hardware(led_driver_fixed_mask, led_driver_fixed_pattern);
 }
 uint8_t led_driver_get_fixed_pattern() {
   return led_driver_fixed_pattern;

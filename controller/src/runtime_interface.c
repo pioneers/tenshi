@@ -67,6 +67,8 @@ void runtime_register(TenshiRuntimeState s) {
     LUA_REG(get_analog_val),
     LUA_REG(set_analog_val),
     LUA_REG(set_grizzly_val),
+    LUA_REG(get_piemos_analog_val),
+    LUA_REG(get_piemos_digital_val),
     {NULL, NULL}
   };
 
@@ -86,6 +88,9 @@ void lua_register_all(lua_State *L) {
   LUA_REGISTER(get_analog_val);
   LUA_REGISTER(set_analog_val);
   LUA_REGISTER(set_grizzly_val);
+
+  LUA_REGISTER(get_piemos_analog_val);
+  LUA_REGISTER(get_piemos_digital_val);
 }
 
 //  Runtime required
@@ -294,6 +299,44 @@ int lua_set_grizzly_val(lua_State *L) {
   return 0;
 }
 
+// get_piemos_analog_val(idx):
+//   Get the analog value at PiEMOS index <idx>.
+//   <idx> is 1 indexed. 1 is the first channel. 7 is the last channel.
+int lua_get_piemos_analog_val(lua_State *L) {
+  int was_num = 1;
+  int idx = lua_tointegerx(L, 1, &was_num);
+  // Check that the index is in range and was a number.
+  if (idx < 1 || idx > 7 || !was_num) {
+    return luaL_error(L, "Invalid index for PiEMOS analog value: %s.\n",
+        lua_tolstring(L, 1, NULL));
+  }
+  // Pop the index argument off the stack.
+  lua_pop(L, 1);
+
+  // Compensate for 1 indexing.
+  float val = PiEMOSAnalogVals[idx - 1] / 100.0f;
+  lua_pushnumber(L, val);
+  return 1;
+}
+
+// get_piemos_digital_val(idx):
+//   Get the digital value at PiEMOS index <idx>.
+//   <idx> is 1 indexed. 1 is the first channel. 8 is the last channel.
+int lua_get_piemos_digital_val(lua_State *L) {
+  int was_num = 1;
+  int idx = lua_tointegerx(L, 1, &was_num);
+  // Check that the index is in range and was a number.
+  if (idx < 1 || idx > 8 || !was_num) {
+    return luaL_error(L, "Invalid index for PiEMOS digital value: %s.\n",
+        lua_tolstring(L, 1, NULL));
+  }
+  // Pop the index argument off the stack.
+  lua_pop(L, 1);
+
+  // Compensate for 1 indexing.
+  lua_pushboolean(L, PiEMOSDigitalVals[idx - 1]);
+  return 1;
+}
 
 
 // Not hooked up to lua
