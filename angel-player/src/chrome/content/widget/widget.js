@@ -178,8 +178,46 @@ var chartRT = function (widget) {
          s4() + '-' + s4() + s4() + s4();
     }
 
+    _self.resizeChartX = function(ticks) {
+  ticks = Math.floor(ticks)
+  if(ticks > 99) {
+  // Shift data when resized
+  if (ticks < _self.Ticks) {
+      for (i=0; i < _self.Ticks-ticks;i++) {
+          for (j in _self.DataSeries) {
+                  _self.DataHistory[j].Data.push(_self.DataSeries[j].Data.shift());
+                }
+      }
+  } else {
+      for (i=0; i < ticks-_self.Ticks;i++) {
+          for (j in _self.DataSeries) {
+                  _self.DataSeries[j].Data.unshift(_self.DataHistory[j].Data.pop());
+                }
+      }
+  };
+        _self.Ticks = ticks;
+  };
+        _self.w = _self.Ticks * 3;
+        _self.width = _self.w - _self.margin.left - _self.margin.right;
+    };
+
+    _self.resizeChartY = function(height) {
+  if (height > 99) {
+  _self.h = Math.floor(height);
+  };
+  _self.height = _self.h - _self.margin.top - _self.margin.bottom;
+  _self.Init();
+    };
+
+    _self.scaleChartX = function() {
+  var scale = window.prompt('What scale would you like?', 'Currently '+String(_self.w/_self.Ticks)+'px per tick');
+  _self.xTicks = Math.floor(_self.w/parseInt(scale));
+  _self.Init();
+    };
+
     _self.guid = guid();
     _self.DataSeries = [];
+    _self.DataHistory = [];
     _self.Ticks = 20;
     _self.TickDuration = 200; // 5 Hz
     _self.MaxValue = 10;
@@ -323,7 +361,7 @@ var chartRT = function (widget) {
                 _self.lastTick = _self.thisTick;
                 return;
             }
-            if (id < _self.DataSeries.length - 1 && elapsedTotal > 0) {
+            if (id < _self.DataSeries.length-1 && elapsedTotal > 0) {
                 return;
             }
             _self.lastTick = _self.thisTick;
@@ -334,6 +372,9 @@ var chartRT = function (widget) {
                 while (_self.DataSeries[i].Data.length -1<_self.Ticks+3 ) {
                     _self.DataSeries[i].Data.unshift({ Value: 0 });
                 }
+    while (_self.DataHistory[i].Data.length -1< 400-_self.Ticks+3 ) {
+        _self.DataHistory[i].Data.unshift({ Value: 0 });
+    }
             }
 
             d3.select("#yName-" + _self.guid).text(_self.yText);
@@ -351,9 +392,9 @@ var chartRT = function (widget) {
 
             //Remove oldest values
             for (i in _self.DataSeries) {
-                _self.DataSeries[i].Data.shift();
+              _self.DataHistory[i].Data.push(_self.DataSeries[i].Data.shift());
+    _self.DataHistory[i].Data.shift();
             }
-
         };
 
         _self.firstTick = new Date();
@@ -370,6 +411,7 @@ var chartRT = function (widget) {
     _self.addSeries = function (SeriesName) {
         _self.chartSeries[SeriesName] = 0;
         _self.DataSeries.push({ Name: SeriesName, Data: [{ Value: 0}] });
+  _self.DataHistory.push({ Name: SeriesName, Data: [{ Value: 0}] });
         _self.Init();
     };
 
@@ -390,7 +432,199 @@ function buildRTGraph(widget) {
       chart.chartSeries[Name] = Math.random() * 10;
     }
   });
+
+  $(widget).on("mousedown", function(e) {
+    if (e.button == 2) {
+      $('.focus').removeClass('focus');
+      $(widget).addClass('focus');
+
+      context.attach('.focus', [
+        {text: 'Add Series',
+          subMenu: [
+     {text: 'Random Values',
+       action: function () {chart.addSeries('random')}},
+     {text: 'Motor values',
+       action: function () {chart.addSeries('motor')}},
+     {text: 'Sensor Values',
+       action: function () {chart.addSeries('sensor')}}]},
+        {text: 'Remove Series',
+    subMenu: [
+     {text: 'Random Values',
+       action: function () {chart.removeSeries('random')}},
+     {text: 'Motor values',
+       action: function () {chart.removeSeries('motor')}},
+     {text: 'Sensor Values',
+       action: function () {chart.removeSeries('sensor')}}]},
+        {text: 'Delete Chart',
+          action: removeWidget}
+        ]);
+    };
+  });
+
+  $(widget).resizable({
+    handles: 'all',
+    stop: function(event, ui)
+        {chart.resizeChartX(ui.size.width/3);
+         chart.resizeChartY(ui.size.height);
+        },
+    minHeight: 300, 
+    minWidth: 300
+  }); 
+
+  function removeWidget() {
+    $('.focus').remove();
+  };
+};
+
+function buildRTBarChart(widget, seriesType) {
+  var barChart = new barChartRT(widget);
+  barChart.addBar(seriesType);
+
+  $(widget).on("mousedown", function(e) {
+    if (e.button == 2) {
+      $('.focus').removeClass('focus');
+      $(widget).addClass('focus');
+
+      context.attach('.focus', [
+        {
+          text: 'Add Series',
+          subMenu: [
+            {
+              text: 'Random Values',
+              action: function () {barChart.addBar('random');
+                                   barChart.barChart.update()}
+            },
+            {
+              text: seriesType+String(barChart.nextBar),
+              action: function () {barChart.addBar(seriesType);
+                                  barChart.barChart.update()}}
+        ]},
+        { 
+          text: 'Remove Series',
+          action: function () {var whichBar = window.prompt('Which bar would you like to remove?', '1, 2, etc...');
+                                   barChart.removeBar(seriesType+whichBar)}
+        },
+        {
+          text: 'Delete Chart',
+          action: removeWidget
+        }]);
+    };
+  });
+
+  function removeWidget() {
+    $('.focus').remove();
+  };
+};
+
+
+var barChartRT = function(widget) {
+  var _self = this;
+
+  function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+           .toString(16)
+           .substring(1);
+  }
+
+  function guid() {
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+       s4() + '-' + s4() + s4() + s4();
+  }
+
+  _self.Data = [{key: "Bar Chart Name",
+     values: []
+    }];
+  _self.chartSeries = []
+  _self.possibleSeries = {'random': function() {return Math.random() * 10},
+                          'motor': function() {return motorVal()}, 
+                          'sensor': function() {return sensorVal()}
+                         };
+  _self.guid = guid();
+  _self.margin = {top:50, right:50, bottom:50, left:50};
+  _self.w = 300;
+  _self.h = 300;
+  _self.width = _self.w-_self.margin.right-_self.margin.left;
+  _self.height = _self.h-_self.margin.top-_self.margin.bottom;
+  _self.nextBar = 1;
+  $(widget).addClass("chart"+String(_self.guid));
+  $(widget).append("<svg></svg>");
+  $('svg').attr("height", _self.h)
+    .attr("width", _self.w);
+
+  nv.addGraph(function() {
+    _self.barChart = nv.models.discreteBarChart()
+      .x(function(d) { return d.label })    //Specify the data accessors.
+      .y(function(d) { return d.value })
+      .staggerLabels(false)    //Too many bars and not enough room? Try staggering labels.
+      .tooltips(false)        //Don't show tooltips
+      .showValues(true)       //...instead, show the bar value right on top of each bar.
+      .transitionDuration(350)
+      .width(_self.w)
+      .height(_self.h)
+      .margin(_self.margin)
+      .forceY([0,10]);
+
+    d3.select(".chart"+String(_self.guid)+" svg")
+        .datum(_self.Data)
+        .call(_self.barChart);
+
+    $(widget).resizable({
+      handles: 'all',
+      stop: function(event, ui)
+    {_self.barChart.width(ui.width-_self.margin.left-_self.margin.right);
+     _self.barChart.height(ui.height-_self.margin.top-_self.margin.bottom);
+     _self.barChart.update();
+    },
+      minHeight: 300, 
+      minWidth: 300
+    }); 
+
+    return _self.barChart;
+  });
+
+    $(widget).on("click", function() {
+      for (var i=0; i<_self.Data[0].values.length; i++) {
+        series = _self.Data[0].values[i];
+        series.value = _self.possibleSeries[series.label.slice(0,-1)]();
+      }
+      _self.barChart.update();
+    });
+
+    _self.addBar = function (SeriesName) {
+      if (SeriesName in _self.possibleSeries) {
+        var nextBar = SeriesName+String(_self.nextBar);
+        _self.nextBar += 1;
+        while (nextBar in _self.chartSeries) {
+          nextBar = SeriesName+String(_self.nextBar);
+          _self.nextBar += 1;
+        }
+        _self.Data[0].values.push({"label": nextBar, 
+                                   "value": _self.possibleSeries[SeriesName]()
+                                 });
+        _self.chartSeries.push(nextBar);
+      };
+    };
+
+    _self.removeBar = function (SeriesName) {
+      _self.nextBar = parseInt(SeriesName.slice(-1))
+      for (var i=0; i<_self.Data[0].values.length; i++) {
+        if(_self.Data[0].values[i].label == SeriesName) {
+    remItem = i;
+  };
+      }
+      _self.Data[0].values.splice(remItem,1);
+      _self.chartSeries.splice(remItem,1);
+      _self.barChart.update();
+    };
 }
+
+function motorVal() {
+  return Math.random()*10
+};
+
+function sensorVal() {
+  return Math.random()*10
+};
 
 exports.init = function(_window) {
 
@@ -403,57 +637,86 @@ exports.init = function(_window) {
   context.init({compress: true});
   context.attach('.container-fluid', [
     {
-      text: 'Add Widget...',
-      action: addWidget
+      text: 'Add Graph Over Time...',
+      action: addWidget('chart', 'motor')
+      //subMenu: [
+        //{ 
+    //text: 'Motor'
+          //action: addWidget('chart', 'motor')
+  //}
+        //{ 
+    //text: 'Sensor'
+          //action: addWidget('chart', 'motor')
+  //}]
     },
+    {
+      text: 'Add Instantaneous Graph...',
+      subMenu: [
+        { 
+          text: 'Motor',
+          action: addWidget('bar', 'motor')
+        },
+        { 
+          text: 'Sensor',
+          action: addWidget('bar', 'sensor')
+        }
+    ]},
     {divider: true},
     {header: 'Add Sensor'},
     {text: 'Graphical Sensor'},
     {text: 'Text Sensor'},
     {header: 'Add Control Feedback'}
   ]);
+
+
   
   bindMouse();
   
-  function addWidget() {
-    var newWidget = $("<div></div>");
-    $(".container-fluid").append(newWidget);
-    $(newWidget).addClass("widget");
-    halfWidth = $(newWidget).width()/2;
-    halfHeight = $(newWidget).height()/2;
-    $(newWidget).css("left",mouseX - halfWidth);
-    $(newWidget).css("top",mouseY - halfHeight);
-    $(newWidget).draggable({containment: "parent"});
+  function addWidget(graph, seriesType) {
+    function whichWidget() {
+      var newWidget = $("<div></div>");
+      $(".container-fluid").append(newWidget);
+      $(newWidget).addClass("widget");
+      halfWidth = $(newWidget).width()/2;
+      halfHeight = $(newWidget).height()/2;
+      $(newWidget).css("left",mouseX - halfWidth);
+      $(newWidget).css("top",mouseY - halfHeight);
+      $(newWidget).draggable({containment: "parent"});
 
-    $(".container-fluid").bind("mousemove", function(event) {
-      mouseX = event.pageX;
-      mouseY = event.pageY;
-      if (mouseX - halfWidth <= 0) {
-        $(newWidget).css("left", 0);
-      } else if (mouseX + halfWidth >= $(".container-fluid").width()) {
-        $(newWidget).css("left", $(".container-fluid").width() - $(newWidget).width());
-      } else {        
-        $(newWidget).css("left", mouseX - halfWidth);
-      }
-      if (mouseY - halfHeight <= 0) {
-        $(newWidget).css("top", 0);
-      } else if (mouseY + halfHeight >= $(".container-fluid").height()) {
-        $(newWidget).css("top", $(".container-fluid").height() - $(newWidget).height());
-      } else {        
-        $(newWidget).css("top", mouseY - halfHeight);
-      }
-    });
+      $(".container-fluid").bind("mousemove", function(event) {
+        mouseX = event.pageX;
+        mouseY = event.pageY;
+        if (mouseX - halfWidth <= 0) {
+          $(newWidget).css("left", 0);
+        } else if (mouseX + halfWidth >= $(".container-fluid").width()) {
+          $(newWidget).css("left", $(".container-fluid").width() - $(newWidget).width());
+        } else {        
+          $(newWidget).css("left", mouseX - halfWidth);
+        }
+        if (mouseY - halfHeight <= 0) {
+          $(newWidget).css("top", 0);
+        } else if (mouseY + halfHeight >= $(".container-fluid").height()) {
+          $(newWidget).css("top", $(".container-fluid").height() - $(newWidget).height());
+        } else {        
+          $(newWidget).css("top", mouseY - halfHeight);
+        }
+      });
 
-    $(".container-fluid").bind("mousedown", function(event) {
-      if (event.which == 3) {
-        $(newWidget).remove();
-      }
-      $(".container-fluid").unbind("mousemove");
-      $(".container-fluid").unbind("mousedown");
-      bindMouse();
+      $(".container-fluid").bind("mousedown", function(event) {
+        if (event.which == 3) {
+          $(newWidget).remove();
+        }
+        $(".container-fluid").unbind("mousemove");
+        $(".container-fluid").unbind("mousedown");
+        bindMouse();
 
-      buildRTGraph(newWidget);
-    });
+        if (graph == 'bar') {
+    buildRTBarChart(newWidget, seriesType);
+        } else {
+    buildRTGraph(newWidget, seriesType);
+        };
+      });
+    }
+    return whichWidget
   }
-
 };
