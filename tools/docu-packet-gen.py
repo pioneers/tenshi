@@ -90,9 +90,10 @@ def get_table_data(csv_name):
     """
 
     with open(csv_name, "r") as csvfile:
-        reader = csv.reader(csvfile)
+        reader = csv.reader(csvfile,delimiter=';', quotechar='"')
         data = list(reader)
 
+    print(data)
     # Small fonts are required for the table width to not exceed the page width
     styles = getSampleStyleSheet()
     text_style = styles["Normal"]
@@ -146,6 +147,8 @@ def copy_and_replace(src, dst, pattern, replacement):
 
 
 def compile_pdf(inputs, output):
+    #this line WILL Error unless you run
+    #sudo apt-get install pdftk
     ret = subprocess.call(["pdftk"] + inputs + [
         "cat",
         "output",
@@ -227,8 +230,11 @@ At least one input file is required.
         shutil.copy(brd_name, dst_brd_name)
         run_script(dst_brd_name, "board.scr")
         os.remove(dst_brd_name)
-        inputs.append(os.path.join(tmp_dir, "top.pdf"))
-        inputs.append(os.path.join(tmp_dir, "bottom.pdf"))
+        inputs.append(os.path.join(tmp_dir, "top_silk.pdf"))
+        inputs.append(os.path.join(tmp_dir, "top_copper.pdf"))
+        inputs.append(os.path.join(tmp_dir, "bottom_silk.pdf"))
+        inputs.append(os.path.join(tmp_dir, "bottom_copper.pdf"))
+
 
     # Generate bill of materials
     if csv_name and reportlab_available:

@@ -17,5 +17,5 @@
 # specific language governing permissions and limitations
 # under the License
 
-PRINT - 1 FILE '%PATH%/schematic.pdf' BLACK SOLID LANDSCAPE SHEETS all PAPER LETTER;
+PRINT - 1 FILE '%PATH%/schematic.pdf' SOLID LANDSCAPE SHEETS all PAPER LETTER;
 quit
