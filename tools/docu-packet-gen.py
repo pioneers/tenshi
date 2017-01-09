@@ -93,7 +93,6 @@ def get_table_data(csv_name):
         reader = csv.reader(csvfile,delimiter=';', quotechar='"')
         data = list(reader)
 
-    print(data)
     # Small fonts are required for the table width to not exceed the page width
     styles = getSampleStyleSheet()
     text_style = styles["Normal"]
