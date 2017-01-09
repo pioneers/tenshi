@@ -33,7 +33,7 @@ PRINT - 100 -1 FILE '%PATH%/bottom_silk.pdf' SOLID MIRROR LANDSCAPE PAPER LETTER
 
 display none
 display bottom unrouted Pads Dimension bPlace
-PRINT - 100 -1 FILE '%PATH%/bottom_copper.pdf' SOLID LANDSCAPE PAPER LETTER;
+PRINT - 100 -1 FILE '%PATH%/bottom_copper.pdf' SOLID MIRROR LANDSCAPE PAPER LETTER;
 
 
 quit
