@@ -24,11 +24,11 @@ display unrouted Pads Dimension tPlace tNames tValues tDocu
 PRINT - 100 -1 FILE '%PATH%/top_silk.pdf' SOLID LANDSCAPE PAPER LETTER CAPTION;
 
 display none
-display top unrouted Pads Dimension tPlace
+display top unrouted Pads Vias Dimension tPlace
 PRINT - 100 -1 FILE '%PATH%/top_copper.pdf' SOLID LANDSCAPE PAPER LETTER;
 
 display none
-display unrouted Pads Dimension bPlace bNames bValues bDocu
+display unrouted Pads Vias Dimension bPlace bNames bValues bDocu
 PRINT - 100 -1 FILE '%PATH%/bottom_silk.pdf' SOLID MIRROR LANDSCAPE PAPER LETTER;
 
 display none
