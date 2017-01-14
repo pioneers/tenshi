@@ -164,7 +164,8 @@ def main():
     if len(sys.argv) < 3:
         print("""Usage: {} [in.sch] [in.brd] [in.csv] out.pdf
 
-Generates a PDF documentation packet based on the input files.
+
+	Generates a PDF documentation packet based on the input files.
 At least one input file is required.
 """.format(sys.argv[0]))
         sys.exit(1)
@@ -177,10 +178,12 @@ At least one input file is required.
     sch_name = None
     brd_name = None
     csv_name = None
-    for arg in sys.argv[1:-1]:
+    out_name = None
+
+    for arg in sys.argv[1:]:
         ext = os.path.splitext(arg)[1]
         arg_abs = os.path.abspath(arg)
-        if not os.path.isfile(arg_abs):
+        if not os.path.isfile(arg_abs) and not ext ==".pdf":
             raise IOError("File not found: {}".format(arg))
 
         if ext == ".sch":
@@ -189,10 +192,14 @@ At least one input file is required.
             brd_name = arg_abs
         elif ext == ".csv":
             csv_name = arg_abs
+        elif ext == ".pdf":
+            out_name = arg_abs
         else:
             raise Exception("Unsupported input filetype: {}".format(ext))
 
-    out_name = os.path.abspath(sys.argv[-1])
+    #make sure that there is an output PDF.
+    if out_name is None:
+        raise Exception("No output PDF specified")
 
     # Start xvfb
     xvfb, display_num = eagle_util_funcs.start_xvfb()
