@@ -136,7 +136,7 @@ def main():
         print("Usage: %s schematic.sch bom.csv partdb.yaml" % sys.argv[0])
         sys.exit(1)
 
-    ulpFile = os.path.abspath(os.path.dirname(__file__) + "/tenshi-bom.ulp")
+    ulpFile = os.path.abspath(os.path.join(os.path.dirname(__file__), "tenshi-bom.ulp"))
     schematicPath = os.path.abspath(sys.argv[1])
     outfilePath = os.path.abspath(sys.argv[2])
     partDbFileName = os.path.abspath(sys.argv[3])
