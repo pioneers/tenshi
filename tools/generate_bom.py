@@ -132,19 +132,13 @@ def fill_bom_with_db_info(infile, outfile, partDb):
 
 
 def main():
-    if len(sys.argv) < 4:
-        print("Usage: %s schematic.sch bom.csv partdb.yaml" % sys.argv[0])
+    if len(sys.argv) < 3:
+        print("Usage: %s schematic.sch bom.csv" % sys.argv[0])
         sys.exit(1)
 
     ulpFile = os.path.abspath(os.path.join(os.path.dirname(__file__), "tenshi-bom.ulp"))
     schematicPath = os.path.abspath(sys.argv[1])
     outfilePath = os.path.abspath(sys.argv[2])
-    partDbFileName = os.path.abspath(sys.argv[3])
-
-    # Load the part database
-    partDbFile = open(partDbFileName, 'r')
-    partDb = yaml.load(partDbFile)
-    partDbFile.close()
 
     # Start up Xvfb
     xvfb, display_num = eagle_util_funcs.start_xvfb()
@@ -155,12 +149,7 @@ def main():
     shutil.copyfile(schematicPath, "input.sch")
 
     # Run the BOM-generating ULP
-    run_eagle_bom_ulp("input.sch", "bom-temp.csv", ulpFile)
-
-    # TODO(rqou): There should probably be some error checking somewhere here
-
-    # Match up stuff with the parts database
-    fill_bom_with_db_info('bom-temp.csv', outfilePath, partDb)
+    run_eagle_bom_ulp("input.sch", outfilePath, ulpFile)
 
     # Cleanup
     eagle_util_funcs.remove_tmp_dir(tmpdir)

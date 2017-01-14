@@ -37,12 +37,14 @@ void CollectPartData(void) {
 }
 
 void GeneratePartList(void) {
+  Lines[0] = "\"" + "Name" + "\";" + "\"" + "Value" + "\";" + "\"" + "Package" + "\";" + "\"" + "Notes" + "\";" + "\""  + "Ref Number" + "\"";
+
   for (int i = 0; i < NumParts; i++) {
-    Lines[i] =
-      "\"" + ReferenceDesignators[i] + "\"," +
-      "\"" + PartValue[i] + "\"," +
-      "\"" + PartPackage[i] + "\"," +
-      "\"" + PartHeadline[i] + "\"," +
+    Lines[i + 1] =
+      "\"" + ReferenceDesignators[i] + "\";" +
+      "\"" + PartValue[i] + "\";" +
+      "\"" + PartPackage[i] + "\";" +
+      "\"" + PartHeadline[i] + "\";" +
       "\"" + PartInternalRefNumber[i] + "\"";
   }
 }
@@ -50,8 +52,10 @@ void GeneratePartList(void) {
 void SaveList(void) {
   string FileName = argv[1];
 
+  //include the header
+
   output(FileName, "wt") {
-    for (int i = 0; i < NumParts; i++) {
+    for (int i = 0; i < NumParts + 1; i++) {
       printf("%s\n", Lines[i]);
     }
   }
